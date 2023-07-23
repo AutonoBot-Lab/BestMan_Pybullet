@@ -1,0 +1,4 @@
+[submodule "URDF_models"]
+    path = URDF_models
+    url = https://github.com/yding25/URDF_models.git
+
