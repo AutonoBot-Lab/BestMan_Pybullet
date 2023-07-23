@@ -22,7 +22,7 @@ table_id = demo.load_object(
 
 # load bowl
 bowl_id = demo.load_object(
-    "./URDF_models/utensil_bowl_red/model.urdf",
+    "./URDF_models/utensil_bowl_blue/model.urdf",
     [0.6, 0.6, 0.85],
     [0.0, 0.0, 0.0],
     1.0,
@@ -41,7 +41,7 @@ demo.get_arm_joint_info()
 
 # manipulate ur5e
 demo.pick_place(
-    4, [0.9, 0.7, 0.85], [0.0, math.pi / 2.0, 0.0]
+    4, [0.9, 0.8, 0.85], [0.0, math.pi / 2.0, 0.0]
 )  # vcertical downward grip
 demo.wait(20)
 

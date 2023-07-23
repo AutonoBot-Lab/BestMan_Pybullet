@@ -144,7 +144,7 @@ class Bestman:
         # other parameters
         self.line_visual = None  # for plotting
         # parameters for base
-        self.frequency = 240  # simulation step for base and arm
+        self.frequency = 240 * 2  # simulation step for base and arm
         self.timeout = 10.0  # maximum time for planning
         # parameters for arm
         self.end_effector_index = 6
