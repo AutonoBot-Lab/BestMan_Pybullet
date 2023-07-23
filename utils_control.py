@@ -144,8 +144,8 @@ class Bestman:
         # other parameters
         self.line_visual = None  # for plotting
         # parameters for base
-        self.frequency = 240 * 2  # simulation step for base and arm
-        self.timeout = 10.0  # maximum time for planning
+        self.frequency = 240  # simulation step for base and arm
+        self.timeout = 100.0  # maximum time for planning
         # parameters for arm
         self.end_effector_index = 6
         self.max_force = 500
@@ -177,6 +177,7 @@ class Bestman:
             baseOrientation=p.getQuaternionFromEuler([0.0, 0.0, math.pi / 2.0]),
             useFixedBase=True,
         )
+        self.init_pos = init_pos
         self.gripper_id = None
         self.sync_base_arm_pose()
         self.set_visual_shape()
@@ -354,9 +355,10 @@ class Bestman:
             + "\n"
             + "{}_id: {}".format(obj_name, getattr(self, f"{obj_name}_id"))
         )
+        # TODO: can decompose this part out of bestman class to make it more general? make to an env build class?
         self.obstacle_navigation_ids.append(getattr(self, f"{obj_name}_id"))
         self.obstacle_manipulation_ids.append(getattr(self, f"{obj_name}_id"))
-        time.sleep(1.0)
+        time.sleep(1.0 / self.frequency)
         return getattr(self, f"{obj_name}_id")
 
     # ----------------------------------------------------------------
@@ -924,6 +926,7 @@ class Bestman:
     """
 
     def pick_place(self, object_id, object_goal_position, object_goal_orientation):
+        print('debug')
         # get target object position
         object_position_init, orientation = p.getBasePositionAndOrientation(object_id)
         target_position = [
@@ -931,7 +934,6 @@ class Bestman:
             object_position_init[1],
             object_position_init[2] + 0.1,
         ]
-
         for step in range(1000):
             gripper_status = {"ungrasp": 0, "grasp": 1}
             gripper_value = gripper_status["ungrasp"]
@@ -962,14 +964,14 @@ class Bestman:
                     object_position_init[2] + 0.2,
                 ]
                 gripper_value = gripper_status["grasp"]
-            elif step >= 600 and step < 700:
+            elif step >= 600 and step < 800:
                 target_position = [
                     object_goal_position[0],
                     object_goal_position[1],
                     object_goal_position[2] + 0.1,
                 ]  # stop at target position
                 gripper_value = gripper_status["grasp"]
-            elif step >= 700:
+            elif step >= 800:
                 target_position = [
                     object_goal_position[0],
                     object_goal_position[1],
@@ -984,7 +986,7 @@ class Bestman:
             if gripper_value == 0 and self.gripper_id != None:
                 p.removeConstraint(self.gripper_id)
                 self.gripper_id = None
-                for _ in range(self.frequency * 2):
+                for _ in range(self.frequency):
                     p.stepSimulation()
             if gripper_value == 1 and self.gripper_id == None:
                 cube_orn = p.getQuaternionFromEuler([0, math.pi, 0])
@@ -1040,35 +1042,40 @@ class Bestman:
     # For RL algorithm
     # ----------------------------------------------------------------
 
-    """
-        This function sets up the camera view for a specified robot in a physics server environment.
-        
-        Args:
-        robot_id (int): The ID of the robot in the physics server environment.
-        width (int, optional): The width of the image. Default is 224.
-        height (int, optional): The height of the image. Default is 224.
-        server_id (int, optional): The ID of the physics server. Default is 0.
-        label_target (bool, optional): Whether to label the target object by rectangle. Default is True.
-        target_object_id (int, optional): The ID of the target object in the segmentation image. Default is 4.
-        rec_img_path (str, optional): The path to save the output image. Default is './outputs/target_rectangle.png'.
-        
-        Returns:
-        int: The width of the image.
-        int: The height of the image.
-        np.ndarray: The RGB image.
-        np.ndarray: The depth image.
-        np.ndarray: The segmentation image.
-    """
+    def reset_pos(self, seed=None, pos=None):
+        """
+        Reset the robot to initial state when the pose is not given
+        """
+        if pos is None:
+            # reset the base and arm to initial state when the pose is not given
+            p.resetBasePositionAndOrientation(
+                self.base_id,
+                self.init_pos.position,
+                p.getQuaternionFromEuler([0, 0, self.init_pos.yaw]),
+            ),
+            # BUG: need to reset the arm separately or just call the sync_base_arm_pose?
+            self.sync_base_arm_pose()
+        else:
+            p.resetBasePositionAndOrientation(
+                self.base_id,
+                pos.position,
+                p.getQuaternionFromEuler([0, 0, pos.yaw]),
+            )
+            self.sync_base_arm_pose()
+
+    def get_current_pos(self):
+        """
+        Get the current position of the robot
+        """
+        base_position, base_orientation = p.getBasePositionAndOrientation(self.base_id)
+        base_orientation = p.getEulerFromQuaternion(base_orientation)
+        return Pose(base_position, base_orientation)
 
     def set_camera(
         self,
         robot_id: int,
         width: int = 224,
         height: int = 224,
-        server_id: int = 0,
-        label_target=True,
-        target_object_id=4,
-        rec_img_path="./outputs/target_rectangle.png",
     ):
         # get current position and orientation for robot
         base_position, orientation = p.getBasePositionAndOrientation(robot_id)
@@ -1099,19 +1106,12 @@ class Bestman:
             height=height,
             viewMatrix=view_mat,
             projectionMatrix=proj_mat,
-            physicsClientId=server_id,
+            physicsClientId=self.client,
         )
-        # lable target object by rectangle
-        if label_target:
-            self.label_target_on_rgb_by_segmentation(
-                rgb,
-                seg,
-                height=height,
-                width=width,
-                target_object_id=target_object_id,
-                file_output_path=rec_img_path,
-            )
         return w, h, rgb, depth, seg
+
+    def get_image(self, width, height):
+        return self.set_camera(self.base_id, width, height)
 
     """
         This function draws a rectangular box around the target object in the RGB image.
@@ -1155,9 +1155,6 @@ class Bestman:
         return rgb_img
 
     def forward(self, distance=0.25):  # distance is given in meters
-        # TODO: add another parameter to judge whether to use camera
-        self.set_camera(self.base_id)
-
         # get the current pose
         current_pose = self.get_base_pose()
         current_position = current_pose.position
@@ -1243,6 +1240,7 @@ class Bestman:
     def stop(self):
         zero_velocity = [0, 0, 0]
         p.resetBaseVelocity(self.base_id, zero_velocity, zero_velocity)
+        return True
 
     def grasp(self, object_id):
         # get target object position
@@ -1256,10 +1254,10 @@ class Bestman:
             object_position_init[2] + 0.1,
         ]
 
-        for step in range(250):
-            gripper_status = {"ungrasp": 0, "grasp": 1}
-            gripper_value = gripper_status["ungrasp"]
-            if step >= 150:
+        gripper_status = {"ungrasp": 0, "grasp": 1}
+        gripper_value = gripper_status["ungrasp"]
+        for step in range(100):
+            if step >= 20:
                 target_position = [
                     object_position_init[0],
                     object_position_init[1],
@@ -1303,30 +1301,35 @@ class Bestman:
             return False
 
     def set_envs(self):
-        def check_collision(chair_x, chair_y):
-            # define table boundary
-            table_min_x, table_min_y = 0.25, 0.50
-            table_max_x, table_max_y = 1.75, 1.50
-            chair_size = 0.3
-            # check if chair position is within table boundary, considering chair size
-            if (
-                table_min_x - chair_size <= chair_x <= table_max_x + chair_size
-                and table_min_y - chair_size <= chair_y <= table_max_y + chair_size
-            ):
-                return True  # collision occurs
-            return False  # no collision
+        chair_size = 0.3
+        # load table
+        table_id = self.load_object(
+            "./URDF_models/furniture_table_rectangle_high/table.urdf",
+            [1.0, 1.0, 0.0],
+            [0.0, 0.0, 0.0],
+            1.0,
+            "table",
+        )
+        
+        obstacle_boundary_list = []
+        
 
-        # define table boundary
-        table_min_x, table_min_y, table_min_z = 0.25, 0.50, -0.19
-        table_max_x, table_max_y, table_max_z = 1.75, 1.50, 0.83
-        table_boundary = [
-            table_min_x,
-            table_min_y,
-            table_min_z,
-            table_max_x,
-            table_max_y,
-            table_max_z,
-        ]
+        # define the boundary of base and arm
+        base_boundary = self.get_bounding_box(self.base_id)
+        arm_boundary = self.get_bounding_box(self.arm_id)
+        table_boundary = self.get_bounding_box(table_id)
+
+        table_min_x, table_min_y, table_min_z = table_boundary[0]
+        table_max_x, table_max_y, table_max_z = table_boundary[1]
+
+        # transfer the list from shape (2, 3), to (6,)
+        base_boundary = sum(base_boundary, ())
+        arm_boundary = sum(arm_boundary, ())
+        table_boundary = sum(table_boundary, ())
+
+        obstacle_boundary_list.append(base_boundary)
+        obstacle_boundary_list.append(arm_boundary)
+        obstacle_boundary_list.append(table_boundary)
 
         # generate random position for bowl within the table boundary
         bowl_x = random.uniform(table_min_x, table_max_x)
@@ -1340,6 +1343,14 @@ class Bestman:
             1.0,
             "bowl",
         )
+        # TODO: the setting maynot right, need to check
+        # bowl_id = self.load_object(
+        #     "./URDF_models/utensil_bowl_red/model.urdf",
+        #     [0.6, 0.6, 0.85],
+        #     [0.0, 0.0, 0.0],
+        #     1.0,
+        #     "bowl",
+        # )
 
         # initialize chair_id list
         chair_ids = []
@@ -1357,14 +1368,27 @@ class Bestman:
                 angle = random.uniform(0, 2 * math.pi)  # random angle
 
                 # calculate chair position
-                chair_x = (table_max_x + table_min_x) / 2 + radius * math.cos(angle)
-                chair_y = (table_max_y + table_min_y) / 2 + radius * math.sin(angle)
+                # TODO: add 2 to avoid collision with the table
+                chair_x = (table_max_x + table_min_x) / 2 + radius * math.cos(angle) + 2
+                chair_y = (table_max_y + table_min_y) / 2 + radius * math.sin(angle) + 2
 
-                # if chair is not within table boundary and not colliding with the table, break the loop
-                if not (
-                    table_min_x <= chair_x <= table_max_x
-                    and table_min_y <= chair_y <= table_max_y
-                ) and not check_collision(chair_x, chair_y):
+                # TODO: the chair height is not considered here, set to 0.1 to 1.
+                chair_boundary = [
+                    chair_x - chair_size,
+                    chair_y - chair_size,
+                    0.1,
+                    chair_x + chair_size,
+                    chair_y + chair_size,
+                    1,
+                ]
+                # if the chair position is collision with other obstacle, break the loop
+                collision_flag = False
+                for obstacle_boundary in obstacle_boundary_list:
+                    if check_collision_between_target_obstacle(
+                        chair_boundary, obstacle_boundary
+                    ):
+                        collision_flag = True
+                if collision_flag:
                     break
 
             chair_z = 0.1  # assuming the chair is on the floor
@@ -1381,9 +1405,12 @@ class Bestman:
                     1.5,
                     "chair",
                 )
-                
+
+                # TODO: comment not match the code
                 # if chair_id is None, meaning collision occurs, break the loop and generate new position
                 if chair_id is not None:
+                    # add chair to obstacle list when it add into scene
+                    obstacle_boundary_list.append(chair_boundary)
                     break
 
                 # generate new position if collision occurs
@@ -1393,4 +1420,27 @@ class Bestman:
             chair_ids.append(chair_id)
 
         # return IDs of all loaded objects
-        return {"bowl": bowl_id, "chairs": chair_ids}
+        return {"table": table_id, "bowl": bowl_id, "chairs": chair_ids}
+
+
+def check_collision_between_target_obstacle(target_boundary, obstacle_boundary):
+    """
+    Check if collision occurs between target and obstacle
+    boundary format : [min_x, min_y, min_z, max_x, max_y, max_z]
+    return True if there has collision, otherwise return False
+    """
+    # check if target is within obstacle boundary
+    if (
+        obstacle_boundary[0] <= target_boundary[0] <= obstacle_boundary[3]
+        and obstacle_boundary[1] <= target_boundary[1] <= obstacle_boundary[4]
+        and obstacle_boundary[2] <= target_boundary[2] <= obstacle_boundary[5]
+    ):
+        return True
+    # check if obstacle is within target boundary
+    if (
+        target_boundary[0] <= obstacle_boundary[0] <= target_boundary[3]
+        and target_boundary[1] <= obstacle_boundary[1] <= target_boundary[4]
+        and target_boundary[2] <= obstacle_boundary[2] <= target_boundary[5]
+    ):
+        return True
+    return False

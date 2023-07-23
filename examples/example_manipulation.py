@@ -16,17 +16,13 @@ table_id = demo.load_object(
     "./URDF_models/furniture_table_rectangle_high/table.urdf",
     [1.0, 1.0, 0.0],
     [0.0, 0.0, 0.0],
-    1.0,
+    1.0, 
     "table",
 )
 
 # load bowl
 bowl_id = demo.load_object(
-    "./URDF_models/utensil_bowl_blue/model.urdf",
-    [0.6, 0.6, 0.85],
-    [0.0, 0.0, 0.0],
-    1.0,
-    "bowl",
+    "./URDF_models/utensil_bowl_blue/model.urdf", [0.6, 0.6, 0.85], [0.0, 0.0, 0.0], 1.0, "bowl"
 )
 
 # get bounding box of objects
@@ -41,8 +37,9 @@ demo.get_arm_joint_info()
 
 # manipulate ur5e
 demo.pick_place(
-    4, [0.9, 0.8, 0.85], [0.0, math.pi / 2.0, 0.0]
+    4, [0.9, 0.7, 0.85], [0.0, math.pi / 2.0, 0.0]
 )  # vcertical downward grip
+# demo.grasp(4)  # vcertical downward grip
 demo.wait(20)
 
 # print end effector info
