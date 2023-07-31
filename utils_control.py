@@ -178,6 +178,7 @@ class Bestman:
             useFixedBase=True,
         )
 
+        # Add constraint between base and arm
         robot2_start_pos = [0, 0, 0]
         fixed_joint = p.createConstraint(self.base_id, -1, self.arm_id, -1, p.JOINT_FIXED, [0, 0, 0], [0, 0, 1.3], robot2_start_pos)
 
@@ -186,7 +187,7 @@ class Bestman:
         self.sync_base_arm_pose()
         self.set_visual_shape()
 
-        # obstacles in the environment
+        # Obstacles in the environment
         self.obstacle_navigation_ids = []  # for navigation
         self.obstacle_manipulation_ids = []  # for manipulation
 
