@@ -1,4 +1,4 @@
-pybullet
-numpy
-networkx
 matplotlib
+networkx
+numpy
+pybullet
