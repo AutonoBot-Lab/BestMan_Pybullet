@@ -13,8 +13,7 @@ p.setGravity(0, 0, -9.81)
 # Load refrigerator model
 applianceStartPos = [0, 0, 0]
 applianceStartOrientation = p.getQuaternionFromEuler([0, 0, 0])
-# robotId = p.loadURDF("./Kitchen/kitchen_model/kitchen_model.urdf", applianceStartPos, applianceStartOrientation)
-robotId = p.loadURDF("./Kitchen/kitchen_assembly/kitchen_assembly.urdf", applianceStartPos, applianceStartOrientation)
+robotId = p.loadURDF("./Kitchen/kitchen_model/kitchen_model.urdf", applianceStartPos, applianceStartOrientation)
 
 # Get joint info of microwave model
 num_joints = p.getNumJoints(robotId)
