@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<robot name="kitchen_part_right"
+  xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+  <xacro:macro name="wall" params="connected_to:='' xyz:='0 0 0' rpy:='0 0 0' prefix:=''">
+      <!-- Wall -->
+      <joint name="${prefix}wall_transform" type="fixed">
+        <parent link="${connected_to}"/>
+        <child link="${prefix}walls"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+      </joint>
+      <link name="${prefix}walls">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="10.0"/>
+        <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual name="${prefix}sektion_visual">
+          <origin rpy="0  0  0" xyz="0  0  0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/walls.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+          <material name="White" />
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/walls.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+       </xacro:macro>
+</robot>

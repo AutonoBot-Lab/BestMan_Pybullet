@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="gui" default="False" />
+  <arg name="publish_static_pose" default="False" />
+  <arg name="parameter_name" default="kitchen_description" />
+  <arg name="xacro_file" default="kitchen_part_right.urdf.xacro" />
+  <arg name="prefix" default="" />
+  
+  <param name="$(arg parameter_name)" command="$(find xacro)/xacro.py --inorder $(find kitchen_description)/urdf/$(arg xacro_file)" />
+
+  <node name="$(anon kitchen_pose_publisher)" 
+     pkg="tf" 
+     type="static_transform_publisher" 
+     args=".9 .15 .4 0 0 1 0 $(arg prefix)world $(arg prefix)sektion 30"
+     if="$(arg publish_static_pose)">
+     <remap from="/tf" to="/tracker/tf"/>
+     <remap from="/robot_description" to="$(arg parameter_name)"/>
+  </node>
+  <node name="$(anon joint_state_publisher)"
+      pkg="joint_state_publisher"
+      type="joint_state_publisher" 
+      if="$(arg gui)">
+    <param name="use_gui" value="True"/>
+    <remap from="/joint_states" to="/tracker/$(arg prefix)kitchen/joint_states"/>
+    <remap from="/robot_description" to="$(arg parameter_name)"/>
+  </node>
+  <node name="$(anon kitchen_tracker_state_publisher)"
+      pkg="robot_state_publisher"
+      type="state_publisher">
+    <remap from="robot_description" to="$(arg parameter_name)" />
+    <remap from="/tf" to="/tracker/tf"/>
+    <remap from="/tf_static" to="/tracker/tf_static"/>
+    <remap from="/joint_states" to="/tracker/$(arg prefix)kitchen/joint_states"/>
+     <remap from="/robot_description" to="$(arg parameter_name)"/>
+  </node>
+</launch>

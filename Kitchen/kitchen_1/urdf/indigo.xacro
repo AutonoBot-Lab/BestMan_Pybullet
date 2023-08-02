@@ -1,0 +1,319 @@
+<?xml version="1.0"?>
+<robot name="kitchen_part_right"
+  xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+  <xacro:macro name="indigo" params="connected_to:='' xyz:='0 0 0' rpy:='0 0 0' prefix:=''">
+      <!-- Indigo (original sektion_cabinet_model) -->
+      <joint name="${prefix}indigo_transform" type="fixed">
+        <parent link="${connected_to}"/>
+        <child link="${prefix}indigo_tmp"/>
+        <origin xyz="0 0.83 -0.55" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+      </joint>
+      <link name="${prefix}indigo_tmp">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="10.0"/>
+          <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual name="${prefix}indigo_visual">
+          <origin rpy="0  0  0" xyz="0  0  0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/sektion_bottom_cabinet.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+          <material name="White" />
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/sektion_bottom_cabinet.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+      <joint name="${prefix}indigo_countertop_transform" type="fixed">
+        <parent link="${prefix}indigo_tmp"/>
+        <child link="${prefix}indigo_countertop"/>
+        <origin xyz="-0.04 0.4175 -0.02" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+      </joint>
+      <link name="${prefix}indigo_countertop">
+        <!-- Use this for debugging purposes
+        <visual>
+          <geometry>
+            <box size="0.655 0.835 0.04"/>
+          </geometry>
+        </visual>
+         -->
+      </link>
+      <joint name="${prefix}indigo_transform_2" type="fixed">
+        <parent link="${prefix}indigo_tmp"/>
+        <child link="${prefix}indigo"/>
+        <origin xyz="-0.06 0.381 -0.4215" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+      </joint>
+      <link name="${prefix}indigo"/>
+
+      <link name="${prefix}indigo_drawer_top">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="1.0"/>
+          <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual name="${prefix}sektion_bottom_drawer_top_visual">
+          <origin rpy="0  0  0" xyz="0  0  0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/drawer.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+          <material name="Grey" />
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/drawer.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+
+      <link name="${prefix}indigo_drawer_handle_top">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="1.0"/>
+          <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual name="${prefix}sektion_bottom_drawer_handle_top_visual">
+          <origin rpy="0  0  0" xyz="0  0  0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/handle.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+          <material name="White" />
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/handle.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+
+      <link name="${prefix}indigo_drawer_bottom">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="1.0"/>
+          <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual name="${prefix}sektion_bottom_drawer_bottom_visual">
+          <origin rpy="0  0  0" xyz="0  0  0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/drawer.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+          <material name="Grey" />
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/drawer.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+
+      <link name="${prefix}indigo_drawer_handle_bottom">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="1.0"/>
+          <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual name="${prefix}indigo_drawer_top_visual">
+          <origin rpy="0  0  0" xyz="0  0  0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/handle.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+          <material name="White" />
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/handle.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+
+      <link name="${prefix}indigo_door_right_anchor_link" />
+      <link name="${prefix}indigo_door_right_joint_anchor_link" />
+      <link name="${prefix}indigo_door_right_link">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="1.0"/>
+          <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual name="${prefix}indigo_door_right_visual">
+          <origin rpy="0  0  0" xyz="0  -0.184706  0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/front_bottom_vertical_door.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+          <material name="Grey" />
+        </visual>
+        <collision>
+          <origin rpy="0  0  0" xyz="0  -0.184706  0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/front_bottom_vertical_door.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+      <link name="${prefix}indigo_door_right_nob_link">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="1.0"/>
+          <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual name="${prefix}indigo_door_right_nob_visual">
+          <origin rpy="0  0  0" xyz="0  -0.184706  0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/handle.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+          <material name="White" />
+        </visual>
+        <collision>
+          <origin rpy="0  0  0" xyz="0  -0.184706  0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/handle.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+      <link name="${prefix}indigo_door_right" />
+      <link name="${prefix}indigo_door_left_anchor_link" />
+      <link name="${prefix}indigo_door_left_joint_anchor_link" />
+      <link name="${prefix}indigo_door_left_link">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="1.0"/>
+          <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual name="${prefix}indigo_door_left_visual">
+          <origin rpy="0  0  0" xyz="0  0.184706  0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/front_bottom_vertical_door.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+          <material name="Grey" />
+        </visual>
+        <collision>
+          <origin rpy="0  0  0" xyz="0  0.184706  0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/front_bottom_vertical_door.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+      <link name="${prefix}indigo_door_left_nob_link">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="1.0"/>
+          <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual name="${prefix}indigo_door_left_nob_visual">
+          <origin rpy="0  0  0" xyz="0  0.184706  0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/handle.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+          <material name="White" />
+        </visual>
+        <collision>
+          <origin rpy="0  0  0" xyz="0  0.184706  0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/handle.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+      <link name="${prefix}indigo_door_left" />
+      <joint name="${prefix}indigo_door_right_joint_fixed" type="fixed">
+        <parent link="${prefix}indigo"/>
+        <child link="${prefix}indigo_door_right_anchor_link"/>
+        <origin xyz="0.3162 0.3757 -0.12973" rpy="0 0 0"/>
+      </joint>
+      <joint name="${prefix}indigo_door_right_shift_joint" type="fixed">
+        <parent link="${prefix}indigo_door_right_anchor_link"/>
+        <child link="${prefix}indigo_door_right_joint_anchor_link"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="1000.0" lower="0" upper="-0.015" velocity="0.0"/>
+        <mimic joint="${prefix}indigo_door_right_joint" multiplier="-0.009554" offset="0" />
+      </joint>
+      <joint name="${prefix}indigo_door_right_joint" type="revolute">
+        <parent link="${prefix}indigo_door_right_joint_anchor_link"/>
+        <child link="${prefix}indigo_door_right_link"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="1000.0" lower="0" upper="1.57" velocity="0.1"/>
+      </joint>
+      <joint name="${prefix}indigo_door_right_transform" type="fixed">
+        <parent link="${prefix}indigo_door_right_link"/>
+        <child link="${prefix}indigo_door_right"/>
+        <origin xyz="0 -.181 0" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+      </joint>
+      <joint name="${prefix}indigo_door_right_nob_transform" type="fixed">
+        <parent link="${prefix}indigo_door_right_link"/>
+        <child link="${prefix}indigo_door_right_nob_link"/>
+        <origin xyz="0.0515 -0.13 0.1" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+      </joint>
+
+      <joint name="${prefix}indigo_door_left_joint_fixed" type="fixed">
+        <parent link="${prefix}indigo"/>
+        <child link="${prefix}indigo_door_left_anchor_link"/>
+        <origin xyz="0.3162 -0.3757 -0.12973" rpy="0 0 0"/>
+      </joint>
+      <joint name="${prefix}indigo_door_left_shift_joint" type="fixed">
+        <parent link="${prefix}indigo_door_left_anchor_link"/>
+        <child link="${prefix}indigo_door_left_joint_anchor_link"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="1000.0" lower="0" upper="-0.015" velocity="0.0"/>
+        <mimic joint="${prefix}indigo_door_left_joint" multiplier="-0.009554" offset="0" />
+      </joint>
+      <joint name="${prefix}indigo_door_left_joint" type="revolute">
+        <parent link="${prefix}indigo_door_left_joint_anchor_link"/>
+        <child link="${prefix}indigo_door_left_link"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="1000.0" lower="-1.57" upper="0" velocity="0.1"/>
+      </joint>
+      <joint name="${prefix}indigo_door_left_transform" type="fixed">
+        <parent link="${prefix}indigo_door_left_link"/>
+        <child link="${prefix}indigo_door_left"/>
+        <origin xyz="0 .181 0" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+      </joint>
+      <joint name="${prefix}indigo_door_left_nob_transform" type="fixed">
+        <parent link="${prefix}indigo_door_left_link"/>
+        <child link="${prefix}indigo_door_left_nob_link"/>
+        <origin xyz="0.0515 0.13 0.1" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+      </joint>
+
+      <joint name="${prefix}indigo_drawer_top_joint" type="prismatic">
+        <parent link="${prefix}indigo"/>
+        <child link="${prefix}indigo_drawer_top"/>
+        <origin xyz="0.0515 0 0.3172" rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="1000.0" lower="0.0" upper="0.4" velocity="0.1"/>
+      </joint>
+
+      <joint name="${prefix}indigo_drawer_handle_top_joint" type="fixed">
+        <parent link="${prefix}indigo_drawer_top"/>
+        <child link="${prefix}indigo_drawer_handle_top"/>
+        <origin xyz="0.31 0 0" rpy="1.57079632679 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="1000.0" lower="0.0" upper="0.4" velocity="0.1"/>
+      </joint>
+
+      <joint name="${prefix}indigo_drawer_bottom_joint" type="prismatic">
+        <parent link="${prefix}indigo"/>
+        <child link="${prefix}indigo_drawer_bottom"/>
+        <origin xyz="0.0515 0 0.18795" rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="1000.0" lower="0.0" upper="0.4" velocity="0.0"/>
+      </joint>
+
+      <joint name="${prefix}indigo_drawer_handle_bottom_joint" type="fixed">
+        <parent link="${prefix}indigo_drawer_bottom"/>
+        <child link="${prefix}indigo_drawer_handle_bottom"/>
+        <origin xyz="0.31 0 0" rpy="1.57079632679 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="1000.0" lower="0.0" upper="0.4" velocity="0.1"/>
+      </joint>
+  </xacro:macro>
+</robot>
