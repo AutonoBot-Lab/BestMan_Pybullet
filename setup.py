@@ -7,8 +7,10 @@ setup(
     install_requires=[
         'pybullet',
         'numpy',
-	'networkx',
-	'matplotlib'
+	    'networkx',
+	    'matplotlib',
+        'opencv-python',
+        'shapely'
         # Add other dependencies here
     ],
 )

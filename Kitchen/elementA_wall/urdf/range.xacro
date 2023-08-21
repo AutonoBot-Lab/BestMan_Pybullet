@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<robot name="kitchen_part_right"
+  xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+  <xacro:macro name="range" params="connected_to:='' xyz:='0 0 0' rpy:='0 0 0' prefix:=''">
+      <!-- Range -->
+      <joint name="${prefix}range_transform" type="fixed">
+        <parent link="${connected_to}"/>
+        <child link="${prefix}range"/>
+        <origin xyz="0 0.415 -1.00" rpy="0 0 0"/>
+      </joint>
+      <link name="${prefix}range">
+        <visual>
+          <geometry>
+            <box size="0.71 0.76 0.92"/>
+          </geometry>
+        </visual>
+      </link>
+     </xacro:macro>
+</robot>

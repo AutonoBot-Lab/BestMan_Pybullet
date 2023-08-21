@@ -1,0 +1,60 @@
+# The robot descriptor defines the generalized coordinates and how to map those
+# to the underlying URDF dofs.
+
+api_version: 1.0
+
+# Defines the generalized coordinates. Each generalized coordinate is assume
+# to have an entry in the URDF, except when otherwise specified below under
+# cspace_urdf_bridge
+cspace: 
+    - baker_joint
+    - chewie_door_right_joint
+    - chewie_door_left_joint
+    - dagger_door_left_joint
+    - dagger_door_right_joint
+    - hitman_drawer_top_joint
+    - hitman_drawer_bottom_joint
+    - indigo_door_right_joint
+    - indigo_door_left_joint
+    - indigo_drawer_top_joint
+    - indigo_drawer_bottom_joint
+
+root_link: world
+subtree_root_link: world
+
+default_q: [
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+]
+
+# Most dimensions of the cspace have a direct corresponding element
+# in the URDF. This list of rules defines how unspecified coordinates
+# should be extracted.
+cspace_to_urdf_rules: []
+
+#active_task_spaces:
+#    - chewie_door_right
+#    - chewie_door_left
+#    - baker
+#    - hitman_drawer_top
+#    - hitman_drawer_bottom
+#    - dagger_door_left
+#    - dagger_door_right
+#    - indigo_drawer_top
+#    - indigo_drawer_bottom
+#    - indigo_door_left
+#    - indigo_door_right
+
+active_task_spaces:
+    - chewie_door_right_link
+    - chewie_door_left_link
+    - baker_link
+    - hitman_drawer_top
+    - hitman_drawer_bottom
+    - dagger_door_left_link
+    - dagger_door_right_link
+    - indigo_drawer_top
+    - indigo_drawer_bottom
+    - indigo_door_left_link
+    - indigo_door_right_link
+
+composite_task_spaces: []

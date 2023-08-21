@@ -1,4 +1,0 @@
-matplotlib
-networkx
-numpy
-pybullet

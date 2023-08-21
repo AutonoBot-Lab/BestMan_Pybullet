@@ -1,7 +1,0 @@
-README.md
-setup.py
-BestMan_Pybullet.egg-info/PKG-INFO
-BestMan_Pybullet.egg-info/SOURCES.txt
-BestMan_Pybullet.egg-info/dependency_links.txt
-BestMan_Pybullet.egg-info/requires.txt
-BestMan_Pybullet.egg-info/top_level.txt

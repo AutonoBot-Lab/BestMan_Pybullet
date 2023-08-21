@@ -1,0 +1,228 @@
+<?xml version="1.0"?>
+<robot name="kitchen_part_right"
+  xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+  <xacro:macro name="baker_chewie" params="connected_to:='' xyz:='0 0 0' rpy:='0 0 0' prefix:=''">
+      <joint name="${prefix}baker_origin_joint_fixed" type="fixed">
+        <parent link="${connected_to}"/>
+        <child link="${prefix}baker_sektion_link"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+      </joint>
+      <!--
+      Width of a single corpus:  13.5inch + 1.5inch = 15inch = 38.1cm
+      -->
+      <link name="${prefix}baker_sektion_link">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="10.0"/>
+          <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual name="${prefix}baker_sektion_link_visual">
+          <origin rpy="0  0  0" xyz="0  0  0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/sektion_top_three.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+          <material name="White" />
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/sektion_top_three.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+
+      <!-- Baker (single hanging drawer in the center) -->
+      <joint name="${prefix}baker_joint_fixed" type="fixed">
+        <parent link="${prefix}baker_sektion_link"/>
+        <child link="${prefix}baker_anchor_link"/>
+        <origin xyz="0 -0.762 0" rpy="0 0 3.14159265359"/>
+      </joint>
+      <link name="${prefix}baker_anchor_link" />
+      <joint name="${prefix}baker_joint" type="revolute">
+        <parent link="${prefix}baker_anchor_link"/>
+        <child link="${prefix}baker_link_tmp"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="1000.0" lower="0" upper="1.57" velocity="0.1"/>
+      </joint>
+      <link name="${prefix}baker_link_tmp" />
+      <joint name="${prefix}baker_joint_fixed_2" type="fixed">
+        <parent link="${prefix}baker_link_tmp"/>
+        <child link="${prefix}baker_link"/>
+        <origin xyz="-0.01 0.19 0.38" rpy="0 0 0"/>
+      </joint>
+      <link name="${prefix}baker_link">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="1.0"/>
+          <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual name="${prefix}baker_visual">
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/front_vertical_right.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+          <material name="Grey" />
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/front_vertical_right.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+      <joint name="${prefix}baker_handle_transform" type="fixed">
+        <parent link="${prefix}baker_link_tmp"/>
+        <child link="${prefix}baker_handle"/>
+        <origin xyz="-0.05905 0.33 0.13" rpy="0 0 3.1514"/>
+        <axis xyz="0 0 1"/>
+      </joint>
+      <link name="${prefix}baker_handle">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="1.0"/>
+          <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual name="${prefix}baker_visual">
+          <origin rpy="0  0  0" xyz="0  0  0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/handle.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+          <material name="White" />
+        </visual>
+        <collision>
+          <geometry>>
+            <mesh filename="package://kitchen_description/meshes/handle.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+      
+      <!-- Chewie (Right Door) -->
+      <joint name="${prefix}chewie_door_right_joint_fixed" type="fixed">
+        <parent link="${prefix}baker_sektion_link"/>
+        <child link="${prefix}chewie_door_right_anchor_link"/>
+        <origin xyz="0 0 0" rpy="0 0 3.14159265359"/>
+      </joint>
+      <link name="${prefix}chewie_door_right_anchor_link" />
+      <joint name="${prefix}chewie_door_right_joint" type="revolute">
+        <parent link="${prefix}chewie_door_right_anchor_link"/>
+        <child link="${prefix}chewie_door_right_link_tmp"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="1000.0" lower="0" upper="1.57" velocity="0.1"/>
+      </joint>
+      <link name="${prefix}chewie_door_right_link_tmp" />
+      <joint name="${prefix}chewie_door_right_joint_fixed_2" type="fixed">
+        <parent link="${prefix}chewie_door_right_link_tmp"/>
+        <child link="${prefix}chewie_door_right_link"/>
+        <origin xyz="-0.01 0.19 0.38" rpy="0 0 0"/>
+      </joint>
+      <link name="${prefix}chewie_door_right_link">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="1.0"/>
+          <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual name="${prefix}chewie_door_right_visual">
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/front_vertical_right.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+          <material name="Grey" />
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/front_vertical_right.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+      <joint name="${prefix}chewie_door_right_handle_transform" type="fixed">
+        <parent link="${prefix}chewie_door_right_link_tmp"/>
+        <child link="${prefix}chewie_door_right_handle"/>
+        <origin xyz="-0.05905 0.33 0.13" rpy="0 0 3.1514"/>
+        <axis xyz="0 0 1"/>
+      </joint>
+      <link name="${prefix}chewie_door_right_handle">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="1.0"/>
+          <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual name="${prefix}chewie_door_right_handle_visual">
+          <origin rpy="0  0  0" xyz="0  0  0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/handle.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+          <material name="White" />
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/handle.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+      <!-- Middle Door -->
+      <joint name="${prefix}chewie_door_left_joint_fixed" type="fixed">
+        <parent link="${prefix}baker_sektion_link"/>
+        <child link="${prefix}chewie_door_left_anchor_link"/>
+        <origin xyz="0 -0.762 0" rpy="0 0 3.14159265359"/>
+      </joint>
+      <link name="${prefix}chewie_door_left_anchor_link" />
+      <joint name="${prefix}chewie_door_left_joint" type="revolute">
+        <parent link="${prefix}chewie_door_left_anchor_link"/>
+        <child link="${prefix}chewie_door_left_link_tmp"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="1000.0" lower="-1.57" upper="0" velocity="0.1"/>
+      </joint>
+      <link name="${prefix}chewie_door_left_link_tmp" />
+      <joint name="${prefix}chewie_door_left_joint_fixed_2" type="fixed">
+        <parent link="${prefix}chewie_door_left_link_tmp"/>
+        <child link="${prefix}chewie_door_left_link"/>
+        <origin xyz="-0.01 -0.19 0.38" rpy="0 0 0"/>
+      </joint>
+      <link name="${prefix}chewie_door_left_link">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="1.0"/>
+          <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual name="${prefix}chewie_door_left_visual">
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/front_vertical_left.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+          <material name="Grey" />
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/front_vertical_left.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+      <joint name="${prefix}chewie_door_left_handle_transform" type="fixed">
+        <parent link="${prefix}chewie_door_left_link_tmp"/>
+        <child link="${prefix}chewie_door_left_handle"/>
+        <origin xyz="-0.05905 -0.33 0.13" rpy="0 0 3.1514"/>
+        <axis xyz="0 0 1"/>
+      </joint>
+      <link name="${prefix}chewie_door_left_handle">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="1.0"/>
+          <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual name="${prefix}chewie_door_left_handle_visual">
+          <origin rpy="0  0  0" xyz="0  0  0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/handle.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+          <material name="White" />
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/handle.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+     </xacro:macro>
+</robot>
