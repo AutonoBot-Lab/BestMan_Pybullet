@@ -155,7 +155,7 @@ class Bestman:
         self.max_attempts = 500
 
         # Enable recording
-        # logId = p.startStateLogging(p.STATE_LOGGING_VIDEO_MP4, "./image/record.mp4")
+        logId = p.startStateLogging(p.STATE_LOGGING_VIDEO_MP4, "./image/record.mp4")
 
         # Initialize PID controller
         self.target_distance = 0.0

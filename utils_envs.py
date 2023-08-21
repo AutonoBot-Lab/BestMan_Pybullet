@@ -20,34 +20,33 @@ class Kitchen:
         self.elementA_id = p.loadURDF(
             "./Kitchen/elementA/urdf/kitchen_part_right_gen_convex.urdf",
             basePosition=[4, 2, 1.477],
-            baseOrientation=p.getQuaternionFromEuler([0, 0, math.pi]),
-            useFixedBase=True,
+            baseOrientation=p.getQuaternionFromEuler([0, 0, math.pi])
         )
         self.elementA_drawer_to_joint_id = {
-            1: 18,
-            2: 22,
-            3: 27,
-            4: 31,
-            5: 37,
-            6: 40,
-            7: 48,
-            8: 53,
-            9: 56,
-            10: 58,
-            11: 14,
+            1: 17,
+            2: 21,
+            3: 26,
+            4: 30,
+            5: 36,
+            6: 39,
+            7: 47,
+            8: 52,
+            9: 55,
+            10: 57,
+            11: 13,
         }
         self.elementA_drawer_to_joint_limits = {
-            1: (0, 1.57),
-            2: (-1.57, 0),
-            3: (-1.57, 0),
-            4: (0, 1.57),
+            1: (0, 1.5),
+            2: (-1.5, 0),
+            3: (-1.5, 0),
+            4: (0, 1.5),
             5: (0.0, 0.4),
             6: (0.0, 0.4),
-            7: (0, 1.57),
-            8: (-1.57, 0),
+            7: (0, 1.5),
+            8: (-1.5, 0),
             9: (0.0, 0.4),
             10: (0.0, 0.4),
-            11: (0, 1.57),
+            11: (0, 1.5),
         }
         print(
             "-" * 20
@@ -63,8 +62,7 @@ class Kitchen:
         self.elementC_id = p.loadURDF(
             "./Kitchen/elementB/kitchen_assembly.urdf",
             basePosition=[4.3, 7.73, 0],
-            baseOrientation=p.getQuaternionFromEuler([0, 0, math.pi]),
-            useFixedBase=True,
+            baseOrientation=p.getQuaternionFromEuler([0, 0, math.pi])
         )
 
         # ----------------------------------------------------------------
@@ -73,8 +71,7 @@ class Kitchen:
         self.elementC_id = p.loadURDF(
             "./Kitchen/elementC/dishwasher.urdf",
             basePosition=[3.95, 3.08, 0.43],
-            baseOrientation=p.getQuaternionFromEuler([0, 0, - math.pi / 2.0]),
-            useFixedBase=True,
+            baseOrientation=p.getQuaternionFromEuler([0, 0, - math.pi / 2.0])
         )
         self.elementC_drawer_to_joint_id = {
             1: 1,
@@ -82,9 +79,9 @@ class Kitchen:
             3: 3,
         }
         self.elementC_drawer_to_joint_limits = {
-            1: (1.57, 0),
-            2: (-0.3, 0),
-            3: (-0.3, 0),
+            1: (0, 1.5),
+            2: (0, -0.3),
+            3: (0, -0.3),
         }
         print(
             "-" * 20
@@ -99,15 +96,14 @@ class Kitchen:
         # ----------------------------------------------------------------
         self.elementD_id = p.loadURDF(
             "./Kitchen/elementD/microwave.urdf",
-            basePosition=[3.95, 7, 0.6],
+            basePosition=[3.95, 7, 0.615],
             baseOrientation=p.getQuaternionFromEuler([0, 0, math.pi / 2.0]),
-            useFixedBase=True,
         )
         self.elementD_drawer_to_joint_id = {
             1: 1,
         }
         self.elementD_drawer_to_joint_limits = {
-            1: (-1.57, 0),
+            1: (0, -1.5),
         }
         print(
             "-" * 20
@@ -122,17 +118,16 @@ class Kitchen:
         # ----------------------------------------------------------------
         self.elementE_id = p.loadURDF(
             "./Kitchen/elementE/refrigerator.urdf",
-            basePosition=[4.1, 8.2, 0],
+            basePosition=[4.1, 8.2, 0.05],
             baseOrientation=p.getQuaternionFromEuler([0, 0, -math.pi / 2.0]),
-            useFixedBase=True,
         )
         self.elementE_drawer_to_joint_id = {
             1: 1,
             2: 2,
         }
         self.elementE_drawer_to_joint_limits = {
-            1: (-1.57, 0),
-            2: (-1.57, 0),
+            1: (0, -1.5),
+            2: (0, -1.5),
         }
         print(
             "-" * 20
@@ -141,7 +136,7 @@ class Kitchen:
                 self.elementE_drawer_to_joint_id
             )
         )
-
+    
     def run(self, x):
         for _ in range(x):
             p.stepSimulation()
@@ -154,10 +149,10 @@ class Kitchen:
         if elementName == "elementA":
             joint_id = self.elementA_drawer_to_joint_id[drawer_id]
             open_angle = self.elementA_drawer_to_joint_limits[drawer_id][1]
-            print('joint_id:{}, open_angle:{}'.format(joint_id, open_angle))
+            print('elementA: joint_id:{}, open_angle:{}'.format(joint_id, open_angle))
             p.setJointMotorControl2(
                 bodyIndex=self.elementA_id,
-                jointIndex=joint_id - 1,
+                jointIndex=joint_id,
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=open_angle,
                 maxVelocity=0.5,
@@ -165,6 +160,7 @@ class Kitchen:
         elif elementName == "elementC":
             joint_id = self.elementC_drawer_to_joint_id[drawer_id]
             open_angle = self.elementC_drawer_to_joint_limits[drawer_id][1]
+            print('elementC: joint_id:{}, open_angle:{}'.format(joint_id, open_angle))
             p.setJointMotorControl2(
                 bodyIndex=self.elementC_id,
                 jointIndex=joint_id,
@@ -175,6 +171,7 @@ class Kitchen:
         elif elementName == "elementD":
             joint_id = self.elementD_drawer_to_joint_id[drawer_id]
             open_angle = self.elementD_drawer_to_joint_limits[drawer_id][1]
+            print('elementD (open): joint_id:{}, open_angle:{}'.format(joint_id, open_angle))
             p.setJointMotorControl2(
                 bodyIndex=self.elementD_id,
                 jointIndex=joint_id,
@@ -185,6 +182,7 @@ class Kitchen:
         elif elementName == "elementE":
             joint_id = self.elementE_drawer_to_joint_id[drawer_id]
             open_angle = self.elementE_drawer_to_joint_limits[drawer_id][1]
+            print('elementE: joint_id:{}, open_angle:{}'.format(joint_id, open_angle))
             p.setJointMotorControl2(
                 bodyIndex=self.elementE_id,
                 jointIndex=joint_id,
@@ -192,7 +190,7 @@ class Kitchen:
                 targetPosition=open_angle,
                 maxVelocity=0.5,
             )
-        self.run(100)
+        self.run(240 * 2)
 
     # ----------------------------------------------------------------
     # Close drawer
@@ -202,8 +200,8 @@ class Kitchen:
             joint_id = self.elementA_drawer_to_joint_id[drawer_id]
             close_angle = self.elementA_drawer_to_joint_limits[drawer_id][0]
             p.setJointMotorControl2(
-                bodyIndex=self.elementA,
-                jointIndex=joint_id - 1,
+                bodyIndex=self.elementA_id,
+                jointIndex=joint_id,
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=close_angle,
                 maxVelocity=0.5,
@@ -212,7 +210,7 @@ class Kitchen:
             joint_id = self.elementC_drawer_to_joint_id[drawer_id]
             close_angle = self.elementC_drawer_to_joint_limits[drawer_id][0]
             p.setJointMotorControl2(
-                bodyIndex=self.elementC,
+                bodyIndex=self.elementC_id,
                 jointIndex=joint_id,
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=close_angle,
@@ -221,8 +219,9 @@ class Kitchen:
         elif elementName == "elementD":
             joint_id = self.elementD_drawer_to_joint_id[drawer_id]
             close_angle = self.elementD_drawer_to_joint_limits[drawer_id][0]
+            print('elementD (close): joint_id:{}, open_angle:{}'.format(joint_id, close_angle))
             p.setJointMotorControl2(
-                bodyIndex=self.elementD,
+                bodyIndex=self.elementD_id,
                 jointIndex=joint_id,
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=close_angle,
@@ -232,10 +231,10 @@ class Kitchen:
             joint_id = self.elementE_drawer_to_joint_id[drawer_id]
             close_angle = self.elementE_drawer_to_joint_limits[drawer_id][0]
             p.setJointMotorControl2(
-                bodyIndex=self.elementE,
+                bodyIndex=self.elementE_id,
                 jointIndex=joint_id,
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=close_angle,
                 maxVelocity=0.5,
             )
-        self.run(100)
+        self.run(240 * 2)
