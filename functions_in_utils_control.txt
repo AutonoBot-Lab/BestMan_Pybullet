@@ -1,7 +1,20 @@
 # ----------------------------------------------------------------
-# Plot functions
+# Visualization functions
 # ----------------------------------------------------------------
-def enable_vertical_view(self, height):
+def start_record(self):
+def end_record(self):
+def draw_aabb(self, object_id):
+def set_visual_shape(self):
+def visualize_path(self, path):
+def enable_vertical_view(self, height, position):
+def draw_line(self, start_pos, target_pos, color=[1, 0, 0], width=3.0):
+
+# ----------------------------------------------------------------
+# Other functions
+# ----------------------------------------------------------------
+def disconnect_pybullet(self):
+def wait(self, x):
+def run(self, x):
 
 # ----------------------------------------------------------------
 # Add object functions
@@ -14,28 +27,44 @@ def load_object(self, model_path, object_position, object_orientation, obj_name)
 def get_bounding_box(self, object_id):
 
 # ----------------------------------------------------------------
-# Base Navigation
+# Segbot Navigation
 # ----------------------------------------------------------------
-def navigate_base(self, goal_base_pose):
 def get_base_joint_info(self):
+def get_link_names(self):
+def navigate_base(self, goal_base_pose):
 def get_base_pose(self):
-def move_base_to_next_waypoint(self, next_waypoint):
 def find_base_path(self, init_base_position, goal_base_position):
+def move_base_to_next_waypoint(self, next_waypoint):
 def rotate_base(self, yaw):
 def sync_base_arm_pose(self):
+def check_collision_navigation(self):
 
 # ----------------------------------------------------------------
 # Arm Manipulation
 # ----------------------------------------------------------------
-joints_to_cartesian
 def get_arm_joint_info(self):
-def get_link_names(self)
+def get_arm_joint_angle(self):
+def set_arm_to_joint_angles(self, joint_angles):
+def move_arm_to_joint_angles(self, joint_angles):
 def get_end_effector_info(self):
 def joints_to_cartesian(self, joint_angles):
 def cartesian_to_joints(self, position, orientation):
-def move_arm_to_joint_angles(self, joint_angles):
-def set_arm_to_joint_angles(self, joint_angles):
 def rotate_end_effector(self, angle):
 def move_end_effector_to_goal_position(self, end_effector_goal_pose):
 def pick_place(self, object_id, object_goal_position, object_goal_orientation):
 def calculate_IK_error(self, object_goal_position, object_goal_orientation):
+
+# ----------------------------------------------------------------
+# For RL algorithm
+# ----------------------------------------------------------------
+def reset_pos(self, seed=None, pos=None):
+def get_current_pos(self):
+def set_camera(self, robot_id: int, width: int = 224, height: int = 224):
+def get_image(self, width, height):
+def label_target_on_rgb_by_segmentation(self, rgb_img, seg_img, height=224, width=224, target_object_id=4, file_output_path="./outputs/target_rectangle.png"):
+def forward(self, distance=0.25):
+def rotate_left(self, degree=30):
+def rotate_right(self, degree=30):
+def stop(self):
+def grasp(self, object_id):
+def set_envs(self):

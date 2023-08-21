@@ -154,9 +154,6 @@ class Bestman:
         self.residual_threshold = 0.01
         self.max_attempts = 500
 
-        # Enable recording
-        logId = p.startStateLogging(p.STATE_LOGGING_VIDEO_MP4, "./image/record.mp4")
-
         # Initialize PID controller
         self.target_distance = 0.0
         self.controller = PIDController(
@@ -192,9 +189,21 @@ class Bestman:
         self.obstacle_navigation_ids = []  # for navigation
         self.obstacle_manipulation_ids = []  # for manipulation
 
+
     # ----------------------------------------------------------------
     # Visualization functions
     # ----------------------------------------------------------------
+    """
+    This function is to enable and disable recording.
+
+    """
+    def start_record(self):
+        logId = p.startStateLogging(p.STATE_LOGGING_VIDEO_MP4, "./image/record.mp4")
+        print('The video can be found in ./image/record.mp4')
+    
+    def end_record(self):
+        p.stopStateLogging(logId)
+
     """
     This function draws an Axis-Aligned Bounding Box (AABB) around the specified table object in the simulation. The AABB is a box that covers the entire object based on its maximum and minimum coordinates along each axis. It can be useful for various purposes, such as collision detection, spatial partitioning, and bounding volume hierarchies.
 
@@ -301,9 +310,14 @@ class Bestman:
             physicsClientId=self.client,
         )
 
-    # ----------------------------------------------------------------
-    # Plot functions
-    # ----------------------------------------------------------------
+    """
+    This function draw a line on the screen from the specified start position to the target position.
+    Args:
+        start_pos: The starting position of the line as a tuple of (x, y, z) coordinates.
+        target_pos: The ending position of the line as a tuple of (x, y, z) coordinates.
+        color: A list representing the RGB values of the line's color. Default is red [1, 0, 0].
+        width: The width of the line. Default is 3.0.
+    """
 
     def draw_line(self, start_pos, target_pos, color=[1, 0, 0], width=3.0):
         if self.line_visual is not None:
@@ -315,6 +329,8 @@ class Bestman:
     # ----------------------------------------------------------------
     # Other functions
     # ----------------------------------------------------------------
+    def disconnect_pybullet(self):
+        p.disconnect()
 
     def wait(self, x):
         time.sleep(x)

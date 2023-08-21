@@ -190,7 +190,7 @@ class Kitchen:
                 targetPosition=open_angle,
                 maxVelocity=0.5,
             )
-        self.run(240 * 2)
+        self.run(240 * 1)
 
     # ----------------------------------------------------------------
     # Close drawer
@@ -237,4 +237,4 @@ class Kitchen:
                 targetPosition=close_angle,
                 maxVelocity=0.5,
             )
-        self.run(240 * 2)
+        self.run(240 * 1)
