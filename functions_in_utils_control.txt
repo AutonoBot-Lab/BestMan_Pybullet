@@ -1,8 +1,8 @@
 # ----------------------------------------------------------------
 # Visualization functions
 # ----------------------------------------------------------------
-def start_record(self):
-def end_record(self):
+def start_record(self, fileName):
+def end_record(self, logId):
 def draw_aabb(self, object_id):
 def set_visual_shape(self):
 def visualize_path(self, path):

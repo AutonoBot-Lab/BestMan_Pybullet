@@ -197,11 +197,12 @@ class Bestman:
     This function is to enable and disable recording.
 
     """
-    def start_record(self):
-        logId = p.startStateLogging(p.STATE_LOGGING_VIDEO_MP4, "./image/record.mp4")
-        print('The video can be found in ./image/record.mp4')
+    def start_record(self, fileName):
+        logId = p.startStateLogging(p.STATE_LOGGING_VIDEO_MP4, "./image/" + fileName + ".mp4")
+        print('The video can be found in ' + "./image/" + fileName + ".mp4")
+        return logId
     
-    def end_record(self):
+    def end_record(self, logId):
         p.stopStateLogging(logId)
 
     """
