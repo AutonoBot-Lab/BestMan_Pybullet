@@ -171,6 +171,8 @@ class Bestman:
         # Initialize arm
         self.arm_id = p.loadURDF(
             fileName="./URDF_robot/ur5e.urdf",
+            # fileName="./URDF_robot/ur5e_2f85.urdf",  # TODO CHECK
+            # fileName="./URDF_robot/ur5e_vacuum.urdf",
             basePosition=init_pos.position,
             baseOrientation=p.getQuaternionFromEuler([0.0, 0.0, math.pi / 2.0]),
             useFixedBase=True,
@@ -1467,3 +1469,423 @@ def check_collision_between_target_obstacle(target_boundary, obstacle_boundary):
     ):
         return True
     return False
+
+
+
+class PbOMPL:
+    def __init__(self, robot_id, joint_idx, obstacles=[], planner="RRT", threshold=0.1):
+        """
+         Initialize the OMPL.
+         
+         Args:
+            robot_id: ID of the robot to use.
+            joint_idx: Index of the joints to use in planning.
+            obstacles: List of obstacles to consider in the motion planning.
+            planner: The name of the motion planner algorithm to use.
+            threshold: The threshold value ONLY for repalnning. 
+        """
+        self.robot_id = robot_id
+        self.threshold = threshold
+        self.robot = pb_ompl.PbOMPLRobot(robot_id, joint_idx=joint_idx)
+        self.obstacles = obstacles if obstacles is not None else []
+        self.pb_ompl_interface = pb_ompl.PbOMPL(self.robot, self.obstacles)
+        self.set_planner(planner)
+
+        item_info = p.getBodyInfo(self.robot_id)
+        robot_name = item_info[1].decode("utf-8")
+        print("--------------------")
+        print(
+            f"OMPL Configuration\n"
+            f"Robot ID: {robot_id}\n"
+            f"Robot Name: {robot_name}\n"
+            f"Obstacles: {obstacles}\n"
+            f"Planner: {planner}\n"
+            f"Threshold: {threshold}"
+        )
+        print("--------------------")
+
+    def set_planner(self, planner):
+        """
+         Set Planner to OMPL.
+         
+         Args:
+         	 planner: The planner to set to OMPL.
+        """
+        try:
+            self.pb_ompl_interface.set_planner(planner)
+        except Exception as e:
+            print(f"Error setting planner: {e}")
+
+    def set_target(self, target_id):
+        """
+         Set the target to be used for the manipulation task. 
+
+         Args:
+         	 target_id: id of the target.
+        """
+        try:
+            item_info = p.getBodyInfo(target_id)
+        except Exception as e:
+            print(f"Error setting target: {e}")
+        self.target = target_id
+        self.target_pos, _ = p.getBasePositionAndOrientation(self.target)
+
+    def set_target_pos(self, target_pos):
+        """
+         Set the position of the target. 
+         
+         Args:
+         	 target_pos: The position of the target.
+        """
+        self.target_pos = target_pos
+
+    def set_obstacles(self, obstacles):
+        """
+         Set obstacles to OMPL.
+         
+         Args:
+         	 obstacles: List of obstacle.
+        """
+        for i in obstacles:
+            try:
+                item_info = p.getBodyInfo(i)
+            except Exception as e:
+                print(f"Error adding obstacle: {e}")
+        self.obstacles = obstacles
+
+    def add_obstacles(self, item_id):
+        """
+         Add obstacle to list of obstacles. 
+         
+         Args:
+         	 item_id: id of the item to add.
+        """
+        try:
+            item_info = p.getBodyInfo(item_id)
+        except Exception as e:
+            print(f"Error adding obstacle: {e}")
+        self.obstacles.append(item_id)
+
+    def remove_obstacles(self, obstacle_id):
+        """
+         Remove obstacle from the list of obstacles. 
+         This is useful for removing a specific obstacle from the list.
+         
+         Args:
+         	 obstacle_id: id of the obstacle to remove.
+        """
+        try:
+            self.obstacles = [obs for obs in self.obstacles if obs != obstacle_id]
+        except Exception as e:
+            print(f"Error removing obstacle: {e}")
+
+    def store_obstacles(self):
+        """
+         Store obstacles in the OMPL interface. 
+         This is called after the user finished obstacles setting.
+        """
+        self.pb_ompl_interface.set_obstacles(self.obstacles)
+
+    def check_obstacles(self):
+        """
+         Check obstacles in the scene and print them to the console. 
+         This is a debugging function.
+        """
+        if self.obstacles == []:
+            print("Obstacle list is empty")
+        else:
+            # print the IDs and names of all obstacles in the scene
+            for obstacle_id in self.obstacles:
+                item_info = p.getBodyInfo(obstacle_id)
+                item_name = item_info[1].decode("utf-8")
+                print(f"\t Obstacle Name: {item_name}, ID: {obstacle_id}")
+
+    def get_scene_items(self, display=True):
+        """
+         Get IDs of all items in the scene. 
+         This is a debugging function.
+         
+         Args:
+         	 display: If True ( default ) the ID will be displayed on the screen.
+         
+         Returns: 
+         	 A list of IDs of all items in the scene.
+        """
+        # Get the total number of items in the scene
+        num_items = p.getNumBodies()
+        # Initialize an empty list to store the IDs of all items in the scene
+        all_item_ids = []
+
+        # This function will return the list of all the items in the list
+        for item_id in range(num_items):
+            current_id = p.getBodyUniqueId(item_id)
+            all_item_ids.append(current_id)
+            if display:
+                item_info = p.getBodyInfo(current_id)
+                item_name = item_info[1].decode("utf-8")
+                print(f"Item Name: {item_name}, ID: {current_id}")
+        return all_item_ids
+
+    def add_scene_obstacles(self, display=False):
+        """
+         Add obstacles to the scene. 
+         This is done by iterating over all items in the scene and adding them to the list of obstacles.
+         
+         Args:
+         	 display: If True the name and ID of the item will be displayed on the screen. 
+             Default is False. If False it will not be displayed.
+         
+         Returns: 
+         	 A list of IDs of all items in the obstacle list.
+        """
+        all_item_ids = self.get_scene_items(display=False)
+        self.obstacles = []
+        # Add the current item ID to the list of obstacles
+        for item_id in all_item_ids:
+            # Skip the robot ID
+            if item_id == self.robot_id:
+                continue
+            self.obstacles.append(item_id)
+            if display:
+                item_info = p.getBodyInfo(item_id)
+                item_name = item_info[1].decode("utf-8")
+                print(f"Item Name: {item_name}, ID: {item_id}")
+
+        self.store_obstacles()
+        return self.obstacles
+
+    def execute(self, path):
+        """
+        Execute a given path using the OMPL interface and handle errors.
+
+        Args:
+            path: The path to be executed. This should be absolute path.
+        """
+        try:
+            self.pb_ompl_interface.execute(path)
+        except Exception as e:
+            print(f"Error executing path: {e}")
+
+    def compute_distance(self, end_effector_link_index):
+        """
+         Compute the distance between the end effector and the object.
+         
+         Args:
+         	 end_effector_link_index: index of the end effector link.
+         
+         Returns: 
+         	 distance: distance between the end - effector and the object.
+        """
+        end_effector_pose = p.getLinkState(self.robot_id, end_effector_link_index)
+
+        # Compute the distance between the end-effector and the object
+        distance = np.linalg.norm(
+            np.array(end_effector_pose[0]) - np.array(self.target_pos)
+        )
+        return distance
+
+    def plan_grasp(self, start, goal):
+        """
+         Plan grasp from start to goal. 
+         This is a wrapper around OMPL grasp planning algorithm.
+         
+         Args:
+         	 start: state to start planning from.
+         	 goal: state to go to after planning has been completed.
+         
+         Returns: 
+             res: response from ompl interface.
+         	 path: a list of robot state.
+        """
+        self.robot.set_state(start)
+        res, path = self.pb_ompl_interface.plan(goal)
+        return res, path
+
+    def move_end_effector_to_goal_position(self, start, goal, end_effector_link_index):  # TODO refactor
+        """
+         Move end effector to goal position in OMPL planned path.
+         
+         Args:
+         	 start: effective position of end effector. 
+         	 goal: effective position of goal.
+         	 end_effector_link_index: index of end effector.
+        """
+        grasp_successful = False
+
+        trial = 0
+        while not grasp_successful:
+            trial += 1
+            res, path = self.plan_grasp(start, goal)
+
+            if res:
+                self.pb_ompl_interface.execute(path, dynamics=True)
+                # Pause briefly to simulate real-time
+                time.sleep(0.1)
+                grasp_successful = True
+                print("After {} trials, finished.".format(trial))
+                # step simulation in a loop.
+                for _ in range(100):
+                    p.stepSimulation()
+                    time.sleep(1.0 / 100.0)
+
+    def grasp_object(self, start, goal, end_effector_link_index):  # TODO refactor
+        """
+         Plans an object from start to goal and attaches it to the robot.
+         
+         Args:
+         	 start: effective position of end effector. 
+         	 goal: effective position of goal.
+         	 end_effector_link_index: index of end effector.
+        """
+        grasp_successful = False
+        trial = 0
+        while not grasp_successful:
+            trial += 1
+            res, path = self.plan_grasp(start, goal)
+
+            # Execute the path and attach the object to the robot
+            if res:
+                self.pb_ompl_interface.execute(path)
+                # Pause briefly to simulate real-time
+                time.sleep(0.1)
+                # Check if the robot is close to the object
+                distance = self.compute_distance(end_effector_link_index)
+                # This method grasses the robot if the distance is below threshold.
+                if distance <= self.threshold:
+                    grasp_successful = True
+                    print("After {} trials, successfully grasped.".format(trial))
+                    # Attach the object to the robot
+                    cube_orn = p.getQuaternionFromEuler([0, math.pi, 0])
+                    self.gripper_id = p.createConstraint(
+                        self.robot_id,
+                        end_effector_link_index,  # TODO refactor
+                        self.target,
+                        -1,
+                        p.JOINT_FIXED,
+                        [0, 0, 0],
+                        [0, 0, 0.05],
+                        [0, 0, 0],
+                        childFrameOrientation=cube_orn,
+                    )
+
+
+class UR5_2F85:
+    def __init__(self, client_id, robot_id):
+        """
+         Initializes the UR5 with Robotiq 2f85 gripper.
+         
+         Args:
+         	 client_id: Client ID of pybullet.
+         	 robot_id: The URDF object features a Robotiq 2f85 gripper.
+        """
+        self._cid = client_id
+        self.Rob2f85 = Robotiq2F85(self._cid, robotUID=robot_id)
+        self.robot_id = self.Rob2f85.getUID()
+        self.end_effector_link_index = self.get_tool_center_point()
+        self.build_joint_index_from_name_dict()
+
+    def set_gripper_max_force(self, max_force):
+        """
+         Set gripper max force. 
+         
+         Args:
+         	 max_force: The max force of gripper motor control.
+        """
+        self.Rob2f85.setMaxForce(max_force)
+
+    def init_joints(self, init_pose):
+        """
+         Initialize joints.
+         
+         Args:
+         	 init_pose: a list of two representing the gripper closing.
+        """
+        r2f85 = init_pose
+        self.Rob2f85.initJoints(r2f85)
+
+    def close_gripper(self):
+        """
+         Close gripper and go to 80%.
+        """
+        self.set_gripper_goal(80, 80)
+
+    def open_gripper(self):
+        """
+         Opens gripper.
+        """
+        self.set_gripper_goal(0, 0)
+
+    def get_tool_center_point(self):
+        """
+         Get the index of tcp of gripper. 
+         
+         
+         Returns: 
+         	 end_effector_link_index: the index of the end effector joint.
+        """
+        end_effector_link_index = self.get_joint_index_from_name("tool_center_point")
+        return end_effector_link_index
+
+    def get_end_effector_info(self):
+        """
+         Get information about the end effector. 
+         
+         Returns: 
+         	end_effector_position: the end effector position in world coordinates.
+            end_effector_orientation: the end effector orientation in world coordinates.
+        """
+        joint_info = p.getJointInfo(self.robot_id, self.end_effector_link_index)
+        end_effector_name = joint_info[1].decode("utf-8")
+        end_effector_info = p.getLinkState(
+            bodyUniqueId=self.robot_id, linkIndex=self.end_effector_link_index
+        )
+        end_effector_position = end_effector_info[0]
+        end_effector_orientation = end_effector_info[1]
+        return end_effector_position, end_effector_orientation
+
+    def build_joint_index_from_name_dict(self):
+        """
+         Build joint index from name dictionary. 
+         This is used to find the names of joints.
+        """
+        self.joints_names_dict = {}
+        num_joints = p.getNumJoints(self.robot_id, self._cid)
+        # Get the joint information from the robot.
+        for i in range(num_joints):
+            joint_info = p.getJointInfo(self.robot_id, i, self._cid)
+            srt_joint_name = joint_info[1].decode("UTF-8")
+            self.joints_names_dict[srt_joint_name] = joint_info[0]
+
+    def get_joint_index_from_name(self, joint_name):
+        """
+         Get joint index from name. 
+         
+         Args:
+         	 joint_name: name of the joint to find.
+         
+         Returns: 
+         	 joint_id: index of the joint to find.
+        """
+        try:
+            # build joint index from name dictionary
+            if len(self.joints_names_dict) == 0:
+                self.build_joint_index_from_name_dict()
+        except AttributeError:
+            self.build_joint_index_from_name_dict()
+
+        try:
+            joint_id = self.joints_names_dict.get(joint_name)
+        except Exception as e:
+            print(f"Cannot find a joint named: {e}")
+        return joint_id
+
+    def set_gripper_goal(self, left_finger_goal, right_finger_goal):
+        """
+         Set gripper goal in degrees. 
+         A percentage that specify how close each finger is (100 = Fully closed, 0 = Fully open).
+         
+         Args:
+         	 left_finger_goal: the amount of left finger closing.
+         	 right_finger_goal: the amount of right finger closing.
+        """
+        self.Rob2f85.setGoal(left_finger_goal, right_finger_goal)
