@@ -14,6 +14,7 @@ import os
 PID controller
 """
 
+
 class PIDController:
     def __init__(self, Kp, Ki, Kd, setpoint):
         """
@@ -102,35 +103,6 @@ Joint:6 and its name is: 'ee_fixed_joint'
 """
 
 
-class CameraInfo:
-    # save camera info
-    def __init__(
-        self, camera_id, camera_name, camera_position, target_orientation, height, width
-    ):
-        self.camera_id = camera_id
-        self.camera_name = camera_name
-        self.camera_position = camera_position
-        self.target_orientation = target_orientation
-        # image size
-        self.heiht = height
-        self.width = width
-        # image message
-        self.rgb = None
-        self.depth = None
-        self.seg = None
-
-    def __str__(self):
-        return f"CameraMessage(camera_id={self.camera_id}, camera_name={self.camera_name}, camera_position={self.camera_position}, target_orientation={self.target_orientation}, height={self.height}, width={self.width})"
-
-    def update(self, rgb, depth, seg):
-        self.rgb = rgb
-        self.depth = depth
-        self.seg = seg
-
-    def get_image(self):
-        return self.rgb, self.depth, self.seg
-
-
 class Bestman:
     def __init__(self, init_pos):
         # constant parameters
@@ -148,7 +120,7 @@ class Bestman:
         self.frequency = 240  # simulation step for base and arm
         self.timeout = 100.0  # maximum time for planning
         # parameters for arm
-        self.end_effector_index = 6
+        self.end_effector_index = 8
         self.max_force = 500
         self.max_iterations = 10000
         self.residual_threshold = 0.01
@@ -170,9 +142,9 @@ class Bestman:
 
         # Initialize arm
         self.arm_id = p.loadURDF(
-            fileName="./URDF_robot/ur5e.urdf",
+            # fileName="./URDF_robot/ur5e.urdf",
             # fileName="./URDF_robot/ur5e_2f85.urdf",  # TODO CHECK
-            # fileName="./URDF_robot/ur5e_vacuum.urdf",
+            fileName="./URDF_robot/ur5e_vacuum.urdf",
             basePosition=init_pos.position,
             baseOrientation=p.getQuaternionFromEuler([0.0, 0.0, math.pi / 2.0]),
             useFixedBase=True,
@@ -180,7 +152,16 @@ class Bestman:
 
         # Add constraint between base and arm
         robot2_start_pos = [0, 0, 0]
-        fixed_joint = p.createConstraint(self.base_id, -1, self.arm_id, -1, p.JOINT_FIXED, [0, 0, 0], [0, 0, 1.3], robot2_start_pos)
+        fixed_joint = p.createConstraint(
+            self.base_id,
+            -1,
+            self.arm_id,
+            -1,
+            p.JOINT_FIXED,
+            [0, 0, 0],
+            [0, 0, 1.3],
+            robot2_start_pos,
+        )
 
         self.init_pos = init_pos
         self.gripper_id = None
@@ -191,7 +172,6 @@ class Bestman:
         self.obstacle_navigation_ids = []  # for navigation
         self.obstacle_manipulation_ids = []  # for manipulation
 
-
     # ----------------------------------------------------------------
     # Visualization functions
     # ----------------------------------------------------------------
@@ -199,11 +179,14 @@ class Bestman:
     This function is to enable and disable recording.
 
     """
+
     def start_record(self, fileName):
-        logId = p.startStateLogging(p.STATE_LOGGING_VIDEO_MP4, "./image/" + fileName + ".mp4")
-        print('The video can be found in ' + "./image/" + fileName + ".mp4")
+        logId = p.startStateLogging(
+            p.STATE_LOGGING_VIDEO_MP4, "./image/" + fileName + ".mp4"
+        )
+        print("The video can be found in " + "./image/" + fileName + ".mp4")
         return logId
-    
+
     def end_record(self, logId):
         p.stopStateLogging(logId)
 
@@ -414,7 +397,7 @@ class Bestman:
         # print("-" * 20 + "\n" + "object_id: {}".format(object_id))
         # print("min_x:{:.2f}, min_y:{:.2f}, min_z:{:.2f}".format(min_x, min_y, min_z))
         # print("max_x:{:.2f}, max_y:{:.2f}, max_z:{:.2f}".format(max_x, max_y, max_z))
-        return (min_x, min_y, min_z), (max_x, max_y, max_z)
+        return [min_x, min_y, min_z, max_x, max_y, max_z]
 
     # ----------------------------------------------------------------
     # Segbot Navigation
@@ -519,10 +502,8 @@ class Bestman:
         # Add obstacles to the map
         for obstacle_id in self.obstacle_navigation_ids:
             aabb = self.get_bounding_box(obstacle_id)
-            for i in range(int(aabb[0][0] / resolution), int(aabb[1][0] / resolution)):
-                for j in range(
-                    int(aabb[0][1] / resolution), int(aabb[1][1] / resolution)
-                ):
+            for i in range(int(aabb[0] / resolution), int(aabb[3] / resolution)):
+                for j in range(int(aabb[1] / resolution), int(aabb[4] / resolution)):
                     static_map[i][j] = 1
 
         # plt.imshow(static_map, cmap='gray_r')  # 'gray_r' means reversed grayscale
@@ -645,7 +626,7 @@ class Bestman:
         target_orientation = orientation
 
         result = self.check_collision_navigation()  # check if collision exists
-        # if not result:
+        # if result:
         #     assert "Collision detected during navigation, stopping..."
 
         p.resetBasePositionAndOrientation(
@@ -664,6 +645,40 @@ class Bestman:
         p.resetBasePositionAndOrientation(self.arm_id, position, orientation)
 
     """
+    This function checks if two bounding boxes collide.
+    Each box is defined as [min_x, min_y, min_z, max_x, max_y, max_z].
+        :param box1: bounding box of the first object.
+        :param box2: bounding box of the second object.
+        :return: True if they collide, False otherwise.
+    """
+
+    def check_collision_xyz(self, box1, box2):
+        # Check for collision along the x-axis
+        if box1[0] > box2[3] or box1[3] < box2[0]:
+            return False
+
+        # Check for collision along the y-axis
+        if box1[1] > box2[4] or box1[4] < box2[1]:
+            return False
+
+        # Check for collision along the z-axis
+        if box1[2] > box2[5] or box1[5] < box2[2]:
+            return False
+
+        return True
+
+    def check_collision_xy(self, box1, box2):
+        # Check for collision along the x-axis
+        if box1[0] > box2[3] or box1[3] < box2[0]:
+            return False
+
+        # Check for collision along the y-axis
+        if box1[1] > box2[4] or box1[4] < box2[1]:
+            return False
+
+        return True
+
+    """
     This function check if collision exists during navigation
     """
 
@@ -671,17 +686,11 @@ class Bestman:
         for obstacle_id in self.obstacle_navigation_ids:
             aabb_base = self.get_bounding_box(self.base_id)
             aabb_obstacle = self.get_bounding_box(obstacle_id)
-            if (
-                aabb_base[0][0] <= aabb_obstacle[1][0]
-                and aabb_base[1][0] >= aabb_obstacle[0][0]
-                and aabb_base[0][1] <= aabb_obstacle[1][1]
-                and aabb_base[1][1] >= aabb_obstacle[0][1]
-                and aabb_base[0][2] <= aabb_obstacle[1][2]
-                and aabb_base[1][2] >= aabb_obstacle[0][2]
-            ):
-                # print("Collision detected during navigation, stopping...")
-                return False
-        return True
+            if self.check_collision_xy(
+                aabb_base, aabb_obstacle
+            ):  # print("Collision detected during navigation, stopping...")
+                return True
+        return False
 
     # ----------------------------------------------------------------
     # Arm Manipulation
@@ -951,7 +960,7 @@ class Bestman:
     """
 
     def pick_place(self, object_id, object_goal_position, object_goal_orientation):
-        print('debug')
+        print("debug")
         # get target object position
         object_position_init, orientation = p.getBasePositionAndOrientation(object_id)
         target_position = [
@@ -1175,7 +1184,6 @@ class Bestman:
             # transfer the image to RGB from BGR
         rgb_img = cv2.cvtColor(rgb_img, cv2.COLOR_BGR2RGB)
         # save the image
-        # TODO: output video to pybullet GUI
         cv2.imwrite(file_output_path, rgb_img)
         return rgb_img
 
@@ -1202,7 +1210,7 @@ class Bestman:
         self.move_base_to_next_waypoint(goal_pose)
 
         result = self.check_collision_navigation()  # check if collision exists
-        if not result:
+        if result:
             print("Fail to move forward without collision.")
             return False
         print("Successfully moved forward without collision.")
@@ -1229,7 +1237,7 @@ class Bestman:
         self.rotate_base(new_yaw)
 
         result = self.check_collision_navigation()  # check if collision exists
-        if not result:
+        if result:
             print("Fail to rotate left without collision.")
             return False
         print("Successfully rotate left without collision.")
@@ -1256,7 +1264,7 @@ class Bestman:
         self.rotate_base(new_yaw)
 
         result = self.check_collision_navigation()  # check if collision exists
-        if not result:
+        if result:
             print("Fail to rotate right without collision.")
             return False
         print("Successfully rotate right without collision.")
@@ -1271,7 +1279,8 @@ class Bestman:
         # get target object position
         object_position_init, orientation = p.getBasePositionAndOrientation(object_id)
 
-        orientation = [0.0, math.pi / 2.0, 0.0]  # vertial downward grip
+        # orientation = [0.0, math.pi / 2.0, 0.0]  # vertial downward grip
+        orientation = [0.0, math.pi, 0.0]  # vertial downward grip
 
         target_position = [
             object_position_init[0],
@@ -1325,8 +1334,17 @@ class Bestman:
             print("-" * 20 + "\n" + "grasping is unsuccessful!")
             return False
 
+    def generate_point_within_area(
+        self, table_min_x, table_min_y, table_max_x, table_max_y
+    ):
+        max_dis = 2.5
+        radius = random.uniform(0, max_dis)
+        angle = random.uniform(0, 2 * math.pi)
+        chair_x = (table_max_x + table_min_x) / 2 + radius * math.cos(angle)
+        chair_y = (table_max_y + table_min_y) / 2 + radius * math.sin(angle)
+        return chair_x, chair_y
+
     def set_envs(self):
-        chair_size = 0.3
         # load table
         table_id = self.load_object(
             "./URDF_models/furniture_table_rectangle_high/table.urdf",
@@ -1335,154 +1353,102 @@ class Bestman:
             1.0,
             "table",
         )
-        
-        obstacle_boundary_list = []
-        
 
-        # define the boundary of base and arm
         base_boundary = self.get_bounding_box(self.base_id)
         arm_boundary = self.get_bounding_box(self.arm_id)
         table_boundary = self.get_bounding_box(table_id)
 
-        table_min_x, table_min_y, table_min_z = table_boundary[0]
-        table_max_x, table_max_y, table_max_z = table_boundary[1]
-
-        # transfer the list from shape (2, 3), to (6,)
-        base_boundary = sum(base_boundary, ())
-        arm_boundary = sum(arm_boundary, ())
-        table_boundary = sum(table_boundary, ())
-
+        obstacle_boundary_list = []  # store obstacles
         obstacle_boundary_list.append(base_boundary)
         obstacle_boundary_list.append(arm_boundary)
         obstacle_boundary_list.append(table_boundary)
 
         # generate random position for bowl within the table boundary
+        table_min_x, table_min_y, table_min_z = (
+            table_boundary[0],
+            table_boundary[1],
+            table_boundary[2],
+        )
+        table_max_x, table_max_y, table_max_z = (
+            table_boundary[3],
+            table_boundary[4],
+            table_boundary[5],
+        )
+        # print('debug: table_boundary:{}'.format(table_boundary))
+
         bowl_x = random.uniform(table_min_x, table_max_x)
         bowl_y = random.uniform(table_min_y, table_max_y)
-
-        # load bowl
         bowl_id = self.load_object(
-            "./URDF_models/utensil_bowl_red/model.urdf",
+            "./URDF_models/utensil_bowl_blue/model.urdf",
             [bowl_x, bowl_y, table_max_z + 0.05],  # bowl is on the table
             [0.0, 0.0, 0.0],
             1.0,
             "bowl",
         )
-        # TODO: the setting maynot right, need to check
-        # bowl_id = self.load_object(
-        #     "./URDF_models/utensil_bowl_red/model.urdf",
-        #     [0.6, 0.6, 0.85],
-        #     [0.0, 0.0, 0.0],
-        #     1.0,
-        #     "bowl",
-        # )
 
         # initialize chair_id list
         chair_ids = []
 
-        # number of chairs to be loaded, random between 2 and 3
-        num_chairs = random.randint(1, 3)
+        # number of chairs to be loaded, random between 1 and 3
+        num_chairs = random.randint(2, 3)
 
         for _ in range(num_chairs):
-            while True:
-                # generate random radius and angle
-                max_dis = 2.0
-                radius = random.uniform(
-                    0, max_dis
-                )  # assuming max_dis is the maximum distance from the table center
-                angle = random.uniform(0, 2 * math.pi)  # random angle
+            collision_flag = True
+            max_attempts = 200
 
-                # calculate chair position
-                # TODO: add 2 to avoid collision with the table
-                chair_x = (table_max_x + table_min_x) / 2 + radius * math.cos(angle) + 2
-                chair_y = (table_max_y + table_min_y) / 2 + radius * math.sin(angle) + 2
-
-                # TODO: the chair height is not considered here, set to 0.1 to 1.
+            for attempt in range(max_attempts):
+                chair_x, chair_y = self.generate_point_within_area(
+                    table_min_x, table_min_y, table_max_x, table_max_y
+                )
+                # print('chair_x:{}, chair_y:{}'.format(chair_x, chair_y))
+                chair_size = 0.3
                 chair_boundary = [
                     chair_x - chair_size,
                     chair_y - chair_size,
                     0.1,
                     chair_x + chair_size,
                     chair_y + chair_size,
-                    1,
+                    1.0,
                 ]
+
                 # if the chair position is collision with other obstacle, break the loop
-                collision_flag = False
-                for obstacle_boundary in obstacle_boundary_list:
-                    if check_collision_between_target_obstacle(
-                        chair_boundary, obstacle_boundary
-                    ):
-                        collision_flag = True
-                if collision_flag:
-                    break
-
-            chair_z = 0.1  # assuming the chair is on the floor
-
-            # add collision check before loading chair
-            while True:
-                # generate random angle for the chair
-                chair_angle = random.uniform(0, 2 * math.pi)
-
-                chair_id = self.load_object(
-                    "./URDF_models/furniture_chair/model.urdf",
-                    [chair_x, chair_y, chair_z],
-                    [math.pi / 2.0 * 3, 0.0, chair_angle],
-                    1.5,
-                    "chair",
+                collision_flag = any(
+                    self.check_collision_xy(chair_boundary, obstacle)
+                    for obstacle in obstacle_boundary_list
                 )
 
-                # TODO: comment not match the code
-                # if chair_id is None, meaning collision occurs, break the loop and generate new position
-                if chair_id is not None:
-                    # add chair to obstacle list when it add into scene
+                if not collision_flag:
+                    chair_angle = random.uniform(0, 2 * math.pi)
+                    chair_z = 0.1  # assuming the chair is on the floor
+                    chair_id = self.load_object(
+                        "./URDF_models/furniture_chair/model.urdf",
+                        [chair_x, chair_y, chair_z],
+                        [math.pi / 2.0 * 3, 0.0, chair_angle],
+                        1.5,
+                        "chair",
+                    )
                     obstacle_boundary_list.append(chair_boundary)
+                    chair_ids.append(chair_id)
                     break
 
-                # generate new position if collision occurs
-                chair_x = random.uniform(table_min_x, table_max_x)
-                chair_y = random.uniform(table_min_y, table_max_y)
-
-            chair_ids.append(chair_id)
+            if collision_flag and attempt == max_attempts - 1:
+                print("-" * 20 + "\n" + "Failed to place chair after maximum attempts!")
 
         # return IDs of all loaded objects
         return {"table": table_id, "bowl": bowl_id, "chairs": chair_ids}
 
 
-def check_collision_between_target_obstacle(target_boundary, obstacle_boundary):
-    """
-    Check if collision occurs between target and obstacle
-    boundary format : [min_x, min_y, min_z, max_x, max_y, max_z]
-    return True if there has collision, otherwise return False
-    """
-    # check if target is within obstacle boundary
-    if (
-        obstacle_boundary[0] <= target_boundary[0] <= obstacle_boundary[3]
-        and obstacle_boundary[1] <= target_boundary[1] <= obstacle_boundary[4]
-        and obstacle_boundary[2] <= target_boundary[2] <= obstacle_boundary[5]
-    ):
-        return True
-    # check if obstacle is within target boundary
-    if (
-        target_boundary[0] <= obstacle_boundary[0] <= target_boundary[3]
-        and target_boundary[1] <= obstacle_boundary[1] <= target_boundary[4]
-        and target_boundary[2] <= obstacle_boundary[2] <= target_boundary[5]
-    ):
-        return True
-    return False
-
-
-
 class PbOMPL:
     def __init__(self, robot_id, joint_idx, obstacles=[], planner="RRT", threshold=0.1):
         """
-         Initialize the OMPL.
-         
-         Args:
-            robot_id: ID of the robot to use.
-            joint_idx: Index of the joints to use in planning.
-            obstacles: List of obstacles to consider in the motion planning.
-            planner: The name of the motion planner algorithm to use.
-            threshold: The threshold value ONLY for repalnning. 
+        Initialize the OMPL.
+
+        Args:
+           robot_id: ID of the robot to use.
+           joint_idx: Index of the joints to use in planning.
+           obstacles: List of obstacles to consider in the motion planning.
+           planner: The name of the motion planner algorithm to use.
+           threshold: The threshold value ONLY for repalnning.
         """
         self.robot_id = robot_id
         self.threshold = threshold
@@ -1506,10 +1472,10 @@ class PbOMPL:
 
     def set_planner(self, planner):
         """
-         Set Planner to OMPL.
-         
-         Args:
-         	 planner: The planner to set to OMPL.
+        Set Planner to OMPL.
+
+        Args:
+                planner: The planner to set to OMPL.
         """
         try:
             self.pb_ompl_interface.set_planner(planner)
@@ -1518,10 +1484,10 @@ class PbOMPL:
 
     def set_target(self, target_id):
         """
-         Set the target to be used for the manipulation task. 
+        Set the target to be used for the manipulation task.
 
-         Args:
-         	 target_id: id of the target.
+        Args:
+                target_id: id of the target.
         """
         try:
             item_info = p.getBodyInfo(target_id)
@@ -1532,19 +1498,19 @@ class PbOMPL:
 
     def set_target_pos(self, target_pos):
         """
-         Set the position of the target. 
-         
-         Args:
-         	 target_pos: The position of the target.
+        Set the position of the target.
+
+        Args:
+                target_pos: The position of the target.
         """
         self.target_pos = target_pos
 
     def set_obstacles(self, obstacles):
         """
-         Set obstacles to OMPL.
-         
-         Args:
-         	 obstacles: List of obstacle.
+        Set obstacles to OMPL.
+
+        Args:
+                obstacles: List of obstacle.
         """
         for i in obstacles:
             try:
@@ -1555,10 +1521,10 @@ class PbOMPL:
 
     def add_obstacles(self, item_id):
         """
-         Add obstacle to list of obstacles. 
-         
-         Args:
-         	 item_id: id of the item to add.
+        Add obstacle to list of obstacles.
+
+        Args:
+                item_id: id of the item to add.
         """
         try:
             item_info = p.getBodyInfo(item_id)
@@ -1568,11 +1534,11 @@ class PbOMPL:
 
     def remove_obstacles(self, obstacle_id):
         """
-         Remove obstacle from the list of obstacles. 
-         This is useful for removing a specific obstacle from the list.
-         
-         Args:
-         	 obstacle_id: id of the obstacle to remove.
+        Remove obstacle from the list of obstacles.
+        This is useful for removing a specific obstacle from the list.
+
+        Args:
+                obstacle_id: id of the obstacle to remove.
         """
         try:
             self.obstacles = [obs for obs in self.obstacles if obs != obstacle_id]
@@ -1581,15 +1547,15 @@ class PbOMPL:
 
     def store_obstacles(self):
         """
-         Store obstacles in the OMPL interface. 
-         This is called after the user finished obstacles setting.
+        Store obstacles in the OMPL interface.
+        This is called after the user finished obstacles setting.
         """
         self.pb_ompl_interface.set_obstacles(self.obstacles)
 
     def check_obstacles(self):
         """
-         Check obstacles in the scene and print them to the console. 
-         This is a debugging function.
+        Check obstacles in the scene and print them to the console.
+        This is a debugging function.
         """
         if self.obstacles == []:
             print("Obstacle list is empty")
@@ -1602,14 +1568,14 @@ class PbOMPL:
 
     def get_scene_items(self, display=True):
         """
-         Get IDs of all items in the scene. 
-         This is a debugging function.
-         
-         Args:
-         	 display: If True ( default ) the ID will be displayed on the screen.
-         
-         Returns: 
-         	 A list of IDs of all items in the scene.
+        Get IDs of all items in the scene.
+        This is a debugging function.
+
+        Args:
+                display: If True ( default ) the ID will be displayed on the screen.
+
+        Returns:
+                A list of IDs of all items in the scene.
         """
         # Get the total number of items in the scene
         num_items = p.getNumBodies()
@@ -1628,15 +1594,15 @@ class PbOMPL:
 
     def add_scene_obstacles(self, display=False):
         """
-         Add obstacles to the scene. 
-         This is done by iterating over all items in the scene and adding them to the list of obstacles.
-         
-         Args:
-         	 display: If True the name and ID of the item will be displayed on the screen. 
-             Default is False. If False it will not be displayed.
-         
-         Returns: 
-         	 A list of IDs of all items in the obstacle list.
+        Add obstacles to the scene.
+        This is done by iterating over all items in the scene and adding them to the list of obstacles.
+
+        Args:
+                display: If True the name and ID of the item will be displayed on the screen.
+            Default is False. If False it will not be displayed.
+
+        Returns:
+                A list of IDs of all items in the obstacle list.
         """
         all_item_ids = self.get_scene_items(display=False)
         self.obstacles = []
@@ -1668,13 +1634,13 @@ class PbOMPL:
 
     def compute_distance(self, end_effector_link_index):
         """
-         Compute the distance between the end effector and the object.
-         
-         Args:
-         	 end_effector_link_index: index of the end effector link.
-         
-         Returns: 
-         	 distance: distance between the end - effector and the object.
+        Compute the distance between the end effector and the object.
+
+        Args:
+                end_effector_link_index: index of the end effector link.
+
+        Returns:
+                distance: distance between the end - effector and the object.
         """
         end_effector_pose = p.getLinkState(self.robot_id, end_effector_link_index)
 
@@ -1686,29 +1652,31 @@ class PbOMPL:
 
     def plan_grasp(self, start, goal):
         """
-         Plan grasp from start to goal. 
-         This is a wrapper around OMPL grasp planning algorithm.
-         
-         Args:
-         	 start: state to start planning from.
-         	 goal: state to go to after planning has been completed.
-         
-         Returns: 
-             res: response from ompl interface.
-         	 path: a list of robot state.
+        Plan grasp from start to goal.
+        This is a wrapper around OMPL grasp planning algorithm.
+
+        Args:
+                start: state to start planning from.
+                goal: state to go to after planning has been completed.
+
+        Returns:
+            res: response from ompl interface.
+                path: a list of robot state.
         """
         self.robot.set_state(start)
         res, path = self.pb_ompl_interface.plan(goal)
         return res, path
 
-    def move_end_effector_to_goal_position(self, start, goal, end_effector_link_index):  # TODO refactor
+    def move_end_effector_to_goal_position(
+        self, start, goal, end_effector_link_index
+    ):  # TODO refactor
         """
-         Move end effector to goal position in OMPL planned path.
-         
-         Args:
-         	 start: effective position of end effector. 
-         	 goal: effective position of goal.
-         	 end_effector_link_index: index of end effector.
+        Move end effector to goal position in OMPL planned path.
+
+        Args:
+                start: effective position of end effector.
+                goal: effective position of goal.
+                end_effector_link_index: index of end effector.
         """
         grasp_successful = False
 
@@ -1730,12 +1698,12 @@ class PbOMPL:
 
     def grasp_object(self, start, goal, end_effector_link_index):  # TODO refactor
         """
-         Plans an object from start to goal and attaches it to the robot.
-         
-         Args:
-         	 start: effective position of end effector. 
-         	 goal: effective position of goal.
-         	 end_effector_link_index: index of end effector.
+        Plans an object from start to goal and attaches it to the robot.
+
+        Args:
+                start: effective position of end effector.
+                goal: effective position of goal.
+                end_effector_link_index: index of end effector.
         """
         grasp_successful = False
         trial = 0
@@ -1772,11 +1740,11 @@ class PbOMPL:
 class UR5_2F85:
     def __init__(self, client_id, robot_id):
         """
-         Initializes the UR5 with Robotiq 2f85 gripper.
-         
-         Args:
-         	 client_id: Client ID of pybullet.
-         	 robot_id: The URDF object features a Robotiq 2f85 gripper.
+        Initializes the UR5 with Robotiq 2f85 gripper.
+
+        Args:
+                client_id: Client ID of pybullet.
+                robot_id: The URDF object features a Robotiq 2f85 gripper.
         """
         self._cid = client_id
         self.Rob2f85 = Robotiq2F85(self._cid, robotUID=robot_id)
@@ -1786,53 +1754,53 @@ class UR5_2F85:
 
     def set_gripper_max_force(self, max_force):
         """
-         Set gripper max force. 
-         
-         Args:
-         	 max_force: The max force of gripper motor control.
+        Set gripper max force.
+
+        Args:
+                max_force: The max force of gripper motor control.
         """
         self.Rob2f85.setMaxForce(max_force)
 
     def init_joints(self, init_pose):
         """
-         Initialize joints.
-         
-         Args:
-         	 init_pose: a list of two representing the gripper closing.
+        Initialize joints.
+
+        Args:
+                init_pose: a list of two representing the gripper closing.
         """
         r2f85 = init_pose
         self.Rob2f85.initJoints(r2f85)
 
     def close_gripper(self):
         """
-         Close gripper and go to 80%.
+        Close gripper and go to 80%.
         """
         self.set_gripper_goal(80, 80)
 
     def open_gripper(self):
         """
-         Opens gripper.
+        Opens gripper.
         """
         self.set_gripper_goal(0, 0)
 
     def get_tool_center_point(self):
         """
-         Get the index of tcp of gripper. 
-         
-         
-         Returns: 
-         	 end_effector_link_index: the index of the end effector joint.
+        Get the index of tcp of gripper.
+
+
+        Returns:
+                end_effector_link_index: the index of the end effector joint.
         """
         end_effector_link_index = self.get_joint_index_from_name("tool_center_point")
         return end_effector_link_index
 
     def get_end_effector_info(self):
         """
-         Get information about the end effector. 
-         
-         Returns: 
-         	end_effector_position: the end effector position in world coordinates.
-            end_effector_orientation: the end effector orientation in world coordinates.
+        Get information about the end effector.
+
+        Returns:
+               end_effector_position: the end effector position in world coordinates.
+           end_effector_orientation: the end effector orientation in world coordinates.
         """
         joint_info = p.getJointInfo(self.robot_id, self.end_effector_link_index)
         end_effector_name = joint_info[1].decode("utf-8")
@@ -1845,8 +1813,8 @@ class UR5_2F85:
 
     def build_joint_index_from_name_dict(self):
         """
-         Build joint index from name dictionary. 
-         This is used to find the names of joints.
+        Build joint index from name dictionary.
+        This is used to find the names of joints.
         """
         self.joints_names_dict = {}
         num_joints = p.getNumJoints(self.robot_id, self._cid)
@@ -1858,13 +1826,13 @@ class UR5_2F85:
 
     def get_joint_index_from_name(self, joint_name):
         """
-         Get joint index from name. 
-         
-         Args:
-         	 joint_name: name of the joint to find.
-         
-         Returns: 
-         	 joint_id: index of the joint to find.
+        Get joint index from name.
+
+        Args:
+                joint_name: name of the joint to find.
+
+        Returns:
+                joint_id: index of the joint to find.
         """
         try:
             # build joint index from name dictionary
@@ -1881,11 +1849,11 @@ class UR5_2F85:
 
     def set_gripper_goal(self, left_finger_goal, right_finger_goal):
         """
-         Set gripper goal in degrees. 
-         A percentage that specify how close each finger is (100 = Fully closed, 0 = Fully open).
-         
-         Args:
-         	 left_finger_goal: the amount of left finger closing.
-         	 right_finger_goal: the amount of right finger closing.
+        Set gripper goal in degrees.
+        A percentage that specify how close each finger is (100 = Fully closed, 0 = Fully open).
+
+        Args:
+                left_finger_goal: the amount of left finger closing.
+                right_finger_goal: the amount of right finger closing.
         """
         self.Rob2f85.setGoal(left_finger_goal, right_finger_goal)

@@ -1,0 +1,6 @@
+README.md
+setup_URDF_models.py
+URDF_models.egg-info/PKG-INFO
+URDF_models.egg-info/SOURCES.txt
+URDF_models.egg-info/dependency_links.txt
+URDF_models.egg-info/top_level.txt

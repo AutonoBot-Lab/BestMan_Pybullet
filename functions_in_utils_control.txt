@@ -1,4 +1,13 @@
 # ----------------------------------------------------------------
+# Class
+# ----------------------------------------------------------------
+class PIDController:
+class Pose:
+class Bestman:
+class PbOMPL:
+class UR5_2F85:
+
+# ----------------------------------------------------------------
 # Visualization functions
 # ----------------------------------------------------------------
 def start_record(self, fileName):
@@ -37,6 +46,8 @@ def find_base_path(self, init_base_position, goal_base_position):
 def move_base_to_next_waypoint(self, next_waypoint):
 def rotate_base(self, yaw):
 def sync_base_arm_pose(self):
+def check_collision_xyz(self, box1, box2):
+def check_collision_xy(self, box1, box2):
 def check_collision_navigation(self):
 
 # ----------------------------------------------------------------
@@ -67,4 +78,5 @@ def rotate_left(self, degree=30):
 def rotate_right(self, degree=30):
 def stop(self):
 def grasp(self, object_id):
+def generate_point_within_area(self, table_min_x, table_min_y, table_max_x, table_max_y):
 def set_envs(self):

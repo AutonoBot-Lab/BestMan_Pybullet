@@ -37,8 +37,11 @@ demo.get_arm_joint_info()
 
 # manipulate ur5e
 demo.pick_place(
-    4, [0.9, 0.7, 0.85], [0.0, math.pi / 2.0, 0.0]
+    4, [0.9, 0.7, 0.85], [0.0, math.pi, 0.0] # ur5e_vacuum.urdf
 )  # vcertical downward grip
+# demo.pick_place(
+#     4, [0.9, 0.7, 0.85], [0.0, math.pi / 2.0, 0.0] # ur5e.urdf
+# )  # vcertical downward grip
 # demo.grasp(4)  # vcertical downward grip
 demo.wait(20)
 

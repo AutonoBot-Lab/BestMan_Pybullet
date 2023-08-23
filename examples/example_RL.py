@@ -23,11 +23,13 @@ table_id = demo.load_object(
 
 # # load bowl
 # bowl_id = demo.load_object(
-#     "./URDF_models/utensil_bowl_red/model.urdf", [0.6, 0.6, 0.85], [0.0, 0.0, 0.0], 1.0, "bowl"
+#     "./URDF_models/utensil_bowl_blue/model.urdf", [0.6, 0.6, 0.85], [0.0, 0.0, 0.0], 1.0, "bowl"
 # )
 
 object_ids = demo.set_envs()
-print(demo.obstacle_navigation_ids)
+table_id = object_ids["table"]
+bowl_id = object_ids["bowl"]
+chair_ids = object_ids["chairs"]
 
 # # navigate and manipulate robot
 demo.forward()
