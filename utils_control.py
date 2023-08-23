@@ -441,10 +441,6 @@ class Bestman:
     # ----------------------------------------------------------------
     # Get info from environment
     # ----------------------------------------------------------------
-    def getBasePositionAndOrientation(self, object_id):
-        objectPos, objectOri = p.getBasePositionAndOrientation(object_id)
-        return objectPos, objectOri
-
     def generate_point_within_area(self, min_x, min_y, max_x, max_y):
         x = random.uniform(min_x, max_x)
         y = random.uniform(min_y, max_y)
