@@ -1524,6 +1524,7 @@ class Bestman:
                 print("-" * 20 + "\n" + "Failed to place chair after maximum attempts!")
 
         # return IDs of all loaded objects
+        self.run(100)
         return {"table": table_id, "bowl": bowl_id, "chairs": chair_ids}
 
 
