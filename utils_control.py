@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import random
 import sys
 import os
+from matplotlib.colors import LinearSegmentedColormap
 
 """
 PID controller
@@ -176,8 +177,76 @@ class Bestman:
     # Visualization functions
     # ----------------------------------------------------------------
     """
-    This function is to enable and disable recording.
+    This function crops a given image around a specified center point and returns the cropped portion. The resulting cropped image will be a square with the provided size. If the cropping dimensions exceed the original image boundaries, the function ensures it stays within the original image's dimensions to prevent out-of-bounds access.
 
+    Args:
+        image (np.array): The original image to be cropped. It is assumed to be a two-dimensional array, representing pixel values.
+        center (tuple): A tuple (x, y) specifying the center point around which the image will be cropped.
+        size (int): The side length of the resulting square cropped image.
+
+    Returns:
+        np.array: A cropped portion of the original image centered around the specified center point and with the given size.
+    """
+
+    def crop_image(self, image, center, size):
+        image_height, image_width = image.shape
+        top = max(0, int(center[1] - size / 2))
+        bottom = min(image_height, int(center[1] + size / 2))
+        left = max(0, int(center[0] - size / 2))
+        right = min(image_width, int(center[0] + size / 2))
+        return image[top:bottom, left:right]
+
+    """
+    This function captures and returns a cropped depth image from the PyBullet simulation. It positions the camera based on specified positions and orientations, captures the scene, extracts the depth information, and then crops the depth image around its center. Depth images are representations where pixel values indicate distances to the objects from the camera's perspective. Such images are valuable in robotics and computer vision applications for understanding the spatial relationships and distances between objects in a scene.
+    Args:
+        basePos (tuple): The target or base position in the scene towards which the camera is oriented. Typically, this could be the position of an object of interest, like a table.
+        cameraPos (tuple): The position coordinates (x, y, z) where the camera is placed in the simulation environment.
+        cameraUp (tuple): The upward direction vector of the camera, which determines the camera's orientation. For instance, (0, 1, 0) would point the camera's upward direction along the positive y-axis.
+
+    Returns:
+        np.array: A cropped depth image centered around the midpoint of the captured image, providing depth (distance) information from the camera's perspective.
+    """
+
+    def get_depth_image(self, basePos, cameraPos, cameraUp, enable_show=False, enable_save = False):
+        viewMatrix = p.computeViewMatrix(cameraPos, basePos, cameraUp)
+        projectionMatrix = p.computeProjectionMatrixFOV(
+            fov=60, aspect=1.0, nearVal=0.01, farVal=100.0
+        )
+
+        img_arr = p.getCameraImage(
+            640, 480, viewMatrix, projectionMatrix, shadow=1, lightDirection=[1, 1, 1]
+        )
+        depth_buffer = img_arr[3]  # depth buffer
+        near = 0.01  # Near plane distance
+        far = 100  # Far plane distance
+        depth = far * near / (far - (far - near) * depth_buffer)
+        # personalized colormap
+        cdict = {
+            "red": [[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]],
+            "green": [[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]],
+            "blue": [[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]],
+        }
+        custom_cmap = LinearSegmentedColormap("custom_cmap", cdict)
+        image_point = [320, 240]
+
+        crop_size = 200
+        depth_image = self.crop_image(depth, image_point, crop_size)
+
+        print("depth size:{} * {}".format(len(depth_image), len(depth_image[0])))
+        print("image_point:{}".format(image_point))
+
+        if enable_show:
+            plt.imshow(depth_image, cmap=custom_cmap)
+            plt.colorbar()
+            plt.show()
+        
+        if enable_save:
+            plt.imsave('depth_image.png', depth_image, cmap=custom_cmap)
+
+        return depth_image
+
+    """
+    This function is to enable and disable recording.
     """
 
     def start_record(self, fileName):
@@ -372,6 +441,42 @@ class Bestman:
     # ----------------------------------------------------------------
     # Get info from environment
     # ----------------------------------------------------------------
+    def getBasePositionAndOrientation(self, object_id):
+        objectPos, objectOri = p.getBasePositionAndOrientation(object_id)
+        return objectPos, objectOri
+
+    def generate_point_within_area(self, min_x, min_y, max_x, max_y):
+        x = random.uniform(min_x, max_x)
+        y = random.uniform(min_y, max_y)
+        return x, y
+
+    def generate_point_within_area_with_fixed_z(
+        self, min_x, min_y, max_x, max_y, fixed_z
+    ):
+        x = random.uniform(min_x, max_x)
+        y = random.uniform(min_y, max_y)
+        return x, y, fixed_z
+
+    def generate_point_outside_area(self, min_x, min_y, max_x, max_y):
+        range_x_min = -5
+        range_x_max = 5
+        range_y_min = -5
+        range_y_max = 5
+
+        regions = [
+            (range_x_min, range_y_min, min_x, range_y_max),  # Left of table
+            (max_x, range_y_min, range_x_max, range_y_max),  # Right of table
+            (range_x_min, range_y_min, range_x_max, min_y),  # Below table
+            (range_x_min, max_y, range_x_max, range_y_max),  # Above table
+        ]
+
+        # Randomly choose a region
+        chosen_region = random.choice(regions)
+
+        x = random.uniform(chosen_region[0], chosen_region[2])
+        y = random.uniform(chosen_region[1], chosen_region[3])
+
+        return x, y
 
     """
     This function retrieves the bounding box for a given object in the PyBullet simulation environment. 
@@ -432,7 +537,7 @@ class Bestman:
             return False
 
         return True
-        
+
     # ----------------------------------------------------------------
     # Segbot Navigation
     # ----------------------------------------------------------------
@@ -1334,16 +1439,6 @@ class Bestman:
             print("-" * 20 + "\n" + "grasping is unsuccessful!")
             return False
 
-    def generate_point_within_area(
-        self, table_min_x, table_min_y, table_max_x, table_max_y
-    ):
-        max_dis = 2.5
-        radius = random.uniform(0, max_dis)
-        angle = random.uniform(0, 2 * math.pi)
-        chair_x = (table_max_x + table_min_x) / 2 + radius * math.cos(angle)
-        chair_y = (table_max_y + table_min_y) / 2 + radius * math.sin(angle)
-        return chair_x, chair_y
-
     def set_envs(self):
         # load table
         table_id = self.load_object(
@@ -1364,12 +1459,10 @@ class Bestman:
         obstacle_boundary_list.append(table_boundary)
 
         # generate random position for bowl within the table boundary
-        table_min_x, table_min_y, table_min_z = (
+        table_min_x, table_min_y, table_min_z, table_max_x, table_max_y, table_max_z = (
             table_boundary[0],
             table_boundary[1],
             table_boundary[2],
-        )
-        table_max_x, table_max_y, table_max_z = (
             table_boundary[3],
             table_boundary[4],
             table_boundary[5],
@@ -1397,7 +1490,7 @@ class Bestman:
             max_attempts = 200
 
             for attempt in range(max_attempts):
-                chair_x, chair_y = self.generate_point_within_area(
+                chair_x, chair_y = self.generate_point_outside_area(
                     table_min_x, table_min_y, table_max_x, table_max_y
                 )
                 # print('chair_x:{}, chair_y:{}'.format(chair_x, chair_y))

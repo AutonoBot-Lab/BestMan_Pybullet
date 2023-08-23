@@ -36,6 +36,8 @@ def load_object(self, model_path, object_position, object_orientation, obj_name)
 def get_bounding_box(self, object_id):
 def check_collision_xyz(self, box1, box2):
 def check_collision_xy(self, box1, box2):
+def generate_point_within_area(self, min_x, min_y, max_x, max_y):
+def generate_point_outside_area(self, min_x, min_y, max_x, max_y):
 
 # ----------------------------------------------------------------
 # Segbot Navigation
@@ -78,5 +80,4 @@ def rotate_left(self, degree=30):
 def rotate_right(self, degree=30):
 def stop(self):
 def grasp(self, object_id):
-def generate_point_within_area(self, table_min_x, table_min_y, table_max_x, table_max_y):
 def set_envs(self):
