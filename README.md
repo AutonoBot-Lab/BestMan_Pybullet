@@ -1,6 +1,6 @@
 ## The code is a Pybullet simulator database for BestMan robot. The BestMan robot consists of a base (Segbot) and an arm (Ur5e).
 
-<img src="./image/bestman.png" alt="bestman" width="600" height="600">
+<img src="./image/bestman.png" alt="bestman" width="300" height="300">
 
 Step 0: Download the repo
 
