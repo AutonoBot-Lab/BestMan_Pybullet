@@ -143,7 +143,7 @@ class Bestman:
         # Initialize arm
         self.arm_id = p.loadURDF(
             # fileName="./URDF_robot/ur5e.urdf",
-            # fileName="./URDF_robot/ur5e_2f85.urdf",  # TODO CHECK
+            # fileName="./URDF_robot/ur5e_2f85.urdf",
             fileName="./URDF_robot/ur5e_vacuum.urdf",
             basePosition=init_pos.position,
             baseOrientation=p.getQuaternionFromEuler([0.0, 0.0, math.pi / 2.0]),
@@ -363,7 +363,6 @@ class Bestman:
             + "\n"
             + "{}_id: {}".format(obj_name, getattr(self, f"{obj_name}_id"))
         )
-        # TODO: can decompose this part out of bestman class to make it more general? make to an env build class?
         self.obstacle_navigation_ids.append(getattr(self, f"{obj_name}_id"))
         self.obstacle_manipulation_ids.append(getattr(self, f"{obj_name}_id"))
         time.sleep(1.0 / self.frequency)
@@ -432,7 +431,7 @@ class Bestman:
             return False
 
         return True
-        
+
     # ----------------------------------------------------------------
     # Segbot Navigation
     # ----------------------------------------------------------------

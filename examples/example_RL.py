@@ -31,6 +31,8 @@ table_id = object_ids["table"]
 bowl_id = object_ids["bowl"]
 chair_ids = object_ids["chairs"]
 
+demo.run(240)
+
 # # navigate and manipulate robot
 demo.forward()
 demo.forward()
