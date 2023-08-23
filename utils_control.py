@@ -399,6 +399,40 @@ class Bestman:
         # print("max_x:{:.2f}, max_y:{:.2f}, max_z:{:.2f}".format(max_x, max_y, max_z))
         return [min_x, min_y, min_z, max_x, max_y, max_z]
 
+    """
+    This function checks if two bounding boxes collide.
+    Each box is defined as [min_x, min_y, min_z, max_x, max_y, max_z].
+        :param box1: bounding box of the first object.
+        :param box2: bounding box of the second object.
+        :return: True if they collide, False otherwise.
+    """
+
+    def check_collision_xyz(self, box1, box2):
+        # Check for collision along the x-axis
+        if box1[0] > box2[3] or box1[3] < box2[0]:
+            return False
+
+        # Check for collision along the y-axis
+        if box1[1] > box2[4] or box1[4] < box2[1]:
+            return False
+
+        # Check for collision along the z-axis
+        if box1[2] > box2[5] or box1[5] < box2[2]:
+            return False
+
+        return True
+
+    def check_collision_xy(self, box1, box2):
+        # Check for collision along the x-axis
+        if box1[0] > box2[3] or box1[3] < box2[0]:
+            return False
+
+        # Check for collision along the y-axis
+        if box1[1] > box2[4] or box1[4] < box2[1]:
+            return False
+
+        return True
+        
     # ----------------------------------------------------------------
     # Segbot Navigation
     # ----------------------------------------------------------------
@@ -643,40 +677,6 @@ class Bestman:
         position, orientation = p.getBasePositionAndOrientation(self.base_id)
         position = [position[0], position[1], 1.02]  # fixed height
         p.resetBasePositionAndOrientation(self.arm_id, position, orientation)
-
-    """
-    This function checks if two bounding boxes collide.
-    Each box is defined as [min_x, min_y, min_z, max_x, max_y, max_z].
-        :param box1: bounding box of the first object.
-        :param box2: bounding box of the second object.
-        :return: True if they collide, False otherwise.
-    """
-
-    def check_collision_xyz(self, box1, box2):
-        # Check for collision along the x-axis
-        if box1[0] > box2[3] or box1[3] < box2[0]:
-            return False
-
-        # Check for collision along the y-axis
-        if box1[1] > box2[4] or box1[4] < box2[1]:
-            return False
-
-        # Check for collision along the z-axis
-        if box1[2] > box2[5] or box1[5] < box2[2]:
-            return False
-
-        return True
-
-    def check_collision_xy(self, box1, box2):
-        # Check for collision along the x-axis
-        if box1[0] > box2[3] or box1[3] < box2[0]:
-            return False
-
-        # Check for collision along the y-axis
-        if box1[1] > box2[4] or box1[4] < box2[1]:
-            return False
-
-        return True
 
     """
     This function check if collision exists during navigation
