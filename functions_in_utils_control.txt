@@ -1,47 +1,5 @@
 # ----------------------------------------------------------------
-# Class
-# ----------------------------------------------------------------
-class PIDController:
-class Pose:
-class PbClient:
-class Bestman:
-class PbOMPL:
-class UR5_2F85:
-
-# ----------------------------------------------------------------
-# Visualization functions
-# ----------------------------------------------------------------
-def start_record(self, fileName):
-def end_record(self, logId):
-def draw_aabb(self, object_id):
-def set_visual_shape(self):
-def visualize_path(self, path):
-def enable_vertical_view(self, height, position):
-def draw_line(self, start_pos, target_pos, color=[1, 0, 0], width=3.0):
-
-# ----------------------------------------------------------------
-# Other functions
-# ----------------------------------------------------------------
-def disconnect_pybullet(self):
-def wait(self, x):
-def run(self, x):
-
-# ----------------------------------------------------------------
-# Add object functions
-# ----------------------------------------------------------------
-def load_object(self, model_path, object_position, object_orientation, obj_name):
-
-# ----------------------------------------------------------------
-# Get info from environment
-# ----------------------------------------------------------------
-def get_bounding_box(self, object_id):
-def check_collision_xyz(self, box1, box2):
-def check_collision_xy(self, box1, box2):
-def generate_point_within_area(self, min_x, min_y, max_x, max_y):
-def generate_point_outside_area(self, min_x, min_y, max_x, max_y):
-
-# ----------------------------------------------------------------
-# Segbot Navigation
+# # # # # utils_Bestman.py - Base # # # # #
 # ----------------------------------------------------------------
 def get_base_joint_info(self):
 def get_link_names(self):
@@ -54,7 +12,7 @@ def sync_base_arm_pose(self):
 def check_collision_navigation(self):
 
 # ----------------------------------------------------------------
-# Arm Manipulation
+# # # # # utils_Bestman.py - Arm # # # # #
 # ----------------------------------------------------------------
 def get_arm_joint_info(self):
 def get_arm_joint_angle(self):
@@ -69,7 +27,7 @@ def pick_place(self, object_id, object_goal_position, object_goal_orientation):
 def calculate_IK_error(self, object_goal_position, object_goal_orientation):
 
 # ----------------------------------------------------------------
-# For RL algorithm
+# # # # # utils_Bestman.py - RL # # # # #
 # ----------------------------------------------------------------
 def reset_pos(self, seed=None, pos=None):
 def get_current_pos(self):
@@ -82,3 +40,38 @@ def rotate_right(self, degree=30):
 def stop(self):
 def grasp(self, object_id):
 def set_envs(self):
+
+# ----------------------------------------------------------------
+# # # # # utils_Kitchen.py # # # # # 
+# ----------------------------------------------------------------
+def open_drawer(self, elementName, drawer_id):
+def close_drawer(self, elementName, drawer_id):
+
+# ----------------------------------------------------------------
+# # # # # utils_PbClient.py # # # # # 
+# ----------------------------------------------------------------
+def get_client(self):
+def disconnect_pybullet(self):
+def wait(self, x):
+def run(self, x):
+def enable_vertical_view(self, height, position):
+def start_record(self, fileName):
+def end_record(self, logId):
+def load_object(self, model_path, object_position, object_orientation, obj_name):
+def generate_point_within_area(self, min_x, min_y, max_x, max_y):
+def generate_point_within_area_with_fixed_z(self, min_x, min_y, max_x, max_y, fixed_z)
+def generate_point_outside_area(self, min_x, min_y, max_x, max_y):
+def get_bounding_box(self, object_id):
+def check_collision_xyz(self, box1, box2):
+def check_collision_xy(self, box1, box2):
+
+# ----------------------------------------------------------------
+# # # # # utils_PbVisualizer.py # # # # # 
+# ----------------------------------------------------------------
+def crop_image(self, image, center, size):
+def get_depth_image(self, basePos, cameraPos, cameraUp, enable_show=False, enable_save=False)
+def draw_aabb(self, object_id):
+def set_visual_shape(self):
+def visualize_path(self, path):
+def enable_vertical_view(self, height, position):
+def draw_line(self, start_pos, target_pos, color=[1, 0, 0], width=3.0):

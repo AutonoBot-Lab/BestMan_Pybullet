@@ -11,6 +11,8 @@ import sys
 import os
 from matplotlib.colors import LinearSegmentedColormap
 
+from utils.robotiq_2f85 import Robotiq2F85
+import utils.pb_ompl
 
 class PbOMPL:
     def __init__(self, robot_id, joint_idx, obstacles=[], planner="RRT", threshold=0.1):
@@ -26,9 +28,9 @@ class PbOMPL:
         """
         self.robot_id = robot_id
         self.threshold = threshold
-        self.robot = pb_ompl.PbOMPLRobot(robot_id, joint_idx=joint_idx)
+        self.robot = utils.pb_ompl.PbOMPLRobot(robot_id, joint_idx=joint_idx)
         self.obstacles = obstacles if obstacles is not None else []
-        self.pb_ompl_interface = pb_ompl.PbOMPL(self.robot, self.obstacles)
+        self.pb_ompl_interface = utils.pb_ompl.PbOMPL(self.robot, self.obstacles)
         self.set_planner(planner)
 
         item_info = p.getBodyInfo(self.robot_id)

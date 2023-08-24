@@ -29,7 +29,7 @@ class PbClient:
         p.loadURDF("plane.urdf")
         
         # parameters for base
-        self.frequency = 240  # simulation step for base and arm
+        self.frequency = 240 * 2  # simulation step for base and arm
         self.timeout = 100.0  # maximum time for planning
 
         # Obstacles in the environment
@@ -60,11 +60,11 @@ class PbClient:
     #     height: The distance of the camera from the target point. This determines how far the camera is placed from the position (0, 0, 0). This value effectively becomes the "height" of the camera, providing a vertical overview.
     # """
 
-    def enable_vertical_view(self, height, position):
+    def enable_vertical_view(self, height, position, yaw=0, pitch=-89.9):
         p.resetDebugVisualizerCamera(
             cameraDistance=height,
-            cameraYaw=0,
-            cameraPitch=-89.9,
+            cameraYaw=yaw,
+            cameraPitch=pitch,
             cameraTargetPosition=[0, 0, 0],
             physicsClientId=self.client_id,
         )

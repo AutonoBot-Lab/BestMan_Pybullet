@@ -10,9 +10,10 @@ import random
 import sys
 import os
 from matplotlib.colors import LinearSegmentedColormap
-from utils_PIDController import PIDController
-from utils_PbVisualizer import PbVisualizer
-from utils_PbClient import PbClient
+
+from utils.utils_PbVisualizer import PbVisualizer
+from utils.utils_PbClient import PbClient
+from utils.utils_PIDController import PIDController
 
 """
 Pose definition
@@ -63,7 +64,7 @@ class Bestman:
         self.frequency = 240  # simulation step for base and arm
         self.timeout = 100.0  # maximum time for planning
         # parameters for arm
-        self.end_effector_index = 8
+        self.end_effector_index = 6
         self.max_force = 500
         self.max_iterations = 10000
         self.residual_threshold = 0.01
@@ -84,9 +85,9 @@ class Bestman:
 
         # Initialize arm
         self.arm_id = p.loadURDF(
-            # fileName="./URDF_robot/ur5e.urdf",
+            fileName="./URDF_robot/ur5e.urdf",
             # fileName="./URDF_robot/ur5e_2f85.urdf",
-            fileName="./URDF_robot/ur5e_vacuum.urdf",
+            # fileName="./URDF_robot/ur5e_vacuum.urdf",
             basePosition=init_pos.position,
             baseOrientation=p.getQuaternionFromEuler([0.0, 0.0, math.pi / 2.0]),
             useFixedBase=True,
@@ -349,7 +350,7 @@ class Bestman:
             self.base_id, target_position, target_orientation, physicsClientId=self.client_id
         )
         self.sync_base_arm_pose()
-        time.sleep(1.0 / self.frequency)
+        # time.sleep(1.0 / self.frequency)
 
     """
     This function synchronizes the pose (position and orientation) of the robot's arm with its base.
@@ -489,6 +490,7 @@ class Bestman:
         # print("-" * 20 + "\n" + "End effector name:{}".format(end_effector_name))
         # print("Its position:{}".format(end_effector_position))
         # print("Its orientation:{}".format(end_effector_orientation))
+        return end_effector_position, end_effector_orientation
 
     def joints_to_cartesian(self, joint_angles):
         self.set_arm_to_joint_angles(joint_angles)
@@ -512,7 +514,21 @@ class Bestman:
             residualThreshold=self.residual_threshold,
             physicsClientId=self.client_id
         )
+        # return joint_angles
         return joint_angles
+    
+    def cartesian_to_joints_without_gripper(self, position, orientation):
+        joint_angles = p.calculateInverseKinematics( 
+            bodyUniqueId=self.arm_id,
+            endEffectorLinkIndex=self.end_effector_index,
+            targetPosition=position,
+            targetOrientation=p.getQuaternionFromEuler(orientation),
+            maxNumIterations=self.max_iterations,
+            residualThreshold=self.residual_threshold,
+            physicsClientId=self.client_id
+        )
+        # return joint_angles
+        return joint_angles[0:5]  # TODO with grippers joint_angles changed
 
     """
     This function rotates the end effector of the robot arm by a specified angle.
@@ -561,7 +577,7 @@ class Bestman:
         end_effector_goal_pose (Pose): The desired pose of the end effector (includes both position and orientation). 
     """
 
-    def move_end_effector_to_goal_position(self, end_effector_goal_pose):
+    def move_end_effector_to_goal_position_without_OMPL(self, end_effector_goal_pose):
         # get current end effector position
         state = p.getLinkState(
             bodyUniqueId=self.arm_id, linkIndex=self.end_effector_index, physicsClientId=self.client_id
@@ -697,7 +713,7 @@ class Bestman:
                 ]  # drop object
                 gripper_value = gripper_status["ungrasp"]
 
-            self.move_end_effector_to_goal_position(
+            self.move_end_effector_to_goal_position_without_OMPL(
                 Pose(target_position, object_goal_orientation)
             )
 
@@ -989,7 +1005,7 @@ class Bestman:
                 ]  # grab object
                 gripper_value = gripper_status["grasp"]
 
-            result = self.move_end_effector_to_goal_position(
+            result = self.move_end_effector_to_goal_position_without_OMPL(
                 Pose(target_position, orientation)
             )
             if not result:
