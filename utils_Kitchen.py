@@ -11,7 +11,6 @@ import random
 Add kitchen
 """
 
-
 class Kitchen:
     def __init__(self):
         # ----------------------------------------------------------------

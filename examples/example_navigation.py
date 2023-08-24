@@ -1,18 +1,18 @@
-from utils_control import Bestman, Pose
-from utils_envs import Kitchen
+from utils_Bestman import Bestman, Pose
+from utils_PbClient import PbClient
+from utils_PbVisualizer import PbVisualizer
+from utils_Kitchen import Kitchen
 import math
 
-# load robot
-init_pose = Pose([1.0, 0.0, 0.0], [0.0, 0.0, math.pi / 2])
-demo = Bestman(init_pose)
-demo.enable_vertical_view(4.0, [1.0, 1.0, 0])
+# load cleint
+pb_client = PbClient(enable_GUI=True)
+pb_client.enable_vertical_view(4.0, [1.0, 1.0, 0])
 
-# reset arm joint position
-pose1 = [0, -1.57, 2.0, -1.57, -1.57, 0]
-demo.move_arm_to_joint_angles(pose1)
+# load visualizer
+pb_visualizer = PbVisualizer(pb_client)
 
-# load table
-table_id = demo.load_object(
+# load table, bowl, and chair
+table_id = pb_client.load_object(
     "./URDF_models/furniture_table_rectangle_high/table.urdf",
     [1.0, 1.0, 0.0],
     [0.0, 0.0, 0.0],
@@ -20,8 +20,7 @@ table_id = demo.load_object(
     "table",
 )
 
-# load bowl
-bowl_id = demo.load_object(
+bowl_id = pb_client.load_object(
     "./URDF_models/utensil_bowl_blue/model.urdf", 
     [0.6, 0.6, 0.85], 
     [0.0, 0.0, 0.0], 
@@ -29,8 +28,7 @@ bowl_id = demo.load_object(
     "bowl"
 )
 
-# load chair
-chair_id = demo.load_object(
+chair_id = pb_client.load_object(
     "./URDF_models/furniture_chair/model.urdf",
     [-0.3, 0.8, 0.1],
     [math.pi / 2.0 * 3, 0.0, math.pi / 2.0],
@@ -38,23 +36,36 @@ chair_id = demo.load_object(
     "chair"
 )
 
-# print("obstacles in the environment: {}".format(demo.obstacle_navigation_ids))
-# demo.draw_aabb(table_id)
-# demo.wait(10)
+# obstacles in the navigation
+print("obstacles in the environment: {}".format(pb_client.obstacle_navigation_ids))
 
 # get bounding box of objects
-aabb_table = demo.get_bounding_box(table_id)
-# print('-' * 20 + '\n' + 'aabb_table:{}'.format(aabb_table))
+aabb_table = pb_client.get_bounding_box(table_id)
+print('-' * 20 + '\n' + 'aabb_table:{}'.format(aabb_table))
+pb_visualizer.draw_aabb(table_id)
+
+# load robot
+init_pose = Pose([1.0, 0.0, 0.0], [0.0, 0.0, math.pi / 2])
+demo = Bestman(init_pose, pb_client)
+
+# reset arm joint position
+pose1 = [0, -1.57, 2.0, -1.57, -1.57, 0]
+demo.move_arm_to_joint_angles(pose1)
 
 # get info about base
 demo.get_base_joint_info()
 
-target_position = [2.0, 1.0, 0]
 # plot line connecting init and goal positions
-demo.draw_line([1.0, 0.0, 0.0], target_position)
+target_position = [2.0, 1.0, 0]
+pb_visualizer.draw_line([1.0, 0.0, 0.0], target_position)
 
 # navigate segbot
 demo.navigate_base(Pose(target_position, [0.0, 0.0, math.pi/2.0]))
 
 # check result
 demo.get_base_joint_info()
+
+
+pb_client.wait(20)
+
+pb_client.disconnect_pybullet()

@@ -9,62 +9,14 @@ import matplotlib.pyplot as plt
 import random
 import sys
 import os
-
-"""
-PID controller
-"""
-
-
-class PIDController:
-    def __init__(self, Kp, Ki, Kd, setpoint):
-        """
-        Initialize the PID controller with the given parameters. It is assumed
-        that the setpoint is a function of the PID controller and that the
-        parameters are in the form of numpy arrays.
-        Args:
-            Kp: The parameter matrix for the Poisson process.
-            Ki: The parameter matrix for the Integral process.
-            Kd: The parameter matrix for the Dirichlet process.
-            setpoint: The target value for the PID controller.
-        """
-        # Initialize the PID controller with the given parameters
-        self.Kp = Kp
-        self.Ki = Ki
-        self.Kd = Kd
-        self.setpoint = setpoint
-
-        # Initialize the variables used in the PID algorithm
-        self.last_error = 0
-        self.integral = 0
-
-    def calculate(self, process_value):
-        """
-        Calculate the PID for a given process value.
-        Args: process_value: The value of the process to be controlled.
-        Returns: The output of the PID controller.
-        """
-        # Calculate the error, integral and derivative terms
-        error = self.setpoint - process_value
-        self.integral += error
-        derivative = error - self.last_error
-        # Calculate the PID output
-        output = self.Kp * error + self.Ki * self.integral + self.Kd * derivative
-        # Update the variables
-        self.last_error = error
-        return output
-
-    def set_goal(self, setpoint):
-        """
-        Set the goal that will be used for this step.
-        Args: setpoint: The Goal to be reached.
-        """
-        self.setpoint = setpoint
-
+from matplotlib.colors import LinearSegmentedColormap
+from utils_PIDController import PIDController
+from utils_PbVisualizer import PbVisualizer
+from utils_PbClient import PbClient
 
 """
 Pose definition
 """
-
 
 class Pose:
     # [x, y, z]: a point in a Cartesian coordinate system
@@ -104,18 +56,9 @@ Joint:6 and its name is: 'ee_fixed_joint'
 
 
 class Bestman:
-    def __init__(self, init_pos):
-        # constant parameters
-        self.client = p.connect(p.GUI)  # p.GUI or p.DIRECT
-        # p.configureDebugVisualizer(p.COV_ENABLE_GUI, 0)
-        p.setAdditionalSearchPath(pybullet_data.getDataPath())
-        p.setGravity(0, 0, -9.8)
-        p.setPhysicsEngineParameter(
-            numSolverIterations=1000
-        )  # Set the number of constraint solver iterations; Higher values increase precision but also increase computation time
-        self.plane_id = p.loadURDF("plane.urdf")
-        # other parameters
-        self.line_visual = None  # for plotting
+    def __init__(self, init_pos, pb_client):
+        self.pb_client = pb_client
+        self.client_id = self.pb_client.get_client()
         # parameters for base
         self.frequency = 240  # simulation step for base and arm
         self.timeout = 100.0  # maximum time for planning
@@ -128,9 +71,7 @@ class Bestman:
 
         # Initialize PID controller
         self.target_distance = 0.0
-        self.controller = PIDController(
-            Kp=0.01, Ki=0.0, Kd=0.0, setpoint=self.target_distance
-        )
+        self.controller = PIDController(Kp=0.01, Ki=0.0, Kd=0.0, setpoint=self.target_distance)
         self.rotated = False
 
         # Initialize base
@@ -138,6 +79,7 @@ class Bestman:
             fileName="./URDF_robot/segbot.urdf",
             basePosition=init_pos.position,
             baseOrientation=p.getQuaternionFromEuler([0, 0, init_pos.yaw]),
+            physicsClientId=self.client_id
         )
 
         # Initialize arm
@@ -148,6 +90,7 @@ class Bestman:
             basePosition=init_pos.position,
             baseOrientation=p.getQuaternionFromEuler([0.0, 0.0, math.pi / 2.0]),
             useFixedBase=True,
+            physicsClientId=self.client_id
         )
 
         # Add constraint between base and arm
@@ -161,276 +104,16 @@ class Bestman:
             [0, 0, 0],
             [0, 0, 1.3],
             robot2_start_pos,
+            physicsClientId=self.client_id
         )
 
         self.init_pos = init_pos
         self.gripper_id = None
         self.sync_base_arm_pose()
-        self.set_visual_shape()
 
-        # Obstacles in the environment
-        self.obstacle_navigation_ids = []  # for navigation
-        self.obstacle_manipulation_ids = []  # for manipulation
-
-    # ----------------------------------------------------------------
-    # Visualization functions
-    # ----------------------------------------------------------------
-    """
-    This function is to enable and disable recording.
-
-    """
-
-    def start_record(self, fileName):
-        logId = p.startStateLogging(
-            p.STATE_LOGGING_VIDEO_MP4, "./image/" + fileName + ".mp4"
-        )
-        print("The video can be found in " + "./image/" + fileName + ".mp4")
-        return logId
-
-    def end_record(self, logId):
-        p.stopStateLogging(logId)
-
-    """
-    This function draws an Axis-Aligned Bounding Box (AABB) around the specified table object in the simulation. The AABB is a box that covers the entire object based on its maximum and minimum coordinates along each axis. It can be useful for various purposes, such as collision detection, spatial partitioning, and bounding volume hierarchies.
-
-    Args:
-        table_id: The unique identifier of the table object in the simulation for which the AABB is to be drawn.
-    """
-
-    def draw_aabb(self, object_id):
-        link_ids = [i for i in range(-1, p.getNumJoints(object_id))]
-        for link_id in link_ids:
-            aabb = p.getAABB(object_id, link_id)
-            aabb_min = aabb[0]
-            aabb_max = aabb[1]
-            corners = [
-                [aabb_min[0], aabb_min[1], aabb_min[2]],  # 0
-                [aabb_max[0], aabb_min[1], aabb_min[2]],  # 1
-                [aabb_max[0], aabb_max[1], aabb_min[2]],  # 2
-                [aabb_min[0], aabb_max[1], aabb_min[2]],  # 3
-                [aabb_min[0], aabb_min[1], aabb_max[2]],  # 4
-                [aabb_max[0], aabb_min[1], aabb_max[2]],  # 5
-                [aabb_max[0], aabb_max[1], aabb_max[2]],  # 6
-                [aabb_min[0], aabb_max[1], aabb_max[2]],  # 7
-            ]
-            lines = [
-                (0, 1),
-                (1, 2),
-                (2, 3),
-                (3, 0),  # bottom face
-                (4, 5),
-                (5, 6),
-                (6, 7),
-                (7, 4),  # top face
-                (0, 4),
-                (1, 5),
-                (2, 6),
-                (3, 7),  # vertical edges
-            ]
-            color = [1, 0, 0]
-            for line in lines:
-                p.addUserDebugLine(
-                    lineFromXYZ=corners[line[0]],
-                    lineToXYZ=corners[line[1]],
-                    lineColorRGB=color,
-                    lineWidth=2,
-                )
-
-    """
-    This method sets the visual color of the base and the arm of a robot in the simulation.
-    """
-
-    def set_visual_shape(self):
-        """
-        Set the color of base.
-        """
-        white = [1, 1, 1, 1]
-        grey = [0.5, 0.5, 0.5, 1]
-        for i in range(15):
-            p.changeVisualShape(
-                objectUniqueId=self.base_id, linkIndex=i, rgbaColor=white
-            )
-        p.changeVisualShape(objectUniqueId=self.base_id, linkIndex=4, rgbaColor=grey)
-        p.changeVisualShape(objectUniqueId=self.base_id, linkIndex=5, rgbaColor=grey)
-        p.changeVisualShape(objectUniqueId=self.base_id, linkIndex=6, rgbaColor=grey)
-
-        """
-        Set the color of arm.
-        """
-        blue = [0.53, 0.81, 0.92, 1.0]
-        white = [1, 1, 1, 1]
-        for i in range(15):
-            p.changeVisualShape(
-                objectUniqueId=self.arm_id, linkIndex=i, rgbaColor=white
-            )
-        p.changeVisualShape(objectUniqueId=self.arm_id, linkIndex=0, rgbaColor=blue)
-        p.changeVisualShape(objectUniqueId=self.arm_id, linkIndex=3, rgbaColor=blue)
-        p.changeVisualShape(objectUniqueId=self.arm_id, linkIndex=6, rgbaColor=blue)
-
-    def visualize_path(self, path):
-        # Reverse the path so that it goes from start to goal
-        path = path[::-1]  # This line reverses the path
-        cartesian_path = [self.joints_to_cartesian(point) for point in path]
-        # print("cartesian_path:{}".format(cartesian_path))
-        for i in range(len(cartesian_path) - 1):
-            p.addUserDebugLine(
-                cartesian_path[i],
-                cartesian_path[i + 1],
-                lineColorRGB=[1, 0, 0],
-                lifeTime=10,
-                lineWidth=3,
-            )
-
-    """
-    This function sets the debug visualizer camera in a vertical view. The vertical view can be useful in various simulation scenarios like overhead view, bird's eye view etc. PyBullet Physics engine's debug visualizer camera is adjusted using this function.
-    Args:
-        height: The distance of the camera from the target point. This determines how far the camera is placed from the position (0, 0, 0). This value effectively becomes the "height" of the camera, providing a vertical overview.
-    """
-
-    def enable_vertical_view(self, height, position):
-        p.resetDebugVisualizerCamera(
-            cameraDistance=height,
-            cameraYaw=0,
-            cameraPitch=-89.9,
-            cameraTargetPosition=[0, 0, 0],
-            physicsClientId=self.client,
-        )
-
-    """
-    This function draw a line on the screen from the specified start position to the target position.
-    Args:
-        start_pos: The starting position of the line as a tuple of (x, y, z) coordinates.
-        target_pos: The ending position of the line as a tuple of (x, y, z) coordinates.
-        color: A list representing the RGB values of the line's color. Default is red [1, 0, 0].
-        width: The width of the line. Default is 3.0.
-    """
-
-    def draw_line(self, start_pos, target_pos, color=[1, 0, 0], width=3.0):
-        if self.line_visual is not None:
-            p.removeUserDebugItem(self.line_visual)
-        self.line_visual = p.addUserDebugLine(
-            start_pos, target_pos, lineColorRGB=color, lineWidth=width
-        )
-
-    # ----------------------------------------------------------------
-    # Other functions
-    # ----------------------------------------------------------------
-    def disconnect_pybullet(self):
-        p.disconnect()
-
-    def wait(self, x):
-        time.sleep(x)
-
-    def run(self, x):
-        for _ in range(x):
-            p.stepSimulation()
-            time.sleep(1.0 / self.frequency)
-
-    # ----------------------------------------------------------------
-    # Add object functions
-    # ----------------------------------------------------------------
-
-    """
-    This function loads a given object into the PyBullet simulation environment. 
-    The object is specified by a URDF (Unified Robot Description Format) file, which is a common format for representing a robot or other complex object in a simulation.
-
-    Args:
-        model_path (str): The path to the URDF file for the object.
-        object_position (list): The initial position of the object in the simulation, as a three-element list or tuple of x, y, z coordinates.
-        object_orientation (list): The initial orientation of the object in the simulation, as a three-element list or tuple of roll, pitch, and yaw angles (in radians). This will be converted to a quaternion for use with PyBullet.
-        obj_name (str): The name of the object. This is used to create an attribute in the class instance that holds the ID of the object in the PyBullet simulation.
-
-    Returns:
-        The ID of the loaded object in the PyBullet simulation.
-    """
-
-    def load_object(
-        self, model_path, object_position, object_orientation, scale, obj_name
-    ):
-        object_orientation = p.getQuaternionFromEuler(object_orientation)
-        setattr(
-            self,
-            f"{obj_name}_id",
-            p.loadURDF(
-                model_path,
-                basePosition=object_position,
-                baseOrientation=object_orientation,
-                globalScaling=scale,
-            ),
-        )
-        print(
-            "-" * 20
-            + "\n"
-            + "{}_id: {}".format(obj_name, getattr(self, f"{obj_name}_id"))
-        )
-        self.obstacle_navigation_ids.append(getattr(self, f"{obj_name}_id"))
-        self.obstacle_manipulation_ids.append(getattr(self, f"{obj_name}_id"))
-        time.sleep(1.0 / self.frequency)
-        return getattr(self, f"{obj_name}_id")
-
-    # ----------------------------------------------------------------
-    # Get info from environment
-    # ----------------------------------------------------------------
-
-    """
-    This function retrieves the bounding box for a given object in the PyBullet simulation environment. 
-
-    Args:
-        object_id (int): The ID of the object in the PyBullet simulation.
-    Prints:
-        The function prints the minimum and maximum x, y, z coordinates of the bounding box of the object.
-    """
-
-    def get_bounding_box(self, object_id):
-        link_ids = [i for i in range(-1, p.getNumJoints(object_id))]
-        min_x, min_y, min_z = float("inf"), float("inf"), float("inf")
-        max_x, max_y, max_z = float("-inf"), float("-inf"), float("-inf")
-        for link_id in link_ids:
-            (x_min, y_min, z_min), (x_max, y_max, z_max) = p.getAABB(object_id, link_id)
-            min_x = min(min_x, x_min)
-            min_y = min(min_y, y_min)
-            min_z = min(min_z, z_min)
-            max_x = max(max_x, x_max)
-            max_y = max(max_y, y_max)
-            max_z = max(max_z, z_max)
-        # print("-" * 20 + "\n" + "object_id: {}".format(object_id))
-        # print("min_x:{:.2f}, min_y:{:.2f}, min_z:{:.2f}".format(min_x, min_y, min_z))
-        # print("max_x:{:.2f}, max_y:{:.2f}, max_z:{:.2f}".format(max_x, max_y, max_z))
-        return [min_x, min_y, min_z, max_x, max_y, max_z]
-
-    """
-    This function checks if two bounding boxes collide.
-    Each box is defined as [min_x, min_y, min_z, max_x, max_y, max_z].
-        :param box1: bounding box of the first object.
-        :param box2: bounding box of the second object.
-        :return: True if they collide, False otherwise.
-    """
-
-    def check_collision_xyz(self, box1, box2):
-        # Check for collision along the x-axis
-        if box1[0] > box2[3] or box1[3] < box2[0]:
-            return False
-
-        # Check for collision along the y-axis
-        if box1[1] > box2[4] or box1[4] < box2[1]:
-            return False
-
-        # Check for collision along the z-axis
-        if box1[2] > box2[5] or box1[5] < box2[2]:
-            return False
-
-        return True
-
-    def check_collision_xy(self, box1, box2):
-        # Check for collision along the x-axis
-        if box1[0] > box2[3] or box1[3] < box2[0]:
-            return False
-
-        # Check for collision along the y-axis
-        if box1[1] > box2[4] or box1[4] < box2[1]:
-            return False
-
-        return True
+        # Set arm colors
+        self.visualizer = PbVisualizer(pb_client)
+        self.visualizer.set_visual_shape(self.base_id, self.arm_id)
 
     # ----------------------------------------------------------------
     # Segbot Navigation
@@ -444,21 +127,21 @@ class Bestman:
     """
 
     def get_base_joint_info(self):
-        num_joints = p.getNumJoints(self.base_id)
-        print("Segbot has {} joints".format(num_joints))
+        num_joints = p.getNumJoints(self.base_id, physicsClientId=self.client_id)
+        print("-" * 20 + "\n" + "Segbot has {} joints".format(num_joints))
         for i in range(num_joints):
-            joint_info = p.getJointInfo(self.base_id, i)
+            joint_info = p.getJointInfo(self.base_id, i, physicsClientId=self.client_id)
             joint_name = joint_info[1]
-            joint_state = p.getJointState(self.base_id, i)
+            joint_state = p.getJointState(self.base_id, i, physicsClientId=self.client_id)
             joint_angle = joint_state[0]
             print(
                 "Joint index:{}, name:{}, angle:{}".format(i, joint_name, joint_angle)
             )
 
     def get_link_names(self):
-        num_joints = p.getNumJoints(self.base_id)
+        num_joints = p.getNumJoints(self.base_id, physicsClientId=self.client_id)
         for i in range(num_joints):
-            joint_info = p.getJointInfo(self.base_id, i)
+            joint_info = p.getJointInfo(self.base_id, i, physicsClientId=self.client_id)
             link_name = joint_info[12].decode("UTF-8")
             print("Link index: {}, name: {}".format(i, link_name))
 
@@ -493,8 +176,8 @@ class Bestman:
     """
 
     def get_base_pose(self):
-        base_position, base_orientation = p.getBasePositionAndOrientation(self.base_id)
-        base_orientation = p.getEulerFromQuaternion(base_orientation)
+        base_position, base_orientation = p.getBasePositionAndOrientation(self.base_id, physicsClientId=self.client_id)
+        base_orientation = p.getEulerFromQuaternion(base_orientation, physicsClientId=self.client_id)
         return Pose(base_position, base_orientation)
 
     """
@@ -533,8 +216,8 @@ class Bestman:
         static_map = np.zeros((n_points, n_points))
 
         # Add obstacles to the map
-        for obstacle_id in self.obstacle_navigation_ids:
-            aabb = self.get_bounding_box(obstacle_id)
+        for obstacle_id in self.pb_client.obstacle_navigation_ids:
+            aabb = self.pb_client.get_bounding_box(obstacle_id)
             for i in range(int(aabb[0] / resolution), int(aabb[3] / resolution)):
                 for j in range(int(aabb[1] / resolution), int(aabb[4] / resolution)):
                     static_map[i][j] = 1
@@ -632,13 +315,13 @@ class Bestman:
         def angle_to_quaternion(base_yaw):
             return [0, 0, math.sin(base_yaw / 2.0), math.cos(base_yaw / 2.0)]
 
-        position, orientation = p.getBasePositionAndOrientation(self.base_id)
+        position, orientation = p.getBasePositionAndOrientation(self.base_id, physicsClientId=self.client_id)
         orientation = angle_to_quaternion(base_yaw)
-        p.resetBasePositionAndOrientation(self.base_id, position, orientation)
+        p.resetBasePositionAndOrientation(self.base_id, position, orientation, physicsClientId=self.client_id)
 
         if self.arm_id is not None:
             self.sync_base_arm_pose()
-        p.stepSimulation()
+        p.stepSimulation(physicsClientId=self.client_id)
         time.sleep(1.0 / self.frequency)
 
     """
@@ -649,8 +332,8 @@ class Bestman:
     """
 
     def action(self, output):
-        position, orientation = p.getBasePositionAndOrientation(self.base_id)
-        euler_angles = p.getEulerFromQuaternion(orientation)
+        position, orientation = p.getBasePositionAndOrientation(self.base_id, physicsClientId=self.client_id)
+        euler_angles = p.getEulerFromQuaternion(orientation, physicsClientId=self.client_id)
 
         delta_x = output * math.cos(euler_angles[2])
         delta_y = output * math.sin(euler_angles[2])
@@ -663,7 +346,7 @@ class Bestman:
         #     assert "Collision detected during navigation, stopping..."
 
         p.resetBasePositionAndOrientation(
-            self.base_id, target_position, target_orientation
+            self.base_id, target_position, target_orientation, physicsClientId=self.client_id
         )
         self.sync_base_arm_pose()
         time.sleep(1.0 / self.frequency)
@@ -673,19 +356,19 @@ class Bestman:
     """
 
     def sync_base_arm_pose(self):
-        position, orientation = p.getBasePositionAndOrientation(self.base_id)
+        position, orientation = p.getBasePositionAndOrientation(self.base_id, physicsClientId=self.client_id)
         position = [position[0], position[1], 1.02]  # fixed height
-        p.resetBasePositionAndOrientation(self.arm_id, position, orientation)
+        p.resetBasePositionAndOrientation(self.arm_id, position, orientation, physicsClientId=self.client_id)
 
     """
     This function check if collision exists during navigation
     """
 
     def check_collision_navigation(self):
-        for obstacle_id in self.obstacle_navigation_ids:
-            aabb_base = self.get_bounding_box(self.base_id)
-            aabb_obstacle = self.get_bounding_box(obstacle_id)
-            if self.check_collision_xy(
+        for obstacle_id in self.pb_client.obstacle_navigation_ids:
+            aabb_base = self.pb_client.get_bounding_box(self.base_id)
+            aabb_obstacle = self.pb_client.get_bounding_box(obstacle_id)
+            if self.pb_client.check_collision_xy(
                 aabb_base, aabb_obstacle
             ):  # print("Collision detected during navigation, stopping...")
                 return True
@@ -700,12 +383,12 @@ class Bestman:
     """
 
     def get_arm_joint_info(self):
-        num_joints = p.getNumJoints(self.arm_id)
-        print("UR5e has {} joints".format(num_joints))
+        num_joints = p.getNumJoints(self.arm_id, physicsClientId=self.client_id)
+        print("-" * 20 + "\n" + "UR5e has {} joints".format(num_joints))
         for i in range(num_joints):
-            joint_info = p.getJointInfo(self.arm_id, i)
+            joint_info = p.getJointInfo(self.arm_id, i, physicsClientId=self.client_id)
             joint_name = joint_info[1]
-            joint_state = p.getJointState(self.arm_id, i)
+            joint_state = p.getJointState(self.arm_id, i, physicsClientId=self.client_id)
             joint_angle = joint_state[0]
             print(
                 "Joint index:{}, name:{}, angle:{}".format(i, joint_name, joint_angle)
@@ -718,7 +401,7 @@ class Bestman:
     def get_arm_joint_angle(self):
         joint_angles = []  # Initialize an empty list to store the joint angles
         for i in range(6):
-            joint_state = p.getJointState(self.arm_id, i)
+            joint_state = p.getJointState(self.arm_id, i, physicsClientId=self.client_id)
             joint_angle = joint_state[0]
             joint_angles.append(joint_angle)  # Add the current joint angle to the list
         return joint_angles  # Return the list of joint angles
@@ -732,12 +415,13 @@ class Bestman:
 
     def set_arm_to_joint_angles(self, joint_angles):
         for joint_index in range(6):
-            p.resetJointState(
+            p.resetJointState( 
                 bodyUniqueId=self.arm_id,
                 jointIndex=joint_index,
                 targetValue=joint_angles[joint_index],
+                physicsClientId=self.client_id
             )
-        p.stepSimulation()
+        p.stepSimulation(physicsClientId=self.client_id)
         time.sleep(1.0 / self.frequency)
 
     """
@@ -750,7 +434,7 @@ class Bestman:
     def move_arm_to_joint_angles(self, joint_angles):
         num_joints = len(joint_angles)
         assert (
-            p.getNumJoints(self.arm_id) >= num_joints
+            p.getNumJoints(self.arm_id, physicsClientId=self.client_id) >= num_joints
         ), "Invalid number of joint angles."
 
         # set arm's target joints
@@ -761,17 +445,18 @@ class Bestman:
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=joint_angles[joint_index],
                 force=self.max_force,
+                physicsClientId=self.client_id
             )
 
         start_time = time.time()
 
         while True:
-            p.stepSimulation()
+            p.stepSimulation(physicsClientId=self.client_id)
             time.sleep(1.0 / self.frequency)
 
             # Check if reach the goal
             current_angles = [
-                p.getJointState(self.arm_id, i)[0] for i in range(num_joints)
+                p.getJointState(self.arm_id, i, physicsClientId=self.client_id)[0] for i in range(num_joints)
             ]
             diff_angles = [abs(a - b) for a, b in zip(joint_angles, current_angles)]
             if all(diff < self.residual_threshold for diff in diff_angles):
@@ -794,10 +479,10 @@ class Bestman:
     """
 
     def get_end_effector_info(self):
-        joint_info = p.getJointInfo(self.arm_id, self.end_effector_index)
+        joint_info = p.getJointInfo(self.arm_id, self.end_effector_index, physicsClientId=self.client_id)
         end_effector_name = joint_info[1].decode("utf-8")
         end_effector_info = p.getLinkState(
-            bodyUniqueId=self.arm_id, linkIndex=self.end_effector_index
+            bodyUniqueId=self.arm_id, linkIndex=self.end_effector_index, physicsClientId=self.client_id
         )
         end_effector_position = end_effector_info[0]
         end_effector_orientation = end_effector_info[1]
@@ -809,22 +494,23 @@ class Bestman:
         self.set_arm_to_joint_angles(joint_angles)
 
         end_effector_info = p.getLinkState(
-            bodyUniqueId=self.arm_id, linkIndex=self.end_effector_index
+            bodyUniqueId=self.arm_id, linkIndex=self.end_effector_index, physicsClientId=self.client_id
         )
-        orientation = p.getEulerFromQuaternion(end_effector_info[1])
+        orientation = p.getEulerFromQuaternion(end_effector_info[1], physicsClientId=self.client_id)
         position = end_effector_info[0]
         # print("-" * 30 + "\n" + "position:{}".format(position))
         # print("orientation:{}".format(orientation))
         return position
 
     def cartesian_to_joints(self, position, orientation):
-        joint_angles = p.calculateInverseKinematics(
+        joint_angles = p.calculateInverseKinematics( 
             bodyUniqueId=self.arm_id,
             endEffectorLinkIndex=self.end_effector_index,
             targetPosition=position,
             targetOrientation=p.getQuaternionFromEuler(orientation),
             maxNumIterations=self.max_iterations,
             residualThreshold=self.residual_threshold,
+            physicsClientId=self.client_id
         )
         return joint_angles
 
@@ -840,7 +526,7 @@ class Bestman:
         joint_indices = [
             i for i in range(6)
         ]  # Change this to your actual joint indices
-        joint_states = p.getJointStates(self.arm_id, joint_indices)
+        joint_states = p.getJointStates(self.arm_id, joint_indices, physicsClientId=self.client_id)
 
         # Create a new list of target joint angles
         target_joint_angles = [joint_state[0] for joint_state in joint_states]
@@ -854,7 +540,7 @@ class Bestman:
         # Step the simulation until the joints reach their target angles
         while True:
             # Update the current joint states
-            joint_states = p.getJointStates(self.arm_id, joint_indices)
+            joint_states = p.getJointStates(self.arm_id, joint_indices, physicsClientId=self.client_id)
             current_joint_angles = [joint_state[0] for joint_state in joint_states]
 
             # Check if all joints have reached their target angles
@@ -864,7 +550,7 @@ class Bestman:
             ):
                 break
 
-            p.stepSimulation()
+            p.stepSimulation(physicsClientId=self.client_id)
             time.sleep(1.0 / self.frequency)
         print("Rotation completed!")
 
@@ -878,7 +564,7 @@ class Bestman:
     def move_end_effector_to_goal_position(self, end_effector_goal_pose):
         # get current end effector position
         state = p.getLinkState(
-            bodyUniqueId=self.arm_id, linkIndex=self.end_effector_index
+            bodyUniqueId=self.arm_id, linkIndex=self.end_effector_index, physicsClientId=self.client_id
         )
         current_position = state[0]
 
@@ -912,18 +598,18 @@ class Bestman:
 
             # Test the calculated angles for collision
             for joint_index, joint_angle in enumerate(joint_angles):
-                p.resetJointState(self.arm_id, joint_index, joint_angle)
+                p.resetJointState(self.arm_id, joint_index, joint_angle, physicsClientId=self.client_id)
 
-            p.stepSimulation()
+            p.stepSimulation(physicsClientId=self.client_id)
 
             # if p.getContactPoints(self.arm_id): # collision with other objects
-            if p.getContactPoints(self.arm_id, self.base_id):
+            if p.getContactPoints(self.arm_id, self.base_id, physicsClientId=self.client_id):
                 # Collision detected, break and re-calculate the IK
                 break
             else:
                 # get current end effector position
                 state = p.getLinkState(
-                    bodyUniqueId=self.arm_id, linkIndex=self.end_effector_index
+                    bodyUniqueId=self.arm_id, linkIndex=self.end_effector_index, physicsClientId=self.client_id
                 )
                 current_position = state[0]
 
@@ -959,9 +645,8 @@ class Bestman:
     """
 
     def pick_place(self, object_id, object_goal_position, object_goal_orientation):
-        print("debug")
         # get target object position
-        object_position_init, orientation = p.getBasePositionAndOrientation(object_id)
+        object_position_init, orientation = p.getBasePositionAndOrientation(object_id, physicsClientId=self.client_id)
         target_position = [
             object_position_init[0],
             object_position_init[1],
@@ -1017,10 +702,10 @@ class Bestman:
             )
 
             if gripper_value == 0 and self.gripper_id != None:
-                p.removeConstraint(self.gripper_id)
+                p.removeConstraint(self.gripper_id, physicsClientId=self.client_id)
                 self.gripper_id = None
                 for _ in range(self.frequency):
-                    p.stepSimulation()
+                    p.stepSimulation(physicsClientId=self.client_id)
             if gripper_value == 1 and self.gripper_id == None:
                 cube_orn = p.getQuaternionFromEuler([0, math.pi, 0])
                 self.gripper_id = p.createConstraint(
@@ -1033,9 +718,10 @@ class Bestman:
                     [0, 0, 0.05],
                     [0, 0, 0],
                     childFrameOrientation=cube_orn,
+                    physicsClientId=self.client_id
                 )
 
-            p.stepSimulation()
+            p.stepSimulation(physicsClientId=self.client_id)
 
         print("-" * 20 + "\n" + "manipulation is done!")
 
@@ -1055,13 +741,14 @@ class Bestman:
             targetOrientation=p.getQuaternionFromEuler(goal_orientation),
             maxNumIterations=self.max_iterations,
             residualThreshold=self.residual_threshold,
+            physicsClientId=self.client_id
         )
         print("IK: joint_angles is {}".format(joint_angles))
 
         self.move_arm_to_joint_angles(joint_angles)
 
         state = p.getLinkState(
-            bodyUniqueId=self.arm_id, linkIndex=self.end_effector_index
+            bodyUniqueId=self.arm_id, linkIndex=self.end_effector_index, physicsClientId=self.client_id
         )
         actual_position = state[0]
         print("actual position: {}".format(actual_position))
@@ -1081,10 +768,11 @@ class Bestman:
         """
         if pos is None:
             # reset the base and arm to initial state when the pose is not given
-            p.resetBasePositionAndOrientation(
+            p.resetBasePositionAndOrientation( 
                 self.base_id,
                 self.init_pos.position,
                 p.getQuaternionFromEuler([0, 0, self.init_pos.yaw]),
+                physicsClientId=self.client_id
             ),
             # BUG: need to reset the arm separately or just call the sync_base_arm_pose?
             self.sync_base_arm_pose()
@@ -1093,6 +781,7 @@ class Bestman:
                 self.base_id,
                 pos.position,
                 p.getQuaternionFromEuler([0, 0, pos.yaw]),
+                physicsClientId=self.client_id
             )
             self.sync_base_arm_pose()
 
@@ -1100,7 +789,7 @@ class Bestman:
         """
         Get the current position of the robot
         """
-        base_position, base_orientation = p.getBasePositionAndOrientation(self.base_id)
+        base_position, base_orientation = p.getBasePositionAndOrientation(self.base_id, physicsClientId=self.client_id)
         base_orientation = p.getEulerFromQuaternion(base_orientation)
         return Pose(base_position, base_orientation)
 
@@ -1111,10 +800,10 @@ class Bestman:
         height: int = 224,
     ):
         # get current position and orientation for robot
-        base_position, orientation = p.getBasePositionAndOrientation(robot_id)
+        base_position, orientation = p.getBasePositionAndOrientation(robot_id, physicsClientId=self.client_id)
 
         # set camera position and target position
-        base_position, orientation_quat = p.getBasePositionAndOrientation(self.base_id)
+        base_position, orientation_quat = p.getBasePositionAndOrientation(self.base_id, physicsClientId=self.client_id)
         camera_position = np.array(base_position) + np.array([0, 0, 2.5])
         tilt = 3
         rot_mat = np.array(p.getMatrixFromQuaternion(orientation_quat)).reshape(3, 3)
@@ -1122,16 +811,18 @@ class Bestman:
             [tilt, 0, 0]
         )  # Use the rotation matrix to rotate the vector
         target_position = np.array(base_position) + forward_vec
-        view_mat = p.computeViewMatrix(
+        view_mat = p.computeViewMatrix( 
             cameraEyePosition=camera_position,
             cameraTargetPosition=target_position,
             cameraUpVector=[0, 1, 0],
+            physicsClientId=self.client_id
         )
         proj_mat = p.computeProjectionMatrixFOV(
             fov=60.0,  # field of view
             aspect=0.8,  # scale, default=1
             nearVal=0.01,  # view distance min
             farVal=10,
+            physicsClientId=self.client_id
         )
         # get image from the camera
         w, h, rgb, depth, seg = p.getCameraImage(
@@ -1139,7 +830,7 @@ class Bestman:
             height=height,
             viewMatrix=view_mat,
             projectionMatrix=proj_mat,
-            physicsClientId=self.client,
+            physicsClientId=self.client_id
         )
         return w, h, rgb, depth, seg
 
@@ -1271,12 +962,12 @@ class Bestman:
 
     def stop(self):
         zero_velocity = [0, 0, 0]
-        p.resetBaseVelocity(self.base_id, zero_velocity, zero_velocity)
+        p.resetBaseVelocity(self.base_id, zero_velocity, zero_velocity, physicsClientId=self.client_id)
         return True
 
     def grasp(self, object_id):
         # get target object position
-        object_position_init, orientation = p.getBasePositionAndOrientation(object_id)
+        object_position_init, orientation = p.getBasePositionAndOrientation(object_id, physicsClientId=self.client_id)
 
         # orientation = [0.0, math.pi / 2.0, 0.0]  # vertial downward grip
         orientation = [0.0, math.pi, 0.0]  # vertial downward grip
@@ -1306,7 +997,7 @@ class Bestman:
                 return False
 
             if gripper_value == 0 and self.gripper_id != None:
-                p.removeConstraint(self.gripper_id)
+                p.removeConstraint(self.gripper_id, physicsClientId=self.client_id)
                 self.gripper_id = None
             if gripper_value == 1 and self.gripper_id == None:
                 cube_orn = p.getQuaternionFromEuler([0, math.pi, 0])
@@ -1320,9 +1011,10 @@ class Bestman:
                     [0, 0, 0.05],
                     [0, 0, 0],
                     childFrameOrientation=cube_orn,
+                    physicsClientId=self.client_id
                 )
 
-            p.stepSimulation()
+            p.stepSimulation(physicsClientId=self.client_id)
 
         # check if the object has been moved
         object_position_after, _ = p.getBasePositionAndOrientation(object_id)
@@ -1333,19 +1025,9 @@ class Bestman:
             print("-" * 20 + "\n" + "grasping is unsuccessful!")
             return False
 
-    def generate_point_within_area(
-        self, table_min_x, table_min_y, table_max_x, table_max_y
-    ):
-        max_dis = 2.5
-        radius = random.uniform(0, max_dis)
-        angle = random.uniform(0, 2 * math.pi)
-        chair_x = (table_max_x + table_min_x) / 2 + radius * math.cos(angle)
-        chair_y = (table_max_y + table_min_y) / 2 + radius * math.sin(angle)
-        return chair_x, chair_y
-
     def set_envs(self):
         # load table
-        table_id = self.load_object(
+        table_id = self.pb_client.load_object(
             "./URDF_models/furniture_table_rectangle_high/table.urdf",
             [1.0, 1.0, 0.0],
             [0.0, 0.0, 0.0],
@@ -1353,9 +1035,9 @@ class Bestman:
             "table",
         )
 
-        base_boundary = self.get_bounding_box(self.base_id)
-        arm_boundary = self.get_bounding_box(self.arm_id)
-        table_boundary = self.get_bounding_box(table_id)
+        base_boundary = self.pb_client.get_bounding_box(self.base_id)
+        arm_boundary = self.pb_client.get_bounding_box(self.arm_id)
+        table_boundary = self.pb_client.get_bounding_box(table_id)
 
         obstacle_boundary_list = []  # store obstacles
         obstacle_boundary_list.append(base_boundary)
@@ -1363,12 +1045,10 @@ class Bestman:
         obstacle_boundary_list.append(table_boundary)
 
         # generate random position for bowl within the table boundary
-        table_min_x, table_min_y, table_min_z = (
+        table_min_x, table_min_y, table_min_z, table_max_x, table_max_y, table_max_z = (
             table_boundary[0],
             table_boundary[1],
             table_boundary[2],
-        )
-        table_max_x, table_max_y, table_max_z = (
             table_boundary[3],
             table_boundary[4],
             table_boundary[5],
@@ -1377,7 +1057,7 @@ class Bestman:
 
         bowl_x = random.uniform(table_min_x, table_max_x)
         bowl_y = random.uniform(table_min_y, table_max_y)
-        bowl_id = self.load_object(
+        bowl_id = self.pb_client.load_object(
             "./URDF_models/utensil_bowl_blue/model.urdf",
             [bowl_x, bowl_y, table_max_z + 0.05],  # bowl is on the table
             [0.0, 0.0, 0.0],
@@ -1396,7 +1076,7 @@ class Bestman:
             max_attempts = 200
 
             for attempt in range(max_attempts):
-                chair_x, chair_y = self.generate_point_within_area(
+                chair_x, chair_y = self.pb_client.generate_point_outside_area(
                     table_min_x, table_min_y, table_max_x, table_max_y
                 )
                 # print('chair_x:{}, chair_y:{}'.format(chair_x, chair_y))
@@ -1412,14 +1092,14 @@ class Bestman:
 
                 # if the chair position is collision with other obstacle, break the loop
                 collision_flag = any(
-                    self.check_collision_xy(chair_boundary, obstacle)
+                    self.pb_client.check_collision_xy(chair_boundary, obstacle)
                     for obstacle in obstacle_boundary_list
                 )
 
                 if not collision_flag:
                     chair_angle = random.uniform(0, 2 * math.pi)
                     chair_z = 0.1  # assuming the chair is on the floor
-                    chair_id = self.load_object(
+                    chair_id = self.pb_client.load_object(
                         "./URDF_models/furniture_chair/model.urdf",
                         [chair_x, chair_y, chair_z],
                         [math.pi / 2.0 * 3, 0.0, chair_angle],
@@ -1434,425 +1114,5 @@ class Bestman:
                 print("-" * 20 + "\n" + "Failed to place chair after maximum attempts!")
 
         # return IDs of all loaded objects
+        self.pb_client.run(100)
         return {"table": table_id, "bowl": bowl_id, "chairs": chair_ids}
-
-
-class PbOMPL:
-    def __init__(self, robot_id, joint_idx, obstacles=[], planner="RRT", threshold=0.1):
-        """
-        Initialize the OMPL.
-
-        Args:
-           robot_id: ID of the robot to use.
-           joint_idx: Index of the joints to use in planning.
-           obstacles: List of obstacles to consider in the motion planning.
-           planner: The name of the motion planner algorithm to use.
-           threshold: The threshold value ONLY for repalnning.
-        """
-        self.robot_id = robot_id
-        self.threshold = threshold
-        self.robot = pb_ompl.PbOMPLRobot(robot_id, joint_idx=joint_idx)
-        self.obstacles = obstacles if obstacles is not None else []
-        self.pb_ompl_interface = pb_ompl.PbOMPL(self.robot, self.obstacles)
-        self.set_planner(planner)
-
-        item_info = p.getBodyInfo(self.robot_id)
-        robot_name = item_info[1].decode("utf-8")
-        print("--------------------")
-        print(
-            f"OMPL Configuration\n"
-            f"Robot ID: {robot_id}\n"
-            f"Robot Name: {robot_name}\n"
-            f"Obstacles: {obstacles}\n"
-            f"Planner: {planner}\n"
-            f"Threshold: {threshold}"
-        )
-        print("--------------------")
-
-    def set_planner(self, planner):
-        """
-        Set Planner to OMPL.
-
-        Args:
-                planner: The planner to set to OMPL.
-        """
-        try:
-            self.pb_ompl_interface.set_planner(planner)
-        except Exception as e:
-            print(f"Error setting planner: {e}")
-
-    def set_target(self, target_id):
-        """
-        Set the target to be used for the manipulation task.
-
-        Args:
-                target_id: id of the target.
-        """
-        try:
-            item_info = p.getBodyInfo(target_id)
-        except Exception as e:
-            print(f"Error setting target: {e}")
-        self.target = target_id
-        self.target_pos, _ = p.getBasePositionAndOrientation(self.target)
-
-    def set_target_pos(self, target_pos):
-        """
-        Set the position of the target.
-
-        Args:
-                target_pos: The position of the target.
-        """
-        self.target_pos = target_pos
-
-    def set_obstacles(self, obstacles):
-        """
-        Set obstacles to OMPL.
-
-        Args:
-                obstacles: List of obstacle.
-        """
-        for i in obstacles:
-            try:
-                item_info = p.getBodyInfo(i)
-            except Exception as e:
-                print(f"Error adding obstacle: {e}")
-        self.obstacles = obstacles
-
-    def add_obstacles(self, item_id):
-        """
-        Add obstacle to list of obstacles.
-
-        Args:
-                item_id: id of the item to add.
-        """
-        try:
-            item_info = p.getBodyInfo(item_id)
-        except Exception as e:
-            print(f"Error adding obstacle: {e}")
-        self.obstacles.append(item_id)
-
-    def remove_obstacles(self, obstacle_id):
-        """
-        Remove obstacle from the list of obstacles.
-        This is useful for removing a specific obstacle from the list.
-
-        Args:
-                obstacle_id: id of the obstacle to remove.
-        """
-        try:
-            self.obstacles = [obs for obs in self.obstacles if obs != obstacle_id]
-        except Exception as e:
-            print(f"Error removing obstacle: {e}")
-
-    def store_obstacles(self):
-        """
-        Store obstacles in the OMPL interface.
-        This is called after the user finished obstacles setting.
-        """
-        self.pb_ompl_interface.set_obstacles(self.obstacles)
-
-    def check_obstacles(self):
-        """
-        Check obstacles in the scene and print them to the console.
-        This is a debugging function.
-        """
-        if self.obstacles == []:
-            print("Obstacle list is empty")
-        else:
-            # print the IDs and names of all obstacles in the scene
-            for obstacle_id in self.obstacles:
-                item_info = p.getBodyInfo(obstacle_id)
-                item_name = item_info[1].decode("utf-8")
-                print(f"\t Obstacle Name: {item_name}, ID: {obstacle_id}")
-
-    def get_scene_items(self, display=True):
-        """
-        Get IDs of all items in the scene.
-        This is a debugging function.
-
-        Args:
-                display: If True ( default ) the ID will be displayed on the screen.
-
-        Returns:
-                A list of IDs of all items in the scene.
-        """
-        # Get the total number of items in the scene
-        num_items = p.getNumBodies()
-        # Initialize an empty list to store the IDs of all items in the scene
-        all_item_ids = []
-
-        # This function will return the list of all the items in the list
-        for item_id in range(num_items):
-            current_id = p.getBodyUniqueId(item_id)
-            all_item_ids.append(current_id)
-            if display:
-                item_info = p.getBodyInfo(current_id)
-                item_name = item_info[1].decode("utf-8")
-                print(f"Item Name: {item_name}, ID: {current_id}")
-        return all_item_ids
-
-    def add_scene_obstacles(self, display=False):
-        """
-        Add obstacles to the scene.
-        This is done by iterating over all items in the scene and adding them to the list of obstacles.
-
-        Args:
-                display: If True the name and ID of the item will be displayed on the screen.
-            Default is False. If False it will not be displayed.
-
-        Returns:
-                A list of IDs of all items in the obstacle list.
-        """
-        all_item_ids = self.get_scene_items(display=False)
-        self.obstacles = []
-        # Add the current item ID to the list of obstacles
-        for item_id in all_item_ids:
-            # Skip the robot ID
-            if item_id == self.robot_id:
-                continue
-            self.obstacles.append(item_id)
-            if display:
-                item_info = p.getBodyInfo(item_id)
-                item_name = item_info[1].decode("utf-8")
-                print(f"Item Name: {item_name}, ID: {item_id}")
-
-        self.store_obstacles()
-        return self.obstacles
-
-    def execute(self, path):
-        """
-        Execute a given path using the OMPL interface and handle errors.
-
-        Args:
-            path: The path to be executed. This should be absolute path.
-        """
-        try:
-            self.pb_ompl_interface.execute(path)
-        except Exception as e:
-            print(f"Error executing path: {e}")
-
-    def compute_distance(self, end_effector_link_index):
-        """
-        Compute the distance between the end effector and the object.
-
-        Args:
-                end_effector_link_index: index of the end effector link.
-
-        Returns:
-                distance: distance between the end - effector and the object.
-        """
-        end_effector_pose = p.getLinkState(self.robot_id, end_effector_link_index)
-
-        # Compute the distance between the end-effector and the object
-        distance = np.linalg.norm(
-            np.array(end_effector_pose[0]) - np.array(self.target_pos)
-        )
-        return distance
-
-    def plan_grasp(self, start, goal):
-        """
-        Plan grasp from start to goal.
-        This is a wrapper around OMPL grasp planning algorithm.
-
-        Args:
-                start: state to start planning from.
-                goal: state to go to after planning has been completed.
-
-        Returns:
-            res: response from ompl interface.
-                path: a list of robot state.
-        """
-        self.robot.set_state(start)
-        res, path = self.pb_ompl_interface.plan(goal)
-        return res, path
-
-    def move_end_effector_to_goal_position(
-        self, start, goal, end_effector_link_index
-    ):  # TODO refactor
-        """
-        Move end effector to goal position in OMPL planned path.
-
-        Args:
-                start: effective position of end effector.
-                goal: effective position of goal.
-                end_effector_link_index: index of end effector.
-        """
-        grasp_successful = False
-
-        trial = 0
-        while not grasp_successful:
-            trial += 1
-            res, path = self.plan_grasp(start, goal)
-
-            if res:
-                self.pb_ompl_interface.execute(path, dynamics=True)
-                # Pause briefly to simulate real-time
-                time.sleep(0.1)
-                grasp_successful = True
-                print("After {} trials, finished.".format(trial))
-                # step simulation in a loop.
-                for _ in range(100):
-                    p.stepSimulation()
-                    time.sleep(1.0 / 100.0)
-
-    def grasp_object(self, start, goal, end_effector_link_index):  # TODO refactor
-        """
-        Plans an object from start to goal and attaches it to the robot.
-
-        Args:
-                start: effective position of end effector.
-                goal: effective position of goal.
-                end_effector_link_index: index of end effector.
-        """
-        grasp_successful = False
-        trial = 0
-        while not grasp_successful:
-            trial += 1
-            res, path = self.plan_grasp(start, goal)
-
-            # Execute the path and attach the object to the robot
-            if res:
-                self.pb_ompl_interface.execute(path)
-                # Pause briefly to simulate real-time
-                time.sleep(0.1)
-                # Check if the robot is close to the object
-                distance = self.compute_distance(end_effector_link_index)
-                # This method grasses the robot if the distance is below threshold.
-                if distance <= self.threshold:
-                    grasp_successful = True
-                    print("After {} trials, successfully grasped.".format(trial))
-                    # Attach the object to the robot
-                    cube_orn = p.getQuaternionFromEuler([0, math.pi, 0])
-                    self.gripper_id = p.createConstraint(
-                        self.robot_id,
-                        end_effector_link_index,  # TODO refactor
-                        self.target,
-                        -1,
-                        p.JOINT_FIXED,
-                        [0, 0, 0],
-                        [0, 0, 0.05],
-                        [0, 0, 0],
-                        childFrameOrientation=cube_orn,
-                    )
-
-
-class UR5_2F85:
-    def __init__(self, client_id, robot_id):
-        """
-        Initializes the UR5 with Robotiq 2f85 gripper.
-
-        Args:
-                client_id: Client ID of pybullet.
-                robot_id: The URDF object features a Robotiq 2f85 gripper.
-        """
-        self._cid = client_id
-        self.Rob2f85 = Robotiq2F85(self._cid, robotUID=robot_id)
-        self.robot_id = self.Rob2f85.getUID()
-        self.end_effector_link_index = self.get_tool_center_point()
-        self.build_joint_index_from_name_dict()
-
-    def set_gripper_max_force(self, max_force):
-        """
-        Set gripper max force.
-
-        Args:
-                max_force: The max force of gripper motor control.
-        """
-        self.Rob2f85.setMaxForce(max_force)
-
-    def init_joints(self, init_pose):
-        """
-        Initialize joints.
-
-        Args:
-                init_pose: a list of two representing the gripper closing.
-        """
-        r2f85 = init_pose
-        self.Rob2f85.initJoints(r2f85)
-
-    def close_gripper(self):
-        """
-        Close gripper and go to 80%.
-        """
-        self.set_gripper_goal(80, 80)
-
-    def open_gripper(self):
-        """
-        Opens gripper.
-        """
-        self.set_gripper_goal(0, 0)
-
-    def get_tool_center_point(self):
-        """
-        Get the index of tcp of gripper.
-
-
-        Returns:
-                end_effector_link_index: the index of the end effector joint.
-        """
-        end_effector_link_index = self.get_joint_index_from_name("tool_center_point")
-        return end_effector_link_index
-
-    def get_end_effector_info(self):
-        """
-        Get information about the end effector.
-
-        Returns:
-               end_effector_position: the end effector position in world coordinates.
-           end_effector_orientation: the end effector orientation in world coordinates.
-        """
-        joint_info = p.getJointInfo(self.robot_id, self.end_effector_link_index)
-        end_effector_name = joint_info[1].decode("utf-8")
-        end_effector_info = p.getLinkState(
-            bodyUniqueId=self.robot_id, linkIndex=self.end_effector_link_index
-        )
-        end_effector_position = end_effector_info[0]
-        end_effector_orientation = end_effector_info[1]
-        return end_effector_position, end_effector_orientation
-
-    def build_joint_index_from_name_dict(self):
-        """
-        Build joint index from name dictionary.
-        This is used to find the names of joints.
-        """
-        self.joints_names_dict = {}
-        num_joints = p.getNumJoints(self.robot_id, self._cid)
-        # Get the joint information from the robot.
-        for i in range(num_joints):
-            joint_info = p.getJointInfo(self.robot_id, i, self._cid)
-            srt_joint_name = joint_info[1].decode("UTF-8")
-            self.joints_names_dict[srt_joint_name] = joint_info[0]
-
-    def get_joint_index_from_name(self, joint_name):
-        """
-        Get joint index from name.
-
-        Args:
-                joint_name: name of the joint to find.
-
-        Returns:
-                joint_id: index of the joint to find.
-        """
-        try:
-            # build joint index from name dictionary
-            if len(self.joints_names_dict) == 0:
-                self.build_joint_index_from_name_dict()
-        except AttributeError:
-            self.build_joint_index_from_name_dict()
-
-        try:
-            joint_id = self.joints_names_dict.get(joint_name)
-        except Exception as e:
-            print(f"Cannot find a joint named: {e}")
-        return joint_id
-
-    def set_gripper_goal(self, left_finger_goal, right_finger_goal):
-        """
-        Set gripper goal in degrees.
-        A percentage that specify how close each finger is (100 = Fully closed, 0 = Fully open).
-
-        Args:
-                left_finger_goal: the amount of left finger closing.
-                right_finger_goal: the amount of right finger closing.
-        """
-        self.Rob2f85.setGoal(left_finger_goal, right_finger_goal)
