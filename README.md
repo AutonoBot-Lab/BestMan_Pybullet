@@ -16,7 +16,7 @@ Step 1: Download the object models
 
 Step 2: Configure a proper environment in Python 3
 
-`python setup.py install`
+`pip install -e .`
 
 Step 3: Run a demo (navigation)
 
