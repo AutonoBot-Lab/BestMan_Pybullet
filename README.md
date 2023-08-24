@@ -38,5 +38,9 @@ Step 5: Run a demo (kitchen)
 
 <img src="image/example_kitchen.gif" width="300" height="225">
 
+Step 5: Run a demo (RL)
+
+`python ./examples/example_RL.py`
+
 Note that "functions_in_utils_control.txt" lists common functions in "utils_control.py".
 
