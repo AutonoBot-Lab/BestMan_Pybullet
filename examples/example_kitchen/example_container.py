@@ -20,7 +20,7 @@ pose1 = [0, -1.57, 2.0, -1.57, -1.57, 0]
 demo.move_arm_to_joint_angles(pose1)
 
 # load kitchen
-kitchen = Kitchen()
+kitchen = Kitchen(pb_client)
 
 # start recording
 logID = pb_client.start_record("test")
