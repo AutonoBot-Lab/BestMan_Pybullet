@@ -243,3 +243,71 @@ class Kitchen:
                 maxVelocity=0.5,
             )
         self.pb_client.run(240 * 5)
+
+    def set_visual_color(self):
+        # link id:
+        # 0: world
+        # 1: extractor_hood
+        # 2: range
+        # 3: front_left_stove
+        # 4: front_right_stove
+        # 5: back_left_stove
+        # 6: back_right_stove
+        # 7: control_panel
+        # 8: back_left_knob
+        # 9: front_left_knob
+        # 10: back_right_knob
+        # 11: front_right_knob
+        # 12: sektion
+        # 13: baker_anchor_link
+        # 14: baker_link_tmp
+        # 15: baker_link
+        # 16: baker_handle
+        # 17: chewie_door_right_anchor_link
+        # 18: chewie_door_right_link_tmp
+        # 19: chewie_door_right_link
+        # 20: chewie_door_right_handle
+        # 21: chewie_door_left_anchor_link
+        # 22: chewie_door_left_link_tmp
+        # 23: chewie_door_left_link
+        # 24: chewie_door_left_handle
+        # 25: dagger
+        # 26: dagger_door_left_anchor_link
+        # 27: dagger_door_left_link_tmp
+        # 28: dagger_door_left_link
+        # 29: dagger_door_left_handle
+        # 30: dagger_door_right_anchor_link
+        # 31: dagger_door_right_link_tmp
+        # 32: dagger_door_right_link
+        # 33: dagger_door_right_handle
+        # 34: hitman_tmp
+        # 35: hitman_countertop
+        # 36: hitman
+        # 37: hitman_drawer_top
+        # 38: hitman_drawer_top_front
+        # 39: hitman_drawer_handle_top
+        # 40: hitman_drawer_bottom
+        # 41: hitman_drawer_bottom_front
+        # 42: hitman_drawer_handle_bottom
+        # 43: indigo_tmp
+        # 44: indigo_countertop
+        # 45: indigo
+        # 46: indigo_drawer_top
+        # 47: indigo_drawer_handle_top
+        # 48: indigo_drawer_bottom
+        # 49: indigo_drawer_handle_bottom
+        # 50: indigo_door_right_anchor_link
+        # 51: indigo_door_right_joint_anchor_link
+        # 52: indigo_door_right_link
+        # 53: indigo_door_right_nob_link
+        # 54: indigo_door_right
+        # 55: indigo_door_left_anchor_link
+        # 56: indigo_door_left_joint_anchor_link
+        # 57: indigo_door_left_link
+        # 58: indigo_door_left_nob_link
+        # 59: indigo_door_left
+        
+        green = [0, 1, 0, 1]
+        p.changeVisualShape(
+            self.elementA_id, 1, rgbaColor=[1, 1, 1, 1]
+        )
