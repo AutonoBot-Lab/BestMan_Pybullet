@@ -150,7 +150,7 @@ class PbVisualizer:
     This method sets the visual color of the base and the arm of a robot in the simulation.
     """
 
-    def set_visual_shape(self, base_id, arm_id):
+    def set_arm_visual_color(self, base_id, arm_id):
         """
         Set the color of base.
         """
@@ -209,6 +209,110 @@ class PbVisualizer:
             rgbaColor=blue,
             physicsClientId=self.client_id,
         )
+
+    """
+    This method sets the visual color of the base and the arm of a robot in the simulation.
+    """
+
+    def set_elementA_visual_color(self, elementA_id):
+        # option 1
+        white = [1, 1, 1, 1]
+        wood_light = [0.87, 0.72, 0.53, 1]
+        black = [0.59, 0.59, 0.59, 1]
+
+        # option 2
+        grey = [0.86, 0.86, 0.86, 1]
+        wood_heavy = [0.4, 0.26, 0.13, 1]
+
+        """
+        Set the color of element A in the kitchen.
+        """
+        # link id:
+        # 0: world
+        # 1: extractor_hood
+        # 2: range
+        # 3: front_left_stove
+        # 4: front_right_stove
+        # 5: back_left_stove
+        # 6: back_right_stove
+        # 7: control_panel
+        # 8: back_left_knob
+        # 9: front_left_knob
+        # 10: back_right_knob
+        # 11: front_right_knob
+        # 12: sektion
+        # 13: baker_anchor_link
+        # 14: baker_link_tmp
+        # 15: baker_link
+        # 16: baker_handle
+        # 17: chewie_door_right_anchor_link
+        # 18: chewie_door_right_link_tmp
+        # 19: chewie_door_right_link
+        # 20: chewie_door_right_handle
+        # 21: chewie_door_left_anchor_link
+        # 22: chewie_door_left_link_tmp
+        # 23: chewie_door_left_link
+        # 24: chewie_door_left_handle
+        # 25: dagger
+        # 26: dagger_door_left_anchor_link
+        # 27: dagger_door_left_link_tmp
+        # 28: dagger_door_left_link
+        # 29: dagger_door_left_handle
+        # 30: dagger_door_right_anchor_link
+        # 31: dagger_door_right_link_tmp
+        # 32: dagger_door_right_link
+        # 33: dagger_door_right_handle
+        # 34: hitman_tmp
+        # 35: hitman_countertop
+        # 36: hitman
+        # 37: hitman_drawer_top
+        # 38: hitman_drawer_top_front
+        # 39: hitman_drawer_handle_top
+        # 40: hitman_drawer_bottom
+        # 41: hitman_drawer_bottom_front
+        # 42: hitman_drawer_handle_bottom
+        # 43: indigo_tmp
+        # 44: indigo_countertop
+        # 45: indigo
+        # 46: indigo_drawer_top
+        # 47: indigo_drawer_handle_top
+        # 48: indigo_drawer_bottom
+        # 49: indigo_drawer_handle_bottom
+        # 50: indigo_door_right_anchor_link
+        # 51: indigo_door_right_joint_anchor_link
+        # 52: indigo_door_right_link
+        # 53: indigo_door_right_nob_link
+        # 54: indigo_door_right
+        # 55: indigo_door_left_anchor_link
+        # 56: indigo_door_left_joint_anchor_link
+        # 57: indigo_door_left_link
+        # 58: indigo_door_left_nob_link
+        # 59: indigo_door_left
+        
+        for i in [1]: # white
+            p.changeVisualShape(
+                objectUniqueId=elementA_id,
+                linkIndex=i,
+                rgbaColor=white,
+                physicsClientId=self.client_id,
+            )
+
+        for i in [2]: # wood_light
+            p.changeVisualShape(
+                objectUniqueId=elementA_id,
+                linkIndex=i,
+                rgbaColor=wood_light,
+                physicsClientId=self.client_id,
+            )
+
+        for i in [3]: # black
+            p.changeVisualShape(
+                objectUniqueId=elementA_id,
+                linkIndex=i,
+                rgbaColor=black,
+                physicsClientId=self.client_id,
+            )
+        
 
     def visualize_path(self, path):
         # Reverse the path so that it goes from start to goal

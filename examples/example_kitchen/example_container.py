@@ -23,7 +23,7 @@ demo.move_arm_to_joint_angles(pose1)
 kitchen = Kitchen(pb_client)
 
 # start recording
-logID = pb_client.start_record("test")
+# logID = pb_client.start_record("test")
 
 # open a drawer in element A
 for i in range(10):
@@ -66,7 +66,7 @@ for i in range(2):
     kitchen.close_drawer('elementE', drawer_id)
 
 # end recording
-pb_client.end_record(logID)
+# pb_client.end_record(logID)
 
 # disconnect pybullet
 pb_client.disconnect_pybullet()

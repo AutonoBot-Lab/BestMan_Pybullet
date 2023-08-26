@@ -112,9 +112,9 @@ class Bestman:
         self.gripper_id = None
         self.sync_base_arm_pose()
 
-        # Set arm colors
+        # Set arm and base colors
         self.visualizer = PbVisualizer(pb_client)
-        self.visualizer.set_visual_shape(self.base_id, self.arm_id)
+        self.visualizer.set_arm_visual_color(self.base_id, self.arm_id)
 
     # ----------------------------------------------------------------
     # Segbot Navigation

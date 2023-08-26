@@ -19,6 +19,7 @@ class Kitchen:
     def __init__(self, pb_client):
         self.pb_client = pb_client
         self.client_id = self.pb_client.get_client()
+        
         # ----------------------------------------------------------------
         # This is Element A, where there are a oven, and a few drawers
         # ----------------------------------------------------------------
@@ -61,91 +62,97 @@ class Kitchen:
             )
         )
 
-        # # ----------------------------------------------------------------
-        # # This is Element B, where there are a sink, and a few container
-        # # ----------------------------------------------------------------
-        # self.elementC_id = p.loadURDF(
-        #     "./Kitchen/elementB/kitchen_assembly.urdf",
-        #     basePosition=[4.3, 7.73, 0],
-        #     baseOrientation=p.getQuaternionFromEuler([0, 0, math.pi])
-        # )
+        # ----------------------------------------------------------------
+        # This is Element B, where there are a sink, and a few container
+        # ----------------------------------------------------------------
+        self.elementC_id = p.loadURDF(
+            "./Kitchen/elementB/kitchen_assembly.urdf",
+            basePosition=[4.3, 7.73, 0],
+            baseOrientation=p.getQuaternionFromEuler([0, 0, math.pi])
+        )
 
-    #     # ----------------------------------------------------------------
-    #     #  This is Element C (i.e., a dishwasher)
-    #     # ----------------------------------------------------------------
-    #     self.elementC_id = p.loadURDF(
-    #         "./Kitchen/elementC/dishwasher.urdf",
-    #         basePosition=[3.95, 3.08, 0.43],
-    #         baseOrientation=p.getQuaternionFromEuler([0, 0, - math.pi / 2.0])
-    #     )
-    #     self.elementC_drawer_to_joint_id = {
-    #         1: 1,
-    #         2: 2,
-    #         3: 3,
-    #     }
-    #     self.elementC_drawer_to_joint_limits = {
-    #         1: (0, 1.5),
-    #         2: (0, -0.3),
-    #         3: (0, -0.3),
-    #     }
-    #     print(
-    #         "-" * 20
-    #         + "\n"
-    #         + "Element C's drawer id in kithen: {}".format(
-    #             self.elementC_drawer_to_joint_id
-    #         )
-    #     )
+        # ----------------------------------------------------------------
+        #  This is Element C (i.e., a dishwasher)
+        # ----------------------------------------------------------------
+        self.elementC_id = p.loadURDF(
+            "./Kitchen/elementC/dishwasher.urdf",
+            basePosition=[3.95, 3.08, 0.43],
+            baseOrientation=p.getQuaternionFromEuler([0, 0, - math.pi / 2.0])
+        )
+        self.elementC_drawer_to_joint_id = {
+            1: 1,
+            2: 2,
+            3: 3,
+        }
+        self.elementC_drawer_to_joint_limits = {
+            1: (0, 1.5),
+            2: (0, -0.3),
+            3: (0, -0.3),
+        }
+        print(
+            "-" * 20
+            + "\n"
+            + "Element C's drawer id in kithen: {}".format(
+                self.elementC_drawer_to_joint_id
+            )
+        )
 
-    #     # ----------------------------------------------------------------
-    #     # This is Element D (i.e., a microwave)
-    #     # ----------------------------------------------------------------
-    #     self.elementD_id = p.loadURDF(
-    #         "./Kitchen/elementD/microwave.urdf",
-    #         basePosition=[3.95, 7, 0.615],
-    #         baseOrientation=p.getQuaternionFromEuler([0, 0, math.pi / 2.0]),
-    #     )
-    #     self.elementD_drawer_to_joint_id = {
-    #         1: 1,
-    #     }
-    #     self.elementD_drawer_to_joint_limits = {
-    #         1: (0, -1.5),
-    #     }
-    #     print(
-    #         "-" * 20
-    #         + "\n"
-    #         + "Element D's drawer id in kithen: {}".format(
-    #             self.elementD_drawer_to_joint_id
-    #         )
-    #     )
+        # ----------------------------------------------------------------
+        # This is Element D (i.e., a microwave)
+        # ----------------------------------------------------------------
+        self.elementD_id = p.loadURDF(
+            "./Kitchen/elementD/microwave.urdf",
+            basePosition=[3.95, 7, 0.615],
+            baseOrientation=p.getQuaternionFromEuler([0, 0, math.pi / 2.0]),
+        )
+        self.elementD_drawer_to_joint_id = {
+            1: 1,
+        }
+        self.elementD_drawer_to_joint_limits = {
+            1: (0, -1.5),
+        }
+        print(
+            "-" * 20
+            + "\n"
+            + "Element D's drawer id in kithen: {}".format(
+                self.elementD_drawer_to_joint_id
+            )
+        )
 
-    #     # ----------------------------------------------------------------
-    #     # This is Element E (i.e., a refrigerator)
-    #     # ----------------------------------------------------------------
-    #     self.elementE_id = p.loadURDF(
-    #         "./Kitchen/elementE/refrigerator.urdf",
-    #         basePosition=[4.1, 8.2, 0.05],
-    #         baseOrientation=p.getQuaternionFromEuler([0, 0, -math.pi / 2.0]),
-    #     )
-    #     self.elementE_drawer_to_joint_id = {
-    #         1: 1,
-    #         2: 2,
-    #     }
-    #     self.elementE_drawer_to_joint_limits = {
-    #         1: (0, -1.5),
-    #         2: (0, -1.5),
-    #     }
-    #     print(
-    #         "-" * 20
-    #         + "\n"
-    #         + "Element E's drawer id in kithen: {}".format(
-    #             self.elementE_drawer_to_joint_id
-    #         )
-    #     )
+        # ----------------------------------------------------------------
+        # This is Element E (i.e., a refrigerator)
+        # ----------------------------------------------------------------
+        self.elementE_id = p.loadURDF(
+            "./Kitchen/elementE/refrigerator.urdf",
+            basePosition=[4.1, 8.2, 0.05],
+            baseOrientation=p.getQuaternionFromEuler([0, 0, -math.pi / 2.0]),
+        )
+        self.elementE_drawer_to_joint_id = {
+            1: 1,
+            2: 2,
+        }
+        self.elementE_drawer_to_joint_limits = {
+            1: (0, -1.5),
+            2: (0, -1.5),
+        }
+        print(
+            "-" * 20
+            + "\n"
+            + "Element E's drawer id in kithen: {}".format(
+                self.elementE_drawer_to_joint_id
+            )
+        )
+
+        # ----------------------------------------------------------------
+        # Set element A colors
+        # ----------------------------------------------------------------
+        self.visualizer = PbVisualizer(pb_client)
+        self.visualizer.set_elementA_visual_color(self.elementA_id)
     
-    # def run(self, x):
-    #     for _ in range(x):
-    #         p.stepSimulation()
-    #         time.sleep(1.0 / 240.0)
+    def run(self, x):
+        for _ in range(x):
+            p.stepSimulation()
+            time.sleep(1.0 / 240.0)
 
     # ----------------------------------------------------------------
     # Open drawer
@@ -243,71 +250,3 @@ class Kitchen:
                 maxVelocity=0.5,
             )
         self.pb_client.run(240 * 5)
-
-    def set_visual_color(self):
-        # link id:
-        # 0: world
-        # 1: extractor_hood
-        # 2: range
-        # 3: front_left_stove
-        # 4: front_right_stove
-        # 5: back_left_stove
-        # 6: back_right_stove
-        # 7: control_panel
-        # 8: back_left_knob
-        # 9: front_left_knob
-        # 10: back_right_knob
-        # 11: front_right_knob
-        # 12: sektion
-        # 13: baker_anchor_link
-        # 14: baker_link_tmp
-        # 15: baker_link
-        # 16: baker_handle
-        # 17: chewie_door_right_anchor_link
-        # 18: chewie_door_right_link_tmp
-        # 19: chewie_door_right_link
-        # 20: chewie_door_right_handle
-        # 21: chewie_door_left_anchor_link
-        # 22: chewie_door_left_link_tmp
-        # 23: chewie_door_left_link
-        # 24: chewie_door_left_handle
-        # 25: dagger
-        # 26: dagger_door_left_anchor_link
-        # 27: dagger_door_left_link_tmp
-        # 28: dagger_door_left_link
-        # 29: dagger_door_left_handle
-        # 30: dagger_door_right_anchor_link
-        # 31: dagger_door_right_link_tmp
-        # 32: dagger_door_right_link
-        # 33: dagger_door_right_handle
-        # 34: hitman_tmp
-        # 35: hitman_countertop
-        # 36: hitman
-        # 37: hitman_drawer_top
-        # 38: hitman_drawer_top_front
-        # 39: hitman_drawer_handle_top
-        # 40: hitman_drawer_bottom
-        # 41: hitman_drawer_bottom_front
-        # 42: hitman_drawer_handle_bottom
-        # 43: indigo_tmp
-        # 44: indigo_countertop
-        # 45: indigo
-        # 46: indigo_drawer_top
-        # 47: indigo_drawer_handle_top
-        # 48: indigo_drawer_bottom
-        # 49: indigo_drawer_handle_bottom
-        # 50: indigo_door_right_anchor_link
-        # 51: indigo_door_right_joint_anchor_link
-        # 52: indigo_door_right_link
-        # 53: indigo_door_right_nob_link
-        # 54: indigo_door_right
-        # 55: indigo_door_left_anchor_link
-        # 56: indigo_door_left_joint_anchor_link
-        # 57: indigo_door_left_link
-        # 58: indigo_door_left_nob_link
-        # 59: indigo_door_left
-        
-        green = [0, 1, 0, 1]
-        p.changeVisualShape(
-            self.elementA_id, 1, rgbaColor=[1, 1, 1, 1]
-        )

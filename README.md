@@ -42,5 +42,5 @@ Step 5: Run a demo (RL)
 
 `python ./examples/example_RL.py`
 
-Note that "functions_in_utils_control.txt" lists common functions in "utils_control.py".
+Note that "functions_in_utils_control.txt" lists common functions in "utils_X.py".
 
