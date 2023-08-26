@@ -10,7 +10,6 @@ import random
 import sys
 import os
 from matplotlib.colors import LinearSegmentedColormap
-import tkinter as tk
 
 
 """

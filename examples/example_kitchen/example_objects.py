@@ -6,7 +6,7 @@ import math
 
 # load cleint
 pb_client = PbClient(enable_GUI=True)
-pb_client.enable_vertical_view(4.0, [1.0, 1.0, 0])
+pb_client.enable_vertical_view(1.0, [1.7, 3.68, 1.95], -86.4, -52.3)
 
 # load visualizer
 pb_visualizer = PbVisualizer(pb_client)
@@ -22,8 +22,10 @@ demo.move_arm_to_joint_angles(pose1)
 # load kitchen
 kitchen = Kitchen(pb_client)
 
+pb_visualizer.set_elementB_visual_color
+
 # start recording
-# logID = pb_client.start_record("test")
+logID = pb_client.start_record("example_video")
 
 # open a drawer in element A
 for i in range(10):
@@ -41,7 +43,7 @@ for i in range(3):
     kitchen.open_drawer('elementC', drawer_id)
 
 # close a drawer in element C
-for i in range(3):
+for i in [2, 1, 0]:
     drawer_id = i+1
     kitchen.close_drawer('elementC', drawer_id)
 
@@ -66,7 +68,10 @@ for i in range(2):
     kitchen.close_drawer('elementE', drawer_id)
 
 # end recording
-# pb_client.end_record(logID)
+pb_client.end_record(logID)
+
+# wait a few seconds
+pb_client.wait(10)
 
 # disconnect pybullet
 pb_client.disconnect_pybullet()

@@ -72,8 +72,3 @@ class Kitchen:
             scale = model['scale']
             print('-' * 20 + '\n' + 'name:{}; url:{}; pose:{}; scale:{}'.format(name, absolute_url, pose, scale))
             self.pb_client.load_object(absolute_url, pose[:3], pose[3:], scale, name)
-    
-    def run(self, x):
-        for _ in range(x):
-            p.stepSimulation()
-            time.sleep(1.0 / 240.0)

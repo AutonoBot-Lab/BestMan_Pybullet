@@ -24,7 +24,7 @@ class Kitchen:
         # This is Element A, where there are a oven, and a few drawers
         # ----------------------------------------------------------------
         self.elementA_id = p.loadURDF(
-            "./Kitchen/elementA/urdf/kitchen_part_right_gen_convex.urdf",
+            "./Kitchen/models_yan/elementA/urdf/kitchen_part_right_gen_convex.urdf",
             basePosition=[4, 2, 1.477],
             baseOrientation=p.getQuaternionFromEuler([0, 0, math.pi])
         )
@@ -65,15 +65,9 @@ class Kitchen:
         # ----------------------------------------------------------------
         # This is Element B, where there are a sink, and a few container
         # ----------------------------------------------------------------
-        # self.elementB_id = p.loadURDF(
-        #     "./Kitchen/elementB/kitchen_assembly.urdf",
-        #     basePosition=[4.3, 7.73, 0],
-        #     baseOrientation=p.getQuaternionFromEuler([0, 0, math.pi])
-        # )
-
         self.elementB_id = p.loadURDF(
-            "./Kitchen/test/mobility.urdf",
-            basePosition=[4.3, 7.73, 0],
+            "./Kitchen/models_yan/elementB/urdf/kitchen_assembly.urdf",
+            basePosition=[4.3, 5.95, 0],
             baseOrientation=p.getQuaternionFromEuler([0, 0, math.pi])
         )
 
@@ -81,7 +75,7 @@ class Kitchen:
         #  This is Element C (i.e., a dishwasher)
         # ----------------------------------------------------------------
         self.elementC_id = p.loadURDF(
-            "./Kitchen/elementC/dishwasher.urdf",
+            "./Kitchen/models_yan/elementC/dishwasher.urdf",
             basePosition=[3.95, 3.08, 0.43],
             baseOrientation=p.getQuaternionFromEuler([0, 0, - math.pi / 2.0])
         )
@@ -107,8 +101,8 @@ class Kitchen:
         # This is Element D (i.e., a microwave)
         # ----------------------------------------------------------------
         self.elementD_id = p.loadURDF(
-            "./Kitchen/elementD/microwave.urdf",
-            basePosition=[3.95, 7, 0.615],
+            "./Kitchen/models_yan/elementD/microwave.urdf",
+            basePosition=[4.0, 2.9, 0.95],
             baseOrientation=p.getQuaternionFromEuler([0, 0, math.pi / 2.0]),
         )
         self.elementD_drawer_to_joint_id = {
@@ -129,8 +123,8 @@ class Kitchen:
         # This is Element E (i.e., a refrigerator)
         # ----------------------------------------------------------------
         self.elementE_id = p.loadURDF(
-            "./Kitchen/elementE/refrigerator.urdf",
-            basePosition=[4.1, 8.2, 0.05],
+            "./Kitchen/models_yan/elementE/refrigerator.urdf",
+            basePosition=[4.1, 6.42, 0.05],
             baseOrientation=p.getQuaternionFromEuler([0, 0, -math.pi / 2.0]),
         )
         self.elementE_drawer_to_joint_id = {
@@ -150,15 +144,14 @@ class Kitchen:
         )
 
         # ----------------------------------------------------------------
-        # Set element A colors
+        # Set element A B C D E colors
         # ----------------------------------------------------------------
         self.visualizer = PbVisualizer(pb_client)
         self.visualizer.set_elementA_visual_color(self.elementA_id)
-    
-    def run(self, x):
-        for _ in range(x):
-            p.stepSimulation()
-            time.sleep(1.0 / 240.0)
+        self.visualizer.set_elementB_visual_color(self.elementB_id)
+        self.visualizer.set_elementC_visual_color(self.elementC_id)
+        self.visualizer.set_elementD_visual_color(self.elementD_id)
+        self.visualizer.set_elementE_visual_color(self.elementE_id)
 
     # ----------------------------------------------------------------
     # Open drawer
@@ -234,6 +227,8 @@ class Kitchen:
                 targetPosition=close_angle,
                 maxVelocity=0.5,
             )
+            self.pb_client.run(240 * 5)
+            
         elif elementName == "elementD":
             joint_id = self.elementD_drawer_to_joint_id[drawer_id]
             close_angle = self.elementD_drawer_to_joint_limits[drawer_id][0]

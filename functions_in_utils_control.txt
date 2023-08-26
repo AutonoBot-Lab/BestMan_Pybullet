@@ -42,10 +42,18 @@ def grasp(self, object_id):
 def set_envs(self):
 
 # ----------------------------------------------------------------
-# # # # # utils_Kitchen.py # # # # # 
+# # # # # utils_Kitchen_object.py # # # # # 
 # ----------------------------------------------------------------
 def open_drawer(self, elementName, drawer_id):
 def close_drawer(self, elementName, drawer_id):
+
+# ----------------------------------------------------------------
+# # # # # utils_Kitchen_scene.py # # # # # 
+# ----------------------------------------------------------------
+def parse_lisdf(self, file_path):
+def compute_camera_angles(self, camera_pos, target_pos):
+def close_drawer(self, elementName, drawer_id):
+def load_models(self, models):
 
 # ----------------------------------------------------------------
 # # # # # utils_PbClient.py # # # # # 
