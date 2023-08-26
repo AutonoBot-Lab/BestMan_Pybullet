@@ -1,0 +1,175 @@
+<?xml version="1.0" ?>
+<robot name="kitchen_part_right">
+	<material name="White">
+    <color rgba="0.85 0.85 0.85 1.0"/>
+  </material>
+  <material name="Grey">
+    <color rgba="0.4 0.4 0.4 1.0"/>
+  </material>
+  <material name="Red">
+    <color rgba="1.0 0 0 1.0"/>
+  </material>
+
+	<link name="base"/>
+	<joint name="joint_1" type="fixed">
+		<origin rpy="0 0 -3.14159265359" xyz="-0.32 0 0.24"/>
+		<child link="sektion"/>
+		<parent link="base"/>
+	</joint>
+
+	<link name="sektion">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="10.0"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+    <visual name="sektion_visual">
+      <geometry>
+        <mesh filename="textured_objs/sektion_top_three_new3_two.obj" scale="1.0 1.0 1.0"/>
+      </geometry>
+      <material name="White"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="textured_objs/sektion_top_three_new3_two.obj" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="chewie_door_right_joint_fixed" type="fixed">
+    <parent link="sektion"/>
+    <child link="chewie_door_right_anchor_link"/>
+    <origin rpy="0 0 3.14159265359" xyz="0.3 0 -0.3"/>
+  </joint>
+  <link name="chewie_door_right_anchor_link"/>
+
+  <joint name="chewie_door_right_joint" type="revolute">
+    <parent link="chewie_door_right_anchor_link"/>
+    <child link="chewie_door_right_link_tmp"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1000.0" lower="0" upper="1.57" velocity="0.1"/>
+  </joint>
+  <link name="chewie_door_right_link_tmp"/>
+
+  <joint name="chewie_door_right_joint_fixed_2" type="fixed">
+    <parent link="chewie_door_right_link_tmp"/>
+    <child link="chewie_door_right_link"/>
+    <origin rpy="0 0 0" xyz="-0.01 0.19 0.38"/>
+  </joint>
+  <link name="chewie_door_right_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+    <visual name="chewie_door_right_visual">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="textured_objs/front_vertical_right.obj" scale="1.0 1.0 1.0"/>
+      </geometry>
+      <material name="Grey"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="textured_objs/front_vertical_right.obj" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="chewie_door_right_handle_transform" type="fixed">
+    <parent link="chewie_door_right_link_tmp"/>
+    <child link="chewie_door_right_handle"/>
+    <!-- <origin rpy="0 0 0" xyz="-0.05905 0.33 0.13"/> -->
+    <origin rpy="0 0 0" xyz="-0.05905 0.33 0.38"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <link name="chewie_door_right_handle">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+    <visual name="chewie_door_right_handle_visual">
+      <origin rpy="0  0  0" xyz="0  0  0"/>
+      <geometry>
+        <mesh filename="textured_objs/handle_new.obj" scale="1.0 1.0 1.0"/>
+      </geometry>
+      <material name="White"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="textured_objs/handle_new.obj" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </collision>
+  </link>
+
+
+  <joint name="chewie_door_left_joint_fixed" type="fixed">
+    <parent link="sektion"/>
+    <child link="chewie_door_left_anchor_link"/>
+    <origin rpy="0 0 3.14159265359" xyz="0.3 -0.762 -0.3"/>
+  </joint>
+  <link name="chewie_door_left_anchor_link"/>
+  <joint name="chewie_door_left_joint" type="revolute">
+    <parent link="chewie_door_left_anchor_link"/>
+    <child link="chewie_door_left_link_tmp"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1000.0" lower="-1.57" upper="0" velocity="0.1"/>
+  </joint>
+  <link name="chewie_door_left_link_tmp"/>
+  <joint name="chewie_door_left_joint_fixed_2" type="fixed">
+    <parent link="chewie_door_left_link_tmp"/>
+    <child link="chewie_door_left_link"/>
+    <origin rpy="0 0 0" xyz="-0.01 -0.19 0.38"/>
+  </joint>
+  <link name="chewie_door_left_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+    <visual name="chewie_door_left_visual">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="textured_objs/front_vertical_left.obj" scale="1.0 1.0 1.0"/>
+      </geometry>
+      <material name="Grey"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="textured_objs/front_vertical_left.obj" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="chewie_door_left_handle_transform" type="fixed">
+    <parent link="chewie_door_left_link_tmp"/>
+    <child link="chewie_door_left_handle"/>
+    <!-- <origin rpy="0 0 0" xyz="-0.05905 -0.33 0.13"/> -->
+    <origin rpy="0 0 0" xyz="-0.05905 -0.33 0.38"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <link name="chewie_door_left_handle">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+    <visual name="chewie_door_left_handle_visual">
+      <origin rpy="0  0  0" xyz="0  0  0"/>
+      <geometry>
+        <mesh filename="textured_objs/handle_new.obj" scale="1.0 1.0 1.0"/>
+      </geometry>
+      <material name="White"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="textured_objs/handle_new.obj" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </collision>
+  </link>
+
+
+
+</robot>

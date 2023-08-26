@@ -10,19 +10,22 @@ import random
 import sys
 import os
 from matplotlib.colors import LinearSegmentedColormap
+import tkinter as tk
 
 
 """
 Client class
 """
 class PbClient:
-    def __init__(self, enable_GUI = True, enable_Debug = False):
+    def __init__(self, enable_GUI=True, enable_Debug=False):
         if enable_GUI:
             self.client_id = p.connect(p.GUI)
         else:
             self.client_id = p.connect(p.DIRECT)
-        if enable_GUI:
+        
+        if not enable_Debug:
             p.configureDebugVisualizer(p.COV_ENABLE_GUI, 0)
+
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
         p.setGravity(0, 0, -9.8)
         p.setPhysicsEngineParameter(numSolverIterations=1000)  # Set the number of constraint solver iterations; Higher values increase precision but also increase computation time
@@ -35,7 +38,7 @@ class PbClient:
         # Obstacles in the environment
         self.obstacle_navigation_ids = []  # for navigation
         self.obstacle_manipulation_ids = []  # for manipulation
-
+    
     def get_client(self):
         return self.client_id
 
@@ -65,7 +68,7 @@ class PbClient:
             cameraDistance=height,
             cameraYaw=yaw,
             cameraPitch=pitch,
-            cameraTargetPosition=[0, 0, 0],
+            cameraTargetPosition=position,
             physicsClientId=self.client_id,
         )
 

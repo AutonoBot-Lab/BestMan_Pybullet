@@ -1,0 +1,33 @@
+newmtl phong2SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 0.88 0.88 0.88
+map_Kd Ice Texture.jpg
+bump Ice Normal Map.jpg -bm 0.7
+Ni 1.00
+Ks 0.62 0.62 0.62
+Ns 18.00
+newmtl phongE8SG
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.14 0.14 0.14
+newmtl phongE9SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd Cocacola texture.jpg
+Ni 1.00
+Ks 0.23 0.23 0.23
+newmtl phongE10SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd drink tex.png
+Ni 1.00
+Ks 0.50 0.50 0.50

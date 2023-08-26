@@ -1,0 +1,13 @@
+link_0 slider button
+link_1 slider button
+link_2 slider button
+link_3 slider button
+link_4 slider button
+link_5 slider button
+link_6 slider button
+link_7 slider button
+link_8 slider button
+link_9 slider button
+link_10 hinge lens
+link_11 hinge knob
+link_12 free camera_body

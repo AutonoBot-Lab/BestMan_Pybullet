@@ -1,0 +1,9 @@
+# Blender MTL File: 'two_pieces_x_plus.blend'
+# Material Count: 1
+
+newmtl material_0_0.001
+illum 3
+d 1
+Ns 30
+Kd 0.5411764705882353 0 0 
+Ks 0.06666666666666667 0.06666666666666667 0.06666666666666667 

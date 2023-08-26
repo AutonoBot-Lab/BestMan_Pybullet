@@ -1,0 +1,10 @@
+link_0 slider button
+link_1 hinge knob
+link_2 hinge knob
+link_3 hinge knob
+link_4 hinge knob
+link_5 hinge knob
+link_6 hinge knob
+link_7 hinge knob
+link_8 hinge knob
+link_9 heavy oven_body

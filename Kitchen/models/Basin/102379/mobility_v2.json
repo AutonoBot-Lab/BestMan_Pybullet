@@ -1,0 +1,1 @@
+[{"id":0,"parent":1,"joint":"hinge","name":"rotation_lid","parts":[{"id":1,"name":"rotation_lid"}],"jointData":{"axis":{"origin":[0,-0.10372877077224477,-0.23685313234312205],"direction":[1,0,0]},"limit":{"a":90,"b":-90,"noLimit":false}}},{"id":1,"parent":-1,"joint":"free","name":"base_body","parts":[{"id":2,"name":"base_body"}],"jointData":{}}]

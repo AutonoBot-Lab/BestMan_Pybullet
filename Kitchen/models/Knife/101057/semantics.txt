@@ -1,0 +1,2 @@
+link_0 slider translation_blade
+link_1 free knife_body

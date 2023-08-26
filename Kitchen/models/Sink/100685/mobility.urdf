@@ -1,0 +1,114 @@
+<?xml version="1.0" ?>
+<robot name="partnet_u82f2a1a8-3a4b-4dd0-8fac-6679970a9b29">
+
+	<link name="base"/>
+	<link name="link_1">
+
+		<visual name="base_body-2">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-19.obj"/>
+			</geometry>
+			<material name="Grey">
+				<color rgba="0.4 0.4 0.4 1.0"/>
+			</material>
+		</visual>
+		<visual name="base_body-2">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-20.obj"/>
+			</geometry>
+			<material name="Grey">
+				<color rgba="0.4 0.4 0.4 1.0"/>
+			</material>
+		</visual>
+
+		<!-- <collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-19.obj"/>
+			</geometry>
+			<material name="Grey">
+				<color rgba="0.4 0.4 0.4 1.0"/>
+			</material>
+		</collision> -->
+
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-19-right-collision.obj"/>
+			</geometry>
+			<material name="Grey">
+				<color rgba="0.4 0.4 0.4 1.0"/>
+			</material>
+		</collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-19-left-collision.obj"/>
+			</geometry>
+			<material name="Grey">
+				<color rgba="0.4 0.4 0.4 1.0"/>
+			</material>
+		</collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-19-bottom.obj"/>
+			</geometry>
+			<material name="Grey">
+				<color rgba="0.4 0.4 0.4 1.0"/>
+			</material>
+		</collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-19-back-collision.obj"/>
+			</geometry>
+			<material name="Grey">
+				<color rgba="0.4 0.4 0.4 1.0"/>
+			</material>
+		</collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-20-collision.obj"/>
+			</geometry>
+			<material name="Grey">
+				<color rgba="0.4 0.4 0.4 1.0"/>
+			</material>
+		</collision>
+	</link>
+	<joint name="joint_1" type="fixed">
+		<origin rpy="1.570796326794897 0 1.570796326794897" xyz="0 0 0"/>
+		<child link="link_1"/>
+		<parent link="base"/>
+	</joint>
+
+	<link name="sink_bottom">
+		<visual name='tray_b'>
+			<origin xyz="0 0.01 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-19-bottom.obj"/>
+			</geometry>
+			<material name="Grey">
+				<color rgba="0.4 0.4 0.4 1.0"/>
+			</material>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-19-bottom.obj"/>
+			</geometry>
+			<material name="Grey">
+				<color rgba="0.4 0.4 0.4 1.0"/>
+			</material>
+		</collision>
+	</link>
+	<joint name="joint_0" type="fixed">
+		<origin xyz="0 0 0"/>
+		<child link="sink_bottom"/>
+		<parent link="link_1"/>
+	</joint>
+
+</robot>

@@ -218,11 +218,14 @@ class PbVisualizer:
         # option 1
         white = [1, 1, 1, 1]
         wood_light = [0.87, 0.72, 0.53, 1]
-        black = [0.59, 0.59, 0.59, 1]
-
-        # option 2
+        stainless_steel = [0.59, 0.59, 0.59, 1]
+        wood_dark =  [0.4, 0.26, 0.13, 1]
+        cream = [1, 0.99, 0.82, 1]
         grey = [0.86, 0.86, 0.86, 1]
         wood_heavy = [0.4, 0.26, 0.13, 1]
+
+        # test
+        blue = [0.53, 0.81, 0.92, 1.0]
 
         """
         Set the color of element A in the kitchen.
@@ -289,7 +292,7 @@ class PbVisualizer:
         # 58: indigo_door_left_nob_link
         # 59: indigo_door_left
         
-        for i in [1]: # white
+        for i in [1, 8, 9, 10, 11]: # white
             p.changeVisualShape(
                 objectUniqueId=elementA_id,
                 linkIndex=i,
@@ -305,14 +308,54 @@ class PbVisualizer:
                 physicsClientId=self.client_id,
             )
 
-        for i in [3]: # black
+        for i in [3, 4, 5, 6]: # stainless_steel
             p.changeVisualShape(
                 objectUniqueId=elementA_id,
                 linkIndex=i,
-                rgbaColor=black,
+                rgbaColor=stainless_steel,
                 physicsClientId=self.client_id,
             )
         
+        for i in [7]: # wood_dark
+            p.changeVisualShape(
+                objectUniqueId=elementA_id,
+                linkIndex=i,
+                rgbaColor=wood_dark,
+                physicsClientId=self.client_id,
+            )
+        
+        for i in [30, 33, 34, 42, 43]: # wood_light
+            p.changeVisualShape(
+                objectUniqueId=elementA_id,
+                linkIndex=i,
+                rgbaColor=wood_light,
+                physicsClientId=self.client_id,
+            )
+
+    def set_elementB_visual_color(self, elementB_id):
+        # option 1
+        white = [1, 1, 1, 1]
+        wood_light = [0.87, 0.72, 0.53, 1]
+        stainless_steel = [0.59, 0.59, 0.59, 1]
+        wood_dark =  [0.4, 0.26, 0.13, 1]
+        cream = [1, 0.99, 0.82, 1]
+        grey = [0.86, 0.86, 0.86, 1]
+        wood_heavy = [0.4, 0.26, 0.13, 1]
+
+        # test
+        blue = [0.53, 0.81, 0.92, 1.0]
+
+        """
+        Set the color of element A in the kitchen.
+        """
+        # link id:
+        for i in [0, 1]: # wood_dark
+            p.changeVisualShape(
+                objectUniqueId=elementB_id,
+                linkIndex=i,
+                rgbaColor=wood_light,
+                physicsClientId=self.client_id,
+            )
 
     def visualize_path(self, path):
         # Reverse the path so that it goes from start to goal

@@ -1,7 +1,7 @@
 from utils.utils_Bestman import Bestman, Pose
 from utils.utils_PbClient import PbClient
 from utils.utils_PbVisualizer import PbVisualizer
-from utils.utils_Kitchen import Kitchen
+from utils.utils_Kitchen_object import Kitchen
 from utils.utils_PbOMPL import PbOMPL
 import math
 import time

@@ -1,0 +1,12 @@
+# SSTK version 0.8.0
+# 55
+mtllib original-55.mtl
+o mesh51/mesh51-geometry#mesh51-geometry
+v 0.027925 0.189198 0.427161
+v 0.027925 0.190078 0.428375
+v 0.027925 0.189478 0.427697
+vn 1 0 0
+vn -1 0 0
+usemtl material_0_0
+f 1//1 2//1 3//1
+f 3//2 2//2 1//2
