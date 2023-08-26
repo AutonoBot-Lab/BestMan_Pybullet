@@ -3,11 +3,9 @@ from utils.utils_PbClient import PbClient
 from utils.utils_PbVisualizer import PbVisualizer
 from utils.utils_Kitchen_scene import Kitchen
 import math
-import tkinter as tk
-import pybullet as p
 
 # load cleint
-pb_client = PbClient(enable_GUI=True, enable_Debug=True)
+pb_client = PbClient(enable_GUI=True, enable_Debug=False)
 pb_client.enable_vertical_view(1.0, [1.7, 3.68, 1.95], -86.4, -52.3)
 
 # load visualizer
@@ -23,9 +21,11 @@ demo.move_arm_to_joint_angles(pose1)
 
 # load kitchen
 kitchen = Kitchen(pb_client, './Kitchen/scenes/kitchen_basics.lisdf')
+# kitchen = Kitchen(pb_client, './Kitchen/scenes/kitchen_counter.lisdf')
+# kitchen = Kitchen(pb_client, './Kitchen/scenes/kitchen_lunch.lisdf')
 
 # wait a few seconds
-pb_client.wait(100)
+pb_client.wait(10)
 
 # disconnect pybullet
 pb_client.disconnect_pybullet()
