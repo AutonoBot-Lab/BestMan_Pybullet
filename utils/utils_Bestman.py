@@ -64,7 +64,6 @@ class Bestman:
         self.frequency = 240  # simulation step for base and arm
         self.timeout = 100.0  # maximum time for planning
         # parameters for arm
-        self.end_effector_index = 6
         self.max_force = 500
         self.max_iterations = 10000
         self.residual_threshold = 0.01
@@ -84,15 +83,48 @@ class Bestman:
         )
 
         # Initialize arm
+
+        # Joint index:0, name:b'shoulder_pan_joint', angle:0.0
+        # Joint index:1, name:b'shoulder_lift_joint', angle:0.0
+        # Joint index:2, name:b'elbow_joint', angle:0.0
+        # Joint index:3, name:b'wrist_1_joint', angle:0.0
+        # Joint index:4, name:b'wrist_2_joint', angle:0.0
+        # Joint index:5, name:b'wrist_3_joint', angle:0.0
+        # Joint index:6, name:b'ee_fixed_joint', angle:0.0
+
+        # Joint index:7, name:b'ee_link_gripper_base_joint', angle:0.0
+        # Joint index:8, name:b'gripper_right_spring_link_joint', angle:0.0
+        # Joint index:9, name:b'gripper_left_spring_link_joint', angle:0.0
+        # Joint index:10, name:b'gripper_right_driver_joint', angle:0.0
+        # Joint index:11, name:b'gripper_right_coupler_joint', angle:0.0
+        # Joint index:12, name:b'gripper_right_follower_joint', angle:0.0
+        # Joint index:13, name:b'gripper_right_pad_joint', angle:0.0
+        # Joint index:14, name:b'gripper_left_driver_joint', angle:0.0
+        # Joint index:15, name:b'gripper_left_coupler_joint', angle:0.0
+        # Joint index:16, name:b'gripper_left_follower_joint', angle:0.0
+        # Joint index:17, name:b'gripper_left_pad_joint', angle:0.0
+        # Joint index:18, name:b'tool_center_point', angle:0.0
+
+        # Joint index:7, name:b'ee_link_gripper_base_joint', angle:0.0
+        # Joint index:8, name:b'tool_center_point', angle:0.0
+
+        filenames = {
+            "ur5e":"./URDF_robot/ur5e.urdf",
+            "ur5e_2f85":"./URDF_robot/ur5e_2f85.urdf",
+            "ur5e_vacuum":"./URDF_robot/ur5e_vacuum.urdf",
+        }
+        filename = filenames["ur5e_vacuum"]
+        print("-" * 20 + "\n" + "Arm model: {}".format(filename))
         self.arm_id = p.loadURDF(
-            fileName="./URDF_robot/ur5e.urdf",
-            # fileName="./URDF_robot/ur5e_2f85.urdf",
-            # fileName="./URDF_robot/ur5e_vacuum.urdf",
+            fileName=filename,
             basePosition=init_pos.position,
             baseOrientation=p.getQuaternionFromEuler([0.0, 0.0, math.pi / 2.0]),
             useFixedBase=True,
             physicsClientId=self.client_id
         )
+
+        self.joint_indexs = list(range(0, self.get_arm_joint_info()))
+        self.end_effector_index = len(self.joint_indexs) - 1
 
         # Add constraint between base and arm
         robot2_start_pos = [0, 0, 0]
@@ -394,6 +426,7 @@ class Bestman:
             print(
                 "Joint index:{}, name:{}, angle:{}".format(i, joint_name, joint_angle)
             )
+        return num_joints
 
     """
     This function retrieves and return joints' angle.
@@ -487,9 +520,9 @@ class Bestman:
         )
         end_effector_position = end_effector_info[0]
         end_effector_orientation = end_effector_info[1]
-        # print("-" * 20 + "\n" + "End effector name:{}".format(end_effector_name))
-        # print("Its position:{}".format(end_effector_position))
-        # print("Its orientation:{}".format(end_effector_orientation))
+        print("-" * 20 + "\n" + "End effector name:{}".format(end_effector_name))
+        print("Its position:{}".format(end_effector_position))
+        print("Its orientation:{}".format(end_effector_orientation))
         return end_effector_position, end_effector_orientation
 
     def joints_to_cartesian(self, joint_angles):
@@ -514,7 +547,6 @@ class Bestman:
             residualThreshold=self.residual_threshold,
             physicsClientId=self.client_id
         )
-        # return joint_angles
         return joint_angles
     
     def cartesian_to_joints_without_gripper(self, position, orientation):

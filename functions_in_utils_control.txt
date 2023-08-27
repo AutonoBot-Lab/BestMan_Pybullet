@@ -83,3 +83,22 @@ def set_arm_visual_color(self):
 def visualize_path(self, path):
 def enable_vertical_view(self, height, position):
 def draw_line(self, start_pos, target_pos, color=[1, 0, 0], width=3.0):
+
+# ----------------------------------------------------------------
+# # # # # utils_PbOMPL.py # # # # # 
+# ----------------------------------------------------------------
+def set_planner(self, planner):
+def set_target(self, target_id):
+def set_target_pos(self, target_pos):
+def set_obstacles(self, obstacles):
+def add_obstacles(self, item_id):
+def remove_obstacles(self, obstacle_id):
+def store_obstacles(self):
+def check_obstacles(self):
+def get_scene_items(self, display=True):
+def add_scene_obstacles(self, display=False):
+def execute(self, path):
+def compute_distance(self, end_effector_link_index):
+def plan_grasp(self, start, goal):
+def move_end_effector_to_goal_position(self, start, goal, end_effector_link_index):
+def grasp_object(self, start, goal, end_effector_link_index):  # TODO refactor

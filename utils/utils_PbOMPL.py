@@ -15,7 +15,7 @@ from utils.robotiq_2f85 import Robotiq2F85
 import utils.pb_ompl
 
 class PbOMPL:
-    def __init__(self, robot_id, joint_idx, obstacles=[], planner="RRT", threshold=0.1):
+    def __init__(self, robot_id, joint_idx, obstacles=[], planner="RRTConnect", threshold=0.1):
         """
         Initialize the OMPL.
 
@@ -243,9 +243,7 @@ class PbOMPL:
         res, path = self.pb_ompl_interface.plan(goal)
         return res, path
 
-    def move_end_effector_to_goal_position(
-        self, start, goal, end_effector_link_index
-    ):  # TODO refactor
+    def move_end_effector_to_goal_position(self, start, goal, end_effector_link_index):  # TODO refactor
         """
         Move end effector to goal position in OMPL planned path.
 
