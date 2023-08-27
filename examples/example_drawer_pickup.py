@@ -22,8 +22,8 @@ kitchen_id = Kitchen(pb_client)
 init_pose = Pose([1, 0, 0], [0.0, 0.0, math.pi / 2])
 demo = Bestman(init_pose, pb_client)
 
-# start recording
-logID = pb_client.start_record("example_manipuation_with_gripper")
+# # start recording
+# logID = pb_client.start_record("example_manipuation_with_gripper")
 
 # reset arm joint position
 pose1 = [0, -1.57, 2.0, -1.57, -1.57, 0]
@@ -77,11 +77,12 @@ print("-" * 20 + "\n" + "intial configuration:{}".format(start) + "goal configur
 # reach target object
 result = ompl.reach_object(start=start, goal=goal, end_effector_link_index=demo.end_effector_index)
 
-# end recording
-pb_client.end_record(logID)
+# # end recording
+# pb_client.end_record(logID)
 
 # wait a few seconds
 pb_client.wait(10)
 
 # disconnect pybullet
-pb_client.disconnect_pybullet()
+pb_client.disconnect_pybullet()# start recording
+# logID = pb_client.start_record("example_manipuation_with_gripper")

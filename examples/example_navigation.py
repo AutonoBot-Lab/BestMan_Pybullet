@@ -8,8 +8,11 @@ import math
 pb_client = PbClient(enable_GUI=True)
 pb_client.enable_vertical_view(4.0, [1.0, 1.0, 0])
 
-# load visualizer
-pb_visualizer = PbVisualizer(pb_client)
+# # load visualizer
+# pb_visualizer = PbVisualizer(pb_client)
+
+# start recording
+logID = pb_client.start_record("example_navigation")
 
 # load table, bowl, and chair
 table_id = pb_client.load_object(
@@ -65,6 +68,8 @@ demo.navigate_base(Pose(target_position, [0.0, 0.0, math.pi/2.0]))
 # check result
 demo.get_base_joint_info()
 
+# # end recording
+# pb_client.end_record(logID)
 
 pb_client.wait(20)
 

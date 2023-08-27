@@ -631,10 +631,10 @@ class Bestman:
             np.array(end_effector_goal_pose.position) - np.array(current_position)
         )
 
-        # check if the distance is small enough, if yes, return immediately
-        if distance < self.threshold:  # use an appropriate value here
-            print("Current position is already close to target position. No need to move.")
-            return True
+        # # check if the distance is small enough, if yes, return immediately
+        # if distance < self.threshold:  # use an appropriate value here
+        #     print("Current position is already close to target position. No need to move.")
+        #     return True
 
         target_position = end_effector_goal_pose.position
         target_orientation = end_effector_goal_pose.orientation
@@ -695,83 +695,85 @@ class Bestman:
         object_goal_position: The goal position for the target object.
         object_goal_orientation: The goal orientation for the target object.
     """
-
     def pick_place(self, object_id, object_goal_position, object_goal_orientation):
         # get target object position
         object_position_init, orientation = p.getBasePositionAndOrientation(object_id, physicsClientId=self.client_id)
-        target_position = [
-            object_position_init[0],
-            object_position_init[1],
-            object_position_init[2] + 0.1,
-        ]
-        for step in range(1000):
-            gripper_status = {"ungrasp": 0, "grasp": 1}
-            gripper_value = gripper_status["ungrasp"]
-            if step >= 150 and step < 250:
+        # consider the object's height
+        _, _, min_z, _, _, max_z = self.pb_client.get_bounding_box(object_id)
+        
+        temp_height1, temp_height2 = 0.05, 0.01
+        gripper_status = {"ungrasp": 0, "grasp": 1}
+        for step in range(100): 
+            if step < 20: # phase 1: move 20cm over object
+                gripper_value = gripper_status["ungrasp"]
                 target_position = [
                     object_position_init[0],
                     object_position_init[1],
-                    object_position_init[2] + 0.1,
-                ]  # grab object
+                    object_position_init[2] + (max_z - min_z) + self.tcp_height + temp_height1
+                ]
+            elif step >= 20 and step < 40: # phase 2: grasp object
                 gripper_value = gripper_status["grasp"]
-            elif step >= 250 and step < 400:
                 target_position = [
                     object_position_init[0],
                     object_position_init[1],
-                    object_position_init[2] + 0.2,
+                    object_position_init[2] + (max_z - min_z) + self.tcp_height + temp_height2
                 ]
+            elif step >= 40 and step < 60: # phase 3: move 20cm over goal position
                 gripper_value = gripper_status["grasp"]
-            elif step >= 400 and step < 600:
-                target_position = [
-                    object_position_init[0]
-                    + (object_goal_position[0] - object_position_init[0])
-                    * (step - 400)
-                    / 200,
-                    object_position_init[1]
-                    + (object_goal_position[1] - object_position_init[1])
-                    * (step - 400)
-                    / 200,
-                    object_position_init[2] + 0.2,
-                ]
-                gripper_value = gripper_status["grasp"]
-            elif step >= 600 and step < 800:
                 target_position = [
                     object_goal_position[0],
                     object_goal_position[1],
-                    object_goal_position[2] + 0.1,
-                ]  # stop at target position
+                    object_goal_position[2] + (max_z - min_z) + self.tcp_height + temp_height1,
+                ]
+            elif step >= 60 and step < 80: # phase 4: move 5cm over goal position
                 gripper_value = gripper_status["grasp"]
-            elif step >= 800:
                 target_position = [
                     object_goal_position[0],
                     object_goal_position[1],
-                    object_goal_position[2] + 0.1,
-                ]  # drop object
+                    object_goal_position[2] + (max_z - min_z) + self.tcp_height + temp_height2,
+                ]
+            else: # phase 5: drop object
                 gripper_value = gripper_status["ungrasp"]
 
-            self.move_end_effector_to_goal_position(
-                Pose(target_position, object_goal_orientation)
-            )
+            if step < 80:
+                self.move_end_effector_to_goal_position(
+                    Pose(target_position, object_goal_orientation)
+                )
 
             if gripper_value == 0 and self.gripper_id != None:
                 p.removeConstraint(self.gripper_id, physicsClientId=self.client_id)
                 self.gripper_id = None
                 for _ in range(self.frequency):
                     p.stepSimulation(physicsClientId=self.client_id)
+            
             if gripper_value == 1 and self.gripper_id == None:
-                cube_orn = p.getQuaternionFromEuler([0, math.pi, 0])
-                self.gripper_id = p.createConstraint(
-                    self.arm_id,
-                    self.end_effector_index,
-                    object_id,
-                    -1,
-                    p.JOINT_FIXED,
-                    [0, 0, 0],
-                    [0, 0, 0.05],
-                    [0, 0, 0],
-                    childFrameOrientation=cube_orn,
-                    physicsClientId=self.client_id
-                )
+                cube_orn = p.getQuaternionFromEuler([0, math.pi, 0]) # control rotation
+                if self.tcp_link != -1:
+                    self.gripper_id = p.createConstraint(
+                        self.arm_id,
+                        self.tcp_link,
+                        object_id,
+                        -1,
+                        p.JOINT_FIXED,
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        childFrameOrientation=cube_orn,
+                        physicsClientId=self.client_id
+                    )
+                else:
+                    self.gripper_id = p.createConstraint(
+                        self.arm_id,
+                        self.end_effector_index,
+                        object_id,
+                        -1,
+                        p.JOINT_FIXED,
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        childFrameOrientation=cube_orn,
+                        physicsClientId=self.client_id
+                    )
 
             p.stepSimulation(physicsClientId=self.client_id)
 

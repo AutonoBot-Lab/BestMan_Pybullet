@@ -11,6 +11,9 @@ pb_client.enable_vertical_view(4.0, [1.0, 1.0, 0])
 # load visualizer
 pb_visualizer = PbVisualizer(pb_client)
 
+# start recording
+logID = pb_client.start_record("example_manipulation")
+
 # load table and bowl
 table_id = pb_client.load_object(
     "./URDF_models/furniture_table_rectangle_high/table.urdf",
@@ -50,6 +53,9 @@ demo.move_arm_to_joint_angles(pose1)
 # # manipulate ur5e - option 3
 demo.pick_place(bowl_id, [0.9, 0.7, 0.85], [0.0, math.pi / 2.0, 0.0]) # ur5e_vacuum.urdf  # vcertical downward grip
 # demo.pick_place(bowl_id, [0.9, 0.7, 0.85], [0.0, math.pi / 2.0, 0.0]) # ur5e.urdf  # vcertical downward grip
+
+# end recording
+pb_client.end_record(logID)
 
 pb_client.wait(20)
 

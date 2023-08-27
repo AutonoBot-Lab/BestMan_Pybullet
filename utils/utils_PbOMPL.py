@@ -84,7 +84,7 @@ class PbOMPL:
         self.target_pos, _ = p.getBasePositionAndOrientation(self.target)
         # consider the object's height
         _, _, min_z, _, _, max_z = self.pb_client.get_bounding_box(self.target)
-        self.target_pos = (self.target_pos[0], self.target_pos[1], self.target_pos[2] + max_z - min_z)
+        self.target_pos = (self.target_pos[0], self.target_pos[1], self.target_pos[2] + max_z - min_z + 0.01)
         # print("debug! target position:{}".format(self.target_pos))
 
     def set_target_pos(self, target_pos):
