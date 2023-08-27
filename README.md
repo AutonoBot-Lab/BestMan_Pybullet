@@ -42,5 +42,7 @@ Step 5: Run a demo (RL)
 
 `python ./examples/example_RL.py`
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/f25d4N_Lv9w?si=Dpn9K-QtkfcBdLuI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
 Note that "functions_in_utils.txt" lists common functions in "utils_X.py".
 

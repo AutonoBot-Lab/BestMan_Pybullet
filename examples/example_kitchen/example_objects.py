@@ -24,8 +24,8 @@ kitchen = Kitchen(pb_client)
 
 pb_visualizer.set_elementB_visual_color
 
-# start recording
-logID = pb_client.start_record("example_video")
+# # start recording
+# logID = pb_client.start_record("example_video")
 
 # open a drawer in element A
 for i in range(10):
@@ -67,8 +67,8 @@ for i in range(2):
     drawer_id = i+1
     kitchen.close_drawer('elementE', drawer_id)
 
-# end recording
-pb_client.end_record(logID)
+# # end recording
+# pb_client.end_record(logID)
 
 # wait a few seconds
 pb_client.wait(10)

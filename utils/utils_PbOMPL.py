@@ -15,7 +15,7 @@ from utils.robotiq_2f85 import Robotiq2F85
 import utils.pb_ompl
 
 class PbOMPL:
-    def __init__(self, pb_client, arm_id, joint_idx, obstacles=[], planner="RRTConnect", threshold=0.1):
+    def __init__(self, pb_client, arm_id, joint_idx, tcp_link, obstacles=[], planner="RRTConnect", threshold=0.1):
         """
         Initialize the OMPL.
 
@@ -32,6 +32,7 @@ class PbOMPL:
         # parameters for arm
         self.arm_id = arm_id
         self.arm = utils.pb_ompl.PbOMPLRobot(arm_id, joint_idx=joint_idx)
+        self.tcp_link = tcp_link
         self.max_attempts = 500
         self.threshold = threshold
 
@@ -41,7 +42,7 @@ class PbOMPL:
         
         # select planner
         self.set_planner(planner)
-        
+
         # output OMPL settings
         item_info = p.getBodyInfo(self.arm_id)
         robot_name = item_info[1].decode("utf-8")
@@ -81,6 +82,10 @@ class PbOMPL:
             print(f"Error setting target: {e}")
         self.target = target_id
         self.target_pos, _ = p.getBasePositionAndOrientation(self.target)
+        # consider the object's height
+        _, _, min_z, _, _, max_z = self.pb_client.get_bounding_box(self.target)
+        self.target_pos = (self.target_pos[0], self.target_pos[1], self.target_pos[2] + max_z - min_z)
+        # print("debug! target position:{}".format(self.target_pos))
 
     def set_target_pos(self, target_pos):
         """
@@ -234,6 +239,7 @@ class PbOMPL:
         distance = np.linalg.norm(
             np.array(end_effector_pose[0]) - np.array(self.target_pos)
         )
+        # print('debug! end_effector_pose:{} target_pos:{}'.format(end_effector_pose[0], self.target_pos))
         return distance
 
     def plan_grasp(self, start, goal):
@@ -300,10 +306,15 @@ class PbOMPL:
                 # Pause briefly to simulate real-time
                 time.sleep(0.1)
                 # Check if the robot is close to the object
-                distance = self.compute_distance(end_effector_link_index)
+                if self.tcp_link != -1:
+                    distance = self.compute_distance(self.tcp_link)
+                else:
+                    distance = self.compute_distance(end_effector_link_index)
+                    print('Attention, the distance is computed without tcp link')
+                # print('debug! distance:{}'.format(distance))
                 # This method grasses the robot if the distance is below threshold.
                 if distance <= self.threshold:
-                    print("After {} trials, successfully grasped.".format(attempts))
+                    print("After {} trials, successfully grasped (error:{}).".format(attempts, distance))
                     return True
                     break
                     # Attach the object to the robot

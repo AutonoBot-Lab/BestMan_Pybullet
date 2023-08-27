@@ -66,7 +66,7 @@ class Bestman:
         # parameters for arm
         self.max_force = 500
         self.max_iterations = 10000
-        self.residual_threshold = 0.01
+        self.threshold = 0.01
         self.max_attempts = 500
 
         # Initialize PID controller
@@ -130,7 +130,7 @@ class Bestman:
             "ur5e_2f85":"./URDF_robot/ur5e_2f85.urdf",
             "ur5e_vacuum":"./URDF_robot/ur5e_vacuum.urdf",
         }
-        filename = filenames["ur5e"]
+        filename = filenames["ur5e_vacuum"]
         print("-" * 20 + "\n" + "Arm model: {}".format(filename))
         self.arm_id = p.loadURDF(
             fileName=filename,
@@ -139,6 +139,20 @@ class Bestman:
             useFixedBase=True,
             physicsClientId=self.client_id
         )
+
+        # get tcp link
+        if filename.endswith('ur5e.urdf'):
+            self.tcp_link = -1
+            self.tcp_height = 0
+        elif filename.endswith('ur5e_vacuum.urdf'):
+            self.tcp_link = 8
+            self.tcp_height = 0.065 # real value is 0.061
+        elif filename.endswith('ur5e_2f85.urdf'):
+            self.tcp_link = 18
+            self.tcp_height = 0 # TODO
+        else:
+            print("Unknown tcp link: {}")
+            sys.exit()
 
         # Add constraint between base and arm
         robot2_start_pos = [0, 0, 0]
@@ -502,7 +516,7 @@ class Bestman:
                 p.getJointState(self.arm_id, i, physicsClientId=self.client_id)[0] for i in range(6)
             ]
             diff_angles = [abs(a - b) for a, b in zip(joint_angles, current_angles)]
-            if all(diff < self.residual_threshold for diff in diff_angles):
+            if all(diff < self.threshold for diff in diff_angles):
                 # print(
                 #     "-" * 20
                 #     + "\n"
@@ -553,7 +567,7 @@ class Bestman:
             targetPosition=position,
             targetOrientation=p.getQuaternionFromEuler(orientation),
             maxNumIterations=self.max_iterations,
-            residualThreshold=self.residual_threshold,
+            residualThreshold=self.threshold,
             physicsClientId=self.client_id
         )
         return joint_angles
@@ -618,7 +632,7 @@ class Bestman:
         )
 
         # check if the distance is small enough, if yes, return immediately
-        if distance < self.residual_threshold:  # use an appropriate value here
+        if distance < self.threshold:  # use an appropriate value here
             print("Current position is already close to target position. No need to move.")
             return True
 
@@ -657,7 +671,7 @@ class Bestman:
                 )
                 # print('current_position:{}, target_position:{}, error:{}'.format(current_position, target_position, error))
 
-                if error < self.residual_threshold * 2:
+                if error < self.threshold * 2:
                     self.move_arm_to_joint_angles(joint_angles)
                     # print(
                     #     "Reached target end effector position:{}".format(
@@ -778,7 +792,7 @@ class Bestman:
             targetPosition=goal_position,
             targetOrientation=p.getQuaternionFromEuler(goal_orientation),
             maxNumIterations=self.max_iterations,
-            residualThreshold=self.residual_threshold,
+            residualThreshold=self.threshold,
             physicsClientId=self.client_id
         )
         print("IK: joint_angles is {}".format(joint_angles))

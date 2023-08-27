@@ -22,6 +22,9 @@ kitchen_id = Kitchen(pb_client)
 init_pose = Pose([1, 0, 0], [0.0, 0.0, math.pi / 2])
 demo = Bestman(init_pose, pb_client)
 
+# start recording
+logID = pb_client.start_record("example_manipuation_with_gripper")
+
 # reset arm joint position
 pose1 = [0, -1.57, 2.0, -1.57, -1.57, 0]
 demo.move_arm_to_joint_angles(pose1)
@@ -30,11 +33,12 @@ demo.move_arm_to_joint_angles(pose1)
 print("-" * 20 + "\n" + "joint_indexs: {}; end_effector_index: {}".format(demo.joint_indexs, demo.end_effector_index))
 
 # load OMPL planner
-threshold_distance = 0.1
+threshold_distance = 0.05
 ompl = PbOMPL(
     pb_client=pb_client,
     arm_id=demo.arm_id,
     joint_idx=demo.joint_indexs,
+    tcp_link=demo.tcp_link,
     obstacles=[],
     planner="RRTConnect",
     threshold=threshold_distance,
@@ -52,9 +56,9 @@ kitchen_id.open_drawer("elementA", drawer_id)
 bowl_position = [3.6, 2.4, 0.9]  # hard code
 bowl_id = pb_client.load_object("./URDF_models/utensil_bowl_blue/model.urdf", bowl_position, [0.0, 0.0, 0.0], 1.0, "bowl")
 pb_client.run(100) # wait for a few seconds
-_, _, _, _, _, max_z = pb_client.get_bounding_box(bowl_id)
-bowl_position[2] = max_z
-print("-" * 20 + "\n" + 'bowl position is {}'.format(bowl_position))
+_, _, min_z, _, _, max_z = pb_client.get_bounding_box(bowl_id)
+bowl_position[2] = max_z + demo.tcp_height # consider the height of the
+print("-" * 20 + "\n" + 'min_z: {} max_z: {}'.format(min_z, max_z))
 
 # navigate to standing position
 standing_position = [3.1, 2.4, 0]  # hard code
@@ -72,6 +76,9 @@ print("-" * 20 + "\n" + "intial configuration:{}".format(start) + "goal configur
 
 # reach target object
 result = ompl.reach_object(start=start, goal=goal, end_effector_link_index=demo.end_effector_index)
+
+# end recording
+pb_client.end_record(logID)
 
 # wait a few seconds
 pb_client.wait(10)
