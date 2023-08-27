@@ -32,7 +32,8 @@ print("-" * 20 + "\n" + "joint_indexs: {}; end_effector_index: {}".format(demo.j
 # load OMPL planner
 threshold_distance = 0.1
 ompl = PbOMPL(
-    robot_id=demo.arm_id,
+    pb_client=pb_client,
+    arm_id=demo.arm_id,
     joint_idx=demo.joint_indexs,
     obstacles=[],
     planner="RRTConnect",
@@ -69,13 +70,11 @@ target_orientation = [0.0, math.pi / 2.0, 0.0] # vertical
 goal = demo.cartesian_to_joints(position=bowl_position, orientation=target_orientation)
 print("-" * 20 + "\n" + "intial configuration:{}".format(start) + "goal configuration:{}".format(goal))
 
-sys.exit()
-
-# start grasping
-ompl.grasp_object(start=start, goal=goal, end_effector_link_index=demo.end_effector_index)
+# reach target object
+result = ompl.reach_object(start=start, goal=goal, end_effector_link_index=demo.end_effector_index)
 
 # wait a few seconds
-pb_client.wait(20)
+pb_client.wait(10)
 
 # disconnect pybullet
 pb_client.disconnect_pybullet()

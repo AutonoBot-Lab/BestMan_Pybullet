@@ -1,7 +1,7 @@
 from utils.utils_Bestman import Bestman, Pose
 from utils.utils_PbClient import PbClient
 from utils.utils_PbVisualizer import PbVisualizer
-from utils.utils_Kitchen import Kitchen
+from utils.utils_Kitchen_object import Kitchen
 import math
 
 # load cleint
@@ -48,7 +48,7 @@ demo.move_arm_to_joint_angles(pose1)
 # demo.grasp(bowl_id)  # vcertical downward grip
 
 # # manipulate ur5e - option 3
-demo.pick_place(bowl_id, [0.9, 0.7, 0.85], [0.0, math.pi, 0.0]) # ur5e_vacuum.urdf  # vcertical downward grip
+demo.pick_place(bowl_id, [0.9, 0.7, 0.85], [0.0, math.pi / 2.0, 0.0]) # ur5e_vacuum.urdf  # vcertical downward grip
 # demo.pick_place(bowl_id, [0.9, 0.7, 0.85], [0.0, math.pi / 2.0, 0.0]) # ur5e.urdf  # vcertical downward grip
 
 pb_client.wait(20)

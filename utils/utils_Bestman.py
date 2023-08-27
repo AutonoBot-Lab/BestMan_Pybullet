@@ -84,14 +84,24 @@ class Bestman:
 
         # Initialize arm
 
+        """
+        ur5 arm
+        """
         # Joint index:0, name:b'shoulder_pan_joint', angle:0.0
         # Joint index:1, name:b'shoulder_lift_joint', angle:0.0
         # Joint index:2, name:b'elbow_joint', angle:0.0
         # Joint index:3, name:b'wrist_1_joint', angle:0.0
         # Joint index:4, name:b'wrist_2_joint', angle:0.0
         # Joint index:5, name:b'wrist_3_joint', angle:0.0
+        
+        """
+        ur5 arm's virutal joint
+        """
         # Joint index:6, name:b'ee_fixed_joint', angle:0.0
 
+        """
+        tcp: 2f-85's joint
+        """
         # Joint index:7, name:b'ee_link_gripper_base_joint', angle:0.0
         # Joint index:8, name:b'gripper_right_spring_link_joint', angle:0.0
         # Joint index:9, name:b'gripper_left_spring_link_joint', angle:0.0
@@ -105,15 +115,22 @@ class Bestman:
         # Joint index:17, name:b'gripper_left_pad_joint', angle:0.0
         # Joint index:18, name:b'tool_center_point', angle:0.0
 
+        """
+        tcp: vacuum's joint
+        """
         # Joint index:7, name:b'ee_link_gripper_base_joint', angle:0.0
         # Joint index:8, name:b'tool_center_point', angle:0.0
+
+        # differenciate arm and tcp
+        self.joint_indexs = [0, 1, 2, 3, 4, 5]
+        self.end_effector_index = 6
 
         filenames = {
             "ur5e":"./URDF_robot/ur5e.urdf",
             "ur5e_2f85":"./URDF_robot/ur5e_2f85.urdf",
             "ur5e_vacuum":"./URDF_robot/ur5e_vacuum.urdf",
         }
-        filename = filenames["ur5e_vacuum"]
+        filename = filenames["ur5e"]
         print("-" * 20 + "\n" + "Arm model: {}".format(filename))
         self.arm_id = p.loadURDF(
             fileName=filename,
@@ -122,9 +139,6 @@ class Bestman:
             useFixedBase=True,
             physicsClientId=self.client_id
         )
-
-        self.joint_indexs = list(range(0, self.get_arm_joint_info()))
-        self.end_effector_index = len(self.joint_indexs) - 1
 
         # Add constraint between base and arm
         robot2_start_pos = [0, 0, 0]
@@ -426,7 +440,6 @@ class Bestman:
             print(
                 "Joint index:{}, name:{}, angle:{}".format(i, joint_name, joint_angle)
             )
-        return num_joints
 
     """
     This function retrieves and return joints' angle.
@@ -438,6 +451,7 @@ class Bestman:
             joint_state = p.getJointState(self.arm_id, i, physicsClientId=self.client_id)
             joint_angle = joint_state[0]
             joint_angles.append(joint_angle)  # Add the current joint angle to the list
+        print("Joint angles (only arm and not include ee_fixed_joint):{}".format(joint_angles))
         return joint_angles  # Return the list of joint angles
 
     """
@@ -466,13 +480,8 @@ class Bestman:
     """
 
     def move_arm_to_joint_angles(self, joint_angles):
-        num_joints = len(joint_angles)
-        assert (
-            p.getNumJoints(self.arm_id, physicsClientId=self.client_id) >= num_joints
-        ), "Invalid number of joint angles."
-
         # set arm's target joints
-        for joint_index in range(num_joints):
+        for joint_index in range(6):
             p.setJointMotorControl2(
                 bodyUniqueId=self.arm_id,
                 jointIndex=joint_index,
@@ -490,7 +499,7 @@ class Bestman:
 
             # Check if reach the goal
             current_angles = [
-                p.getJointState(self.arm_id, i, physicsClientId=self.client_id)[0] for i in range(num_joints)
+                p.getJointState(self.arm_id, i, physicsClientId=self.client_id)[0] for i in range(6)
             ]
             diff_angles = [abs(a - b) for a, b in zip(joint_angles, current_angles)]
             if all(diff < self.residual_threshold for diff in diff_angles):
@@ -548,19 +557,6 @@ class Bestman:
             physicsClientId=self.client_id
         )
         return joint_angles
-    
-    def cartesian_to_joints_without_gripper(self, position, orientation):
-        joint_angles = p.calculateInverseKinematics( 
-            bodyUniqueId=self.arm_id,
-            endEffectorLinkIndex=self.end_effector_index,
-            targetPosition=position,
-            targetOrientation=p.getQuaternionFromEuler(orientation),
-            maxNumIterations=self.max_iterations,
-            residualThreshold=self.residual_threshold,
-            physicsClientId=self.client_id
-        )
-        # return joint_angles
-        return joint_angles[0:5]  # TODO with grippers joint_angles changed
 
     """
     This function rotates the end effector of the robot arm by a specified angle.
@@ -609,7 +605,7 @@ class Bestman:
         end_effector_goal_pose (Pose): The desired pose of the end effector (includes both position and orientation). 
     """
 
-    def move_end_effector_to_goal_position_without_OMPL(self, end_effector_goal_pose):
+    def move_end_effector_to_goal_position(self, end_effector_goal_pose):
         # get current end effector position
         state = p.getLinkState(
             bodyUniqueId=self.arm_id, linkIndex=self.end_effector_index, physicsClientId=self.client_id
@@ -623,14 +619,8 @@ class Bestman:
 
         # check if the distance is small enough, if yes, return immediately
         if distance < self.residual_threshold:  # use an appropriate value here
-            pass
-            # print(
-            #     "Current position is already close to target position. No need to move."
-            # )
-            # for _ in range(10):
-            #     p.stepSimulation()
-            #     time.sleep(1.0 / self.frequency)
-            # return
+            print("Current position is already close to target position. No need to move.")
+            return True
 
         target_position = end_effector_goal_pose.position
         target_orientation = end_effector_goal_pose.orientation
@@ -745,7 +735,7 @@ class Bestman:
                 ]  # drop object
                 gripper_value = gripper_status["ungrasp"]
 
-            self.move_end_effector_to_goal_position_without_OMPL(
+            self.move_end_effector_to_goal_position(
                 Pose(target_position, object_goal_orientation)
             )
 
@@ -1037,7 +1027,7 @@ class Bestman:
                 ]  # grab object
                 gripper_value = gripper_status["grasp"]
 
-            result = self.move_end_effector_to_goal_position_without_OMPL(
+            result = self.move_end_effector_to_goal_position(
                 Pose(target_position, orientation)
             )
             if not result:

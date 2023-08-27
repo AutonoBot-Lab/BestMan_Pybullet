@@ -1,4 +1,4 @@
-## The code is a Pybullet simulator database for BestMan robot. The BestMan robot consists of a base (Segbot) and an arm (Ur5e).
+## The code is a Pybullet simulator database for BestMan robot. The BestMan robot consists of a base and an arm (Ur5e).
 
 <img src="./image/bestman.png" alt="bestman" width="300" height="300">
 
@@ -42,5 +42,5 @@ Step 5: Run a demo (RL)
 
 `python ./examples/example_RL.py`
 
-Note that "functions_in_utils_control.txt" lists common functions in "utils_X.py".
+Note that "functions_in_utils.txt" lists common functions in "utils_X.py".
 

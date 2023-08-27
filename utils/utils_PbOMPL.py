@@ -15,30 +15,40 @@ from utils.robotiq_2f85 import Robotiq2F85
 import utils.pb_ompl
 
 class PbOMPL:
-    def __init__(self, robot_id, joint_idx, obstacles=[], planner="RRTConnect", threshold=0.1):
+    def __init__(self, pb_client, arm_id, joint_idx, obstacles=[], planner="RRTConnect", threshold=0.1):
         """
         Initialize the OMPL.
 
         Args:
-           robot_id: ID of the robot to use.
+           arm_id: ID of the robot to use.
            joint_idx: Index of the joints to use in planning.
            obstacles: List of obstacles to consider in the motion planning.
            planner: The name of the motion planner algorithm to use.
            threshold: The threshold value ONLY for repalnning.
         """
-        self.robot_id = robot_id
-        self.threshold = threshold
-        self.robot = utils.pb_ompl.PbOMPLRobot(robot_id, joint_idx=joint_idx)
-        self.obstacles = obstacles if obstacles is not None else []
-        self.pb_ompl_interface = utils.pb_ompl.PbOMPL(self.robot, self.obstacles)
-        self.set_planner(planner)
+        self.pb_client = pb_client
+        self.client_id = self.pb_client.get_client()
 
-        item_info = p.getBodyInfo(self.robot_id)
+        # parameters for arm
+        self.arm_id = arm_id
+        self.arm = utils.pb_ompl.PbOMPLRobot(arm_id, joint_idx=joint_idx)
+        self.max_attempts = 500
+        self.threshold = threshold
+
+        # obstacles for planning
+        self.obstacles = obstacles if obstacles is not None else []
+        self.pb_ompl_interface = utils.pb_ompl.PbOMPL(self.arm, self.obstacles)
+        
+        # select planner
+        self.set_planner(planner)
+        
+        # output OMPL settings
+        item_info = p.getBodyInfo(self.arm_id)
         robot_name = item_info[1].decode("utf-8")
         print("--------------------")
         print(
             f"OMPL Configuration\n"
-            f"Robot ID: {robot_id}\n"
+            f"Robot ID: {arm_id}\n"
             f"Robot Name: {robot_name}\n"
             f"Obstacles: {obstacles}\n"
             f"Planner: {planner}\n"
@@ -185,7 +195,7 @@ class PbOMPL:
         # Add the current item ID to the list of obstacles
         for item_id in all_item_ids:
             # Skip the robot ID
-            if item_id == self.robot_id:
+            if item_id == self.arm_id:
                 continue
             self.obstacles.append(item_id)
             if display:
@@ -218,7 +228,7 @@ class PbOMPL:
         Returns:
                 distance: distance between the end - effector and the object.
         """
-        end_effector_pose = p.getLinkState(self.robot_id, end_effector_link_index)
+        end_effector_pose = p.getLinkState(self.arm_id, end_effector_link_index)
 
         # Compute the distance between the end-effector and the object
         distance = np.linalg.norm(
@@ -239,7 +249,7 @@ class PbOMPL:
             res: response from ompl interface.
                 path: a list of robot state.
         """
-        self.robot.set_state(start)
+        self.arm.set_state(start)
         res, path = self.pb_ompl_interface.plan(goal)
         return res, path
 
@@ -270,7 +280,7 @@ class PbOMPL:
                     p.stepSimulation()
                     time.sleep(1.0 / 100.0)
 
-    def grasp_object(self, start, goal, end_effector_link_index):  # TODO refactor
+    def reach_object(self, start, goal, end_effector_link_index):  # TODO refactor
         """
         Plans an object from start to goal and attaches it to the robot.
 
@@ -279,10 +289,9 @@ class PbOMPL:
                 goal: effective position of goal.
                 end_effector_link_index: index of end effector.
         """
-        grasp_successful = False
-        trial = 0
-        while not grasp_successful:
-            trial += 1
+        attempts = 0
+        while attempts < self.max_attempts:
+            attempts += 1
             res, path = self.plan_grasp(start, goal)
 
             # Execute the path and attach the object to the robot
@@ -294,12 +303,13 @@ class PbOMPL:
                 distance = self.compute_distance(end_effector_link_index)
                 # This method grasses the robot if the distance is below threshold.
                 if distance <= self.threshold:
-                    grasp_successful = True
-                    print("After {} trials, successfully grasped.".format(trial))
+                    print("After {} trials, successfully grasped.".format(attempts))
+                    return True
+                    break
                     # Attach the object to the robot
                     cube_orn = p.getQuaternionFromEuler([0, math.pi, 0])
                     self.gripper_id = p.createConstraint(
-                        self.robot_id,
+                        self.arm_id,
                         end_effector_link_index,  # TODO refactor
                         self.target,
                         -1,
@@ -309,4 +319,10 @@ class PbOMPL:
                         [0, 0, 0],
                         childFrameOrientation=cube_orn,
                     )
-
+        if attempts >= self.max_attempts:
+            print(
+                "Could not reach target position without collision after {} attempts".format(
+                    self.max_attempts
+                )
+            )
+        return False
