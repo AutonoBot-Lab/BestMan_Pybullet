@@ -38,7 +38,7 @@ Step 4: Run a demo (manipulation)
 
 Step 5: Run a demo (kitchen)
 
-`python ./examples/example_kitchen.py`
+`python ./examples/example_kitchen/example_kitchen.py`
 
 #### Youtube Video
 [![navigation](https://img.youtube.com/vi/hes7J-uy2DU/0.jpg)](https://www.youtube.com/watch?v=hes7J-uy2DU)
