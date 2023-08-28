@@ -9,10 +9,10 @@ pb_client = PbClient(enable_GUI=True)
 pb_client.enable_vertical_view(4.0, [1.0, 1.0, 0])
 
 # # load visualizer
-# pb_visualizer = PbVisualizer(pb_client)
+pb_visualizer = PbVisualizer(pb_client)
 
-# start recording
-logID = pb_client.start_record("example_navigation")
+# # start recording
+# logID = pb_client.start_record("example_navigation")
 
 # load table, bowl, and chair
 table_id = pb_client.load_object(
