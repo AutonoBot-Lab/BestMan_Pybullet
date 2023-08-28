@@ -1123,7 +1123,7 @@ class Bestman:
         chair_ids = []
 
         # number of chairs to be loaded, random between 1 and 3
-        num_chairs = random.randint(2, 3)
+        num_chairs = random.randint(3, 5)
 
         for _ in range(num_chairs):
             collision_flag = True
