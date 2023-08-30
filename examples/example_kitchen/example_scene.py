@@ -5,8 +5,8 @@ from utils.utils_Kitchen_scene import Kitchen
 import math
 
 # load cleint
-pb_client = PbClient(enable_GUI=True, enable_Debug=False)
-pb_client.enable_vertical_view(1.0, [1.7, 3.68, 1.95], -86.4, -52.3)
+pb_client = PbClient(enable_GUI=True, enable_Debug=True)
+pb_client.enable_vertical_view(3.6, [0.02, 6.52, 1.02], pitch=-17.11, yaw=88.79)
 
 # load visualizer
 pb_visualizer = PbVisualizer(pb_client)
@@ -25,7 +25,8 @@ kitchen = Kitchen(pb_client, './Kitchen/scenes/kitchen_basics.lisdf')
 # kitchen = Kitchen(pb_client, './Kitchen/scenes/kitchen_lunch.lisdf')
 
 # wait a few seconds
-pb_client.wait(10)
+pb_client.run(1000)
+pb_client.wait(100)
 
 # disconnect pybullet
 pb_client.disconnect_pybullet()

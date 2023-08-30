@@ -23,10 +23,18 @@ class Kitchen:
         # ----------------------------------------------------------------
         # This is Element A, where there are a oven, and a few drawers
         # ----------------------------------------------------------------
-        self.elementA_id = p.loadURDF(
-            "./Kitchen/models_yan/elementA/urdf/kitchen_part_right_gen_convex.urdf",
-            basePosition=[4, 2, 1.477],
-            baseOrientation=p.getQuaternionFromEuler([0, 0, math.pi])
+        # self.elementA_id = p.loadURDF(
+        #     "./Kitchen/models_yan/elementA/urdf/kitchen_part_right_gen_convex.urdf",
+        #     basePosition=[4, 2, 1.477],
+        #     baseOrientation=p.getQuaternionFromEuler([0, 0, math.pi]),
+        # )
+        self.elementA_id = self.pb_client.load_object(
+            model_path="./Kitchen/models_yan/elementA/urdf/kitchen_part_right_gen_convex.urdf",
+            object_position=[4, 2, 1.477],
+            object_orientation=[0, 0, math.pi],
+            scale=1.0,
+            obj_name='elementA',
+            fixed_base=True,
         )
         self.elementA_drawer_to_joint_id = {
             1: 17,
@@ -65,19 +73,35 @@ class Kitchen:
         # ----------------------------------------------------------------
         # This is Element B, where there are a sink, and a few container
         # ----------------------------------------------------------------
-        self.elementB_id = p.loadURDF(
-            "./Kitchen/models_yan/elementB/urdf/kitchen_assembly.urdf",
-            basePosition=[4.3, 5.95, 0],
-            baseOrientation=p.getQuaternionFromEuler([0, 0, math.pi])
+        # self.elementB_id = p.loadURDF(
+        #     "./Kitchen/models_yan/elementB/urdf/kitchen_assembly.urdf",
+        #     basePosition=[4.3, 5.95, 0],
+        #     baseOrientation=p.getQuaternionFromEuler([0, 0, math.pi])
+        # )
+        self.elementB_id = self.pb_client.load_object(
+            model_path="./Kitchen/models_yan/elementB/urdf/kitchen_assembly.urdf",
+            object_position=[4.3, 5.95, 0],
+            object_orientation=[0, 0, math.pi],
+            scale=1.0,
+            obj_name='elementB',
+            fixed_base=True,
         )
 
         # ----------------------------------------------------------------
         #  This is Element C (i.e., a dishwasher)
         # ----------------------------------------------------------------
-        self.elementC_id = p.loadURDF(
-            "./Kitchen/models_yan/elementC/dishwasher.urdf",
-            basePosition=[3.95, 3.08, 0.43],
-            baseOrientation=p.getQuaternionFromEuler([0, 0, - math.pi / 2.0])
+        # self.elementC_id = p.loadURDF(
+        #     "./Kitchen/models_yan/elementC/dishwasher.urdf",
+        #     basePosition=[3.95, 3.08, 0.43],
+        #     baseOrientation=p.getQuaternionFromEuler([0, 0, - math.pi / 2.0])
+        # )
+        self.elementC_id = self.pb_client.load_object(
+            model_path="./Kitchen/models_yan/elementC/dishwasher.urdf",
+            object_position=[3.95, 3.08, 0.43],
+            object_orientation=[0, 0, - math.pi / 2.0],
+            scale=1.0,
+            obj_name='elementC',
+            fixed_base=True,
         )
         self.elementC_drawer_to_joint_id = {
             1: 1,
@@ -100,10 +124,18 @@ class Kitchen:
         # ----------------------------------------------------------------
         # This is Element D (i.e., a microwave)
         # ----------------------------------------------------------------
-        self.elementD_id = p.loadURDF(
-            "./Kitchen/models_yan/elementD/microwave.urdf",
-            basePosition=[4.0, 2.9, 0.95],
-            baseOrientation=p.getQuaternionFromEuler([0, 0, math.pi / 2.0]),
+        # self.elementD_id = p.loadURDF(
+        #     "./Kitchen/models_yan/elementD/microwave.urdf",
+        #     basePosition=[4.0, 2.9, 0.95],
+        #     baseOrientation=p.getQuaternionFromEuler([0, 0, math.pi / 2.0]),
+        # )
+        self.elementD_id = self.pb_client.load_object(
+            model_path="./Kitchen/models_yan/elementD/microwave.urdf",
+            object_position=[4.0, 2.9, 0.95],
+            object_orientation=[0, 0, math.pi / 2.0],
+            scale=1.0,
+            obj_name='elementD',
+            fixed_base=True,
         )
         self.elementD_drawer_to_joint_id = {
             1: 1,
@@ -122,10 +154,18 @@ class Kitchen:
         # ----------------------------------------------------------------
         # This is Element E (i.e., a refrigerator)
         # ----------------------------------------------------------------
-        self.elementE_id = p.loadURDF(
-            "./Kitchen/models_yan/elementE/refrigerator.urdf",
-            basePosition=[4.1, 6.42, 0.05],
-            baseOrientation=p.getQuaternionFromEuler([0, 0, -math.pi / 2.0]),
+        # self.elementE_id = p.loadURDF(
+        #     "./Kitchen/models_yan/elementE/refrigerator.urdf",
+        #     basePosition=[4.1, 6.42, 0.05],
+        #     baseOrientation=p.getQuaternionFromEuler([0, 0, -math.pi / 2.0]),
+        # )
+        self.elementE_id = self.pb_client.load_object(
+            model_path="./Kitchen/models_yan/elementE/refrigerator.urdf",
+            object_position=[4.1, 6.42, 0.05],
+            object_orientation=[0, 0, -math.pi / 2.0],
+            scale=1.0,
+            obj_name='elementE',
+            fixed_base=True,
         )
         self.elementE_drawer_to_joint_id = {
             1: 1,

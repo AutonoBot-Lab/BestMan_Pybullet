@@ -28,7 +28,7 @@ class Kitchen:
         self.load_models(models)
 
         # Set the vertical view after loading the models
-        self.pb_client.enable_vertical_view(height=cameraDistance, position=point_to, yaw=cameraYaw, pitch=cameraPitch)
+        # self.pb_client.enable_vertical_view(height=cameraDistance, position=point_to, yaw=cameraYaw, pitch=cameraPitch)
     
     def parse_lisdf(self, file_path):
         tree = ET.parse(file_path)
@@ -71,4 +71,4 @@ class Kitchen:
             pose = list(map(float, model['pose'].split()))
             scale = model['scale']
             print('-' * 20 + '\n' + 'name:{}; url:{}; pose:{}; scale:{}'.format(name, absolute_url, pose, scale))
-            self.pb_client.load_object(absolute_url, pose[:3], pose[3:], scale, name)
+            self.pb_client.load_object(absolute_url, pose[:3], pose[3:], scale, name, fixed_base=True)

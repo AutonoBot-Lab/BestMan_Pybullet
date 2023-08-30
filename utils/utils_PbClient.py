@@ -94,6 +94,42 @@ class PbClient:
     # ----------------------------------------------------------------
     # Add object functions
     # ----------------------------------------------------------------
+    """
+    This function gets appliance's joint info
+    """        
+    
+    def get_appliance_joint_info(self, appliance_id):
+        num_joints = p.getNumJoints(appliance_id, physicsClientId=self.client_id)
+        print("-" * 20 + "\n" + "The appliance {} has {} joints".format(appliance_id, num_joints))
+        for i in range(num_joints):
+            joint_info = p.getJointInfo(appliance_id, i, physicsClientId=self.client_id)
+            joint_name = joint_info[1]
+            joint_state = p.getJointState(appliance_id, i, physicsClientId=self.client_id)
+            joint_angle = joint_state[0]
+            print(
+                "Joint index:{}, name:{}, angle:{}".format(i, joint_name, joint_angle)
+            )
+    
+    """
+    This function Change the state of a specific joint of the appliance.
+
+    Parameters:
+    appliance_id (int): The id of the appliance.
+    joint_index (int): The index of the joint to be changed.
+    target_position (float): The target position of the joint in radians.
+    max_force (float): The maximum force to be applied to achieve the target position.
+    """
+    def change_appliance_joint(self, appliance_id, joint_index, target_position, max_force=5):
+        p.setJointMotorControl2(bodyUniqueId=appliance_id, jointIndex=joint_index,
+                                controlMode=p.POSITION_CONTROL,
+                                targetPosition=target_position,
+                                force=max_force,
+                                physicsClientId=self.client_id)
+    
+    """
+    This function uses slides to control object position
+    """        
+    
     def add_debug_slider(self, name, min_val, max_val, initial_val):
         return p.addUserDebugParameter(name, min_val, max_val, initial_val, physicsClientId=self.client_id)
 
@@ -130,7 +166,7 @@ class PbClient:
     """
 
     def load_object(
-        self, model_path, object_position, object_orientation, scale, obj_name
+        self, model_path, object_position, object_orientation, scale, obj_name, fixed_base=False
     ):
         object_orientation = p.getQuaternionFromEuler(object_orientation, physicsClientId=self.client_id)
         setattr(
@@ -141,6 +177,7 @@ class PbClient:
                 basePosition=object_position,
                 baseOrientation=object_orientation,
                 globalScaling=scale,
+                useFixedBase=fixed_base,
                 physicsClientId=self.client_id
             ),
         )
