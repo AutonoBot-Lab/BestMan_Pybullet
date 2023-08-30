@@ -102,18 +102,17 @@ class Bestman:
         """
         tcp: 2f-85's joint
         """
-        # Joint index:7, name:b'ee_link_gripper_base_joint', angle:0.0
-        # Joint index:8, name:b'gripper_right_spring_link_joint', angle:0.0
-        # Joint index:9, name:b'gripper_left_spring_link_joint', angle:0.0
-        # Joint index:10, name:b'gripper_right_driver_joint', angle:0.0
-        # Joint index:11, name:b'gripper_right_coupler_joint', angle:0.0
-        # Joint index:12, name:b'gripper_right_follower_joint', angle:0.0
-        # Joint index:13, name:b'gripper_right_pad_joint', angle:0.0
-        # Joint index:14, name:b'gripper_left_driver_joint', angle:0.0
-        # Joint index:15, name:b'gripper_left_coupler_joint', angle:0.0
-        # Joint index:16, name:b'gripper_left_follower_joint', angle:0.0
-        # Joint index:17, name:b'gripper_left_pad_joint', angle:0.0
-        # Joint index:18, name:b'tool_center_point', angle:0.0
+        # Joint index:7, name:b'robotiq_85_base_joint', angle:0.0
+        # Joint index:8, name:b'finger_joint', angle:0.0
+        # Joint index:9, name:b'left_outer_finger_joint', angle:0.0
+        # Joint index:10, name:b'left_inner_finger_joint', angle:0.0
+        # Joint index:11, name:b'left_inner_finger_pad_joint', angle:0.0
+        # Joint index:12, name:b'left_inner_knuckle_joint', angle:0.0
+        # Joint index:13, name:b'right_outer_knuckle_joint', angle:0.0
+        # Joint index:14, name:b'right_outer_finger_joint', angle:0.0
+        # Joint index:15, name:b'right_inner_finger_joint', angle:0.0
+        # Joint index:16, name:b'right_inner_finger_pad_joint', angle:0.0
+        # Joint index:17, name:b'right_inner_knuckle_joint', angle:0.0
 
         """
         tcp: vacuum's joint
@@ -127,8 +126,8 @@ class Bestman:
 
         filenames = {
             "ur5e":"./URDF_robot/ur5e.urdf",
-            "ur5e_2f85":"./URDF_robot/ur5e_2f85.urdf",
             "ur5e_vacuum":"./URDF_robot/ur5e_vacuum.urdf",
+            "ur5_robotiq_85":"./URDF_robot/model_elephant/urdf/ur5_robotiq_85.urdf",
         }
         filename = filenames["ur5e_vacuum"]
         print("-" * 20 + "\n" + "Arm model: {}".format(filename))
@@ -147,7 +146,7 @@ class Bestman:
         elif filename.endswith('ur5e_vacuum.urdf'):
             self.tcp_link = 8
             self.tcp_height = 0.065 # real value is 0.061
-        elif filename.endswith('ur5e_2f85.urdf'):
+        elif filename.endswith('ur5_robotiq_85.urdf'):
             self.tcp_link = 18
             self.tcp_height = 0 # TODO
         else:
@@ -155,16 +154,15 @@ class Bestman:
             sys.exit()
 
         # Add constraint between base and arm
-        robot2_start_pos = [0, 0, 0]
         fixed_joint = p.createConstraint(
-            self.base_id,
-            -1,
-            self.arm_id,
-            -1,
-            p.JOINT_FIXED,
-            [0, 0, 0],
-            [0, 0, 1.3],
-            robot2_start_pos,
+            parentBodyUniqueId=self.base_id,
+            parentLinkIndex=-1,
+            childBodyUniqueId=self.arm_id,
+            childLinkIndex=-1,
+            jointType=p.JOINT_FIXED,
+            jointAxis=[0, 0, 0],
+            parentFramePosition=[0, 0, 1.3],
+            childFramePosition=[0, 0, 0],
             physicsClientId=self.client_id
         )
 

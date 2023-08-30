@@ -1,6 +1,0 @@
-pybullet
-numpy
-networkx
-matplotlib
-opencv-python
-shapely

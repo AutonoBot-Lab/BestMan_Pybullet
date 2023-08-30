@@ -10,8 +10,6 @@ import random
 import sys
 import os
 from matplotlib.colors import LinearSegmentedColormap
-
-from utils.robotiq_2f85 import Robotiq2F85
 import utils.pb_ompl
 
 class PbOMPL:

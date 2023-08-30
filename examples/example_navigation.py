@@ -55,8 +55,8 @@ demo = Bestman(init_pose, pb_client)
 pose1 = [0, -1.57, 2.0, -1.57, -1.57, 0]
 demo.move_arm_to_joint_angles(pose1)
 
-# get info about base
-demo.get_base_joint_info()
+# # get info about base
+# demo.get_base_joint_info()
 
 # plot line connecting init and goal positions
 target_position = [2.0, 1.0, 0]
