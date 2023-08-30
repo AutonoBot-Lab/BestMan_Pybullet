@@ -309,7 +309,7 @@ class PbOMPL:
                 else:
                     distance = self.compute_distance(end_effector_link_index)
                     print('Attention, the distance is computed without tcp link')
-                # print('debug! distance:{}'.format(distance))
+                print('debug! distance:{}'.format(distance))
                 # This method grasses the robot if the distance is below threshold.
                 if distance <= self.threshold:
                     print("After {} trials, successfully grasped (error:{}).".format(attempts, distance))

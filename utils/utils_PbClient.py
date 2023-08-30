@@ -94,6 +94,26 @@ class PbClient:
     # ----------------------------------------------------------------
     # Add object functions
     # ----------------------------------------------------------------
+    def add_debug_slider(self, name, min_val, max_val, initial_val):
+        return p.addUserDebugParameter(name, min_val, max_val, initial_val, physicsClientId=self.client_id)
+
+    def read_debug_slider(self, slider_id):
+        return p.readUserDebugParameter(slider_id, physicsClientId=self.client_id)
+
+    def update_object_position_with_slider(self, obj_id, slider_ids):
+        x = self.read_debug_slider(slider_ids[0])
+        y = self.read_debug_slider(slider_ids[1])
+        z = self.read_debug_slider(slider_ids[2])
+        position = [x, y, z]
+        orientation = p.getBasePositionAndOrientation(obj_id, physicsClientId=self.client_id)[1]
+        p.resetBasePositionAndOrientation(obj_id, position, orientation, physicsClientId=self.client_id)
+    
+    def run(self, x, obj_id=None, slider_ids=None):
+        for _ in range(x):
+            p.stepSimulation(physicsClientId=self.client_id)
+            if obj_id is not None and slider_ids is not None:
+                self.update_object_position_with_slider(obj_id, slider_ids)
+            time.sleep(1.0 / self.frequency)
 
     """
     This function loads a given object into the PyBullet simulation environment. 

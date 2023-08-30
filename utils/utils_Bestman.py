@@ -79,6 +79,7 @@ class Bestman:
             fileName="./URDF_robot/segbot.urdf",
             basePosition=init_pos.position,
             baseOrientation=p.getQuaternionFromEuler([0, 0, init_pos.yaw]),
+            useFixedBase=True,
             physicsClientId=self.client_id
         )
 
@@ -139,6 +140,20 @@ class Bestman:
             physicsClientId=self.client_id
         )
 
+        # Add constraint between base and arm
+        self.arm_height = 1.02
+        p.createConstraint(
+            parentBodyUniqueId=self.base_id,
+            parentLinkIndex=-1,
+            childBodyUniqueId=self.arm_id,
+            childLinkIndex=-1,
+            jointType=p.JOINT_FIXED,
+            jointAxis=[0, 0, 0],
+            parentFramePosition=[0, 0, 0],
+            childFramePosition=[0, 0, 0],
+            physicsClientId=self.client_id
+        )
+
         # get tcp link
         if filename.endswith('ur5e.urdf'):
             self.tcp_link = -1
@@ -153,19 +168,6 @@ class Bestman:
             print("Unknown tcp link: {}")
             sys.exit()
 
-        # Add constraint between base and arm
-        fixed_joint = p.createConstraint(
-            parentBodyUniqueId=self.base_id,
-            parentLinkIndex=-1,
-            childBodyUniqueId=self.arm_id,
-            childLinkIndex=-1,
-            jointType=p.JOINT_FIXED,
-            jointAxis=[0, 0, 0],
-            parentFramePosition=[0, 0, 1.3],
-            childFramePosition=[0, 0, 0],
-            physicsClientId=self.client_id
-        )
-
         self.init_pos = init_pos
         self.gripper_id = None
         self.sync_base_arm_pose()
@@ -173,6 +175,14 @@ class Bestman:
         # Set arm and base colors
         self.visualizer = PbVisualizer(pb_client)
         self.visualizer.set_arm_visual_color(self.base_id, self.arm_id)
+
+    # ----------------------------------------------------------------
+    # Adjust arm height
+    # ----------------------------------------------------------------
+    def adjust_arm_height(self, height):
+        self.arm_height = height
+        self.pb_client.run(10)
+        print('-' * 20 + '\n' + 'Arm height has changed into {}'.format(height))
 
     # ----------------------------------------------------------------
     # Segbot Navigation
@@ -416,7 +426,7 @@ class Bestman:
 
     def sync_base_arm_pose(self):
         position, orientation = p.getBasePositionAndOrientation(self.base_id, physicsClientId=self.client_id)
-        position = [position[0], position[1], 1.02]  # fixed height
+        position = [position[0], position[1], self.arm_height]  # fixed height
         p.resetBasePositionAndOrientation(self.arm_id, position, orientation, physicsClientId=self.client_id)
 
     """
