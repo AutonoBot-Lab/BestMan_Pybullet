@@ -50,7 +50,7 @@ ompl.check_obstacles()
 
 # open the container
 container_id = 1
-kitchen_id.open_drawer("elementE", container_id)
+kitchen_id.open_drawer("elementD", container_id)
 
 # load bowl
 bowl_position = [3.6, 2.4, 0.9]  # hard code
@@ -60,8 +60,7 @@ _, _, min_z, _, _, max_z = pb_client.get_bounding_box(bowl_id)
 bowl_position[2] = max_z + demo.tcp_height # consider the height of the
 print("-" * 20 + "\n" + 'min_z: {} max_z: {}'.format(min_z, max_z))
 
-x_slider_id = pb_client.add_debug_slider("X", -10, 10, 1)
-y_slider_id = pb_client.add_debug_slider("Y", -10, 10, 1)
-z_slider_id = pb_client.add_debug_slider("Z", -10, 10, 1)
-slider_ids = [x_slider_id, y_slider_id, z_slider_id]
-pb_client.run(100000, bowl_id, slider_ids)
+pb_client.run_slider_and_update_position(100000, "Position", -10, 10, 1, bowl_id)
+
+pb_client.run(100)
+pb_client.disconnect_pybullet()

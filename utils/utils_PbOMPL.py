@@ -1,3 +1,19 @@
+"""
+@Description :   A few functions for planning
+@Author      :   Yan Ding 
+@Time        :   2023/08/30 22:52:39
+"""
+
+"""
+Get the utils module path
+"""
+import sys
+import os
+
+current_path = os.path.abspath(__file__)
+parent_path = os.path.dirname(current_path)
+sys.path.append(parent_path)
+
 import cv2
 import pybullet as p
 import pybullet_data
@@ -7,13 +23,21 @@ import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 import random
-import sys
-import os
 from matplotlib.colors import LinearSegmentedColormap
-import utils.pb_ompl
+import pb_ompl
+
 
 class PbOMPL:
-    def __init__(self, pb_client, arm_id, joint_idx, tcp_link, obstacles=[], planner="RRTConnect", threshold=0.1):
+    def __init__(
+        self,
+        pb_client,
+        arm_id,
+        joint_idx,
+        tcp_link,
+        obstacles=[],
+        planner="RRTConnect",
+        threshold=0.1,
+    ):
         """
         Initialize the OMPL.
 
@@ -29,15 +53,15 @@ class PbOMPL:
 
         # parameters for arm
         self.arm_id = arm_id
-        self.arm = utils.pb_ompl.PbOMPLRobot(arm_id, joint_idx=joint_idx)
+        self.arm = pb_ompl.PbOMPLRobot(arm_id, joint_idx=joint_idx)
         self.tcp_link = tcp_link
         self.max_attempts = 500
         self.threshold = threshold
 
         # obstacles for planning
         self.obstacles = obstacles if obstacles is not None else []
-        self.pb_ompl_interface = utils.pb_ompl.PbOMPL(self.arm, self.obstacles)
-        
+        self.pb_ompl_interface = pb_ompl.PbOMPL(self.arm, self.obstacles)
+
         # select planner
         self.set_planner(planner)
 
@@ -82,7 +106,11 @@ class PbOMPL:
         self.target_pos, _ = p.getBasePositionAndOrientation(self.target)
         # consider the object's height
         _, _, min_z, _, _, max_z = self.pb_client.get_bounding_box(self.target)
-        self.target_pos = (self.target_pos[0], self.target_pos[1], self.target_pos[2] + max_z - min_z + 0.01)
+        self.target_pos = (
+            self.target_pos[0],
+            self.target_pos[1],
+            self.target_pos[2] + max_z - min_z + 0.01,
+        )
         # print("debug! target position:{}".format(self.target_pos))
 
     def set_target_pos(self, target_pos):
@@ -257,7 +285,9 @@ class PbOMPL:
         res, path = self.pb_ompl_interface.plan(goal)
         return res, path
 
-    def move_end_effector_to_goal_position(self, start, goal, end_effector_link_index):  # TODO refactor
+    def move_end_effector_to_goal_position(
+        self, start, goal, end_effector_link_index
+    ):  # TODO refactor
         """
         Move end effector to goal position in OMPL planned path.
 
@@ -308,11 +338,15 @@ class PbOMPL:
                     distance = self.compute_distance(self.tcp_link)
                 else:
                     distance = self.compute_distance(end_effector_link_index)
-                    print('Attention, the distance is computed without tcp link')
-                print('debug! distance:{}'.format(distance))
+                    print("Attention, the distance is computed without tcp link")
+                print("debug! distance:{}".format(distance))
                 # This method grasses the robot if the distance is below threshold.
                 if distance <= self.threshold:
-                    print("After {} trials, successfully grasped (error:{}).".format(attempts, distance))
+                    print(
+                        "After {} trials, successfully grasped (error:{}).".format(
+                            attempts, distance
+                        )
+                    )
                     return True
                     break
                     # Attach the object to the robot

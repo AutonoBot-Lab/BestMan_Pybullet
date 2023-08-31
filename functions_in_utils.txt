@@ -14,7 +14,7 @@ def check_collision_navigation(self):
 # ----------------------------------------------------------------
 # # # # # utils_Bestman.py - Arm # # # # #
 # ----------------------------------------------------------------
-def get_arm_joint_info(self):
+def get_joint_link_info(self):
 def get_arm_joint_angle(self):
 def set_arm_to_joint_angles(self, joint_angles):
 def move_arm_to_joint_angles(self, joint_angles):
@@ -79,7 +79,7 @@ def check_collision_xy(self, box1, box2):
 def crop_image(self, image, center, size):
 def get_depth_image(self, basePos, cameraPos, cameraUp, enable_show=False, enable_save=False)
 def draw_aabb(self, object_id):
-def set_arm_visual_color(self):
+def set_robot_visual_color(self):
 def visualize_path(self, path):
 def enable_vertical_view(self, height, position):
 def draw_line(self, start_pos, target_pos, color=[1, 0, 0], width=3.0):

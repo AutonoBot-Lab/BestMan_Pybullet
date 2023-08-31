@@ -21,7 +21,7 @@ demo.move_arm_to_joint_angles(pose1)
 
 # load fridge
 # pb_client.load_object(
-#     model_path="./Kitchen/models/Fridge/10144/mobility.urdf",
+#     model_path="./Kitchen_models/models/Fridge/10144/mobility.urdf",
 #     object_position=[0.5, 4.9, 1.055],
 #     object_orientation=[0, 0, math.pi],
 #     scale=1.0,
@@ -35,7 +35,7 @@ demo.move_arm_to_joint_angles(pose1)
 
 # load microwave
 # pb_client.load_object(
-#     model_path="./Kitchen/models/Microwave/7128/mobility.urdf",
+#     model_path="./Kitchen_models/models/Microwave/7128/mobility.urdf",
 #     object_position=[0.4, 6.4, 1.019],
 #     object_orientation=[0, 0, math.pi],
 #     scale=1.0,
@@ -49,7 +49,7 @@ demo.move_arm_to_joint_angles(pose1)
 
 # load dishwasher
 pb_client.load_object(
-    model_path="./Kitchen/models/Dishwasher/2085/mobility.urdf",
+    model_path="./Kitchen_models/models/Dishwasher/2085/mobility.urdf",
     object_position=[0.7, 6.4, 0.366],
     object_orientation=[0, 0, math.pi],
     scale=1.0,

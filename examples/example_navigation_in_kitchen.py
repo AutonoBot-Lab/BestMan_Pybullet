@@ -18,9 +18,9 @@ pb_client = PbClient(enable_GUI=True, enable_Debug=True)
 pb_visualizer = PbVisualizer(pb_client)
 
 # load kitchen
-kitchen = Kitchen(pb_client, './Kitchen/scenes/kitchen_basics.lisdf')
-# kitchen = Kitchen(pb_client, './Kitchen/scenes/kitchen_counter.lisdf')
-# kitchen = Kitchen(pb_client, './Kitchen/scenes/kitchen_lunch.lisdf')
+kitchen = Kitchen(pb_client, './Kitchen_models/scenes/kitchen_basics.lisdf')
+# kitchen = Kitchen(pb_client, './Kitchen_models/scenes/kitchen_counter.lisdf')
+# kitchen = Kitchen(pb_client, './Kitchen_models/scenes/kitchen_lunch.lisdf')
 pb_client.run(100)
 
 # load robot

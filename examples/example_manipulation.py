@@ -36,9 +36,7 @@ init_pose = Pose([1, 0, 0], [0.0, 0.0, math.pi / 2])
 demo = Bestman(init_pose, pb_client)
 
 # get info about arm
-demo.get_base_joint_info()
-demo.get_arm_joint_info()
-demo.get_link_names()
+demo.get_joint_link_info('arm')
 
 # reset arm joint position
 pose1 = [0, -1.57, 2.0, -1.57, -1.57, 0]

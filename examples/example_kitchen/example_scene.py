@@ -1,10 +1,26 @@
+"""
+@Description :   load a kitchen scenario
+@Author      :   Yan Ding 
+@Time        :   2023/08/30 20:43:44
+"""
+
+"""
+Get the utils module path
+"""
+import sys
+import os
+
+current_path = os.path.abspath(__file__)
+parent_path = os.path.dirname(current_path)
+sys.path.append(parent_path)
+
 from utils.utils_Bestman import Bestman, Pose
 from utils.utils_PbClient import PbClient
 from utils.utils_PbVisualizer import PbVisualizer
 from utils.utils_Kitchen_scene import Kitchen
 import math
 
-# load cleint
+# load client
 pb_client = PbClient(enable_GUI=True, enable_Debug=True)
 pb_client.enable_vertical_view(3.6, [0.02, 6.52, 1.02], pitch=-17.11, yaw=88.79)
 
@@ -20,9 +36,7 @@ pose1 = [0, -1.57, 2.0, -1.57, -1.57, 0]
 demo.move_arm_to_joint_angles(pose1)
 
 # load kitchen
-kitchen = Kitchen(pb_client, './Kitchen/scenes/kitchen_basics.lisdf')
-# kitchen = Kitchen(pb_client, './Kitchen/scenes/kitchen_counter.lisdf')
-# kitchen = Kitchen(pb_client, './Kitchen/scenes/kitchen_lunch.lisdf')
+kitchen = Kitchen(pb_client, lisdf_id=0)
 
 # wait a few seconds
 pb_client.run(1000)

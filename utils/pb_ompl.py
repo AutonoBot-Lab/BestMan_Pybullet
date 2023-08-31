@@ -1,3 +1,16 @@
+"""
+@Description :   A few functions intergrating between robot and ompl
+@Author      :   Yan Ding 
+@Time        :   2023/08/30 23:00:27
+"""
+
+import sys
+import os
+
+current_path = os.path.abspath(__file__)
+parent_path = os.path.dirname(current_path)
+sys.path.append(parent_path)
+
 try:
     from ompl import util as ou
     from ompl import base as ob
@@ -15,7 +28,7 @@ except ImportError:
     from ompl import geometric as og
 
 import pybullet as p
-import utils.utils_ompl
+import utils_ompl
 import time
 from itertools import product
 import copy
@@ -168,22 +181,22 @@ class PbOMPL():
         # check self-collision
         self.robot.set_state(self.state_to_list(state))
         for link1, link2 in self.check_link_pairs:
-            if utils.utils_ompl.pairwise_link_collision(self.robot_id, link1, self.robot_id, link2):
+            if utils_ompl.pairwise_link_collision(self.robot_id, link1, self.robot_id, link2):
                 # print(get_body_name(body), get_link_name(body, link1), get_link_name(body, link2))
                 return False
 
         # check collision against environment
         for body1, body2 in self.check_body_pairs:
-            if utils.utils_ompl.pairwise_collision(body1, body2):
+            if utils_ompl.pairwise_collision(body1, body2):
                 # print('body collision', body1, body2)
                 # print(get_body_name(body1), get_body_name(body2))
                 return False
         return True
 
     def setup_collision_detection(self, robot, obstacles, self_collisions = True, allow_collision_links = []):
-        self.check_link_pairs = utils.utils_ompl.get_self_link_pairs(robot.id, robot.joint_idx) if self_collisions else []
+        self.check_link_pairs = utils_ompl.get_self_link_pairs(robot.id, robot.joint_idx) if self_collisions else []
         moving_links = frozenset(
-            [item for item in utils.utils_ompl.get_moving_links(robot.id, robot.joint_idx) if not item in allow_collision_links])
+            [item for item in utils_ompl.get_moving_links(robot.id, robot.joint_idx) if not item in allow_collision_links])
         moving_bodies = [(robot.id, moving_links)]
         self.check_body_pairs = list(product(moving_bodies, obstacles))
 

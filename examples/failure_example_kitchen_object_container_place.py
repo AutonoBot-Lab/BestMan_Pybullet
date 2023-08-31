@@ -31,15 +31,26 @@ demo.move_arm_to_joint_angles(pose1)
 # get arm information
 print("-" * 20 + "\n" + "joint_indexs: {}; end_effector_index: {}".format(demo.joint_indexs, demo.end_effector_index))
 
-# open the container
+# open fridge
+container_id = 1
+kitchen_id.open_drawer("elementD", container_id)
+pb_client.run(100) # wait for a few seconds
+
+# open fridge
 container_id = 1
 kitchen_id.open_drawer("elementE", container_id)
 pb_client.run(100) # wait for a few seconds
 
 # load bowl
-bowl_position = [3.89, 6.52, 1.58]  # hard code
+# bowl_position = [3.89, 6.52, 1.58]  # hard code
+bowl_position = [3.89, 2.95, 1.05]  # hard code
 bowl_id = pb_client.load_object("./URDF_models/utensil_bowl_blue/model.urdf", bowl_position, [0.0, 0.0, 0.0], 1.0, "bowl")
-pb_client.run(100) # wait for a few seconds
+pb_client.run(1000) # wait for a few seconds
+
 _, _, min_z, _, _, max_z = pb_client.get_bounding_box(bowl_id)
 bowl_position[2] = max_z + demo.tcp_height # consider the height of the
 print("-" * 20 + "\n" + 'min_z: {} max_z: {}'.format(min_z, max_z))
+
+pb_client.wait(10)
+
+pb_client.disconnect_pybullet()

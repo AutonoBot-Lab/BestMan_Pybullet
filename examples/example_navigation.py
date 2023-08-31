@@ -56,7 +56,7 @@ pose1 = [0, -1.57, 2.0, -1.57, -1.57, 0]
 demo.move_arm_to_joint_angles(pose1)
 
 # # get info about base
-# demo.get_base_joint_info()
+# demo.get_joint_link_info('base')
 
 # plot line connecting init and goal positions
 target_position = [2.0, 1.0, 0]
@@ -66,7 +66,7 @@ pb_visualizer.draw_line([1.0, 0.0, 0.0], target_position)
 demo.navigate_base(Pose(target_position, [0.0, 0.0, math.pi/2.0]))
 
 # check result
-demo.get_base_joint_info()
+demo.get_joint_link_info('base')
 
 # # end recording
 # pb_client.end_record(logID)
