@@ -88,7 +88,7 @@ class Bestman:
             rotated (bool): A flag indicating whether the object has been rotated.
             base_id (int): The base id of the URDF model.
             arm_id (int): The arm id of the URDF model.
-            joint_indexs (list): A list of joint indexes.
+            base_joint_indexs (list): A list of joint indexes.
             end_effector_index (int): The index of the end effector.
             tcp_link (int): The tcp link index.
             tcp_height (float): The height of the tcp link.
@@ -138,7 +138,7 @@ class Bestman:
             useFixedBase=True,
             physicsClientId=self.client_id,
         )
-        self.joint_indexs = [0, 1, 2, 3, 4, 5]
+        self.base_joint_indexs = [0, 1, 2, 3, 4, 5]
         self.end_effector_index = 6
 
         # get tcp link
@@ -344,6 +344,7 @@ class Bestman:
         self.next_waypoint = next_waypoint
         self.target_distance = 0.0
         self.rotated = False
+
         while True:
             pose = self.get_base_pose()
             target = self.next_waypoint
@@ -417,8 +418,8 @@ class Bestman:
         target_orientation = orientation
 
         result = self.check_collision_navigation()  # check if collision exists
-        # if result:
-        #     assert "Collision detected during navigation, stopping..."
+        if result:
+            assert "Collision detected during navigation, stopping..."
 
         p.resetBasePositionAndOrientation(
             self.base_id,

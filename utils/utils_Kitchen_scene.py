@@ -35,7 +35,7 @@ Add kitchen
 """
 
 class Kitchen:
-    def __init__(self, pb_client, lisdf_id):
+    def __init__(self, pb_client, lisdf_id=0):
         """
         Initialize the kitchen environment.
 

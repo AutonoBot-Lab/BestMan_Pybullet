@@ -41,7 +41,7 @@ pose1 = [0, -1.57, 2.0, -1.57, -1.57, 0]
 demo.move_arm_to_joint_angles(pose1)
 
 # get arm information
-print("-" * 20 + "\n" + "joint_indexs: {}; end_effector_index: {}".format(demo.joint_indexs, demo.end_effector_index))
+print("-" * 20 + "\n" + "base_joint_indexs: {}; end_effector_index: {}".format(demo.base_joint_indexs, demo.end_effector_index))
 
 # open fridge
 container_id = 1

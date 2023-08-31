@@ -84,18 +84,18 @@ class PbClient:
     # Visualization functions
     # ----------------------------------------------------------------
 
-    def enable_vertical_view(self, height, position, yaw=0, pitch=-89.9):
+    def enable_vertical_view(self, dist, position, yaw=0, pitch=-89.9):
         """
         Set the debug visualizer camera in a vertical view.
         
         Args:
-            height (float): The distance of the camera from the target point.
+            dist (float): The distance of the camera from the target point.
             position (list): A list of three floats representing the target position in 3D space.
             yaw (float, optional): The yaw component of the camera orientation. Defaults to 0.
             pitch (float, optional): The pitch component of the camera orientation. Defaults to -89.9.
         """
         p.resetDebugVisualizerCamera(
-            cameraDistance=height,
+            cameraDistance=dist,
             cameraYaw=yaw,
             cameraPitch=pitch,
             cameraTargetPosition=position,
@@ -282,7 +282,7 @@ class PbClient:
 
         return x, y
 
-    def get_bounding_box(self, object_id):
+    def get_bounding_box(self, object_id, print_output=False): #TODO: use a polygon to represent the bounding box
         """
         This function retrieves the bounding box for a given object in the PyBullet simulation environment. 
 
@@ -309,9 +309,12 @@ class PbClient:
             max_x = max(max_x, x_max)
             max_y = max(max_y, y_max)
             max_z = max(max_z, z_max)
-        # print("-" * 20 + "\n" + "object_id: {}".format(object_id))
-        # print("min_x:{:.2f}, min_y:{:.2f}, min_z:{:.2f}".format(min_x, min_y, min_z))
-        # print("max_x:{:.2f}, max_y:{:.2f}, max_z:{:.2f}".format(max_x, max_y, max_z))
+        
+        if print_output:
+            print("-" * 20 + "\n" + "object_id: {}".format(object_id))
+            print("min_x:{:.2f}, min_y:{:.2f}, min_z:{:.2f}".format(min_x, min_y, min_z))
+            print("max_x:{:.2f}, max_y:{:.2f}, max_z:{:.2f}".format(max_x, max_y, max_z))
+        
         return [min_x, min_y, min_z, max_x, max_y, max_z]
 
     def check_collision_xyz(self, box1, box2):

@@ -16,6 +16,7 @@ from utils_Bestman import Bestman, Pose
 from utils_PbClient import PbClient
 from utils_PbVisualizer import PbVisualizer
 from utils_Kitchen_object import Kitchen
+from utils_PbOMPL import PbOMPL
 
 # This script demonstrates retrieving an object from inside a drawer using a vacuum tool.
 
@@ -41,14 +42,26 @@ pose1 = [0, -1.57, 2.0, -1.57, -1.57, 0]
 demo.move_arm_to_joint_angles(pose1)
 
 # get arm information
-print("-" * 20 + "\n" + "joint_indexs: {}; end_effector_index: {}".format(demo.joint_indexs, demo.end_effector_index))
+print("-" * 20 + "\n" + "base_joint_indexs: {}; end_effector_index: {}".format(demo.base_joint_indexs, demo.end_effector_index))
+
+# open the drawer
+drawer_id = 5
+kitchen_id.open_it("elementA", drawer_id)
+
+# load bowl (target object must be added after ompl creation)
+bowl_position = [3.6, 2.4, 0.9]  # hard code
+bowl_id = pb_client.load_object("./URDF_models/utensil_bowl_blue/model.urdf", bowl_position, [0.0, 0.0, 0.0], 1.0, "bowl")
+pb_client.run(100) # wait for a few seconds
+_, _, min_z, _, _, max_z = pb_client.get_bounding_box(bowl_id)
+bowl_position[2] = max_z + demo.tcp_height # consider the height of the
+print("-" * 20 + "\n" + 'min_z: {} max_z: {}'.format(min_z, max_z))
 
 # load OMPL planner
 threshold_distance = 0.05
 ompl = PbOMPL(
     pb_client=pb_client,
     arm_id=demo.arm_id,
-    joint_idx=demo.joint_indexs,
+    joint_idx=demo.base_joint_indexs,
     tcp_link=demo.tcp_link,
     obstacles=[],
     planner="RRTConnect",
@@ -58,18 +71,6 @@ ompl = PbOMPL(
 # add obstacles
 ompl.add_scene_obstacles(display=True)
 ompl.check_obstacles()
-
-# open the drawer
-drawer_id = 5
-kitchen_id.open_it("elementA", drawer_id)
-
-# load bowl
-bowl_position = [3.6, 2.4, 0.9]  # hard code
-bowl_id = pb_client.load_object("./URDF_models/utensil_bowl_blue/model.urdf", bowl_position, [0.0, 0.0, 0.0], 1.0, "bowl")
-pb_client.run(100) # wait for a few seconds
-_, _, min_z, _, _, max_z = pb_client.get_bounding_box(bowl_id)
-bowl_position[2] = max_z + demo.tcp_height # consider the height of the
-print("-" * 20 + "\n" + 'min_z: {} max_z: {}'.format(min_z, max_z))
 
 # navigate to standing position
 standing_position = [3.1, 2.4, 0]  # hard code

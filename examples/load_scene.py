@@ -20,29 +20,34 @@ sys.path.append(utils_path)
 from utils_Bestman import Bestman, Pose
 from utils_PbClient import PbClient
 from utils_PbVisualizer import PbVisualizer
-from utils_Kitchen_object import Kitchen
+from utils_PbOMPL import PbOMPL
 
-# load client
+# load kitchen from three scenarios
+index = 2
+if index == 0:
+    from utils_Kitchen_object import Kitchen
+elif index == 1:
+    from utils_Kitchen_object2 import Kitchen
+elif index == 2:
+    from utils_Kitchen_scene import Kitchen
+else:
+    assert False, "index should be 0, 1 or 2"
+
+
 pb_client = PbClient(enable_GUI=True, enable_Debug=True)
-pb_client.enable_vertical_view(3.6, [0.02, 6.52, 1.02], pitch=-17.11, yaw=88.79)
+pb_client.enable_vertical_view(2.2, [1.9, 7.35, 1.54], yaw=88.8, pitch=-31.5)
 
-# load visualizer
 pb_visualizer = PbVisualizer(pb_client)
-
-# load robot
+# logID = pb_client.start_record("example_manipulation") # start recording
 init_pose = Pose([1, 0, 0], [0.0, 0.0, math.pi / 2])
-demo = Bestman(init_pose, pb_client)
-
-# reset arm joint position
-pose1 = [0, -1.57, 2.0, -1.57, -1.57, 0]
-demo.move_arm_to_joint_angles(pose1)
+demo = Bestman(init_pose, pb_client)  # load robot
+demo.get_joint_link_info("arm")  # get info about arm
+init_joint = [0, -1.57, 2.0, -1.57, -1.57, 0]
+demo.move_arm_to_joint_angles(init_joint)  # reset arm joint position
 
 # load kitchen
 kitchen = Kitchen(pb_client, lisdf_id=0)
 
-# wait a few seconds
-pb_client.run(1000)
-pb_client.wait(100)
-
 # disconnect pybullet
+pb_client.wait(50)
 pb_client.disconnect_pybullet()

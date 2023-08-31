@@ -218,7 +218,7 @@ class PbOMPL:
         This is done by iterating over all items in the scene and adding them to the list of obstacles.
 
         Args:
-                display: If True the name and ID of the item will be displayed on the screen.
+            display: If True the name and ID of the item will be displayed on the screen.
             Default is False. If False it will not be displayed.
 
         Returns:

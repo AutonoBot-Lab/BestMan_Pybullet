@@ -37,7 +37,8 @@ class Kitchen:
     def __init__(self, pb_client):
         self.pb_client = pb_client
         self.client_id = self.pb_client.get_client()
-        
+
+        self.object_ids = [] # store object id in loaded kitchen scene
         # ----------------------------------------------------------------
         # This is Element A, where there are a oven, and a few drawers
         # ----------------------------------------------------------------
@@ -49,6 +50,7 @@ class Kitchen:
             obj_name='elementA',
             fixed_base=True,
         )
+        self.object_ids.append("elementA_id")
         self.elementA_drawer_to_joint_id = {
             1: 17,
             2: 21,
@@ -94,6 +96,7 @@ class Kitchen:
             obj_name='elementB',
             fixed_base=True,
         )
+        self.object_ids.append("elementB_id")
 
         # ----------------------------------------------------------------
         #  This is Element C (i.e., a dishwasher)
@@ -106,6 +109,7 @@ class Kitchen:
             obj_name='elementC',
             fixed_base=True,
         )
+        self.object_ids.append("elementC_id")
         self.elementC_drawer_to_joint_id = {
             1: 1,
             2: 2,
@@ -135,6 +139,7 @@ class Kitchen:
             obj_name='elementD',
             fixed_base=True,
         )
+        self.object_ids.append("elementD_id")
         self.elementD_drawer_to_joint_id = {
             1: 1,
         }
@@ -160,6 +165,7 @@ class Kitchen:
             obj_name='elementE',
             fixed_base=True,
         )
+        self.object_ids.append("elementE_id")
         self.elementE_drawer_to_joint_id = {
             1: 1,
             2: 2,

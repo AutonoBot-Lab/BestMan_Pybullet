@@ -41,14 +41,14 @@ pose1 = [0, -1.57, 2.0, -1.57, -1.57, 0]
 demo.move_arm_to_joint_angles(pose1)
 
 # get arm information
-print("-" * 20 + "\n" + "joint_indexs: {}; end_effector_index: {}".format(demo.joint_indexs, demo.end_effector_index))
+print("-" * 20 + "\n" + "base_joint_indexs: {}; end_effector_index: {}".format(demo.base_joint_indexs, demo.end_effector_index))
 
 # load OMPL planner
 threshold_distance = 0.1
 ompl = PbOMPL(
     pb_client=pb_client,
     arm_id=demo.arm_id,
-    joint_idx=demo.joint_indexs,
+    joint_idx=demo.base_joint_indexs,
     tcp_link=demo.tcp_link,
     obstacles=[],
     planner="RRTConnect",
