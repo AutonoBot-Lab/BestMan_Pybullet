@@ -4,15 +4,6 @@
 @Time        :   2023/08/30 22:52:39
 """
 
-"""
-Get the utils module path
-"""
-import sys
-import os
-
-current_path = os.path.abspath(__file__)
-parent_path = os.path.dirname(current_path)
-sys.path.append(parent_path)
 
 import cv2
 import pybullet as p
@@ -24,6 +15,18 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import random
 from matplotlib.colors import LinearSegmentedColormap
+
+"""
+Get the utils module path
+"""
+import sys
+import os
+# customized package
+current_path = os.path.abspath(__file__)
+utils_path = os.path.dirname(current_path)
+if os.path.basename(utils_path) != 'utils':
+    raise ValueError('Not add the path of folder "utils", please check again!')
+sys.path.append(utils_path)
 import pb_ompl
 
 

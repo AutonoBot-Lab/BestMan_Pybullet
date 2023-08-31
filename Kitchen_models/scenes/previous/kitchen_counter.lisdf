@@ -38,35 +38,35 @@
       </link>
     </model>
 
-    <include name="counter">
+    <include name="counter#1">
       <uri>../models/counter/urdf/kitchen_part_right_gen_convex.urdf</uri>
       <static>true</static>
       <scale>1.0096553359875846</scale>
       <pose>0.5 7.6 1.394 0.0 -0.0 0.0</pose>
     </include>
 
-    <include name="braiserbody">
+    <include name="braiserbody#1">
       <uri>../models/BraiserBody/100693/mobility.urdf</uri>
       <static>true</static>
       <scale>0.259</scale>
       <pose>0.55 8.185 0.818 0.0 -0.0 1.421</pose>
     </include>
 
-    <include name="microwave">
+    <include name="microwave#1">
       <uri>../models/Microwave/7128/mobility.urdf</uri>
       <static>true</static>
       <scale>0.48999999999999994</scale>
       <pose>0.4 6.4 1.019 0.0 -0.0 3.142</pose>
     </include>
 
-    <include name="braiserlid">
+    <include name="braiserlid#1">
       <uri>../models/BraiserLid/100693/mobility.urdf</uri>
       <static>true</static>
       <scale>0.259</scale>
       <pose>0.7 9.056 0.813 0.0 -0.0 0.715</pose>
     </include>
 
-    <include name="oven">
+    <include name="oven#1">
       <uri>../models/Oven/01909/mobility.urdf</uri>
       <static>true</static>
       <scale>0.8815298531369636</scale>

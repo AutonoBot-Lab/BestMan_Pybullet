@@ -1,8 +1,20 @@
-from utils.utils_Bestman import Bestman, Pose
-from utils.utils_PbClient import PbClient
-from utils.utils_PbVisualizer import PbVisualizer
-from utils.utils_Kitchen_object import Kitchen
 import math
+import sys
+import os
+
+"""
+Get the utils module path
+"""
+# customized package
+current_path = os.path.abspath(__file__)
+utils_path = os.path.dirname(os.path.dirname(current_path)) + '/utils'
+if os.path.basename(utils_path) != 'utils':
+    raise ValueError('Not add the path of folder "utils", please check again!')
+sys.path.append(utils_path)
+from utils_Bestman import Bestman, Pose
+from utils_PbClient import PbClient
+from utils_PbVisualizer import PbVisualizer
+from utils_Kitchen_object import Kitchen
 
 # load cleint
 pb_client = PbClient(enable_GUI=True)
@@ -30,7 +42,7 @@ pb_visualizer.set_elementB_visual_color
 # open a drawer in element A
 for i in range(10):
     drawer_id = i+1
-    kitchen.open_drawer('elementA', drawer_id)
+    kitchen.open_it('elementA', drawer_id)
 
 # close a drawer in element A
 for i in range(10):
@@ -40,7 +52,7 @@ for i in range(10):
 # open a drawer in element C
 for i in range(3):
     drawer_id = i+1
-    kitchen.open_drawer('elementC', drawer_id)
+    kitchen.open_it('elementC', drawer_id)
 
 # close a drawer in element C
 for i in [2, 1, 0]:
@@ -50,7 +62,7 @@ for i in [2, 1, 0]:
 # open a drawer in element D
 for i in range(1):
     drawer_id = i+1
-    kitchen.open_drawer('elementD', drawer_id)
+    kitchen.open_it('elementD', drawer_id)
 
 # close a drawer in element D
 for i in range(1):
@@ -60,7 +72,7 @@ for i in range(1):
 # open a drawer in element E
 for i in range(2):
     drawer_id = i+1
-    kitchen.open_drawer('elementE', drawer_id)
+    kitchen.open_it('elementE', drawer_id)
 
 # close a drawer in element E
 for i in range(2):

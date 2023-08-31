@@ -4,12 +4,6 @@
 @Time        :   2023/08/30 23:00:27
 """
 
-import sys
-import os
-
-current_path = os.path.abspath(__file__)
-parent_path = os.path.dirname(current_path)
-sys.path.append(parent_path)
 
 try:
     from ompl import util as ou
@@ -28,10 +22,22 @@ except ImportError:
     from ompl import geometric as og
 
 import pybullet as p
-import utils_ompl
 import time
 from itertools import product
 import copy
+
+"""
+Get the utils module path
+"""
+import sys
+import os
+# customized package
+current_path = os.path.abspath(__file__)
+utils_path = os.path.dirname(current_path)
+if os.path.basename(utils_path) != 'utils':
+    raise ValueError('Not add the path of folder "utils", please check again!')
+sys.path.append(utils_path)
+import utils_ompl
 
 INTERPOLATE_NUM = 500
 DEFAULT_PLANNING_TIME = 5.0

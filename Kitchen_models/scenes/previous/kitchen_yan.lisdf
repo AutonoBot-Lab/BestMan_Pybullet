@@ -1,23 +1,23 @@
 <?xml version="1.0" ?>
 <!-- sdf file created by Yang's kitchen scene generator -->
 <sdf version="1.9">
-  <world name="kitchen_counter">
+  <world name="kitchen_basics">
 
     <gui>
       <camera name="default_camera" definition_type="lookat">
-        <xyz>1.463 8.024 1.454</xyz>
-        <point_to>0.463 8.024 0.454</point_to>
+        <xyz>3.0 5.0 3.0</xyz>
+        <point_to>0.0 6.0 1.0</point_to>
       </camera>
     </gui>
 
     <model name="eggblock">
       <static>false</static>
-      <pose>0.55 8.185 0.835 0.0 -0.0 0.747</pose>
+      <pose>0.7 4.9 0.845 0.0 -0.0 1.684</pose>
       <link name="box">
         <collision name="box_collision">
           <geometry>
             <box>
-              <size>0.07 0.07 0.1</size>
+              <size>0.03 0.03 0.04</size>
             </box>
           </geometry>
         </collision>
@@ -38,39 +38,74 @@
       </link>
     </model>
 
-    <include name="counter">
+    <include name="counter#1">
       <uri>../models/counter/urdf/kitchen_part_right_gen_convex.urdf</uri>
       <static>true</static>
       <scale>1.0096553359875846</scale>
       <pose>0.5 7.6 1.394 0.0 -0.0 0.0</pose>
     </include>
 
-    <include name="braiserbody">
+    <include name="braiserbody#1">
       <uri>../models/BraiserBody/100693/mobility.urdf</uri>
       <static>true</static>
       <scale>0.259</scale>
-      <pose>0.55 8.185 0.818 0.0 -0.0 1.421</pose>
+      <pose>0.55 8.195 0.818 0.0 -0.0 0.065</pose>
     </include>
 
-    <include name="microwave">
+    <include name="microwave#1">
       <uri>../models/Microwave/7128/mobility.urdf</uri>
       <static>true</static>
       <scale>0.48999999999999994</scale>
       <pose>0.4 6.4 1.019 0.0 -0.0 3.142</pose>
     </include>
 
-    <include name="braiserlid">
+    <include name="braiserlid#1">
       <uri>../models/BraiserLid/100693/mobility.urdf</uri>
-      <static>true</static>
+      <static>false</static>
       <scale>0.259</scale>
-      <pose>0.7 9.056 0.813 0.0 -0.0 0.715</pose>
+      <pose>0.55 8.195 0.821 0.0 -0.0 0.065</pose>
     </include>
 
-    <include name="oven">
+    <include name="oven#1">
       <uri>../models/Oven/01909/mobility.urdf</uri>
       <static>true</static>
       <scale>0.8815298531369636</scale>
       <pose>0.6 8.0 0.727 0.0 -0.0 3.142</pose>
+    </include>
+
+    <include name="dishwasher#1">
+      <uri>../models/Dishwasher/2085/mobility.urdf</uri>
+      <static>true</static>
+      <scale>0.6992448779636837</scale>
+      <pose>0.7 6.4 0.366 0.0 -0.0 3.142</pose>
+    </include>
+
+    <include name="basin#1">
+      <uri>../models/Basin/102379/mobility.urdf</uri>
+      <static>true</static>
+      <scale>0.5535737943700895</scale>
+      <pose>0.5 5.6 0.363 0.0 -0.0 3.142</pose>
+    </include>
+
+    <include name="faucet#1">
+      <uri>../models/Faucet/149/mobility.urdf</uri>
+      <static>true</static>
+      <scale>0.21</scale>
+      <pose>0.3 5.6 0.967 0.0 -0.0 3.142</pose>
+    </include>
+
+    <include name="fridge#1">
+      <uri>../models/Fridge/10144/mobility.urdf</uri>
+      <static>true</static>
+      <scale>1.110876559215739</scale>
+      <pose>0.5 4.9 1.055 0.0 -0.0 3.142</pose>
+    </include>
+
+    <include name="milkbottle#1">
+      <uri>../models/MilkBottle/4043/mobility.urdf</uri>
+      <static>true</static>
+      <scale>0.13999999999999999</scale>
+      <pose>0.7 4.9 1.503 0.0 -0.0 1.664</pose>
     </include>
 
   </world>

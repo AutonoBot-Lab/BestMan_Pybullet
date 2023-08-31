@@ -4,21 +4,23 @@
 @Time        :   2023/08/30 20:43:44
 """
 
-"""
-Get the utils module path
-"""
+import math
 import sys
 import os
 
+"""
+Get the utils module path
+"""
+# customized package
 current_path = os.path.abspath(__file__)
-parent_path = os.path.dirname(current_path)
-sys.path.append(parent_path)
-
-from utils.utils_Bestman import Bestman, Pose
-from utils.utils_PbClient import PbClient
-from utils.utils_PbVisualizer import PbVisualizer
-from utils.utils_Kitchen_scene import Kitchen
-import math
+utils_path = os.path.dirname(os.path.dirname(current_path)) + '/utils'
+if os.path.basename(utils_path) != 'utils':
+    raise ValueError('Not add the path of folder "utils", please check again!')
+sys.path.append(utils_path)
+from utils_Bestman import Bestman, Pose
+from utils_PbClient import PbClient
+from utils_PbVisualizer import PbVisualizer
+from utils_Kitchen_object import Kitchen
 
 # load client
 pb_client = PbClient(enable_GUI=True, enable_Debug=True)

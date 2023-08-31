@@ -4,15 +4,6 @@
 @Time        :   2023/08/30 22:48:04
 """
 
-"""
-Get the utils module path
-"""
-import sys
-import os
-
-current_path = os.path.abspath(__file__)
-parent_path = os.path.dirname(current_path)
-sys.path.append(parent_path)
 
 import cv2
 import pybullet as p

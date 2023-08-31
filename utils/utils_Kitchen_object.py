@@ -4,15 +4,6 @@
 @Time        :   2023/08/30 23:01:42
 """
 
-"""
-Get the utils module path
-"""
-import sys
-import os
-
-current_path = os.path.abspath(__file__)
-parent_path = os.path.dirname(current_path)
-sys.path.append(parent_path)
 
 import pybullet as p
 import pybullet_data
@@ -23,6 +14,17 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import random
 
+"""
+Get the utils module path
+"""
+import sys
+import os
+# customized package
+current_path = os.path.abspath(__file__)
+utils_path = os.path.dirname(current_path)
+if os.path.basename(utils_path) != 'utils':
+    raise ValueError('Not add the path of folder "utils", please check again!')
+sys.path.append(utils_path)
 from utils_PbVisualizer import PbVisualizer
 from utils_PbClient import PbClient
 from utils_PIDController import PIDController
@@ -187,7 +189,7 @@ class Kitchen:
     # ----------------------------------------------------------------
     # Open drawer
     # ----------------------------------------------------------------
-    def open_drawer(self, elementName, drawer_id):
+    def open_it(self, elementName, drawer_id):
         if elementName == "elementA":
             joint_id = self.elementA_drawer_to_joint_id[drawer_id]
             open_angle = self.elementA_drawer_to_joint_limits[drawer_id][1]
@@ -197,7 +199,7 @@ class Kitchen:
                 jointIndex=joint_id,
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=open_angle,
-                maxVelocity=0.5,
+                maxVelocity=1.0,
             )
         elif elementName == "elementC":
             joint_id = self.elementC_drawer_to_joint_id[drawer_id]
@@ -208,7 +210,7 @@ class Kitchen:
                 jointIndex=joint_id,
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=open_angle,
-                maxVelocity=0.5,
+                maxVelocity=1.0,
             )
         elif elementName == "elementD":
             joint_id = self.elementD_drawer_to_joint_id[drawer_id]
@@ -219,7 +221,7 @@ class Kitchen:
                 jointIndex=joint_id,
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=open_angle,
-                maxVelocity=0.5,
+                maxVelocity=1.0,
             )
         elif elementName == "elementE":
             joint_id = self.elementE_drawer_to_joint_id[drawer_id]
@@ -230,7 +232,7 @@ class Kitchen:
                 jointIndex=joint_id,
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=open_angle,
-                maxVelocity=0.5,
+                maxVelocity=1.0,
             )
         self.pb_client.run(240 * 5)
 
@@ -246,7 +248,7 @@ class Kitchen:
                 jointIndex=joint_id,
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=close_angle,
-                maxVelocity=0.5,
+                maxVelocity=1.0,
             )
         elif elementName == "elementC":
             joint_id = self.elementC_drawer_to_joint_id[drawer_id]
@@ -256,7 +258,7 @@ class Kitchen:
                 jointIndex=joint_id,
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=close_angle,
-                maxVelocity=0.5,
+                maxVelocity=1.0,
             )
             self.pb_client.run(240 * 5)
             
@@ -269,7 +271,7 @@ class Kitchen:
                 jointIndex=joint_id,
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=close_angle,
-                maxVelocity=0.5,
+                maxVelocity=1.0,
             )
         elif elementName == "elementE":
             joint_id = self.elementE_drawer_to_joint_id[drawer_id]
@@ -279,6 +281,6 @@ class Kitchen:
                 jointIndex=joint_id,
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=close_angle,
-                maxVelocity=0.5,
+                maxVelocity=1.0,
             )
         self.pb_client.run(240 * 5)

@@ -1,9 +1,21 @@
-from utils.utils_Bestman import Bestman, Pose
-from utils.utils_PbClient import PbClient
-from utils.utils_PbVisualizer import PbVisualizer
-from utils.utils_Kitchen_object import Kitchen
 import math
+import sys
+import os
 import pybullet as p
+
+"""
+Get the utils module path
+"""
+# customized package
+current_path = os.path.abspath(__file__)
+utils_path = os.path.dirname(os.path.dirname(current_path)) + '/utils'
+if os.path.basename(utils_path) != 'utils':
+    raise ValueError('Not add the path of folder "utils", please check again!')
+sys.path.append(utils_path)
+from utils_Bestman import Bestman, Pose
+from utils_PbClient import PbClient
+from utils_PbVisualizer import PbVisualizer
+from utils_Kitchen_object import Kitchen
 
 # This script demonstrates retrieving an object from inside a drawer using a vacuum tool.
 
@@ -33,12 +45,12 @@ print("-" * 20 + "\n" + "joint_indexs: {}; end_effector_index: {}".format(demo.j
 
 # open fridge
 container_id = 1
-kitchen_id.open_drawer("elementD", container_id)
+kitchen_id.open_it("elementD", container_id)
 pb_client.run(100) # wait for a few seconds
 
 # open fridge
 container_id = 1
-kitchen_id.open_drawer("elementE", container_id)
+kitchen_id.open_it("elementE", container_id)
 pb_client.run(100) # wait for a few seconds
 
 # load bowl
@@ -51,6 +63,6 @@ _, _, min_z, _, _, max_z = pb_client.get_bounding_box(bowl_id)
 bowl_position[2] = max_z + demo.tcp_height # consider the height of the
 print("-" * 20 + "\n" + 'min_z: {} max_z: {}'.format(min_z, max_z))
 
-pb_client.wait(10)
 
+pb_client.wait(10)
 pb_client.disconnect_pybullet()

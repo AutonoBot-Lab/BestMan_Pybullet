@@ -4,15 +4,6 @@
 @Time        :   2023/08/30 23:01:42
 """
 
-"""
-Get the utils module path
-"""
-import sys
-import os
-
-current_path = os.path.abspath(__file__)
-parent_path = os.path.dirname(current_path)
-sys.path.append(parent_path)
 
 import pybullet as p
 import pybullet_data
@@ -24,6 +15,17 @@ import matplotlib.pyplot as plt
 import random
 import xml.etree.ElementTree as ET
 
+"""
+Get the utils module path
+"""
+import sys
+import os
+# customized package
+current_path = os.path.abspath(__file__)
+utils_path = os.path.dirname(current_path)
+if os.path.basename(utils_path) != 'utils':
+    raise ValueError('Not add the path of folder "utils", please check again!')
+sys.path.append(utils_path)
 from utils_PbVisualizer import PbVisualizer
 from utils_PbClient import PbClient
 from utils_PIDController import PIDController
@@ -59,6 +61,8 @@ class Kitchen:
             sys.exit()
         models, xyz, point_to = self.parse_lisdf(lisdf_file)
         cameraDistance, cameraYaw, cameraPitch = self.compute_camera_angles(xyz, point_to)
+        
+        self.object_ids = [] # store object id in loaded kitchen scene
         self.load_models(models)
 
         # Set the vertical view after loading the models # TODO: other's file is not accurate
@@ -134,5 +138,14 @@ class Kitchen:
             pose = list(map(float, model['pose'].split()))
             scale = model['scale']
             self.pb_client.load_object(absolute_url, pose[:3], pose[3:], scale, name, fixed_base=True)
-            
-            print('-' * 20 + '\n' + 'name:{}; url:{}; pose:{}; scale:{}'.format(name, absolute_url, pose, scale))
+            self.object_ids.append(name+"_id")
+    
+    def open_it(self, model_id, joint_id, open_angle):
+        p.setJointMotorControl2(
+                bodyIndex=model_id,
+                jointIndex=joint_id,
+                controlMode=p.POSITION_CONTROL,
+                targetPosition=open_angle,
+                maxVelocity=1.0,
+            )
+        self.pb_client.run(240 * 5)

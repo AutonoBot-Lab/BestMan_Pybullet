@@ -4,16 +4,6 @@
 @Time        :   2023/08/30 22:22:14
 """
 
-"""
-Get the utils module path
-"""
-import sys
-import os
-
-current_path = os.path.abspath(__file__)
-parent_path = os.path.dirname(current_path)
-sys.path.append(parent_path)
-
 import cv2
 import pybullet as p
 import pybullet_data
@@ -78,6 +68,7 @@ class PbClient:
 
     def disconnect_pybullet(self):
         p.disconnect(physicsClientId=self.client_id)
+        print("-" * 20 + "\n" + "The script ends!"+ "\n" + "-" * 20)
 
     def wait(self, x): # seconds
         time.sleep(x)
@@ -245,11 +236,11 @@ class PbClient:
                 physicsClientId=self.client_id,
             ),
         )
-        print(
-            "-" * 20
-            + "\n"
-            + "{}_id: {}".format(obj_name, getattr(self, f"{obj_name}_id"))
-        )
+        # print(
+        #     "-" * 20
+        #     + "\n"
+        #     + "{}_id: {}".format(obj_name, getattr(self, f"{obj_name}_id"))
+        # )
         self.obstacle_navigation_ids.append(getattr(self, f"{obj_name}_id"))
         self.obstacle_manipulation_ids.append(getattr(self, f"{obj_name}_id"))
         time.sleep(1.0 / self.frequency)
