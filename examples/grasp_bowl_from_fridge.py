@@ -1,20 +1,21 @@
 """
-@Description :   This script answers a question that could the robot detect the opened door in the navigation.
+@Description :   This script shows how to grasp a bowl from a fridge
 @Author      :   Yan Ding 
-@Time        :   2023/08/31 03:01:50
+@Time        :   2023/09/01 07:47:46
 """
 
 import math
 import sys
 import os
+import pybullet as p
 
 """
 Get the utils module path
 """
 # customized package
 current_path = os.path.abspath(__file__)
-utils_path = os.path.dirname(os.path.dirname(current_path)) + "/utils"
-if os.path.basename(utils_path) != "utils":
+utils_path = os.path.dirname(os.path.dirname(current_path)) + '/utils'
+if os.path.basename(utils_path) != 'utils':
     raise ValueError('Not add the path of folder "utils", please check again!')
 sys.path.append(utils_path)
 from utils_Bestman import Bestman, Pose
@@ -47,38 +48,16 @@ demo.move_arm_to_joint_angles(init_joint)  # reset arm joint position
 kitchen = Kitchen(pb_client)
 print("object ids in loaded kitchen:\n{}".format(kitchen.object_ids))
 
-# load OMPL planner
-threshold_distance = 0.1
-ompl = PbOMPL(
-    pb_client=pb_client,
-    arm_id=demo.arm_id,
-    joint_idx=demo.base_joint_indexs,
-    tcp_link=demo.tcp_link,
-    obstacles=[],
-    planner="RRTConnect",
-    threshold=threshold_distance,
-)
+# open fridge
+kitchen.open_it("elementE", 1)
 
-# add obstacles
-ompl.add_scene_obstacles(display=True)
-ompl.check_obstacles()
-
-# before opening the door, fridge's AABB 
-pb_client.get_bounding_box(pb_client.elementE_id, print_output=True)
-
-# open fridge's door
-kitchen.open_it('elementE', 1)
-
-# after opening the door, fridge's AABB
-pb_client.get_bounding_box(pb_client.elementE_id, print_output=True)
-
-# navigation with avoiding opened door
-target_position1 = [3.158, 5.263, 1.368]
-demo.navigate_base(Pose(target_position1, [0.0, 0.0, math.pi/2.0]))
-
-target_position2 = [3.158, 7.263, 1.368]
-demo.navigate_base(Pose(target_position2, [0.0, 0.0, math.pi/2.0]))
+# load bowl
+bowl_position = [3.89, 6.52, 1.58]  # TODO: object goes flying
+bowl_id = pb_client.load_object("./URDF_models/utensil_bowl_blue/model.urdf", bowl_position, [0.0, 0.0, 0.0], 1.0, "bowl")
+pb_client.run(100)
+_, _, min_z, _, _, max_z = pb_client.get_bounding_box(bowl_id)
+bowl_position[2] = max_z + demo.tcp_height # consider tcp's height
 
 # disconnect pybullet
-pb_client.wait(5)
+pb_client.wait(10)
 pb_client.disconnect_pybullet()
