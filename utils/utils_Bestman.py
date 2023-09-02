@@ -372,7 +372,7 @@ class Bestman:
         y_max=10,
         resolution=0.03,
         enable_accurate_occupancy_map=True,
-        enable_plot=False,
+        enable_plot=True,
     ):
         """
         Find a path from a specified initial position to a goal position in a 2D grid representation

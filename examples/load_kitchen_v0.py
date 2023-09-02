@@ -24,15 +24,13 @@ from utils_PbVisualizer import PbVisualizer
 from utils_PbOMPL import PbOMPL
 
 # load kitchen from three scenarios
-index = 2
+index = 0
 if index == 0:
     from utils_Kitchen_v0 import Kitchen
 elif index == 1:
     from utils_Kitchen_v1 import Kitchen
-elif index == 2:
-    from utils_Kitchen_v2 import Kitchen
 else:
-    assert False, "index should be 0, 1, 2"
+    assert False, "index should be 0 or 1"
 
 pb_client = PbClient(enable_GUI=True)
 pb_client.enable_vertical_view(1.0, [1.7, 3.68, 1.95], -86.4, -52.3)

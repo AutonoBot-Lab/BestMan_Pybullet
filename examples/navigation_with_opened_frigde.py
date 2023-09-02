@@ -28,8 +28,6 @@ if index == 0:
     from utils_Kitchen_v0 import Kitchen
 elif index == 1:
     from utils_Kitchen_v1 import Kitchen
-elif index == 2:
-    from utils_Kitchen_v1 import Kitchen
 else:
     assert False, "index should be 0 or 1"
 
@@ -73,7 +71,7 @@ kitchen.open_it('elementE', 1)
 pb_client.get_bounding_box(pb_client.elementE_id, print_output=True)
 
 # navigation with avoiding opened door
-target_position1 = [3.158, 5.263, 1.368]
+target_position1 = [3.158, 4.263, 1.368]
 demo.navigate_base(Pose(target_position1, [0.0, 0.0, math.pi/2.0]))
 
 target_position2 = [3.158, 7.263, 1.368]

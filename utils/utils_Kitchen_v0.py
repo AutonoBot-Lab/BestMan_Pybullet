@@ -88,37 +88,43 @@ class Kitchen:
         # ----------------------------------------------------------------
         # This is Element B, where there are a sink, and a few container
         # ----------------------------------------------------------------
-        self.elementB_id = self.pb_client.load_object(
-            model_path="./Kitchen_models/models_yan/elementB/urdf/kitchen_assembly.urdf",
-            object_position=[4.3, 5.95, 0],
-            object_orientation=[0, 0, math.pi],
-            scale=1.0,
-            obj_name='elementB',
+        self.elementB1_id = self.pb_client.load_object(
+            model_path="./Kitchen_models/models_yan/elementB/model.urdf",
+            object_position=[4.1, 4.55, 0.55],
+            object_orientation=[0, 0, math.pi/2*3],
+            scale=1.1,
+            obj_name='elementB1',
             fixed_base=True,
         )
-        self.object_ids.append("elementB_id")
+        self.object_ids.append("elementB1_id")
+
+        self.elementB2_id = self.pb_client.load_object(
+            model_path="./Kitchen_models/models_yan/elementB/model.urdf",
+            object_position=[4.1, 5.25, 0.55],
+            object_orientation=[0, 0, math.pi/2*3],
+            scale=1.1,
+            obj_name='elementB2',
+            fixed_base=True,
+        )
+        self.object_ids.append("elementB2_id")
 
         # ----------------------------------------------------------------
         #  This is Element C (i.e., a dishwasher)
         # ----------------------------------------------------------------
         self.elementC_id = self.pb_client.load_object(
-            model_path="./Kitchen_models/models_yan/elementC/dishwasher.urdf",
-            object_position=[3.95, 3.08, 0.43],
-            object_orientation=[0, 0, - math.pi / 2.0],
-            scale=1.0,
+            model_path="./Kitchen_models/models/Dishwasher/2085/mobility.urdf",
+            object_position=[3.85, 3.2, 0.35],
+            object_orientation=[0, 0, 0],
+            scale=0.75,
             obj_name='elementC',
             fixed_base=True,
         )
         self.object_ids.append("elementC_id")
         self.elementC_drawer_to_joint_id = {
             1: 1,
-            2: 2,
-            3: 3,
         }
         self.elementC_drawer_to_joint_limits = {
             1: (0, math.pi/2.0),
-            2: (0, -0.3),
-            3: (0, -0.3),
         }
         print(
             "-" * 20
@@ -132,10 +138,10 @@ class Kitchen:
         # This is Element D (i.e., a microwave)
         # ----------------------------------------------------------------
         self.elementD_id = self.pb_client.load_object(
-            model_path="./Kitchen_models/models_yan/elementD/microwave.urdf",
-            object_position=[4.0, 2.9, 0.95],
-            object_orientation=[0, 0, math.pi / 2.0],
-            scale=1.0,
+            model_path="./Kitchen_models/models/Microwave/7128/mobility.urdf",
+            object_position=[4.0, 2.9, 1.1],
+            object_orientation=[0, 0, 0],
+            scale=0.5,
             obj_name='elementD',
             fixed_base=True,
         )
@@ -144,7 +150,7 @@ class Kitchen:
             1: 1,
         }
         self.elementD_drawer_to_joint_limits = {
-            1: (0, -math.pi/2.0),
+            1: (0, math.pi/2.0),
         }
         print(
             "-" * 20
@@ -158,21 +164,19 @@ class Kitchen:
         # This is Element E (i.e., a refrigerator)
         # ----------------------------------------------------------------
         self.elementE_id = self.pb_client.load_object(
-            model_path="./Kitchen_models/models_yan/elementE/refrigerator.urdf",
-            object_position=[4.1, 6.42, 0.05],
-            object_orientation=[0, 0, -math.pi / 2.0],
-            scale=1.0,
+            model_path="./Kitchen_models/models/Fridge/10144/mobility.urdf",
+            object_position=[4.1, 5.42, 1.055],
+            object_orientation=[0, 0, 0],
+            scale=1.1,
             obj_name='elementE',
             fixed_base=True,
         )
         self.object_ids.append("elementE_id")
         self.elementE_drawer_to_joint_id = {
-            1: 1,
-            2: 2,
+            1: 1
         }
         self.elementE_drawer_to_joint_limits = {
-            1: (0, -math.pi/2.0),
-            2: (0, -math.pi/2.0),
+            1: (0, math.pi/2.0),
         }
         print(
             "-" * 20
@@ -187,7 +191,8 @@ class Kitchen:
         # ----------------------------------------------------------------
         self.visualizer = PbVisualizer(pb_client)
         self.visualizer.set_elementA_visual_color(self.elementA_id)
-        self.visualizer.set_elementB_visual_color(self.elementB_id)
+        self.visualizer.set_elementB_visual_color(self.elementB1_id)
+        self.visualizer.set_elementB_visual_color(self.elementB2_id)
         self.visualizer.set_elementC_visual_color(self.elementC_id)
         self.visualizer.set_elementD_visual_color(self.elementD_id)
         self.visualizer.set_elementE_visual_color(self.elementE_id)

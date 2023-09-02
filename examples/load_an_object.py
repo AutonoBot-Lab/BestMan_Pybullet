@@ -7,6 +7,7 @@
 import math
 import sys
 import os
+import pybullet as p
 
 """
 Get the utils module path
@@ -22,15 +23,13 @@ from utils_PbClient import PbClient
 from utils_PbVisualizer import PbVisualizer
 
 # load kitchen from three scenarios
-index = 2
+index = 0
 if index == 0:
     from utils_Kitchen_v0 import Kitchen
 elif index == 1:
     from utils_Kitchen_v1 import Kitchen
-elif index == 2:
-    from utils_Kitchen_v2 import Kitchen
 else:
-    assert False, "index should be 0, 1, 2"
+    assert False, "index should be 0 or 1"
 
 
 pb_client = PbClient(enable_GUI=True)
@@ -44,27 +43,20 @@ init_joint = [0, -1.57, 2.0, -1.57, -1.57, 0]
 demo.move_arm_to_joint_angles(init_joint) # reset arm joint position
 
 # load table, bowl, and chair
-sink_id = pb_client.load_object(
-    "./Kitchen_models/models_yan/elementB_old/kitchen_assembly.urdf",
+countertop_id = pb_client.load_object(
+    "./Kitchen_models/models_yan/elementB/model.urdf",
     [0.0, 0.0, 0.0],
-    [0.0, 0.0, 0.0],
+    [0.0, 0.0, math.pi/2],
     1.0,
-    "sink",
-    fixed_base=True,
+    "countertop",
+    fixed_base=True
 )
 
-# fridge_id = pb_client.load_object(
-#     "./Kitchen_models/models_yan/elementE/refrigerator.urdf",
-#     [0.0, 0.0, 0.0],
-#     [0.0, 0.0, 0.0],
-#     1.0,
-#     "fridge",
-#     fixed_base=True,
-# )
+pb_visualizer.set_elementB_visual_color(countertop_id)
 
 bowl_id = pb_client.load_object(
     "./URDF_models/utensil_bowl_blue/model.urdf",
-    [0.3, 1.6, 0.8],
+    [0.3, 0.8, 1.2],
     [0.0, 0.0, 0.0],
     1.0,
     "bowl",

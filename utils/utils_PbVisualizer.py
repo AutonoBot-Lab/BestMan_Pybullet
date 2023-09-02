@@ -314,32 +314,14 @@ class PbVisualizer:
         Set the color of element B (counter) in the kitchen.
         """
         # link id:
-        for i in [-1]: # wood_light
+        for i in [-1]: # wood_dark
             p.changeVisualShape(
                 objectUniqueId=elementB_id,
                 linkIndex=i,
-                rgbaColor=colors["wood_light"],
+                rgbaColor=colors["white"],
                 physicsClientId=self.client_id,
             )
 
-        # link id:
-        for i in [0, 1]: # stainless_steel
-            p.changeVisualShape(
-                objectUniqueId=elementB_id,
-                linkIndex=i,
-                rgbaColor=colors["stainless_steel"],
-                physicsClientId=self.client_id,
-            )
-        
-        # link id:
-        for i in [2]: # wood_dark
-            p.changeVisualShape(
-                objectUniqueId=elementB_id,
-                linkIndex=i,
-                rgbaColor=colors["wood_dark"],
-                physicsClientId=self.client_id,
-            )
-        
     def set_elementC_visual_color(self, elementC_id):
         """
         Set the color of element C (dishwasher) in the kitchen.
