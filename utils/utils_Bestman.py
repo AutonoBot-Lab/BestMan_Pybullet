@@ -356,12 +356,23 @@ class Bestman:
                         ):
                             static_map[i][j] = 1
         
+        standing_map = affordance_map - static_map
         if enable_plot:
-            plt.imshow(static_map, cmap="viridis", origin="lower")
-            plt.imshow(affordance_map, cmap="plasma", origin="lower", alpha=0.5)
+            fig, axs = plt.subplots(1, 3, figsize=(12, 5))
+
+            axs[0].imshow(affordance_map, cmap='viridis')
+            axs[0].set_title('Affordance Map')
+
+            axs[1].imshow(static_map, cmap='viridis')  
+            axs[1].set_title('Static Map')
+
+            axs[2].imshow(standing_map, cmap='Greens')
+            axs[2].set_title('Standing Map')
+
+            plt.tight_layout()
             plt.show()
 
-        return affordance_map
+        return standing_map
 
     # use A* algorithm to find a path
     def find_base_path(
