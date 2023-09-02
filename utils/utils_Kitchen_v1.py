@@ -1,5 +1,5 @@
 """
-@Description :   A few functions that load objects in kitchen, where objects are form others' side
+@Description :   load kitchen scenario 2
 @Author      :   Yan Ding 
 @Time        :   2023/08/30 23:01:42
 """
@@ -30,9 +30,6 @@ from utils_PbVisualizer import PbVisualizer
 from utils_PbClient import PbClient
 from utils_PIDController import PIDController
 
-"""
-Add kitchen
-"""
 
 class Kitchen:
     def __init__(self, pb_client, lisdf_id=0):

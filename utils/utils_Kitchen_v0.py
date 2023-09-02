@@ -1,5 +1,5 @@
 """
-@Description :   A few functions that load objects in kitchen, where objects are form Yan's and others' side
+@Description :   1
 @Author      :   Yan Ding 
 @Time        :   2023/08/30 23:01:42
 """
@@ -37,7 +37,7 @@ class Kitchen:
     def __init__(self, pb_client):
         self.pb_client = pb_client
         self.client_id = self.pb_client.get_client()
-
+        
         self.object_ids = [] # store object id in loaded kitchen scene
         # ----------------------------------------------------------------
         # This is Element A, where there are a oven, and a few drawers
@@ -65,17 +65,17 @@ class Kitchen:
             11: 13,
         }
         self.elementA_drawer_to_joint_limits = {
-            1: (0, 1.5),
-            2: (0, -1.5),
-            3: (0, -1.5),
-            4: (0, 1.5),
+            1: (0, math.pi/2.0),
+            4: (0, math.pi/2.0),
+            7: (0, math.pi/2.0),
             5: (0.0, 0.4),
             6: (0.0, 0.4),
-            7: (0, 1.5),
-            8: (0, -1.5),
             9: (0.0, 0.4),
             10: (0.0, 0.4),
-            11: (0, 1.5),
+            11: (0, math.pi/2.0),
+            2: (0, -math.pi/2.0),
+            3: (0, -math.pi/2.0),
+            8: (0, -math.pi/2.0),
         }
         print(
             "-" * 20
@@ -116,7 +116,7 @@ class Kitchen:
             3: 3,
         }
         self.elementC_drawer_to_joint_limits = {
-            1: (0, 1.5),
+            1: (0, math.pi/2.0),
             2: (0, -0.3),
             3: (0, -0.3),
         }
@@ -144,7 +144,7 @@ class Kitchen:
             1: 1,
         }
         self.elementD_drawer_to_joint_limits = {
-            1: (0, -1.5),
+            1: (0, -math.pi/2.0),
         }
         print(
             "-" * 20
@@ -171,8 +171,8 @@ class Kitchen:
             2: 2,
         }
         self.elementE_drawer_to_joint_limits = {
-            1: (0, -1.5),
-            2: (0, -1.5),
+            1: (0, -math.pi/2.0),
+            2: (0, -math.pi/2.0),
         }
         print(
             "-" * 20
@@ -195,7 +195,7 @@ class Kitchen:
     # ----------------------------------------------------------------
     # Open drawer
     # ----------------------------------------------------------------
-    def open_drawer(self, elementName, drawer_id):
+    def open_it(self, elementName, drawer_id, open_angle=None):
         if elementName == "elementA":
             joint_id = self.elementA_drawer_to_joint_id[drawer_id]
             open_angle = self.elementA_drawer_to_joint_limits[drawer_id][1]
@@ -205,7 +205,7 @@ class Kitchen:
                 jointIndex=joint_id,
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=open_angle,
-                maxVelocity=0.5,
+                maxVelocity=1.0,
             )
         elif elementName == "elementC":
             joint_id = self.elementC_drawer_to_joint_id[drawer_id]
@@ -216,7 +216,7 @@ class Kitchen:
                 jointIndex=joint_id,
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=open_angle,
-                maxVelocity=0.5,
+                maxVelocity=1.0,
             )
         elif elementName == "elementD":
             joint_id = self.elementD_drawer_to_joint_id[drawer_id]
@@ -227,7 +227,7 @@ class Kitchen:
                 jointIndex=joint_id,
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=open_angle,
-                maxVelocity=0.5,
+                maxVelocity=1.0,
             )
         elif elementName == "elementE":
             joint_id = self.elementE_drawer_to_joint_id[drawer_id]
@@ -238,7 +238,7 @@ class Kitchen:
                 jointIndex=joint_id,
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=open_angle,
-                maxVelocity=0.5,
+                maxVelocity=1.0,
             )
         self.pb_client.run(240 * 5)
 
@@ -254,7 +254,7 @@ class Kitchen:
                 jointIndex=joint_id,
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=close_angle,
-                maxVelocity=0.5,
+                maxVelocity=1.0,
             )
         elif elementName == "elementC":
             joint_id = self.elementC_drawer_to_joint_id[drawer_id]
@@ -264,7 +264,7 @@ class Kitchen:
                 jointIndex=joint_id,
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=close_angle,
-                maxVelocity=0.5,
+                maxVelocity=1.0,
             )
             self.pb_client.run(240 * 5)
             
@@ -277,7 +277,7 @@ class Kitchen:
                 jointIndex=joint_id,
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=close_angle,
-                maxVelocity=0.5,
+                maxVelocity=1.0,
             )
         elif elementName == "elementE":
             joint_id = self.elementE_drawer_to_joint_id[drawer_id]
@@ -287,6 +287,6 @@ class Kitchen:
                 jointIndex=joint_id,
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=close_angle,
-                maxVelocity=0.5,
+                maxVelocity=1.0,
             )
         self.pb_client.run(240 * 5)

@@ -23,7 +23,7 @@ Get the utils module path
 # customized package
 current_path = os.path.abspath(__file__)
 utils_path = os.path.dirname(current_path)
-if os.path.basename(utils_path) != 'utils':
+if os.path.basename(utils_path) != "utils":
     raise ValueError('Not add the path of folder "utils", please check again!')
 sys.path.append(utils_path)
 from utils_PbVisualizer import PbVisualizer
@@ -192,12 +192,14 @@ class Bestman:
     # functions for arm and base
     # ----------------------------------------------------------------
     def get_joint_link_info(self, robot_name):  # Print base's joint information
-        if robot_name == 'base':
+        if robot_name == "base":
             robot_id = self.base_id
-        elif robot_name == 'arm':
+        elif robot_name == "arm":
             robot_id = self.arm_id
         else:
-            print('unknown robot_name: {}, please input base or arm!'.format(robot_name))
+            print(
+                "unknown robot_name: {}, please input base or arm!".format(robot_name)
+            )
 
         num_joints = p.getNumJoints(robot_id, physicsClientId=self.client_id)
         print("-" * 20 + "\n" + "Robot {} has {} joints".format(robot_id, num_joints))
@@ -220,7 +222,7 @@ class Bestman:
         Navigate a robot from its current position to a specified goal position
 
         Args:
-            goal_base_pose (Pose): The target pose (position and orientation) for the robot.
+            goal_base_pose (Pose): The target pose (poTruesition and orientation) for the robot.
         """
         init_base_pose = self.get_base_pose()  # get current base pose
         path = self.find_base_path(
@@ -249,7 +251,129 @@ class Bestman:
         )
         return Pose(base_position, base_orientation)
 
-    def find_base_path(self, init_base_position, goal_base_position):
+    # use a simple method to compute standing position
+    def compute_standing_position(
+        self,
+        object_position,
+        radius,
+        resolution=0.03,
+        x_max=10,
+        y_max=10,
+        enable_accurate_occupancy_map=True,
+        enable_plot=True,
+    ):
+        """
+        Find the grid cells that correspond to a circle centered around a given position.
+
+        Args:
+            object_position (list): The coordinates of the center of the circle [x, y].
+            radius (float): The radius of the circle.
+            resolution (float): The size of each cell in the grid.
+            x_max (float): The maximum value for x coordinate in the grid.
+            y_max (float): The maximum value for y coordinate in the grid.
+
+        Returns:
+            A list of grid cells that are inside the circle.
+        """
+        print('object_position:{}'.format(object_position))
+        # object_position = object_position[0:2]  # only care about x, y
+
+        def to_grid_coordinates(point, resolution):
+            return [
+                int(round((coordinate + max_val) / resolution))
+                for coordinate, max_val in zip(point, [x_max, y_max])
+            ]
+
+        # Defining the environment size (in meters) and resolution
+        size_x = 2 * x_max
+        size_y = 2 * y_max
+        n_points_x = int(size_x / resolution)
+        n_points_y = int(size_y / resolution)
+
+        # Create a 2D grid representing the environment
+        affordance_map = np.zeros((n_points_x, n_points_y))
+        static_map = np.zeros((n_points_x, n_points_y))
+
+        center_grid = to_grid_coordinates(object_position, resolution)
+        radius_grid = int(round(radius / resolution))
+
+        # Mark the cells inside the circle as 1
+        for i in range(
+            max(0, center_grid[0] - radius_grid),
+            min(n_points_x, center_grid[0] + radius_grid + 1),
+        ):
+            for j in range(
+                max(0, center_grid[1] - radius_grid),
+                min(n_points_y, center_grid[1] + radius_grid + 1),
+            ):
+                if (i - center_grid[0]) ** 2 + (
+                    j - center_grid[1]
+                ) ** 2 <= radius_grid**2:
+                    affordance_map[i][j] = 1
+        
+        # Mark the cells occupied by objects as 1
+        if not enable_accurate_occupancy_map:
+            # get occupancy map
+            for obstacle_id in self.pb_client.obstacle_navigation_ids:
+                aabb = self.pb_client.get_bounding_box(obstacle_id)
+                for i in range(
+                    int((aabb[0] + x_max) / resolution),
+                    int((aabb[3] + x_max) / resolution),
+                ):
+                    for j in range(
+                        int((aabb[1] + y_max) / resolution),
+                        int((aabb[4] + y_max) / resolution),
+                    ):
+                        static_map[i][j] = 1
+        else:
+            # get accurate occupancy map
+            for obstacle_id in self.pb_client.obstacle_navigation_ids:
+                link_ids = [
+                    i
+                    for i in range(
+                        -1, p.getNumJoints(obstacle_id, physicsClientId=self.client_id)
+                    )
+                ]
+                for link_id in link_ids:
+                    aabb_link = p.getAABB(
+                        obstacle_id, link_id, physicsClientId=self.client_id
+                    )
+                    aabb_link = list(aabb_link[0] + aabb_link[1])
+                    print(
+                        "-" * 20
+                        + "\n"
+                        + "obstacle_id:{} link_id:{} aabb_link:{}".format(
+                            obstacle_id, link_id, aabb_link
+                        )
+                    )
+                    for i in range(
+                        int((aabb_link[0] + x_max) / resolution),
+                        int((aabb_link[3] + x_max) / resolution),
+                    ):
+                        for j in range(
+                            int((aabb_link[1] + y_max) / resolution),
+                            int((aabb_link[4] + y_max) / resolution),
+                        ):
+                            static_map[i][j] = 1
+        
+        if enable_plot:
+            plt.imshow(static_map, cmap="viridis", origin="lower")
+            plt.imshow(affordance_map, cmap="plasma", origin="lower", alpha=0.5)
+            plt.show()
+
+        return affordance_map
+
+    # use A* algorithm to find a path
+    def find_base_path(
+        self,
+        init_base_position,
+        goal_base_position,
+        x_max=10,
+        y_max=10,
+        resolution=0.03,
+        enable_accurate_occupancy_map=True,
+        enable_plot=False,
+    ):
         """
         Find a path from a specified initial position to a goal position in a 2D grid representation
 
@@ -270,66 +394,166 @@ class Bestman:
         goal_base_position = goal_base_position.position[0:2]
 
         def to_grid_coordinates(point, resolution):
-            return [int(round(coordinate / resolution)) for coordinate in point]
+            return [
+                int(round((coordinate + max_val) / resolution))
+                for coordinate, max_val in zip(point, [x_max, y_max])
+            ]
 
         def to_world_coordinates(point, resolution):
-            return [coordinate * resolution for coordinate in point]
+            return [
+                (coordinate * resolution) - max_val
+                for coordinate, max_val in zip(point, [x_max, y_max])
+            ]
 
         # Defining the environment size (in meters) and resolution
-        size = 10
-        resolution = 0.1
-        n_points = int(size / resolution)
+        size_x = 2 * x_max
+        size_y = 2 * y_max
+        n_points_x = int(size_x / resolution)
+        n_points_y = int(size_y / resolution)
 
         # Create a 2D grid representing the environment
-        static_map = np.zeros((n_points, n_points))
+        static_map = np.zeros((n_points_x, n_points_y))
 
-        # Add obstacles to the map
-        for obstacle_id in self.pb_client.obstacle_navigation_ids:
-            aabb = self.pb_client.get_bounding_box(obstacle_id)
-            for i in range(int(aabb[0] / resolution), int(aabb[3] / resolution)):
-                for j in range(int(aabb[1] / resolution), int(aabb[4] / resolution)):
-                    static_map[i][j] = 1
+        # get arm and base size in meters
+        (
+            min_x_base,
+            min_y_base,
+            _,
+            max_x_base,
+            max_y_base,
+            _,
+        ) = self.pb_client.get_bounding_box(self.base_id)
+        (
+            min_x_arm,
+            min_y_arm,
+            _,
+            max_x_arm,
+            max_y_arm,
+            _,
+        ) = self.pb_client.get_bounding_box(self.arm_id)
+        robot_size = max(
+            max_x_base - min_x_base,
+            max_y_base - min_y_base,
+            max_x_arm - min_x_arm,
+            max_y_arm - min_y_arm,
+        )
+        # print("robot size:{}".format(robot_size))
 
-        # plt.imshow(static_map, cmap='gray_r')  # 'gray_r' means reversed grayscale
-        # plt.show()
+        # Compute the number of grid cells to inflate around each obstacle
+        inflate_cells = int(round(robot_size / 2 / resolution))
 
-        init_base_position = to_grid_coordinates(
-            init_base_position, resolution
-        )  # In grid coordinates
-        goal_base_position = to_grid_coordinates(
-            goal_base_position, resolution
-        )  # In grid coordinates
+        if not enable_accurate_occupancy_map:
+            # get occupancy map
+            for obstacle_id in self.pb_client.obstacle_navigation_ids:
+                aabb = self.pb_client.get_bounding_box(obstacle_id)
+                for i in range(
+                    max(0, int((aabb[0] + x_max) / resolution) - inflate_cells),
+                    min(
+                        n_points_x, int((aabb[3] + x_max) / resolution) + inflate_cells
+                    ),
+                ):
+                    for j in range(
+                        max(0, int((aabb[1] + y_max) / resolution) - inflate_cells),
+                        min(
+                            n_points_y,
+                            int((aabb[4] + y_max) / resolution) + inflate_cells,
+                        ),
+                    ):
+                        static_map[i][j] = 1
+        else:
+            # get accurate occupancy map
+            for obstacle_id in self.pb_client.obstacle_navigation_ids:
+                link_ids = [
+                    i
+                    for i in range(
+                        -1, p.getNumJoints(obstacle_id, physicsClientId=self.client_id)
+                    )
+                ]
+                for link_id in link_ids:
+                    aabb_link = p.getAABB(
+                        obstacle_id, link_id, physicsClientId=self.client_id
+                    )
+                    aabb_link = list(aabb_link[0] + aabb_link[1])
+                    # print(
+                    #     "-" * 20
+                    #     + "\n"
+                    #     + "obstacle_id:{} link_id:{} aabb_link:{}".format(
+                    #         obstacle_id, link_id, aabb_link
+                    #     )
+                    # )
+                    for i in range(
+                        max(
+                            0, int((aabb_link[0] + x_max) / resolution) - inflate_cells
+                        ),
+                        min(
+                            n_points_x,
+                            int((aabb_link[3] + x_max) / resolution) + inflate_cells,
+                        ),
+                    ):
+                        for j in range(
+                            max(
+                                0,
+                                int((aabb_link[1] + y_max) / resolution)
+                                - inflate_cells,
+                            ),
+                            min(
+                                n_points_y,
+                                int((aabb_link[4] + y_max) / resolution)
+                                + inflate_cells,
+                            ),
+                        ):
+                            static_map[i][j] = 1
+
+        init_base_position_grid = to_grid_coordinates(init_base_position, resolution)
+        goal_base_position_grid = to_grid_coordinates(goal_base_position, resolution)
 
         # Make sure the positions are within the environment and not on the table
         assert (
-            0 <= init_base_position[0] < n_points
-            and 0 <= init_base_position[1] < n_points
+            0 <= init_base_position_grid[0] < n_points_x
+            and 0 <= init_base_position_grid[1] < n_points_y
         ), "Initial base position is out of boundary!"
         assert (
-            0 <= goal_base_position[0] < n_points
-            and 0 <= goal_base_position[1] < n_points
+            0 <= goal_base_position_grid[0] < n_points_x
+            and 0 <= goal_base_position_grid[1] < n_points_y
         ), "Goal base position is out of boundary!"
         assert (
-            static_map[init_base_position[0], init_base_position[1]] != 1
+            static_map[init_base_position_grid[0], init_base_position_grid[1]] != 1
         ), "Initial base position is in an obstacle!"
         assert (
-            static_map[goal_base_position[0], goal_base_position[1]] != 1
+            static_map[goal_base_position_grid[0], goal_base_position_grid[1]] != 1
         ), "Goal base position is in an obstacle!"
 
         # Convert the numpy grid map to NetworkX graph
-        graph = nx.grid_2d_graph(*static_map.shape)
-        for i in range(n_points):
-            for j in range(n_points):
+        graph = nx.grid_2d_graph(n_points_x, n_points_y)
+        for i in range(n_points_x):
+            for j in range(n_points_y):
                 if static_map[i, j] == 1:
                     graph.remove_node((i, j))
 
+        # A* star algorithm
         path = nx.astar_path(
-            graph, tuple(init_base_position), tuple(goal_base_position)
+            graph, tuple(init_base_position_grid), tuple(goal_base_position_grid)
         )
+
+        # print("path:{}".format(path))
+
+        if enable_plot:
+            plt.imshow(
+                static_map, cmap="gray_r", origin="lower"
+            )  # 'gray_r' means reversed grayscale
+
+            # Extract the x and y coordinates of the path
+            x_coords = [point[1] for point in path]
+            y_coords = [point[0] for point in path]
+
+            # Plot the path on top of the static_map
+            plt.plot(x_coords, y_coords, color="r", linewidth=2)
+            plt.show()
 
         # Convert grid coordinates back to world coordinates
         path = [to_world_coordinates(point, resolution) for point in path]
         # print('raw path:{}'.format(path))
+
         return path
 
     def move_base_to_next_waypoint(self, next_waypoint):

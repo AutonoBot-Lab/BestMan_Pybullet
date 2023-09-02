@@ -1,5 +1,5 @@
 """
-@Description :   A few functions that load objects in kitchen, where objects are form Yan's side
+@Description :   1
 @Author      :   Yan Ding 
 @Time        :   2023/08/30 23:01:42
 """
@@ -65,17 +65,17 @@ class Kitchen:
             11: 13,
         }
         self.elementA_drawer_to_joint_limits = {
-            1: (0, 1.5),
-            2: (0, -1.5),
-            3: (0, -1.5),
-            4: (0, 1.5),
+            1: (0, math.pi/2.0),
+            4: (0, math.pi/2.0),
+            7: (0, math.pi/2.0),
             5: (0.0, 0.4),
             6: (0.0, 0.4),
-            7: (0, 1.5),
-            8: (0, -1.5),
             9: (0.0, 0.4),
             10: (0.0, 0.4),
-            11: (0, 1.5),
+            11: (0, math.pi/2.0),
+            2: (0, -math.pi/2.0),
+            3: (0, -math.pi/2.0),
+            8: (0, -math.pi/2.0),
         }
         print(
             "-" * 20
@@ -102,23 +102,19 @@ class Kitchen:
         #  This is Element C (i.e., a dishwasher)
         # ----------------------------------------------------------------
         self.elementC_id = self.pb_client.load_object(
-            model_path="./Kitchen_models/models_yan/elementC/dishwasher.urdf",
-            object_position=[3.95, 3.08, 0.43],
-            object_orientation=[0, 0, - math.pi / 2.0],
-            scale=1.0,
+            model_path="./Kitchen_models/models/Dishwasher/2085/mobility.urdf",
+            object_position=[3.8, 3.08, 0.35],
+            object_orientation=[0, 0, 0],
+            scale=0.55,
             obj_name='elementC',
             fixed_base=True,
         )
         self.object_ids.append("elementC_id")
         self.elementC_drawer_to_joint_id = {
             1: 1,
-            2: 2,
-            3: 3,
         }
         self.elementC_drawer_to_joint_limits = {
-            1: (0, 1.5),
-            2: (0, -0.3),
-            3: (0, -0.3),
+            1: (0, math.pi/2.0),
         }
         print(
             "-" * 20
@@ -132,10 +128,10 @@ class Kitchen:
         # This is Element D (i.e., a microwave)
         # ----------------------------------------------------------------
         self.elementD_id = self.pb_client.load_object(
-            model_path="./Kitchen_models/models_yan/elementD/microwave.urdf",
-            object_position=[4.0, 2.9, 0.95],
-            object_orientation=[0, 0, math.pi / 2.0],
-            scale=1.0,
+            model_path="./Kitchen_models/models/Microwave/7128/mobility.urdf",
+            object_position=[4.0, 2.9, 1.1],
+            object_orientation=[0, 0, 0],
+            scale=0.5,
             obj_name='elementD',
             fixed_base=True,
         )
@@ -144,7 +140,7 @@ class Kitchen:
             1: 1,
         }
         self.elementD_drawer_to_joint_limits = {
-            1: (0, -1.5),
+            1: (0, math.pi/2.0),
         }
         print(
             "-" * 20
@@ -158,21 +154,19 @@ class Kitchen:
         # This is Element E (i.e., a refrigerator)
         # ----------------------------------------------------------------
         self.elementE_id = self.pb_client.load_object(
-            model_path="./Kitchen_models/models_yan/elementE/refrigerator.urdf",
-            object_position=[4.1, 6.42, 0.05],
-            object_orientation=[0, 0, -math.pi / 2.0],
-            scale=1.0,
+            model_path="./Kitchen_models/models/Fridge/10144/mobility.urdf",
+            object_position=[4.1, 6.38, 1.055],
+            object_orientation=[0, 0, 0],
+            scale=1.1,
             obj_name='elementE',
             fixed_base=True,
         )
         self.object_ids.append("elementE_id")
         self.elementE_drawer_to_joint_id = {
-            1: 1,
-            2: 2,
+            1: 1
         }
         self.elementE_drawer_to_joint_limits = {
-            1: (0, -1.5),
-            2: (0, -1.5),
+            1: (0, math.pi/2.0),
         }
         print(
             "-" * 20
@@ -195,7 +189,7 @@ class Kitchen:
     # ----------------------------------------------------------------
     # Open drawer
     # ----------------------------------------------------------------
-    def open_it(self, elementName, drawer_id):
+    def open_it(self, elementName, drawer_id, open_angle=None):
         if elementName == "elementA":
             joint_id = self.elementA_drawer_to_joint_id[drawer_id]
             open_angle = self.elementA_drawer_to_joint_limits[drawer_id][1]

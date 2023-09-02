@@ -249,6 +249,49 @@ class PbClient:
     # ----------------------------------------------------------------
     # Get info from environment
     # ----------------------------------------------------------------
+    
+    # get occupancy network
+    def get_occupancy_network(self, object_id, x_max=10, y_max=10, resolution=0.1, enable_plot=False):
+        """
+        Create an occupancy grid for a given environment.
+        
+        Args:
+        :param x_max: float, maximum x coordinate of the environment
+        :param y_max: float, maximum y coordinate of the environment
+        :param resolution: float, grid resolution
+        :return: numpy array, 2D occupancy grid
+        """
+        # Create 2D grid
+        x = np.arange(-x_max/2, x_max/2, resolution)
+        y = np.arange(-y_max/2, y_max/2, resolution)
+        X, Y = np.meshgrid(x, y)
+
+        # Initialize empty occupancy grid
+        occupancy_grid = np.zeros_like(X, dtype=np.int)
+
+        # Check each grid cell
+        for i in range(X.shape[0]):
+            for j in range(X.shape[1]):
+                # Center coordinates of the grid cell
+                x, y = X[i, j], Y[i, j]
+                # Check collision between the point and the robot
+                points = p.getClosestPoints(bodyA=object_id, bodyB=-1, distance=0, linkIndexA=-1, 
+                                            linkIndexB=-1, physicsClientId=self.client_id)
+                if points:
+                    occupancy_grid[i, j] = 1
+                    print('!debug')
+
+        if enable_plot:
+            plt.figure()
+            plt.imshow(occupancy_grid, cmap="Greys", origin="lower")
+            plt.xlabel('x (m)')
+            plt.ylabel('y (m)')
+            plt.title('Occupancy Grid')
+            plt.show()
+        return occupancy_grid
+
+
+    # sample points within a area
     def generate_point_within_area(self, min_x, min_y, max_x, max_y):
         x = random.uniform(min_x, max_x)
         y = random.uniform(min_y, max_y)
