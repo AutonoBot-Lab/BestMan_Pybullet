@@ -1,5 +1,5 @@
 """
-@Description :   This script shows how to grasp a bowl from a drawer
+@Description :   This script shows how to grasp a bowl from a fridge
 @Author      :   Yan Ding 
 @Time        :   2023/09/01 07:47:46
 """
@@ -24,13 +24,15 @@ from utils_PbVisualizer import PbVisualizer
 from utils_PbOMPL import PbOMPL
 
 # load kitchen from three scenarios
-index = 0
+index = 2
 if index == 0:
     from utils_Kitchen_v0 import Kitchen
 elif index == 1:
     from utils_Kitchen_v1 import Kitchen
+elif index == 2:
+    from utils_Kitchen_v2 import Kitchen
 else:
-    assert False, "index should be 0 or 1"
+    assert False, "index should be 0, 1, 2"
 
 pb_client = PbClient(enable_GUI=True)
 pb_client.enable_vertical_view(1.0, [1.7, 3.68, 1.95], -86.4, -52.3)
@@ -62,18 +64,19 @@ ompl = PbOMPL(
 ompl.add_scene_obstacles(display=True)
 ompl.check_obstacles()
 
-# open the drawer
-kitchen.open_it("elementA", 5)
+# open fridge
+kitchen.open_it("elementE", 1)
 
-# load bowl (target object must be added after ompl creation)
-bowl_position = [3.6, 2.4, 0.9]
+# # load bowl
+bowl_position = [3.89, 6.52, 1.8]  # TODO: object goes flying
 bowl_id = pb_client.load_object("./URDF_models/utensil_bowl_blue/model.urdf", bowl_position, [0.0, 0.0, 0.0], 1.0, "bowl")
 pb_client.run(100)
-_, _, min_z, _, _, max_z = pb_client.get_bounding_box(bowl_id)
-bowl_position[2] = max_z + demo.tcp_height * 1.5 # consider tcp's height
+# _, _, min_z, _, _, max_z = pb_client.get_bounding_box(bowl_id)
+# bowl_position[2] = max_z + demo.tcp_height # consider tcp's height
+# print("bowl position:{}".format(bowl_position[2]))
 
 # navigate to standing position
-standing_position = [2.85, 2.4, 0]  # TODO: how to automatically compute it
+standing_position = [2.5, 6.52, 0]  # TODO: how to automatically compute it
 standing_orientation = [0.0, 0.0, 0.0]
 demo.navigate_base(Pose(standing_position, standing_orientation))
 
@@ -87,5 +90,5 @@ print("-" * 20 + "\n" + "Goal configuration:{}".format(goal))
 result = ompl.reach_object(start=demo.get_arm_joint_angle(), goal=goal, end_effector_link_index=demo.end_effector_index)
 
 # disconnect pybullet
-pb_client.wait(5)
+pb_client.wait(10)
 pb_client.disconnect_pybullet()

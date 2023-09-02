@@ -70,10 +70,10 @@ bowl_position = [3.6, 2.4, 0.9]
 bowl_id = pb_client.load_object("./URDF_models/utensil_bowl_blue/model.urdf", bowl_position, [0.0, 0.0, 0.0], 1.0, "bowl")
 pb_client.run(100)
 _, _, min_z, _, _, max_z = pb_client.get_bounding_box(bowl_id)
-bowl_position[2] = max_z + demo.tcp_height * 1.5 # consider tcp's height
+bowl_position[2] = max_z + demo.tcp_height # consider tcp's height
 
 # navigate to standing position
-standing_position = [2.85, 2.4, 0]  # TODO: how to automatically compute it
+standing_position = [3.1, 2.4, 0]  # TODO: how to automatically compute it
 standing_orientation = [0.0, 0.0, 0.0]
 demo.navigate_base(Pose(standing_position, standing_orientation))
 

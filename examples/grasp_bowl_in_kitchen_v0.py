@@ -51,7 +51,7 @@ threshold_distance = 0.1
 ompl = PbOMPL(
     pb_client=pb_client,
     arm_id=demo.arm_id,
-    joint_idx=demo.base_joint_indexs,
+    joint_idx=demo.arm_joint_indexs,
     tcp_link=demo.tcp_link,
     obstacles=[],
     planner="RRTConnect",
@@ -66,15 +66,15 @@ ompl.check_obstacles()
 kitchen.open_it("elementE", 1)
 
 # load bowl
-bowl_position = [3.89, 6.52, 1.8]  # TODO: object goes flying
+bowl_position = [3.6, 2.4, 0.9]
 bowl_id = pb_client.load_object("./URDF_models/utensil_bowl_blue/model.urdf", bowl_position, [0.0, 0.0, 0.0], 1.0, "bowl")
 pb_client.run(100)
-# _, _, min_z, _, _, max_z = pb_client.get_bounding_box(bowl_id)
-# bowl_position[2] = max_z + demo.tcp_height # consider tcp's height
-# print("bowl position:{}".format(bowl_position[2]))
+_, _, min_z, _, _, max_z = pb_client.get_bounding_box(bowl_id)
+bowl_position[2] = max_z + demo.tcp_height # consider tcp's height
+print("bowl position:{}".format(bowl_position[2]))
 
 # navigate to standing position
-standing_position = [2.5, 6.52, 0]  # TODO: how to automatically compute it
+standing_position = [3.1, 2.4, 0]  # TODO: how to automatically compute it
 standing_orientation = [0.0, 0.0, 0.0]
 demo.navigate_base(Pose(standing_position, standing_orientation))
 

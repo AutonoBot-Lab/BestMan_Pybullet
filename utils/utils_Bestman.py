@@ -88,7 +88,7 @@ class Bestman:
             rotated (bool): A flag indicating whether the object has been rotated.
             base_id (int): The base id of the URDF model.
             arm_id (int): The arm id of the URDF model.
-            base_joint_indexs (list): A list of joint indexes.
+            arm_joint_indexs (list): A list of joint indexes.
             end_effector_index (int): The index of the end effector.
             tcp_link (int): The tcp link index.
             tcp_height (float): The height of the tcp link.
@@ -138,7 +138,7 @@ class Bestman:
             useFixedBase=True,
             physicsClientId=self.client_id,
         )
-        self.base_joint_indexs = [0, 1, 2, 3, 4, 5]
+        self.arm_joint_indexs = [0, 1, 2, 3, 4, 5]
         self.end_effector_index = 6
 
         # get tcp link
@@ -682,6 +682,28 @@ class Bestman:
     # ----------------------------------------------------------------
     # Arm Manipulation
     # ----------------------------------------------------------------
+    def debug_set_joint_values(self):
+        """
+        Manually set each joint value of the arm for debugging purposes.
+        """
+        joint_angles = self.get_arm_joint_angle()
+        print("Current joint angles: {}".format(joint_angles))
+
+        for i in range(6):
+            joint_value = input("Enter value for joint {} (current value: {}) or 'skip' to keep current value: ".format(i, joint_angles[i]))
+            if joint_value.lower() == 'q':
+                print("Skipping joint {}".format(i))
+                continue
+            try:
+                joint_angles[i] = float(joint_value)
+            except ValueError:
+                print("Invalid input. Keeping current value for joint {}.".format(i))
+
+        self.set_arm_to_joint_angles(joint_angles)
+        print("Updated joint angles: {}".format(joint_angles))
+
+
+
     def get_arm_joint_angle(self):
         """
         Retrieve arm's joint angle

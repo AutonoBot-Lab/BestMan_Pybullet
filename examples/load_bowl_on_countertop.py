@@ -45,7 +45,7 @@ demo.move_arm_to_joint_angles(init_joint) # reset arm joint position
 # load table, bowl, and chair
 countertop_id = pb_client.load_object(
     "./Kitchen_models/models_yan/elementB/model.urdf",
-    [0.0, 0.0, 0.0],
+    [0.0, 0.0, 0.7],
     [0.0, 0.0, math.pi/2],
     1.0,
     "countertop",

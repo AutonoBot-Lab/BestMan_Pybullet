@@ -156,6 +156,7 @@ class PbOMPL():
         for i, bound in enumerate(joint_bounds):
             bounds.setLow(i, bound[0])
             bounds.setHigh(i, bound[1])
+            # print('-' * 20 + '\n' + '!debug:{}'.format(bound))
         self.space.setBounds(bounds)
 
         self.ss = og.SimpleSetup(self.space)
