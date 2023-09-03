@@ -840,11 +840,14 @@ class Bestman:
         p.stepSimulation(physicsClientId=self.client_id)
         time.sleep(1.0 / self.frequency)
     
-    def excite_trajectory(self, trajectory):
-        for item in trajectory:
-            # print('item:{}'.format(item))
-            self.move_arm_to_joint_angles(item)
-        time.sleep(1.0 / self.frequency)
+    def execute_trajectory(self, trajectory):
+        for joints_value in trajectory:
+            # print("joints_value:{}".format(joints_value))
+            p.setJointMotorControlArray(bodyUniqueId=self.arm_id, 
+                                        jointIndices=[0, 1, 2, 3, 4, 5], 
+                                        controlMode=p.POSITION_CONTROL,
+                                        targetPositions=joints_value)
+            p.stepSimulation(physicsClientId=self.client_id)
         print('-' * 20 + '\n' + 'Excite trajectory finished!')
 
     def move_arm_to_joint_angles(self, joint_angles):
