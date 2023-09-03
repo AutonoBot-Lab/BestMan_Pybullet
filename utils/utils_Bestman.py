@@ -419,6 +419,8 @@ class Bestman:
         """
         Compute the most suitable standing position from the standing map.
 
+        The strategy is to select the standing position that minimizes the sum of the Euclidean distances to the object and the robot.
+
         Args:
             object_position (list): The coordinates of the center of the object [x, y].
             standing_map (numpy array): The computed standing map.
@@ -440,12 +442,19 @@ class Bestman:
                 for coordinate, max_val in zip(point, [x_max, y_max])
             ]
 
-        # compute the Euclidean distance between object_position and each standing position
-        object_position = object_position[:2]  # only take x, y coordinates
-        distances = np.linalg.norm(standing_positions - object_position, axis=1)
+        # get robot position
+        pose = self.get_base_pose()
+        robot_position = [pose.x, pose.y]
 
-        # find the standing position with the minimum distance to the object
-        best_position = standing_positions[np.argmin(distances)]
+        # compute the Euclidean distance between object_position and each standing position
+        # and the distance between robot_position and each standing position
+        object_distances = np.linalg.norm(standing_positions - object_position[:2], axis=1)
+        robot_distances = np.linalg.norm(standing_positions - robot_position, axis=1)
+
+
+         # find the standing position with the minimum sum of distances to the object and the robot
+        total_distances = object_distances + robot_distances
+        best_position = standing_positions[np.argmin(total_distances)]
         best_position_world = to_world_coordinates(best_position, resolution)
 
         # add z coordinate

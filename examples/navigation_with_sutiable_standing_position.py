@@ -71,7 +71,7 @@ print("bowl position:{}".format(bowl_position))
 
 # compute standing position
 standing_map = demo.get_standing_map(bowl_position)
-standing_position = demo.compute_standing_position(bowl_position, standing_map) # TODO: how to automatically compute it
+standing_position = demo.compute_standing_position(bowl_position, standing_map)
 print("standing position:{}".format(standing_position))
 
 # navigate to standing position
