@@ -251,11 +251,11 @@ class Bestman:
         )
         return Pose(base_position, base_orientation)
 
-    # use a simple method to compute standing position
-    def compute_standing_position(
+    # use a simple method to compute standing map
+    def get_standing_map(
         self,
         object_position,
-        radius,
+        radius = 1.0,
         resolution=0.03,
         x_max=10,
         y_max=10,
@@ -293,6 +293,34 @@ class Bestman:
         # Create a 2D grid representing the environment
         affordance_map = np.zeros((n_points_x, n_points_y))
         static_map = np.zeros((n_points_x, n_points_y))
+
+        # get arm and base size in meters
+        (
+            min_x_base,
+            min_y_base,
+            _,
+            max_x_base,
+            max_y_base,
+            _,
+        ) = self.pb_client.get_bounding_box(self.base_id)
+        (
+            min_x_arm,
+            min_y_arm,
+            _,
+            max_x_arm,
+            max_y_arm,
+            _,
+        ) = self.pb_client.get_bounding_box(self.arm_id)
+        robot_size = max(
+            max_x_base - min_x_base,
+            max_y_base - min_y_base,
+            max_x_arm - min_x_arm,
+            max_y_arm - min_y_arm,
+        )
+        # print("robot size:{}".format(robot_size))
+
+        # Compute the number of grid cells to inflate around each obstacle
+        inflate_cells = int(round(robot_size / 2 / resolution))
 
         center_grid = to_grid_coordinates(object_position, resolution)
         radius_grid = int(round(radius / resolution))
@@ -347,32 +375,85 @@ class Bestman:
                         )
                     )
                     for i in range(
-                        int((aabb_link[0] + x_max) / resolution),
-                        int((aabb_link[3] + x_max) / resolution),
+                        max(
+                            0, int((aabb_link[0] + x_max) / resolution) - inflate_cells
+                        ),
+                        min(
+                            n_points_x,
+                            int((aabb_link[3] + x_max) / resolution) + inflate_cells,
+                        ),
                     ):
                         for j in range(
-                            int((aabb_link[1] + y_max) / resolution),
-                            int((aabb_link[4] + y_max) / resolution),
+                            max(
+                                0,
+                                int((aabb_link[1] + y_max) / resolution)
+                                - inflate_cells,
+                            ),
+                            min(
+                                n_points_y,
+                                int((aabb_link[4] + y_max) / resolution)
+                                + inflate_cells,
+                            ),
                         ):
                             static_map[i][j] = 1
         
-        standing_map = affordance_map - static_map
+        # 1 in affordance_map, 0 in static_map
+        standing_map = np.logical_and(affordance_map, np.logical_not(static_map))
         if enable_plot:
-            fig, axs = plt.subplots(1, 3, figsize=(12, 5))
+            plt.figure(figsize=(10, 5))
 
-            axs[0].imshow(affordance_map, cmap='viridis')
-            axs[0].set_title('Affordance Map')
+            plt.subplot(1, 2, 1)
+            plt.imshow(affordance_map + 2*static_map, cmap='gray', vmin=0, vmax=3)
+            plt.title('Affordance Map + Static Map')
 
-            axs[1].imshow(static_map, cmap='viridis')  
-            axs[1].set_title('Static Map')
+            plt.subplot(1, 2, 2)
+            plt.imshow(standing_map, cmap='gray')
+            plt.title('Standing Map')
 
-            axs[2].imshow(standing_map, cmap='Greens')
-            axs[2].set_title('Standing Map')
-
-            plt.tight_layout()
             plt.show()
 
         return standing_map
+
+    # use a simple method to compute standing map
+    def compute_standing_position(self, object_position, standing_map, x_max=10, y_max=10, resolution=0.03):
+        """
+        Compute the most suitable standing position from the standing map.
+
+        Args:
+            object_position (list): The coordinates of the center of the object [x, y].
+            standing_map (numpy array): The computed standing map.
+
+        Returns:
+            The most suitable standing position [x, y].
+        """
+        # convert standing_map to a list of coordinates
+        standing_positions = np.argwhere(standing_map)
+
+        # if no standing positions available, return None
+        if len(standing_positions) == 0:
+            return None
+
+        # convert grid coordinates to world coordinates
+        def to_world_coordinates(point, resolution):
+            return [
+                coordinate * resolution - max_val
+                for coordinate, max_val in zip(point, [x_max, y_max])
+            ]
+
+        # compute the Euclidean distance between object_position and each standing position
+        object_position = object_position[:2]  # only take x, y coordinates
+        distances = np.linalg.norm(standing_positions - object_position, axis=1)
+
+        # find the standing position with the minimum distance to the object
+        best_position = standing_positions[np.argmin(distances)]
+        best_position_world = to_world_coordinates(best_position, resolution)
+
+        # add z coordinate
+        z = 0  # set to the height of the robot's base above the ground
+        best_position_world_3d = [best_position_world[0], best_position_world[1], z]
+
+        return best_position_world_3d
+
 
     # use A* algorithm to find a path
     def find_base_path(

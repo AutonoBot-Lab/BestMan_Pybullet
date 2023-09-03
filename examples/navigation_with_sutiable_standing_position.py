@@ -70,21 +70,22 @@ bowl_position[2] = max_z + demo.tcp_height # consider tcp's height
 print("bowl position:{}".format(bowl_position))
 
 # compute standing position
-standing_position = demo.compute_standing_position(bowl_position, radius=1.0)
+standing_map = demo.get_standing_map(bowl_position)
+standing_position = demo.compute_standing_position(bowl_position, standing_map) # TODO: how to automatically compute it
+print("standing position:{}".format(standing_position))
 
-# # navigate to standing position
-# standing_position = [2.5, 6.52, 0]  # TODO: how to automatically compute it
-# standing_orientation = [0.0, 0.0, 0.0]
-# demo.navigate_base(Pose(standing_position, standing_orientation))
+# navigate to standing position
+standing_orientation = [0.0, 0.0, 0.0]
+demo.navigate_base(Pose(standing_position, standing_orientation))
 
-# # set target object for grasping
-# ompl.set_target(bowl_id)
-# target_orientation = [0.0, math.pi / 2.0, 0.0] # vertical
-# goal = demo.cartesian_to_joints(position=bowl_position, orientation=target_orientation)
-# print("-" * 20 + "\n" + "Goal configuration:{}".format(goal))
+# set target object for grasping
+ompl.set_target(bowl_id)
+target_orientation = [0.0, math.pi / 2.0, 0.0] # vertical
+goal = demo.cartesian_to_joints(position=bowl_position, orientation=target_orientation)
+print("-" * 20 + "\n" + "Goal configuration:{}".format(goal))
 
-# # reach target object
-# result = ompl.reach_object(start=demo.get_arm_joint_angle(), goal=goal, end_effector_link_index=demo.end_effector_index)
+# reach target object
+result = ompl.reach_object(start=demo.get_arm_joint_angle(), goal=goal, end_effector_link_index=demo.end_effector_index)
 
 # disconnect pybullet
 pb_client.wait(10)
