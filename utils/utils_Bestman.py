@@ -839,6 +839,13 @@ class Bestman:
             )
         p.stepSimulation(physicsClientId=self.client_id)
         time.sleep(1.0 / self.frequency)
+    
+    def excite_trajectory(self, trajectory):
+        for item in trajectory:
+            # print('item:{}'.format(item))
+            self.move_arm_to_joint_angles(item)
+        time.sleep(1.0 / self.frequency)
+        print('-' * 20 + '\n' + 'Excite trajectory finished!')
 
     def move_arm_to_joint_angles(self, joint_angles):
         """
@@ -861,7 +868,7 @@ class Bestman:
 
         while True:
             p.stepSimulation(physicsClientId=self.client_id)
-            time.sleep(1.0 / self.frequency)
+            # time.sleep(1.0 / (self.frequency * 5))
 
             # Check if reach the goal
             current_angles = [
@@ -1177,6 +1184,60 @@ class Bestman:
             p.stepSimulation(physicsClientId=self.client_id)
 
         print("-" * 20 + "\n" + "manipulation is done!")
+
+    def active_gripper(self, object_id, value):
+        """
+        Activate or deactivate the gripper.
+
+        Args:
+            value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).
+        """
+
+        gripper_status = {"ungrasp": 0, "grasp": 1}
+        gripper_value = gripper_status["grasp"] if value == 1 else gripper_status["ungrasp"]
+
+        if gripper_value == 0 and self.gripper_id != None:
+            p.removeConstraint(self.gripper_id, physicsClientId=self.client_id)
+            self.gripper_id = None
+            for _ in range(self.frequency):
+                p.stepSimulation(physicsClientId=self.client_id)
+            print('-'*20 + '\n' + 'Gripper has been deactivated!')
+
+        if gripper_value == 1 and self.gripper_id == None:
+            cube_orn = p.getQuaternionFromEuler([0, math.pi, 0])  # control rotation
+            if self.tcp_link != -1:
+                self.gripper_id = p.createConstraint(
+                    self.arm_id,
+                    self.tcp_link,
+                    object_id,
+                    -1,
+                    p.JOINT_FIXED,
+                    [0, 0, 0],
+                    [0, 0, 0],
+                    [0, 0, 0],
+                    childFrameOrientation=cube_orn,
+                    physicsClientId=self.client_id,
+                )
+                print('-'*20 + '\n' + 'Gripper has been activated!')
+            else:
+                self.gripper_id = p.createConstraint(
+                    self.arm_id,
+                    self.end_effector_index,
+                    object_id,
+                    -1,
+                    p.JOINT_FIXED,
+                    [0, 0, 0],
+                    [0, 0, 0],
+                    [0, 0, 0],
+                    childFrameOrientation=cube_orn,
+                    physicsClientId=self.client_id,
+                )
+                print('-'*20 + '\n' + 'Gripper has been activated!')
+        
+        for _ in range(10):
+            p.stepSimulation(physicsClientId=self.client_id)
+            time.sleep(1.0 / self.frequency)
+
 
     def calculate_IK_error(self, goal_position, goal_orientation):
         """

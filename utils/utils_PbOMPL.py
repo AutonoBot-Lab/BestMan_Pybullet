@@ -319,7 +319,7 @@ class PbOMPL:
 
     def reach_object(self, start, goal, end_effector_link_index):  # TODO refactor
         """
-        Plans an object from start to goal and attaches it to the robot.
+        Reach an object from start to goal
 
         Args:
                 start: effective position of end effector.
@@ -350,25 +350,12 @@ class PbOMPL:
                             attempts, distance
                         )
                     )
-                    return True
+                    return True, path
                     break
-                    # Attach the object to the robot
-                    cube_orn = p.getQuaternionFromEuler([0, math.pi, 0])
-                    self.gripper_id = p.createConstraint(
-                        self.arm_id,
-                        end_effector_link_index,  # TODO refactor
-                        self.target,
-                        -1,
-                        p.JOINT_FIXED,
-                        [0, 0, 0],
-                        [0, 0, 0.05],
-                        [0, 0, 0],
-                        childFrameOrientation=cube_orn,
-                    )
         if attempts >= self.max_attempts:
             print(
                 "Could not reach target position without collision after {} attempts".format(
                     self.max_attempts
                 )
             )
-        return False
+        return False, None

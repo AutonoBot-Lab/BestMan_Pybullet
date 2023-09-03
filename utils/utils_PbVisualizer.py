@@ -31,6 +31,8 @@ colors = {
     "cream": [1, 0.99, 0.82, 1],
     "grey": [0.86, 0.86, 0.86, 1],
     "blue": [0.53, 0.81, 0.92, 1.0],
+    "light_blue" : [0.9, 0.9, 1, 1],
+    "light_white" : [1, 1, 1, 0.5]
 }
 
 class PbVisualizer:
@@ -206,12 +208,62 @@ class PbVisualizer:
                 physicsClientId=self.client_id,
             )
 
+    def change_arm_color(self, arm_id, light_color=True):
+        """
+        Set the color of arm during OMPL
+        """
+        if light_color:
+            for i in range(15):
+                p.changeVisualShape(
+                    objectUniqueId=arm_id, linkIndex=i, rgbaColor=colors["light_white"]
+                )
+            p.changeVisualShape(
+                objectUniqueId=arm_id,
+                linkIndex=0,
+                rgbaColor=colors["light_blue"],
+                physicsClientId=self.client_id,
+            )
+            p.changeVisualShape(
+                objectUniqueId=arm_id,
+                linkIndex=3,
+                rgbaColor=colors["light_blue"],
+                physicsClientId=self.client_id,
+            )
+            p.changeVisualShape(
+                objectUniqueId=arm_id,
+                linkIndex=6,
+                rgbaColor=colors["light_blue"],
+                physicsClientId=self.client_id,
+            )
+        else:
+            for i in range(15):
+                p.changeVisualShape(
+                    objectUniqueId=arm_id, linkIndex=i, rgbaColor=colors["white"]
+                )
+            p.changeVisualShape(
+                objectUniqueId=arm_id,
+                linkIndex=0,
+                rgbaColor=colors["blue"],
+                physicsClientId=self.client_id,
+            )
+            p.changeVisualShape(
+                objectUniqueId=arm_id,
+                linkIndex=3,
+                rgbaColor=colors["blue"],
+                physicsClientId=self.client_id,
+            )
+            p.changeVisualShape(
+                objectUniqueId=arm_id,
+                linkIndex=6,
+                rgbaColor=colors["blue"],
+                physicsClientId=self.client_id,
+            )
+
+
     def set_robot_visual_color(self, base_id, arm_id):
         """
         # Set the color of base
         """
-        white = [1, 1, 1, 1]
-        grey = [0.5, 0.5, 0.5, 1]
         for i in range(15):
             p.changeVisualShape(
                 objectUniqueId=base_id,
@@ -241,7 +293,6 @@ class PbVisualizer:
         """
         Set the color of arm
         """
-        white = [1, 1, 1, 1]
         for i in range(15):
             p.changeVisualShape(
                 objectUniqueId=arm_id, linkIndex=i, rgbaColor=colors["white"]
@@ -262,6 +313,33 @@ class PbVisualizer:
             objectUniqueId=arm_id,
             linkIndex=6,
             rgbaColor=colors["blue"],
+            physicsClientId=self.client_id,
+        )
+
+    def set_arm_color_light(self, arm_id):
+        """
+        Set the color of arm during OMPL
+        """
+        for i in range(15):
+            p.changeVisualShape(
+                objectUniqueId=arm_id, linkIndex=i, rgbaColor=colors["light_white"]
+            )
+        p.changeVisualShape(
+            objectUniqueId=arm_id,
+            linkIndex=0,
+            rgbaColor=colors["light_blue"],
+            physicsClientId=self.client_id,
+        )
+        p.changeVisualShape(
+            objectUniqueId=arm_id,
+            linkIndex=3,
+            rgbaColor=colors["light_blue"],
+            physicsClientId=self.client_id,
+        )
+        p.changeVisualShape(
+            objectUniqueId=arm_id,
+            linkIndex=6,
+            rgbaColor=colors["light_blue"],
             physicsClientId=self.client_id,
         )
 

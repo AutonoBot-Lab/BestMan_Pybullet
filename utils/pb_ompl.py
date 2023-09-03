@@ -39,6 +39,7 @@ if os.path.basename(utils_path) != 'utils':
 sys.path.append(utils_path)
 import utils_ompl
 
+
 INTERPOLATE_NUM = 500
 DEFAULT_PLANNING_TIME = 5.0
 
@@ -67,7 +68,7 @@ class PbOMPLRobot():
         print(self.joint_idx)
         self.joint_bounds = []
 
-        self.reset()
+        self.reset()    
 
     def _is_not_fixed(self, joint_idx):
         joint_info = p.getJointInfo(self.id, joint_idx)
