@@ -146,3 +146,13 @@ class Kitchen:
                 maxVelocity=1.0,
             )
         self.pb_client.run(240 * 5)
+    
+    def close_it(self, model_id, joint_id, close_angle):
+        p.setJointMotorControl2(
+                bodyIndex=model_id,
+                jointIndex=joint_id,
+                controlMode=p.POSITION_CONTROL,
+                targetPosition=close_angle,
+                maxVelocity=1.0,
+            )
+        self.pb_client.run(240 * 5)

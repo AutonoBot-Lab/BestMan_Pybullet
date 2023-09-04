@@ -181,14 +181,6 @@ class Bestman:
         self.gripper_id = None
 
     # ----------------------------------------------------------------
-    # Dynmaically adjust arm height
-    # ----------------------------------------------------------------
-    def adjust_arm_height(self, height):
-        self.arm_height = height
-        self.pb_client.run(100)
-        print("-" * 20 + "\n" + "Arm height has changed into {}".format(height))
-
-    # ----------------------------------------------------------------
     # functions for arm and base
     # ----------------------------------------------------------------
     def get_joint_link_info(self, robot_name):  # Print base's joint information
@@ -783,6 +775,13 @@ class Bestman:
     # ----------------------------------------------------------------
     # Arm Manipulation
     # ----------------------------------------------------------------
+    
+    def adjust_arm_height(self, height):
+        # dynmaically adjust arm height
+        self.arm_height = height
+        self.pb_client.run(100)
+        print("-" * 20 + "\n" + "Arm height has changed into {}".format(height))
+
     def debug_set_joint_values(self):
         """
         Manually set each joint value of the arm for debugging purposes.
@@ -802,8 +801,6 @@ class Bestman:
 
         self.set_arm_to_joint_angles(joint_angles)
         print("Updated joint angles: {}".format(joint_angles))
-
-
 
     def get_arm_joint_angle(self):
         """

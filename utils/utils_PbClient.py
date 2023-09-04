@@ -22,7 +22,7 @@ Client class
 
 
 class PbClient:
-    def __init__(self, enable_GUI=True, enable_Debug=False):
+    def __init__(self, enable_GUI=True, enable_Debug=False, enable_capture=False):
         """
         Initialize a new PbClient object.
         
@@ -38,7 +38,11 @@ class PbClient:
             obstacle_manipulation_ids (list): List of manipulation obstacle ids.
         """
         if enable_GUI:
-            self.client_id = p.connect(p.GUI)
+            if enable_capture:
+                width, height = 1800, 1000
+                self.client_id = p.connect(p.GUI, options=f'--width={width} --height={height}')
+            else:
+                self.client_id = p.connect(p.GUI)
         else:
             self.client_id = p.connect(p.DIRECT)
             
@@ -49,7 +53,7 @@ class PbClient:
         p.setPhysicsEngineParameter(
             numSolverIterations=1000
         )  # Set the number of constraint solver iterations; Higher values increase precision but also increase computation time
-        p.loadURDF("plane.urdf")
+        # p.loadURDF("plane.urdf")
 
         # parameters for base
         self.frequency = 240 * 2  # simulation step for base and arm

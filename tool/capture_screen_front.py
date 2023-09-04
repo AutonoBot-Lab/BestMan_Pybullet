@@ -1,13 +1,13 @@
 """
-@Description :   This script shows how to grasp a bowl from a fridge
+@Description :   Automatically capture pybullet screen
 @Author      :   Yan Ding 
-@Time        :   2023/09/01 07:47:46
+@Time        :   2023/09/03 17:41:50
 """
+
 
 import math
 import sys
 import os
-import pybullet as p
 
 """
 Get the utils module path
@@ -32,8 +32,12 @@ elif index == 1:
 else:
     assert False, "index should be 0 or 1"
 
-pb_client = PbClient(enable_GUI=True)
-pb_client.enable_vertical_view(1.0, [1.7, 3.68, 1.95], -86.4, -52.3)
+
+pb_client = PbClient(enable_GUI=True, enable_Debug=True)
+
+# angle 1: front view
+pb_client.enable_vertical_view(1, [2.2, 2.8, 1.0], yaw=270, pitch=-1.5)
+
 pb_visualizer = PbVisualizer(pb_client)
 # logID = pb_client.start_record("example_manipulation") # start recording
 init_pose = Pose([1, 0, 0], [0.0, 0.0, math.pi / 2])
@@ -44,27 +48,9 @@ demo.move_arm_to_joint_angles(init_joint)  # reset arm joint position
 
 # load kitchen
 kitchen = Kitchen(pb_client)
-print("object ids in loaded kitchen:\n{}".format(kitchen.object_ids))
 
-# load OMPL planner
-threshold_distance = 0.1
-ompl = PbOMPL(
-    pb_client=pb_client,
-    arm_id=demo.arm_id,
-    joint_idx=demo.arm_joint_indexs,
-    tcp_link=demo.tcp_link,
-    obstacles=[],
-    planner="RRTConnect",
-    threshold=threshold_distance,
-)
-
-# add obstacles
-ompl.add_scene_obstacles(display=True)
-ompl.check_obstacles()
-
-# open fridge
-kitchen.open_it("elementE", 1)
+pb_visualizer.capture_screen(enable_Debug=True)
 
 # disconnect pybullet
-pb_client.wait(10)
+pb_client.wait(5)
 pb_client.disconnect_pybullet()

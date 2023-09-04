@@ -15,7 +15,8 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import random
 from matplotlib.colors import LinearSegmentedColormap
-
+from PIL import Image
+from datetime import datetime
 
 """
 Visualization class
@@ -43,6 +44,55 @@ class PbVisualizer:
     # ----------------------------------------------------------------
     # Visualization functions
     # ----------------------------------------------------------------
+    def capture_screen(self, filename=None, enable_Debug=False):
+        """
+        Continuously capture the screens of pybullet GUI and save the images to files.
+        The file names will be based on the camera target position, distance, and yaw.
+
+        Parameters:
+        width (int): The width of the captured image.
+        height (int): The height of the captured image.
+        """
+        try:
+            if enable_Debug:
+                while True:
+                    # Get GUI information
+                    width, height, viewMatrix, projectionMatrix, cameraUp, camForward, horizonal, vertical, yaw, pitch, dist, target = p.getDebugVisualizerCamera()
+                    
+                    # Capture the screen
+                    _, _, rgba, _, _ = p.getCameraImage(width, height)
+                    img = np.array(rgba).reshape(height, width, 4)
+
+                    # Save the image to the file
+                    if filename == None:
+                        # current_time = datetime.now().strftime('%Y%m%d_%H%M%S')
+                        # path_filename = f"./image/{current_time}.png"
+                        path_filename = f"./image/target:{target}_dist:{dist}_pitch:{pitch}_yaw:{yaw}.png"
+                    else:
+                        path_filename = f"./image/{filename}.png"
+                    Image.fromarray(img).save(path_filename)
+            else:
+                # Get GUI information
+                width, height, viewMatrix, projectionMatrix, cameraUp, camForward, horizonal, vertical, yaw, pitch, dist, target = p.getDebugVisualizerCamera()
+                
+                # Capture the screen
+                _, _, rgba, _, _ = p.getCameraImage(width, height)
+                img = np.array(rgba).reshape(height, width, 4)
+
+                print("width:{} height:{}".format(width, height))
+
+                # Save the image to the file
+                if filename == None:
+                    # current_time = datetime.now().strftime('%Y%m%d_%H%M%S')
+                    # path_filename = f"./image/{current_time}.png"
+                    path_filename = f"./image/target:{target}_dist:{dist}_pitch:{pitch}_yaw:{yaw}.png"
+                else:
+                    path_filename = f"./image/{filename}.png"
+                Image.fromarray(img).save(path_filename)
+                
+        except KeyboardInterrupt:
+            pass
+        
     def crop_image(self, image, center, size):
         """
         Crop a given image around a specified center point and returns the cropped portion. The resulting cropped image will be a square with the provided size. If the cropping dimensions exceed the original image boundaries, the function ensures it stays within the original image's dimensions to prevent out-of-bounds access.
@@ -447,7 +497,6 @@ class PbVisualizer:
                 rgbaColor=colors["white"],
                 physicsClientId=self.client_id,
             )
-
 
     def visualize_path(self, path):
         # Reverse the path so that it goes from start to goal

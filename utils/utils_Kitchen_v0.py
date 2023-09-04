@@ -250,7 +250,7 @@ class Kitchen:
     # ----------------------------------------------------------------
     # Close drawer
     # ----------------------------------------------------------------
-    def close_drawer(self, elementName, drawer_id):
+    def close_it(self, elementName, drawer_id, open_angle=None):
         if elementName == "elementA":
             joint_id = self.elementA_drawer_to_joint_id[drawer_id]
             close_angle = self.elementA_drawer_to_joint_limits[drawer_id][0]

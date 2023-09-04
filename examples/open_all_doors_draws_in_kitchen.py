@@ -54,7 +54,7 @@ for i in range(10):
 # close a drawer in element A
 for i in range(10):
     drawer_id = i+1
-    kitchen.close_drawer('elementA', drawer_id)
+    kitchen.close_it('elementA', drawer_id)
 
 # open a drawer in element C
 for i in range(3):
@@ -64,7 +64,7 @@ for i in range(3):
 # close a drawer in element C
 for i in [2, 1, 0]:
     drawer_id = i+1
-    kitchen.close_drawer('elementC', drawer_id)
+    kitchen.close_it('elementC', drawer_id)
 
 # open a drawer in element D
 for i in range(1):
@@ -74,7 +74,7 @@ for i in range(1):
 # close a drawer in element D
 for i in range(1):
     drawer_id = i+1
-    kitchen.close_drawer('elementD', drawer_id)
+    kitchen.close_it('elementD', drawer_id)
 
 # open a drawer in element E
 for i in range(2):
@@ -84,7 +84,7 @@ for i in range(2):
 # close a drawer in element E
 for i in range(2):
     drawer_id = i+1
-    kitchen.close_drawer('elementE', drawer_id)
+    kitchen.close_it('elementE', drawer_id)
 
 
 # disconnect pybullet
