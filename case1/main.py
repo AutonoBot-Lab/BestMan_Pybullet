@@ -56,23 +56,23 @@ print('-'*20 + '\n' + 'Preparation has been completed!')
 # ----------------------------------------------------------------
 banana_id = pb_client.load_object(
     "./URDF_models/plastic_banana/model.urdf",
-    [3.8, 4.2, 1.1],
+    [4.0, 4.2, 1.1],
     [0.0, 0.0, math.pi/2],
-    1.0,
+    2.0,
     "banana",
 )
 cup_id = pb_client.load_object(
     "./URDF_models/orange_cup/model.urdf",
     [3.8, 2.3, 1.1],
     [0.0, 0.0, 0.0],
-    1.0,
+    2.0,
     "cup",
 )
 apple_id = pb_client.load_object(
     "./URDF_models/plastic_apple/model.urdf",
     [3.8, 0.7, 1.1],
     [0.0, 0.0, 0.0],
-    1.0,
+    2.0,
     "apple",
 )
 pb_client.run(100) # let objects fall down
@@ -91,7 +91,7 @@ print('-'*20 + '\n' + 'A service request have been obtained!')
 # TODO: the solution is using multiple cameras
 
 # camera 1: fridge
-pb_client.enable_vertical_view(1.0, [3.50, 4.73, 1.13], yaw=270, pitch=-31.60) # top view
+pb_client.enable_vertical_view(1.2, [3.50, 4.54, 1.02], yaw=270, pitch=-11.60) # top view
 pb_client.run(10)
 pb_visualizer.capture_screen('camera_1', enable_Debug=False)
 
@@ -106,7 +106,11 @@ pb_client.run(10)
 pb_visualizer.capture_screen('camera_3', enable_Debug=False)
 
 # camera 4: microwave_dishwasher_leftdrawers
-pb_client.enable_vertical_view(3.19, [6.04, 0.78, -0.92], yaw=270, pitch=-42.00) # top view
+pb_client.enable_vertical_view(1.20, [4.12, 1.40, 0.74], yaw=270, pitch=-40.00) # top view
+pb_client.run(10)
+pb_visualizer.capture_screen('camera_4_0', enable_Debug=False)
+
+pb_client.enable_vertical_view(1.0, [4.12, 0.79, 0.74], yaw=270, pitch=-18.80) # top view
 pb_client.run(10)
 pb_visualizer.capture_screen('camera_4_1', enable_Debug=False)
 
