@@ -91,34 +91,47 @@ print('-'*20 + '\n' + 'A service request have been obtained!')
 # TODO: the solution is using multiple cameras
 
 # camera 1: fridge
-pb_client.enable_vertical_view(1.2, [3.76, 4.76, 1.22], yaw=270, pitch=-22.40) # top view
+pb_client.enable_vertical_view(1.0, [3.50, 4.73, 1.13], yaw=270, pitch=-31.60) # top view
 pb_client.run(10)
-pb_visualizer.capture_screen('fridge', enable_Debug=False)
+pb_visualizer.capture_screen('camera_1', enable_Debug=False)
 
-# camera 2: table
-pb_client.enable_vertical_view(1.0, [4.31, 4.31, 0.91], yaw=270, pitch=-41.2) # top view
+# camera 2: table top
+pb_client.enable_vertical_view(1.2, [4.12, 4.35, 0.54], yaw=270, pitch=-85.2) # top view
 pb_client.run(10)
-pb_visualizer.capture_screen('table', enable_Debug=False)
+pb_visualizer.capture_screen('camera_2', enable_Debug=False)
 
-# camera 3: microwave_dishwasher_leftdrawers
-pb_client.enable_vertical_view(1.4, [4.32, 2.82, 0.51], yaw=270, pitch=-16.80) # top view
+# camera 3: table
+pb_client.enable_vertical_view(1.0, [3.80, 4.29, 0.51], yaw=270, pitch=-2.40) # top view
 pb_client.run(10)
-pb_visualizer.capture_screen('microwave_dishwasher_leftdrawers', enable_Debug=False)
+pb_visualizer.capture_screen('camera_3', enable_Debug=False)
 
-# camera 4: stove_countertop
-pb_client.enable_vertical_view(1.4, [4.31, 1.37, 0.50], yaw=270, pitch=-48.00) # top view
+# camera 4: microwave_dishwasher_leftdrawers
+pb_client.enable_vertical_view(3.19, [6.04, 0.78, -0.92], yaw=270, pitch=-42.00) # top view
 pb_client.run(10)
-pb_visualizer.capture_screen('stove_countertop', enable_Debug=False)
+pb_visualizer.capture_screen('camera_4_1', enable_Debug=False)
 
-# camera 5: topcabinet
-pb_client.enable_vertical_view(1.6, [4.32, 1.73, 1.92], yaw=270, pitch=-5.67) # top view
+pb_client.enable_vertical_view(3.40, [6.04, 1.63, -0.92], yaw=270, pitch=-42.00) # top view
 pb_client.run(10)
-pb_visualizer.capture_screen('topcabinet', enable_Debug=False)
+pb_visualizer.capture_screen('camera_4_2', enable_Debug=False)
 
-# camera 6: bottomdrawers
+pb_client.enable_vertical_view(3.39, [6.04, 2.28, -0.88], yaw=270, pitch=-42.00) # top view
+pb_client.run(10)
+pb_visualizer.capture_screen('camera_4_3', enable_Debug=False)
+
+# camera 5: cabinets
+pb_client.enable_vertical_view(0.8, [3.79, 1.82, 1.74], yaw=270, pitch=-2.40) # top view
+pb_client.run(10)
+pb_visualizer.capture_screen('camera_5', enable_Debug=False)
+
+# camera 6: stove_countertop
+pb_client.enable_vertical_view(1.2, [3.87, 1.41, 0.36], yaw=270, pitch=-84.0) # top view
+pb_client.run(10)
+pb_visualizer.capture_screen('camera_6', enable_Debug=False)
+
+# camera 7: bottomdrawers
 pb_client.enable_vertical_view(1.4, [4.32, 1.59, 0.39], yaw=270, pitch=-5.67) # top view
 pb_client.run(10)
-pb_visualizer.capture_screen('bottomdrawers', enable_Debug=False)
+pb_visualizer.capture_screen('camera_7', enable_Debug=False)
 
 print('-'*20 + '\n' + 'Images have been captured!')
 
