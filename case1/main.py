@@ -18,6 +18,10 @@ utils_path = os.path.dirname(os.path.dirname(current_path)) + '/utils'
 if os.path.basename(utils_path) != 'utils':
     raise ValueError('Not add the path of folder "utils", please check again!')
 sys.path.append(utils_path)
+tool_path = os.path.dirname(os.path.dirname(current_path)) + '/tool'
+if os.path.basename(tool_path) != 'tool':
+    raise ValueError('Not add the path of folder "tool", please check again!')
+sys.path.append(tool_path)
 from utils_Bestman import Bestman, Pose
 from utils_PbClient import PbClient
 from utils_PbVisualizer import PbVisualizer
@@ -56,23 +60,23 @@ print('-'*20 + '\n' + 'Preparation has been completed!')
 # ----------------------------------------------------------------
 banana_id = pb_client.load_object(
     "./URDF_models/plastic_banana/model.urdf",
-    [4.0, 4.2, 1.1],
+    [3.8, 4.2, 1.1],
     [0.0, 0.0, math.pi/2],
-    2.0,
+    1.0,
     "banana",
 )
 cup_id = pb_client.load_object(
     "./URDF_models/orange_cup/model.urdf",
     [3.8, 2.3, 1.1],
     [0.0, 0.0, 0.0],
-    2.0,
+    1.0,
     "cup",
 )
 apple_id = pb_client.load_object(
     "./URDF_models/plastic_apple/model.urdf",
     [3.8, 0.7, 1.1],
     [0.0, 0.0, 0.0],
-    2.0,
+    1.0,
     "apple",
 )
 pb_client.run(100) # let objects fall down
@@ -85,13 +89,17 @@ service_request = "put all fruit into the fridge"
 print('-'*20 + '\n' + 'A service request have been obtained!')
 
 # ----------------------------------------------------------------
-# step 3: take screenshot: front and top
+# step 3: take screenshots
 # ----------------------------------------------------------------
-# TODO: the issue is the fruit image is too small to be seen
-# TODO: the solution is using multiple cameras
+# TODO: the issue is the fruit image is too small to be seen; the solution is using multiple cameras
+
+# camera 0: overall
+pb_client.enable_vertical_view(1.0, [3.2, 2.80, 2.50], yaw=270, pitch=-40.00) # top view
+pb_client.run(10)
+pb_visualizer.capture_screen('camera_0', enable_Debug=False)
 
 # camera 1: fridge
-pb_client.enable_vertical_view(1.2, [3.50, 4.54, 1.02], yaw=270, pitch=-11.60) # top view
+pb_client.enable_vertical_view(1.0, [3.50, 4.73, 1.13], yaw=270, pitch=-31.60) # top view
 pb_client.run(10)
 pb_visualizer.capture_screen('camera_1', enable_Debug=False)
 
@@ -106,11 +114,7 @@ pb_client.run(10)
 pb_visualizer.capture_screen('camera_3', enable_Debug=False)
 
 # camera 4: microwave_dishwasher_leftdrawers
-pb_client.enable_vertical_view(1.20, [4.12, 1.40, 0.74], yaw=270, pitch=-40.00) # top view
-pb_client.run(10)
-pb_visualizer.capture_screen('camera_4_0', enable_Debug=False)
-
-pb_client.enable_vertical_view(1.0, [4.12, 0.79, 0.74], yaw=270, pitch=-18.80) # top view
+pb_client.enable_vertical_view(3.19, [6.04, 0.78, -0.92], yaw=270, pitch=-42.00) # top view
 pb_client.run(10)
 pb_visualizer.capture_screen('camera_4_1', enable_Debug=False)
 
@@ -140,8 +144,32 @@ pb_visualizer.capture_screen('camera_7', enable_Debug=False)
 print('-'*20 + '\n' + 'Images have been captured!')
 
 # ----------------------------------------------------------------
-# step 4: query vlm and get intial state
+# step 4: query ViLD and QianWen and get intial state
 # ----------------------------------------------------------------
+
+# load kitchen from three scenarios
+index = 0
+if index == 0:
+    from utils_Kitchen_v0 import Kitchen
+elif index == 1:
+    from utils_Kitchen_v1 import Kitchen
+else:
+    assert False, "index should be 0 or 1"
+
+pb_client = PbClient(enable_GUI=True, enable_capture=True)
+pb_client.enable_vertical_view(1.0, [1.7, 3.68, 1.95], -86.4, -52.3)
+pb_visualizer = PbVisualizer(pb_client)
+# logID = pb_client.start_record("example_manipulation") # start recording
+init_pose = Pose([1, 0, 0], [0.0, 0.0, math.pi / 2])
+demo = Bestman(init_pose, pb_client)  # load robot
+demo.get_joint_link_info("arm")  # get info about arm
+init_joint = [0, -1.57, 2.0, -1.57, -1.57, 0]
+demo.move_arm_to_joint_angles(init_joint)  # reset arm joint position
+
+# load kitchen
+kitchen = Kitchen(pb_client)
+print("object ids in loaded kitchen:\n{}".format(kitchen.object_ids))
+print('-'*20 + '\n' + 'Preparation has been completed!')
 
 # ----------------------------------------------------------------
 # step 5: create pddl problem

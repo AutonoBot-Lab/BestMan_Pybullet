@@ -1,3 +1,4 @@
 {
-    "ros.distro": "melodic"
+    "ros.distro": "melodic",
+    "cmake.sourceDirectory": "/home/yan/BestMan/BestMan_Pybullet/Kitchen_models/models/counter"
 }

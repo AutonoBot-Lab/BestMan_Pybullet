@@ -22,7 +22,7 @@ Client class
 
 
 class PbClient:
-    def __init__(self, enable_GUI=True, enable_Debug=False, enable_capture=False):
+    def __init__(self, enable_GUI=True, enable_Debug=False, enable_capture=True):
         """
         Initialize a new PbClient object.
         
@@ -53,6 +53,7 @@ class PbClient:
         p.setPhysicsEngineParameter(
             numSolverIterations=1000
         )  # Set the number of constraint solver iterations; Higher values increase precision but also increase computation time
+        
         # p.loadURDF("plane.urdf")
 
         # parameters for base
