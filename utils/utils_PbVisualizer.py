@@ -53,6 +53,7 @@ class PbVisualizer:
         width (int): The width of the captured image.
         height (int): The height of the captured image.
         """
+        alpha = 5
         try:
             if enable_Debug:
                 while True:
@@ -60,8 +61,8 @@ class PbVisualizer:
                     width, height, viewMatrix, projectionMatrix, cameraUp, camForward, horizonal, vertical, yaw, pitch, dist, target = p.getDebugVisualizerCamera()
                     
                     # Capture the screen
-                    _, _, rgba, _, _ = p.getCameraImage(width, height)
-                    img = np.array(rgba).reshape(height, width, 4)
+                    _, _, rgba, _, _ = p.getCameraImage(width * alpha, height * alpha)
+                    img = np.array(rgba).reshape(height * alpha, width * alpha, 4)
 
                     # Save the image to the file
                     if filename == None:
@@ -76,8 +77,8 @@ class PbVisualizer:
                 width, height, viewMatrix, projectionMatrix, cameraUp, camForward, horizonal, vertical, yaw, pitch, dist, target = p.getDebugVisualizerCamera()
                 
                 # Capture the screen
-                _, _, rgba, _, _ = p.getCameraImage(width, height)
-                img = np.array(rgba).reshape(height, width, 4)
+                _, _, rgba, _, _ = p.getCameraImage(width * alpha, height * alpha)
+                img = np.array(rgba).reshape(height * alpha, width * alpha, 4)
 
                 print("width:{} height:{}".format(width, height))
 

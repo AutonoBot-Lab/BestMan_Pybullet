@@ -1,0 +1,18 @@
+004_sugar_box (assuming it's an appliance due to its prefix, but I'm not certain)
+Camera
+CoffeeMachine
+Dishwasher
+DishwasherBox
+Faucet
+Fridge
+Kinect
+KitchenMicrowave
+Microwave
+MicrowaveHanging
+MiniFridge
+MiniFridgeBase
+MiniFridgeDoorless
+Oven
+OvenTop
+RGBCamera
+power_drill
