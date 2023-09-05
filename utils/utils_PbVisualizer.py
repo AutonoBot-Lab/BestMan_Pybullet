@@ -67,9 +67,9 @@ class PbVisualizer:
                     if filename == None:
                         # current_time = datetime.now().strftime('%Y%m%d_%H%M%S')
                         # path_filename = f"./image/{current_time}.png"
-                        path_filename = f"./image/target:{target}_dist:{dist}_pitch:{pitch}_yaw:{yaw}.png"
+                        path_filename = f"./image/input/target:{target}_dist:{dist}_pitch:{pitch}_yaw:{yaw}.png"
                     else:
-                        path_filename = f"./image/{filename}.png"
+                        path_filename = f"./image/input/{filename}.png"
                     Image.fromarray(img).save(path_filename)
             else:
                 # Get GUI information
@@ -85,9 +85,9 @@ class PbVisualizer:
                 if filename == None:
                     # current_time = datetime.now().strftime('%Y%m%d_%H%M%S')
                     # path_filename = f"./image/{current_time}.png"
-                    path_filename = f"./image/target:{target}_dist:{dist}_pitch:{pitch}_yaw:{yaw}.png"
+                    path_filename = f"./image/input/target:{target}_dist:{dist}_pitch:{pitch}_yaw:{yaw}.png"
                 else:
-                    path_filename = f"./image/{filename}.png"
+                    path_filename = f"./image/input/{filename}.png"
                 Image.fromarray(img).save(path_filename)
                 
         except KeyboardInterrupt:
