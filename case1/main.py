@@ -28,7 +28,7 @@ from utils_PbVisualizer import PbVisualizer
 from utils_PbOMPL import PbOMPL
 
 # ----------------------------------------------------------------
-# step 0: prepare
+# step 0: prepare environment
 # ----------------------------------------------------------------
 
 # load kitchen from three scenarios
