@@ -28,7 +28,7 @@ from utils_PbVisualizer import PbVisualizer
 from utils_PbOMPL import PbOMPL
 
 # ----------------------------------------------------------------
-# step 0: prepare environment
+# step 0: prepare environment # DONE
 # ----------------------------------------------------------------
 
 # load kitchen from three scenarios
@@ -56,7 +56,7 @@ print("object ids in loaded kitchen:\n{}".format(kitchen.object_ids))
 print('-'*20 + '\n' + 'Preparation has been completed!')
 
 # ----------------------------------------------------------------
-# step 1: create a scenario
+# step 1: create a scenario  # DONE
 # ----------------------------------------------------------------
 banana_id = pb_client.load_object(
     "./URDF_models/plastic_banana/model.urdf",
@@ -83,13 +83,13 @@ pb_client.run(100) # let objects fall down
 print('-'*20 + '\n' + 'A scenario has been created!')
 
 # ----------------------------------------------------------------
-# step 2: create a service request
+# step 2: create a service request # DONE
 # ----------------------------------------------------------------
 service_request = "put all fruit into the fridge"
 print('-'*20 + '\n' + 'A service request have been obtained!')
 
 # ----------------------------------------------------------------
-# step 3: take screenshots
+# step 3: take screenshots # DONE
 # ----------------------------------------------------------------
 # TODO: the issue is the fruit image is too small to be seen; the solution is using multiple cameras
 
@@ -129,6 +129,15 @@ print('-'*20 + '\n' + 'Images have been captured!')
 # ----------------------------------------------------------------
 # step 4: query ViLD and QianWen and get intial state
 # ----------------------------------------------------------------
+
+"""
+how to use VLM: QianWen
+"""
+
+"""
+how to use LLM: OpenAI
+"""
+
 
 # ----------------------------------------------------------------
 # step 5: create pddl problem
