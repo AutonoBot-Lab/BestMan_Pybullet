@@ -8,6 +8,7 @@ import math
 import sys
 import os
 import pybullet as p
+import matplotlib.pyplot as plt
 
 """
 Get the utils module path
@@ -26,6 +27,7 @@ from utils_Bestman import Bestman, Pose
 from utils_PbClient import PbClient
 from utils_PbVisualizer import PbVisualizer
 from utils_PbOMPL import PbOMPL
+from utils_camera import CameraInfo
 
 # ----------------------------------------------------------------
 # step 0: prepare environment # DONE
@@ -44,7 +46,8 @@ pb_client = PbClient(enable_GUI=True, enable_capture=True)
 pb_client.enable_vertical_view(1.0, [1.7, 3.68, 1.95], -86.4, -52.3)
 pb_visualizer = PbVisualizer(pb_client)
 # logID = pb_client.start_record("example_manipulation") # start recording
-init_pose = Pose([1, 0, 0], [0.0, 0.0, math.pi / 2])
+# init_pose = Pose([1, 0, 0], [0.0, 0.0, math.pi / 2])
+init_pose = Pose([1.5, 0.5, 0], [0.0, 0.0, 0.0])
 demo = Bestman(init_pose, pb_client)  # load robot
 demo.get_joint_link_info("arm")  # get info about arm
 init_joint = [0, -1.57, 2.0, -1.57, -1.57, 0]
@@ -91,38 +94,62 @@ print('-'*20 + '\n' + 'A service request have been obtained!')
 # ----------------------------------------------------------------
 # step 3: take screenshots # DONE
 # ----------------------------------------------------------------
-# TODO: the issue is the fruit image is too small to be seen; the solution is using multiple cameras
+camera = CameraInfo(pb_client)
+rgb, depth, seg = camera.get_image_from_camera(demo.base_id, "view_1", enable_save=True)
+# plt.imshow(rgb)
+# plt.show()
 
-# option 1:
-dist_value, init_y, inter = 0.3, 0.3, 1.0
-pb_client.enable_vertical_view(dist_value, [3.10, init_y, 1.45], yaw=270, pitch=-20) # top view
-pb_client.run(10)
-pb_visualizer.capture_screen('camera_0', enable_Debug=False)
+temp_pose = init_pose
 
-pb_client.enable_vertical_view(dist_value, [3.10, init_y + inter, 1.45], yaw=270, pitch=-20) # top view
-pb_client.run(10)
-pb_visualizer.capture_screen('camera_1', enable_Debug=False)
+temp_pose_position = temp_pose.position
+temp_pose_orientation = temp_pose.orientation
+new_position = [temp_pose_position[0], temp_pose_position[1] + 1, temp_pose_position[2]]
+next_waypoint = Pose(new_position, temp_pose_orientation)
+demo.move_base_to_next_waypoint(next_waypoint)
+demo.rotate_base(0)
+rgb, depth, seg = camera.get_image_from_camera(demo.base_id, "view_2", enable_save=True)
+# plt.imshow(rgb)
+# plt.show()
 
-pb_client.enable_vertical_view(dist_value, [3.10, init_y + inter * 2, 1.45], yaw=270, pitch=-20) # top view
-pb_client.run(10)
-pb_visualizer.capture_screen('camera_2', enable_Debug=False)
+temp_pose_position = next_waypoint.position
+temp_pose_orientation = next_waypoint.orientation
+new_position = [temp_pose_position[0], temp_pose_position[1] + 1, temp_pose_position[2]]
+next_waypoint = Pose(new_position, temp_pose_orientation)
+demo.move_base_to_next_waypoint(next_waypoint)
+demo.rotate_base(0)
+rgb, depth, seg = camera.get_image_from_camera(demo.base_id, "view_3", enable_save=True)
+# plt.imshow(rgb)
+# plt.show()
 
-pb_client.enable_vertical_view(dist_value, [3.10, init_y + inter * 3, 1.45], yaw=270, pitch=-20) # top view
-pb_client.run(10)
-pb_visualizer.capture_screen('camera_3', enable_Debug=False)
+temp_pose_position = next_waypoint.position
+temp_pose_orientation = next_waypoint.orientation
+new_position = [temp_pose_position[0], temp_pose_position[1] + 1, temp_pose_position[2]]
+next_waypoint = Pose(new_position, temp_pose_orientation)
+demo.move_base_to_next_waypoint(next_waypoint)
+demo.rotate_base(0)
+rgb, depth, seg = camera.get_image_from_camera(demo.base_id, "view_4", enable_save=True)
+# plt.imshow(rgb)
+# plt.show()
 
-pb_client.enable_vertical_view(dist_value, [3.10, init_y + inter * 4, 1.45], yaw=270, pitch=-20) # top view
-pb_client.run(10)
-pb_visualizer.capture_screen('camera_4', enable_Debug=False)
+temp_pose_position = next_waypoint.position
+temp_pose_orientation = next_waypoint.orientation
+new_position = [temp_pose_position[0], temp_pose_position[1] + 1, temp_pose_position[2]]
+next_waypoint = Pose(new_position, temp_pose_orientation)
+demo.move_base_to_next_waypoint(next_waypoint)
+demo.rotate_base(0)
+rgb, depth, seg = camera.get_image_from_camera(demo.base_id, "view_5", enable_save=True)
+# plt.imshow(rgb)
+# plt.show()
 
-# option 2:
-# pb_client.enable_vertical_view(1.3, [3.20, 2.74, 1.39], yaw=270, pitch=0) # top view
-# pb_client.run(10)
-# pb_visualizer.capture_screen('camera_0', enable_Debug=False)
-
-# pb_client.enable_vertical_view(1.3, [3.20, 2.78, 1.39], yaw=270, pitch=-40) # top view
-# pb_client.run(10)
-# pb_visualizer.capture_screen('camera_1', enable_Debug=False)
+temp_pose_position = next_waypoint.position
+temp_pose_orientation = next_waypoint.orientation
+new_position = [temp_pose_position[0], temp_pose_position[1] + 1, temp_pose_position[2]]
+next_waypoint = Pose(new_position, temp_pose_orientation)
+demo.move_base_to_next_waypoint(next_waypoint)
+demo.rotate_base(0)
+rgb, depth, seg = camera.get_image_from_camera(demo.base_id, "view_6", enable_save=True)
+# plt.imshow(rgb)
+# plt.show()
 
 print('-'*20 + '\n' + 'Images have been captured!')
 
@@ -131,13 +158,8 @@ print('-'*20 + '\n' + 'Images have been captured!')
 # ----------------------------------------------------------------
 
 """
-how to use VLM: QianWen
+In main_step4.ipynb, how to use VLM: QianWen & how to use LLM: OpenAI
 """
-
-"""
-how to use LLM: OpenAI
-"""
-
 
 # ----------------------------------------------------------------
 # step 5: create pddl problem
@@ -151,22 +173,6 @@ how to use LLM: OpenAI
 # step 7: execute task plan
 # ----------------------------------------------------------------
 
-# load OMPL planner
-threshold_distance = 0.1
-ompl = PbOMPL(
-    pb_client=pb_client,
-    arm_id=demo.arm_id,
-    joint_idx=demo.arm_joint_indexs,
-    tcp_link=demo.tcp_link,
-    obstacles=[],
-    planner="RRTConnect",
-    threshold=threshold_distance,
-)
-
-# add obstacles
-ompl.add_scene_obstacles(display=True)
-ompl.check_obstacles()
-
 # disconnect from server
-pb_client.wait(500)
+pb_client.wait(5)
 pb_client.disconnect_pybullet()
