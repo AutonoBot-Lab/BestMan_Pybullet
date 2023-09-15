@@ -170,6 +170,7 @@ class Bestman:
         )
 
         # synchronize base and arm positions
+        self.current_yaw = init_pos.yaw
         self.sync_base_arm_pose()
 
         # Set arm and base colors
@@ -688,31 +689,80 @@ class Bestman:
 
             self.action(-output)
 
-    def rotate_base(self, base_yaw):
+    def rotate_base(self, target_yaw, step_size=0.05, delay_time=0.05):
         """
-        Rotate base to a specified yaw angle
+        Rotate base to a specified yaw angle with gradual change.
 
         Args:
-            base_yaw (float): The target yaw angle (in radians) for the base.
+            target_yaw (float): The target yaw angle (in radians) for the base.
+            step_size (float): Angle increment for each step in radians.
+            delay_time (float): Delay in seconds after each step.
         """
 
-        # Convert a Euler yaw angle (in radians) to Quaternion.
-        def angle_to_quaternion(base_yaw):
-            return [0, 0, math.sin(base_yaw / 2.0), math.cos(base_yaw / 2.0)]
+        def angle_to_quaternion(yaw):
+            return [0, 0, math.sin(yaw / 2.0), math.cos(yaw / 2.0)]
 
-        position, orientation = p.getBasePositionAndOrientation(
+        while abs(self.current_yaw - target_yaw) > step_size:
+            if target_yaw > self.current_yaw:
+                self.current_yaw += step_size
+            else:
+                self.current_yaw -= step_size
+
+            orientation = angle_to_quaternion(self.current_yaw)
+
+            print(f'!debug target_yaw:{target_yaw}; current_yaw:{self.current_yaw}; orientation: {orientation}')
+
+            position, _ = p.getBasePositionAndOrientation(
+                self.base_id, physicsClientId=self.client_id
+            )
+            p.resetBasePositionAndOrientation(
+                self.base_id, position, orientation, physicsClientId=self.client_id
+            )
+
+            if self.arm_id is not None:
+                self.sync_base_arm_pose()
+
+            p.stepSimulation(physicsClientId=self.client_id)
+            time.sleep(delay_time)
+
+        # Ensure final orientation is set accurately
+        orientation = angle_to_quaternion(target_yaw)
+        position, _ = p.getBasePositionAndOrientation(
             self.base_id, physicsClientId=self.client_id
         )
-        orientation = angle_to_quaternion(base_yaw)
         p.resetBasePositionAndOrientation(
             self.base_id, position, orientation, physicsClientId=self.client_id
         )
-
-        if self.arm_id is not None:
-            self.sync_base_arm_pose()
-
         p.stepSimulation(physicsClientId=self.client_id)
-        time.sleep(1.0 / self.frequency)
+        time.sleep(delay_time)
+
+
+    # def rotate_base(self, base_yaw):
+    #     """
+    #     Rotate base to a specified yaw angle
+
+    #     Args:
+    #         base_yaw (float): The target yaw angle (in radians) for the base.
+    #     """
+
+    #     # Convert a Euler yaw angle (in radians) to Quaternion.
+    #     def angle_to_quaternion(base_yaw):
+    #         return [0, 0, math.sin(base_yaw / 2.0), math.cos(base_yaw / 2.0)]
+
+    #     position, orientation = p.getBasePositionAndOrientation(
+    #         self.base_id, physicsClientId=self.client_id
+    #     )
+    #     orientation = angle_to_quaternion(base_yaw)
+    #     print(f'debug! base_yaw:{base_yaw}; orientation:{orientation}')
+    #     p.resetBasePositionAndOrientation(
+    #         self.base_id, position, orientation, physicsClientId=self.client_id
+    #     )
+
+    #     if self.arm_id is not None:
+    #         self.sync_base_arm_pose()
+
+    #     p.stepSimulation(physicsClientId=self.client_id)
+    #     time.sleep(1.0 / self.frequency)
 
     def action(self, output):
         """
