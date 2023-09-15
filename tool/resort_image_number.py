@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 @Description :   convert heic to jpg
 @Author      :   Yan Ding 
@@ -5,18 +7,25 @@
 """
 
 import os
-import re
 
-def rename_view_images(directory):
-    # 查找以 "view" 开头的所有文件
-    view_files = [f for f in os.listdir(directory) if re.match(r'view_.*', f)]
-    view_files.sort()  # 如果需要按照特定顺序排序，可以在此处调整
+def batch_rename(directory, prefix="view_5_fridge_"):
+    # 获取文件夹中所有文件的列表
+    files = [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
+    # 为了确保文件的排序，我们可以按文件名对文件进行排序
+    files.sort()
+    
+    count = 1
+    for file in files:
+        # 获取文件的扩展名
+        file_extension = os.path.splitext(file)[1]
+        # 构造新的文件名
+        new_name = f"{prefix}{count}{file_extension}"
+        # 重命名文件
+        os.rename(os.path.join(directory, file), os.path.join(directory, new_name))
+        count += 1
 
-    for idx, view_file in enumerate(view_files, start=1):
-        old_path = os.path.join(directory, view_file)
-        new_path = os.path.join(directory, f'view_{idx}.jpg')  # 假设都是 .jpg 格式，如果有其他格式，请进行调整
-        os.rename(old_path, new_path)
+    print(f"Renamed {count - 1} files successfully!")
 
-if __name__ == "__main__":
-    directory = "/home/yan/Downloads/input/case6"  # 替换为你的文件夹路径
-    rename_view_images(directory)
+# 使用方法
+directory_path = "/home/yan/BestMan/BestMan_Pybullet/image/image_dataset/view_5_fridge"  # 将此路径替换为你的文件夹路径
+batch_rename(directory_path)

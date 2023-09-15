@@ -54,7 +54,7 @@ class PbClient:
             numSolverIterations=1000
         )  # Set the number of constraint solver iterations; Higher values increase precision but also increase computation time
         
-        # p.loadURDF("plane.urdf")
+        p.loadURDF("plane.urdf")
 
         # parameters for base
         self.frequency = 240 * 2  # simulation step for base and arm

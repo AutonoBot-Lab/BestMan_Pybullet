@@ -1,9 +1,0 @@
-Bottle
-BottleTest
-Drinks
-MilkBottle
-OilBottle
-VinegarBottle
-blue_moon
-lipton_tea
-pitcher

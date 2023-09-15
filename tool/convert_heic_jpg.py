@@ -18,5 +18,5 @@ def convert_heic_to_jpg(directory):
         subprocess.run(["heif-convert", input_path, output_path], check=True)
 
 if __name__ == "__main__":
-    directory = "/home/yan/Downloads/input/case4"  # 替换为你的文件夹路径
+    directory = "/home/yan/BestMan/BestMan_Pybullet/image/input_heic"  # 替换为你的文件夹路径
     convert_heic_to_jpg(directory)
