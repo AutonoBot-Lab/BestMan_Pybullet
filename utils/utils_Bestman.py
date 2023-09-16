@@ -109,7 +109,7 @@ class Bestman:
 
         # Initialize PID controller
         self.target_distance = 0.0
-        self.controller = PIDController(Kp=0.01, Ki=0.0, Kd=0.0, setpoint=self.target_distance)
+        self.distance_controller = PIDController(Kp=0.01, Ki=0.0, Kd=0.0, setpoint=self.target_distance)
         self.rotated = False
 
         # Initialize base
@@ -862,8 +862,8 @@ class Bestman:
             distance = math.sqrt((x - target.x) ** 2 + (y - target.y) ** 2)
             yaw = math.atan2(target.y - y, target.x - x)
 
-            self.controller.set_goal(self.target_distance)
-            output = self.controller.calculate(distance)
+            self.distance_controller.set_goal(self.target_distance)
+            output = self.distance_controller.calculate(distance)
 
             if not self.rotated:
                 # print('Step into orientation changing')
