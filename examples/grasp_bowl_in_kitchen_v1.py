@@ -35,6 +35,7 @@ else:
 
 pb_client = PbClient(enable_GUI=True, enable_Debug=True)
 pb_client.enable_vertical_view(2.2, [1.9, 7.35, 1.54], yaw=88.8, pitch=-31.5)
+pb_client.draw_axes()
 pb_visualizer = PbVisualizer(pb_client)
 # logID = pb_client.start_record("example_manipulation") # start recording
 init_pose = Pose([1, 0, 0], [0.0, 0.0, math.pi / 2])
@@ -55,7 +56,7 @@ ompl = PbOMPL(
     joint_idx=demo.arm_joint_indexs,
     tcp_link=demo.tcp_link,
     obstacles=[],
-    planner="RRTConnect",
+    planner="BITstar",
     threshold=threshold_distance,
 )
 
@@ -74,14 +75,14 @@ _, _, min_z, _, _, max_z = pb_client.get_bounding_box(bowl_id)
 bowl_position[2] = max_z + demo.tcp_height # consider tcp's height
 
 # navigate to standing position
-standing_position = [1.2, 4.2, 0]  # TODO: how to automatically compute it
+standing_position = [1.3, 4.2, 0]  # TODO: how to automatically compute it
 standing_orientation = [0.0, 0.0, math.pi/2]
 demo.navigate_base(Pose(standing_position, standing_orientation))
 
 # set target object for grasping
 ompl.set_target(bowl_id)
-# target_orientation = [0.0, math.pi / 2.0, 0.0] # vertical
-target_orientation = [0.0, math.pi, 0.0] # horizontal
+target_orientation = [0.0, math.pi / 2.0, 0.0] # vertical
+# target_orientation = [0.0, math.pi, 0.0] # horizontal
 goal = demo.cartesian_to_joints(position=bowl_position, orientation=target_orientation)
 print("-" * 20 + "\n" + "Goal configuration:{}".format(goal))
 

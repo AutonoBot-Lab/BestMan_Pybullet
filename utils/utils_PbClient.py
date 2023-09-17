@@ -88,6 +88,50 @@ class PbClient:
     # ----------------------------------------------------------------
     # Visualization functions
     # ----------------------------------------------------------------
+    def draw_axes(self, length=2.0, lineWidth=2.0, textSize=3.0):
+        """
+        Draws the x and y axes in the PyBullet environment with text labels.
+
+        Parameters:
+        - length (float): Length of the axes.
+        - lineWidth (float): Width of the axes lines.
+        - textSize (float): Size of the text labels.
+        """
+        origin = [0, 0, 0]  # The start point of the axes
+
+        # Drawing the X-axis (in red)
+        p.addUserDebugLine(
+            lineFromXYZ=origin,
+            lineToXYZ=[length, 0, 0],
+            lineColorRGB=[1, 0, 0],
+            lineWidth=lineWidth,
+            physicsClientId=self.client_id
+        )
+
+        # Drawing the Y-axis (in green)
+        p.addUserDebugLine(
+            lineFromXYZ=origin,
+            lineToXYZ=[0, length, 0],
+            lineColorRGB=[0, 1, 0],
+            lineWidth=lineWidth,
+            physicsClientId=self.client_id
+        )
+
+        # Adding text labels
+        p.addUserDebugText(
+            text="X",
+            textPosition=[length + 0.1, 0, 0],
+            textColorRGB=[1, 0, 0],
+            textSize=textSize,
+            physicsClientId=self.client_id
+        )
+        p.addUserDebugText(
+            text="Y",
+            textPosition=[0, length + 0.1, 0],
+            textColorRGB=[0, 1, 0],
+            textSize=textSize,
+            physicsClientId=self.client_id
+        )
 
     def enable_vertical_view(self, dist, position, yaw=0, pitch=-89.9):
         """

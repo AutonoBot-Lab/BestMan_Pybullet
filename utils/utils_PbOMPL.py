@@ -308,14 +308,10 @@ class PbOMPL:
 
             if res:
                 self.pb_ompl_interface.execute(path, dynamics=True)
-                # Pause briefly to simulate real-time
-                time.sleep(0.1)
                 grasp_successful = True
                 print("After {} trials, finished.".format(trial))
-                # step simulation in a loop.
                 for _ in range(100):
                     p.stepSimulation()
-                    time.sleep(1.0 / 100.0)
 
     def reach_object(self, start, goal, end_effector_link_index):  # TODO refactor
         """
@@ -334,8 +330,6 @@ class PbOMPL:
             # Execute the path and attach the object to the robot
             if res:
                 self.pb_ompl_interface.execute(path)
-                # Pause briefly to simulate real-time
-                time.sleep(0.1)
                 # Check if the robot is close to the object
                 if self.tcp_link != -1:
                     distance = self.compute_distance(self.tcp_link)

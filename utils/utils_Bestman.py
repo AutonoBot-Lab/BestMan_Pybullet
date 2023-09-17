@@ -712,14 +712,14 @@ class Bestman:
                     self.sync_base_arm_pose()
 
                 p.stepSimulation(physicsClientId=self.client_id)
-                time.sleep(delay_time)
+                # time.sleep(1.0 / self.frequency)
 
             # Ensure final orientation is set accurately
             orientation = angle_to_quaternion(target_yaw)
             position, _ = p.getBasePositionAndOrientation(self.base_id, physicsClientId=self.client_id)
             p.resetBasePositionAndOrientation(self.base_id, position, orientation, physicsClientId=self.client_id)
             p.stepSimulation(physicsClientId=self.client_id)
-            time.sleep(delay_time)
+            # time.sleep(1.0 / self.frequency)
 
         else:
             orientation = angle_to_quaternion(target_yaw)
@@ -853,7 +853,7 @@ class Bestman:
                 physicsClientId=self.client_id,
             )
         p.stepSimulation(physicsClientId=self.client_id)
-        time.sleep(1.0 / self.frequency)
+        # time.sleep(1.0 / self.frequency)
     
     def execute_trajectory(self, trajectory):
         for joints_value in trajectory:
@@ -886,7 +886,6 @@ class Bestman:
 
         while True:
             p.stepSimulation(physicsClientId=self.client_id)
-            # time.sleep(1.0 / (self.frequency * 5))
 
             # Check if reach the goal
             current_angles = [
@@ -1004,7 +1003,7 @@ class Bestman:
                 break
 
             p.stepSimulation(physicsClientId=self.client_id)
-            time.sleep(1.0 / self.frequency)
+            # time.sleep(1.0 / self.frequency)
 
         print("-" * 20 + "\n" + "Rotation completed!")
 
@@ -1254,7 +1253,7 @@ class Bestman:
         
         for _ in range(10):
             p.stepSimulation(physicsClientId=self.client_id)
-            time.sleep(1.0 / self.frequency)
+            # time.sleep(1.0 / self.frequency)
 
 
     def calculate_IK_error(self, goal_position, goal_orientation):

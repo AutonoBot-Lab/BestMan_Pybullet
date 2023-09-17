@@ -168,7 +168,7 @@ class PbOMPL():
         #                                                 custom_limits={}, max_distance=0, allow_collision_links=[])
 
         self.set_obstacles(obstacles)
-        self.set_planner("RRT") # RRT by default
+        self.set_planner("RRTConnect") # RRT by default
 
     def set_obstacles(self, obstacles):
         self.obstacles = obstacles
@@ -296,9 +296,6 @@ class PbOMPL():
             else:
                 self.robot.set_state(q)
             p.stepSimulation()
-            time.sleep(0.01)
-
-
 
     # -------------
     # Configurations

@@ -54,7 +54,7 @@ ompl = PbOMPL(
     joint_idx=demo.arm_joint_indexs,
     tcp_link=demo.tcp_link,
     obstacles=[],
-    planner="RRTstar",
+    planner="BITstar",
     threshold=threshold_distance,
 )
 
