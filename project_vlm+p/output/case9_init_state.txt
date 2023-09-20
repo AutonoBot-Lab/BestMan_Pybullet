@@ -1,0 +1,2 @@
+initial_state={'view_2_object_on_table': [['on', 'cup', 'table']], 'view_3_microwave': [['not open', 'microwave'], ['not open', 'toaster']], 'view_4_cabinet': [['not open', 'cabinet']], 'view_5_fridge': [['open', 'fridge']]}
+PDDL: [['on', 'cup', 'table'], ['not open', 'microwave'], ['not open', 'toaster'], ['not open', 'cabinet'], ['open', 'fridge']]

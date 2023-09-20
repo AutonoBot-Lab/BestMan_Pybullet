@@ -1,0 +1,2 @@
+initial_state={'view_2_object_on_table': [['in', 'banana', 'bowl'], ['in', 'banana', 'plate'], ['on', 'banana', 'table'], ['on', 'bowl', 'table'], ['on', 'plate', 'table']], 'view_3_microwave': [['not open', 'microwave'], ['not open', 'toaster']], 'view_4_cabinet': [['open', 'cabinet']], 'view_5_fridge': [['open', 'fridge']]}
+PDDL: [['in', 'banana', 'bowl'], ['in', 'banana', 'plate'], ['on', 'banana', 'table'], ['on', 'bowl', 'table'], ['on', 'plate', 'table'], ['not open', 'microwave'], ['not open', 'toaster'], ['open', 'cabinet'], ['open', 'fridge']]
