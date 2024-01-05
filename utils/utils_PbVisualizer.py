@@ -176,6 +176,7 @@ class PbVisualizer:
         link_ids = [
             i for i in range(-1, p.getNumJoints(object_id, physicsClientId=self.client_id))
         ]
+        print(f'test: {link_ids}')
         for link_id in link_ids:
             aabb = p.getAABB(object_id, link_id)
             aabb_min = aabb[0]

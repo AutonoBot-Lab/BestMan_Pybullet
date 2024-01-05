@@ -384,10 +384,7 @@ class PbClient:
             The function prints the minimum and maximum x, y, z coordinates of the bounding box of the object.
         """
         link_ids = [
-            i
-            for i in range(
-                -1, p.getNumJoints(object_id, physicsClientId=self.client_id)
-            )
+            i for i in range(-1, p.getNumJoints(object_id, physicsClientId=self.client_id))
         ]
         min_x, min_y, min_z = float("inf"), float("inf"), float("inf")
         max_x, max_y, max_z = float("-inf"), float("-inf"), float("-inf")
