@@ -500,6 +500,19 @@ class PbVisualizer:
                 physicsClientId=self.client_id,
             )
 
+    def set_elementF_visual_color(self, elementF_id):
+        """
+        Set the color of element F (table) in the kitchen.
+        """
+        # link id:
+        for i in [-1, 0, 1, 2, 3]: # wood_light
+            p.changeVisualShape(
+                objectUniqueId=elementF_id,
+                linkIndex=i,
+                rgbaColor=colors["wood_light"],
+                physicsClientId=self.client_id,
+            )
+
     def visualize_path(self, path):
         # Reverse the path so that it goes from start to goal
         path = path[::-1]  # This line reverses the path

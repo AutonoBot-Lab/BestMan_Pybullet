@@ -1,9 +1,8 @@
 """
-@Description :   kitchen 0
+@Description :   kitchen 2
 @Author      :   Yan Ding 
-@Time        :   2023/08/30 23:01:42
+@Time        :   2024/01/07 16:51:36
 """
-
 
 import pybullet as p
 import pybullet_data
@@ -27,7 +26,7 @@ if os.path.basename(utils_path) != 'utils':
 sys.path.append(utils_path)
 from utils_PbVisualizer import PbVisualizer
 from utils_PbClient import PbClient
-from utils_PIDController import PIDController
+# from utils_PIDController import PIDController
 
 """
 Add kitchen
@@ -185,6 +184,165 @@ class Kitchen:
                 self.elementE_drawer_to_joint_id
             )
         )
+
+        # ----------------------------------------------------------------
+        # This is Element F (i.e., a table)
+        # ----------------------------------------------------------------
+        self.elementF_id = self.pb_client.load_object(
+            model_path="./URDF_models/furniture_table_rectangle_high/table.urdf",
+            object_position=[1.5, 2, 0],
+            object_orientation=[0, 0, math.pi/2.0],
+            scale=0.75,
+            obj_name='elementF',
+            fixed_base=True,
+        )
+        self.object_ids.append("elementF_id")
+
+        # ----------------------------------------------------------------
+        # This is Element G1 (i.e., chairs)
+        # ----------------------------------------------------------------
+        self.elementG1_id = self.pb_client.load_object(
+            model_path = "./URDF_models/furniture_chair/model.urdf",
+            object_position=[1.5, 2.8, 0],
+            object_orientation=[math.pi/2.0*3, 0.0, math.pi*1.5],
+            scale=1,
+            obj_name='elementG1',
+            fixed_base=True,
+        )
+        self.object_ids.append("elementG2_id")
+
+        self.elementG2_id = self.pb_client.load_object(
+            model_path = "./URDF_models/furniture_chair/model.urdf",
+            object_position=[2.1, 2, 0],
+            object_orientation=[math.pi/2.0*3, 0.0, math.pi],
+            scale=1,
+            obj_name='elementG2',
+            fixed_base=True,
+        )
+        self.object_ids.append("elementG2_id")
+
+        self.elementG3_id = self.pb_client.load_object(
+            model_path = "./URDF_models/furniture_chair/model.urdf",
+            object_position=[1.5, 1.0, 0],
+            object_orientation=[math.pi/2.0*3, 0.0, math.pi/2.0 ],
+            scale=1,
+            obj_name='elementG3',
+            fixed_base=True,
+        )
+        self.object_ids.append("elementG3_id")
+
+        # ----------------------------------------------------------------
+        # This is Element H (i.e., small objects)
+        # ----------------------------------------------------------------
+        self.elementH1_id = self.pb_client.load_object(
+            model_path = "./URDF_models/plastic_peach/model.urdf",
+            object_position = [1.8, 2.0, 0.8],
+            object_orientation = [0, 0, math.pi],
+            scale=1.1,
+            obj_name='Peach',
+            fixed_base=False,
+        )
+        self.object_ids.append("elementH1_id")
+
+        self.elementH2_id = self.pb_client.load_object(
+            model_path = "./URDF_models/bowl/model.urdf",
+            object_position = [1.7, 2.2, 0.8],
+            object_orientation = [0, 0, math.pi],
+            scale=1.1,
+            obj_name='Bowl_Target',
+            fixed_base=False,
+        )
+        self.object_ids.append("elementH2_id")
+
+        self.elementH3_id = self.pb_client.load_object(
+            model_path = "./URDF_models/plastic_banana/model.urdf",
+            object_position = [1.6, 1.8, 0.8],
+            object_orientation = [0, 0, math.pi],
+            scale=1.0,
+            obj_name='Banana',
+            fixed_base=False,
+        )
+        self.object_ids.append("elementH3_id")
+
+        self.elementH4_id = self.pb_client.load_object(
+            model_path = "./URDF_models/plastic_orange/model.urdf",
+            object_position = [1.7, 1.7, 0.8],
+            object_orientation = [0, 0, 0],
+            scale=1.0,
+            obj_name='Bread',
+            fixed_base=False,
+        )
+        self.object_ids.append("elementH4_id")
+
+        self.elementH5_id = self.pb_client.load_object(
+            model_path = "./URDF_models/plastic_lemon/model.urdf",
+            object_position = [1.8, 1.8, 0.8],
+            object_orientation = [0, 0, 0],
+            scale=1.0,
+            obj_name='Lemon',
+            fixed_base=False,
+        )
+        self.object_ids.append("elementH5_id")
+
+        self.elementH6_id = self.pb_client.load_object(
+            model_path = "./URDF_models/round_plate_2/model.urdf",
+            object_position = [1.3, 1.8, 0.8],
+            object_orientation = [0, 0, 0],
+            scale=1.0,
+            obj_name='round_plate_2',
+            fixed_base=False,
+        )
+        self.object_ids.append("elementH6_id")
+
+        self.elementH7_id = self.pb_client.load_object(
+            model_path = "./URDF_models/mug/model.urdf",
+            object_position = [3.9, 4.6, 1.0],
+            object_orientation = [0, 0, 0],
+            scale=1.3,
+            obj_name='mug',
+            fixed_base=False,
+        )
+        self.object_ids.append("elementH7_id")
+
+        self.elementH8_id = self.pb_client.load_object(
+            model_path = "./URDF_models/toothpaste_1/model.urdf",
+            object_position = [3.9, 4.9, 1.0],
+            object_orientation = [math.pi, 0, 0],
+            scale=1.0,
+            obj_name='toothpaste_1',
+            fixed_base=False,
+        )
+        self.object_ids.append("elementH8_id")  
+
+        self.elementH9_id = self.pb_client.load_object(
+            model_path = "./URDF_models/pudding_box/model.urdf",
+            object_position = [4.0, 0.8, 1.0],
+            object_orientation = [math.pi, 0, 0],
+            scale=1.0,
+            obj_name='pudding_box',
+            fixed_base=False,
+        )
+        self.object_ids.append("elementH9_id")
+
+        self.elementH10_id = self.pb_client.load_object(
+            model_path = "./URDF_models/sugar_box/model.urdf",
+            object_position = [3.8, 0.7, 1.0],
+            object_orientation = [math.pi, 0, 0],
+            scale=1.0,
+            obj_name='sugar_box',
+            fixed_base=False,
+        )
+        self.object_ids.append("elementH10_id")
+
+        # self.elementH11_id = self.pb_client.load_object(
+        #     model_path = "./Kitchen_models/models/MilkBottle/4043/mobility.urdf",
+        #     object_position = [4.1, 5.42, 1.5],
+        #     object_orientation = [0.0, 0, 0],
+        #     scale=0.1,
+        #     obj_name='MilkBottle',
+        #     fixed_base=False,
+        # )
+        # self.object_ids.append("elementH11_id")
 
         # ----------------------------------------------------------------
         # Set element A B C D E colors
