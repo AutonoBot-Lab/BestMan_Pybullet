@@ -33,7 +33,7 @@ colors = {
     "light_grey": [0.9, 0.9, 0.9, 1],
     "grey": [0.56, 0.56, 0.56, 1],
     "dark_grey": [0.13, 0.13, 0.13, 1],
-    "blue": [0.0, 0.19, 0.56, 1.0],
+    "blue": [0.53, 0.81, 0.92, 1.0],
     "light_blue" : [0.9, 0.9, 1, 1],
     "light_white" : [.98, .98, .98, 1.0],
     "white" : [1, 1, 1, 1.0],
@@ -323,20 +323,45 @@ class PbVisualizer:
             p.changeVisualShape(
                 objectUniqueId=base_id,
                 linkIndex=i,
-                rgbaColor=colors["light_white"],
+                rgbaColor=colors["white"],
                 physicsClientId=self.client_id,
             )
         """
         Set the color of arm
         """
-        for i in [-1, 1, 3, 5, 7, 9, 11, 13]:
+        for i in range(10):
             p.changeVisualShape(
-                objectUniqueId=arm_id, linkIndex=i, rgbaColor=colors["light_white"]
+                objectUniqueId=arm_id,
+                linkIndex=i,
+                rgbaColor=colors["white"],
+                physicsClientId=self.client_id,
             )
-        for i in [0, 2, 4, 6, 8, 10, 12, 14]:
-            p.changeVisualShape(
-                objectUniqueId=arm_id, linkIndex=i, rgbaColor=colors["black"]
-            )
+        p.changeVisualShape(
+            objectUniqueId=arm_id,
+            linkIndex=0,
+            rgbaColor=colors["blue"],
+            physicsClientId=self.client_id,
+        )
+        p.changeVisualShape(
+            objectUniqueId=arm_id,
+            linkIndex=3,
+            rgbaColor=colors["blue"],
+            physicsClientId=self.client_id,
+        )
+        p.changeVisualShape(
+            objectUniqueId=arm_id,
+            linkIndex=6,
+            rgbaColor=colors["blue"],
+            physicsClientId=self.client_id,
+        )
+        # for i in [-1, 1, 3, 5, 7, 9, 11, 13]:
+        #     p.changeVisualShape(
+        #         objectUniqueId=arm_id, linkIndex=i, rgbaColor=colors["white"]
+        #     )
+        # for i in [0, 2, 4, 6, 8, 10, 12, 14]:
+        #     p.changeVisualShape(
+        #         objectUniqueId=arm_id, linkIndex=i, rgbaColor=colors["blue"]
+        #     )
 
     def set_arm_color_light(self, arm_id):
         """

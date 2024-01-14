@@ -190,7 +190,8 @@ class Kitchen:
         # This is Element F (i.e., a table)
         # ----------------------------------------------------------------
         self.elementF_id = self.pb_client.load_object(
-            model_path="./URDF_models/furniture_table_rectangle_high_nocolor/table.urdf",
+            # model_path="./URDF_models/furniture_table_rectangle_high_nocolor/table.urdf",
+            model_path="./URDF_models/furniture_table_rectangle_high/table.urdf",
             object_position=[1.5, 2, 0],
             object_orientation=[0, 0, math.pi/2.0],
             scale=0.75,
@@ -344,16 +345,6 @@ class Kitchen:
             fixed_base=False,
         )
         self.object_ids.append("elementH10_id")
-
-        # self.elementH11_id = self.pb_client.load_object(
-        #     model_path = "./Kitchen_models/models/MilkBottle/4043/mobility.urdf",
-        #     object_position = [4.1, 5.42, 1.5],
-        #     object_orientation = [0.0, 0, 0],
-        #     scale=0.1,
-        #     obj_name='MilkBottle',
-        #     fixed_base=False,
-        # )
-        # self.object_ids.append("elementH11_id")
 
         # ----------------------------------------------------------------
         # Set element A B C D E colors

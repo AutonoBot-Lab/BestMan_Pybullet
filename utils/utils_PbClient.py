@@ -54,8 +54,9 @@ class PbClient:
         p.setPhysicsEngineParameter(
             numSolverIterations=1000
         )  # Set the number of constraint solver iterations; Higher values increase precision but also increase computation time
-        # planeId = p.loadURDF("plane.urdf")
-        planeId = p.loadURDF("./Kitchen_models/greyPlane/plane.urdf")
+        planeId = p.loadURDF("plane.urdf")
+        # planeId = p.loadURDF("./Kitchen_models/greyPlane/plane.urdf")
+        # planeId = p.loadURDF("./Kitchen_models/whitePlane/plane.urdf")
 
         # parameters for base
         self.frequency = 240 * 2  # simulation step for base and arm
