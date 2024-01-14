@@ -34,13 +34,17 @@ elif index == 2:
 else:
     assert False, "index should be 0, 1 or 2"
 
-pb_client = PbClient(enable_GUI=True, enable_Debug=True)
-# pb_client = PbClient(enable_GUI=True)
+# pb_client = PbClient(enable_GUI=True, enable_Debug=True)
+pb_client = PbClient(enable_GUI=True)
 # pb_client.enable_vertical_view(1.0, [2.61, 5.33, 1.29], -90, -29.9) # view 1
-pb_client.enable_vertical_view(2.6, [2.80, 4.69, 1.20], -89.9, -89.9) # view 2
+# pb_client.enable_vertical_view(2.0, [2.80, 4.69, 1.20], -89.9, -89.9) # view 2
+# pb_client.enable_vertical_view(2.0, [2.80, 5.5, 1.20], -89.9, -89.9) # view 3
+pb_client.enable_vertical_view(2.6, [1.80, 2.25, 1.20], -89.9, -89.9) # view 4
 pb_visualizer = PbVisualizer(pb_client)
 # logID = pb_client.start_record("example_manipulation") # start recording
 init_pose = Pose([2, 8, 0], [0.0, 0.0, math.pi / 2])
+# init_pose = Pose([2.5, 1.5, 0], [0.0, 0.0, math.pi / 2]) # example 4
+# init_pose = Pose([0.5, 1.7, 0], [0.0, 0.0, 0.0]) # example 5
 demo = Bestman(init_pose, pb_client)  # load robot
 demo.get_joint_link_info("arm")  # get info about arm
 init_joint = [0, -1.57, 2.0, -1.57, -1.57, 0]
@@ -51,7 +55,7 @@ kitchen = Kitchen(pb_client)
 print("object ids in loaded kitchen:\n{}".format(kitchen.object_ids))
 
 # load OMPL planner
-threshold_distance = 0.1
+threshold_distance = 0.05
 ompl = PbOMPL(
     pb_client=pb_client,
     arm_id=demo.arm_id,
@@ -67,7 +71,7 @@ ompl.add_scene_obstacles(display=True)
 ompl.check_obstacles()
 
 # open fridge
-kitchen.open_it("elementE", 1)
+kitchen.open_it("elementE", 1, open_angle=math.pi/4)
 
 # load bowl
 MilkBottle_position = [3.95, 5.42, 1.05]  # TODO: object goes flying
@@ -84,21 +88,31 @@ MilkBottle_position[2] = max_z + demo.tcp_height # consider tcp's height
 # demo.navigate_base(Pose(standing_position, standing_orientation))
 
 # example 2: behind fridge door
-standing_position = [3.0, 4.5, 0]
-standing_orientation = [0.0, 0.0, 0.0]
-demo.navigate_base(Pose(standing_position, standing_orientation))
-
-# example 3: correct
-# standing_position = [3.3, 6.0, 0]
+# standing_position = [3.0, 4.5, 0]
 # standing_orientation = [0.0, 0.0, 0.0]
 # demo.navigate_base(Pose(standing_position, standing_orientation))
 
+# example 3: correct
+# standing_position = [3.0, 5.7, 0]
+# standing_orientation = [0.0, 0.0, 0.0]
+# demo.navigate_base(Pose(standing_position, standing_orientation))
+
+# example 3: correct
+# standing_position = [2.8, 5.6, 0]
+# standing_orientation = [0.0, 0.0, 0.0]
+# demo.navigate_base(Pose(standing_position, standing_orientation))
+
+# example 4: far from table
+standing_position = [2.15, 3.2, 0]
+standing_orientation = [0.0, 0.0, math.pi/4*5]
+demo.navigate_base(Pose(standing_position, standing_orientation))
+
 # set target object for grasping
-ompl.set_target(MilkBottle_id)
-target_orientation = [0.0, math.pi / 2.0, 0.0] # vertical
-# target_orientation = [0.0, math.pi, 0.0] # horizontal
-goal = demo.cartesian_to_joints(position=MilkBottle_position, orientation=target_orientation)
-print("-" * 20 + "\n" + "Goal configuration:{}".format(goal))
+# ompl.set_target(MilkBottle_id)
+# target_orientation = [0.0, math.pi / 2.0, 0.0] # vertical
+# # target_orientation = [0.0, math.pi, 0.0] # horizontal
+# goal = demo.cartesian_to_joints(position=MilkBottle_position, orientation=target_orientation)
+# print("-" * 20 + "\n" + "Goal configuration:{}".format(goal))
 
 # reach target object
 # result = ompl.reach_object(start=demo.get_arm_joint_angle(), goal=goal, end_effector_link_index=demo.end_effector_index)

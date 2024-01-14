@@ -39,8 +39,11 @@ class PbClient:
         """
         if enable_GUI:
             if enable_capture:
-                width, height = 1800, 1000
+                width, height = 1920, 1080
                 self.client_id = p.connect(p.GUI, options=f'--width={width} --height={height}')
+                p.configureDebugVisualizer(p.COV_ENABLE_GUI, 0)
+                p.configureDebugVisualizer(p.COV_ENABLE_SHADOWS, 1)
+                p.configureDebugVisualizer(p.COV_ENABLE_WIREFRAME, 0)
             else:
                 self.client_id = p.connect(p.GUI)
         else:
@@ -53,9 +56,8 @@ class PbClient:
         p.setPhysicsEngineParameter(
             numSolverIterations=1000
         )  # Set the number of constraint solver iterations; Higher values increase precision but also increase computation time
-        
-        planeId = p.loadURDF("plane.urdf")
-        # p.changeVisualShape(planeId, -1, rgbaColor=[0.5, 0.5, 0.5, 1])
+        # planeId = p.loadURDF("plane.urdf")
+        planeId = p.loadURDF("./Kitchen_models/greyPlane/plane.urdf")
 
         # parameters for base
         self.frequency = 240 * 2  # simulation step for base and arm

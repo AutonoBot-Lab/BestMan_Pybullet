@@ -38,6 +38,18 @@ class Kitchen:
         self.client_id = self.pb_client.get_client()
         
         self.object_ids = [] # store object id in loaded kitchen scene
+
+        print('!'*50)
+        self.elementG1_id = self.pb_client.load_object(
+            model_path = "./URDF_models/test/model.urdf",
+            object_position=[1.5, 2.8, 0],
+            object_orientation=[0, 0.0, math.pi*1.5],
+            scale=1,
+            obj_name='elementG1',
+            fixed_base=True,
+        )
+        self.object_ids.append("elementG2_id")
+
         # ----------------------------------------------------------------
         # This is Element A, where there are a oven, and a few drawers
         # ----------------------------------------------------------------
@@ -201,19 +213,19 @@ class Kitchen:
         # ----------------------------------------------------------------
         # This is Element G1 (i.e., chairs)
         # ----------------------------------------------------------------
-        self.elementG1_id = self.pb_client.load_object(
-            model_path = "./URDF_models/furniture_chair/model.urdf",
-            object_position=[1.5, 2.8, 0],
-            object_orientation=[math.pi/2.0*3, 0.0, math.pi*1.5],
-            scale=1,
-            obj_name='elementG1',
-            fixed_base=True,
-        )
-        self.object_ids.append("elementG2_id")
+        # self.elementG1_id = self.pb_client.load_object(
+        #     model_path = "./URDF_models/furniture_chair/model.urdf",
+        #     object_position=[1.5, 2.8, 0],
+        #     object_orientation=[math.pi/2.0*3, 0.0, math.pi*1.5],
+        #     scale=1,
+        #     obj_name='elementG1',
+        #     fixed_base=True,
+        # )
+        # self.object_ids.append("elementG2_id")
 
         self.elementG2_id = self.pb_client.load_object(
             model_path = "./URDF_models/furniture_chair/model.urdf",
-            object_position=[2.1, 2, 0],
+            object_position=[2.1, 2.2, 0],
             object_orientation=[math.pi/2.0*3, 0.0, math.pi],
             scale=1,
             obj_name='elementG2',
@@ -224,12 +236,22 @@ class Kitchen:
         self.elementG3_id = self.pb_client.load_object(
             model_path = "./URDF_models/furniture_chair/model.urdf",
             object_position=[1.5, 1.0, 0],
-            object_orientation=[math.pi/2.0*3, 0.0, math.pi/2.0 ],
+            object_orientation=[math.pi/2.0*3, 0.0, math.pi/2.0],
             scale=1,
             obj_name='elementG3',
             fixed_base=True,
         )
         self.object_ids.append("elementG3_id")
+
+        self.elementG4_id = self.pb_client.load_object(
+            model_path = "./URDF_models/furniture_chair/model.urdf",
+            object_position=[2.1, 2.7, 0],
+            object_orientation=[math.pi/2.0*3, 0.0, math.pi],
+            scale=1,
+            obj_name='elementG4',
+            fixed_base=True,
+        )
+        self.object_ids.append("elementG4_id")
 
         # ----------------------------------------------------------------
         # This is Element H (i.e., small objects)
@@ -361,7 +383,8 @@ class Kitchen:
     def open_it(self, elementName, drawer_id, open_angle=None):
         if elementName == "elementA":
             joint_id = self.elementA_drawer_to_joint_id[drawer_id]
-            open_angle = self.elementA_drawer_to_joint_limits[drawer_id][1]
+            if open_angle is None:
+                open_angle = self.elementA_drawer_to_joint_limits[drawer_id][1]
             print('elementA: joint_id:{}, open_angle:{}'.format(joint_id, open_angle))
             p.setJointMotorControl2(
                 bodyIndex=self.elementA_id,
@@ -372,7 +395,8 @@ class Kitchen:
             )
         elif elementName == "elementC":
             joint_id = self.elementC_drawer_to_joint_id[drawer_id]
-            open_angle = self.elementC_drawer_to_joint_limits[drawer_id][1]
+            if open_angle is None:
+                open_angle = self.elementC_drawer_to_joint_limits[drawer_id][1]
             print('elementC: joint_id:{}, open_angle:{}'.format(joint_id, open_angle))
             p.setJointMotorControl2(
                 bodyIndex=self.elementC_id,
@@ -383,7 +407,8 @@ class Kitchen:
             )
         elif elementName == "elementD":
             joint_id = self.elementD_drawer_to_joint_id[drawer_id]
-            open_angle = self.elementD_drawer_to_joint_limits[drawer_id][1]
+            if open_angle is None:
+                open_angle = self.elementD_drawer_to_joint_limits[drawer_id][1]
             print('elementD (open): joint_id:{}, open_angle:{}'.format(joint_id, open_angle))
             p.setJointMotorControl2(
                 bodyIndex=self.elementD_id,
@@ -394,7 +419,8 @@ class Kitchen:
             )
         elif elementName == "elementE":
             joint_id = self.elementE_drawer_to_joint_id[drawer_id]
-            open_angle = self.elementE_drawer_to_joint_limits[drawer_id][1]
+            if open_angle is None:
+                open_angle = self.elementE_drawer_to_joint_limits[drawer_id][1]
             print('elementE: joint_id:{}, open_angle:{}'.format(joint_id, open_angle))
             p.setJointMotorControl2(
                 bodyIndex=self.elementE_id,
