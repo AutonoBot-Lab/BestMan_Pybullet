@@ -24,20 +24,16 @@ Visualization class
 
 # color list
 colors = {
-    "light_white": [1, 1, 1, 1],
+    "white": [1, 1, 1, 1],
     "wood_light": [0.87, 0.72, 0.53, 1],
     "wood_heavy": [0.4, 0.26, 0.13, 1],
     "stainless_steel": [0.59, 0.59, 0.59, 1],
     "wood_dark": [0.4, 0.26, 0.13, 1],
     "cream": [1, 0.99, 0.82, 1],
-    "light_grey": [0.9, 0.9, 0.9, 1],
-    "grey": [0.56, 0.56, 0.56, 1],
-    "dark_grey": [0.13, 0.13, 0.13, 1],
-    "blue": [0.0, 0.19, 0.56, 1.0],
+    "grey": [0.86, 0.86, 0.86, 1],
+    "blue": [0.53, 0.81, 0.92, 1.0],
     "light_blue" : [0.9, 0.9, 1, 1],
-    "light_white" : [.98, .98, .98, 1.0],
-    "white" : [1, 1, 1, 1.0],
-    "black" : [0, 0, 0, 1],
+    "light_white" : [1, 1, 1, 0.5]
 }
 
 class PbVisualizer:
@@ -294,7 +290,7 @@ class PbVisualizer:
         else:
             for i in range(15):
                 p.changeVisualShape(
-                    objectUniqueId=arm_id, linkIndex=i, rgbaColor=colors["light_white"]
+                    objectUniqueId=arm_id, linkIndex=i, rgbaColor=colors["white"]
                 )
             p.changeVisualShape(
                 objectUniqueId=arm_id,
@@ -315,6 +311,7 @@ class PbVisualizer:
                 physicsClientId=self.client_id,
             )
 
+
     def set_robot_visual_color(self, base_id, arm_id):
         """
         # Set the color of base
@@ -323,20 +320,53 @@ class PbVisualizer:
             p.changeVisualShape(
                 objectUniqueId=base_id,
                 linkIndex=i,
-                rgbaColor=colors["light_white"],
+                rgbaColor=colors["white"],
                 physicsClientId=self.client_id,
             )
+        p.changeVisualShape(
+            objectUniqueId=base_id,
+            linkIndex=4,
+            rgbaColor=colors["grey"],
+            physicsClientId=self.client_id,
+        )
+        p.changeVisualShape(
+            objectUniqueId=base_id,
+            linkIndex=5,
+            rgbaColor=colors["grey"],
+            physicsClientId=self.client_id,
+        )
+        p.changeVisualShape(
+            objectUniqueId=base_id,
+            linkIndex=6,
+            rgbaColor=colors["grey"],
+            physicsClientId=self.client_id,
+        )
+
         """
         Set the color of arm
         """
-        for i in [-1, 1, 3, 5, 7, 9, 11, 13]:
+        for i in range(15):
             p.changeVisualShape(
-                objectUniqueId=arm_id, linkIndex=i, rgbaColor=colors["light_white"]
+                objectUniqueId=arm_id, linkIndex=i, rgbaColor=colors["white"]
             )
-        for i in [0, 2, 4, 6, 8, 10, 12, 14]:
-            p.changeVisualShape(
-                objectUniqueId=arm_id, linkIndex=i, rgbaColor=colors["black"]
-            )
+        p.changeVisualShape(
+            objectUniqueId=arm_id,
+            linkIndex=0,
+            rgbaColor=colors["blue"],
+            physicsClientId=self.client_id,
+        )
+        p.changeVisualShape(
+            objectUniqueId=arm_id,
+            linkIndex=3,
+            rgbaColor=colors["blue"],
+            physicsClientId=self.client_id,
+        )
+        p.changeVisualShape(
+            objectUniqueId=arm_id,
+            linkIndex=6,
+            rgbaColor=colors["blue"],
+            physicsClientId=self.client_id,
+        )
 
     def set_arm_color_light(self, arm_id):
         """
@@ -369,51 +399,43 @@ class PbVisualizer:
         """
         Set the color of element A (oven, container) in the kitchen.
         """
-        for i in [1]: # center counter
+        for i in [1, 8, 9, 10, 11]: # white
             p.changeVisualShape(
                 objectUniqueId=elementA_id,
                 linkIndex=i,
-                rgbaColor=colors["light_white"],
-                physicsClientId=self.client_id,
-            )
-        
-        for i in [2]: # oven base
-            p.changeVisualShape(
-                objectUniqueId=elementA_id,
-                linkIndex=i,
-                rgbaColor=colors["light_white"],
+                rgbaColor=colors["white"],
                 physicsClientId=self.client_id,
             )
 
-        for i in [3, 4, 5, 6]: # four ovens
+        for i in [2]: # wood_light
+            p.changeVisualShape(
+                objectUniqueId=elementA_id,
+                linkIndex=i,
+                rgbaColor=colors["wood_light"],
+                physicsClientId=self.client_id,
+            )
+
+        for i in [3, 4, 5, 6]: # stainless_steel
             p.changeVisualShape(
                 objectUniqueId=elementA_id,
                 linkIndex=i,
                 rgbaColor=colors["stainless_steel"],
                 physicsClientId=self.client_id,
             )
-
-        for i in [7]: # rectangle where buttons are on
+        
+        for i in [7]: # wood_dark
             p.changeVisualShape(
                 objectUniqueId=elementA_id,
                 linkIndex=i,
                 rgbaColor=colors["wood_dark"],
                 physicsClientId=self.client_id,
             )
-
-        for i in [8, 9, 10, 11]: # four buttons
-            p.changeVisualShape(
-                objectUniqueId=elementA_id,
-                linkIndex=i,
-                rgbaColor=colors["black"],
-                physicsClientId=self.client_id,
-            )
         
-        for i in [30, 33, 34, 42, 43]: # left and right counter 
+        for i in [30, 33, 34, 42, 43]: # wood_light
             p.changeVisualShape(
                 objectUniqueId=elementA_id,
                 linkIndex=i,
-                rgbaColor=colors["light_white"],
+                rgbaColor=colors["wood_light"],
                 physicsClientId=self.client_id,
             )
 
@@ -426,7 +448,7 @@ class PbVisualizer:
             p.changeVisualShape(
                 objectUniqueId=elementB_id,
                 linkIndex=i,
-                rgbaColor=colors["light_white"],
+                rgbaColor=colors["white"],
                 physicsClientId=self.client_id,
             )
 
@@ -435,11 +457,11 @@ class PbVisualizer:
         Set the color of element C (dishwasher) in the kitchen.
         """
         # link id:
-        for i in [-1, 0, 1, 2, 3, 4, 5]:
+        for i in [0, 1]: # wood_light
             p.changeVisualShape(
                 objectUniqueId=elementC_id,
                 linkIndex=i,
-                rgbaColor=colors["light_white"],
+                rgbaColor=colors["white"],
                 physicsClientId=self.client_id,
             )
     
@@ -448,16 +470,16 @@ class PbVisualizer:
         Set the color of element D (microwave) in the kitchen.
         """
         # link id:
-        for i in [0]: # back
+        for i in [0]: # wood_light
             p.changeVisualShape(
                 objectUniqueId=elementD_id,
                 linkIndex=i,
-                rgbaColor=colors["light_white"],
+                rgbaColor=colors["grey"],
                 physicsClientId=self.client_id,
             )
         
         # link id:
-        for i in [1]: # door
+        for i in [1]: # wood_light
             p.changeVisualShape(
                 objectUniqueId=elementD_id,
                 linkIndex=i,
@@ -470,11 +492,11 @@ class PbVisualizer:
         Set the color of element E (fridge) in the kitchen.
         """
         # link id:
-        for i in [-1, 0, 1, 2, 3, 4, 5, 6]: # wood_light
+        for i in [0, 1, 2, 3]: # wood_light
             p.changeVisualShape(
                 objectUniqueId=elementE_id,
                 linkIndex=i,
-                rgbaColor=colors["light_white"],
+                rgbaColor=colors["white"],
                 physicsClientId=self.client_id,
             )
 
@@ -483,11 +505,11 @@ class PbVisualizer:
         Set the color of element F (table) in the kitchen.
         """
         # link id:
-        for i in [-1, 0, 1, 2, 3]:
+        for i in [-1, 0, 1, 2, 3]: # grey
             p.changeVisualShape(
                 objectUniqueId=elementF_id,
                 linkIndex=i,
-                rgbaColor=colors["light_white"],
+                rgbaColor=colors["white"],
                 physicsClientId=self.client_id,
             )
     
@@ -496,7 +518,7 @@ class PbVisualizer:
         Set the color of element G (Chair) in the kitchen.
         """
         # link id:
-        for i in [-1]: # light_white
+        for i in [-1]: # white
             p.changeVisualShape(
                 objectUniqueId=elementG_id,
                 linkIndex=i,

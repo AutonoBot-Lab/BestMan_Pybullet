@@ -31,14 +31,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="./meshes/segbot/rmp50-base-link.dae" scale="0.0254 0.0254 0.0254"/>
+        <mesh filename="./meshes/segbot/rmp50-base-link.obj" scale="0.0254 0.0254 0.0254"/>
       </geometry>
     </visual>
     <!-- segbot_base_link_collision -->
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="./meshes/segbot/rmp50-base-link.dae" scale="0.0254 0.0254 0.0254"/>
+        <mesh filename="./meshes/segbot/rmp50-base-link.obj" scale="0.0254 0.0254 0.0254"/>
       </geometry>
     </collision>
   </link>
@@ -75,13 +75,13 @@
     <visual>
       <origin xyz="0 0 0.6" rpy="0 0 0" />
       <geometry>
-        <mesh filename="./meshes/segbot/plate.dae" scale="0.05 0.05 0.05" />
+        <mesh filename="./meshes/segbot/plate.obj" scale="0.05 0.05 0.05" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="./meshes/segbot/plate.dae" scale="0.05 0.05 0.05"/>
+        <mesh filename="./meshes/segbot/plate.obj" scale="0.05 0.05 0.05"/>
       </geometry>
     </collision>
   </link>
@@ -116,14 +116,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="./meshes/segbot/rmp50-castor-link.dae" scale="0.0254 0.0254 0.0254"/>
+        <mesh filename="./meshes/segbot/rmp50-castor-link.obj" scale="0.0254 0.0254 0.0254"/>
       </geometry>
     </visual>
     <!-- segbot_castor_support_link_collision -->
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="./meshes/segbot/rmp50-castor-link.dae" scale="0.0254 0.0254 0.0254"/>
+        <mesh filename="./meshes/segbot/rmp50-castor-link.obj" scale="0.0254 0.0254 0.0254"/>
       </geometry>
     </collision>
   </link>
@@ -151,14 +151,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="./meshes/segbot/rmp50-castor-wheel.dae" scale="0.0254 0.0254 0.0254"/>
+        <mesh filename="./meshes/segbot/rmp50-castor-wheel.obj" scale="0.0254 0.0254 0.0254"/>
       </geometry>
     </visual>
     <!-- segbot_castor_wheel_link_collision -->
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="./meshes/segbot/rmp50-castor-wheel.dae" scale="0.0254 0.0254 0.0254"/>
+        <mesh filename="./meshes/segbot/rmp50-castor-wheel.obj" scale="0.0254 0.0254 0.0254"/>
       </geometry>
     </collision>
   </link>
@@ -186,7 +186,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="./meshes/segbot/rmp50-left-wheel.dae" scale="0.0254 0.0254 0.0254"/>
+        <mesh filename="./meshes/segbot/rmp50-left-wheel.obj" scale="0.0254 0.0254 0.0254"/>
       </geometry>
     </visual>
   </link>
@@ -214,7 +214,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="./meshes/segbot/rmp50-right-wheel.dae" scale="0.0254 0.0254 0.0254"/>
+        <mesh filename="./meshes/segbot/rmp50-right-wheel.obj" scale="0.0254 0.0254 0.0254"/>
       </geometry>
     </visual>
   </link>

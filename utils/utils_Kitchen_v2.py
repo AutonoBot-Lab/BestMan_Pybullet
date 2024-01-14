@@ -39,17 +39,6 @@ class Kitchen:
         
         self.object_ids = [] # store object id in loaded kitchen scene
 
-        print('!'*50)
-        self.elementG1_id = self.pb_client.load_object(
-            model_path = "./URDF_models/test/model.urdf",
-            object_position=[1.5, 2.8, 0],
-            object_orientation=[0, 0.0, math.pi*1.5],
-            scale=1,
-            obj_name='elementG1',
-            fixed_base=True,
-        )
-        self.object_ids.append("elementG2_id")
-
         # ----------------------------------------------------------------
         # This is Element A, where there are a oven, and a few drawers
         # ----------------------------------------------------------------
@@ -201,7 +190,7 @@ class Kitchen:
         # This is Element F (i.e., a table)
         # ----------------------------------------------------------------
         self.elementF_id = self.pb_client.load_object(
-            model_path="./URDF_models/furniture_table_rectangle_high/table.urdf",
+            model_path="./URDF_models/furniture_table_rectangle_high_nocolor/table.urdf",
             object_position=[1.5, 2, 0],
             object_orientation=[0, 0, math.pi/2.0],
             scale=0.75,
@@ -213,15 +202,15 @@ class Kitchen:
         # ----------------------------------------------------------------
         # This is Element G1 (i.e., chairs)
         # ----------------------------------------------------------------
-        # self.elementG1_id = self.pb_client.load_object(
-        #     model_path = "./URDF_models/furniture_chair/model.urdf",
-        #     object_position=[1.5, 2.8, 0],
-        #     object_orientation=[math.pi/2.0*3, 0.0, math.pi*1.5],
-        #     scale=1,
-        #     obj_name='elementG1',
-        #     fixed_base=True,
-        # )
-        # self.object_ids.append("elementG2_id")
+        self.elementG1_id = self.pb_client.load_object(
+            model_path = "./URDF_models/furniture_chair/model.urdf",
+            object_position=[1.5, 2.8, 0],
+            object_orientation=[math.pi/2.0*3, 0.0, math.pi*1.5],
+            scale=1,
+            obj_name='elementG1',
+            fixed_base=True,
+        )
+        self.object_ids.append("elementG1_id")
 
         self.elementG2_id = self.pb_client.load_object(
             model_path = "./URDF_models/furniture_chair/model.urdf",
@@ -376,6 +365,11 @@ class Kitchen:
         self.visualizer.set_elementC_visual_color(self.elementC_id)
         self.visualizer.set_elementD_visual_color(self.elementD_id)
         self.visualizer.set_elementE_visual_color(self.elementE_id)
+        self.visualizer.set_elementF_visual_color(self.elementF_id)
+        self.visualizer.set_elementG_visual_color(self.elementG1_id)
+        self.visualizer.set_elementG_visual_color(self.elementG2_id)
+        self.visualizer.set_elementG_visual_color(self.elementG3_id)
+        self.visualizer.set_elementG_visual_color(self.elementG4_id)
 
     # ----------------------------------------------------------------
     # Open drawer

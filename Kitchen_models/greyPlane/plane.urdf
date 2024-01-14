@@ -15,7 +15,7 @@
 				<mesh filename="plane.obj" scale="1 1 1"/>
       </geometry>
        <material name="grey">
-        <color rgba="0.804 0.773 0.749 1"/>
+        <color rgba="0.8 0.8 0.8 0.5"/>
       </material>
     </visual>
     <collision>

@@ -41,9 +41,7 @@ class PbClient:
             if enable_capture:
                 width, height = 1920, 1080
                 self.client_id = p.connect(p.GUI, options=f'--width={width} --height={height}')
-                p.configureDebugVisualizer(p.COV_ENABLE_GUI, 0)
-                p.configureDebugVisualizer(p.COV_ENABLE_SHADOWS, 1)
-                p.configureDebugVisualizer(p.COV_ENABLE_WIREFRAME, 0)
+                p.configureDebugVisualizer(p.COV_ENABLE_SHADOWS, 0)
             else:
                 self.client_id = p.connect(p.GUI)
         else:
