@@ -5,12 +5,7 @@ Welcome to the official repository for the BestMan Robot Simulator, integrated w
 
 ## 💻 Installation
 
-**Step 0: Clone the Repository**
-
 `git clone https://github.com/yding25/BestMan_Pybullet.git`
-
-
-**Step 1: Download Object Models**
 
 `cd BestMan_Pybullet`
 
@@ -48,7 +43,7 @@ Demonstration Video
 
 [![manipulation + OMPL](https://img.youtube.com/vi/f25d4N_Lv9w/0.jpg)](https://www.youtube.com/watch?v=f25d4N_Lv9w)
 
-### :smile: Additional Resources
+###  :blue_book: Additional Resources
 
 - **APIs_in_utils.txt**: A detailed list of common functions used in the utility scripts
 
