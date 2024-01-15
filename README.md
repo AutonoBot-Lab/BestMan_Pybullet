@@ -11,6 +11,26 @@ Welcome to the official repository for the BestMan Robot Simulator, integrated w
 
 `git submodule update --init --recursive`
 
+## :mag_right: Project Structure
+```
+├── APIs_in_utils.txt
+├── examples
+│   ├── navigation_basic.py
+│   ├── ...
+├── Kitchen_models
+├── tool
+│   ├── capture_screen_front.py
+│   ├── ...
+├── URDF_models
+├── URDF_robot
+│   ├── segbot.urdf
+│   ├── ur5e.urdf
+│   └── ...
+└── utils
+    ├── pb_ompl.py
+    ├── utils_Bestman.py
+    ├── ....
+```
 
 ## 👨‍💻 Basic Demos
 
@@ -18,22 +38,26 @@ Welcome to the official repository for the BestMan Robot Simulator, integrated w
 
 `python3 ./examples/navigation_basic.py`
 
-[![navigation](https://img.youtube.com/vi/_tVbxgiM-5Q/0.jpg)](https://www.youtube.com/watch?v=_tVbxgiM-5Q)
+<a href="https://www.youtube.com/watch?v=_tVbxgiM-5Q">
+    <img src="https://img.youtube.com/vi/_tVbxgiM-5Q/0.jpg" alt="navigation" width="300" height="200">
+</a>
 
 
 **Manipulation**
 
 `python3 ./examples/grasp_bowl_in_kitchen_v0.py`
 
-[![navigation](https://img.youtube.com/vi/XnmEqOgxNM4/0.jpg)](https://www.youtube.com/watch?v=XnmEqOgxNM4)
-
+<a href="https://www.youtube.com/watch?v=XnmEqOgxNM4">
+    <img src="https://img.youtube.com/vi/XnmEqOgxNM4/0.jpg" alt="manipulation" width="300" height="200">
+</a>
 
 **Load Kitchen**
 
 `python3 ./examples/load_kitchen_v0.py`
 
-[![navigation](https://img.youtube.com/vi/hes7J-uy2DU/0.jpg)](https://www.youtube.com/watch?v=hes7J-uy2DU)
-
+<a href="https://www.youtube.com/watch?v=hes7J-uy2DU">
+    <img src="https://img.youtube.com/vi/hes7J-uy2DU/0.jpg" alt="kitchen" width="300" height="200">
+</a>
 
 **Manipulation + OMPL**
 
@@ -41,7 +65,9 @@ Welcome to the official repository for the BestMan Robot Simulator, integrated w
 
 Demonstration Video
 
-[![manipulation + OMPL](https://img.youtube.com/vi/f25d4N_Lv9w/0.jpg)](https://www.youtube.com/watch?v=f25d4N_Lv9w)
+<a href="https://www.youtube.com/watch?v=f25d4N_Lv9w">
+    <img src="https://img.youtube.com/vi/f25d4N_Lv9w/0.jpg" alt="OMPL" width="300" height="200">
+</a>
 
 ###  :blue_book: Additional Resources
 
