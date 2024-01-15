@@ -57,10 +57,11 @@ class PbVisualizer:
         width (int): The width of the captured image.
         height (int): The height of the captured image.
         """
-        alpha = 5
+        alpha = 10
+        counter = 0
         try:
             if enable_Debug:
-                while True:
+                while counter <1:
                     # Get GUI information
                     width, height, viewMatrix, projectionMatrix, cameraUp, camForward, horizonal, vertical, yaw, pitch, dist, target = p.getDebugVisualizerCamera()
                     
@@ -76,6 +77,9 @@ class PbVisualizer:
                     else:
                         path_filename = f"./image/input/{filename}.png"
                     Image.fromarray(img).save(path_filename)
+
+                    counter += 1
+                    print('-'*50)
             else:
                 # Get GUI information
                 width, height, viewMatrix, projectionMatrix, cameraUp, camForward, horizonal, vertical, yaw, pitch, dist, target = p.getDebugVisualizerCamera()

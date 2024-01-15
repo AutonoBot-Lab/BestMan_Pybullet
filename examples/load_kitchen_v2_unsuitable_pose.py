@@ -38,8 +38,8 @@ else:
 pb_client = PbClient(enable_GUI=True)
 # pb_client.enable_vertical_view(1.0, [2.61, 5.33, 1.29], -90, -29.9) # view 1
 # pb_client.enable_vertical_view(2.0, [2.80, 4.69, 1.20], -89.9, -89.9) # view 2
-# pb_client.enable_vertical_view(2.0, [2.80, 5.5, 1.20], -89.9, -89.9) # view 3
-pb_client.enable_vertical_view(2.6, [1.80, 2.25, 1.20], -89.9, -89.9) # view 4
+pb_client.enable_vertical_view(2.0, [2.80, 5.5, 1.20], -89.9, -89.9) # view 3
+# pb_client.enable_vertical_view(2.6, [1.80, 2.25, 1.20], -89.9, -89.9) # view 4
 pb_visualizer = PbVisualizer(pb_client)
 # logID = pb_client.start_record("example_manipulation") # start recording
 init_pose = Pose([2, 8, 0], [0.0, 0.0, math.pi / 2])
@@ -98,14 +98,14 @@ MilkBottle_position[2] = max_z + demo.tcp_height # consider tcp's height
 # demo.navigate_base(Pose(standing_position, standing_orientation))
 
 # example 3: correct
-# standing_position = [2.8, 5.6, 0]
-# standing_orientation = [0.0, 0.0, 0.0]
-# demo.navigate_base(Pose(standing_position, standing_orientation))
+standing_position = [2.8, 5.6, 0]
+standing_orientation = [0.0, 0.0, 0.0]
+demo.navigate_base(Pose(standing_position, standing_orientation))
 
 # example 4: far from table
-standing_position = [2.15, 3.2, 0]
-standing_orientation = [0.0, 0.0, math.pi/4*5]
-demo.navigate_base(Pose(standing_position, standing_orientation))
+# standing_position = [2.15, 3.2, 0]
+# standing_orientation = [0.0, 0.0, math.pi/4*5]
+# demo.navigate_base(Pose(standing_position, standing_orientation))
 
 # set target object for grasping
 # ompl.set_target(MilkBottle_id)
@@ -117,6 +117,8 @@ demo.navigate_base(Pose(standing_position, standing_orientation))
 # reach target object
 # result = ompl.reach_object(start=demo.get_arm_joint_angle(), goal=goal, end_effector_link_index=demo.end_effector_index)
 
+pb_visualizer.capture_screen(enable_Debug=True)
+
 # disconnect pybullet
-pb_client.wait(1000)
+pb_client.wait(10)
 pb_client.disconnect_pybullet()
