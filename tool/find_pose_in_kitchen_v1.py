@@ -47,11 +47,17 @@ demo.move_arm_to_joint_angles(init_joint)  # reset arm joint position
 kitchen = Kitchen(pb_client)
 
 # open the frige's door
-kitchen.open_it(pb_client.fridge_id, 1, open_angle=math.pi/2)
+kitchen.open_it(pb_client.fridge_id, 1, open_angle=math.pi / 2)
 
 # load bowl
 bowl_position = [0, 0, 0]
-bowl_id = pb_client.load_object("./URDF_models/utensil_bowl_blue/model.urdf", bowl_position, [0.0, 0.0, 0.0], 1.0, "bowl")
+bowl_id = pb_client.load_object(
+    "./URDF_models/utensil_bowl_blue/model.urdf",
+    bowl_position,
+    [0.0, 0.0, 0.0],
+    1.0,
+    "bowl",
+)
 pb_client.run_slider_and_update_position(100000, "Position", -10, 10, 1, bowl_id)
 
 pb_client.wait(5)

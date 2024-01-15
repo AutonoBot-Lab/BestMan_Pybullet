@@ -34,11 +34,12 @@ colors = {
     "grey": [0.56, 0.56, 0.56, 1],
     "dark_grey": [0.13, 0.13, 0.13, 1],
     "blue": [0.53, 0.81, 0.92, 1.0],
-    "light_blue" : [0.9, 0.9, 1, 1],
-    "light_white" : [.98, .98, .98, 1.0],
-    "white" : [1, 1, 1, 1.0],
-    "black" : [0, 0, 0, 1],
+    "light_blue": [0.9, 0.9, 1, 1],
+    "light_white": [0.98, 0.98, 0.98, 1.0],
+    "white": [1, 1, 1, 1.0],
+    "black": [0, 0, 0, 1],
 }
+
 
 class PbVisualizer:
     def __init__(self, pb_client):
@@ -58,13 +59,27 @@ class PbVisualizer:
         height (int): The height of the captured image.
         """
         alpha = 10
-        counter = 0
+        temp_counter = 0
+        max_counter = 1  # num of images
         try:
             if enable_Debug:
-                while counter <1:
+                while temp_counter < max_counter:
                     # Get GUI information
-                    width, height, viewMatrix, projectionMatrix, cameraUp, camForward, horizonal, vertical, yaw, pitch, dist, target = p.getDebugVisualizerCamera()
-                    
+                    (
+                        width,
+                        height,
+                        viewMatrix,
+                        projectionMatrix,
+                        cameraUp,
+                        camForward,
+                        horizonal,
+                        vertical,
+                        yaw,
+                        pitch,
+                        dist,
+                        target,
+                    ) = p.getDebugVisualizerCamera()
+
                     # Capture the screen
                     _, _, rgba, _, _ = p.getCameraImage(width * alpha, height * alpha)
                     img = np.array(rgba).reshape(height * alpha, width * alpha, 4)
@@ -77,13 +92,25 @@ class PbVisualizer:
                     else:
                         path_filename = f"./image/input/{filename}.png"
                     Image.fromarray(img).save(path_filename)
-
-                    counter += 1
-                    print('-'*50)
+                    temp_counter += 1
+                    print("-" * 20 + "image is done!" + "-" * 20)
             else:
                 # Get GUI information
-                width, height, viewMatrix, projectionMatrix, cameraUp, camForward, horizonal, vertical, yaw, pitch, dist, target = p.getDebugVisualizerCamera()
-                
+                (
+                    width,
+                    height,
+                    viewMatrix,
+                    projectionMatrix,
+                    cameraUp,
+                    camForward,
+                    horizonal,
+                    vertical,
+                    yaw,
+                    pitch,
+                    dist,
+                    target,
+                ) = p.getDebugVisualizerCamera()
+
                 # Capture the screen
                 _, _, rgba, _, _ = p.getCameraImage(width * alpha, height * alpha)
                 img = np.array(rgba).reshape(height * alpha, width * alpha, 4)
@@ -98,10 +125,10 @@ class PbVisualizer:
                 else:
                     path_filename = f"./image/input/{filename}.png"
                 Image.fromarray(img).save(path_filename)
-                
+
         except KeyboardInterrupt:
             pass
-        
+
     def crop_image(self, image, center, size):
         """
         Crop a given image around a specified center point and returns the cropped portion. The resulting cropped image will be a square with the provided size. If the cropping dimensions exceed the original image boundaries, the function ensures it stays within the original image's dimensions to prevent out-of-bounds access.
@@ -119,7 +146,7 @@ class PbVisualizer:
         bottom = min(image_height, int(center[1] + size / 2))
         left = max(0, int(center[0] - size / 2))
         right = min(image_width, int(center[0] + size / 2))
-        
+
         return image[top:bottom, left:right]
 
     def get_depth_image(
@@ -139,7 +166,11 @@ class PbVisualizer:
             cameraPos, basePos, cameraUp, physicsClientId=self.client_id
         )
         projectionMatrix = p.computeProjectionMatrixFOV(
-            fov=60, aspect=1.0, nearVal=0.01, farVal=100.0, physicsClientId=self.client_id
+            fov=60,
+            aspect=1.0,
+            nearVal=0.01,
+            farVal=100.0,
+            physicsClientId=self.client_id,
         )
 
         img_arr = p.getCameraImage(
@@ -182,9 +213,12 @@ class PbVisualizer:
             table_id: The unique identifier of the table object in the simulation for which the AABB is to be drawn.
         """
         link_ids = [
-            i for i in range(-1, p.getNumJoints(object_id, physicsClientId=self.client_id))
+            i
+            for i in range(
+                -1, p.getNumJoints(object_id, physicsClientId=self.client_id)
+            )
         ]
-        print(f'test: {link_ids}')
+        print(f"test: {link_ids}")
         for link_id in link_ids:
             aabb = p.getAABB(object_id, link_id)
             aabb_min = aabb[0]
@@ -333,7 +367,7 @@ class PbVisualizer:
         """
         Set the color of arm
         """
-        for i in range(10):
+        for i in range(15):
             p.changeVisualShape(
                 objectUniqueId=arm_id,
                 linkIndex=i,
@@ -358,14 +392,6 @@ class PbVisualizer:
             rgbaColor=colors["blue"],
             physicsClientId=self.client_id,
         )
-        # for i in [-1, 1, 3, 5, 7, 9, 11, 13]:
-        #     p.changeVisualShape(
-        #         objectUniqueId=arm_id, linkIndex=i, rgbaColor=colors["white"]
-        #     )
-        # for i in [0, 2, 4, 6, 8, 10, 12, 14]:
-        #     p.changeVisualShape(
-        #         objectUniqueId=arm_id, linkIndex=i, rgbaColor=colors["blue"]
-        #     )
 
     def set_arm_color_light(self, arm_id):
         """
@@ -398,47 +424,42 @@ class PbVisualizer:
         """
         Set the color of element A (oven, container) in the kitchen.
         """
-        for i in [1]: # center counter
+        for i in [1]:  # center counter
             p.changeVisualShape(
                 objectUniqueId=elementA_id,
                 linkIndex=i,
                 rgbaColor=colors["light_white"],
                 physicsClientId=self.client_id,
             )
-        
-        for i in [2]: # oven base
+        for i in [2]:  # oven base
             p.changeVisualShape(
                 objectUniqueId=elementA_id,
                 linkIndex=i,
                 rgbaColor=colors["light_white"],
                 physicsClientId=self.client_id,
             )
-
-        for i in [3, 4, 5, 6]: # four ovens
+        for i in [3, 4, 5, 6]:  # four ovens
             p.changeVisualShape(
                 objectUniqueId=elementA_id,
                 linkIndex=i,
                 rgbaColor=colors["stainless_steel"],
                 physicsClientId=self.client_id,
             )
-
-        for i in [7]: # rectangle where buttons are on
+        for i in [7]:  # rectangle where buttons are on
             p.changeVisualShape(
                 objectUniqueId=elementA_id,
                 linkIndex=i,
                 rgbaColor=colors["wood_dark"],
                 physicsClientId=self.client_id,
             )
-
-        for i in [8, 9, 10, 11]: # four buttons
+        for i in [8, 9, 10, 11]:  # four buttons
             p.changeVisualShape(
                 objectUniqueId=elementA_id,
                 linkIndex=i,
                 rgbaColor=colors["black"],
                 physicsClientId=self.client_id,
             )
-        
-        for i in [30, 33, 34, 42, 43]: # left and right counter 
+        for i in [30, 33, 34, 42, 43]:  # left and right counter
             p.changeVisualShape(
                 objectUniqueId=elementA_id,
                 linkIndex=i,
@@ -451,7 +472,7 @@ class PbVisualizer:
         Set the color of element B (counter) in the kitchen.
         """
         # link id:
-        for i in [-1]: # wood_dark
+        for i in [-1]:  # wood_dark
             p.changeVisualShape(
                 objectUniqueId=elementB_id,
                 linkIndex=i,
@@ -471,22 +492,22 @@ class PbVisualizer:
                 rgbaColor=colors["light_white"],
                 physicsClientId=self.client_id,
             )
-    
+
     def set_elementD_visual_color(self, elementD_id):
         """
         Set the color of element D (microwave) in the kitchen.
         """
         # link id:
-        for i in [0]: # back
+        for i in [0]:  # back
             p.changeVisualShape(
                 objectUniqueId=elementD_id,
                 linkIndex=i,
                 rgbaColor=colors["light_white"],
                 physicsClientId=self.client_id,
             )
-        
+
         # link id:
-        for i in [1]: # door
+        for i in [1]:  # door
             p.changeVisualShape(
                 objectUniqueId=elementD_id,
                 linkIndex=i,
@@ -499,7 +520,7 @@ class PbVisualizer:
         Set the color of element E (fridge) in the kitchen.
         """
         # link id:
-        for i in [-1, 0, 1, 2, 3, 4, 5, 6]: # wood_light
+        for i in [-1, 0, 1, 2, 3, 4, 5, 6]:  # wood_light
             p.changeVisualShape(
                 objectUniqueId=elementE_id,
                 linkIndex=i,
@@ -519,13 +540,13 @@ class PbVisualizer:
                 rgbaColor=colors["light_white"],
                 physicsClientId=self.client_id,
             )
-    
+
     def set_elementG_visual_color(self, elementG_id):
         """
         Set the color of element G (Chair) in the kitchen.
         """
         # link id:
-        for i in [-1]: # light_white
+        for i in [-1]:  # light_white
             p.changeVisualShape(
                 objectUniqueId=elementG_id,
                 linkIndex=i,
@@ -551,7 +572,7 @@ class PbVisualizer:
     def draw_line(self, start_pos, target_pos, color=[1, 0, 0], width=3.0):
         """
         Draw a line on the screen from the specified start position to the target position.
-        
+
         Args:
             start_pos: The starting position of the line as a tuple of (x, y, z) coordinates.
             target_pos: The ending position of the line as a tuple of (x, y, z) coordinates.
@@ -560,7 +581,7 @@ class PbVisualizer:
         """
         if self.line_visual is not None:
             p.removeUserDebugItem(self.line_visual, physicsClientId=self.client_id)
-        
+
         self.line_visual = p.addUserDebugLine(
             start_pos,
             target_pos,

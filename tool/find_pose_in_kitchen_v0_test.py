@@ -48,7 +48,13 @@ demo.move_arm_to_joint_angles(init_joint)  # reset arm joint position
 kitchen = Kitchen(pb_client)
 
 # load test
-test_id = pb_client.load_object("./Kitchen_models/models_yan/elementB/model.urdf", [4.1, 8, 0.6], [0, 0, math.pi/2*3], 1.1, "test")
+test_id = pb_client.load_object(
+    "./Kitchen_models/models_yan/elementB/model.urdf",
+    [4.1, 8, 0.6],
+    [0, 0, math.pi / 2 * 3],
+    1.1,
+    "test",
+)
 pb_client.run_slider_and_update_position(100000, "Position", -10, 10, 4, test_id)
 
 pb_client.wait(5)

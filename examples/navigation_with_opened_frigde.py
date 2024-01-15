@@ -61,21 +61,21 @@ ompl = PbOMPL(
 ompl.add_scene_obstacles(display=True)
 ompl.check_obstacles()
 
-# before opening the door, fridge's AABB 
+# before opening the door, fridge's AABB
 pb_client.get_bounding_box(pb_client.elementE_id, print_output=True)
 
 # # open fridge's door
-kitchen.open_it('elementE', 1)
+kitchen.open_it("elementE", 1)
 
 # after opening the door, fridge's AABB
 pb_client.get_bounding_box(pb_client.elementE_id, print_output=True)
 
 # navigation with avoiding opened door
 target_position1 = [3.158, 4.263, 1.368]
-demo.navigate_base(Pose(target_position1, [0.0, 0.0, math.pi/2.0]))
+demo.navigate_base(Pose(target_position1, [0.0, 0.0, math.pi / 2.0]))
 
 target_position2 = [3.158, 7.263, 1.368]
-demo.navigate_base(Pose(target_position2, [0.0, 0.0, math.pi/2.0]))
+demo.navigate_base(Pose(target_position2, [0.0, 0.0, math.pi / 2.0]))
 
 # disconnect pybullet
 # pb_client.start_record(logID)

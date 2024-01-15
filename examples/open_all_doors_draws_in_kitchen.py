@@ -48,43 +48,43 @@ print("object ids in loaded kitchen:\n{}".format(kitchen.object_ids))
 
 # open a drawer in element A
 for i in range(10):
-    drawer_id = i+1
-    kitchen.open_it('elementA', drawer_id)
+    drawer_id = i + 1
+    kitchen.open_it("elementA", drawer_id)
 
 # close a drawer in element A
 for i in range(10):
-    drawer_id = i+1
-    kitchen.close_it('elementA', drawer_id)
+    drawer_id = i + 1
+    kitchen.close_it("elementA", drawer_id)
 
 # open a drawer in element C
 for i in range(3):
-    drawer_id = i+1
-    kitchen.open_it('elementC', drawer_id)
+    drawer_id = i + 1
+    kitchen.open_it("elementC", drawer_id)
 
 # close a drawer in element C
 for i in [2, 1, 0]:
-    drawer_id = i+1
-    kitchen.close_it('elementC', drawer_id)
+    drawer_id = i + 1
+    kitchen.close_it("elementC", drawer_id)
 
 # open a drawer in element D
 for i in range(1):
-    drawer_id = i+1
-    kitchen.open_it('elementD', drawer_id)
+    drawer_id = i + 1
+    kitchen.open_it("elementD", drawer_id)
 
 # close a drawer in element D
 for i in range(1):
-    drawer_id = i+1
-    kitchen.close_it('elementD', drawer_id)
+    drawer_id = i + 1
+    kitchen.close_it("elementD", drawer_id)
 
 # open a drawer in element E
 for i in range(2):
-    drawer_id = i+1
-    kitchen.open_it('elementE', drawer_id)
+    drawer_id = i + 1
+    kitchen.open_it("elementE", drawer_id)
 
 # close a drawer in element E
 for i in range(2):
-    drawer_id = i+1
-    kitchen.close_it('elementE', drawer_id)
+    drawer_id = i + 1
+    kitchen.close_it("elementE", drawer_id)
 
 
 # disconnect pybullet

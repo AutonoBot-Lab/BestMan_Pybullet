@@ -31,10 +31,10 @@ pb_client.enable_vertical_view(4.0, [1.0, 1.0, 0])
 pb_visualizer = PbVisualizer(pb_client)
 # logID = pb_client.start_record("example_manipulation") # start recording
 init_pose = Pose([1, 0, 0], [0.0, 0.0, math.pi / 2])
-demo = Bestman(init_pose, pb_client) # load robot
-demo.get_joint_link_info("arm") # get info about arm
+demo = Bestman(init_pose, pb_client)  # load robot
+demo.get_joint_link_info("arm")  # get info about arm
 init_joint = [0, -1.57, 2.0, -1.57, -1.57, 0]
-demo.move_arm_to_joint_angles(init_joint) # reset arm joint position
+demo.move_arm_to_joint_angles(init_joint)  # reset arm joint position
 
 # load table and bowl
 table_id = pb_client.load_object(

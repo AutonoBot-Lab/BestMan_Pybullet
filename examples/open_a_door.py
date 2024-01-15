@@ -46,7 +46,7 @@ kitchen = Kitchen(pb_client)
 print("object ids in loaded kitchen:\n{}".format(kitchen.object_ids))
 
 # open a drawer in element A
-kitchen.open_it('elementA', 1)
+kitchen.open_it("elementA", 1)
 
 # disconnect pybullet
 pb_client.wait(5)

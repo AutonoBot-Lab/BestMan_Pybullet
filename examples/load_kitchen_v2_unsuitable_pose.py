@@ -14,8 +14,8 @@ Get the utils module path
 """
 # customized package
 current_path = os.path.abspath(__file__)
-utils_path = os.path.dirname(os.path.dirname(current_path)) + '/utils'
-if os.path.basename(utils_path) != 'utils':
+utils_path = os.path.dirname(os.path.dirname(current_path)) + "/utils"
+if os.path.basename(utils_path) != "utils":
     raise ValueError('Not add the path of folder "utils", please check again!')
 sys.path.append(utils_path)
 from utils_Bestman import Bestman, Pose
@@ -38,7 +38,7 @@ else:
 pb_client = PbClient(enable_GUI=True)
 # pb_client.enable_vertical_view(1.0, [2.61, 5.33, 1.29], -90, -29.9) # view 1
 # pb_client.enable_vertical_view(2.0, [2.80, 4.69, 1.20], -89.9, -89.9) # view 2
-pb_client.enable_vertical_view(2.0, [2.80, 5.5, 1.20], -89.9, -89.9) # view 3
+pb_client.enable_vertical_view(2.0, [2.80, 5.5, 1.20], -89.9, -89.9)  # view 3
 # pb_client.enable_vertical_view(2.6, [1.80, 2.25, 1.20], -89.9, -89.9) # view 4
 pb_visualizer = PbVisualizer(pb_client)
 # logID = pb_client.start_record("example_manipulation") # start recording
@@ -71,14 +71,20 @@ ompl.add_scene_obstacles(display=True)
 ompl.check_obstacles()
 
 # open fridge
-kitchen.open_it("elementE", 1, open_angle=math.pi/4)
+kitchen.open_it("elementE", 1, open_angle=math.pi / 4)
 
 # load bowl
 MilkBottle_position = [3.95, 5.42, 1.05]  # TODO: object goes flying
-MilkBottle_id = pb_client.load_object("./Kitchen_models/models/MilkBottle/4043/mobility.urdf", MilkBottle_position, [0.0, 0.0, 0.0], 0.1, "MilkBottle")
+MilkBottle_id = pb_client.load_object(
+    "./Kitchen_models/models/MilkBottle/4043/mobility.urdf",
+    MilkBottle_position,
+    [0.0, 0.0, 0.0],
+    0.1,
+    "MilkBottle",
+)
 pb_client.run(100)
 _, _, min_z, _, _, max_z = pb_client.get_bounding_box(MilkBottle_id)
-MilkBottle_position[2] = max_z + demo.tcp_height # consider tcp's height
+MilkBottle_position[2] = max_z + demo.tcp_height  # consider tcp's height
 
 # navigate to standing position
 

@@ -13,8 +13,8 @@ Get the utils module path
 """
 # customized package
 current_path = os.path.abspath(__file__)
-utils_path = os.path.dirname(os.path.dirname(current_path)) + '/utils'
-if os.path.basename(utils_path) != 'utils':
+utils_path = os.path.dirname(os.path.dirname(current_path)) + "/utils"
+if os.path.basename(utils_path) != "utils":
     raise ValueError('Not add the path of folder "utils", please check again!')
 sys.path.append(utils_path)
 from utils_Bestman import Bestman, Pose
@@ -51,7 +51,7 @@ print("object ids in loaded kitchen:\n{}".format(kitchen.object_ids))
 # print('occupancy_grid:{}'.format(occupancy_grid))
 
 # after open fridge
-kitchen.open_it('elementE', 1)
+kitchen.open_it("elementE", 1)
 
 pb_visualizer.draw_aabb_link(kitchen.elementE_id, 1)
 

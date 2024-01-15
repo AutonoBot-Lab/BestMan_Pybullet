@@ -63,21 +63,32 @@ ompl.check_obstacles()
 
 # load bowl
 bowl_position = [4.15, 4.3, 1.0]  # TODO: object goes flying
-bowl_id = pb_client.load_object("./URDF_models/utensil_bowl_blue/model.urdf", bowl_position, [0.0, 0.0, 0.0], 1.0, "bowl", fixed_base=False)
+bowl_id = pb_client.load_object(
+    "./URDF_models/utensil_bowl_blue/model.urdf",
+    bowl_position,
+    [0.0, 0.0, 0.0],
+    1.0,
+    "bowl",
+    fixed_base=False,
+)
 pb_client.run(1000)
 _, _, min_z, _, _, max_z = pb_client.get_bounding_box(bowl_id)
-bowl_position[2] = max_z + demo.tcp_height * 2 # consider tcp's height
+bowl_position[2] = max_z + demo.tcp_height * 2  # consider tcp's height
 print("bowl position:{}".format(bowl_position))
 
 # set target object for grasping
 ompl.set_target(bowl_id)
-target_orientation = [0.0, math.pi / 2.0, 0.0] # vertical
+target_orientation = [0.0, math.pi / 2.0, 0.0]  # vertical
 goal = demo.cartesian_to_joints(position=bowl_position, orientation=target_orientation)
 print("-" * 20 + "\n" + "Goal configuration:{}".format(goal))
 
 # reach target object
 pb_visualizer.change_arm_color(demo.arm_id, light_color=True)
-result, trajectory = ompl.reach_object(start=demo.get_arm_joint_angle(), goal=goal, end_effector_link_index=demo.end_effector_index)
+result, trajectory = ompl.reach_object(
+    start=demo.get_arm_joint_angle(),
+    goal=goal,
+    end_effector_link_index=demo.end_effector_index,
+)
 pb_client.run(100)
 # print('result:{}, trajectory:{}'.format(result, trajectory))
 

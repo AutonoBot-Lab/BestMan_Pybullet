@@ -25,11 +25,11 @@ class PbClient:
     def __init__(self, enable_GUI=True, enable_Debug=False, enable_capture=True):
         """
         Initialize a new PbClient object.
-        
+
         Parameters:
             enable_GUI (bool): If True, the GUI will be enabled.
             enable_Debug (bool): If False, the debug visualizer will be disabled.
-        
+
         Attributes:
             client_id (int): The id of the client.
             frequency (int): The simulation step for base and arm.
@@ -40,13 +40,15 @@ class PbClient:
         if enable_GUI:
             if enable_capture:
                 width, height = 1920, 1080
-                self.client_id = p.connect(p.GUI, options=f'--width={width} --height={height}')
+                self.client_id = p.connect(
+                    p.GUI, options=f"--width={width} --height={height}"
+                )
                 p.configureDebugVisualizer(p.COV_ENABLE_SHADOWS, 0)
             else:
                 self.client_id = p.connect(p.GUI)
         else:
             self.client_id = p.connect(p.DIRECT)
-            
+
         if not enable_Debug:
             p.configureDebugVisualizer(p.COV_ENABLE_GUI, 0)
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
@@ -75,13 +77,13 @@ class PbClient:
 
     def disconnect_pybullet(self):
         p.disconnect(physicsClientId=self.client_id)
-        print("-" * 20 + "\n" + "The script ends!"+ "\n" + "-" * 20)
+        print("-" * 20 + "\n" + "The script ends!" + "\n" + "-" * 20)
 
-    def wait(self, x): # seconds
+    def wait(self, x):  # seconds
         time.sleep(x)
         print("-" * 20 + "\n" + "Has waitted {} seconds".format(x))
 
-    def run(self, x): # steps
+    def run(self, x):  # steps
         for _ in range(x):
             p.stepSimulation(physicsClientId=self.client_id)
             time.sleep(1.0 / self.frequency)
@@ -107,7 +109,7 @@ class PbClient:
             lineToXYZ=[length, 0, 0],
             lineColorRGB=[1, 0, 0],
             lineWidth=lineWidth,
-            physicsClientId=self.client_id
+            physicsClientId=self.client_id,
         )
 
         # Drawing the Y-axis (in green)
@@ -116,7 +118,7 @@ class PbClient:
             lineToXYZ=[0, length, 0],
             lineColorRGB=[0, 1, 0],
             lineWidth=lineWidth,
-            physicsClientId=self.client_id
+            physicsClientId=self.client_id,
         )
 
         # Adding text labels
@@ -125,20 +127,20 @@ class PbClient:
             textPosition=[length + 0.1, 0, 0],
             textColorRGB=[1, 0, 0],
             textSize=textSize,
-            physicsClientId=self.client_id
+            physicsClientId=self.client_id,
         )
         p.addUserDebugText(
             text="Y",
             textPosition=[0, length + 0.1, 0],
             textColorRGB=[0, 1, 0],
             textSize=textSize,
-            physicsClientId=self.client_id
+            physicsClientId=self.client_id,
         )
 
     def enable_vertical_view(self, dist, position, yaw=0, pitch=-89.9):
         """
         Set the debug visualizer camera in a vertical view.
-        
+
         Args:
             dist (float): The distance of the camera from the target point.
             position (list): A list of three floats representing the target position in 3D space.
@@ -166,7 +168,14 @@ class PbClient:
             "./image/" + fileName + ".mp4",
             physicsClientId=self.client_id,
         )
-        print("-" * 20 + "\n" + "The video can be found in " + "./image/" + fileName + ".mp4")
+        print(
+            "-" * 20
+            + "\n"
+            + "The video can be found in "
+            + "./image/"
+            + fileName
+            + ".mp4"
+        )
         return logId
 
     def end_record(self, logId):
@@ -218,14 +227,16 @@ class PbClient:
             physicsClientId=self.client_id,
         )
 
-    def run_slider_and_update_position(self, x, name, min_val, max_val, initial_val, obj_id=None):
+    def run_slider_and_update_position(
+        self, x, name, min_val, max_val, initial_val, obj_id=None
+    ):
         """
-        Run the simulation for a number of steps, creating sliders, reading their values, 
+        Run the simulation for a number of steps, creating sliders, reading their values,
         and updating the object position at each step.
-        
+
         Args:
             x (int): The number of simulation steps to run.
-            name (str): The base name of the sliders. 
+            name (str): The base name of the sliders.
                         Three sliders will be created with names: name_x, name_y, name_z.
             min_val (float): The minimum value of the sliders.
             max_val (float): The maximum value of the sliders.
@@ -234,15 +245,22 @@ class PbClient:
         """
         slider_ids = [
             p.addUserDebugParameter(
-                f"{name}_{coord}", min_val, max_val, initial_val, physicsClientId=self.client_id
+                f"{name}_{coord}",
+                min_val,
+                max_val,
+                initial_val,
+                physicsClientId=self.client_id,
             )
-            for coord in ['x', 'y', 'z']
+            for coord in ["x", "y", "z"]
         ]
-        
+
         for _ in range(x):
             p.stepSimulation(physicsClientId=self.client_id)
             if obj_id is not None:
-                position = [p.readUserDebugParameter(id, physicsClientId=self.client_id) for id in slider_ids]
+                position = [
+                    p.readUserDebugParameter(id, physicsClientId=self.client_id)
+                    for id in slider_ids
+                ]
                 orientation = p.getBasePositionAndOrientation(
                     obj_id, physicsClientId=self.client_id
                 )[1]
@@ -261,7 +279,7 @@ class PbClient:
         fixed_base=False,
     ):
         """
-        Load a given object into the PyBullet simulation environment. 
+        Load a given object into the PyBullet simulation environment.
 
         Args:
             model_path (str): The path to the URDF file for the object.
@@ -300,12 +318,14 @@ class PbClient:
     # ----------------------------------------------------------------
     # Get info from environment
     # ----------------------------------------------------------------
-    
+
     # get occupancy network
-    def get_occupancy_network(self, object_id, x_max=10, y_max=10, resolution=0.1, enable_plot=False):
+    def get_occupancy_network(
+        self, object_id, x_max=10, y_max=10, resolution=0.1, enable_plot=False
+    ):
         """
         Create an occupancy grid for a given environment.
-        
+
         Args:
         :param x_max: float, maximum x coordinate of the environment
         :param y_max: float, maximum y coordinate of the environment
@@ -313,8 +333,8 @@ class PbClient:
         :return: numpy array, 2D occupancy grid
         """
         # Create 2D grid
-        x = np.arange(-x_max/2, x_max/2, resolution)
-        y = np.arange(-y_max/2, y_max/2, resolution)
+        x = np.arange(-x_max / 2, x_max / 2, resolution)
+        y = np.arange(-y_max / 2, y_max / 2, resolution)
         X, Y = np.meshgrid(x, y)
 
         # Initialize empty occupancy grid
@@ -326,21 +346,26 @@ class PbClient:
                 # Center coordinates of the grid cell
                 x, y = X[i, j], Y[i, j]
                 # Check collision between the point and the robot
-                points = p.getClosestPoints(bodyA=object_id, bodyB=-1, distance=0, linkIndexA=-1, 
-                                            linkIndexB=-1, physicsClientId=self.client_id)
+                points = p.getClosestPoints(
+                    bodyA=object_id,
+                    bodyB=-1,
+                    distance=0,
+                    linkIndexA=-1,
+                    linkIndexB=-1,
+                    physicsClientId=self.client_id,
+                )
                 if points:
                     occupancy_grid[i, j] = 1
-                    print('!debug')
+                    print("!debug")
 
         if enable_plot:
             plt.figure()
             plt.imshow(occupancy_grid, cmap="Greys", origin="lower")
-            plt.xlabel('x (m)')
-            plt.ylabel('y (m)')
-            plt.title('Occupancy Grid')
+            plt.xlabel("x (m)")
+            plt.ylabel("y (m)")
+            plt.title("Occupancy Grid")
             plt.show()
         return occupancy_grid
-
 
     # sample points within a area
     def generate_point_within_area(self, min_x, min_y, max_x, max_y):
@@ -376,9 +401,11 @@ class PbClient:
 
         return x, y
 
-    def get_bounding_box(self, object_id, print_output=False): #TODO: use a polygon to represent the bounding box
+    def get_bounding_box(
+        self, object_id, print_output=False
+    ):  # TODO: use a polygon to represent the bounding box
         """
-        This function retrieves the bounding box for a given object in the PyBullet simulation environment. 
+        This function retrieves the bounding box for a given object in the PyBullet simulation environment.
 
         Args:
             object_id (int): The ID of the object in the PyBullet simulation.
@@ -386,7 +413,10 @@ class PbClient:
             The function prints the minimum and maximum x, y, z coordinates of the bounding box of the object.
         """
         link_ids = [
-            i for i in range(-1, p.getNumJoints(object_id, physicsClientId=self.client_id))
+            i
+            for i in range(
+                -1, p.getNumJoints(object_id, physicsClientId=self.client_id)
+            )
         ]
         min_x, min_y, min_z = float("inf"), float("inf"), float("inf")
         max_x, max_y, max_z = float("-inf"), float("-inf"), float("-inf")
@@ -400,12 +430,16 @@ class PbClient:
             max_x = max(max_x, x_max)
             max_y = max(max_y, y_max)
             max_z = max(max_z, z_max)
-        
+
         if print_output:
             print("-" * 20 + "\n" + "object_id: {}".format(object_id))
-            print("min_x:{:.2f}, min_y:{:.2f}, min_z:{:.2f}".format(min_x, min_y, min_z))
-            print("max_x:{:.2f}, max_y:{:.2f}, max_z:{:.2f}".format(max_x, max_y, max_z))
-        
+            print(
+                "min_x:{:.2f}, min_y:{:.2f}, min_z:{:.2f}".format(min_x, min_y, min_z)
+            )
+            print(
+                "max_x:{:.2f}, max_y:{:.2f}, max_z:{:.2f}".format(max_x, max_y, max_z)
+            )
+
         return [min_x, min_y, min_z, max_x, max_y, max_z]
 
     def check_collision_xyz(self, box1, box2):

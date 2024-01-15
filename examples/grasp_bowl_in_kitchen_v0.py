@@ -14,8 +14,8 @@ Get the utils module path
 """
 # customized package
 current_path = os.path.abspath(__file__)
-utils_path = os.path.dirname(os.path.dirname(current_path)) + '/utils'
-if os.path.basename(utils_path) != 'utils':
+utils_path = os.path.dirname(os.path.dirname(current_path)) + "/utils"
+if os.path.basename(utils_path) != "utils":
     raise ValueError('Not add the path of folder "utils", please check again!')
 sys.path.append(utils_path)
 from utils_Bestman import Bestman, Pose
@@ -67,10 +67,16 @@ kitchen.open_it("elementE", 1)
 
 # load bowl
 bowl_position = [3.8, 2.4, 0.95]
-bowl_id = pb_client.load_object("./URDF_models/utensil_bowl_blue/model.urdf", bowl_position, [0.0, 0.0, 0.0], 1.0, "bowl")
+bowl_id = pb_client.load_object(
+    "./URDF_models/utensil_bowl_blue/model.urdf",
+    bowl_position,
+    [0.0, 0.0, 0.0],
+    1.0,
+    "bowl",
+)
 pb_client.run(100)
 _, _, min_z, _, _, max_z = pb_client.get_bounding_box(bowl_id)
-bowl_position[2] = max_z + demo.tcp_height # consider tcp's height
+bowl_position[2] = max_z + demo.tcp_height  # consider tcp's height
 print("bowl position:{}".format(bowl_position[2]))
 
 # navigate to standing position
@@ -80,12 +86,16 @@ demo.navigate_base(Pose(standing_position, standing_orientation))
 
 # set target object for grasping
 ompl.set_target(bowl_id)
-target_orientation = [0.0, math.pi / 2.0, 0.0] # vertical
+target_orientation = [0.0, math.pi / 2.0, 0.0]  # vertical
 goal = demo.cartesian_to_joints(position=bowl_position, orientation=target_orientation)
 print("-" * 20 + "\n" + "Goal configuration:{}".format(goal))
 
 # reach target object
-result = ompl.reach_object(start=demo.get_arm_joint_angle(), goal=goal, end_effector_link_index=demo.end_effector_index)
+result = ompl.reach_object(
+    start=demo.get_arm_joint_angle(),
+    goal=goal,
+    end_effector_link_index=demo.end_effector_index,
+)
 
 # disconnect pybullet
 pb_client.wait(10)

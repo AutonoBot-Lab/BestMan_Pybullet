@@ -14,8 +14,8 @@ Get the utils module path
 """
 # customized package
 current_path = os.path.abspath(__file__)
-utils_path = os.path.dirname(os.path.dirname(current_path)) + '/utils'
-if os.path.basename(utils_path) != 'utils':
+utils_path = os.path.dirname(os.path.dirname(current_path)) + "/utils"
+if os.path.basename(utils_path) != "utils":
     raise ValueError('Not add the path of folder "utils", please check again!')
 sys.path.append(utils_path)
 from utils_Bestman import Bestman, Pose
@@ -48,7 +48,9 @@ demo.move_arm_to_joint_angles(init_joint)  # reset arm joint position
 
 # load bowl
 bowl_position = [0.85, 0.5, 1.45]
-bowl_id = pb_client.load_object("../URDF_models/bowl/model.urdf", bowl_position, [0.0, 0.0, 0.0], 1.0, "bowl")
+bowl_id = pb_client.load_object(
+    "../URDF_models/bowl/model.urdf", bowl_position, [0.0, 0.0, 0.0], 1.0, "bowl"
+)
 
 demo.debug_set_joint_values()
 

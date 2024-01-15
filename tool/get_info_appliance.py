@@ -78,7 +78,7 @@ pb_client.load_object(
     object_position=[0.7, 6.4, 1.366],
     object_orientation=[0, 0, math.pi],
     scale=1.0,
-    obj_name='dishwasher',
+    obj_name="dishwasher",
     fixed_base=True,
 )
 

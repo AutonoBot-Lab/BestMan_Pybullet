@@ -13,8 +13,8 @@ Get the utils module path
 """
 # customized package
 current_path = os.path.abspath(__file__)
-utils_path = os.path.dirname(os.path.dirname(current_path)) + '/utils'
-if os.path.basename(utils_path) != 'utils':
+utils_path = os.path.dirname(os.path.dirname(current_path)) + "/utils"
+if os.path.basename(utils_path) != "utils":
     raise ValueError('Not add the path of folder "utils", please check again!')
 sys.path.append(utils_path)
 from utils_Bestman import Bestman, Pose

@@ -52,7 +52,13 @@ kitchen.open_it("elementE", 1)
 
 # load bowl
 bowl_position = [0.0, 0.0, 1.5]
-bowl_id = pb_client.load_object("./URDF_models/utensil_bowl_blue/model.urdf", bowl_position, [0.0, 0.0, 0.0], 1.0, "bowl")
+bowl_id = pb_client.load_object(
+    "./URDF_models/utensil_bowl_blue/model.urdf",
+    bowl_position,
+    [0.0, 0.0, 0.0],
+    1.0,
+    "bowl",
+)
 pb_client.run_slider_and_update_position(100000, "Position", -10, 10, 1, bowl_id)
 
 pb_client.wait(5)

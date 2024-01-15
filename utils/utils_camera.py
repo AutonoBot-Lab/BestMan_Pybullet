@@ -34,8 +34,7 @@ from utils_PIDController import PIDController
 
 class CameraInfo:
     # Initialization method for the CameraInfo class
-    def __init__(
-        self, pb_client, height=480, width=480):
+    def __init__(self, pb_client, height=480, width=480):
         """
         Initialize a new CameraInfo object.
 
@@ -46,14 +45,16 @@ class CameraInfo:
 
         self.pb_client = pb_client
         self.client_id = self.pb_client.get_client()
-        
+
         # camera information
         self.height = height
         self.width = width
 
         print(f"CameraMessage(height={self.height}, width={self.width})")
 
-    def get_image_from_camera(self, base_id, image_name, width=480*4, height=480*4, enable_save=False):
+    def get_image_from_camera(
+        self, base_id, image_name, width=480 * 4, height=480 * 4, enable_save=False
+    ):
         # set camera position and target position
         base_position, orientation_quat = p.getBasePositionAndOrientation(base_id)
         camera_position = np.array(base_position) + np.array([0, 0, 2])
@@ -83,6 +84,6 @@ class CameraInfo:
 
         if enable_save:
             image = Image.fromarray(rgb)
-            image.save(f'image/input/{image_name}.png')
-            
+            image.save(f"image/input/{image_name}.png")
+
         return rgb, depth, seg

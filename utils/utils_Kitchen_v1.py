@@ -20,10 +20,11 @@ Get the utils module path
 """
 import sys
 import os
+
 # customized package
 current_path = os.path.abspath(__file__)
 utils_path = os.path.dirname(current_path)
-if os.path.basename(utils_path) != 'utils':
+if os.path.basename(utils_path) != "utils":
     raise ValueError('Not add the path of folder "utils", please check again!')
 sys.path.append(utils_path)
 from utils_PbVisualizer import PbVisualizer
@@ -46,25 +47,27 @@ class Kitchen:
         """
         self.pb_client = pb_client
         self.client_id = self.pb_client.get_client()
-        
+
         if lisdf_id == 0:
-            lisdf_file = './Kitchen_models/scenes/kitchen_basics.lisdf'
+            lisdf_file = "./Kitchen_models/scenes/kitchen_basics.lisdf"
         elif lisdf_id == 1:
-            lisdf_file = './Kitchen_models/scenes/kitchen_counter.lisdf'
+            lisdf_file = "./Kitchen_models/scenes/kitchen_counter.lisdf"
         elif lisdf_id == 2:
-            lisdf_file = './Kitchen_models/scenes/kitchen_lunch.lisdf'
+            lisdf_file = "./Kitchen_models/scenes/kitchen_lunch.lisdf"
         else:
-            print('Uknown lisdf_id, please input 0 or 1 or 2')
+            print("Uknown lisdf_id, please input 0 or 1 or 2")
             sys.exit()
         models, xyz, point_to = self.parse_lisdf(lisdf_file)
-        cameraDistance, cameraYaw, cameraPitch = self.compute_camera_angles(xyz, point_to)
-        
-        self.object_ids = [] # store object id in loaded kitchen scene
+        cameraDistance, cameraYaw, cameraPitch = self.compute_camera_angles(
+            xyz, point_to
+        )
+
+        self.object_ids = []  # store object id in loaded kitchen scene
         self.load_models(models)
 
         # Set the vertical view after loading the models # TODO: other's file is not accurate
         # self.pb_client.enable_vertical_view(height=cameraDistance, position=point_to, yaw=cameraYaw, pitch=cameraPitch)
-    
+
     def parse_lisdf(self, file_path):
         """
         Parse the lisdf file to extract models and camera information.
@@ -81,22 +84,22 @@ class Kitchen:
         root = tree.getroot()
 
         models = []
-        for include in root.iter('include'):
+        for include in root.iter("include"):
             model = {
-                'name': include.get('name'),
-                'uri': include.find('uri').text,
-                'pose': include.find('pose').text,
-                'scale': float(include.find('scale').text)
+                "name": include.get("name"),
+                "uri": include.find("uri").text,
+                "pose": include.find("pose").text,
+                "scale": float(include.find("scale").text),
             }
             models.append(model)
-        
-        gui = root.find('.//gui')
-        camera = gui.find('camera')
-        xyz = list(map(float, camera.find('xyz').text.split()))
-        point_to = list(map(float, camera.find('point_to').text.split()))
+
+        gui = root.find(".//gui")
+        camera = gui.find("camera")
+        xyz = list(map(float, camera.find("xyz").text.split()))
+        point_to = list(map(float, camera.find("point_to").text.split()))
 
         return models, xyz, point_to
-    
+
     def compute_camera_angles(self, camera_pos, target_pos):
         """
         Compute the camera angles from camera position and target position.
@@ -114,9 +117,9 @@ class Kitchen:
         dy = target_pos[1] - camera_pos[1]
         dz = target_pos[2] - camera_pos[2]
 
-        cameraDistance = math.sqrt(dx*dx + dy*dy + dz*dz)
+        cameraDistance = math.sqrt(dx * dx + dy * dy + dz * dz)
         cameraYaw = math.degrees(math.atan2(dy, dx))
-        cameraPitch = math.degrees(math.atan2(dz, math.sqrt(dx*dx + dy*dy)))
+        cameraPitch = math.degrees(math.atan2(dz, math.sqrt(dx * dx + dy * dy)))
 
         return cameraDistance, cameraYaw, cameraPitch
 
@@ -128,31 +131,33 @@ class Kitchen:
             models (list): List of models with their name, uri, pose and scale.
         """
         for model in models:
-            name = model['name']
-            relative_url = model['uri']
-            modified_url = relative_url.replace('../models', 'Kitchen_models/models')
+            name = model["name"]
+            relative_url = model["uri"]
+            modified_url = relative_url.replace("../models", "Kitchen_models/models")
             absolute_url = os.path.join(os.getcwd(), modified_url)
-            pose = list(map(float, model['pose'].split()))
-            scale = model['scale']
-            self.pb_client.load_object(absolute_url, pose[:3], pose[3:], scale, name, fixed_base=True)
-            self.object_ids.append(name+"_id")
-    
+            pose = list(map(float, model["pose"].split()))
+            scale = model["scale"]
+            self.pb_client.load_object(
+                absolute_url, pose[:3], pose[3:], scale, name, fixed_base=True
+            )
+            self.object_ids.append(name + "_id")
+
     def open_it(self, model_id, joint_id, open_angle):
         p.setJointMotorControl2(
-                bodyIndex=model_id,
-                jointIndex=joint_id,
-                controlMode=p.POSITION_CONTROL,
-                targetPosition=open_angle,
-                maxVelocity=1.0,
-            )
+            bodyIndex=model_id,
+            jointIndex=joint_id,
+            controlMode=p.POSITION_CONTROL,
+            targetPosition=open_angle,
+            maxVelocity=1.0,
+        )
         self.pb_client.run(240 * 5)
-    
+
     def close_it(self, model_id, joint_id, close_angle):
         p.setJointMotorControl2(
-                bodyIndex=model_id,
-                jointIndex=joint_id,
-                controlMode=p.POSITION_CONTROL,
-                targetPosition=close_angle,
-                maxVelocity=1.0,
-            )
+            bodyIndex=model_id,
+            jointIndex=joint_id,
+            controlMode=p.POSITION_CONTROL,
+            targetPosition=close_angle,
+            maxVelocity=1.0,
+        )
         self.pb_client.run(240 * 5)

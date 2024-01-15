@@ -109,7 +109,9 @@ class Bestman:
 
         # Initialize PID controller
         self.target_distance = 0.0
-        self.distance_controller = PIDController(Kp=0.01, Ki=0.0, Kd=0.0, setpoint=self.target_distance)
+        self.distance_controller = PIDController(
+            Kp=0.01, Ki=0.0, Kd=0.0, setpoint=self.target_distance
+        )
         self.rotated = False
 
         # Initialize base
@@ -246,7 +248,7 @@ class Bestman:
     def get_standing_map(
         self,
         object_position,
-        radius = 1.0,
+        radius=1.0,
         resolution=0.03,
         x_max=10,
         y_max=10,
@@ -266,7 +268,7 @@ class Bestman:
         Returns:
             A list of grid cells that are inside the circle.
         """
-        print('object_position:{}'.format(object_position))
+        print("object_position:{}".format(object_position))
         # object_position = object_position[0:2]  # only care about x, y
 
         def to_grid_coordinates(point, resolution):
@@ -329,7 +331,7 @@ class Bestman:
                     j - center_grid[1]
                 ) ** 2 <= radius_grid**2:
                     affordance_map[i][j] = 1
-        
+
         # Mark the cells occupied by objects as 1
         if not enable_accurate_occupancy_map:
             # get occupancy map
@@ -387,26 +389,28 @@ class Bestman:
                             ),
                         ):
                             static_map[i][j] = 1
-        
+
         # 1 in affordance_map, 0 in static_map
         standing_map = np.logical_and(affordance_map, np.logical_not(static_map))
         if enable_plot:
             plt.figure(figsize=(10, 5))
 
             plt.subplot(1, 2, 1)
-            plt.imshow(affordance_map + 2*static_map, cmap='gray', vmin=0, vmax=3)
-            plt.title('Affordance Map + Static Map')
+            plt.imshow(affordance_map + 2 * static_map, cmap="gray", vmin=0, vmax=3)
+            plt.title("Affordance Map + Static Map")
 
             plt.subplot(1, 2, 2)
-            plt.imshow(standing_map, cmap='gray')
-            plt.title('Standing Map')
+            plt.imshow(standing_map, cmap="gray")
+            plt.title("Standing Map")
 
             plt.show()
 
         return standing_map
 
     # use a simple method to compute standing map
-    def compute_standing_position(self, object_position, standing_map, x_max=10, y_max=10, resolution=0.03):
+    def compute_standing_position(
+        self, object_position, standing_map, x_max=10, y_max=10, resolution=0.03
+    ):
         """
         Compute the most suitable standing position from the standing map.
 
@@ -439,11 +443,12 @@ class Bestman:
 
         # compute the Euclidean distance between object_position and each standing position
         # and the distance between robot_position and each standing position
-        object_distances = np.linalg.norm(standing_positions - object_position[:2], axis=1)
+        object_distances = np.linalg.norm(
+            standing_positions - object_position[:2], axis=1
+        )
         robot_distances = np.linalg.norm(standing_positions - robot_position, axis=1)
 
-
-         # find the standing position with the minimum sum of distances to the object and the robot
+        # find the standing position with the minimum sum of distances to the object and the robot
         total_distances = object_distances + robot_distances
         best_position = standing_positions[np.argmin(total_distances)]
         best_position_world = to_world_coordinates(best_position, resolution)
@@ -705,8 +710,12 @@ class Bestman:
                     self.current_yaw = max(self.current_yaw - step_size, target_yaw)
 
                 orientation = angle_to_quaternion(self.current_yaw)
-                position, _ = p.getBasePositionAndOrientation(self.base_id, physicsClientId=self.client_id)
-                p.resetBasePositionAndOrientation(self.base_id, position, orientation, physicsClientId=self.client_id)
+                position, _ = p.getBasePositionAndOrientation(
+                    self.base_id, physicsClientId=self.client_id
+                )
+                p.resetBasePositionAndOrientation(
+                    self.base_id, position, orientation, physicsClientId=self.client_id
+                )
 
                 if self.arm_id is not None:
                     self.sync_base_arm_pose()
@@ -716,21 +725,28 @@ class Bestman:
 
             # Ensure final orientation is set accurately
             orientation = angle_to_quaternion(target_yaw)
-            position, _ = p.getBasePositionAndOrientation(self.base_id, physicsClientId=self.client_id)
-            p.resetBasePositionAndOrientation(self.base_id, position, orientation, physicsClientId=self.client_id)
+            position, _ = p.getBasePositionAndOrientation(
+                self.base_id, physicsClientId=self.client_id
+            )
+            p.resetBasePositionAndOrientation(
+                self.base_id, position, orientation, physicsClientId=self.client_id
+            )
             p.stepSimulation(physicsClientId=self.client_id)
             # time.sleep(1.0 / self.frequency)
 
         else:
             orientation = angle_to_quaternion(target_yaw)
-            position, _ = p.getBasePositionAndOrientation(self.base_id, physicsClientId=self.client_id)
-            p.resetBasePositionAndOrientation(self.base_id, position, orientation, physicsClientId=self.client_id)
+            position, _ = p.getBasePositionAndOrientation(
+                self.base_id, physicsClientId=self.client_id
+            )
+            p.resetBasePositionAndOrientation(
+                self.base_id, position, orientation, physicsClientId=self.client_id
+            )
 
             if self.arm_id is not None:
                 self.sync_base_arm_pose()
 
             p.stepSimulation(physicsClientId=self.client_id)
-
 
     def action(self, output):
         """
@@ -793,7 +809,7 @@ class Bestman:
     # ----------------------------------------------------------------
     # Arm Manipulation
     # ----------------------------------------------------------------
-    
+
     def adjust_arm_height(self, height):
         # dynmaically adjust arm height
         self.arm_height = height
@@ -808,8 +824,12 @@ class Bestman:
         print("Current joint angles: {}".format(joint_angles))
 
         for i in range(6):
-            joint_value = input("Enter value for joint {} (current value: {}) or 'skip' to keep current value: ".format(i, joint_angles[i]))
-            if joint_value.lower() == 'q':
+            joint_value = input(
+                "Enter value for joint {} (current value: {}) or 'skip' to keep current value: ".format(
+                    i, joint_angles[i]
+                )
+            )
+            if joint_value.lower() == "q":
                 print("Skipping joint {}".format(i))
                 continue
             try:
@@ -854,16 +874,18 @@ class Bestman:
             )
         p.stepSimulation(physicsClientId=self.client_id)
         # time.sleep(1.0 / self.frequency)
-    
+
     def execute_trajectory(self, trajectory):
         for joints_value in trajectory:
             # print("joints_value:{}".format(joints_value))
-            p.setJointMotorControlArray(bodyUniqueId=self.arm_id, 
-                                        jointIndices=[0, 1, 2, 3, 4, 5], 
-                                        controlMode=p.POSITION_CONTROL,
-                                        targetPositions=joints_value)
+            p.setJointMotorControlArray(
+                bodyUniqueId=self.arm_id,
+                jointIndices=[0, 1, 2, 3, 4, 5],
+                controlMode=p.POSITION_CONTROL,
+                targetPositions=joints_value,
+            )
             p.stepSimulation(physicsClientId=self.client_id)
-        print('-' * 20 + '\n' + 'Excite trajectory finished!')
+        print("-" * 20 + "\n" + "Excite trajectory finished!")
 
     def move_arm_to_joint_angles(self, joint_angles):
         """
@@ -1211,14 +1233,16 @@ class Bestman:
         """
 
         gripper_status = {"ungrasp": 0, "grasp": 1}
-        gripper_value = gripper_status["grasp"] if value == 1 else gripper_status["ungrasp"]
+        gripper_value = (
+            gripper_status["grasp"] if value == 1 else gripper_status["ungrasp"]
+        )
 
         if gripper_value == 0 and self.gripper_id != None:
             p.removeConstraint(self.gripper_id, physicsClientId=self.client_id)
             self.gripper_id = None
             for _ in range(self.frequency):
                 p.stepSimulation(physicsClientId=self.client_id)
-            print('-'*20 + '\n' + 'Gripper has been deactivated!')
+            print("-" * 20 + "\n" + "Gripper has been deactivated!")
 
         if gripper_value == 1 and self.gripper_id == None:
             cube_orn = p.getQuaternionFromEuler([0, math.pi, 0])  # control rotation
@@ -1235,7 +1259,7 @@ class Bestman:
                     childFrameOrientation=cube_orn,
                     physicsClientId=self.client_id,
                 )
-                print('-'*20 + '\n' + 'Gripper has been activated!')
+                print("-" * 20 + "\n" + "Gripper has been activated!")
             else:
                 self.gripper_id = p.createConstraint(
                     self.arm_id,
@@ -1249,12 +1273,11 @@ class Bestman:
                     childFrameOrientation=cube_orn,
                     physicsClientId=self.client_id,
                 )
-                print('-'*20 + '\n' + 'Gripper has been activated!')
-        
+                print("-" * 20 + "\n" + "Gripper has been activated!")
+
         for _ in range(10):
             p.stepSimulation(physicsClientId=self.client_id)
             # time.sleep(1.0 / self.frequency)
-
 
     def calculate_IK_error(self, goal_position, goal_orientation):
         """
