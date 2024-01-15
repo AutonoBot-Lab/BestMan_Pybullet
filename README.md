@@ -1,4 +1,4 @@
-# BestMan ⚙️ A Pybullet-based Mobile Manipulator Simulator
+# BestMan - A Pybullet-based Mobile Manipulator Simulator
 
 Welcome to the official repository for the BestMan Robot Simulator, integrated with Pybullet. This project provides a comprehensive simulation environment for the BestMan robot, a sophisticated machine featuring a robust base and a versatile arm (Ur5e).
 
