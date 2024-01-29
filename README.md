@@ -5,9 +5,17 @@ Welcome to the official repository for the BestMan Robot Simulator, integrated w
 
 ## 💻 Installation
 
-`git clone --recurse-submodules https://github.com/yding25/BestMan_Pybullet.git`
+```
+git clone --recurse-submodules https://github.com/yding25/BestMan_Pybullet.git
+```
 
-`cd BestMan_Pybullet`
+[Install OMPL package](https://github.com/ompl/ompl/releases/tag/prerelease)
+```
+pip3 install pygccxml==2.2.1.
+cd BestMan_Pybullet/package_OMPL
+pip3 install ompl-1.6.0-cp38-cp38-manylinux_2_28_x86_64.whl
+```
+
 
 ## :mag_right: Project Structure
 ```
