@@ -5,11 +5,9 @@ Welcome to the official repository for the BestMan Robot Simulator, integrated w
 
 ## 💻 Installation
 
-`git clone https://github.com/yding25/BestMan_Pybullet.git`
+`git clone --recurse-submodules https://github.com/yding25/BestMan_Pybullet.git`
 
 `cd BestMan_Pybullet`
-
-`git submodule update --init --recursive`
 
 ## :mag_right: Project Structure
 ```
@@ -73,3 +71,25 @@ Demonstration Video
 
 - **APIs_in_utils.txt**: A detailed list of common functions used in the utility scripts
 
+###  🚀 Citation
+```
+@article{ding2023task,
+  title={Task and motion planning with large language models for object rearrangement},
+  author={Ding, Yan and Zhang, Xiaohan and Paxton, Chris and Zhang, Shiqi},
+  journal={arXiv preprint arXiv:2303.06247},
+  year={2023}
+}
+@article{ding2023integrating,
+  title={Integrating Action Knowledge and LLMs for Task Planning and Situation Handling in Open Worlds},
+  author={Ding, Yan and Zhang, Xiaohan and Amiri, Saeid and Cao, Nieqing and Yang, Hao and Kaminski, Andy and Esselink, Chad and Zhang, Shiqi},
+  journal={arXiv preprint arXiv:2305.17590},
+  year={2023}
+}
+@article{gao2023orla,
+  title={ORLA*: Mobile Manipulator-Based Object Rearrangement with Lazy A},
+  author={Gao, Kai and Ding, Yan and Zhang, Shiqi and Yu, Jingjin},
+  journal={arXiv preprint arXiv:2309.13707},
+  year={2023}
+}
+
+```
