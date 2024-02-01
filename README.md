@@ -129,10 +129,4 @@ python3 ./examples/grasp_bowl_from_drawer_in_kitchen0.py
   journal={arXiv preprint arXiv:2305.17590},
   year={2023}
 }
-@article{gao2023orla,
-  title={ORLA*: Mobile Manipulator-Based Object Rearrangement with Lazy A},
-  author={Gao, Kai and Ding, Yan and Zhang, Shiqi and Yu, Jingjin},
-  journal={arXiv preprint arXiv:2309.13707},
-  year={2023}
-}
 ```
