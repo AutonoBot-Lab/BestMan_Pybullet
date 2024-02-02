@@ -49,7 +49,12 @@ demo.move_arm_to_joint_angles(init_joint)  # reset arm joint position
 # load bowl
 bowl_position = [0.85, 0.5, 1.45]
 bowl_id = pb_client.load_object(
-    "../URDF_models/bowl/model.urdf", bowl_position, [0.0, 0.0, 0.0], 1.0, "bowl"
+    "../URDF_models/bowl/model.urdf",
+    bowl_position,
+    [0.0, 0.0, 0.0],
+    1.0,
+    "bowl",
+    tag_obstacle_navigate=False,
 )
 
 demo.debug_set_joint_values()

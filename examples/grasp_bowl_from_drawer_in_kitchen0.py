@@ -73,6 +73,7 @@ bowl_id = pb_client.load_object(
     [0.0, 0.0, 0.0],
     1.0,
     "bowl",
+    tag_obstacle_navigate=False,
 )
 pb_client.run(100)
 _, _, min_z, _, _, max_z = pb_client.get_bounding_box(bowl_id)

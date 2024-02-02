@@ -60,6 +60,7 @@ bowl_id = pb_client.load_object(
     [0.0, 0.0, 0.0],
     1.0,
     "bowl",
+    tag_obstacle_navigate=False,
 )
 
 pb_client.wait(2)

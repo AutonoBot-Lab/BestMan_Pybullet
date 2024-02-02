@@ -56,6 +56,7 @@ bowl_id = pb_client.load_object(
     [0.0, 0.0, 0.0],
     1.0,
     "bowl",
+    tag_obstacle_navigate=False,
 )
 chair_id = pb_client.load_object(
     "./URDF_models/furniture_chair/model.urdf",
@@ -63,6 +64,7 @@ chair_id = pb_client.load_object(
     [math.pi / 2.0 * 3, 0.0, math.pi / 2.0],
     1.5,
     "chair",
+    tag_obstacle_navigate=False,
 )
 
 # add obstacles in the navigation

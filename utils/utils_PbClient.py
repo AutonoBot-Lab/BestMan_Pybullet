@@ -277,6 +277,7 @@ class PbClient:
         scale,
         obj_name,
         fixed_base=False,
+        tag_obstacle_navigate=True,
     ):
         """
         Load a given object into the PyBullet simulation environment.
@@ -310,7 +311,8 @@ class PbClient:
         #     + "\n"
         #     + "{}_id: {}".format(obj_name, getattr(self, f"{obj_name}_id"))
         # )
-        self.obstacle_navigation_ids.append(getattr(self, f"{obj_name}_id"))
+        if tag_obstacle_navigate:
+            self.obstacle_navigation_ids.append(getattr(self, f"{obj_name}_id"))
         self.obstacle_manipulation_ids.append(getattr(self, f"{obj_name}_id"))
         time.sleep(1.0 / self.frequency)
         return getattr(self, f"{obj_name}_id")
