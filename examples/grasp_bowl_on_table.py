@@ -20,7 +20,6 @@ sys.path.append(utils_path)
 from utils_Bestman import Bestman, Pose
 from utils_PbClient import PbClient
 from utils_PbVisualizer import PbVisualizer
-from utils_Kitchen_object import Kitchen
 
 """
 main functions
@@ -56,6 +55,7 @@ bowl_id = pb_client.load_object(
 
 # grasp target object
 orientation_vertical = [0.0, math.pi / 2.0, 0.0]
+# pb_client.wait(1)
 demo.pick_place(bowl_id, [0.9, 0.7, 0.85], orientation_vertical)
 
 # end recording

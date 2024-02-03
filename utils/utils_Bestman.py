@@ -127,9 +127,10 @@ class Bestman:
         filenames = {
             "ur5e": "./URDF_robot/ur5e.urdf",
             "ur5e_vacuum": "./URDF_robot/ur5e_vacuum.urdf",
+            "ur5e_vacuum_long": "./URDF_robot/ur5e_vacuum_long.urdf",
             "ur5_robotiq_85": "./URDF_robot/model_elephant/urdf/ur5_robotiq_85.urdf",
         }
-        filename = filenames["ur5e_vacuum"]
+        filename = filenames["ur5e_vacuum_long"]
         print("-" * 20 + "\n" + "Arm model: {}".format(filename))
         self.arm_id = p.loadURDF(
             fileName=filename,
@@ -147,7 +148,10 @@ class Bestman:
             self.tcp_height = 0
         elif filename.endswith("ur5e_vacuum.urdf"):
             self.tcp_link = 8
-            self.tcp_height = 0.065  # real value is 0.061
+            self.tcp_height = 0.065
+        elif filename.endswith("ur5e_vacuum_long.urdf"):
+            self.tcp_link = 11
+            self.tcp_height = 0.11
         elif filename.endswith("ur5_robotiq_85.urdf"):
             self.tcp_link = 18
             self.tcp_height = 0  # TODO
