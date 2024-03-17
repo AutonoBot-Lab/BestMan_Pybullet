@@ -27,9 +27,9 @@ utils_path = os.path.dirname(current_path)
 if os.path.basename(utils_path) != "utils":
     raise ValueError('Not add the path of folder "utils", please check again!')
 sys.path.append(utils_path)
-from utils_PbVisualizer import PbVisualizer
-from utils_PbClient import PbClient
-from utils_PIDController import PIDController
+from refactor.Visualization.utils_PbVisualizer import PbVisualizer
+from refactor.Env.utils_PbClient import PbClient
+from refactor.Motion_Planning.Controller.PIDController import PIDController
 
 
 class CameraInfo:

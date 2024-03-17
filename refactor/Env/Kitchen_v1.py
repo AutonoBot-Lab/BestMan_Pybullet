@@ -29,7 +29,7 @@ if os.path.basename(utils_path) != "utils":
 sys.path.append(utils_path)
 from utils_PbVisualizer import PbVisualizer
 from utils_PbClient import PbClient
-from utils_PIDController import PIDController
+from refactor.Motion_Planning.Controller.PIDController import PIDController
 
 
 class Kitchen:
