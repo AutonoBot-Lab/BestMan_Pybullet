@@ -4,16 +4,13 @@
 @Time        :   2023/08/30 22:22:14
 """
 
-import cv2
+
 import pybullet as p
 import pybullet_data
-import math
 import time
 import numpy as np
-import networkx as nx
 import matplotlib.pyplot as plt
 import random
-from matplotlib.colors import LinearSegmentedColormap
 
 
 """
