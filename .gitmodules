@@ -1,5 +1,4 @@
 [submodule "URDF_models"]
-    # path = URDF_models
     path = refactor/Asset/URDF_models
     url = https://github.com/yding25/URDF_models.git
     branch = main
@@ -8,4 +7,3 @@
     path = URDF_robot/model_elephant
     url = https://github.com/yding25/model_elephant.git
     branch = main
-
