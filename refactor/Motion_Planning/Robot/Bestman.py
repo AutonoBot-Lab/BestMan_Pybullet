@@ -150,9 +150,10 @@ class Bestman:
         self.gripper_id = None
 
     # ----------------------------------------------------------------
-    # functions for arm and base
+    # functions for base and arm
     # ----------------------------------------------------------------
-    def get_joint_link_info(self, robot_name):  # Print base's joint information
+    
+    def get_joint_link_info(self, robot_name):  # Print base or arm joint information
         if robot_name == "base":
             robot_id = self.base_id
         elif robot_name == "arm":
@@ -175,27 +176,55 @@ class Bestman:
             )
             print("Link index: {}, name: {}".format(i, link_name))
 
-    # ----------------------------------------------------------------
-    # Base Navigation
-    # ----------------------------------------------------------------
-    def navigate_base(self, goal_base_pose):
+    def sync_base_arm_pose(self):
         """
-        Navigate a robot from its current position to a specified goal position
+        Synchronize the arm and base position
+        """
+        position, orientation = p.getBasePositionAndOrientation(
+            self.base_id, physicsClientId=self.client_id
+        )
+        position = [position[0], position[1], self.arm_height]  # fixed height
+        p.resetBasePositionAndOrientation(
+            self.arm_id, position, orientation, physicsClientId=self.client_id
+        )
+
+    def action(self, output):
+        """
+        Ajust base position using PID controller's output
 
         Args:
-            goal_base_pose (Pose): The target pose (poTruesition and orientation) for the robot.
+            output (float): The output of the PID controller, which is used to calculate the new position of the robot's base.
         """
-        init_base_pose = self.get_base_pose()  # get current base pose
-        path = self.find_base_path(
-            init_base_pose, goal_base_pose
-        )  # get a set of waypoints
-        for waypoint in path:
-            self.move_base_to_next_waypoint(
-                Pose([waypoint[0], waypoint[1], 0], goal_base_pose.orientation)
-            )  # move to each waypoint
-        self.rotate_base(goal_base_pose.yaw)
-        print("-" * 20 + "\n" + "Navigation is done!")
+        position, orientation = p.getBasePositionAndOrientation(
+            self.base_id, physicsClientId=self.client_id
+        )
+        euler_angles = p.getEulerFromQuaternion(
+            orientation, physicsClientId=self.client_id
+        )
 
+        delta_x = output * math.cos(euler_angles[2])
+        delta_y = output * math.sin(euler_angles[2])
+
+        target_position = [position[0] + delta_x, position[1] + delta_y, position[2]]
+        target_orientation = orientation
+
+        result = self.check_collision_navigation()  # check if collision exists
+        if result:
+            assert "Collision detected during navigation, stopping..."
+
+        p.resetBasePositionAndOrientation(
+            self.base_id,
+            target_position,
+            target_orientation,
+            physicsClientId=self.client_id,
+        )
+        self.sync_base_arm_pose()
+        # time.sleep(1.0 / self.frequency)
+
+    # ----------------------------------------------------------------
+    # functions for base
+    # ----------------------------------------------------------------
+    
     def get_base_pose(self):
         """
         Retrieve current position and orientation of a specific object
@@ -212,6 +241,445 @@ class Bestman:
         )
         return Pose(base_position, base_orientation)
 
+    def rotate_base(self, target_yaw, gradual=True, step_size=0.05, delay_time=0.05):
+        """
+        Rotate base to a specified yaw angle. Can be done gradually or at once.
+
+        Args:
+            target_yaw (float): The target yaw angle (in radians) for the base.
+            gradual (bool): If True, the rotation is done gradually. Otherwise, it's instant.
+            step_size (float, optional): Angle increment for each step in radians. Only used if gradual=True.
+            delay_time (float, optional): Delay in seconds after each step. Only used if gradual=True.
+        """
+
+        def angle_to_quaternion(yaw):
+            return [0, 0, math.sin(yaw / 2.0), math.cos(yaw / 2.0)]
+
+        if gradual:
+            while abs(self.current_yaw - target_yaw) > step_size:
+                if target_yaw > self.current_yaw:
+                    self.current_yaw = min(self.current_yaw + step_size, target_yaw)
+                else:
+                    self.current_yaw = max(self.current_yaw - step_size, target_yaw)
+
+                orientation = angle_to_quaternion(self.current_yaw)
+                position, _ = p.getBasePositionAndOrientation(
+                    self.base_id, physicsClientId=self.client_id
+                )
+                p.resetBasePositionAndOrientation(
+                    self.base_id, position, orientation, physicsClientId=self.client_id
+                )
+
+                if self.arm_id is not None:
+                    self.sync_base_arm_pose()
+
+                p.stepSimulation(physicsClientId=self.client_id)
+                # time.sleep(1.0 / self.frequency)
+
+            # Ensure final orientation is set accurately
+            orientation = angle_to_quaternion(target_yaw)
+            position, _ = p.getBasePositionAndOrientation(
+                self.base_id, physicsClientId=self.client_id
+            )
+            p.resetBasePositionAndOrientation(
+                self.base_id, position, orientation, physicsClientId=self.client_id
+            )
+            p.stepSimulation(physicsClientId=self.client_id)
+            # time.sleep(1.0 / self.frequency)
+
+        else:
+            orientation = angle_to_quaternion(target_yaw)
+            position, _ = p.getBasePositionAndOrientation(
+                self.base_id, physicsClientId=self.client_id
+            )
+            p.resetBasePositionAndOrientation(
+                self.base_id, position, orientation, physicsClientId=self.client_id
+            )
+
+            if self.arm_id is not None:
+                self.sync_base_arm_pose()
+
+            p.stepSimulation(physicsClientId=self.client_id)
+    
+    def check_collision_navigation(self):
+        """
+        Check if collision exists during navigation
+        """
+        for obstacle_id in self.pb_client.obstacle_navigation_ids:
+            aabb_base = self.pb_client.get_bounding_box(self.base_id)
+            aabb_obstacle = self.pb_client.get_bounding_box(obstacle_id)
+            if self.pb_client.check_collision_xy(
+                aabb_base, aabb_obstacle
+            ):  # print("Collision detected during navigation, stopping...")
+                return True
+        return False
+    
+    def move_base_to_next_waypoint(self, next_waypoint):
+        """
+        Move base to next_waypoint
+        The robot first rotates towards the target, and then moves towards it in a straight line.
+        The movement is controlled by a controller (assumed to be a PID controller) that adjusts the velocity of the robot based on the distance to the target.
+
+        Args:
+            next_waypoint (Pose): The target pose (position and orientation) for the robot. This should be an instance of a Pose class, which is assumed to have 'x' and 'y' properties.
+        """
+        self.next_waypoint = next_waypoint
+        self.target_distance = 0.0
+        self.rotated = False
+
+        while True:
+            pose = self.get_base_pose()
+            target = self.next_waypoint
+            x, y = pose.x, pose.y
+
+            distance = math.sqrt((target.y - y) ** 2 + (target.x - x) ** 2)
+            yaw = math.atan2(target.y - y, target.x - x)
+
+            self.distance_controller.set_goal(self.target_distance)
+            output = self.distance_controller.calculate(distance)
+
+            if not self.rotated:
+                self.rotate_base(yaw)
+                self.rotated = True
+
+            THRESHOLD = 0.01
+            if distance < THRESHOLD:
+                output = 0.0
+                pose = self.get_base_pose()
+                break
+
+            self.action(-output)     
+       
+    def navigate_base(self, goal_base_pose, path):
+        """
+        Navigate a robot from its current position to a specified goal position
+
+        Args:
+            goal_base_pose (Pose): The target pose (poTruesition and orientation) for the robot.
+        """
+        # init_base_pose = self.get_base_pose()  # get current base pose
+        # path = self.find_base_path(
+        #     init_base_pose, goal_base_pose
+        # )  # get a set of waypoints
+        for waypoint in path:
+            self.move_base_to_next_waypoint(
+                Pose([waypoint[0], waypoint[1], 0], goal_base_pose.orientation)
+            )  # move to each waypoint
+        self.rotate_base(goal_base_pose.yaw)
+        print("-" * 20 + "\n" + "Navigation is done!")
+
+    # ----------------------------------------------------------------
+    # functions for arm
+    # ----------------------------------------------------------------
+    
+    def adjust_arm_height(self, height):
+        # dynmaically adjust arm height
+        self.arm_height = height
+        self.pb_client.run(100)
+        print("-" * 20 + "\n" + "Arm height has changed into {}".format(height))
+
+    def get_arm_joint_angle(self):
+        """
+        Retrieve arm's joint angle
+        """
+        joint_angles = []
+        for i in range(6):
+            joint_state = p.getJointState(
+                self.arm_id, i, physicsClientId=self.client_id
+            )
+            joint_angle = joint_state[0]
+            joint_angles.append(joint_angle)  # Add the current joint angle to the list
+        print(
+            "Joint angles (only arm and not include ee_fixed_joint):{}".format(
+                joint_angles
+            )
+        )
+        return joint_angles  # Return the list of joint angles
+    
+    def set_arm_to_joint_angles(self, joint_angles):
+        """
+        Set arm to move to a specific set of joint angles, witout considering physics
+
+        Args:
+            joint_angles: A list of desired joint angles (in radians) for each joint of the arm.
+        """
+        for joint_index in range(6):
+            p.resetJointState(
+                bodyUniqueId=self.arm_id,
+                jointIndex=joint_index,
+                targetValue=joint_angles[joint_index],
+                physicsClientId=self.client_id,
+            )
+        p.stepSimulation(physicsClientId=self.client_id)
+        # time.sleep(1.0 / self.frequency)
+            
+    def debug_set_joint_values(self):
+        """
+        Manually set each joint value of the arm for debugging purposes.
+        """
+        joint_angles = self.get_arm_joint_angle()
+        print("Current joint angles: {}".format(joint_angles))
+
+        for i in range(6):
+            joint_value = input(
+                "Enter value for joint {} (current value: {}) or 'skip' to keep current value: ".format(
+                    i, joint_angles[i]
+                )
+            )
+            if joint_value.lower() == "q":
+                print("Skipping joint {}".format(i))
+                continue
+            try:
+                joint_angles[i] = float(joint_value)
+            except ValueError:
+                print("Invalid input. Keeping current value for joint {}.".format(i))
+
+        self.set_arm_to_joint_angles(joint_angles)
+        print("Updated joint angles: {}".format(joint_angles))
+
+    def move_arm_to_joint_angles(self, joint_angles):
+        """
+        Move arm to move to a specific set of joint angles, with considering physics
+
+        Args:
+            joint_angles: A list of desired joint angles (in radians) for each joint of the arm.
+        """
+        for joint_index in range(6):
+            p.setJointMotorControl2(
+                bodyUniqueId=self.arm_id,
+                jointIndex=joint_index,
+                controlMode=p.POSITION_CONTROL,
+                targetPosition=joint_angles[joint_index],
+                force=self.max_force,
+                physicsClientId=self.client_id,
+            )
+
+        start_time = time.time()  # avoid time anomaly
+
+        while True:
+            p.stepSimulation(physicsClientId=self.client_id)
+
+            # Check if reach the goal
+            current_angles = [
+                p.getJointState(self.arm_id, i, physicsClientId=self.client_id)[0]
+                for i in range(6)
+            ]
+            diff_angles = [abs(a - b) for a, b in zip(joint_angles, current_angles)]
+            if all(diff < self.threshold for diff in diff_angles):
+                # print(
+                #     "-" * 20
+                #     + "\n"
+                #     + "Reached target joint position:{}".format(joint_angles)
+                # )
+                break
+
+            if time.time() - start_time > self.timeout:  # avoid time anomaly
+                print(
+                    "-" * 20 + "\n" + "Timeout before reaching target joint position."
+                )
+                break
+    
+    def execute_trajectory(self, trajectory):
+        for joints_value in trajectory:
+            # print("joints_value:{}".format(joints_value))
+            p.setJointMotorControlArray(
+                bodyUniqueId=self.arm_id,
+                jointIndices=[0, 1, 2, 3, 4, 5],
+                controlMode=p.POSITION_CONTROL,
+                targetPositions=joints_value,
+            )
+            p.stepSimulation(physicsClientId=self.client_id)
+        print("-" * 20 + "\n" + "Excite trajectory finished!")
+
+    def get_end_effector_info(self):
+        """
+        Retrieve arm's end effect information
+        """
+        joint_info = p.getJointInfo(
+            self.arm_id, self.end_effector_index, physicsClientId=self.client_id
+        )
+        end_effector_name = joint_info[1].decode("utf-8")
+        end_effector_info = p.getLinkState(
+            bodyUniqueId=self.arm_id,
+            linkIndex=self.end_effector_index,
+            physicsClientId=self.client_id,
+        )
+        end_effector_position = end_effector_info[0]
+        end_effector_orientation = end_effector_info[1]
+        print("-" * 20 + "\n" + "End effector name:{}".format(end_effector_name))
+        print(
+            "Position:{}; Orientation:{}".format(
+                end_effector_position, end_effector_orientation
+            )
+        )
+        return end_effector_position, end_effector_orientation
+
+    def joints_to_cartesian(self, joint_angles):
+        """
+        Transform from arm's joint angles to its Cartesian coordinates
+        """
+        self.set_arm_to_joint_angles(joint_angles)
+        end_effector_info = p.getLinkState(
+            bodyUniqueId=self.arm_id,
+            linkIndex=self.end_effector_index,
+            physicsClientId=self.client_id,
+        )
+        orientation = p.getEulerFromQuaternion(
+            end_effector_info[1], physicsClientId=self.client_id
+        )
+        position = end_effector_info[0]
+        # print("-" * 30 + "\n" + "position:{}".format(position))
+        # print("orientation:{}".format(orientation))
+        return position
+
+    def cartesian_to_joints(self, position, orientation):
+        """
+        Transform from arm's Cartesian coordinates to its joint angles
+        """
+        joint_angles = p.calculateInverseKinematics(
+            bodyUniqueId=self.arm_id,
+            endEffectorLinkIndex=self.end_effector_index,
+            targetPosition=position,
+            targetOrientation=p.getQuaternionFromEuler(orientation),
+            maxNumIterations=self.max_iterations,
+            residualThreshold=self.threshold,
+            physicsClientId=self.client_id,
+        )
+        return joint_angles
+
+    def rotate_end_effector(self, angle):
+        """
+        Rotate the end effector of the robot arm by a specified angle.
+
+        Args:
+            angle (float): The desired rotation angle in radians.
+        """
+        # Get the current joint states
+        joint_indices = [i for i in range(6)]
+
+        # Change this to your actual joint indices
+        joint_states = p.getJointStates(
+            self.arm_id, joint_indices, physicsClientId=self.client_id
+        )
+
+        # Create a new list of target joint angles
+        target_joint_angles = [joint_state[0] for joint_state in joint_states]
+
+        # Add desired rotation to the last joint's current angle
+        target_joint_angles[-1] += angle
+
+        # Set the target angles
+        self.set_arm_to_joint_angles(target_joint_angles)
+
+        # Step the simulation until the joints reach their target angles
+        while True:
+            # Update the current joint states
+            joint_states = p.getJointStates(
+                self.arm_id, joint_indices, physicsClientId=self.client_id
+            )
+            current_joint_angles = [joint_state[0] for joint_state in joint_states]
+
+            # Check if all joints have reached their target angles
+            if all(
+                abs(current_joint_angles[i] - target_joint_angles[i]) < 0.01
+                for i in range(6)
+            ):
+                break
+
+            p.stepSimulation(physicsClientId=self.client_id)
+            # time.sleep(1.0 / self.frequency)
+
+        print("-" * 20 + "\n" + "Rotation completed!")
+
+    def move_end_effector_to_goal_pose(self, end_effector_goal_pose):
+        """
+        Move arm's end effector to a target position.
+
+        Args:
+            end_effector_goal_pose (Pose): The desired pose of the end effector (includes both position and orientation).
+        """
+
+        # get current end effector position
+        state = p.getLinkState(
+            bodyUniqueId=self.arm_id,
+            linkIndex=self.end_effector_index,
+            physicsClientId=self.client_id,
+        )
+        current_position = state[0]
+
+        # calculate distance
+        distance = np.linalg.norm(
+            np.array(end_effector_goal_pose.position) - np.array(current_position)
+        )
+
+        # # check if the distance is small enough, if yes, return immediately
+        # if distance < self.threshold:  # use an appropriate value here
+        #     print("Current position is already close to target position. No need to move.")
+        #     return True
+
+        target_position = end_effector_goal_pose.position
+        target_orientation = end_effector_goal_pose.orientation
+        # target_orientation = [0, math.pi / 2.0, 0]  # vcertical downward grip
+
+        attempts = 0
+        while attempts < self.max_attempts:
+            joint_angles = self.cartesian_to_joints(target_position, target_orientation)
+
+            # If IK solution is invalid, break this loop and start a new attempt
+            if joint_angles is None or len(joint_angles) != 6:
+                break
+
+            # Test the calculated angles for collision
+            for joint_index, joint_angle in enumerate(joint_angles):
+                p.resetJointState(
+                    self.arm_id,
+                    joint_index,
+                    joint_angle,
+                    physicsClientId=self.client_id,
+                )
+
+            p.stepSimulation(physicsClientId=self.client_id)
+
+            # if p.getContactPoints(self.arm_id): # collision with other objects
+            if p.getContactPoints(
+                self.arm_id, self.base_id, physicsClientId=self.client_id
+            ):
+                # Collision detected, break and re-calculate the IK
+                break
+            else:
+                # get current end effector position
+                state = p.getLinkState(
+                    bodyUniqueId=self.arm_id,
+                    linkIndex=self.end_effector_index,
+                    physicsClientId=self.client_id,
+                )
+                current_position = state[0]
+
+                # calculate error
+                error = np.linalg.norm(
+                    np.array(target_position) - np.array(current_position)
+                )
+                # print('current_position:{}, target_position:{}, error:{}'.format(current_position, target_position, error))
+
+                if error < self.threshold * 2:
+                    self.move_arm_to_joint_angles(joint_angles)
+                    # print(
+                    #     "Reached target end effector position:{}".format(
+                    #         end_effector_goal_pose.position
+                    #     )
+                    # )
+                    return True
+            attempts += 1
+        print(
+            "-" * 20
+            + "\n"
+            + "Could not reach target position without collision after {} attempts".format(
+                self.max_attempts
+            )
+        )
+        return False
+    
+    
     # use a simple method to compute standing map
     def get_standing_map(
         self,
@@ -426,664 +894,6 @@ class Bestman:
         best_position_world_3d = [best_position_world[0], best_position_world[1], z]
 
         return best_position_world_3d
-
-    # # use A* algorithm to find a Manhattan path
-    # def find_base_path(
-    #     self,
-    #     init_base_position,
-    #     goal_base_position,
-    #     x_max=10,
-    #     y_max=10,
-    #     resolution=0.05,
-    #     enable_accurate_occupancy_map=True,
-    #     enable_plot=True,
-    # ):
-    #     """
-    #     Find a path from a specified initial position to a goal position in a 2D grid representation
-
-    #     Args:
-    #         init_base_position (Pose): The initial position of the robot.
-    #         goal_base_position (Pose): The goal position of the robot.
-
-    #     Returns:
-    #         The function returns a list of waypoints that form a path from the initial position to the goal position.
-    #         Each waypoint is a list [x, y] representing a position in the world coordinates.
-
-    #     Note:
-    #         A* for path searching in map: 10 meter * 10 meter
-    #         resolution is 0.1 meter
-    #         a 2D grid: 1 for obstacles
-    #     """
-    #     init_base_position = init_base_position.position[0:2]  # only care about x, y
-    #     goal_base_position = goal_base_position.position[0:2]
-
-    #     def to_grid_coordinates(point, resolution):
-    #         return [
-    #             int(round((coordinate + max_val) / resolution))
-    #             for coordinate, max_val in zip(point, [x_max, y_max])
-    #         ]
-
-    #     def to_world_coordinates(point, resolution):
-    #         return [
-    #             (coordinate * resolution) - max_val
-    #             for coordinate, max_val in zip(point, [x_max, y_max])
-    #         ]
-
-    #     # Defining the environment size (in meters) and resolution
-    #     size_x = 2 * x_max
-    #     size_y = 2 * y_max
-    #     n_points_x = int(size_x / resolution)
-    #     n_points_y = int(size_y / resolution)
-
-    #     # Create a 2D grid representing the environment
-    #     static_map = np.zeros((n_points_x, n_points_y))
-
-    #     # get arm and base size in meters
-    #     (
-    #         min_x_base,
-    #         min_y_base,
-    #         _,
-    #         max_x_base,
-    #         max_y_base,
-    #         _,
-    #     ) = self.pb_client.get_bounding_box(self.base_id)
-    #     (
-    #         min_x_arm,
-    #         min_y_arm,
-    #         _,
-    #         max_x_arm,
-    #         max_y_arm,
-    #         _,
-    #     ) = self.pb_client.get_bounding_box(self.arm_id)
-    #     robot_size = max(
-    #         max_x_base - min_x_base,
-    #         max_y_base - min_y_base,
-    #         max_x_arm - min_x_arm,
-    #         max_y_arm - min_y_arm,
-    #     )
-    #     # print("robot size:{}".format(robot_size))
-
-    #     # Compute the number of grid cells to inflate around each obstacle
-    #     inflate_cells = int(round(robot_size / 2 / resolution))
-
-    #     if not enable_accurate_occupancy_map:
-    #         # get occupancy map
-    #         for obstacle_id in self.pb_client.obstacle_navigation_ids:
-    #             aabb = self.pb_client.get_bounding_box(obstacle_id)
-    #             for i in range(
-    #                 max(0, int((aabb[0] + x_max) / resolution) - inflate_cells),
-    #                 min(
-    #                     n_points_x, int((aabb[3] + x_max) / resolution) + inflate_cells
-    #                 ),
-    #             ):
-    #                 for j in range(
-    #                     max(0, int((aabb[1] + y_max) / resolution) - inflate_cells),
-    #                     min(
-    #                         n_points_y,
-    #                         int((aabb[4] + y_max) / resolution) + inflate_cells,
-    #                     ),
-    #                 ):
-    #                     static_map[i][j] = 1
-    #     else:
-    #         # get accurate occupancy map
-    #         for obstacle_id in self.pb_client.obstacle_navigation_ids:
-    #             link_ids = [
-    #                 i
-    #                 for i in range(
-    #                     -1, p.getNumJoints(obstacle_id, physicsClientId=self.client_id)
-    #                 )
-    #             ]
-    #             for link_id in link_ids:
-    #                 aabb_link = p.getAABB(
-    #                     obstacle_id, link_id, physicsClientId=self.client_id
-    #                 )
-    #                 aabb_link = list(aabb_link[0] + aabb_link[1])
-    #                 # print(
-    #                 #     "-" * 20
-    #                 #     + "\n"
-    #                 #     + "obstacle_id:{} link_id:{} aabb_link:{}".format(
-    #                 #         obstacle_id, link_id, aabb_link
-    #                 #     )
-    #                 # )
-    #                 for i in range(
-    #                     max(
-    #                         0, int((aabb_link[0] + x_max) / resolution) - inflate_cells
-    #                     ),
-    #                     min(
-    #                         n_points_x,
-    #                         int((aabb_link[3] + x_max) / resolution) + inflate_cells,
-    #                     ),
-    #                 ):
-    #                     for j in range(
-    #                         max(
-    #                             0,
-    #                             int((aabb_link[1] + y_max) / resolution)
-    #                             - inflate_cells,
-    #                         ),
-    #                         min(
-    #                             n_points_y,
-    #                             int((aabb_link[4] + y_max) / resolution)
-    #                             + inflate_cells,
-    #                         ),
-    #                     ):
-    #                         static_map[i][j] = 1
-
-    #     init_base_position_grid = to_grid_coordinates(init_base_position, resolution)
-    #     goal_base_position_grid = to_grid_coordinates(goal_base_position, resolution)
-
-    #     # Make sure the positions are within the environment and not on the table
-    #     assert (
-    #         0 <= init_base_position_grid[0] < n_points_x
-    #         and 0 <= init_base_position_grid[1] < n_points_y
-    #     ), "Initial base position is out of boundary!"
-    #     assert (
-    #         0 <= goal_base_position_grid[0] < n_points_x
-    #         and 0 <= goal_base_position_grid[1] < n_points_y
-    #     ), "Goal base position is out of boundary!"
-    #     assert (
-    #         static_map[init_base_position_grid[0], init_base_position_grid[1]] != 1
-    #     ), "Initial base position is in an obstacle!"
-    #     assert (
-    #         static_map[goal_base_position_grid[0], goal_base_position_grid[1]] != 1
-    #     ), "Goal base position is in an obstacle!"
-
-    #     # Convert the numpy grid map to NetworkX graph
-    #     graph = nwx.grid_2d_graph(n_points_x, n_points_y)
-    #     for i in range(n_points_x):
-    #         for j in range(n_points_y):
-    #             if static_map[i, j] == 1:
-    #                 graph.remove_node((i, j))
-
-    #     # A* star algorithm
-    #     path = nwx.astar_path(
-    #         graph, tuple(init_base_position_grid), tuple(goal_base_position_grid)
-    #     )
-
-    #     # print("path:{}".format(path))
-
-    #     if enable_plot:
-    #         plt.imshow(
-    #             static_map, cmap="gray_r", origin="lower"
-    #         )  # 'gray_r' means reversed grayscale
-
-    #         # Extract the x and y coordinates of the path
-    #         x_coords = [point[1] for point in path]
-    #         y_coords = [point[0] for point in path]
-
-    #         # Plot the path on top of the static_map
-    #         plt.plot(x_coords, y_coords, color="r", linewidth=2)
-    #         plt.show()
-
-    #     # Convert grid coordinates back to world coordinates
-    #     path = [to_world_coordinates(point, resolution) for point in path]
-    #     # print('raw path:{}'.format(path))
-
-    #     return path
-
-    def move_base_to_next_waypoint(self, next_waypoint):
-        """
-        Move base to next_waypoint
-        The robot first rotates towards the target, and then moves towards it in a straight line.
-        The movement is controlled by a controller (assumed to be a PID controller) that adjusts the velocity of the robot based on the distance to the target.
-
-        Args:
-            next_waypoint (Pose): The target pose (position and orientation) for the robot. This should be an instance of a Pose class, which is assumed to have 'x' and 'y' properties.
-        """
-        self.next_waypoint = next_waypoint
-        self.target_distance = 0.0
-        self.rotated = False
-
-        while True:
-            pose = self.get_base_pose()
-            target = self.next_waypoint
-            x, y = pose.x, pose.y
-
-            distance = math.sqrt((target.y - y) ** 2 + (target.x - x) ** 2)
-            yaw = math.atan2(target.y - y, target.x - x)
-
-            self.distance_controller.set_goal(self.target_distance)
-            output = self.distance_controller.calculate(distance)
-
-            if not self.rotated:
-                self.rotate_base(yaw)
-                self.rotated = True
-
-            THRESHOLD = 0.01
-            if distance < THRESHOLD:
-                output = 0.0
-                pose = self.get_base_pose()
-                break
-
-            self.action(-output)
-
-    def rotate_base(self, target_yaw, gradual=True, step_size=0.05, delay_time=0.05):
-        """
-        Rotate base to a specified yaw angle. Can be done gradually or at once.
-
-        Args:
-            target_yaw (float): The target yaw angle (in radians) for the base.
-            gradual (bool): If True, the rotation is done gradually. Otherwise, it's instant.
-            step_size (float, optional): Angle increment for each step in radians. Only used if gradual=True.
-            delay_time (float, optional): Delay in seconds after each step. Only used if gradual=True.
-        """
-
-        def angle_to_quaternion(yaw):
-            return [0, 0, math.sin(yaw / 2.0), math.cos(yaw / 2.0)]
-
-        if gradual:
-            while abs(self.current_yaw - target_yaw) > step_size:
-                if target_yaw > self.current_yaw:
-                    self.current_yaw = min(self.current_yaw + step_size, target_yaw)
-                else:
-                    self.current_yaw = max(self.current_yaw - step_size, target_yaw)
-
-                orientation = angle_to_quaternion(self.current_yaw)
-                position, _ = p.getBasePositionAndOrientation(
-                    self.base_id, physicsClientId=self.client_id
-                )
-                p.resetBasePositionAndOrientation(
-                    self.base_id, position, orientation, physicsClientId=self.client_id
-                )
-
-                if self.arm_id is not None:
-                    self.sync_base_arm_pose()
-
-                p.stepSimulation(physicsClientId=self.client_id)
-                # time.sleep(1.0 / self.frequency)
-
-            # Ensure final orientation is set accurately
-            orientation = angle_to_quaternion(target_yaw)
-            position, _ = p.getBasePositionAndOrientation(
-                self.base_id, physicsClientId=self.client_id
-            )
-            p.resetBasePositionAndOrientation(
-                self.base_id, position, orientation, physicsClientId=self.client_id
-            )
-            p.stepSimulation(physicsClientId=self.client_id)
-            # time.sleep(1.0 / self.frequency)
-
-        else:
-            orientation = angle_to_quaternion(target_yaw)
-            position, _ = p.getBasePositionAndOrientation(
-                self.base_id, physicsClientId=self.client_id
-            )
-            p.resetBasePositionAndOrientation(
-                self.base_id, position, orientation, physicsClientId=self.client_id
-            )
-
-            if self.arm_id is not None:
-                self.sync_base_arm_pose()
-
-            p.stepSimulation(physicsClientId=self.client_id)
-
-    def action(self, output):
-        """
-        Ajust base position using PID controller's output
-
-        Args:
-            output (float): The output of the PID controller, which is used to calculate the new position of the robot's base.
-        """
-        position, orientation = p.getBasePositionAndOrientation(
-            self.base_id, physicsClientId=self.client_id
-        )
-        euler_angles = p.getEulerFromQuaternion(
-            orientation, physicsClientId=self.client_id
-        )
-
-        delta_x = output * math.cos(euler_angles[2])
-        delta_y = output * math.sin(euler_angles[2])
-
-        target_position = [position[0] + delta_x, position[1] + delta_y, position[2]]
-        target_orientation = orientation
-
-        result = self.check_collision_navigation()  # check if collision exists
-        if result:
-            assert "Collision detected during navigation, stopping..."
-
-        p.resetBasePositionAndOrientation(
-            self.base_id,
-            target_position,
-            target_orientation,
-            physicsClientId=self.client_id,
-        )
-        self.sync_base_arm_pose()
-        # time.sleep(1.0 / self.frequency)
-
-    def sync_base_arm_pose(self):
-        """
-        Synchronize the arm and base position
-        """
-        position, orientation = p.getBasePositionAndOrientation(
-            self.base_id, physicsClientId=self.client_id
-        )
-        position = [position[0], position[1], self.arm_height]  # fixed height
-        p.resetBasePositionAndOrientation(
-            self.arm_id, position, orientation, physicsClientId=self.client_id
-        )
-
-    def check_collision_navigation(self):
-        """
-        Check if collision exists during navigation
-        """
-        for obstacle_id in self.pb_client.obstacle_navigation_ids:
-            aabb_base = self.pb_client.get_bounding_box(self.base_id)
-            aabb_obstacle = self.pb_client.get_bounding_box(obstacle_id)
-            if self.pb_client.check_collision_xy(
-                aabb_base, aabb_obstacle
-            ):  # print("Collision detected during navigation, stopping...")
-                return True
-        return False
-
-    # ----------------------------------------------------------------
-    # Arm Manipulation
-    # ----------------------------------------------------------------
-
-    def adjust_arm_height(self, height):
-        # dynmaically adjust arm height
-        self.arm_height = height
-        self.pb_client.run(100)
-        print("-" * 20 + "\n" + "Arm height has changed into {}".format(height))
-
-    def debug_set_joint_values(self):
-        """
-        Manually set each joint value of the arm for debugging purposes.
-        """
-        joint_angles = self.get_arm_joint_angle()
-        print("Current joint angles: {}".format(joint_angles))
-
-        for i in range(6):
-            joint_value = input(
-                "Enter value for joint {} (current value: {}) or 'skip' to keep current value: ".format(
-                    i, joint_angles[i]
-                )
-            )
-            if joint_value.lower() == "q":
-                print("Skipping joint {}".format(i))
-                continue
-            try:
-                joint_angles[i] = float(joint_value)
-            except ValueError:
-                print("Invalid input. Keeping current value for joint {}.".format(i))
-
-        self.set_arm_to_joint_angles(joint_angles)
-        print("Updated joint angles: {}".format(joint_angles))
-
-    def get_arm_joint_angle(self):
-        """
-        Retrieve arm's joint angle
-        """
-        joint_angles = []
-        for i in range(6):
-            joint_state = p.getJointState(
-                self.arm_id, i, physicsClientId=self.client_id
-            )
-            joint_angle = joint_state[0]
-            joint_angles.append(joint_angle)  # Add the current joint angle to the list
-        print(
-            "Joint angles (only arm and not include ee_fixed_joint):{}".format(
-                joint_angles
-            )
-        )
-        return joint_angles  # Return the list of joint angles
-
-    def set_arm_to_joint_angles(self, joint_angles):
-        """
-        Set arm to move to a specific set of joint angles, witout considering physics
-
-        Args:
-            joint_angles: A list of desired joint angles (in radians) for each joint of the arm.
-        """
-        for joint_index in range(6):
-            p.resetJointState(
-                bodyUniqueId=self.arm_id,
-                jointIndex=joint_index,
-                targetValue=joint_angles[joint_index],
-                physicsClientId=self.client_id,
-            )
-        p.stepSimulation(physicsClientId=self.client_id)
-        # time.sleep(1.0 / self.frequency)
-
-    def execute_trajectory(self, trajectory):
-        for joints_value in trajectory:
-            # print("joints_value:{}".format(joints_value))
-            p.setJointMotorControlArray(
-                bodyUniqueId=self.arm_id,
-                jointIndices=[0, 1, 2, 3, 4, 5],
-                controlMode=p.POSITION_CONTROL,
-                targetPositions=joints_value,
-            )
-            p.stepSimulation(physicsClientId=self.client_id)
-        print("-" * 20 + "\n" + "Excite trajectory finished!")
-
-    def move_arm_to_joint_angles(self, joint_angles):
-        """
-        Move arm to move to a specific set of joint angles, with considering physics
-
-        Args:
-            joint_angles: A list of desired joint angles (in radians) for each joint of the arm.
-        """
-        for joint_index in range(6):
-            p.setJointMotorControl2(
-                bodyUniqueId=self.arm_id,
-                jointIndex=joint_index,
-                controlMode=p.POSITION_CONTROL,
-                targetPosition=joint_angles[joint_index],
-                force=self.max_force,
-                physicsClientId=self.client_id,
-            )
-
-        start_time = time.time()  # avoid time anomaly
-
-        while True:
-            p.stepSimulation(physicsClientId=self.client_id)
-
-            # Check if reach the goal
-            current_angles = [
-                p.getJointState(self.arm_id, i, physicsClientId=self.client_id)[0]
-                for i in range(6)
-            ]
-            diff_angles = [abs(a - b) for a, b in zip(joint_angles, current_angles)]
-            if all(diff < self.threshold for diff in diff_angles):
-                # print(
-                #     "-" * 20
-                #     + "\n"
-                #     + "Reached target joint position:{}".format(joint_angles)
-                # )
-                break
-
-            if time.time() - start_time > self.timeout:  # avoid time anomaly
-                print(
-                    "-" * 20 + "\n" + "Timeout before reaching target joint position."
-                )
-                break
-
-    def get_end_effector_info(self):
-        """
-        Retrieve arm's end effect information
-        """
-        joint_info = p.getJointInfo(
-            self.arm_id, self.end_effector_index, physicsClientId=self.client_id
-        )
-        end_effector_name = joint_info[1].decode("utf-8")
-        end_effector_info = p.getLinkState(
-            bodyUniqueId=self.arm_id,
-            linkIndex=self.end_effector_index,
-            physicsClientId=self.client_id,
-        )
-        end_effector_position = end_effector_info[0]
-        end_effector_orientation = end_effector_info[1]
-        print("-" * 20 + "\n" + "End effector name:{}".format(end_effector_name))
-        print(
-            "Position:{}; Orientation:{}".format(
-                end_effector_position, end_effector_orientation
-            )
-        )
-        return end_effector_position, end_effector_orientation
-
-    def joints_to_cartesian(self, joint_angles):
-        """
-        Transform from arm's joint angles to its Cartesian coordinates
-        """
-        self.set_arm_to_joint_angles(joint_angles)
-        end_effector_info = p.getLinkState(
-            bodyUniqueId=self.arm_id,
-            linkIndex=self.end_effector_index,
-            physicsClientId=self.client_id,
-        )
-        orientation = p.getEulerFromQuaternion(
-            end_effector_info[1], physicsClientId=self.client_id
-        )
-        position = end_effector_info[0]
-        # print("-" * 30 + "\n" + "position:{}".format(position))
-        # print("orientation:{}".format(orientation))
-        return position
-
-    def cartesian_to_joints(self, position, orientation):
-        """
-        Transform from arm's Cartesian coordinates to its joint angles
-        """
-        joint_angles = p.calculateInverseKinematics(
-            bodyUniqueId=self.arm_id,
-            endEffectorLinkIndex=self.end_effector_index,
-            targetPosition=position,
-            targetOrientation=p.getQuaternionFromEuler(orientation),
-            maxNumIterations=self.max_iterations,
-            residualThreshold=self.threshold,
-            physicsClientId=self.client_id,
-        )
-        return joint_angles
-
-    def rotate_end_effector(self, angle):
-        """
-        Rotate the end effector of the robot arm by a specified angle.
-
-        Args:
-            angle (float): The desired rotation angle in radians.
-        """
-        # Get the current joint states
-        joint_indices = [i for i in range(6)]
-
-        # Change this to your actual joint indices
-        joint_states = p.getJointStates(
-            self.arm_id, joint_indices, physicsClientId=self.client_id
-        )
-
-        # Create a new list of target joint angles
-        target_joint_angles = [joint_state[0] for joint_state in joint_states]
-
-        # Add desired rotation to the last joint's current angle
-        target_joint_angles[-1] += angle
-
-        # Set the target angles
-        self.set_arm_to_joint_angles(target_joint_angles)
-
-        # Step the simulation until the joints reach their target angles
-        while True:
-            # Update the current joint states
-            joint_states = p.getJointStates(
-                self.arm_id, joint_indices, physicsClientId=self.client_id
-            )
-            current_joint_angles = [joint_state[0] for joint_state in joint_states]
-
-            # Check if all joints have reached their target angles
-            if all(
-                abs(current_joint_angles[i] - target_joint_angles[i]) < 0.01
-                for i in range(6)
-            ):
-                break
-
-            p.stepSimulation(physicsClientId=self.client_id)
-            # time.sleep(1.0 / self.frequency)
-
-        print("-" * 20 + "\n" + "Rotation completed!")
-
-    def move_end_effector_to_goal_position(self, end_effector_goal_pose):
-        """
-        Move arm's end effector to a target position.
-
-        Args:
-            end_effector_goal_pose (Pose): The desired pose of the end effector (includes both position and orientation).
-        """
-
-        # get current end effector position
-        state = p.getLinkState(
-            bodyUniqueId=self.arm_id,
-            linkIndex=self.end_effector_index,
-            physicsClientId=self.client_id,
-        )
-        current_position = state[0]
-
-        # calculate distance
-        distance = np.linalg.norm(
-            np.array(end_effector_goal_pose.position) - np.array(current_position)
-        )
-
-        # # check if the distance is small enough, if yes, return immediately
-        # if distance < self.threshold:  # use an appropriate value here
-        #     print("Current position is already close to target position. No need to move.")
-        #     return True
-
-        target_position = end_effector_goal_pose.position
-        target_orientation = end_effector_goal_pose.orientation
-        # target_orientation = [0, math.pi / 2.0, 0]  # vcertical downward grip
-
-        attempts = 0
-        while attempts < self.max_attempts:
-            joint_angles = self.cartesian_to_joints(target_position, target_orientation)
-
-            # If IK solution is invalid, break this loop and start a new attempt
-            if joint_angles is None or len(joint_angles) != 6:
-                break
-
-            # Test the calculated angles for collision
-            for joint_index, joint_angle in enumerate(joint_angles):
-                p.resetJointState(
-                    self.arm_id,
-                    joint_index,
-                    joint_angle,
-                    physicsClientId=self.client_id,
-                )
-
-            p.stepSimulation(physicsClientId=self.client_id)
-
-            # if p.getContactPoints(self.arm_id): # collision with other objects
-            if p.getContactPoints(
-                self.arm_id, self.base_id, physicsClientId=self.client_id
-            ):
-                # Collision detected, break and re-calculate the IK
-                break
-            else:
-                # get current end effector position
-                state = p.getLinkState(
-                    bodyUniqueId=self.arm_id,
-                    linkIndex=self.end_effector_index,
-                    physicsClientId=self.client_id,
-                )
-                current_position = state[0]
-
-                # calculate error
-                error = np.linalg.norm(
-                    np.array(target_position) - np.array(current_position)
-                )
-                # print('current_position:{}, target_position:{}, error:{}'.format(current_position, target_position, error))
-
-                if error < self.threshold * 2:
-                    self.move_arm_to_joint_angles(joint_angles)
-                    # print(
-                    #     "Reached target end effector position:{}".format(
-                    #         end_effector_goal_pose.position
-                    #     )
-                    # )
-                    return True
-            attempts += 1
-        print(
-            "-" * 20
-            + "\n"
-            + "Could not reach target position without collision after {} attempts".format(
-                self.max_attempts
-            )
-        )
-        return False
 
     def pick_place(self, object_id, object_goal_position, object_goal_orientation):
         """
