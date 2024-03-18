@@ -8,26 +8,21 @@ import math
 import sys
 import os
 
-"""
-Get the utils module path
-"""
-# customized package
-current_path = os.path.abspath(__file__)
-utils_path = os.path.dirname(os.path.dirname(current_path)) + "/utils"
-if os.path.basename(utils_path) != "utils":
-    raise ValueError('Not add the path of folder "utils", please check again!')
-sys.path.append(utils_path)
-from utils_Bestman import Bestman, Pose
-from utils_PbClient import PbClient
-from utils_PbVisualizer import PbVisualizer
+
+sys.path.append('/BestMan_Pybullet/refactor')
+
+from Motion_Planning.Robot.Bestman import Bestman
+from Motion_Planning.Robot.Pose import Pose
+from Env.PbClient import PbClient
+from Visualization.PbVisualizer import PbVisualizer
 from utils_PbOMPL import PbOMPL
 
 # load kitchen from three scenarios
 index = 0
 if index == 0:
-    from utils_Kitchen_v0 import Kitchen
+    from Env.Kitchen_v0 import Kitchen
 elif index == 1:
-    from utils_Kitchen_v1 import Kitchen
+    from Env.Kitchen_v1 import Kitchen
 else:
     assert False, "index should be 0 or 1"
 

@@ -20,15 +20,10 @@ Get the utils module path
 import sys
 import os
 
-# customized package
-current_path = os.path.abspath(__file__)
-utils_path = os.path.dirname(current_path)
-if os.path.basename(utils_path) != "utils":
-    raise ValueError('Not add the path of folder "utils", please check again!')
-sys.path.append(utils_path)
-from utils_PbVisualizer import PbVisualizer
-from utils_PbClient import PbClient
-from refactor.Motion_Planning.Controller.utils_PIDController import PIDController
+sys.path.append('refactor')
+from Visualization.PbVisualizer import PbVisualizer
+from Env.PbClient import PbClient
+from Motion_Planning.Controller.PIDController import PIDController
 
 """
 Add kitchen
@@ -45,7 +40,7 @@ class Kitchen:
         # This is Element A, where there are a oven, and a few drawers
         # ----------------------------------------------------------------
         self.elementA_id = self.pb_client.load_object(
-            model_path="./Kitchen_models/models_yan/elementA/urdf/kitchen_part_right_gen_convex.urdf",
+            model_path="/BestMan_Pybullet/Kitchen_models/models_yan/elementA/urdf/kitchen_part_right_gen_convex.urdf",
             object_position=[4, 2, 1.477],
             object_orientation=[0, 0, math.pi],
             scale=1.0,
@@ -91,7 +86,7 @@ class Kitchen:
         # This is Element B, where there are a sink, and a few container
         # ----------------------------------------------------------------
         self.elementB1_id = self.pb_client.load_object(
-            model_path="./Kitchen_models/models_yan/elementB/model.urdf",
+            model_path="/BestMan_Pybullet/Kitchen_models/models_yan/elementB/model.urdf",
             object_position=[4.1, 4.55, 0.55],
             object_orientation=[0, 0, math.pi / 2 * 3],
             scale=1.1,
@@ -101,7 +96,7 @@ class Kitchen:
         self.object_ids.append("elementB1_id")
 
         self.elementB2_id = self.pb_client.load_object(
-            model_path="./Kitchen_models/models_yan/elementB/model.urdf",
+            model_path="/BestMan_Pybullet/Kitchen_models/models_yan/elementB/model.urdf",
             object_position=[4.1, 5.25, 0.55],
             object_orientation=[0, 0, math.pi / 2 * 3],
             scale=1.1,
@@ -114,7 +109,7 @@ class Kitchen:
         #  This is Element C (i.e., a dishwasher)
         # ----------------------------------------------------------------
         self.elementC_id = self.pb_client.load_object(
-            model_path="./Kitchen_models/models/Dishwasher/2085/mobility.urdf",
+            model_path="/BestMan_Pybullet/Kitchen_models/models/Dishwasher/2085/mobility.urdf",
             object_position=[3.85, 3.2, 0.35],
             object_orientation=[0, 0, 0],
             scale=0.75,
@@ -140,7 +135,7 @@ class Kitchen:
         # This is Element D (i.e., a microwave)
         # ----------------------------------------------------------------
         self.elementD_id = self.pb_client.load_object(
-            model_path="./Kitchen_models/models/Microwave/7128/mobility.urdf",
+            model_path="/BestMan_Pybullet/Kitchen_models/models/Microwave/7128/mobility.urdf",
             object_position=[4.0, 2.9, 1.1],
             object_orientation=[0, 0, 0],
             scale=0.5,
@@ -166,7 +161,7 @@ class Kitchen:
         # This is Element E (i.e., a refrigerator)
         # ----------------------------------------------------------------
         self.elementE_id = self.pb_client.load_object(
-            model_path="./Kitchen_models/models/Fridge/10144/mobility.urdf",
+            model_path="/BestMan_Pybullet/Kitchen_models/models/Fridge/10144/mobility.urdf",
             object_position=[4.1, 5.42, 1.055],
             object_orientation=[0, 0, 0],
             scale=1.1,

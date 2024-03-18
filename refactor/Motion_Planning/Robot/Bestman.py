@@ -13,21 +13,18 @@ import matplotlib.pyplot as plt
 import random
 import sys
 import os
-from Pose import Pose
-from navigation.find_base_path import find_base_path
+from .Pose import Pose
 
-"""
-Get the utils module path
-"""
 # customized package
-current_path = os.path.abspath(__file__)
-utils_path = os.path.dirname(current_path)
-if os.path.basename(utils_path) != "utils":
-    raise ValueError('Not add the path of folder "utils", please check again!')
-sys.path.append(utils_path)
-from utils_PbVisualizer import PbVisualizer
-from utils_PbClient import PbClient
-from Controller.PIDController import PIDController
+# current_path = os.path.abspath(__file__)
+# utils_path = os.path.dirname(os.path.dirname(os.path.dirname(current_path)))
+# if os.path.basename(utils_path) != "refactor":
+#     raise ValueError('Not add the path of folder "utils", please check again!')
+sys.path.append('/BestMan_Pybullet/refactor')
+
+from Env.PbClient import PbClient
+from Visualization.PbVisualizer import PbVisualizer
+from Motion_Planning.Controller.PIDController import PIDController
 
 class Bestman:
     def __init__(self, init_pos, pb_client):
@@ -80,7 +77,7 @@ class Bestman:
 
         # Initialize base
         self.base_id = p.loadURDF(
-            fileName="./URDF_robot/segbot.urdf",
+            fileName="/BestMan_Pybullet/refactor/Asset/mobile_manipulator/base/segbot/segbot.urdf",
             basePosition=init_pos.position,
             baseOrientation=p.getQuaternionFromEuler([0, 0, init_pos.yaw]),
             useFixedBase=True,
@@ -89,10 +86,10 @@ class Bestman:
 
         # Initialize arm
         filenames = {
-            "ur5e": "./URDF_robot/ur5e.urdf",
-            "ur5e_vacuum": "./URDF_robot/ur5e_vacuum.urdf",
-            "ur5e_vacuum_long": "./URDF_robot/ur5e_vacuum_long.urdf",
-            "ur5_robotiq_85": "./URDF_robot/model_elephant/urdf/ur5_robotiq_85.urdf",
+            "ur5e": "/BestMan_Pybullet/refactor/Asset/mobile_manipulator/arm/ur5e/ur5e.urdf",
+            "ur5e_vacuum": "/BestMan_Pybullet/refactor/Asset/mobile_manipulator/arm/ur5e/ur5e_vacuum.urdf",
+            "ur5e_vacuum_long": "/BestMan_Pybullet/refactor/Asset/mobile_manipulator/arm/ur5e/ur5e_vacuum_long.urdf",
+            "ur5_robotiq_85": "/BestMan_Pybullet/URDF_robot/model_elephant/urdf/ur5_robotiq_85.urdf",
         }
         filename = filenames["ur5e_vacuum_long"]
         print("-" * 20 + "\n" + "Arm model: {}".format(filename))

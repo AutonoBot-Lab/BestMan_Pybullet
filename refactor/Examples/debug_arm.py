@@ -9,26 +9,25 @@ import sys
 import os
 import pybullet as p
 
-"""
-Get the utils module path
-"""
 # customized package
-current_path = os.path.abspath(__file__)
-utils_path = os.path.dirname(os.path.dirname(current_path)) + "/utils"
-if os.path.basename(utils_path) != "utils":
-    raise ValueError('Not add the path of folder "utils", please check again!')
-sys.path.append(utils_path)
-from utils_Bestman import Bestman, Pose
-from utils_PbClient import PbClient
-from utils_PbVisualizer import PbVisualizer
+# current_path = os.path.abspath(__file__)
+# utils_path = os.path.dirname(os.path.dirname(current_path))
+# if os.path.basename(utils_path) != "refactor":
+#     raise ValueError('Not add the path of folder "utils", please check again!')
+sys.path.append('/BestMan_Pybullet/refactor')
+
+from Motion_Planning.Robot.Bestman import Bestman
+from Motion_Planning.Robot.Pose import Pose
+from Env.PbClient import PbClient
+from Visualization.PbVisualizer import PbVisualizer
 from utils_PbOMPL import PbOMPL
 
 # load kitchen from three scenarios
 index = 1
 if index == 0:
-    from utils_Kitchen_v0 import Kitchen
+    from Env.Kitchen_v0 import Kitchen
 elif index == 1:
-    from utils_Kitchen_v1 import Kitchen
+    from Env.Kitchen_v1 import Kitchen
 else:
     assert False, "index should be 0 or 1"
 
@@ -49,7 +48,7 @@ demo.move_arm_to_joint_angles(init_joint)  # reset arm joint position
 # load bowl
 bowl_position = [0.85, 0.5, 1.45]
 bowl_id = pb_client.load_object(
-    "../URDF_models/bowl/model.urdf",
+    "/BestMan_Pybullet/refactor/Asset/URDF_models/bowl/model.urdf",
     bowl_position,
     [0.0, 0.0, 0.0],
     1.0,
