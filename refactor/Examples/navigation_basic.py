@@ -8,25 +8,21 @@ import math
 import sys
 import os
 
-"""
-Get the utils module path
-"""
-# customized package
-current_path = os.path.abspath(__file__)
-utils_path = os.path.dirname(os.path.dirname(current_path)) + "/utils"
-if os.path.basename(utils_path) != "utils":
-    raise ValueError('Not add the path of folder "utils", please check again!')
-sys.path.append(utils_path)
-from utils_Bestman import Bestman, Pose
-from utils_PbClient import PbClient
-from utils_PbVisualizer import PbVisualizer
+sys.path.append('/BestMan_Pybullet/refactor')
+
+from Motion_Planning.Robot.Bestman import Bestman
+from Motion_Planning.Robot.Pose import Pose
+from Env.PbClient import PbClient
+from Visualization.PbVisualizer import PbVisualizer
+from Motion_Planning.navigation.navigation import navigation
+from utils_PbOMPL import PbOMPL
 
 # load kitchen from three scenarios
 index = 0
 if index == 0:
-    from utils_Kitchen_v0 import Kitchen
+    from Env.Kitchen_v0 import Kitchen
 elif index == 1:
-    from utils_Kitchen_v1 import Kitchen
+    from Env.Kitchen_v1 import Kitchen
 else:
     assert False, "index should be 0 or 1"
 
@@ -43,7 +39,7 @@ demo.move_arm_to_joint_angles(init_joint)  # reset arm joint position
 
 # load table, bowl, and chair
 table_id = pb_client.load_object(
-    "./URDF_models/furniture_table_rectangle_high/table.urdf",
+    "/BestMan_Pybullet/refactor/Asset/URDF_models/furniture_table_rectangle_high/table.urdf",
     [1.0, 1.0, 0.0],
     [0.0, 0.0, 0.0],
     1.0,
@@ -51,7 +47,7 @@ table_id = pb_client.load_object(
     fixed_base=True,
 )
 bowl_id = pb_client.load_object(
-    "./URDF_models/utensil_bowl_blue/model.urdf",
+    "/BestMan_Pybullet/refactor/Asset/URDF_models/utensil_bowl_blue/model.urdf",
     [0.6, 0.6, 0.85],
     [0.0, 0.0, 0.0],
     1.0,
@@ -59,7 +55,7 @@ bowl_id = pb_client.load_object(
     tag_obstacle_navigate=False,
 )
 chair_id = pb_client.load_object(
-    "./URDF_models/furniture_chair/model.urdf",
+    "/BestMan_Pybullet/refactor/Asset/URDF_models/furniture_chair/model.urdf",
     [-0.3, 0.8, 0.1],
     [math.pi / 2.0 * 3, 0.0, math.pi / 2.0],
     1.5,
@@ -79,8 +75,13 @@ print("-" * 20 + "\n" + "aabb_table:{}".format(aabb_table))
 target_position = [5.0, 1.0, 0]
 pb_visualizer.draw_line([1, 0, 0], target_position)
 
+# navigate algorithm
+goal_base_pose = Pose(target_position, [0.0, 0.0, math.pi / 2.0])
+nav = navigation(demo)
+path = nav.A_star(goal_base_pose)
+
 # navigate segbot
-demo.navigate_base(Pose(target_position, [0.0, 0.0, math.pi / 2.0]))
+demo.navigate_base(goal_base_pose, path)
 
 # # end recording
 # pb_client.end_record(logID)

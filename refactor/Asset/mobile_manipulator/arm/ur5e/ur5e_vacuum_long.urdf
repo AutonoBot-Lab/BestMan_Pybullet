@@ -6,7 +6,7 @@
   <link name="base_link">
     <visual>
       <geometry>
-        <mesh filename="./meshes/ur5e/visual/base.dae"/>
+        <mesh filename="./meshes/visual/base.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -14,7 +14,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="./meshes/ur5e/collision/base.stl" scale="1.0 1.0 1.0"/>
+        <mesh filename="./meshes/collision/base.stl" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
     <inertial>
@@ -34,7 +34,7 @@
   <link name="shoulder_link">
     <visual>
       <geometry>
-        <mesh filename="./meshes/ur5e/visual/shoulder.dae"/>
+        <mesh filename="./meshes/visual/shoulder.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -42,7 +42,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="./meshes/ur5e/collision/shoulder.stl" scale="1.0 1.0 1.0"/>
+        <mesh filename="./meshes/collision/shoulder.stl" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
     <inertial>
@@ -62,7 +62,7 @@
   <link name="upper_arm_link">
     <visual>
       <geometry>
-        <mesh filename="./meshes/ur5e/visual/upperarm.dae"/>
+        <mesh filename="./meshes/visual/upperarm.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -70,7 +70,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="./meshes/ur5e/collision/upperarm.stl" scale="1.0 1.0 1.0"/>
+        <mesh filename="./meshes/collision/upperarm.stl" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
     <inertial>
@@ -90,7 +90,7 @@
   <link name="forearm_link">
     <visual>
       <geometry>
-        <mesh filename="./meshes/ur5e/visual/forearm.dae"/>
+        <mesh filename="./meshes/visual/forearm.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -98,7 +98,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="./meshes/ur5e/collision/forearm.stl" scale="1.0 1.0 1.0"/>
+        <mesh filename="./meshes/collision/forearm.stl" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
     <inertial>
@@ -118,7 +118,7 @@
   <link name="wrist_1_link">
     <visual>
       <geometry>
-        <mesh filename="./meshes/ur5e/visual/wrist1.dae"/>
+        <mesh filename="./meshes/visual/wrist1.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -126,7 +126,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="./meshes/ur5e/collision/wrist1.stl" scale="1.0 1.0 1.0"/>
+        <mesh filename="./meshes/collision/wrist1.stl" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
     <inertial>
@@ -146,7 +146,7 @@
   <link name="wrist_2_link">
     <visual>
       <geometry>
-        <mesh filename="./meshes/ur5e/visual/wrist2.dae"/>
+        <mesh filename="./meshes/visual/wrist2.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -154,7 +154,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="./meshes/ur5e/collision/wrist2.stl" scale="1.0 1.0 1.0"/>
+        <mesh filename="./meshes/collision/wrist2.stl" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
     <inertial>
@@ -174,7 +174,7 @@
   <link name="wrist_3_link">
     <visual>
       <geometry>
-        <mesh filename="./meshes/ur5e/visual/wrist3.dae"/>
+        <mesh filename="./meshes/visual/wrist3.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -182,7 +182,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="./meshes/ur5e/collision/wrist3.stl" scale="1.0 1.0 1.0"/>
+        <mesh filename="./meshes/collision/wrist3.stl" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
     <inertial>
@@ -225,7 +225,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="./meshes/long_vacuum_gripper/base.obj" scale="0.001 0.001 0.001"/>
+        <mesh filename="../.././end_effector/sucker/long_vacuum_gripper/base.obj" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="DarkGrey"/>
     </visual>
@@ -251,7 +251,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="./meshes/long_vacuum_gripper/mid.obj" scale="0.001 0.001 0.001"/>
+        <mesh filename="../.././end_effector/sucker/long_vacuum_gripper/mid.obj" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="DarkGrey"/>
     </visual>
@@ -277,7 +277,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="./meshes/long_vacuum_gripper/head.obj" scale="0.001 0.001 0.001"/>
+        <mesh filename="../.././end_effector/sucker/long_vacuum_gripper/head.obj" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="darkgrey">
         <color rgba="0.2 0.2 0.2 1"/>
@@ -286,7 +286,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="./meshes/long_vacuum_gripper/head.obj" scale="0.001 0.001 0.001"/>
+        <mesh filename="../.././end_effector/sucker/long_vacuum_gripper/head.obj" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -314,7 +314,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="./meshes/long_vacuum_gripper/tip.obj" scale="0.001 0.001 0.001"/>
+        <mesh filename="../.././end_effector/sucker/long_vacuum_gripper/tip.obj" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>

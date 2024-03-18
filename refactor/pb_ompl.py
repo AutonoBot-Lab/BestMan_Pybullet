@@ -34,11 +34,11 @@ import sys
 import os
 
 # customized package
-current_path = os.path.abspath(__file__)
-utils_path = os.path.dirname(current_path)
-if os.path.basename(utils_path) != "utils":
-    raise ValueError('Not add the path of folder "utils", please check again!')
-sys.path.append(utils_path)
+# current_path = os.path.abspath(__file__)
+# utils_path = os.path.dirname(current_path)
+# if os.path.basename(utils_path) != "utils":
+#     raise ValueError('Not add the path of folder "utils", please check again!')
+sys.path.append('refactor')
 import utils_ompl
 
 
