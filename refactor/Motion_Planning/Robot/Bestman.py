@@ -124,6 +124,9 @@ class Bestman:
         self.current_yaw = init_pose.yaw
         self.sync_base_arm_pose()
         
+        # init arm joint angle
+        self.move_arm_to_joint_angles(robot_cfg.init_joint)
+        
         # get tcp link
         # if filename.endswith("ur5e.urdf"):
         #     self.tcp_link = -1
@@ -382,7 +385,7 @@ class Bestman:
         self.pb_client.run(100)
         print("-" * 20 + "\n" + "Arm height has changed into {}".format(height))
 
-    def get_arm_joint_angle(self):
+    def get_arm_joints_angle(self):
         """
         Retrieve arm's joint angle
         """

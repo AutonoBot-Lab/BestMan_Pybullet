@@ -57,7 +57,6 @@ class PbClient:
             numSolverIterations=cfg.numSolverIterations
         )   # Set the number of constraint solver iterations; Higher values increase precision but also increase computation time
         
-        print(cfg.plane_urdf_path)
         planeId = p.loadURDF(cfg.plane_urdf_path)
 
         # parameters for base
@@ -95,7 +94,7 @@ class PbClient:
     def draw_axes(self, length=2.0, lineWidth=2.0, textSize=3.0):
         """
         Draws the x and y axes in the PyBullet environment with text labels.
-
+        
         Parameters:
         - length (float): Length of the axes.
         - lineWidth (float): Width of the axes lines.

@@ -15,7 +15,7 @@ from Motion_Planning.Robot.Pose import Pose
 from Env.PbClient import PbClient
 from Visualization.PbVisualizer import PbVisualizer
 from Motion_Planning.navigation.navigation import navigation
-from utils_PbOMPL import PbOMPL
+from Utils.load_config import load_config
 
 # load kitchen from three scenarios
 index = 0
@@ -26,16 +26,18 @@ elif index == 1:
 else:
     assert False, "index should be 0 or 1"
 
+# load config
+config_path = '/BestMan_Pybullet/refactor/config/test_gripper.yaml'
+cfg = load_config()
+# print(cfg)
 
-pb_client = PbClient(enable_GUI=True)
+pb_client = PbClient(cfg.Client)
 pb_client.enable_vertical_view(4.0, [1.0, 1.0, 0])
 pb_visualizer = PbVisualizer(pb_client)
+
 # logID = pb_client.start_record("example_manipulation") # start recording
-init_pose = Pose([1, 0, 0], [0.0, 0.0, math.pi / 2])
-demo = Bestman(init_pose, pb_client)  # load robot
+demo = Bestman(pb_client, cfg.Robot)  # load robot
 demo.get_joint_link_info("arm")  # get info about arm
-init_joint = [0, -1.57, 2.0, -1.57, -1.57, 0]
-demo.move_arm_to_joint_angles(init_joint)  # reset arm joint position
 
 # load table, bowl, and chair
 table_id = pb_client.load_object(

@@ -15,6 +15,7 @@ from Motion_Planning.Robot.Pose import Pose
 from Env.PbClient import PbClient
 from Visualization.PbVisualizer import PbVisualizer
 from Motion_Planning.manipulation.OMPL_Planner import OMPL_Planner
+from Motion_Planning.navigation.navigation import navigation
 from Utils.load_config import load_config
 
 # load kitchen from three scenarios
@@ -29,77 +30,93 @@ else:
 # load config
 config_path = '/BestMan_Pybullet/refactor/config/test_gripper.yaml'
 cfg = load_config()
-print(cfg)
+# print(cfg)
 
-# pb_client = PbClient(enable_GUI=True)
-# pb_client.enable_vertical_view(1.0, [1.7, 3.68, 1.95], -86.4, -52.3)
-# pb_visualizer = PbVisualizer(pb_client)
+# init engine and visualzer
+pb_client = PbClient(cfg.Client)
+pb_client.enable_vertical_view(1.0, [1.7, 3.68, 1.95], -86.4, -52.3)
+pb_visualizer = PbVisualizer(pb_client)
 
-# # logID = pb_client.start_record("example_navigation_with_opened_fridge") # start recording
-# demo = Bestman(init_pose, pb_client)  # load robot
-# demo.get_joint_link_info("arm")  # get info about arm
-# init_joint = [0, -1.57, 2.0, -1.57, -1.57, 0]
-# demo.move_arm_to_joint_angles(init_joint)  # reset arm joint position
+# init robot
+# logID = pb_client.start_record("example_navigation_with_opened_fridge") # start recording
+demo = Bestman(pb_client, cfg.Robot)  # load robot
+demo.get_joint_link_info("arm")  # get info about arm
 
-# # load kitchen
-# kitchen = Kitchen(pb_client)
-# print("object ids in loaded kitchen:\n{}".format(kitchen.object_ids))
+# load kitchen
+kitchen = Kitchen(pb_client)
+print("--------------------")
+print("Object information contained in the scene:\n{}".format(kitchen.object_ids))
+print("--------------------")
 
-# # load OMPL planner
-# threshold_distance = 0.1
-# ompl = PbOMPL(
-#     pb_client=pb_client,
-#     arm_id=demo.arm_id,
-#     joint_idx=demo.arm_joint_indexs,
-#     tcp_link=demo.tcp_link,
-#     obstacles=[],
-#     planner="RRTConnect",
-#     threshold=threshold_distance,
-# )
+# load bowl
+bowl_position = [4.15, 4.3, 1.0]  # TODO: object goes flying
+bowl_id = pb_client.load_object(
+    "/BestMan_Pybullet/refactor/Asset/URDF_models/utensil_bowl_blue/model.urdf",
+    bowl_position,
+    [0.0, 0.0, 0.0],
+    1.0,
+    "bowl",
+    fixed_base=False,
+    tag_obstacle_navigate=False,
+)
 
-# # add obstacles
-# ompl.add_scene_obstacles(display=True)
-# ompl.check_obstacles()
+# compute standing position
+standing_map = demo.get_standing_map(bowl_position)
+standing_position = demo.compute_standing_position(bowl_position, standing_map)
+print("standing position:{}".format(standing_position))
 
-# # load bowl
-# bowl_position = [4.15, 4.3, 1.0]  # TODO: object goes flying
-# bowl_id = pb_client.load_object(
-#     "./URDF_models/utensil_bowl_blue/model.urdf",
-#     bowl_position,
-#     [0.0, 0.0, 0.0],
-#     1.0,
-#     "bowl",
-#     fixed_base=False,
-#     tag_obstacle_navigate=False,
-# )
-# pb_client.run(1000)
-# _, _, min_z, _, _, max_z = pb_client.get_bounding_box(bowl_id)
-# bowl_position[2] = max_z + demo.tcp_height * 2  # consider tcp's height
-# print("bowl position:{}".format(bowl_position))
+# navigate algorithm
+goal_base_pose = Pose(standing_position, [0.0, 0.0, math.pi / 2.0])
+nav = navigation(demo)
+path = nav.A_star(goal_base_pose)
 
-# # set target object for grasping
-# ompl.set_target(bowl_id)
-# target_orientation = [0.0, math.pi / 2.0, 0.0]  # vertical
-# goal = demo.cartesian_to_joints(position=bowl_position, orientation=target_orientation)
-# print("-" * 20 + "\n" + "Goal configuration:{}".format(goal))
+# navigate segbot
+demo.navigate_base(goal_base_pose, path)
 
-# # reach target object
-# pb_visualizer.change_arm_color(demo.arm_id, light_color=True)
-# result, trajectory = ompl.reach_object(
-#     start=demo.get_arm_joint_angle(),
-#     goal=goal,
-#     end_effector_link_index=demo.end_effector_index,
-# )
-# pb_client.run(100)
-# # print('result:{}, trajectory:{}'.format(result, trajectory))
+# load OMPL planner
+planner = OMPL_Planner(
+    pb_client,
+    demo.arm_id,
+    demo.arm_joint_indexs,
+    demo.tcp_link,
+    cfg.Planner
+)
 
-# # perform action
-# pb_visualizer.change_arm_color(demo.arm_id, light_color=False)
-# demo.execute_trajectory(trajectory)
+# add obstacles
+planner.add_scene_obstacles()
+planner.get_obstacles_info()
 
-# # grasp object
-# demo.active_gripper(bowl_id, 1)
+pb_client.run(1000)
 
-# # disconnect pybullet
-# pb_client.wait(5)
-# pb_client.disconnect_pybullet()
+_, _, min_z, _, _, max_z = pb_client.get_bounding_box(bowl_id)
+# goal_base_pose.position[2] = max_z + demo.tcp_height * 2  # consider tcp's height
+goal_position = bowl_position[:2]
+goal_position.append(max_z + demo.tcp_height * 2)
+print("goal position:{}".format(goal_position))
+
+# set target object for grasping
+planner.set_target(bowl_id)
+target_orientation = [0.0, math.pi / 2.0, 0.0]  # vertical
+goal = demo.cartesian_to_joints(position=goal_position, orientation=target_orientation)
+print("-" * 20 + "\n" + "Goal configuration:{}".format(goal))
+
+# reach target object
+pb_visualizer.change_arm_color(demo.arm_id, light_color=True)
+trajectory = planner.plan(
+    start=demo.get_arm_joints_angle(),
+    goal=goal
+)
+
+pb_client.run(100)
+# print('result:{}, trajectory:{}'.format(result, trajectory))
+
+# perform action
+pb_visualizer.change_arm_color(demo.arm_id, light_color=False)
+demo.execute_trajectory(trajectory)
+
+# grasp object
+demo.active_gripper(bowl_id, 1)
+
+# disconnect pybullet
+pb_client.wait(5)
+pb_client.disconnect_pybullet()
