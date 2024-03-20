@@ -3,6 +3,11 @@ Client:
   enable_GUI: True            # If True, the GUI will be enabled.
   enable_Debug: False         # If False, the debug visualizer will be disabled.
   enable_capture: True
+  Camera_params: 
+    dist: 1.0
+    position: [1.7, 3.68, 1.95]
+    yaw: -86.4
+    pitch: -52.3
   Gravity: [0, 0, -9.8]
   numSolverIterations: 1000   # Set the number of constraint solver iterations; Higher values increase precision but also increase computation time
   plane_urdf_path: 'plane.urdf'

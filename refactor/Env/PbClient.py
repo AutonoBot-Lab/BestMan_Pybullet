@@ -136,7 +136,7 @@ class PbClient:
             physicsClientId=self.client_id,
         )
 
-    def enable_vertical_view(self, dist, position, yaw=0, pitch=-89.9):
+    def enable_vertical_view(self, camera_cfg):
         """
         Set the debug visualizer camera in a vertical view.
 
@@ -147,10 +147,10 @@ class PbClient:
             pitch (float, optional): The pitch component of the camera orientation. Defaults to -89.9.
         """
         p.resetDebugVisualizerCamera(
-            cameraDistance=dist,
-            cameraYaw=yaw,
-            cameraPitch=pitch,
-            cameraTargetPosition=position,
+            cameraDistance=camera_cfg.dist,
+            cameraYaw=camera_cfg.yaw,
+            cameraPitch=camera_cfg.pitch,
+            cameraTargetPosition=camera_cfg.position,
             physicsClientId=self.client_id,
         )
     
