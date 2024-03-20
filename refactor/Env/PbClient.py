@@ -19,7 +19,7 @@ Client class
 
 
 class PbClient:
-    def __init__(self, enable_GUI=True, enable_Debug=False, enable_capture=True):
+    def __init__(self, cfg):
         """
         Initialize a new PbClient object.
 
@@ -34,8 +34,10 @@ class PbClient:
             obstacle_navigation_ids (list): List of navigation obstacle ids.
             obstacle_manipulation_ids (list): List of manipulation obstacle ids.
         """
-        if enable_GUI:
-            if enable_capture:
+        
+        
+        if cfg.enable_GUI:
+            if cfg.enable_capture:
                 width, height = 1920, 1080
                 self.client_id = p.connect(
                     p.GUI, options=f"--width={width} --height={height}"
@@ -46,20 +48,21 @@ class PbClient:
         else:
             self.client_id = p.connect(p.DIRECT)
 
-        if not enable_Debug:
+        if not cfg.enable_Debug:
             p.configureDebugVisualizer(p.COV_ENABLE_GUI, 0)
+        
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
-        p.setGravity(0, 0, -9.8)
+        p.setGravity(cfg.Gravity[0], cfg.Gravity[1], cfg.Gravity[2])
         p.setPhysicsEngineParameter(
-            numSolverIterations=1000
-        )  # Set the number of constraint solver iterations; Higher values increase precision but also increase computation time
-        planeId = p.loadURDF("plane.urdf")
-        # planeId = p.loadURDF("./Kitchen_models/greyPlane/plane.urdf")
-        # planeId = p.loadURDF("./Kitchen_models/whitePlane/plane.urdf")
+            numSolverIterations=cfg.numSolverIterations
+        )   # Set the number of constraint solver iterations; Higher values increase precision but also increase computation time
+        
+        print(cfg.plane_urdf_path)
+        planeId = p.loadURDF(cfg.plane_urdf_path)
 
         # parameters for base
-        self.frequency = 240 * 2  # simulation step for base and arm
-        self.timeout = 100.0  # maximum time for planning
+        self.frequency = cfg.frequency  # simulation step for base and arm
+        self.timeout = cfg.timeout      # maximum time for planning
 
         # Obstacles in the environment
         self.obstacle_navigation_ids = []  # for navigation
@@ -151,7 +154,7 @@ class PbClient:
             cameraTargetPosition=position,
             physicsClientId=self.client_id,
         )
-
+    
     # ----------------------------------------------------------------
     # Video functions
     # ----------------------------------------------------------------
