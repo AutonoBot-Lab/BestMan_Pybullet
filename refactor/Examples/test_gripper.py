@@ -34,7 +34,7 @@ cfg = load_config()
 
 # init engine and visualzer
 pb_client = PbClient(cfg.Client)
-pb_client.enable_vertical_view(1.0, [1.7, 3.68, 1.95], -86.4, -52.3)
+pb_client.enable_vertical_view(cfg.Client.Camera_params)
 pb_visualizer = PbVisualizer(pb_client)
 
 # init robot
