@@ -1,3 +1,8 @@
 .vscode
-/BestMan_Pybullet/refactor/__pycache__/
-/BestMan_Pybullet/refactor/Env/__pycache__/
+refactor/__pycache__/
+refactor/Env/__pycache__/
+refactor/Motion_Planning/Controller/__pycache__/
+refactor/Motion_Planning/Robot/__pycache__/
+refactor/Visualization/__pycache__/
+refactor/Motion_Planning/manipulation/__pycache__/
+refactor/Utils/__pycache__/

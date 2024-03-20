@@ -12,8 +12,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 import sys
-import os
-from .Pose import Pose
 
 # customized package
 # current_path = os.path.abspath(__file__)
@@ -22,12 +20,13 @@ from .Pose import Pose
 #     raise ValueError('Not add the path of folder "utils", please check again!')
 sys.path.append('/BestMan_Pybullet/refactor')
 
+from .Pose import Pose
 from Env.PbClient import PbClient
 from Visualization.PbVisualizer import PbVisualizer
 from Motion_Planning.Controller.PIDController import PIDController
 
 class Bestman:
-    def __init__(self, init_pos, pb_client):
+    def __init__(self, pb_client, robot_cfg):
         """
         Initialize a new object.
 
@@ -38,6 +37,7 @@ class Bestman:
         Attributes:
             pb_client (object): The pybullet client object.
             client_id (int): The client id returned by the pybullet client.
+            
             frequency (int): The frequency of the PID controller.
             timeout (float): The timeout value for the PID controller.
             max_force (int): The maximum force for the PID controller.
@@ -47,81 +47,67 @@ class Bestman:
             target_distance (float): The target distance for the PID controller.
             controller (object): The PID controller object.
             rotated (bool): A flag indicating whether the object has been rotated.
+            
+            init_pos (object): The initial position object.
             base_id (int): The base id of the URDF model.
             arm_id (int): The arm id of the URDF model.
             arm_joint_indexs (list): A list of joint indexes.
+            arm_height (float): The height of the arm.
             end_effector_index (int): The index of the end effector.
             tcp_link (int): The tcp link index.
             tcp_height (float): The height of the tcp link.
-            arm_height (float): The height of the arm.
+            
             visualizer (object): The visualizer object.
-            init_pos (object): The initial position object.
             gripper_id (None): The gripper id. Initialized to None.
         """
 
         self.pb_client = pb_client
         self.client_id = self.pb_client.get_client()
-        self.frequency = 240
-        self.timeout = 100.0
-        self.max_force = 500
-        self.max_iterations = 10000
-        self.threshold = 0.01
-        self.max_attempts = 500
-
+        
         # Initialize PID controller
-        self.target_distance = 0.0
+        controller_cfg = robot_cfg.Controller
+        self.frequency = controller_cfg.frequency
+        self.timeout = controller_cfg.timeout
+        self.max_force = controller_cfg.max_force
+        self.max_iterations = controller_cfg.max_iterations
+        self.threshold = controller_cfg.threshold
+        self.max_attempts = controller_cfg.max_attempts
+        self.target_distance = controller_cfg.target_distance
         self.distance_controller = PIDController(
-            Kp=0.01, Ki=0.0, Kd=0.0, setpoint=self.target_distance
+            Kp=controller_cfg.Kp, Ki=controller_cfg.Ki, Kd=controller_cfg.Kd, setpoint=self.target_distance
         )
         self.rotated = False
 
         # Initialize base
+        init_pose = Pose(robot_cfg.init_pose[:3], robot_cfg.init_pose[3:])
         self.base_id = p.loadURDF(
-            fileName="/BestMan_Pybullet/refactor/Asset/mobile_manipulator/base/segbot/segbot.urdf",
-            basePosition=init_pos.position,
-            baseOrientation=p.getQuaternionFromEuler([0, 0, init_pos.yaw]),
+            fileName=robot_cfg.base_urdf_path,
+            basePosition=init_pose.position,
+            baseOrientation=p.getQuaternionFromEuler(init_pose.orientation),
             useFixedBase=True,
             physicsClientId=self.client_id,
         )
 
         # Initialize arm
-        filenames = {
-            "ur5e": "/BestMan_Pybullet/refactor/Asset/mobile_manipulator/arm/ur5e/ur5e.urdf",
-            "ur5e_vacuum": "/BestMan_Pybullet/refactor/Asset/mobile_manipulator/arm/ur5e/ur5e_vacuum.urdf",
-            "ur5e_vacuum_long": "/BestMan_Pybullet/refactor/Asset/mobile_manipulator/arm/ur5e/ur5e_vacuum_long.urdf",
-            "ur5_robotiq_85": "/BestMan_Pybullet/URDF_robot/model_elephant/urdf/ur5_robotiq_85.urdf",
-        }
-        filename = filenames["ur5e_vacuum_long"]
-        print("-" * 20 + "\n" + "Arm model: {}".format(filename))
+        # filenames = {
+        #     "ur5e": "/BestMan_Pybullet/refactor/Asset/mobile_manipulator/arm/ur5e/ur5e.urdf",
+        #     "ur5e_vacuum": "/BestMan_Pybullet/refactor/Asset/mobile_manipulator/arm/ur5e/ur5e_vacuum.urdf",
+        #     "ur5e_vacuum_long": "/BestMan_Pybullet/refactor/Asset/mobile_manipulator/arm/ur5e/ur5e_vacuum_long.urdf",
+        #     "ur5_robotiq_85": "/BestMan_Pybullet/URDF_robot/model_elephant/urdf/ur5_robotiq_85.urdf",
+        # }
+        # filename = filenames["ur5e_vacuum_long"]
+
         self.arm_id = p.loadURDF(
-            fileName=filename,
-            basePosition=init_pos.position,
-            baseOrientation=p.getQuaternionFromEuler([0.0, 0.0, math.pi / 2.0]),
+            fileName=robot_cfg.arm_urdf_path,
+            basePosition=init_pose.position,
+            baseOrientation=p.getQuaternionFromEuler(init_pose.orientation),
             useFixedBase=True,
             physicsClientId=self.client_id,
         )
-        self.arm_joint_indexs = [0, 1, 2, 3, 4, 5]
-        self.end_effector_index = 6
-
-        # get tcp link
-        if filename.endswith("ur5e.urdf"):
-            self.tcp_link = -1
-            self.tcp_height = 0
-        elif filename.endswith("ur5e_vacuum.urdf"):
-            self.tcp_link = 8
-            self.tcp_height = 0.065
-        elif filename.endswith("ur5e_vacuum_long.urdf"):
-            self.tcp_link = 11
-            self.tcp_height = 0.11
-        elif filename.endswith("ur5_robotiq_85.urdf"):
-            self.tcp_link = 18
-            self.tcp_height = 0  # TODO
-        else:
-            print("Unknown tcp link: {}")
-            sys.exit()
+        self.arm_joint_indexs = robot_cfg.arm_joint_indexs
+        self.arm_height = robot_cfg.arm_height
 
         # Add constraint between base and arm
-        self.arm_height = 1.02
         p.createConstraint(
             parentBodyUniqueId=self.base_id,
             parentLinkIndex=-1,
@@ -133,18 +119,39 @@ class Bestman:
             childFramePosition=[0, 0, 0],
             physicsClientId=self.client_id,
         )
-
+        
         # synchronize base and arm positions
-        self.current_yaw = init_pos.yaw
+        self.current_yaw = init_pose.yaw
         self.sync_base_arm_pose()
+        
+        # get tcp link
+        # if filename.endswith("ur5e.urdf"):
+        #     self.tcp_link = -1
+        #     self.tcp_height = 0
+        # elif filename.endswith("ur5e_vacuum.urdf"):
+        #     self.tcp_link = 8
+        #     self.tcp_height = 0.065
+        # elif filename.endswith("ur5e_vacuum_long.urdf"):
+        #     self.tcp_link = 11
+        #     self.tcp_height = 0.11
+        # elif filename.endswith("ur5_robotiq_85.urdf"):
+        #     self.tcp_link = 18
+        #     self.tcp_height = 0  # TODO
+        # else:
+        #     print("Unknown tcp link: {}")
+        #     sys.exit()
+        
+        self.end_effector_index = robot_cfg.end_effector_index
+        self.tcp_link = robot_cfg.tcp_link
+        self.tcp_height = robot_cfg.tcp_height
 
         # Set arm and base colors
         self.visualizer = PbVisualizer(pb_client)
         self.visualizer.set_robot_visual_color(self.base_id, self.arm_id)
 
         # global parameters
-        self.init_pos = init_pos
-        self.gripper_id = None
+        self.init_pos = init_pose   # Used when resetting the robot position
+        self.gripper_id = None      # Constraints between the end effector and the grasped object, None when not grabbed
 
     # ----------------------------------------------------------------
     # functions for base and arm
@@ -302,8 +309,8 @@ class Bestman:
         """
         Check if collision exists during navigation
         """
+        aabb_base = self.pb_client.get_bounding_box(self.base_id)
         for obstacle_id in self.pb_client.obstacle_navigation_ids:
-            aabb_base = self.pb_client.get_bounding_box(self.base_id)
             aabb_obstacle = self.pb_client.get_bounding_box(obstacle_id)
             if self.pb_client.check_collision_xy(
                 aabb_base, aabb_obstacle
@@ -477,6 +484,12 @@ class Bestman:
                 break
     
     def execute_trajectory(self, trajectory):
+        """
+        Execute the path planned by Planner
+
+        Args:
+            trajectory: List, each element is a list of angles, corresponding to a transformation
+        """
         for joints_value in trajectory:
             # print("joints_value:{}".format(joints_value))
             p.setJointMotorControlArray(
@@ -511,6 +524,25 @@ class Bestman:
         )
         return end_effector_position, end_effector_orientation
 
+    # def compute_distance(self, end_effector_link_index):
+    #     """
+    #     Compute the distance between the end effector and the object.
+
+    #     Args:
+    #             end_effector_link_index: index of the end effector link.
+
+    #     Returns:
+    #             distance: distance between the end - effector and the object.
+    #     """
+    #     end_effector_pose = p.getLinkState(self.arm_id, end_effector_link_index)
+
+    #     # Compute the distance between the end-effector and the object
+    #     distance = np.linalg.norm(
+    #         np.array(end_effector_pose[0]) - np.array(self.target_pos)
+    #     )
+    #     # print('debug! end_effector_pose:{} target_pos:{}'.format(end_effector_pose[0], self.target_pos))
+    #     return distance
+    
     def joints_to_cartesian(self, joint_angles):
         """
         Transform from arm's joint angles to its Cartesian coordinates
@@ -675,6 +707,7 @@ class Bestman:
             )
         )
         return False
+    
     
     
     # use a simple method to compute standing map

@@ -10,8 +10,12 @@ from collections import defaultdict, deque, namedtuple
 from itertools import product, combinations, count
 
 BASE_LINK = -1
-MAX_DISTANCE = 0.0
+MAX_DISTANCE = 0.0    
 
+
+def state_to_list(state, num_dim):
+    return [state[i] for i in range(num_dim)]
+            
 
 def pairwise_link_collision(
     body1, link1, body2, link2=BASE_LINK, max_distance=MAX_DISTANCE

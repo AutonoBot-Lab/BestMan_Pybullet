@@ -49,11 +49,11 @@ class Kitchen:
         self.client_id = self.pb_client.get_client()
 
         if lisdf_id == 0:
-            lisdf_file = "./Kitchen_models/scenes/kitchen_basics.lisdf"
+            lisdf_file = "/BestMan_Pybullet/Kitchen_models/scenes/kitchen_basics.lisdf"
         elif lisdf_id == 1:
-            lisdf_file = "./Kitchen_models/scenes/kitchen_counter.lisdf"
+            lisdf_file = "/BestMan_Pybullet/Kitchen_models/scenes/kitchen_counter.lisdf"
         elif lisdf_id == 2:
-            lisdf_file = "./Kitchen_models/scenes/kitchen_lunch.lisdf"
+            lisdf_file = "/BestMan_Pybullet/Kitchen_models/scenes/kitchen_lunch.lisdf"
         else:
             print("Uknown lisdf_id, please input 0 or 1 or 2")
             sys.exit()
@@ -133,7 +133,7 @@ class Kitchen:
         for model in models:
             name = model["name"]
             relative_url = model["uri"]
-            modified_url = relative_url.replace("../models", "Kitchen_models/models")
+            modified_url = relative_url.replace("../models", "/BestMan_Pybullet/Kitchen_models/models")
             absolute_url = os.path.join(os.getcwd(), modified_url)
             pose = list(map(float, model["pose"].split()))
             scale = model["scale"]

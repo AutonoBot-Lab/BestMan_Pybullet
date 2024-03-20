@@ -466,7 +466,7 @@ class PbVisualizer:
                 rgbaColor=colors["light_white"],
                 physicsClientId=self.client_id,
             )
-
+    
     def set_elementB_visual_color(self, elementB_id):
         """
         Set the color of element B (counter) in the kitchen.
