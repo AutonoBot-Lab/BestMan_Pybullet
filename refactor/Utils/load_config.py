@@ -12,11 +12,11 @@ def parse_cfg(cfg_node):
         elif isinstance(value, list):
             cfg_node[key] = parse_list(value)
             
-def load_config(config_path = None):
+def load_config(config_path):
     default_config_path = '/BestMan_Pybullet/refactor/config/default.yaml'
     with open(default_config_path, 'r') as file:
         cfg = CN.load_cfg(file)
-    if config_path:    # merge cfg
+    if config_path is not None:    # merge cfg
         cfg.merge_from_file(config_path) 
     parse_cfg(cfg)
     return cfg
