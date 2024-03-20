@@ -9,6 +9,7 @@ Client:
   frequency: 480              # simulation step for base and arm
   timeout : 100.0             # maximum time for planning
 
+
 # Robot parameters
 Robot:
 
@@ -26,6 +27,7 @@ Robot:
     Kd : 0.0
     
   init_pose: [1, 0, 0, 0.0, 0.0, "math.pi / 2"]   # The initial pose of base and arm
+  init_joint: [0, -1.57, 1.5, -1.57, -1.57, 0]    # The initial angle of arm joint
   base_urdf_path: "/BestMan_Pybullet/refactor/Asset/mobile_manipulator/base/segbot/segbot.urdf"   # base urdf
   arm_urdf_path: "/BestMan_Pybullet/refactor/Asset/mobile_manipulator/arm/ur5e/ur5e_vacuum_long.urdf"   # arm urdf
   arm_joint_indexs: [0, 1, 2, 3, 4, 5]
@@ -33,3 +35,10 @@ Robot:
   end_effector_index: 6
   tcp_link: 11     # The index of the end effector.
   tcp_height: 0.11  # The height of the tcp link.
+
+
+# ompl planner parameters
+Planner:
+  planner: "RRTConnect"
+  threshold: 0.1
+  max_attempts: 500

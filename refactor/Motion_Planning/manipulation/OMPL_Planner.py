@@ -57,9 +57,7 @@ class OMPL_Planner:
         arm_id,
         joint_idx,
         tcp_link,
-        obstacles=[],
-        planner="RRTConnect",
-        threshold=0.1,
+        planner_cfg
     ):
         """
         Initialize the OMPL_Planner.
@@ -78,17 +76,14 @@ class OMPL_Planner:
         # parameters for arm
         self.arm_id = arm_id
         self.joint_idx = joint_idx
-        # self.arm = pb_ompl.PbOMPLRobot(arm_id, joint_idx=joint_idx)
         self.tcp_link = tcp_link
-        self.max_attempts = 500
-        self.threshold = threshold
+        
+        # plan parameters
+        self.max_attempts = planner_cfg.max_attempts
+        self.threshold = planner_cfg.threshold
 
         # obstacles for planning
-        self.obstacles = obstacles if obstacles is not None else []
-        # self.pb_ompl_interface = ompl.PbOMPL(self.arm, self.obstacles)
-        
-        # select planner
-        self.set_planner(planner)
+        self.obstacles = []
 
         # real vector state space
         self.num_dim = len(joint_idx)
@@ -97,7 +92,7 @@ class OMPL_Planner:
         # Set the boundaries of the state space
         bounds = ob.RealVectorBounds(self.num_dim)
         for i, joint_id in enumerate(self.joint_idx):
-            joint_info = p.getJointInfo(self.id, joint_id)
+            joint_info = p.getJointInfo(self.arm_id, joint_id)
             low = joint_info[8]  # low bounds
             high = joint_info[9]  # high bounds
             if low < high:
@@ -111,17 +106,19 @@ class OMPL_Planner:
         self.ss.setStateValidityChecker(ob.StateValidityCheckerFn(self.is_state_valid))
         self.si = self.ss.getSpaceInformation()
         
-        # output OMPL settings
+        # select planner
+        self.set_planner(planner_cfg.planner)
+        
+        # print OMPL Planner settings
         item_info = p.getBodyInfo(self.arm_id)
         robot_name = item_info[1].decode("utf-8")
         print("--------------------")
         print(
             f"OMPL Configuration\n"
-            f"Robot ID: {arm_id}\n"
-            f"Robot Name: {robot_name}\n"
-            f"Obstacles: {obstacles}\n"
-            f"Planner: {planner}\n"
-            f"Threshold: {threshold}"
+            f"Arm ID: {arm_id}\n"
+            f"Arm Name: {robot_name}\n"
+            f"Planner: {planner_cfg.planner}\n"
+            f"Threshold: {self.threshold}"
         )
         print("--------------------")
 
@@ -220,7 +217,7 @@ class OMPL_Planner:
     #     """
     #     self.pb_ompl_interface.set_obstacles(self.obstacles)
     
-    def check_obstacles(self):
+    def get_obstacles_info(self):
         """
         Check obstacles in the scene and print them to the console.
         This is a debugging function.
@@ -232,9 +229,9 @@ class OMPL_Planner:
             for obstacle_id in self.obstacles:
                 item_info = p.getBodyInfo(obstacle_id)
                 item_name = item_info[1].decode("utf-8")
-                print(f"\t Obstacle Name: {item_name}, ID: {obstacle_id}")
+                print(f"Obstacle Name: {item_name}, ID: {obstacle_id}")
 
-    def get_scene_items(self, display=True):
+    def get_scene_items(self):
         """
         Get IDs of all items in the scene.
         This is a debugging function.
@@ -254,13 +251,10 @@ class OMPL_Planner:
         for item_id in range(num_items):
             current_id = p.getBodyUniqueId(item_id)
             all_item_ids.append(current_id)
-            if display:
-                item_info = p.getBodyInfo(current_id)
-                item_name = item_info[1].decode("utf-8")
-                print(f"Item Name: {item_name}, ID: {current_id}")
+            
         return all_item_ids
 
-    def add_scene_obstacles(self, display=False):
+    def add_scene_obstacles(self):
         """
         Add obstacles to the scene.
         This is done by iterating over all items in the scene and adding them to the list of obstacles.
@@ -272,18 +266,14 @@ class OMPL_Planner:
         Returns:
                 A list of IDs of all items in the obstacle list.
         """
-        all_item_ids = self.get_scene_items(display=False)
-        self.obstacles = []
+        all_item_ids = self.get_scene_items()
+        
         # Add the current item ID to the list of obstacles
         for item_id in all_item_ids:
-            # Skip the robot ID
+            # Skip the arm ID
             if item_id == self.arm_id:
                 continue
             self.obstacles.append(item_id)
-            if display:
-                item_info = p.getBodyInfo(item_id)
-                item_name = item_info[1].decode("utf-8")
-                print(f"Item Name: {item_name}, ID: {item_id}")
 
         # update collision detection
         self.setup_collision_detection()
@@ -292,14 +282,14 @@ class OMPL_Planner:
         self, self_collisions=True, allow_collision_links=[]
     ):
         self.check_link_pairs = (
-            utils.get_self_link_pairs(self.arm_id, self.joint_idx)
+            get_self_link_pairs(self.arm_id, self.joint_idx)
             if self_collisions
             else []
         )
         moving_links = frozenset(
             [
                 item
-                for item in utils.get_moving_links(self.arm_id, self.joint_idx)
+                for item in get_moving_links(self.arm_id, self.joint_idx)
                 if not item in allow_collision_links
             ]
         )
@@ -311,17 +301,23 @@ class OMPL_Planner:
         # Should be unecessary if joint bounds is properly set
 
         # check self-collision
-        self.robot.set_state(utils.state_to_list(state))
+        p.setJointMotorControlArray(
+            bodyUniqueId=self.arm_id,
+            jointIndices=self.joint_idx,
+            controlMode=p.POSITION_CONTROL,
+            targetPositions=state_to_list(state, self.num_dim), 
+        )
+        
         for link1, link2 in self.check_link_pairs:
-            if utils.pairwise_link_collision(
-                self.robot_id, link1, self.robot_id, link2
+            if pairwise_link_collision(
+                self.arm_id, link1, self.arm_id, link2
             ):
                 # print(get_body_name(body), get_link_name(body, link1), get_link_name(body, link2))
                 return False
 
         # check collision against environment
         for body1, body2 in self.check_body_pairs:
-            if utils.pairwise_collision(body1, body2):
+            if pairwise_collision(body1, body2):
                 # print('body collision', body1, body2)
                 # print(get_body_name(body1), get_body_name(body2))
                 return False
@@ -373,8 +369,6 @@ class OMPL_Planner:
         # for joint, value in zip(self.joint_idx, start):
         #     p.resetJointState(self.id, joint, value, targetVelocity=0)
         
-        
-        
         print("start_planning")
         print(self.planner.params())
 
@@ -398,7 +392,7 @@ class OMPL_Planner:
             sol_path_geometric = self.ss.getSolutionPath()
             sol_path_geometric.interpolate(INTERPOLATE_NUM)
             sol_path_states = sol_path_geometric.getStates()
-            path = [self.state_to_list(state) for state in sol_path_states]
+            path = [state_to_list(state, self.num_dim) for state in sol_path_states]
             for sol_path in path:
                 self.is_state_valid(sol_path)
         else:
