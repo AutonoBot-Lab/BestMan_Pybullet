@@ -57,12 +57,13 @@ class PbClient:
             numSolverIterations=cfg.numSolverIterations
         )   # Set the number of constraint solver iterations; Higher values increase precision but also increase computation time
         
+        self.obj_name_to_id = {}    # record object name to its id
         planeId = p.loadURDF(cfg.plane_urdf_path)
-
+        
         # parameters for base
         self.frequency = cfg.frequency  # simulation step for base and arm
         self.timeout = cfg.timeout      # maximum time for planning
-
+        
         # Obstacles in the environment
         self.obstacle_navigation_ids = []  # for navigation
         self.obstacle_manipulation_ids = []  # for manipulation
@@ -275,8 +276,7 @@ class PbClient:
         object_orientation,
         scale,
         obj_name,
-        fixed_base=False,
-        tag_obstacle_navigate=True,
+        fixed_base=False
     ):
         """
         Load a given object into the PyBullet simulation environment.
@@ -290,31 +290,45 @@ class PbClient:
         Returns:
             The ID of the loaded object in the PyBullet simulation.
         """
+        
         object_orientation = p.getQuaternionFromEuler(
             object_orientation, physicsClientId=self.client_id
         )
-        setattr(
-            self,
-            f"{obj_name}_id",
-            p.loadURDF(
-                model_path,
-                basePosition=object_position,
-                baseOrientation=object_orientation,
-                globalScaling=scale,
-                useFixedBase=fixed_base,
-                physicsClientId=self.client_id,
-            ),
+        
+        object_id = p.loadURDF(
+            model_path,
+            basePosition=object_position,
+            baseOrientation=object_orientation,
+            globalScaling=scale,
+            useFixedBase=fixed_base,
+            physicsClientId=self.client_id,
         )
-        # print(
-        #     "-" * 20
-        #     + "\n"
-        #     + "{}_id: {}".format(obj_name, getattr(self, f"{obj_name}_id"))
+        
+        self.obj_name_to_id[obj_name] = object_id
+        
+        # setattr(
+        #     self,
+        #     f"{obj_name}_id",
+        #     p.loadURDF(
+        #         model_path,
+        #         basePosition=object_position,
+        #         baseOrientation=object_orientation,
+        #         globalScaling=scale,
+        #         useFixedBase=fixed_base,
+        #         physicsClientId=self.client_id,
+        #     ),
         # )
-        if tag_obstacle_navigate:
-            self.obstacle_navigation_ids.append(getattr(self, f"{obj_name}_id"))
-        self.obstacle_manipulation_ids.append(getattr(self, f"{obj_name}_id"))
+        # # print(
+        # #     "-" * 20
+        # #     + "\n"
+        # #     + "{}_id: {}".format(obj_name, getattr(self, f"{obj_name}_id"))
+        # # )
+        # if tag_obstacle_navigate:
+        #     self.obstacle_navigation_ids.append(getattr(self, f"{obj_name}_id"))
+        # self.obstacle_manipulation_ids.append(getattr(self, f"{obj_name}_id"))
         time.sleep(1.0 / self.frequency)
-        return getattr(self, f"{obj_name}_id")
+        # return getattr(self, f"{obj_name}_id")
+        return object_id
 
     # ----------------------------------------------------------------
     # Get info from environment

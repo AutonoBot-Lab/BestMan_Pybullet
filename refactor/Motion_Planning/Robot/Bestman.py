@@ -51,7 +51,7 @@ class Bestman:
             init_pos (object): The initial position object.
             base_id (int): The base id of the URDF model.
             arm_id (int): The arm id of the URDF model.
-            arm_joint_indexs (list): A list of joint indexes.
+            arm_joints_idx (list): A list of joint indexes.
             arm_height (float): The height of the arm.
             end_effector_index (int): The index of the end effector.
             tcp_link (int): The tcp link index.
@@ -104,7 +104,7 @@ class Bestman:
             useFixedBase=True,
             physicsClientId=self.client_id,
         )
-        self.arm_joint_indexs = robot_cfg.arm_joint_indexs
+        self.arm_joints_idx = robot_cfg.arm_joints_idx
         self.arm_height = robot_cfg.arm_height
 
         # Add constraint between base and arm
@@ -424,7 +424,7 @@ class Bestman:
         """
         Manually set each joint value of the arm for debugging purposes.
         """
-        joint_angles = self.get_arm_joint_angle()
+        joint_angles = self.get_arm_joints_angle()
         print("Current joint angles: {}".format(joint_angles))
 
         for i in range(6):
