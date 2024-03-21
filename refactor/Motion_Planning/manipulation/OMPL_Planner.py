@@ -16,6 +16,7 @@ import os
 
 sys.path.append('refactor')
 
+import math
 from itertools import product
 from ompl import util as ou
 from ompl import base as ob
@@ -53,10 +54,7 @@ class StateSpace(ob.RealVectorStateSpace):
 class OMPL_Planner:
     def __init__(
         self,
-        pb_client,
-        arm_id,
-        joint_idx,
-        tcp_link,
+        robot, 
         planner_cfg
     ):
         """
@@ -70,13 +68,15 @@ class OMPL_Planner:
            threshold: The threshold value ONLY for repalnning.
         """
         
-        self.pb_client = pb_client
-        self.client_id = self.pb_client.get_client()
+        self.pb_client = robot.pb_client
+        self.client_id = robot.client_id
+        self.robot = robot
 
         # parameters for arm
-        self.arm_id = arm_id
-        self.joint_idx = joint_idx
-        self.tcp_link = tcp_link
+        self.arm_id = robot.arm_id
+        self.arm_joints_idx = robot.arm_joints_idx
+        self.tcp_link = robot.tcp_link
+        self.end_effector_index = robot.end_effector_index
         
         # plan parameters
         self.max_attempts = planner_cfg.max_attempts
@@ -86,12 +86,12 @@ class OMPL_Planner:
         self.obstacles = []
 
         # real vector state space
-        self.num_dim = len(joint_idx)
+        self.num_dim = len(self.arm_joints_idx)
         self.space = StateSpace(self.num_dim)
         
         # Set the boundaries of the state space
         bounds = ob.RealVectorBounds(self.num_dim)
-        for i, joint_id in enumerate(self.joint_idx):
+        for i, joint_id in enumerate(self.arm_joints_idx):
             joint_info = p.getJointInfo(self.arm_id, joint_id)
             low = joint_info[8]  # low bounds
             high = joint_info[9]  # high bounds
@@ -115,7 +115,7 @@ class OMPL_Planner:
         print("--------------------")
         print(
             f"OMPL Configuration\n"
-            f"Arm ID: {arm_id}\n"
+            f"Arm ID: {self.arm_id}\n"
             f"Arm Name: {robot_name}\n"
             f"Planner: {planner_cfg.planner}\n"
             f"Threshold: {self.threshold}"
@@ -169,9 +169,14 @@ class OMPL_Planner:
         self.target_pos = (
             self.target_pos[0],
             self.target_pos[1],
-            self.target_pos[2] + max_z - min_z + 0.01,
+            # self.target_pos[2] + (max_z - min_z) / 2,
+            max_z
         )
         # print("debug! target position:{}".format(self.target_pos))
+        
+        target_orientation = [0.0, math.pi / 2.0, 0.0]  # vertical
+        self.goal = self.robot.cartesian_to_joints(position=[self.target_pos[0], self.target_pos[1], max_z + self.robot.tcp_height + 0.1], 
+                                                   orientation=target_orientation)
 
     def set_target_pos(self, target_pos):
         """
@@ -181,6 +186,9 @@ class OMPL_Planner:
                 target_pos: The position of the target.
         """
         self.target_pos = target_pos
+        target_orientation = [0.0, math.pi / 2.0, 0.0]  # vertical
+        self.goal = self.robot.cartesian_to_joints(position=[self.target_pos[0], self.target_pos[1], self.target_pos[2] + self.robot.tcp_height], 
+                                                   orientation=target_orientation)
 
     def set_obstacles(self, obstacles):
         """
@@ -282,14 +290,14 @@ class OMPL_Planner:
         self, self_collisions=True, allow_collision_links=[]
     ):
         self.check_link_pairs = (
-            get_self_link_pairs(self.arm_id, self.joint_idx)
+            get_self_link_pairs(self.arm_id, self.arm_joints_idx)
             if self_collisions
             else []
         )
         moving_links = frozenset(
             [
                 item
-                for item in get_moving_links(self.arm_id, self.joint_idx)
+                for item in get_moving_links(self.arm_id, self.arm_joints_idx)
                 if not item in allow_collision_links
             ]
         )
@@ -303,7 +311,7 @@ class OMPL_Planner:
         # check self-collision
         p.setJointMotorControlArray(
             bodyUniqueId=self.arm_id,
-            jointIndices=self.joint_idx,
+            jointIndices=self.arm_joints_idx,
             controlMode=p.POSITION_CONTROL,
             targetPositions=state_to_list(state, self.num_dim), 
         )
@@ -326,24 +334,24 @@ class OMPL_Planner:
     def set_state_sampler(self, state_sampler):
         self.space.set_state_sampler(state_sampler)
 
-    # def compute_distance(self, end_effector_link_index):
-    #     """
-    #     Compute the distance between the end effector and the object.
+    def compute_distance(self, end_effector_link_index):
+        """
+        Compute the distance between the end effector and the object.
 
-    #     Args:
-    #             end_effector_link_index: index of the end effector link.
+        Args:
+                end_effector_link_index: index of the end effector link.
 
-    #     Returns:
-    #             distance: distance between the end - effector and the object.
-    #     """
-    #     end_effector_pose = p.getLinkState(self.arm_id, end_effector_link_index)
+        Returns:
+                distance: distance between the end - effector and the object.
+        """
+        end_effector_pose = p.getLinkState(self.arm_id, end_effector_link_index)
 
-    #     # Compute the distance between the end-effector and the object
-    #     distance = np.linalg.norm(
-    #         np.array(end_effector_pose[0]) - np.array(self.target_pos)
-    #     )
-    #     # print('debug! end_effector_pose:{} target_pos:{}'.format(end_effector_pose[0], self.target_pos))
-    #     return distance
+        # Compute the distance between the end-effector and the object
+        distance = np.linalg.norm(
+            np.array(end_effector_pose[0]) - np.array(self.target_pos)
+        )
+        # print('debug! end_effector_pose:{} target_pos:{}'.format(end_effector_pose[0], self.target_pos))
+        return distance
 
     def plan_grasp(self, start, goal, allowed_time=DEFAULT_PLANNING_TIME):
         """
@@ -360,14 +368,15 @@ class OMPL_Planner:
         """
         
         # set arm state
-        p.setJointMotorControlArray(
-            bodyUniqueId=self.arm_id,
-            jointIndices=self.joint_idx,
-            controlMode=p.POSITION_CONTROL,
-            targetPositions=start, 
-        )
-        # for joint, value in zip(self.joint_idx, start):
-        #     p.resetJointState(self.id, joint, value, targetVelocity=0)
+        # p.setJointMotorControlArray(
+        #     bodyUniqueId=self.arm_id,
+        #     jointIndices=self.arm_joints_idx,
+        #     controlMode=p.POSITION_CONTROL,
+        #     targetPositions=start, 
+        # )
+        
+        for joint, value in zip(self.arm_joints_idx, start):
+            p.resetJointState(self.arm_id, joint, value, targetVelocity=0)
         
         print("start_planning")
         print(self.planner.params())
@@ -383,6 +392,7 @@ class OMPL_Planner:
 
         # attempt to solve the problem within allowed planning time
         solved = self.ss.solve(allowed_time)
+        res = False
         path = []
         if solved:
             print(
@@ -395,18 +405,22 @@ class OMPL_Planner:
             path = [state_to_list(state, self.num_dim) for state in sol_path_states]
             for sol_path in path:
                 self.is_state_valid(sol_path)
+            res = True
         else:
             print("No solution found")
 
         # reset robot state
-        p.setJointMotorControlArray(
-            bodyUniqueId=self.arm_id,
-            jointIndices=self.joint_idx,
-            controlMode=p.POSITION_CONTROL,
-            targetPositions=start, 
-        )
-            
-        return path
+        # p.setJointMotorControlArray(
+        #     bodyUniqueId=self.arm_id,
+        #     jointIndices=self.arm_joints_idx,
+        #     controlMode=p.POSITION_CONTROL,
+        #     targetPositions=start, 
+        # )
+        
+        for joint, value in zip(self.arm_joints_idx, start):
+            p.resetJointState(self.arm_id, joint, value, targetVelocity=0)
+        
+        return res, path
 
     # def move_end_effector_to_goal_position(
     #     self, start, goal, end_effector_link_index
@@ -433,7 +447,7 @@ class OMPL_Planner:
     #             for _ in range(100):
     #                 p.stepSimulation()
 
-    def plan(self, start, goal):  # TODO refactor
+    def plan_and_excute(self, start):  # TODO refactor
         """
         Reach an object from start to goal
 
@@ -445,24 +459,30 @@ class OMPL_Planner:
         attempts = 0
         while attempts < self.max_attempts:
             attempts += 1
-            path = self.plan_grasp(start, goal)
-            if path:    # Non-empty, there is a feasible solution
-                return path
-            
-            # # Check if the robot is close to the object
-            # if self.tcp_link != -1:
-            #     distance = self.compute_distance(self.tcp_link)
-            # else:
-            #     distance = self.compute_distance(end_effector_link_index)
-            #     print("Attention, the distance is computed without tcp link")
-            # print("debug! distance:{}".format(distance))
-            # # This method grasses the robot if the distance is below threshold.
-            # if distance <= self.threshold:
-            #     print(
-            #         "After {} trials, successfully grasped (error:{}).".format(
-            #             attempts, distance
-            #         )
-            #     )
+            res, path = self.plan_grasp(start, self.goal)
+
+            # Execute the path
+            if res:
+                self.execute(path)
+                
+                # Check if the robot is close to the object
+                if self.tcp_link != -1:
+                    distance = self.compute_distance(self.tcp_link)
+                else:
+                    distance = self.compute_distance(self.end_effector_index)
+                    print("Attention, the distance is computed without tcp link")
+                    
+                print("debug! distance:{}".format(distance))
+                
+                # This method grasses the robot if the distance is below threshold.
+                if distance <= self.threshold:
+                    print(
+                        "After {} trials, successfully grasped (error:{}).".format(
+                            attempts, distance
+                        )
+                    )
+
+                    return True, path
                     
         if attempts >= self.max_attempts:
             print(
@@ -470,21 +490,23 @@ class OMPL_Planner:
                     self.max_attempts
                 )
             )
-        return None
+            
+        return False, None
     
-    # def execute(self, path, dynamics=False):
-    #     """
-    #     Execute a given path using the OMPL interface and handle errors.
+    def execute(self, path, dynamics=False):
+        """
+        Execute a given path using the OMPL interface and handle errors.
 
-    #     Args:
-    #         path: The path to be executed. This should be absolute path.
-    #     """
-    #     for q in path:
-    #         if dynamics:
-    #             for i in range(self.robot.num_dim):
-    #                 p.setJointMotorControl2(
-    #                     self.robot.id, i, p.POSITION_CONTROL, q[i], force=5 * 240.0
-    #                 )
-    #         else:
-    #             self.robot.set_state(q)
-    #         p.stepSimulation()
+        Args:
+            path: The path to be executed. This should be absolute path.
+        """
+        for q in path:
+            if dynamics:
+                for i in range(self.num_dim):
+                    p.setJointMotorControl2(
+                        self.arm_id, i, p.POSITION_CONTROL, q[i], force=5 * 240.0
+                    )
+            else:
+                for joint, value in zip(self.arm_joints_idx, q):
+                    p.resetJointState(self.arm_id, joint, value, targetVelocity=0)
+            p.stepSimulation()

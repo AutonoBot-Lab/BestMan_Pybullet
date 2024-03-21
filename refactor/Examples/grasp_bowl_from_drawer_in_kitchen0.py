@@ -9,19 +9,13 @@ import sys
 import os
 import pybullet as p
 
-"""
-Get the utils module path
-"""
-# customized package
-current_path = os.path.abspath(__file__)
-utils_path = os.path.dirname(os.path.dirname(current_path)) + "/utils"
-if os.path.basename(utils_path) != "utils":
-    raise ValueError('Not add the path of folder "utils", please check again!')
-sys.path.append(utils_path)
-from utils_Bestman import Bestman, Pose
-from utils_PbClient import PbClient
-from utils_PbVisualizer import PbVisualizer
-from utils_PbOMPL import PbOMPL
+sys.path.append('/BestMan_Pybullet/refactor')
+
+from Motion_Planning.Robot.Bestman import Bestman
+from Motion_Planning.Robot.Pose import Pose
+from Env.PbClient import PbClient
+from Visualization.PbVisualizer import PbVisualizer
+from Utils.load_config import load_config
 
 # load kitchen from three scenarios
 index = 0

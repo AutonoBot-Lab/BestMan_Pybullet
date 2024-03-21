@@ -4,18 +4,14 @@
 @Time        :   2023/08/31 03:01:50
 """
 
-import math
 import sys
-import os
 
 sys.path.append('/BestMan_Pybullet/refactor')
 
 from Motion_Planning.Robot.Bestman import Bestman
-from Motion_Planning.Robot.Pose import Pose
 from Env.PbClient import PbClient
 from Visualization.PbVisualizer import PbVisualizer
 from Motion_Planning.manipulation.OMPL_Planner import OMPL_Planner
-from Motion_Planning.navigation.navigation import navigation
 from Utils.load_config import load_config
 
 # load kitchen from three scenarios
@@ -56,16 +52,12 @@ bowl_id = pb_client.load_object(
     [0.0, 0.0, 0.0],
     1.0,
     "bowl",
-    fixed_base=False,
-    tag_obstacle_navigate=False,
+    fixed_base=False
 )
 
 # load OMPL planner
 planner = OMPL_Planner(
-    pb_client,
-    demo.arm_id,
-    demo.arm_joint_indexs,
-    demo.tcp_link,
+    demo, 
     cfg.Planner
 )
 
@@ -75,34 +67,33 @@ planner.get_obstacles_info()
 
 pb_client.run(1000)
 
-_, _, min_z, _, _, max_z = pb_client.get_bounding_box(bowl_id, True)
-goal_position = bowl_position[:2]
-goal_position.append(max_z + demo.tcp_height * 2)     # consider tcp's height
-print("goal position:{}".format(goal_position))
+# _, _, min_z, _, _, max_z = pb_client.get_bounding_box(bowl_id, True)
+# goal_position = bowl_position[:2]
+# goal_position.append(max_z + demo.tcp_height * 2)     # consider tcp's height
+# print("goal position:{}".format(goal_position))
 
 # set target object for grasping
 planner.set_target(bowl_id)
-target_orientation = [0.0, math.pi / 2.0, 0.0]  # vertical
-goal = demo.cartesian_to_joints(position=goal_position, orientation=target_orientation)
-print("-" * 20 + "\n" + "Goal configuration:{}".format(goal))
+# target_orientation = [0.0, math.pi / 2.0, 0.0]  # vertical
+# goal = demo.cartesian_to_joints(position=goal_position, orientation=target_orientation)
+# print("-" * 20 + "\n" + "Goal configuration:{}".format(goal))
 
 # reach target object
 pb_visualizer.change_arm_color(demo.arm_id, light_color=True)
-trajectory = planner.plan(
-    start=demo.get_arm_joints_angle(),
-    goal=goal
+res, trajectory = planner.plan_and_excute(
+    start=demo.get_arm_joints_angle()
 )
 
 pb_client.run(100)
-# print('result:{}, trajectory:{}'.format(result, trajectory))
+# print('trajectory:{}'.format(trajectory))
 
 # perform action
 pb_visualizer.change_arm_color(demo.arm_id, light_color=False)
-demo.execute_trajectory(trajectory)
+# demo.execute_trajectory(trajectory)
 
-# grasp object
-demo.active_gripper(bowl_id, 1)
+# # grasp object
+# demo.active_gripper(bowl_id, 1)
 
-# disconnect pybullet
-pb_client.wait(5)
+# # disconnect pybullet
+pb_client.wait(1000)
 pb_client.disconnect_pybullet()
