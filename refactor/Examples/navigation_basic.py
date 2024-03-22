@@ -10,13 +10,11 @@ import os
 
 sys.path.append('/GithubCode/BestMan_Pybullet/refactor')
 
-from Motion_Planning.Robot.Bestman import Bestman
-from Motion_Planning.Robot.Pose import Pose
-from Env.PbClient import PbClient
-from Visualization.PbVisualizer import PbVisualizer
-# from Motion_Planning.Navigation.navigation import navigation
-from Motion_Planning.Navigation.A_star import AStarPlanner
-from Utils.load_config import load_config
+from Motion_Planning.Robot import Bestman, Pose
+from Env.Client import Client
+from Visualization import Visualizer
+from Motion_Planning.Navigation import AStarPlanner
+from Utils import load_config
 
 # load kitchen from three scenarios
 index = 0
@@ -32,9 +30,9 @@ config_path = '/GithubCode/BestMan_Pybullet/refactor/config/navigation_basic.yam
 cfg = load_config(config_path)
 # print(cfg)
 
-pb_client = PbClient(cfg.Client)
+pb_client = Client(cfg.Client)
 pb_client.enable_vertical_view(cfg.Client.Camera_params)
-pb_visualizer = PbVisualizer(pb_client)
+pb_visualizer = Visualizer(pb_client)
 
 # logID = pb_client.start_record("example_manipulation") # start recording
 bestman = Bestman(pb_client, cfg.Robot)  # load robot

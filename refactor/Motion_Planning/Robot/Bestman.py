@@ -21,8 +21,8 @@ import sys
 sys.path.append('/BestMan_Pybullet/refactor')
 
 from .Pose import Pose
-from Env.PbClient import PbClient
-from Visualization.PbVisualizer import PbVisualizer
+from Env.Client import Client
+from Visualization.Visualizer import Visualizer
 from Controller.PIDController import PIDController
 
 class Bestman:
@@ -149,7 +149,7 @@ class Bestman:
         self.tcp_height = robot_cfg.tcp_height
 
         # Set arm and base colors
-        self.visualizer = PbVisualizer(pb_client)
+        self.visualizer = Visualizer(pb_client)
         self.visualizer.set_robot_visual_color(self.base_id, self.arm_id)
 
         # global parameters

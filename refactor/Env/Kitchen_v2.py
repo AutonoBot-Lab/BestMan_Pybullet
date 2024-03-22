@@ -20,8 +20,8 @@ import sys
 import os
 
 sys.path.append('refactor')
-from Visualization.PbVisualizer import PbVisualizer
-from Env.PbClient import PbClient
+from refactor.Visualization.Visualizer import PbVisualizer
+from refactor.Env.Client import PbClient
 from Motion_Planning.Controller.PIDController import PIDController
 
 """

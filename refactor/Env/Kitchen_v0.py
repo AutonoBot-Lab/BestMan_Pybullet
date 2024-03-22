@@ -21,8 +21,8 @@ import sys
 import os
 
 sys.path.append('refactor')
-from Visualization.PbVisualizer import PbVisualizer
-from Env.PbClient import PbClient
+from Visualization.Visualizer import Visualizer
+from Env.Client import Client
 from Controller.PIDController import PIDController
 
 """
