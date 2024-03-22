@@ -27,8 +27,8 @@ import os
 # if os.path.basename(utils_path) != "utils":
 #     raise ValueError('Not add the path of folder "utils", please check again!')
 sys.path.append('refactor')
-from Visualization.PbVisualizer import PbVisualizer
-from Env.PbClient import PbClient
+from refactor.Visualization.Visualizer import PbVisualizer
+from refactor.Env.Client import PbClient
 from Motion_Planning.Controller.PIDController import PIDController
 
 

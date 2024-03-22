@@ -18,7 +18,7 @@ Client class
 """
 
 
-class PbClient:
+class Client:
     def __init__(self, cfg):
         """
         Initialize a new PbClient object.

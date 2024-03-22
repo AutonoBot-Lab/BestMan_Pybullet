@@ -1,7 +1,6 @@
 import numpy as np
-import pybullet as p
 import networkx as nwx
-from Visualization.navigation_route_visual import navigation_route_visual
+from Visualization import Nav_route_visual
 
 
 class AStarPlanner:
@@ -125,7 +124,7 @@ class AStarPlanner:
         # print("path:{}".format(path))
 
         if self.enable_plot:
-            navigation_route_visual(static_map, path)
+            Nav_route_visual(static_map, path)
 
         # Convert grid coordinates back to world coordinates
         path = [to_world_coordinates(point, self.resolution) for point in path]

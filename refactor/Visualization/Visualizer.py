@@ -41,7 +41,7 @@ colors = {
 }
 
 
-class PbVisualizer:
+class Visualizer:
     def __init__(self, pb_client):
         self.client_id = pb_client.get_client()
         self.line_visual = None
