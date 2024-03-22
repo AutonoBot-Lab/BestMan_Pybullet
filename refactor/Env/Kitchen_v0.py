@@ -23,7 +23,7 @@ import os
 sys.path.append('refactor')
 from Visualization.PbVisualizer import PbVisualizer
 from Env.PbClient import PbClient
-from Motion_Planning.Controller.PIDController import PIDController
+from Controller.PIDController import PIDController
 
 """
 Add kitchen

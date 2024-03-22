@@ -23,7 +23,7 @@ sys.path.append('/BestMan_Pybullet/refactor')
 from .Pose import Pose
 from Env.PbClient import PbClient
 from Visualization.PbVisualizer import PbVisualizer
-from Motion_Planning.Controller.PIDController import PIDController
+from Controller.PIDController import PIDController
 
 class Bestman:
     def __init__(self, pb_client, robot_cfg):
@@ -183,6 +183,36 @@ class Bestman:
             )
             print("Link index: {}, name: {}".format(i, link_name))
 
+    def get_robot_size(self):
+        
+        # get arm and base size in meters
+        (
+            min_x_base,
+            min_y_base,
+            _,
+            max_x_base,
+            max_y_base,
+            _,
+        ) = self.pb_client.get_bounding_box(self.base_id)
+        
+        (
+            min_x_arm,
+            min_y_arm,
+            _,
+            max_x_arm,
+            max_y_arm,
+            _,
+        ) = self.pb_client.get_bounding_box(self.arm_id)
+        
+        robot_size = max(
+            max_x_base - min_x_base,
+            max_y_base - min_y_base,
+            max_x_arm - min_x_arm,
+            max_y_arm - min_y_arm,
+        )
+        
+        return robot_size
+        
     def sync_base_arm_pose(self):
         """
         Synchronize the arm and base position

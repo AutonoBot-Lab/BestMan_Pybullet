@@ -11,7 +11,7 @@ def navigation_route_visual(static_map, path):
     
     # 'gray_r' means reversed grayscale
     plt.imshow(static_map, cmap="gray_r", origin="lower") 
-
+    
     # Extract the x and y coordinates of the path
     x_coords = [point[1] for point in path]
     y_coords = [point[0] for point in path]

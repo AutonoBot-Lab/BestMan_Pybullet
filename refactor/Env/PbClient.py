@@ -57,7 +57,6 @@ class PbClient:
             numSolverIterations=cfg.numSolverIterations
         )   # Set the number of constraint solver iterations; Higher values increase precision but also increase computation time
         
-        self.obj_name_to_id = {}    # record object name to its id
         planeId = p.loadURDF(cfg.plane_urdf_path)
         
         # parameters for base
@@ -65,7 +64,8 @@ class PbClient:
         self.timeout = cfg.timeout      # maximum time for planning
         
         # Obstacles in the environment
-        self.obstacle_navigation_ids = []  # for navigation
+        self.obstacle_navigation_ids = []  # for Navigation
+        # self.Nav_obstacles_bounds = []   # for Navigation
         self.obstacle_manipulation_ids = []  # for manipulation
 
     # ----------------------------------------------------------------
@@ -276,7 +276,8 @@ class PbClient:
         object_orientation,
         scale,
         obj_name,
-        fixed_base=False
+        fixed_base=False,
+        nav_obstacle_tag=True
     ):
         """
         Load a given object into the PyBullet simulation environment.
@@ -304,36 +305,41 @@ class PbClient:
             physicsClientId=self.client_id,
         )
         
-        self.obj_name_to_id[obj_name] = object_id
+        setattr(
+            self,
+            obj_name,
+            object_id
+        )
         
-        # setattr(
-        #     self,
-        #     f"{obj_name}_id",
-        #     p.loadURDF(
-        #         model_path,
-        #         basePosition=object_position,
-        #         baseOrientation=object_orientation,
-        #         globalScaling=scale,
-        #         useFixedBase=fixed_base,
-        #         physicsClientId=self.client_id,
-        #     ),
+        # print(
+        #     "-" * 20
+        #     + "\n"
+        #     + "{}_id: {}".format(obj_name, getattr(self, f"{obj_name}_id"))
         # )
-        # # print(
-        # #     "-" * 20
-        # #     + "\n"
-        # #     + "{}_id: {}".format(obj_name, getattr(self, f"{obj_name}_id"))
-        # # )
+        
         # if tag_obstacle_navigate:
-        #     self.obstacle_navigation_ids.append(getattr(self, f"{obj_name}_id"))
+        if nav_obstacle_tag:
+            self.obstacle_navigation_ids.append(object_id)
         # self.obstacle_manipulation_ids.append(getattr(self, f"{obj_name}_id"))
         time.sleep(1.0 / self.frequency)
-        # return getattr(self, f"{obj_name}_id")
         return object_id
 
     # ----------------------------------------------------------------
+    # Navigation
+    # ----------------------------------------------------------------
+    
+    # TODO
+    def get_Nav_obstacles_bounds(self):
+        Nav_obstacles_bounds = []
+        for object_id in self.obstacle_navigation_ids:
+            object_bounds = self.get_bounding_box(object_id)
+            Nav_obstacles_bounds.append([object_bounds[0], object_bounds[1], object_bounds[3], object_bounds[4]])
+        return Nav_obstacles_bounds
+    
+    # ----------------------------------------------------------------
     # Get info from environment
     # ----------------------------------------------------------------
-
+    
     # get occupancy network
     def get_occupancy_network(
         self, object_id, x_max=10, y_max=10, resolution=0.1, enable_plot=False
