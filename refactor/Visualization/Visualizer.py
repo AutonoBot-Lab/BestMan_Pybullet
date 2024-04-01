@@ -42,13 +42,37 @@ colors = {
 
 
 class Visualizer:
-    def __init__(self, pb_client):
-        self.client_id = pb_client.get_client()
+    def __init__(self, client, visualizer_cfg):
+        self.client = client
+        self.client_id = client.get_client_id()
+        
+        # Init camera pose
+        self.set_camera_pose(visualizer_cfg.Camera)
         self.line_visual = None
 
     # ----------------------------------------------------------------
-    # Visualization functions
+    # Camera / Image
     # ----------------------------------------------------------------
+    
+    def set_camera_pose(self, camera_cfg):
+        """
+        Set the debug visualizer camera pose 
+
+        Args:
+            dist (float): The distance of the camera from the target point.
+            position (list): A list of three floats representing the target position in 3D space.
+            yaw (float, optional): The yaw component of the camera orientation. Defaults to 0.
+            pitch (float, optional): The pitch component of the camera orientation. Defaults to -89.9.
+        """
+        
+        p.resetDebugVisualizerCamera(
+            cameraDistance=camera_cfg.dist,
+            cameraYaw=camera_cfg.yaw,
+            cameraPitch=camera_cfg.pitch,
+            cameraTargetPosition=camera_cfg.position,
+            physicsClientId=self.client_id,
+        )
+    
     def capture_screen(self, filename=None, enable_Debug=False):
         """
         Continuously capture the screens of pybullet GUI and save the images to files.
@@ -61,40 +85,9 @@ class Visualizer:
         alpha = 10
         temp_counter = 0
         max_counter = 1  # num of images
-        try:
-            if enable_Debug:
-                while temp_counter < max_counter:
-                    # Get GUI information
-                    (
-                        width,
-                        height,
-                        viewMatrix,
-                        projectionMatrix,
-                        cameraUp,
-                        camForward,
-                        horizonal,
-                        vertical,
-                        yaw,
-                        pitch,
-                        dist,
-                        target,
-                    ) = p.getDebugVisualizerCamera()
-
-                    # Capture the screen
-                    _, _, rgba, _, _ = p.getCameraImage(width * alpha, height * alpha)
-                    img = np.array(rgba).reshape(height * alpha, width * alpha, 4)
-
-                    # Save the image to the file
-                    if filename == None:
-                        # current_time = datetime.now().strftime('%Y%m%d_%H%M%S')
-                        # path_filename = f"./image/{current_time}.png"
-                        path_filename = f"./image/input/target:{target}_dist:{dist}_pitch:{pitch}_yaw:{yaw}.png"
-                    else:
-                        path_filename = f"./image/input/{filename}.png"
-                    Image.fromarray(img).save(path_filename)
-                    temp_counter += 1
-                    print("-" * 20 + "image is done!" + "-" * 20)
-            else:
+        
+        if enable_Debug:
+            while temp_counter < max_counter:
                 # Get GUI information
                 (
                     width,
@@ -115,8 +108,6 @@ class Visualizer:
                 _, _, rgba, _, _ = p.getCameraImage(width * alpha, height * alpha)
                 img = np.array(rgba).reshape(height * alpha, width * alpha, 4)
 
-                print("width:{} height:{}".format(width, height))
-
                 # Save the image to the file
                 if filename == None:
                     # current_time = datetime.now().strftime('%Y%m%d_%H%M%S')
@@ -125,30 +116,40 @@ class Visualizer:
                 else:
                     path_filename = f"./image/input/{filename}.png"
                 Image.fromarray(img).save(path_filename)
+                temp_counter += 1
+                print("-" * 20 + "image is done!" + "-" * 20)
+        else:
+            # Get GUI information
+            (
+                width,
+                height,
+                viewMatrix,
+                projectionMatrix,
+                cameraUp,
+                camForward,
+                horizonal,
+                vertical,
+                yaw,
+                pitch,
+                dist,
+                target,
+            ) = p.getDebugVisualizerCamera()
 
-        except KeyboardInterrupt:
-            pass
+            # Capture the screen
+            _, _, rgba, _, _ = p.getCameraImage(width * alpha, height * alpha)
+            img = np.array(rgba).reshape(height * alpha, width * alpha, 4)
 
-    def crop_image(self, image, center, size):
-        """
-        Crop a given image around a specified center point and returns the cropped portion. The resulting cropped image will be a square with the provided size. If the cropping dimensions exceed the original image boundaries, the function ensures it stays within the original image's dimensions to prevent out-of-bounds access.
+            print("width:{} height:{}".format(width, height))
 
-        Args:
-            image (np.array): The original image to be cropped. It is assumed to be a two-dimensional array, representing pixel values.
-            center (tuple): A tuple (x, y) specifying the center point around which the image will be cropped.
-            size (int): The side length of the resulting square cropped image.
-
-        Returns:
-            np.array: A cropped portion of the original image centered around the specified center point and with the given size.
-        """
-        image_height, image_width = image.shape
-        top = max(0, int(center[1] - size / 2))
-        bottom = min(image_height, int(center[1] + size / 2))
-        left = max(0, int(center[0] - size / 2))
-        right = min(image_width, int(center[0] + size / 2))
-
-        return image[top:bottom, left:right]
-
+            # Save the image to the file
+            if filename == None:
+                # current_time = datetime.now().strftime('%Y%m%d_%H%M%S')
+                # path_filename = f"./image/{current_time}.png"
+                path_filename = f"./image/input/target:{target}_dist:{dist}_pitch:{pitch}_yaw:{yaw}.png"
+            else:
+                path_filename = f"./image/input/{filename}.png"
+            Image.fromarray(img).save(path_filename)
+    
     def get_depth_image(
         self, basePos, cameraPos, cameraUp, enable_show=False, enable_save=False
     ):
@@ -203,7 +204,110 @@ class Visualizer:
         if enable_save:
             plt.imsave("depth_image.png", depth_image, cmap=custom_cmap)
 
-        return depth_image
+        return depth_image  
+    
+    def crop_image(self, image, center, size):
+        """
+        Crop a given image around a specified center point and returns the cropped portion. The resulting cropped image will be a square with the provided size. If the cropping dimensions exceed the original image boundaries, the function ensures it stays within the original image's dimensions to prevent out-of-bounds access.
+
+        Args:
+            image (np.array): The original image to be cropped. It is assumed to be a two-dimensional array, representing pixel values.
+            center (tuple): A tuple (x, y) specifying the center point around which the image will be cropped.
+            size (int): The side length of the resulting square cropped image.
+
+        Returns:
+            np.array: A cropped portion of the original image centered around the specified center point and with the given size.
+        """
+        image_height, image_width = image.shape
+        top = max(0, int(center[1] - size / 2))
+        bottom = min(image_height, int(center[1] + size / 2))
+        left = max(0, int(center[0] - size / 2))
+        right = min(image_width, int(center[0] + size / 2))
+
+        return image[top:bottom, left:right]
+            
+            
+    # ----------------------------------------------------------------
+    # Axes
+    # ----------------------------------------------------------------
+    def draw_axes(self, length=2.0, lineWidth=2.0, textSize=3.0):
+        """
+        Draws the x and y axes in the PyBullet environment with text labels.
+        
+        Parameters:
+        - length (float): Length of the axes.
+        - lineWidth (float): Width of the axes lines.
+        - textSize (float): Size of the text labels.
+        """
+        origin = [0, 0, 0]  # The start point of the axes
+
+        # Drawing the X-axis (in red)
+        p.addUserDebugLine(
+            lineFromXYZ=origin,
+            lineToXYZ=[length, 0, 0],
+            lineColorRGB=[1, 0, 0],
+            lineWidth=lineWidth,
+            physicsClientId=self.client_id,
+        )
+
+        # Drawing the Y-axis (in green)
+        p.addUserDebugLine(
+            lineFromXYZ=origin,
+            lineToXYZ=[0, length, 0],
+            lineColorRGB=[0, 1, 0],
+            lineWidth=lineWidth,
+            physicsClientId=self.client_id,
+        )
+
+        # Adding text labels
+        p.addUserDebugText(
+            text="X",
+            textPosition=[length + 0.1, 0, 0],
+            textColorRGB=[1, 0, 0],
+            textSize=textSize,
+            physicsClientId=self.client_id,
+        )
+        p.addUserDebugText(
+            text="Y",
+            textPosition=[0, length + 0.1, 0],
+            textColorRGB=[0, 1, 0],
+            textSize=textSize,
+            physicsClientId=self.client_id,
+        )
+    
+    # ----------------------------------------------------------------
+    # Video
+    # ----------------------------------------------------------------
+
+    def start_record(self, fileName):
+        """
+        Enable and disable recording
+        """
+        
+        logId = p.startStateLogging(
+            p.STATE_LOGGING_VIDEO_MP4,
+            "./image/" + fileName + ".mp4",
+            physicsClientId=self.client_id,
+        )
+        
+        print(
+            "-" * 20
+            + "\n"
+            + "The video can be found in "
+            + "./image/"
+            + fileName
+            + ".mp4"
+        )
+        
+        return logId
+
+    def end_record(self, logId):
+        p.stopStateLogging(logId, physicsClientId=self.client_id)
+        
+        
+    # ----------------------------------------------------------------
+    # aabb
+    # ----------------------------------------------------------------
 
     def draw_aabb(self, object_id):
         """
@@ -257,7 +361,7 @@ class Visualizer:
                     physicsClientId=self.client_id,
                 )
 
-    def draw_aabb_link(self, object_id, link_id=-1):
+    def draw_aabb_link(self, object_name, link_id=-1):
         """
         Draw an Axis-Aligned Bounding Box (AABB) around the specified object or link in the simulation. The AABB is a box that covers the entire object based on its maximum and minimum coordinates along each axis. It can be useful for various purposes, such as collision detection, spatial partitioning, and bounding volume hierarchies.
 
@@ -265,6 +369,8 @@ class Visualizer:
             object_id: The unique identifier of the object in the simulation for which the AABB is to be drawn.
             link_id: The index of the link for which the AABB is to be drawn. Default is -1, which means the entire object.
         """
+        
+        object_id = getattr(self.client, object_name)
         aabb = p.getAABB(object_id, link_id, physicsClientId=self.client_id)
         aabb_min = aabb[0]
         aabb_max = aabb[1]
@@ -302,6 +408,7 @@ class Visualizer:
                 physicsClientId=self.client_id,
             )
 
+    # Robot color
     def change_arm_color(self, arm_id, light_color=True):
         """
         Set the color of arm during OMPL

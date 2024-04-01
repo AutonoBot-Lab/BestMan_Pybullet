@@ -1,35 +1,39 @@
-# PbClient
+# Client parameters
 Client:
   enable_GUI: True            # If True, the GUI will be enabled.
   enable_Debug: False         # If False, the debug visualizer will be disabled.
   enable_capture: True
-  Camera_params: 
-    dist: 1.0
-    position: [1.7, 3.68, 1.95]
-    yaw: -86.4
-    pitch: -52.3
   Gravity: [0, 0, -9.8]
   numSolverIterations: 1000   # Set the number of constraint solver iterations; Higher values increase precision but also increase computation time
   plane_urdf_path: 'plane.urdf'
   frequency: 480              # simulation step for base and arm
   timeout : 100.0             # maximum time for planning
 
+# Visualizer params
+Visualizer:
+  Camera: 
+      dist: 1.0
+      position: [1.7, 3.68, 1.95]
+      yaw: -86.4
+      pitch: -52.3
 
-# Robot parameters
+
+# PIDController params
+Controller:
+  frequency : 240
+  timeout : 100.0
+  max_force : 500
+  max_iterations : 10000
+  threshold : 0.01
+  max_attempts : 500
+  target_distance : 0.0
+  Kp : 0.01
+  Ki : 0.0
+  Kd : 0.0
+
+
+# Robot params
 Robot:
-
-  # PIDController parameters
-  Controller:
-    frequency : 240
-    timeout : 100.0
-    max_force : 500
-    max_iterations : 10000
-    threshold : 0.01
-    max_attempts : 500
-    target_distance : 0.0
-    Kp : 0.01
-    Ki : 0.0
-    Kd : 0.0
     
   init_pose: [1, 0, 0, 0.0, 0.0, "math.pi / 2"]   # The initial pose of base and arm
   init_joint: [0, -1.57, 1.5, -1.57, -1.57, 0]    # The initial angle of arm joint
