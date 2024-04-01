@@ -21,15 +21,9 @@ Get the utils module path
 import sys
 import os
 
-# customized package
-# current_path = os.path.abspath(__file__)
-# utils_path = os.path.dirname(current_path)
-# if os.path.basename(utils_path) != "utils":
-#     raise ValueError('Not add the path of folder "utils", please check again!')
-sys.path.append('refactor')
-from refactor.Visualization.Visualizer import PbVisualizer
-from refactor.Env.Client import PbClient
-from Motion_Planning.Controller.PIDController import PIDController
+from Visualization.Visualizer import PbVisualizer
+from Env.Client import PbClient
+from Controller.PIDController import PIDController
 
 
 class Kitchen:

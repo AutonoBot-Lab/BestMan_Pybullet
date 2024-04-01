@@ -7,15 +7,8 @@
 
 import pybullet as p
 import numpy as np
-
-"""
-Get the utils module path
-"""
 import sys
 import os
-
-sys.path.append('refactor')
-
 import math
 from itertools import product
 from ompl import util as ou
