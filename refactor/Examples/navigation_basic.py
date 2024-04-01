@@ -4,8 +4,6 @@
 @Time        :   2023/08/31 03:01:50
 """
 
-import hydra
-from omegaconf import DictConfig, OmegaConf
 import math
 from Motion_Planning.Robot import Bestman, Pose
 from Env.Client import Client
@@ -74,23 +72,18 @@ pb_visualizer.draw_line([1, 0, 0], target_position)
 
 # navigate algorithm
 goal_base_pose = Pose(target_position, [0.0, 0.0, math.pi / 2.0])
-# nav_planner = AStarPlanner(
-#     robot_size = bestman.get_robot_size(), 
-#     obstacles_bounds = pb_client.get_Nav_obstacles_bounds(), 
-#     resolution = 0.05, 
-#     enable_plot = True
-# )
-nav_planner = RRTPlanner(
+nav_planner = AStarPlanner(
     robot_size = bestman.get_robot_size(), 
-    obstacles_bounds = pb_client.get_Nav_obstacles_bounds(),
+    obstacles_bounds = pb_client.get_Nav_obstacles_bounds(), 
+    resolution = 0.05, 
     enable_plot = True
 )
+# nav_planner = RRTPlanner(
+#     robot_size = bestman.get_robot_size(), 
+#     obstacles_bounds = pb_client.get_Nav_obstacles_bounds(),
+#     enable_plot = False
+# )
 path = nav_planner.plan(start_pose = bestman.get_base_pose(), goal_pose = goal_base_pose)
-
-
-print('start:', bestman.get_base_pose().position[0:2])
-print('goal:', goal_base_pose.position[0:2])
-print('path:', path)
 
 # navigate segbot
 bestman.navigate_base(goal_base_pose, path)
