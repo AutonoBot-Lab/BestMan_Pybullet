@@ -19,8 +19,6 @@ Get the utils module path
 """
 import sys
 import os
-
-sys.path.append('refactor')
 from Visualization.Visualizer import Visualizer
 from Env.Client import Client
 from Controller.PIDController import PIDController

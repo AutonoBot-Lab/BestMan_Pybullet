@@ -1,13 +1,2 @@
 .vscode
-refactor/__pycache__/
-refactor/Env/__pycache__/
-refactor/Motion_Planning/Controller/__pycache__/
-refactor/Motion_Planning/Robot/__pycache__/
-refactor/Visualization/__pycache__/
-refactor/Motion_Planning/manipulation/__pycache__/
-refactor/Utils/__pycache__/
-refactor/Motion_Planning/navigation/__pycache__/
-refactor/Motion_Planning/Navigation/A_star/__pycache__/
-refactor/Motion_Planning/Manipulation/__pycache__/
-refactor/Motion_Planning/Navigation/__pycache__/
-refactor/Controller/__pycache__/
+**/__pycache__

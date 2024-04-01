@@ -13,16 +13,10 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import random
 
-"""
-Get the utils module path
-"""
-import sys
-import os
 
-sys.path.append('refactor')
-from refactor.Visualization.Visualizer import PbVisualizer
-from refactor.Env.Client import PbClient
-from Motion_Planning.Controller.PIDController import PIDController
+from Visualization.Visualizer import PbVisualizer
+from Env.Client import PbClient
+from Controller.PIDController import PIDController
 
 """
 Add kitchen

@@ -12,14 +12,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 import sys
-
-# customized package
-# current_path = os.path.abspath(__file__)
-# utils_path = os.path.dirname(os.path.dirname(os.path.dirname(current_path)))
-# if os.path.basename(utils_path) != "refactor":
-#     raise ValueError('Not add the path of folder "utils", please check again!')
-sys.path.append('/BestMan_Pybullet/refactor')
-
 from .Pose import Pose
 from Env.Client import Client
 from Visualization.Visualizer import Visualizer
