@@ -4,10 +4,11 @@
 @Time        :   2023/08/30 22:22:14
 """
 
-
+import math
+import json
+import time
 import pybullet as p
 import pybullet_data
-import time
 import numpy as np
 import matplotlib.pyplot as plt
 import random
@@ -72,7 +73,7 @@ class Client:
     # a few helper functions
     # ----------------------------------------------------------------
 
-    def get_client(self):
+    def get_client_id(self):
         return self.client_id
 
     def disconnect_pybullet(self):
@@ -87,188 +88,13 @@ class Client:
         for _ in range(x):
             p.stepSimulation(physicsClientId=self.client_id)
             time.sleep(1.0 / self.frequency)
-        print("-" * 20 + "\n" + "Has runned {} simulation steps".format(x))
-
-    # ----------------------------------------------------------------
-    # Visualization functions
-    # ----------------------------------------------------------------
-    def draw_axes(self, length=2.0, lineWidth=2.0, textSize=3.0):
-        """
-        Draws the x and y axes in the PyBullet environment with text labels.
+        print("-" * 20 + "\n" + "Has runned {} simulation steps".format(x)) 
         
-        Parameters:
-        - length (float): Length of the axes.
-        - lineWidth (float): Width of the axes lines.
-        - textSize (float): Size of the text labels.
-        """
-        origin = [0, 0, 0]  # The start point of the axes
 
-        # Drawing the X-axis (in red)
-        p.addUserDebugLine(
-            lineFromXYZ=origin,
-            lineToXYZ=[length, 0, 0],
-            lineColorRGB=[1, 0, 0],
-            lineWidth=lineWidth,
-            physicsClientId=self.client_id,
-        )
-
-        # Drawing the Y-axis (in green)
-        p.addUserDebugLine(
-            lineFromXYZ=origin,
-            lineToXYZ=[0, length, 0],
-            lineColorRGB=[0, 1, 0],
-            lineWidth=lineWidth,
-            physicsClientId=self.client_id,
-        )
-
-        # Adding text labels
-        p.addUserDebugText(
-            text="X",
-            textPosition=[length + 0.1, 0, 0],
-            textColorRGB=[1, 0, 0],
-            textSize=textSize,
-            physicsClientId=self.client_id,
-        )
-        p.addUserDebugText(
-            text="Y",
-            textPosition=[0, length + 0.1, 0],
-            textColorRGB=[0, 1, 0],
-            textSize=textSize,
-            physicsClientId=self.client_id,
-        )
-
-    def enable_vertical_view(self, camera_cfg):
-        """
-        Set the debug visualizer camera in a vertical view.
-
-        Args:
-            dist (float): The distance of the camera from the target point.
-            position (list): A list of three floats representing the target position in 3D space.
-            yaw (float, optional): The yaw component of the camera orientation. Defaults to 0.
-            pitch (float, optional): The pitch component of the camera orientation. Defaults to -89.9.
-        """
-        p.resetDebugVisualizerCamera(
-            cameraDistance=camera_cfg.dist,
-            cameraYaw=camera_cfg.yaw,
-            cameraPitch=camera_cfg.pitch,
-            cameraTargetPosition=camera_cfg.position,
-            physicsClientId=self.client_id,
-        )
+    # ----------------------------------------------------------------
+    # Load scene
+    # ----------------------------------------------------------------
     
-    # ----------------------------------------------------------------
-    # Video functions
-    # ----------------------------------------------------------------
-
-    def start_record(self, fileName):
-        """
-        Enable and disable recording
-        """
-        logId = p.startStateLogging(
-            p.STATE_LOGGING_VIDEO_MP4,
-            "./image/" + fileName + ".mp4",
-            physicsClientId=self.client_id,
-        )
-        print(
-            "-" * 20
-            + "\n"
-            + "The video can be found in "
-            + "./image/"
-            + fileName
-            + ".mp4"
-        )
-        return logId
-
-    def end_record(self, logId):
-        p.stopStateLogging(logId, physicsClientId=self.client_id)
-
-    # ----------------------------------------------------------------
-    # Add object functions
-    # ----------------------------------------------------------------
-
-    def get_appliance_joint_info(self, appliance_id):
-        """
-        Get appliance's joint info
-        """
-        num_joints = p.getNumJoints(appliance_id, physicsClientId=self.client_id)
-        print(
-            "-" * 20
-            + "\n"
-            + "The appliance {} has {} joints".format(appliance_id, num_joints)
-        )
-        for i in range(num_joints):
-            joint_info = p.getJointInfo(appliance_id, i, physicsClientId=self.client_id)
-            joint_name = joint_info[1]
-            joint_state = p.getJointState(
-                appliance_id, i, physicsClientId=self.client_id
-            )
-            joint_angle = joint_state[0]
-            print(
-                "Joint index:{}, name:{}, angle:{}".format(i, joint_name, joint_angle)
-            )
-
-    def change_appliance_joint(
-        self, appliance_id, joint_index, target_position, max_force=5
-    ):
-        """
-        Change the state of a specific joint of the appliance.
-
-        Args:
-        appliance_id (int): The id of the appliance.
-        joint_index (int): The index of the joint to be changed.
-        target_position (float): The target position of the joint in radians.
-        max_force (float): The maximum force to be applied to achieve the target position.
-        """
-        p.setJointMotorControl2(
-            bodyUniqueId=appliance_id,
-            jointIndex=joint_index,
-            controlMode=p.POSITION_CONTROL,
-            targetPosition=target_position,
-            force=max_force,
-            physicsClientId=self.client_id,
-        )
-
-    def run_slider_and_update_position(
-        self, x, name, min_val, max_val, initial_val, obj_id=None
-    ):
-        """
-        Run the simulation for a number of steps, creating sliders, reading their values,
-        and updating the object position at each step.
-
-        Args:
-            x (int): The number of simulation steps to run.
-            name (str): The base name of the sliders.
-                        Three sliders will be created with names: name_x, name_y, name_z.
-            min_val (float): The minimum value of the sliders.
-            max_val (float): The maximum value of the sliders.
-            initial_val (float): The initial value of the sliders.
-            obj_id (int, optional): The id of the object to update. Defaults to None.
-        """
-        slider_ids = [
-            p.addUserDebugParameter(
-                f"{name}_{coord}",
-                min_val,
-                max_val,
-                initial_val,
-                physicsClientId=self.client_id,
-            )
-            for coord in ["x", "y", "z"]
-        ]
-
-        for _ in range(x):
-            p.stepSimulation(physicsClientId=self.client_id)
-            if obj_id is not None:
-                position = [
-                    p.readUserDebugParameter(id, physicsClientId=self.client_id)
-                    for id in slider_ids
-                ]
-                orientation = p.getBasePositionAndOrientation(
-                    obj_id, physicsClientId=self.client_id
-                )[1]
-                p.resetBasePositionAndOrientation(
-                    obj_id, position, orientation, physicsClientId=self.client_id
-                )
-            time.sleep(1.0 / self.frequency)
-
     def load_object(
         self,
         model_path,
@@ -297,7 +123,7 @@ class Client:
         )
         
         object_id = p.loadURDF(
-            model_path,
+            fileName=model_path,
             basePosition=object_position,
             baseOrientation=object_orientation,
             globalScaling=scale,
@@ -317,12 +143,133 @@ class Client:
         #     + "{}_id: {}".format(obj_name, getattr(self, f"{obj_name}_id"))
         # )
         
-        # if tag_obstacle_navigate:
         if nav_obstacle_tag:
             self.obstacle_navigation_ids.append(object_id)
         # self.obstacle_manipulation_ids.append(getattr(self, f"{obj_name}_id"))
         time.sleep(1.0 / self.frequency)
+        
         return object_id
+    
+    def create_scene(self, json_path):
+        """
+        Import the complete environment from the environment file based on the basic environment
+        
+        Args:
+            json_path(str): scene json file path
+        
+        """
+        
+        with open(json_path, 'r') as f:
+            scene_data = json.load(f)
+        
+        for object in scene_data:
+            
+            # TODO
+            object_orientation = [eval(i) if isinstance(i, str) else i for i in object['object_orientation']]
+        
+            self.load_object(
+                object['model_path'],
+                object['object_position'],
+                object_orientation,
+                object['scale'],
+                object['obj_name'],
+                object['fixed_base']
+            )
+        
+        print('success load scene from {json_path}')
+            
+    # ----------------------------------------------------------------
+    # get object joint info / operate object joint
+    # ----------------------------------------------------------------
+    
+    def get_object_joint_info(self, object_id):
+        """
+        Get object's joint info
+        """
+        
+        num_joints = p.getNumJoints(object_id, physicsClientId=self.client_id)
+        print(
+            "-" * 20
+            + "\n"
+            + "The object {} has {} joints".format(object_id, num_joints)
+        )
+        for i in range(num_joints):
+            joint_info = p.getJointInfo(object_id, i, physicsClientId=self.client_id)
+            joint_name = joint_info[1]
+            joint_state = p.getJointState(
+                object_id, i, physicsClientId=self.client_id
+            )
+            joint_angle = joint_state[0]
+            print(
+                "Joint index:{}, name:{}, angle:{}".format(i, joint_name, joint_angle)
+            )
+
+    def change_object_joint_angle(
+        self, object_name, joint_index, target_position, max_force=5
+    ):
+        """
+        Change the state of a specific joint of the object.
+
+        Args:
+        object_id (int): The id of the object.
+        joint_index (int): The index of the joint to be changed.
+        target_position (float): The target position of the joint in radians.
+        max_force (float): The maximum force to be applied to achieve the target position.
+        """
+        
+        object_id = getattr(self, object_name)
+        p.setJointMotorControl2(
+            bodyUniqueId=object_id,
+            jointIndex=joint_index,
+            controlMode=p.POSITION_CONTROL,
+            targetPosition=target_position,
+            force=max_force,
+            physicsClientId=self.client_id,
+        )
+        
+        self.run(240 * 5)
+
+    # def run_slider_and_update_position(
+    #     self, x, name, min_val, max_val, initial_val, obj_id=None
+    # ):
+    #     """
+    #     Run the simulation for a number of steps, creating sliders, reading their values,
+    #     and updating the object position at each step.
+
+    #     Args:
+    #         x (int): The number of simulation steps to run.
+    #         name (str): The base name of the sliders.
+    #                     Three sliders will be created with names: name_x, name_y, name_z.
+    #         min_val (float): The minimum value of the sliders.
+    #         max_val (float): The maximum value of the sliders.
+    #         initial_val (float): The initial value of the sliders.
+    #         obj_id (int, optional): The id of the object to update. Defaults to None.
+    #     """
+    #     slider_ids = [
+    #         p.addUserDebugParameter(
+    #             f"{name}_{coord}",
+    #             min_val,
+    #             max_val,
+    #             initial_val,
+    #             physicsClientId=self.client_id,
+    #         )
+    #         for coord in ["x", "y", "z"]
+    #     ]
+
+    #     for _ in range(x):
+    #         p.stepSimulation(physicsClientId=self.client_id)
+    #         if obj_id is not None:
+    #             position = [
+    #                 p.readUserDebugParameter(id, physicsClientId=self.client_id)
+    #                 for id in slider_ids
+    #             ]
+    #             orientation = p.getBasePositionAndOrientation(
+    #                 obj_id, physicsClientId=self.client_id
+    #             )[1]
+    #             p.resetBasePositionAndOrientation(
+    #                 obj_id, position, orientation, physicsClientId=self.client_id
+    #             )
+    #         time.sleep(1.0 / self.frequency)
 
     # ----------------------------------------------------------------
     # for Navigation

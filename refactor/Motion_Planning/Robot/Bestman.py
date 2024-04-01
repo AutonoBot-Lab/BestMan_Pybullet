@@ -11,23 +11,20 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 import random
-import sys
 from .Pose import Pose
-from Env.Client import Client
-from Visualization.Visualizer import Visualizer
 from Controller.PIDController import PIDController
 
 class Bestman:
-    def __init__(self, pb_client, robot_cfg):
+    def __init__(self, client, robot_cfg, controller_cfg):
         """
         Initialize a new object.
 
         Parameters:
             init_pos (list, optional): A list of three floats representing the initial position. Defaults to [0, 0, 0].
-            pb_client (object): The pybullet client object.
+            client (object): The pybullet client object.
 
         Attributes:
-            pb_client (object): The pybullet client object.
+            client (object): The pybullet client object.
             client_id (int): The client id returned by the pybullet client.
             
             frequency (int): The frequency of the PID controller.
@@ -53,11 +50,10 @@ class Bestman:
             gripper_id (None): The gripper id. Initialized to None.
         """
 
-        self.pb_client = pb_client
-        self.client_id = self.pb_client.get_client()
+        self.client = client
+        self.client_id = self.client.get_client_id()
         
-        # Initialize PID controller
-        controller_cfg = robot_cfg.Controller
+        # Init PID controller
         self.frequency = controller_cfg.frequency
         self.timeout = controller_cfg.timeout
         self.max_force = controller_cfg.max_force
@@ -70,7 +66,7 @@ class Bestman:
         )
         self.rotated = False
 
-        # Initialize base
+        # Init base
         init_pose = Pose(robot_cfg.init_pose[:3], robot_cfg.init_pose[3:])
         self.base_id = p.loadURDF(
             fileName=robot_cfg.base_urdf_path,
@@ -80,15 +76,7 @@ class Bestman:
             physicsClientId=self.client_id,
         )
 
-        # Initialize arm
-        # filenames = {
-        #     "ur5e": "/BestMan_Pybullet/refactor/Asset/mobile_manipulator/arm/ur5e/ur5e.urdf",
-        #     "ur5e_vacuum": "/BestMan_Pybullet/refactor/Asset/mobile_manipulator/arm/ur5e/ur5e_vacuum.urdf",
-        #     "ur5e_vacuum_long": "/BestMan_Pybullet/refactor/Asset/mobile_manipulator/arm/ur5e/ur5e_vacuum_long.urdf",
-        #     "ur5_robotiq_85": "/BestMan_Pybullet/URDF_robot/model_elephant/urdf/ur5_robotiq_85.urdf",
-        # }
-        # filename = filenames["ur5e_vacuum_long"]
-
+        # Init arm
         self.arm_id = p.loadURDF(
             fileName=robot_cfg.arm_urdf_path,
             basePosition=init_pose.position,
@@ -116,7 +104,7 @@ class Bestman:
         self.current_yaw = init_pose.yaw
         self.sync_base_arm_pose()
         
-        # init arm joint angle
+        # Init arm joint angle
         self.move_arm_to_joint_angles(robot_cfg.init_joint)
         
         # get tcp link
@@ -140,9 +128,9 @@ class Bestman:
         self.tcp_link = robot_cfg.tcp_link
         self.tcp_height = robot_cfg.tcp_height
 
-        # Set arm and base colors
-        self.visualizer = Visualizer(pb_client)
-        self.visualizer.set_robot_visual_color(self.base_id, self.arm_id)
+        # # Set arm and base colors
+        # self.visualizer = Visualizer(client)
+        # self.visualizer.set_robot_visual_color(self.base_id, self.arm_id)
 
         # global parameters
         self.init_pos = init_pose   # Used when resetting the robot position
@@ -185,7 +173,7 @@ class Bestman:
             max_x_base,
             max_y_base,
             _,
-        ) = self.pb_client.get_bounding_box(self.base_id)
+        ) = self.client.get_bounding_box(self.base_id)
         
         (
             min_x_arm,
@@ -194,7 +182,7 @@ class Bestman:
             max_x_arm,
             max_y_arm,
             _,
-        ) = self.pb_client.get_bounding_box(self.arm_id)
+        ) = self.client.get_bounding_box(self.arm_id)
         
         robot_size = max(
             max_x_base - min_x_base,
@@ -334,10 +322,10 @@ class Bestman:
         """
         Check if collision exists during navigation
         """
-        aabb_base = self.pb_client.get_bounding_box(self.base_id)
-        for obstacle_id in self.pb_client.obstacle_navigation_ids:
-            aabb_obstacle = self.pb_client.get_bounding_box(obstacle_id)
-            if self.pb_client.check_collision_xy(
+        aabb_base = self.client.get_bounding_box(self.base_id)
+        for obstacle_id in self.client.obstacle_navigation_ids:
+            aabb_obstacle = self.client.get_bounding_box(obstacle_id)
+            if self.client.check_collision_xy(
                 aabb_base, aabb_obstacle
             ):  # print("Collision detected during navigation, stopping...")
                 return True
@@ -404,7 +392,7 @@ class Bestman:
     def adjust_arm_height(self, height):
         # dynmaically adjust arm height
         self.arm_height = height
-        self.pb_client.run(100)
+        self.client.run(100)
         print("-" * 20 + "\n" + "Arm height has changed into {}".format(height))
 
     def get_arm_joints_angle(self):
@@ -786,7 +774,7 @@ class Bestman:
             max_x_base,
             max_y_base,
             _,
-        ) = self.pb_client.get_bounding_box(self.base_id)
+        ) = self.client.get_bounding_box(self.base_id)
         (
             min_x_arm,
             min_y_arm,
@@ -794,7 +782,7 @@ class Bestman:
             max_x_arm,
             max_y_arm,
             _,
-        ) = self.pb_client.get_bounding_box(self.arm_id)
+        ) = self.client.get_bounding_box(self.arm_id)
         robot_size = max(
             max_x_base - min_x_base,
             max_y_base - min_y_base,
@@ -826,8 +814,8 @@ class Bestman:
         # Mark the cells occupied by objects as 1
         if not enable_accurate_occupancy_map:
             # get occupancy map
-            for obstacle_id in self.pb_client.obstacle_navigation_ids:
-                aabb = self.pb_client.get_bounding_box(obstacle_id)
+            for obstacle_id in self.client.obstacle_navigation_ids:
+                aabb = self.client.get_bounding_box(obstacle_id)
                 for i in range(
                     int((aabb[0] + x_max) / resolution),
                     int((aabb[3] + x_max) / resolution),
@@ -839,7 +827,7 @@ class Bestman:
                         static_map[i][j] = 1
         else:
             # get accurate occupancy map
-            for obstacle_id in self.pb_client.obstacle_navigation_ids:
+            for obstacle_id in self.client.obstacle_navigation_ids:
                 link_ids = [
                     i
                     for i in range(
@@ -965,7 +953,7 @@ class Bestman:
             object_id, physicsClientId=self.client_id
         )
         # consider the object's height
-        _, _, min_z, _, _, max_z = self.pb_client.get_bounding_box(object_id)
+        _, _, min_z, _, _, max_z = self.client.get_bounding_box(object_id)
 
         temp_height1, temp_height2 = 0.05, 0.01
         gripper_status = {"ungrasp": 0, "grasp": 1}
@@ -1425,7 +1413,7 @@ class Bestman:
 
     def set_envs(self):
         # load table
-        table_id = self.pb_client.load_object(
+        table_id = self.client.load_object(
             "./URDF_models/furniture_table_rectangle_high/table.urdf",
             [1.0, 1.0, 0.0],
             [0.0, 0.0, 0.0],
@@ -1433,9 +1421,9 @@ class Bestman:
             "table",
         )
 
-        base_boundary = self.pb_client.get_bounding_box(self.base_id)
-        arm_boundary = self.pb_client.get_bounding_box(self.arm_id)
-        table_boundary = self.pb_client.get_bounding_box(table_id)
+        base_boundary = self.client.get_bounding_box(self.base_id)
+        arm_boundary = self.client.get_bounding_box(self.arm_id)
+        table_boundary = self.client.get_bounding_box(table_id)
 
         obstacle_boundary_list = []  # store obstacles
         obstacle_boundary_list.append(base_boundary)
@@ -1455,7 +1443,7 @@ class Bestman:
 
         bowl_x = random.uniform(table_min_x, table_max_x)
         bowl_y = random.uniform(table_min_y, table_max_y)
-        bowl_id = self.pb_client.load_object(
+        bowl_id = self.client.load_object(
             "./URDF_models/utensil_bowl_blue/model.urdf",
             [bowl_x, bowl_y, table_max_z + 0.05],  # bowl is on the table
             [0.0, 0.0, 0.0],
@@ -1474,7 +1462,7 @@ class Bestman:
             max_attempts = 200
 
             for attempt in range(max_attempts):
-                chair_x, chair_y = self.pb_client.generate_point_outside_area(
+                chair_x, chair_y = self.client.generate_point_outside_area(
                     table_min_x, table_min_y, table_max_x, table_max_y
                 )
                 # print('chair_x:{}, chair_y:{}'.format(chair_x, chair_y))
@@ -1490,14 +1478,14 @@ class Bestman:
 
                 # if the chair position is collision with other obstacle, break the loop
                 collision_flag = any(
-                    self.pb_client.check_collision_xy(chair_boundary, obstacle)
+                    self.client.check_collision_xy(chair_boundary, obstacle)
                     for obstacle in obstacle_boundary_list
                 )
 
                 if not collision_flag:
                     chair_angle = random.uniform(0, 2 * math.pi)
                     chair_z = 0.1  # assuming the chair is on the floor
-                    chair_id = self.pb_client.load_object(
+                    chair_id = self.client.load_object(
                         "./URDF_models/furniture_chair/model.urdf",
                         [chair_x, chair_y, chair_z],
                         [math.pi / 2.0 * 3, 0.0, chair_angle],
@@ -1512,5 +1500,5 @@ class Bestman:
                 print("-" * 20 + "\n" + "Failed to place chair after maximum attempts!")
 
         # return IDs of all loaded objects
-        self.pb_client.run(100)
+        self.client.run(100)
         return {"table": table_id, "bowl": bowl_id, "chairs": chair_ids}
