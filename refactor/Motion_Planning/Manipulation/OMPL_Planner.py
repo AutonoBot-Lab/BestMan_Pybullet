@@ -61,7 +61,7 @@ class OMPL_Planner:
            threshold: The threshold value ONLY for repalnning.
         """
         
-        self.pb_client = robot.pb_client
+        self.pb_client = robot.client
         self.client_id = robot.client_id
         self.robot = robot
 
@@ -146,7 +146,7 @@ class OMPL_Planner:
             return
 
         self.ss.setPlanner(self.planner)
-
+    
     def set_target(self, target_id):
         """
         Set the target to be used for the manipulation task.
@@ -168,7 +168,7 @@ class OMPL_Planner:
         # print("debug! target position:{}".format(self.target_pos))
         
         target_orientation = [0.0, math.pi / 2.0, 0.0]  # vertical
-        self.goal = self.robot.cartesian_to_joints(position=[self.target_pos[0], self.target_pos[1], max_z + self.robot.tcp_height + 0.1], 
+        self.goal = self.robot.cartesian_to_joints(position=[self.target_pos[0], self.target_pos[1], max_z + self.robot.tcp_height * 2], 
                                                    orientation=target_orientation)
 
     def set_target_pos(self, target_pos):
@@ -232,28 +232,28 @@ class OMPL_Planner:
                 item_name = item_info[1].decode("utf-8")
                 print(f"Obstacle Name: {item_name}, ID: {obstacle_id}")
 
-    def get_scene_items(self):
-        """
-        Get IDs of all items in the scene.
-        This is a debugging function.
+    # def get_scene_items(self):
+    #     """
+    #     Get IDs of all items in the scene.
+    #     This is a debugging function.
 
-        Args:
-                display: If True ( default ) the ID will be displayed on the screen.
+    #     Args:
+    #             display: If True ( default ) the ID will be displayed on the screen.
 
-        Returns:
-                A list of IDs of all items in the scene.
-        """
-        # Get the total number of items in the scene
-        num_items = p.getNumBodies()
-        # Initialize an empty list to store the IDs of all items in the scene
-        all_item_ids = []
+    #     Returns:
+    #             A list of IDs of all items in the scene.
+    #     """
+    #     # Get the total number of items in the scene
+    #     num_items = p.getNumBodies()
+    #     # Initialize an empty list to store the IDs of all items in the scene
+    #     all_item_ids = []
 
-        # This function will return the list of all the items in the list
-        for item_id in range(num_items):
-            current_id = p.getBodyUniqueId(item_id)
-            all_item_ids.append(current_id)
+    #     # This function will return the list of all the items in the list
+    #     for item_id in range(num_items):
+    #         current_id = p.getBodyUniqueId(item_id)
+    #         all_item_ids.append(current_id)
             
-        return all_item_ids
+    #     return all_item_ids
 
     def add_scene_obstacles(self):
         """
@@ -267,12 +267,14 @@ class OMPL_Planner:
         Returns:
                 A list of IDs of all items in the obstacle list.
         """
-        all_item_ids = self.get_scene_items()
         
-        # Add the current item ID to the list of obstacles
-        for item_id in all_item_ids:
-            # Skip the arm ID
-            if item_id == self.arm_id:
+        # Get the total number of items in the scene
+        num_items = p.getNumBodies() 
+
+        # This function will return the list of all the items in the list
+        for item_id in range(num_items):
+            # current_id = p.getBodyUniqueId(item_id)   
+            if item_id == self.arm_id:  # skip arm
                 continue
             self.obstacles.append(item_id)
 
@@ -306,7 +308,7 @@ class OMPL_Planner:
             bodyUniqueId=self.arm_id,
             jointIndices=self.arm_joints_idx,
             controlMode=p.POSITION_CONTROL,
-            targetPositions=state_to_list(state, self.num_dim), 
+            targetPositions=state_to_list(state, self.num_dim)
         )
         
         for link1, link2 in self.check_link_pairs:
@@ -315,7 +317,7 @@ class OMPL_Planner:
             ):
                 # print(get_body_name(body), get_link_name(body, link1), get_link_name(body, link2))
                 return False
-
+        
         # check collision against environment
         for body1, body2 in self.check_body_pairs:
             if pairwise_collision(body1, body2):
@@ -397,7 +399,10 @@ class OMPL_Planner:
             sol_path_states = sol_path_geometric.getStates()
             path = [state_to_list(state, self.num_dim) for state in sol_path_states]
             for sol_path in path:
-                self.is_state_valid(sol_path)
+                if not self.is_state_valid(sol_path):
+                    print(f'state {sol_path} is not valid!!!')
+                    
+            
             res = True
         else:
             print("No solution found")
@@ -440,7 +445,7 @@ class OMPL_Planner:
     #             for _ in range(100):
     #                 p.stepSimulation()
 
-    def plan_and_excute(self, start):  # TODO refactor
+    def plan_and_excute(self):  # TODO refactor
         """
         Reach an object from start to goal
 
@@ -449,6 +454,9 @@ class OMPL_Planner:
                 goal: effective position of goal.
                 end_effector_link_index: index of end effector.
         """
+        
+        start = self.robot.get_arm_joints_angle()   # arm start angle
+        
         attempts = 0
         while attempts < self.max_attempts:
             attempts += 1

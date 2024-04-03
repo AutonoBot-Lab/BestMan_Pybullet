@@ -75,8 +75,8 @@ class Client:
 
     def get_client_id(self):
         return self.client_id
-
-    def disconnect_pybullet(self):
+    
+    def disconnect(self):
         p.disconnect(physicsClientId=self.client_id)
         print("-" * 20 + "\n" + "The script ends!" + "\n" + "-" * 20)
 
@@ -227,7 +227,7 @@ class Client:
             physicsClientId=self.client_id,
         )
         
-        self.run(240 * 5)
+        self.run(240)
 
     # def run_slider_and_update_position(
     #     self, x, name, min_val, max_val, initial_val, obj_id=None

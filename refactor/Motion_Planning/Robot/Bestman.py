@@ -15,7 +15,7 @@ from .Pose import Pose
 from Controller.PIDController import PIDController
 
 class Bestman:
-    def __init__(self, client, robot_cfg, controller_cfg):
+    def __init__(self, client, cfg):
         """
         Initialize a new object.
 
@@ -50,6 +50,10 @@ class Bestman:
             gripper_id (None): The gripper id. Initialized to None.
         """
 
+        # Extract config
+        robot_cfg = cfg.Robot
+        controller_cfg = cfg.Controller
+        
         self.client = client
         self.client_id = self.client.get_client_id()
         
@@ -140,22 +144,29 @@ class Bestman:
     # functions for base and arm
     # ----------------------------------------------------------------
     
-    def get_joint_link_info(self, robot_name):  # Print base or arm joint information
-        if robot_name == "base":
-            robot_id = self.base_id
-        elif robot_name == "arm":
-            robot_id = self.arm_id
+    def get_joint_link_info(self, name):
+        """
+        print base/arm joint and link info of robot
+        
+        Args:
+            name(str): 'base' or 'arm'
+        """
+        
+        if name == "base":
+            id = self.base_id
+        elif name == "arm":
+            id = self.arm_id
         else:
             print(
-                "unknown robot_name: {}, please input base or arm!".format(robot_name)
+                "unknown name: {}, please input base or arm!".format(name)
             )
 
-        num_joints = p.getNumJoints(robot_id, physicsClientId=self.client_id)
-        print("-" * 20 + "\n" + "Robot {} has {} joints".format(robot_id, num_joints))
+        num_joints = p.getNumJoints(id, physicsClientId=self.client_id)
+        print("-" * 20 + "\n" + "Robot {} has {} joints".format(id, num_joints))
         for i in range(num_joints):
-            joint_info = p.getJointInfo(robot_id, i, physicsClientId=self.client_id)
+            joint_info = p.getJointInfo(id, i, physicsClientId=self.client_id)
             joint_name = joint_info[1]
-            joint_state = p.getJointState(robot_id, i, physicsClientId=self.client_id)
+            joint_state = p.getJointState(id, i, physicsClientId=self.client_id)
             joint_angle = joint_state[0]
             link_name = joint_info[12].decode("UTF-8")
             print(
@@ -197,6 +208,7 @@ class Bestman:
         """
         Synchronize the arm and base position
         """
+        
         position, orientation = p.getBasePositionAndOrientation(
             self.base_id, physicsClientId=self.client_id
         )
@@ -242,6 +254,9 @@ class Bestman:
     # functions for base
     # ----------------------------------------------------------------
     
+    def get_base_id(self):
+        return self.base_id
+
     def get_base_pose(self):
         """
         Retrieve current position and orientation of a specific object
@@ -389,6 +404,9 @@ class Bestman:
     # functions for arm
     # ----------------------------------------------------------------
     
+    def get_arm_id(self):
+        return self.arm_id
+
     def adjust_arm_height(self, height):
         # dynmaically adjust arm height
         self.arm_height = height
@@ -399,8 +417,9 @@ class Bestman:
         """
         Retrieve arm's joint angle
         """
+        
         joint_angles = []
-        for i in range(6):
+        for i in self.arm_joints_idx:
             joint_state = p.getJointState(
                 self.arm_id, i, physicsClientId=self.client_id
             )
@@ -420,6 +439,7 @@ class Bestman:
         Args:
             joint_angles: A list of desired joint angles (in radians) for each joint of the arm.
         """
+        
         for joint_index in range(6):
             p.resetJointState(
                 bodyUniqueId=self.arm_id,
@@ -437,7 +457,7 @@ class Bestman:
         joint_angles = self.get_arm_joints_angle()
         print("Current joint angles: {}".format(joint_angles))
 
-        for i in range(6):
+        for i in self.arm_joints_idx:
             joint_value = input(
                 "Enter value for joint {} (current value: {}) or 'skip' to keep current value: ".format(
                     i, joint_angles[i]
@@ -479,7 +499,7 @@ class Bestman:
             # Check if reach the goal
             current_angles = [
                 p.getJointState(self.arm_id, i, physicsClientId=self.client_id)[0]
-                for i in range(6)
+                for i in self.arm_joints_idx
             ]
             diff_angles = [abs(a - b) for a, b in zip(joint_angles, current_angles)]
             if all(diff < self.threshold for diff in diff_angles):
@@ -596,12 +616,10 @@ class Bestman:
         Args:
             angle (float): The desired rotation angle in radians.
         """
-        # Get the current joint states
-        joint_indices = [i for i in range(6)]
 
         # Change this to your actual joint indices
         joint_states = p.getJointStates(
-            self.arm_id, joint_indices, physicsClientId=self.client_id
+            self.arm_id, self.arm_joints_idx, physicsClientId=self.client_id
         )
 
         # Create a new list of target joint angles
@@ -617,14 +635,14 @@ class Bestman:
         while True:
             # Update the current joint states
             joint_states = p.getJointStates(
-                self.arm_id, joint_indices, physicsClientId=self.client_id
+                self.arm_id, self.arm_joints_idx, physicsClientId=self.client_id
             )
             current_joint_angles = [joint_state[0] for joint_state in joint_states]
 
             # Check if all joints have reached their target angles
             if all(
                 abs(current_joint_angles[i] - target_joint_angles[i]) < 0.01
-                for i in range(6)
+                for i in range(len(self.arm_joints_idx))
             ):
                 break
 
@@ -926,7 +944,7 @@ class Bestman:
             standing_positions - object_position[:2], axis=1
         )
         robot_distances = np.linalg.norm(standing_positions - robot_position, axis=1)
-
+        
         # find the standing position with the minimum sum of distances to the object and the robot
         total_distances = object_distances + robot_distances
         best_position = standing_positions[np.argmin(total_distances)]
@@ -1161,7 +1179,7 @@ class Bestman:
             )
             self.sync_base_arm_pose()
 
-    def get_current_pos(self):
+    def get_current_pose(self):
         """
         Get the current position of the robot
         """
