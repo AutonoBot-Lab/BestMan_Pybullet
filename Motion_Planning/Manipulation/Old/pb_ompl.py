@@ -31,15 +31,7 @@ import copy
 Get the utils module path
 """
 import sys
-import os
-
-# customized package
-current_path = os.path.abspath(__file__)
-utils_path = os.path.dirname(current_path)
-if os.path.basename(utils_path) != "utils":
-    raise ValueError('Not add the path of folder "utils", please check again!')
-sys.path.append(utils_path)
-import utils_ompl
+from .utils_ompl import *
 
 
 INTERPOLATE_NUM = 500
@@ -144,7 +136,7 @@ class PbStateSpace(ob.RealVectorStateSpace):
         self.state_sampler = state_sampler
 
 
-class PbOMPL:
+class pb_ompl:
     def __init__(self, robot, obstacles=[]) -> None:
         """
         Args
@@ -195,7 +187,7 @@ class PbOMPL:
         # check self-collision
         self.robot.set_state(self.state_to_list(state))
         for link1, link2 in self.check_link_pairs:
-            if utils_ompl.pairwise_link_collision(
+            if pairwise_link_collision(
                 self.robot_id, link1, self.robot_id, link2
             ):
                 # print(get_body_name(body), get_link_name(body, link1), get_link_name(body, link2))
@@ -203,7 +195,7 @@ class PbOMPL:
 
         # check collision against environment
         for body1, body2 in self.check_body_pairs:
-            if utils_ompl.pairwise_collision(body1, body2):
+            if pairwise_collision(body1, body2):
                 # print('body collision', body1, body2)
                 # print(get_body_name(body1), get_body_name(body2))
                 return False
@@ -213,14 +205,14 @@ class PbOMPL:
         self, robot, obstacles, self_collisions=True, allow_collision_links=[]
     ):
         self.check_link_pairs = (
-            utils_ompl.get_self_link_pairs(robot.id, robot.joint_idx)
+            get_self_link_pairs(robot.id, robot.joint_idx)
             if self_collisions
             else []
         )
         moving_links = frozenset(
             [
                 item
-                for item in utils_ompl.get_moving_links(robot.id, robot.joint_idx)
+                for item in get_moving_links(robot.id, robot.joint_idx)
                 if not item in allow_collision_links
             ]
         )

@@ -46,7 +46,7 @@ class PbOMPL:
            threshold: The threshold value ONLY for repalnning.
         """
         self.pb_client = pb_client
-        self.client_id = self.pb_client.get_client()
+        self.client_id = self.pb_client.get_client_id()
 
         # parameters for arm
         self.arm_id = arm_id
@@ -57,7 +57,7 @@ class PbOMPL:
 
         # obstacles for planning
         self.obstacles = obstacles if obstacles is not None else []
-        self.pb_ompl_interface = PbOMPL(self.arm, self.obstacles)
+        self.pb_ompl_interface = pb_ompl(self.arm, self.obstacles)
 
         # select planner
         self.set_planner(planner)

@@ -14,7 +14,7 @@ from Motion_Planning.Navigation import AStarPlanner
 from Utils import load_config
 
 
-# from Motion_Planning.Manipulation.Old import PbOMPL
+from Motion_Planning.Manipulation.Old import PbOMPL
 
 
 # Load config
@@ -40,6 +40,17 @@ client.change_object_joint_angle("elementA", 36, 0.4)
 
 # visualizer.draw_aabb(getattr(client, "elementA"))
 
+# navigate to standing position
+standing_pose = Pose([2.85, 2.4, 0], [0.0, 0.0, 0.0])
+nav_planner = AStarPlanner(
+    robot_size = bestman.get_robot_size(), 
+    obstacles_bounds = client.get_Nav_obstacles_bounds(), 
+    resolution = 0.05, 
+    enable_plot = True
+)
+path = nav_planner.plan(bestman.get_current_pose(), standing_pose)
+bestman.navigate_base(standing_pose, path)
+
 # # Init OMPL planner
 # ompl_planner = OMPL_Planner(
 #     bestman, 
@@ -50,20 +61,20 @@ client.change_object_joint_angle("elementA", 36, 0.4)
 # ompl_planner.add_scene_obstacles()
 # ompl_planner.get_obstacles_info()
 
-# ompl_planner = PbOMPL(
-#     pb_client=client,
-#     arm_id=bestman.arm_id,
-#     joint_idx=bestman.arm_joint_indexs,
-#     tcp_link=bestman.tcp_link,
-#     obstacles=[],
-#     # planner="BITstar",
-#     planner="RRTConnect",
-#     threshold=cfg.Planner.threshold,
-# )
+ompl_planner = PbOMPL(
+    pb_client=client,
+    arm_id=bestman.arm_id,
+    joint_idx=bestman.arm_joints_idx,
+    tcp_link=bestman.tcp_link,
+    obstacles=[],
+    # planner="BITstar",
+    planner="RRTConnect",
+    threshold=cfg.Planner.threshold,
+)
 
-# # add obstacles
-# ompl_planner.add_scene_obstacles(display=True)
-# ompl_planner.check_obstacles()
+# add obstacles
+ompl_planner.add_scene_obstacles(display=True)
+ompl_planner.check_obstacles()
 
 # load bowl (target object must be added after ompl creation)
 bowl_id = client.load_object(
@@ -75,29 +86,22 @@ bowl_id = client.load_object(
     False,
 )
 
-# navigate to standing position
-standing_pose = Pose([2.85, 2.4, 0], [0.0, 0.0, 0.0])
-nav_planner = AStarPlanner(
-    robot_size = bestman.get_robot_size(), 
-    obstacles_bounds = client.get_Nav_obstacles_bounds(), 
-    resolution = 0.05, 
-    enable_plot = True
-)
-
-path = nav_planner.plan(bestman.get_current_pose(), standing_pose)
-
-bestman.navigate_base(standing_pose, path)
-
 # # ompl_planner.remove_obstacles(bowl_id)
 # ompl_planner.set_target(bowl_id)
 # ompl_planner.plan_and_excute()
 
-# # reach target object
-# result = ompl_planner.reach_object(
-#     start=bestman.get_arm_joints_angle(),
-#     goal=goal,
-#     end_effector_link_index=bestman.end_effector_index,
-# )
+# set target object for grasping
+ompl_planner.set_target(bowl_id)
+target_orientation = [0.0, math.pi / 2.0, 0.0]  # vertical
+goal = bestman.cartesian_to_joints(position=[3.6, 2.4, 0.6], orientation=target_orientation)
+print("-" * 20 + "\n" + "Goal configuration:{}".format(goal))
+
+# reach target object
+result = ompl_planner.reach_object(
+    start=bestman.get_arm_joints_angle(),
+    goal=goal,
+    end_effector_link_index=bestman.end_effector_index,
+)
 
 # disconnect pybullet
 client.wait(1000)
