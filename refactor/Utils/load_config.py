@@ -13,7 +13,7 @@ def parse_cfg(cfg_node):
             cfg_node[key] = parse_list(value)
             
 def load_config(config_path):
-    default_config_path = '/GithubCode/BestMan_Pybullet/refactor/config/default.yaml'
+    default_config_path = '../Config/default.yaml'
     with open(default_config_path, 'r') as file:
         cfg = CN.load_cfg(file)
     if config_path is not None:    # merge cfg

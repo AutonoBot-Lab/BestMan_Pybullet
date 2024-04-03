@@ -16,19 +16,19 @@ config_path = '/GithubCode/BestMan_Pybullet/refactor/config/draw_AABB_fridge_doo
 cfg = load_config(config_path)
 print(cfg)
 
-# initial client
+# initial client and visualizer
 client = Client(cfg.Client)
+visualizer = Visualizer(client, cfg.Visualizer)
 
 # load scene
 scene_path = '/GithubCode/BestMan_Pybullet/refactor/Asset/Scene/Kitchen.json'
 client.create_scene(scene_path)
 
-# initial visualizer
-visualizer = Visualizer(client, cfg.Visualizer)
-
-# logID = pb_client.start_record("example_manipulation")    # start recording
 # Init robot
-bestman = Bestman(client, cfg.Robot, cfg.Controller)
+bestman = Bestman(client, cfg)
+
+# Init visualizer
+visualizer.change_arm_color(bestman.get_arm_id(), False)
 
 # open fridge
 client.change_object_joint_angle('elementE', 1, math.pi / 2)
