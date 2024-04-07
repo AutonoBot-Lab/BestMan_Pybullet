@@ -124,7 +124,7 @@ class OMPL_Planner:
         target_orientation = [0.0, math.pi / 2.0, 0.0]      # vertical
         
         # set target grasp angle
-        self.goal = self.robot.cartesian_to_joints(position=[self.target_pos[0], self.target_pos[1], max_z + self.robot.tcp_height], 
+        self.goal = self.robot.cartesian_to_joints(position=[self.target_pos[0], self.target_pos[1], max_z + self.robot.tcp_height + 0.01], 
                                                    orientation=target_orientation)
     
     # ----------------------------------------------------------------
@@ -185,6 +185,8 @@ class OMPL_Planner:
             np.array(end_effector_pose[0]) - np.array(self.target_pos)
         )
 
+        print(f'end_effector_pose:{end_effector_pose[0]}, target_pos:{self.target_pos}')
+        
         return distance
 
     def plan(self, start, goal, allowed_time=DEFAULT_PLANNING_TIME):
@@ -236,12 +238,11 @@ class OMPL_Planner:
         arm execute a given path
         """
         
-        # self.pb_ompl_interface.execute(path)
         for q in path:
             if dynamics:
-                for i in range(self.self.DOF):
+                for i in self.joint_idx:
                     p.setJointMotorControl2(
-                        self.robot.id, i, p.POSITION_CONTROL, q[i], force=5 * 240.0
+                        self.arm_id, i, p.POSITION_CONTROL, q[i]
                     )
             else:
                 self.robot.set_arm_to_joint_angles(q)
@@ -267,7 +268,7 @@ class OMPL_Planner:
             # Execute the path and attach the object to the robot
             if res:
                 
-                self.execute(path)
+                self.execute(path, True)
                 
                 # Check if the robot is close to the object
                 if self.tcp_link != -1:
