@@ -14,9 +14,6 @@ from Motion_Planning.Navigation import AStarPlanner
 from Utils import load_config
 
 
-from Motion_Planning.Manipulation.Old import OMPL_Planner
-
-
 # Load config
 config_path = '../Config/grasp_bowl_from_drawer_in_kitchen0.yaml'
 cfg = load_config(config_path)
@@ -51,44 +48,29 @@ nav_planner = AStarPlanner(
 path = nav_planner.plan(bestman.get_current_pose(), standing_pose)
 bestman.navigate_base(standing_pose, path)
 
-# # Init OMPL planner
-# ompl_planner = OMPL_Planner(
-#     bestman, 
-#     cfg.Planner
-# )
-
-# # add obstacles
-# ompl_planner.add_scene_obstacles()
-# ompl_planner.get_obstacles_info()
-
-ompl_planner = OMPL_Planner(
-    bestman,
-    cfg.Planner
-)
-
-# add obstacles
-ompl_planner.add_scene_obstacles()
-ompl_planner.get_obstacles_info()
-
-# load bowl (target object must be added after ompl creation)
+# load bowl
 bowl_id = client.load_object(
     "../Asset/URDF_models/utensil_bowl_blue/model.urdf",
     [3.6, 2.4, 0.6],
     [0.0, 0.0, 0.0],
     1.0,
     "bowl",
-    False,
+    False
 )
 
-# # ompl_planner.remove_obstacles(bowl_id)
-# ompl_planner.set_target(bowl_id)
-# ompl_planner.plan_and_excute()
+ompl_planner = OMPL_Planner(
+    bestman,
+    cfg.Planner
+)
+
+# get obstacles info
+ompl_planner.get_obstacles_info()
 
 # set target object for grasping
 ompl_planner.set_target(bowl_id)
 
 # reach target object
-result = ompl_planner.plan_execute()
+ompl_planner.plan_execute()
 
 # disconnect pybullet
 client.wait(1000)

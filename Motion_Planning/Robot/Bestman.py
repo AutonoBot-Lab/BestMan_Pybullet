@@ -480,16 +480,6 @@ class Bestman:
         for joint, value in zip(self.arm_joints_idx, joint_angles):
             p.resetJointState(self.arm_id, joint, value, targetVelocity=0)
 
-        # p.setJointMotorControlArray(
-        #     bodyIndex=self.arm_id,
-        #     jointIndices=self.arm_joints_idx,
-        #     controlMode=p.POSITION_CONTROL,
-        #     targetPositions=joint_angles,
-        #     physicsClientId=self.client_id
-        # )
-        # p.stepSimulation(physicsClientId=self.client_id)
-        # time.sleep(1.0 / self.frequency)
-
     def move_arm_to_joint_angles(self, joint_angles):
         """
         Move arm to move to a specific set of joint angles, with considering physics
