@@ -154,7 +154,7 @@ class OMPL_Planner:
         Args:
                 target_id: id of the target.
         """
-        self.target = target_id
+        
         self.target_pos, _ = p.getBasePositionAndOrientation(self.target)
         _, _, min_z, _, _, max_z = self.pb_client.get_bounding_box(self.target)
         
@@ -455,7 +455,7 @@ class OMPL_Planner:
                 end_effector_link_index: index of end effector.
         """
         
-        start = self.robot.get_arm_joints_angle()   # arm start angle
+        start = self.robot.get_arm_joint_angles()   # arm start angle
         
         attempts = 0
         while attempts < self.max_attempts:
