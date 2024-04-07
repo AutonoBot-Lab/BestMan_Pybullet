@@ -21,7 +21,7 @@ client = Client(cfg.Client)
 visualizer = Visualizer(client, cfg.Visualizer)
 
 # load scene
-scene_path = '/GithubCode/BestMan_Pybullet/refactor/Asset/Scene/Kitchen.json'
+scene_path = '../Asset/Scene/Kitchen.json'
 client.create_scene(scene_path)
 
 # Init robot

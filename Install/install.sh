@@ -12,5 +12,7 @@ echo "export PYTHONPATH=\$PYTHONPATH:$project_dir" >> ~/.bashrc
 # 配置生效
 source ~/.bashrc
 
+apt install libgl1-mesa-glx
+
 # 配置x11转发服务
 echo "export DISPLAY=host.docker.internal:0" >> ~/.bashrc
