@@ -1,1 +1,1 @@
-from .utils_OMPL import PbOMPL
+from .OMPL_Planner import OMPL_Planner

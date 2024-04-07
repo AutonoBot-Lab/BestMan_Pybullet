@@ -14,11 +14,11 @@ from Motion_Planning.Navigation import AStarPlanner
 from Utils import load_config
 
 
-from Motion_Planning.Manipulation.Old import PbOMPL
+from Motion_Planning.Manipulation.Old import OMPL_Planner
 
 
 # Load config
-config_path = '../Config/draw_AABB_fridge_door_link.yaml'
+config_path = '../Config/grasp_bowl_from_drawer_in_kitchen0.yaml'
 cfg = load_config(config_path)
 print(cfg)
 
@@ -38,7 +38,7 @@ visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False
 # open the drawer
 client.change_object_joint_angle("elementA", 36, 0.4)
 
-# visualizer.draw_aabb(getattr(client, "elementA"))
+visualizer.draw_aabb_link("elementA", 36)
 
 # navigate to standing position
 standing_pose = Pose([2.85, 2.4, 0], [0.0, 0.0, 0.0])
@@ -46,7 +46,7 @@ nav_planner = AStarPlanner(
     robot_size = bestman.get_robot_size(), 
     obstacles_bounds = client.get_Nav_obstacles_bounds(), 
     resolution = 0.05, 
-    enable_plot = True
+    enable_plot = False
 )
 path = nav_planner.plan(bestman.get_current_pose(), standing_pose)
 bestman.navigate_base(standing_pose, path)
@@ -61,20 +61,14 @@ bestman.navigate_base(standing_pose, path)
 # ompl_planner.add_scene_obstacles()
 # ompl_planner.get_obstacles_info()
 
-ompl_planner = PbOMPL(
-    pb_client=client,
-    arm_id=bestman.arm_id,
-    joint_idx=bestman.arm_joints_idx,
-    tcp_link=bestman.tcp_link,
-    obstacles=[],
-    # planner="BITstar",
-    planner="RRTConnect",
-    threshold=cfg.Planner.threshold,
+ompl_planner = OMPL_Planner(
+    bestman,
+    cfg.Planner
 )
 
 # add obstacles
-ompl_planner.add_scene_obstacles(display=True)
-ompl_planner.check_obstacles()
+ompl_planner.add_scene_obstacles()
+ompl_planner.get_obstacles_info()
 
 # load bowl (target object must be added after ompl creation)
 bowl_id = client.load_object(
@@ -92,16 +86,9 @@ bowl_id = client.load_object(
 
 # set target object for grasping
 ompl_planner.set_target(bowl_id)
-target_orientation = [0.0, math.pi / 2.0, 0.0]  # vertical
-goal = bestman.cartesian_to_joints(position=[3.6, 2.4, 0.6], orientation=target_orientation)
-print("-" * 20 + "\n" + "Goal configuration:{}".format(goal))
 
 # reach target object
-result = ompl_planner.reach_object(
-    start=bestman.get_arm_joints_angle(),
-    goal=goal,
-    end_effector_link_index=bestman.end_effector_index,
-)
+result = ompl_planner.plan_execute()
 
 # disconnect pybullet
 client.wait(1000)

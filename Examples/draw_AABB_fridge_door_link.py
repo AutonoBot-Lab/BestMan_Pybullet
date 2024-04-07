@@ -12,7 +12,7 @@ from Utils import load_config
 
 
 # load config
-config_path = '/GithubCode/BestMan_Pybullet/refactor/config/draw_AABB_fridge_door_link.yaml'
+config_path = '../Config/draw_AABB_fridge_door_link.yaml'
 cfg = load_config(config_path)
 print(cfg)
 
