@@ -41,7 +41,6 @@ dependencies:
       - networkx==3.1
       - numpy==1.24.4
       - omegaconf==2.3.0
-      - ompl==1.6.0
       - opencv-python==4.9.0.80
       - packaging==24.0
       - pillow==10.2.0
