@@ -362,7 +362,7 @@ class Visualizer:
                     physicsClientId=self.client_id,
                 )
 
-    def draw_aabb_link(self, object_name, link_id=-1):
+    def draw_aabb_link(self, object, link_id=-1):
         """
         Draw an Axis-Aligned Bounding Box (AABB) around the specified object or link in the simulation. The AABB is a box that covers the entire object based on its maximum and minimum coordinates along each axis. It can be useful for various purposes, such as collision detection, spatial partitioning, and bounding volume hierarchies.
 
@@ -371,7 +371,10 @@ class Visualizer:
             link_id: The index of the link for which the AABB is to be drawn. Default is -1, which means the entire object.
         """
         
-        object_id = getattr(self.client, object_name)
+        if isinstance(object, (int)):   # input type is object id
+            object_id = object
+        elif isinstance(object, (str)): # input type is object name
+            object_id = getattr(self.client, object)
         aabb = p.getAABB(object_id, link_id, physicsClientId=self.client_id)
         aabb_min = aabb[0]
         aabb_max = aabb[1]
