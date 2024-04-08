@@ -269,6 +269,7 @@ class OMPL_Planner:
             if res:
                 
                 self.execute(path, True)
+                # self.execute(path)
                 
                 # Check if the robot is close to the object
                 if self.tcp_link != -1:
