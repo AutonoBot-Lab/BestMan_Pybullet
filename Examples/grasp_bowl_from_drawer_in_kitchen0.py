@@ -10,7 +10,7 @@ from Motion_Planning.Robot import Bestman, Pose
 from Env import Client
 from Visualization import Visualizer
 from Motion_Planning.Manipulation import OMPL_Planner
-from Motion_Planning.Navigation import AStarPlanner
+from Motion_Planning.Navigation import *
 from Utils import load_config
 
 
@@ -39,11 +39,16 @@ visualizer.draw_aabb_link("elementA", 36)
 
 # navigate to standing position
 standing_pose = Pose([2.85, 2.4, 0], [0.0, 0.0, 0.0])
-nav_planner = AStarPlanner(
+# nav_planner = AStarPlanner(
+#     robot_size = bestman.get_robot_size(), 
+#     obstacles_bounds = client.get_Nav_obstacles_bounds(), 
+#     resolution = 0.05, 
+#     enable_plot = False
+# )
+nav_planner = RRTPlanner(
     robot_size = bestman.get_robot_size(), 
     obstacles_bounds = client.get_Nav_obstacles_bounds(), 
-    resolution = 0.05, 
-    enable_plot = False
+    enable_plot=True
 )
 path = nav_planner.plan(bestman.get_current_pose(), standing_pose)
 bestman.navigate_base(standing_pose, path)
@@ -71,6 +76,9 @@ ompl_planner.set_target(bowl_id)
 
 # reach target object
 ompl_planner.plan_execute()
+
+# grsip target object
+bestman.active_gripper(bowl_id, 1)
 
 # disconnect pybullet
 client.wait(1000)

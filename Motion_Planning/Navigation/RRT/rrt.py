@@ -35,8 +35,8 @@ class RRTPlanner:
                  robot_size,
                  obstacles_bounds,
                  
-                 expand_dis=3.0,
-                 path_resolution=0.5,
+                 expand_dis=0.2,
+                 path_resolution=0.05,
                  goal_sample_rate=5,
                  max_iter=500,
                  enable_plot=True
