@@ -383,21 +383,28 @@ class Bestman:
 
             self.action(-output)     
        
-    def navigate_base(self, goal_base_pose, path):
+    def navigate_base(self, goal_base_pose, path, visualize = False):
         """
         Navigate a robot from its current position to a specified goal position
 
         Args:
             goal_base_pose (Pose): The target pose (poTruesition and orientation) for the robot.
         """
-        # init_base_pose = self.get_base_pose()  # get current base pose
-        # path = self.find_base_path(
-        #     init_base_pose, goal_base_pose
-        # )  # get a set of waypoints
-        for waypoint in path:
+        
+        # for i, waypoint in enumerate(path, start=1):
+        for i in range(len(path)):
+            
+            next_point = [path[i][0], path[i][1], 0]
+            # move to each waypoint
             self.move_base_to_next_waypoint(
-                Pose([waypoint[0], waypoint[1], 0], goal_base_pose.orientation)
-            )  # move to each waypoint
+                Pose([path[i][0], path[i][1], 0], goal_base_pose.orientation)
+            )
+            
+            # draw the trajectory
+            if i != 0:
+                front_point = [path[i-1][0], path[i-1][1], 0]
+                p.addUserDebugLine(front_point, next_point, lineColorRGB=[1, 0, 0], lineWidth=3, physicsClientId=self.client_id)
+            
         self.rotate_base(goal_base_pose.yaw)
         print("-" * 20 + "\n" + "Navigation is done!")
 

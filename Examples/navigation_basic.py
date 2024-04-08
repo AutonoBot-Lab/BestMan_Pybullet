@@ -58,9 +58,6 @@ chair_id = client.load_object(
     nav_obstacle_tag=False,
 )
 
-# # add obstacles in the navigation
-# print("obstacles for navigation: {}".format(pb_client.obstacle_navigation_ids))
-
 # get bounding box of objects
 aabb_table = client.get_bounding_box(table_id)
 visualizer.draw_aabb(table_id)
@@ -72,25 +69,21 @@ visualizer.draw_line([1, 0, 0], target_position)
 
 # navigate algorithm
 goal_base_pose = Pose(target_position, [0.0, 0.0, math.pi / 2.0])
-nav_planner = AStarPlanner(
-    robot_size = bestman.get_robot_size(), 
-    obstacles_bounds = client.get_Nav_obstacles_bounds(), 
-    resolution = 0.05, 
-    enable_plot = True
-)
-
-# nav_planner = RRTPlanner(
+# nav_planner = AStarPlanner(
 #     robot_size = bestman.get_robot_size(), 
-#     obstacles_bounds = client.get_Nav_obstacles_bounds(),
+#     obstacles_bounds = client.get_Nav_obstacles_bounds(), 
+#     resolution = 0.05, 
 #     enable_plot = True
 # )
+nav_planner = RRTPlanner(
+    robot_size = bestman.get_robot_size(), 
+    obstacles_bounds = client.get_Nav_obstacles_bounds(),
+    enable_plot = True
+)
 path = nav_planner.plan(start_pose = bestman.get_base_pose(), goal_pose = goal_base_pose)
 
 # navigate segbot
 bestman.navigate_base(goal_base_pose, path)
-
-# # end recording
-# pb_client.end_record(logID)
 
 client.wait(1000)
 client.disconnect()

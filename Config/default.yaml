@@ -49,5 +49,5 @@ Robot:
 # ompl planner parameters
 Planner:
   planner: "RRTConnect"
-  threshold: 0.08
+  threshold: 0.1
   max_attempts: 500
