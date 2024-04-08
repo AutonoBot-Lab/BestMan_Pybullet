@@ -48,10 +48,18 @@ standing_pose = Pose([2.85, 2.4, 0], [0.0, 0.0, 0.0])
 nav_planner = RRTPlanner(
     robot_size = bestman.get_robot_size(), 
     obstacles_bounds = client.get_Nav_obstacles_bounds(), 
-    enable_plot=True
+    enable_plot=False
 )
 path = nav_planner.plan(bestman.get_current_pose(), standing_pose)
-bestman.navigate_base(standing_pose, path)
+bestman.navigate_base(standing_pose, path, visualize = True)
+
+ompl_planner = OMPL_Planner(
+    bestman,
+    cfg.Planner
+)
+
+# get obstacles info
+ompl_planner.get_obstacles_info()
 
 # load bowl
 bowl_id = client.load_object(
@@ -62,14 +70,6 @@ bowl_id = client.load_object(
     "bowl",
     False
 )
-
-ompl_planner = OMPL_Planner(
-    bestman,
-    cfg.Planner
-)
-
-# get obstacles info
-ompl_planner.get_obstacles_info()
 
 # set target object for grasping
 ompl_planner.set_target(bowl_id)
