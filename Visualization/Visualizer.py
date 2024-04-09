@@ -287,7 +287,7 @@ class Visualizer:
         
         logId = p.startStateLogging(
             p.STATE_LOGGING_VIDEO_MP4,
-            "./image/" + fileName + ".mp4",
+            "./log/" + fileName + ".mp4",
             physicsClientId=self.client_id,
         )
         
@@ -295,7 +295,7 @@ class Visualizer:
             "-" * 20
             + "\n"
             + "The video can be found in "
-            + "./image/"
+            + "./log/"
             + fileName
             + ".mp4"
         )
