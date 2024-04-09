@@ -1,10 +1,9 @@
 """
-@Description :   This script shows how to grasp a bowl from a drawer
+@Description :   This script shows how to grasp a bowl from a drawer, consider collision detection
 @Author      :   Yan Ding 
 @Time        :   2023/09/01 07:47:46
 """
 
-import math
 import pybullet as p
 from Motion_Planning.Robot import Bestman, Pose
 from Env import Client
