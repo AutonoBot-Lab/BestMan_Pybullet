@@ -965,6 +965,94 @@ class Bestman:
 
         return best_position_world_3d
 
+    def move_end_effector_to_goal_position(self, end_effector_goal_pose):
+        """
+        Move arm's end effector to a target position.
+        
+        Args:
+            end_effector_goal_pose (Pose): The desired pose of the end effector (includes both position and orientation).
+        """
+
+        # get current end effector position
+        state = p.getLinkState(
+            bodyUniqueId=self.arm_id,
+            linkIndex=self.end_effector_index,
+            physicsClientId=self.client_id,
+        )
+        current_position = state[0]
+
+        # calculate distance
+        distance = np.linalg.norm(
+            np.array(end_effector_goal_pose.position) - np.array(current_position)
+        )
+
+        # # check if the distance is small enough, if yes, return immediately
+        # if distance < self.threshold:  # use an appropriate value here
+        #     print("Current position is already close to target position. No need to move.")
+        #     return True
+
+        target_position = end_effector_goal_pose.position
+        target_orientation = end_effector_goal_pose.orientation
+        # target_orientation = [0, math.pi / 2.0, 0]  # vcertical downward grip
+
+        attempts = 0
+        while attempts < self.max_attempts:
+            joint_angles = self.cartesian_to_joints(target_position, target_orientation)
+
+            # If IK solution is invalid, break this loop and start a new attempt
+            if joint_angles is None or len(joint_angles) != 6:
+                break
+
+            # Test the calculated angles for collision
+            for joint_index, joint_angle in enumerate(joint_angles):
+                p.resetJointState(
+                    self.arm_id,
+                    joint_index,
+                    joint_angle,
+                    physicsClientId=self.client_id,
+                )
+
+            p.stepSimulation(physicsClientId=self.client_id)
+
+            # if p.getContactPoints(self.arm_id): # collision with other objects
+            if p.getContactPoints(
+                self.arm_id, self.base_id, physicsClientId=self.client_id
+            ):
+                # Collision detected, break and re-calculate the IK
+                break
+            else:
+                # get current end effector position
+                state = p.getLinkState(
+                    bodyUniqueId=self.arm_id,
+                    linkIndex=self.end_effector_index,
+                    physicsClientId=self.client_id,
+                )
+                current_position = state[0]
+
+                # calculate error
+                error = np.linalg.norm(
+                    np.array(target_position) - np.array(current_position)
+                )
+                # print('current_position:{}, target_position:{}, error:{}'.format(current_position, target_position, error))
+
+                if error < self.threshold * 2:
+                    self.move_arm_to_joint_angles(joint_angles)
+                    # print(
+                    #     "Reached target end effector position:{}".format(
+                    #         end_effector_goal_pose.position
+                    #     )
+                    # )
+                    return True
+            attempts += 1
+        print(
+            "-" * 20
+            + "\n"
+            + "Could not reach target position without collision after {} attempts".format(
+                self.max_attempts
+            )
+        )
+        return False
+    
     def pick_place(self, object_id, object_goal_position, object_goal_orientation):
         """
         Perform pick-and-place manipulation of an object using the robot arm.

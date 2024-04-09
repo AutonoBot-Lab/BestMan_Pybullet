@@ -1,66 +1,59 @@
 """
-@Description :   This script shows how to manipulate the arm to grasp object
+@Description :   This script shows how to manipulate the arm to grasp object, not consider collision detection
 @Author      :   Yan Ding 
 @Time        :   2023/08/31 03:01:50
 """
 
+import os 
 import math
-import sys
-import os
+import pybullet as p
+from Motion_Planning.Robot import Bestman, Pose
+from Env import Client
+from Visualization import Visualizer
+from Motion_Planning.Manipulation import OMPL_Planner
+from Motion_Planning.Navigation import *
+from Utils import load_config
 
-"""
-Get the utils module path
-"""
-# customized package
-current_path = os.path.abspath(__file__)
-utils_path = os.path.dirname(os.path.dirname(current_path)) + "/utils"
-if os.path.basename(utils_path) != "utils":
-    raise ValueError('Not add the path of folder "utils", please check again!')
-sys.path.append(utils_path)
-from utils_Bestman import Bestman, Pose
-from utils_PbClient import PbClient
-from utils_PbVisualizer import PbVisualizer
+# Load config
+config_path = '../Config/grasp_bowl_on_table.yaml'
+cfg = load_config(config_path)
+print(cfg)
 
-"""
-main functions
-"""
+# Init client and visualizer
+client = Client(cfg.Client)
+visualizer = Visualizer(client, cfg.Visualizer)
+logID = visualizer.start_record(os.path.splitext(os.path.basename(__file__))[0])    # start recording
 
-pb_client = PbClient(enable_GUI=True)
-pb_client.enable_vertical_view(4.0, [1.0, 1.0, 0])
-pb_visualizer = PbVisualizer(pb_client)
-# logID = pb_client.start_record("example_manipulation") # start recording
-init_pose = Pose([1, 0, 0], [0.0, 0.0, math.pi / 2])
-demo = Bestman(init_pose, pb_client)  # load robot
-demo.get_joint_link_info("arm")  # get info about arm
-init_joint = [0, -1.57, 2.0, -1.57, -1.57, 0]
-demo.move_arm_to_joint_angles(init_joint)  # reset arm joint position
+# Init robot
+bestman = Bestman(client, cfg)
+visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
 
 # load table and bowl
-table_id = pb_client.load_object(
-    "./URDF_models/furniture_table_rectangle_high/table.urdf",
+table_id = client.load_object(
+    "../Asset/URDF_models/furniture_table_rectangle_high/table.urdf",
     [1.0, 1.0, 0.0],
     [0.0, 0.0, 0.0],
     1.0,
     "table",
     fixed_base=True,
 )
-bowl_id = pb_client.load_object(
-    "./URDF_models/utensil_bowl_blue/model.urdf",
+
+bowl_id = client.load_object(
+    "../Asset/URDF_models/utensil_bowl_blue/model.urdf",
     [0.6, 0.6, 0.85],
     [0.0, 0.0, 0.0],
     1.0,
-    "bowl",
-    tag_obstacle_navigate=False,
+    "bowl"
 )
 
 # grasp target object
 orientation_vertical = [0.0, math.pi / 2.0, 0.0]
-# pb_client.wait(1)
-demo.pick_place(bowl_id, [0.9, 0.7, 0.85], orientation_vertical)
 
-# end recording
-# pb_client.end_record(logID)
+# pb_client.wait(1)
+bestman.pick_place(bowl_id, [0.9, 0.7, 0.85], orientation_vertical)
+
+visualizer.end_record(logID)
 
 # disconnect from server
-pb_client.wait(5)
-pb_client.disconnect_pybullet()
+client.wait(5)
+client.disconnect()
