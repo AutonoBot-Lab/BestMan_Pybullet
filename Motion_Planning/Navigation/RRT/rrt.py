@@ -10,7 +10,8 @@ import math
 import random
 from rtree import index
 import matplotlib.pyplot as plt
-from ..utils import AreaBounds, plot_rectangle
+# from ..utils import AreaBounds, plot_rectangle
+from Motion_Planning.Navigation.utils import *  # test in this script
 from Motion_Planning.Robot import Pose
 
 
@@ -242,6 +243,7 @@ class RRTPlanner:
 
 
 def main():
+    
     print("start " + __file__)
 
     obstacles_bounds = [[4,4,6,6],[1,4,5,8],[1,6,5,10],[1,8,5,12],[5,3,9,7],[7,3,11,7],[7,9,9,11],[7,9,9,11]]
@@ -251,6 +253,7 @@ def main():
     rrt = RRTPlanner(
         robot_size=robot_size,
         obstacles_bounds = obstacles_bounds,
+        expand_dis = 3,
         enable_plot=True
     )
     
