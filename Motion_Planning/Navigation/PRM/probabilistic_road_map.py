@@ -72,6 +72,7 @@ class PRMPlanner:
             self.visual()
 
         self.path = [(x, y) for x, y in zip(self.rx, self.ry)]
+        self.path.reverse()
         return self.path
     
     def visual(self):
