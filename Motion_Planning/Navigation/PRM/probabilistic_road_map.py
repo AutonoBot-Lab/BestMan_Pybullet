@@ -15,7 +15,7 @@ from Motion_Planning.Navigation.utils import *
 from Motion_Planning.Robot import Pose
 
 # parameter
-N_SAMPLE = 500  # number of sample_points
+N_SAMPLE = 2000  # number of sample_points
 N_KNN = 10  # number of edge from one sampled point
 MAX_EDGE_LEN = 30.0  # [m] Maximum edge length
 
