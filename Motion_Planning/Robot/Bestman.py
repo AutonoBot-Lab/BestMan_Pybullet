@@ -401,7 +401,7 @@ class Bestman:
             )
             
             # draw the trajectory
-            if i != 0:
+            if i != 0 and visualize:
                 front_point = [path[i-1][0], path[i-1][1], 0]
                 p.addUserDebugLine(front_point, next_point, lineColorRGB=[1, 0, 0], lineWidth=3, physicsClientId=self.client_id)
             
