@@ -9,7 +9,7 @@ import math
 from Motion_Planning.Robot import Bestman, Pose
 from Env.Client import Client
 from Visualization import Visualizer
-from Motion_Planning.Navigation import AStarPlanner, RRTPlanner
+from Motion_Planning.Navigation import *
 from Utils import load_config
 
 def main():
@@ -77,16 +77,26 @@ def main():
     #     resolution = 0.05, 
     #     enable_plot = True
     # )
+
     nav_planner = RRTPlanner(
         robot_size = bestman.get_robot_size(), 
         obstacles_bounds = client.get_Nav_obstacles_bounds(),
         enable_plot = True
     )
+
+    # nav_planner = PRMPlanner(
+    #     robot_size = bestman.get_robot_size(), 
+    #     obstacles_bounds = client.get_Nav_obstacles_bounds(), 
+    #     enable_plot = True
+    # )
+
     path = nav_planner.plan(start_pose = bestman.get_base_pose(), goal_pose = goal_base_pose)
 
+    print(len(path))
+    
     # navigate segbot
     bestman.navigate_base(goal_base_pose, path)
-
+    
     client.wait(1000)
     client.disconnect()
     
