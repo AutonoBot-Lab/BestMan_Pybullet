@@ -7,3 +7,11 @@
     path = URDF_robot/model_elephant
     url = https://github.com/yding25/model_elephant.git
     branch = main
+
+[submodule "anygrasp_sdk"]
+    path = Motion_Planning/Manipulation/anygrasp_sdk
+    url = https://github.com/graspnet/anygrasp_sdk.git
+    branch = main
+[submodule "Motion_Planning/Manipulation/anygrasp_sdk"]
+	path = Motion_Planning/Manipulation/anygrasp_sdk
+	url = https://github.com/graspnet/anygrasp_sdk.git
