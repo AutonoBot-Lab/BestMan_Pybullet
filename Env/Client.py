@@ -203,7 +203,7 @@ class Client:
             print(
                 "Joint index:{}, name:{}, angle:{}".format(i, joint_name, joint_angle)
             )
-
+    
     def change_object_joint_angle(
         self, object_name, joint_index, target_position, max_force=5
     ):

@@ -24,7 +24,7 @@ def main():
     visualizer = Visualizer(client, cfg.Visualizer)
     
     # start_record
-    logID = visualizer.start_record(os.path.splitext(os.path.basename(__file__))[0])    # start recording
+    # logID = visualizer.start_record(os.path.splitext(os.path.basename(__file__))[0])    # start recording
     
     # Init robot
     bestman = Bestman(client, cfg)
@@ -53,7 +53,7 @@ def main():
     bestman.pick_place(bowl_id, object_goal_pose)
 
     # end record
-    visualizer.end_record(logID)
+    # visualizer.end_record(logID)
 
     # disconnect from server
     client.wait(50)
