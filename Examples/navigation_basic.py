@@ -66,8 +66,8 @@ def main():
     print("-" * 20 + "\n" + "aabb_table:{}".format(aabb_table))
 
     # plot line connecting init and goal positions
-    target_position = [5.0, 1.0, 0]
-    visualizer.draw_line([1, 0, 0], target_position)
+    target_position = [1, 0, 0]
+    # visualizer.draw_line([1, 0, 0], target_position)
 
     # navigate algorithm
     goal_base_pose = Pose(target_position, [0.0, 0.0, math.pi / 2.0])
@@ -78,17 +78,17 @@ def main():
     #     enable_plot = True
     # )
 
-    nav_planner = RRTPlanner(
-        robot_size = bestman.get_robot_size(), 
-        obstacles_bounds = client.get_Nav_obstacles_bounds(),
-        enable_plot = True
-    )
-
-    # nav_planner = PRMPlanner(
+    # nav_planner = RRTPlanner(
     #     robot_size = bestman.get_robot_size(), 
-    #     obstacles_bounds = client.get_Nav_obstacles_bounds(), 
+    #     obstacles_bounds = client.get_Nav_obstacles_bounds(),
     #     enable_plot = True
     # )
+
+    nav_planner = PRMPlanner(
+        robot_size = bestman.get_robot_size(), 
+        obstacles_bounds = client.get_Nav_obstacles_bounds(), 
+        enable_plot = True
+    )
 
     path = nav_planner.plan(start_pose = bestman.get_base_pose(), goal_pose = goal_base_pose)
 
