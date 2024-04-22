@@ -1,6 +1,7 @@
-name: BestMan_test2
+name: BestMan
 channels:
   - defaults
+  - conda-forge
 dependencies:
   - _libgcc_mutex=0.1=main
   - _openmp_mutex=5.1=1_gnu
@@ -42,4 +43,3 @@ dependencies:
       - six==1.16.0
       - yacs==0.1.8
       - zipp==3.18.1
-prefix: /root/miniconda3/envs/BestMan_test
