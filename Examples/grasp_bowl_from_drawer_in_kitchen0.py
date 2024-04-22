@@ -14,14 +14,13 @@ from Motion_Planning.Navigation import *
 from Utils import load_config
 
 
-# Load config
-config_path = '../Config/grasp_bowl_from_drawer_in_kitchen0.yaml'
-cfg = load_config(config_path)
-print(cfg)
-
-
 def main():
     
+    # Load config
+    config_path = '../Config/grasp_bowl_from_drawer_in_kitchen0.yaml'
+    cfg = load_config(config_path)
+    print(cfg)
+
     # Init client and visualizer
     client = Client(cfg.Client)
     visualizer = Visualizer(client, cfg.Visualizer)
