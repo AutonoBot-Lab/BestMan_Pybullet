@@ -17,7 +17,7 @@ from Utils import load_config
 def main():
     
     # Load config
-    config_path = '../Config/grasp_bowl_from_drawer_in_kitchen0.yaml'
+    config_path = '../Config/grasp_bowl_from_drawer_in_kitchen.yaml'
     cfg = load_config(config_path)
     print(cfg)
 

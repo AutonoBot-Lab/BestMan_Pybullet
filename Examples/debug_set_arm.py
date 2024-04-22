@@ -13,13 +13,14 @@ from Utils.load_config import load_config
 def main():
     
     # load config
-    cfg = load_config()
+    config_path = '../Config/debug_arm.yaml'
+    cfg = load_config(config_path)
     print(cfg)
 
     # Init client and visualizer
     client = Client(cfg.Client)
     visualizer = Visualizer(client, cfg.Visualizer)
-    
+
     # logID = pb_client.start_record("example_manipulation")    # start recording
     # Init robot
     bestman = Bestman(client, cfg)
