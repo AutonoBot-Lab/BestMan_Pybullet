@@ -1054,7 +1054,7 @@ class Bestman:
         )
         return False
     
-    def pick_place(self, object_id, object_goal_position, object_goal_orientation):
+    def pick_place(self, object_id, object_goal_pose):
         """
         Perform pick-and-place manipulation of an object using the robot arm.
 
@@ -1064,6 +1064,8 @@ class Bestman:
             object_goal_orientation: The goal orientation for the target object.
         """
 
+        object_goal_position, object_goal_orientation = object_goal_pose.position, object_goal_pose.orientation
+        
         # get target object position
         object_position_init, orientation = p.getBasePositionAndOrientation(
             object_id, physicsClientId=self.client_id
