@@ -5,7 +5,6 @@
 """
 
 import os
-import pybullet as p
 from Motion_Planning.Robot import Bestman, Pose
 from Env import Client
 from Visualization import Visualizer
