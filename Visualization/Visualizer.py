@@ -307,8 +307,29 @@ class Visualizer:
         
         
     # ----------------------------------------------------------------
-    # aabb
+    # draw line / aabb
     # ----------------------------------------------------------------
+
+    def draw_line(self, start_pos, target_pos, color=[1, 0, 0], width=3.0):
+        """
+        Draw a line on the screen from the specified start position to the target position.
+
+        Args:
+            start_pos: The starting position of the line as a tuple of (x, y, z) coordinates.
+            target_pos: The ending position of the line as a tuple of (x, y, z) coordinates.
+            color: A list representing the RGB values of the line's color. Default is red [1, 0, 0].
+            width: The width of the line. Default is 3.0.
+        """
+        if self.line_visual is not None:
+            p.removeUserDebugItem(self.line_visual, physicsClientId=self.client_id)
+
+        self.line_visual = p.addUserDebugLine(
+            start_pos,
+            target_pos,
+            lineColorRGB=color,
+            lineWidth=width,
+            physicsClientId=self.client_id,
+        )
 
     def draw_aabb(self, object_id):
         """
@@ -413,7 +434,10 @@ class Visualizer:
             )
 
 
-    # Robot color
+    # ----------------------------------------------------------------
+    # change color
+    # ----------------------------------------------------------------
+    
     def change_robot_color(self, base_id, arm_id, light_color=True):
         """
         Set the color of robot
@@ -455,141 +479,182 @@ class Visualizer:
                     physicsClientId=self.client_id
                 )
 
-    def set_elementA_visual_color(self, elementA_id):
+    def set_object_color(self, object_id, color):
         """
-        Set the color of element A (oven, container) in the kitchen.
+        Set the object color of object in the kitchen.
         """
-        for i in [1]:  # center counter
-            p.changeVisualShape(
-                objectUniqueId=elementA_id,
-                linkIndex=i,
-                rgbaColor=colors["light_white"],
-                physicsClientId=self.client_id,
-            )
-        for i in [2]:  # oven base
-            p.changeVisualShape(
-                objectUniqueId=elementA_id,
-                linkIndex=i,
-                rgbaColor=colors["light_white"],
-                physicsClientId=self.client_id,
-            )
-        for i in [3, 4, 5, 6]:  # four ovens
-            p.changeVisualShape(
-                objectUniqueId=elementA_id,
-                linkIndex=i,
-                rgbaColor=colors["stainless_steel"],
-                physicsClientId=self.client_id,
-            )
-        for i in [7]:  # rectangle where buttons are on
-            p.changeVisualShape(
-                objectUniqueId=elementA_id,
-                linkIndex=i,
-                rgbaColor=colors["wood_dark"],
-                physicsClientId=self.client_id,
-            )
-        for i in [8, 9, 10, 11]:  # four buttons
-            p.changeVisualShape(
-                objectUniqueId=elementA_id,
-                linkIndex=i,
-                rgbaColor=colors["black"],
-                physicsClientId=self.client_id,
-            )
-        for i in [30, 33, 34, 42, 43]:  # left and right counter
-            p.changeVisualShape(
-                objectUniqueId=elementA_id,
-                linkIndex=i,
-                rgbaColor=colors["light_white"],
-                physicsClientId=self.client_id,
-            )
+        
+        p.changeVisualShape(
+            objectUniqueId=object_id,
+            linkIndex=-1,
+            rgbaColor=colors[color],
+            physicsClientId=self.client_id
+        )
+        
+    def set_link_color(self, object_id, link_id, color):
+        """
+        Set the link color of object in the kitchen.
+        """
+        
+        p.changeVisualShape(
+            objectUniqueId=object_id,
+            linkIndex=link_id,
+            rgbaColor=colors[color],
+            physicsClientId=self.client_id
+        )
     
-    def set_elementB_visual_color(self, elementB_id):
+    def set_links_color(self, object_id, link_ids, colors):
         """
-        Set the color of element B (counter) in the kitchen.
+        Set the links color of object in the kitchen.
         """
-        # link id:
-        for i in [-1]:  # wood_dark
+        
+        for i, color in zip(link_ids, colors):
             p.changeVisualShape(
-                objectUniqueId=elementB_id,
+                objectUniqueId=object_id,
                 linkIndex=i,
-                rgbaColor=colors["light_white"],
-                physicsClientId=self.client_id,
+                rgbaColor=colors[color],
+                physicsClientId=self.client_id
             )
+        
+    # def set_elementA_visual_color(self, elementA_id):
+    #     """
+    #     Set the color of element A (oven, container) in the kitchen.
+    #     """
+    #     for i in [1]:  # center counter
+    #         p.changeVisualShape(
+    #             objectUniqueId=elementA_id,
+    #             linkIndex=i,
+    #             rgbaColor=colors["light_white"],
+    #             physicsClientId=self.client_id,
+    #         )
+    #     for i in [2]:  # oven base
+    #         p.changeVisualShape(
+    #             objectUniqueId=elementA_id,
+    #             linkIndex=i,
+    #             rgbaColor=colors["light_white"],
+    #             physicsClientId=self.client_id,
+    #         )
+    #     for i in [3, 4, 5, 6]:  # four ovens
+    #         p.changeVisualShape(
+    #             objectUniqueId=elementA_id,
+    #             linkIndex=i,
+    #             rgbaColor=colors["stainless_steel"],
+    #             physicsClientId=self.client_id,
+    #         )
+    #     for i in [7]:  # rectangle where buttons are on
+    #         p.changeVisualShape(
+    #             objectUniqueId=elementA_id,
+    #             linkIndex=i,
+    #             rgbaColor=colors["wood_dark"],
+    #             physicsClientId=self.client_id,
+    #         )
+    #     for i in [8, 9, 10, 11]:  # four buttons
+    #         p.changeVisualShape(
+    #             objectUniqueId=elementA_id,
+    #             linkIndex=i,
+    #             rgbaColor=colors["black"],
+    #             physicsClientId=self.client_id,
+    #         )
+    #     for i in [30, 33, 34, 42, 43]:  # left and right counter
+    #         p.changeVisualShape(
+    #             objectUniqueId=elementA_id,
+    #             linkIndex=i,
+    #             rgbaColor=colors["light_white"],
+    #             physicsClientId=self.client_id,
+    #         )
+    
+    # def set_elementB_visual_color(self, elementB_id):
+    #     """
+    #     Set the color of element B (counter) in the kitchen.
+    #     """
+    #     # link id:
+    #     for i in [-1]:  # wood_dark
+    #         p.changeVisualShape(
+    #             objectUniqueId=elementB_id,
+    #             linkIndex=i,
+    #             rgbaColor=colors["light_white"],
+    #             physicsClientId=self.client_id,
+    #         )
 
-    def set_elementC_visual_color(self, elementC_id):
-        """
-        Set the color of element C (dishwasher) in the kitchen.
-        """
-        # link id:
-        for i in [-1, 0, 1, 2, 3, 4, 5]:
-            p.changeVisualShape(
-                objectUniqueId=elementC_id,
-                linkIndex=i,
-                rgbaColor=colors["light_white"],
-                physicsClientId=self.client_id,
-            )
+    # def set_elementC_visual_color(self, elementC_id):
+    #     """
+    #     Set the color of element C (dishwasher) in the kitchen.
+    #     """
+    #     # link id:
+    #     for i in [-1, 0, 1, 2, 3, 4, 5]:
+    #         p.changeVisualShape(
+    #             objectUniqueId=elementC_id,
+    #             linkIndex=i,
+    #             rgbaColor=colors["light_white"],
+    #             physicsClientId=self.client_id,
+    #         )
 
-    def set_elementD_visual_color(self, elementD_id):
-        """
-        Set the color of element D (microwave) in the kitchen.
-        """
-        # link id:
-        for i in [0]:  # back
-            p.changeVisualShape(
-                objectUniqueId=elementD_id,
-                linkIndex=i,
-                rgbaColor=colors["light_white"],
-                physicsClientId=self.client_id,
-            )
+    # def set_elementD_visual_color(self, elementD_id):
+    #     """
+    #     Set the color of element D (microwave) in the kitchen.
+    #     """
+    #     # link id:
+    #     for i in [0]:  # back
+    #         p.changeVisualShape(
+    #             objectUniqueId=elementD_id,
+    #             linkIndex=i,
+    #             rgbaColor=colors["light_white"],
+    #             physicsClientId=self.client_id,
+    #         )
 
-        # link id:
-        for i in [1]:  # door
-            p.changeVisualShape(
-                objectUniqueId=elementD_id,
-                linkIndex=i,
-                rgbaColor=colors["stainless_steel"],
-                physicsClientId=self.client_id,
-            )
+    #     # link id:
+    #     for i in [1]:  # door
+    #         p.changeVisualShape(
+    #             objectUniqueId=elementD_id,
+    #             linkIndex=i,
+    #             rgbaColor=colors["stainless_steel"],
+    #             physicsClientId=self.client_id,
+    #         )
 
-    def set_elementE_visual_color(self, elementE_id):
-        """
-        Set the color of element E (fridge) in the kitchen.
-        """
-        # link id:
-        for i in [-1, 0, 1, 2, 3, 4, 5, 6]:  # wood_light
-            p.changeVisualShape(
-                objectUniqueId=elementE_id,
-                linkIndex=i,
-                rgbaColor=colors["light_white"],
-                physicsClientId=self.client_id,
-            )
+    # def set_elementE_visual_color(self, elementE_id):
+    #     """
+    #     Set the color of element E (fridge) in the kitchen.
+    #     """
+    #     # link id:
+    #     for i in [-1, 0, 1, 2, 3, 4, 5, 6]:  # wood_light
+    #         p.changeVisualShape(
+    #             objectUniqueId=elementE_id,
+    #             linkIndex=i,
+    #             rgbaColor=colors["light_white"],
+    #             physicsClientId=self.client_id,
+    #         )
 
-    def set_elementF_visual_color(self, elementF_id):
-        """
-        Set the color of element F (table) in the kitchen.
-        """
-        # link id:
-        for i in [-1, 0, 1, 2, 3]:
-            p.changeVisualShape(
-                objectUniqueId=elementF_id,
-                linkIndex=i,
-                rgbaColor=colors["light_white"],
-                physicsClientId=self.client_id,
-            )
+    # def set_elementF_visual_color(self, elementF_id):
+    #     """
+    #     Set the color of element F (table) in the kitchen.
+    #     """
+    #     # link id:
+    #     for i in [-1, 0, 1, 2, 3]:
+    #         p.changeVisualShape(
+    #             objectUniqueId=elementF_id,
+    #             linkIndex=i,
+    #             rgbaColor=colors["light_white"],
+    #             physicsClientId=self.client_id,
+    #         )
 
-    def set_elementG_visual_color(self, elementG_id):
-        """
-        Set the color of element G (Chair) in the kitchen.
-        """
-        # link id:
-        for i in [-1]:  # light_white
-            p.changeVisualShape(
-                objectUniqueId=elementG_id,
-                linkIndex=i,
-                rgbaColor=colors["white"],
-                physicsClientId=self.client_id,
-            )
+    # def set_elementG_visual_color(self, elementG_id):
+    #     """
+    #     Set the color of element G (Chair) in the kitchen.
+    #     """
+    #     # link id:
+    #     for i in [-1]:  # light_white
+    #         p.changeVisualShape(
+    #             objectUniqueId=elementG_id,
+    #             linkIndex=i,
+    #             rgbaColor=colors["white"],
+    #             physicsClientId=self.client_id,
+    #         )
 
     def visualize_path(self, path):
+        """
+        visualize the path of Manipution
+        """
+
         # Reverse the path so that it goes from start to goal
         path = path[::-1]  # This line reverses the path
         cartesian_path = [self.joints_to_cartesian(point) for point in path]
@@ -603,24 +668,3 @@ class Visualizer:
                 lineWidth=3,
                 physicsClientId=self.client_id,
             )
-
-    def draw_line(self, start_pos, target_pos, color=[1, 0, 0], width=3.0):
-        """
-        Draw a line on the screen from the specified start position to the target position.
-
-        Args:
-            start_pos: The starting position of the line as a tuple of (x, y, z) coordinates.
-            target_pos: The ending position of the line as a tuple of (x, y, z) coordinates.
-            color: A list representing the RGB values of the line's color. Default is red [1, 0, 0].
-            width: The width of the line. Default is 3.0.
-        """
-        if self.line_visual is not None:
-            p.removeUserDebugItem(self.line_visual, physicsClientId=self.client_id)
-
-        self.line_visual = p.addUserDebugLine(
-            start_pos,
-            target_pos,
-            lineColorRGB=color,
-            lineWidth=width,
-            physicsClientId=self.client_id,
-        )
