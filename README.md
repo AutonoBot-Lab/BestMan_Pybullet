@@ -3,7 +3,10 @@
 Welcome to the official repository for the BestMan Robot Simulator, integrated with Pybullet. This project provides a comprehensive simulation environment for the BestMan robot, a sophisticated machine featuring a robust base and a versatile arm (Ur5e).
 
 
+
 ## 💻 Installation
+
+- Pull the repository and update the submodule
 
 ```
 git clone https://github.com/yding25/BestMan_Pybullet.git
@@ -11,42 +14,156 @@ git submodule init
 git submodule update
 ```
 
-[Install OMPL package](https://github.com/ompl/ompl/releases/tag/prerelease)
+
+
+### Anaconda
+
+You should install Anaconda or minconda on linux system and then perform the following steps：
+
 ```
-pip3 install pygccxml==2.2.1.
-cd BestMan_Pybullet/package_OMPL
-pip3 install ompl-1.6.0-cp38-cp38-manylinux_2_28_x86_64.whl
+cd Install
+
+# Create conda environment from environment.yaml
+conda env create -f environment.yaml
+conda activate BestMan
+
+# Install ompl
+pip install ompl-1.6.0-cp38-cp38-manylinux_2_28_x86_64.whl
+
+# run sh
+sh conda-install.sh
 ```
 
 
-## :mag_right: Project Structure
+
+### Docker
+
+- Pull docker image from tencentyun
+
 ```
-├── APIs_in_utils.txt
-├── examples
-│   ├── navigation_basic.py
-│   ├── ...
-├── Kitchen_models
-├── tool
-│   ├── capture_screen_front.py
-│   ├── ...
-├── URDF_models
-├── URDF_robot
-│   ├── segbot.urdf
-│   ├── ur5e.urdf
-│   └── ...
-└── utils
-    ├── pb_ompl.py
-    ├── utils_Bestman.py
-    ├── ....
+docker pull ccr.ccs.tencentyun.com/4090/bestman:v1
 ```
+
+
+
+- Create docker container
+
+```
+docker run -it --gpus all --name BestMan ccr.ccs.tencentyun.com/4090/bestman:v1
+```
+
+
+
+- If you install docker on the windows platform, install [VcXsrv Windows X Server](https://sourceforge.net/projects/vcxsrv/), Start and keep running in the background.
+
+- Execute `echo $DISPLAY` inside the container, Make sure the result is `host.docker.internal:0` so that it can be visualized on the host machine, if not:
+
+```
+export DISPLAY=host.docker.internal:0
+```
+
+
+
+## 🔎 Project Structure
+
+```
+|-- Asset
+|   |-- Generate_data
+|   |-- Kitchen_models
+|   |   ...
+|   |-- Scene
+|   |   |-- Kitchen.json
+|   |   |-- Kitchen_bak.json
+|   |   `-- test.py
+|   |-- URDF_models
+|   |   |-- README.md
+|   |   |-- black_marker
+|   |      ` ...   
+|   |   ...
+|   `-- mobile_manipulator
+|       |-- arm
+|       |   |-- panda
+|       |   `-- ur5e
+|       |-- base
+|       |   `-- segbot
+|       `-- end_effector
+|           |-- gripper
+|           |   `-- robotiq_2f85.urdf
+|           `-- sucker
+|               |-- long_vacuum_gripper
+|               `-- vacuum_gripper
+|-- CV
+|-- Config
+|   |-- default.yaml
+|   |-- navigation_basic.yaml
+|   `-- ...
+|-- Controller
+|   |-- PIDController.py
+|-- Env
+|   |-- Client.py
+|   |-- Env.py
+|   |-- Kitchen_v0.py
+|   |-- Kitchen_v1.py
+|   |-- Kitchen_v2.py
+|   `-- __init__.py
+|-- Examples
+|   |-- navigation_basic.py
+|   |-- ...
+|-- Install
+|   |-- conda_install.sh
+|   |-- environment.yaml
+|   |-- install-ompl-ubuntu.sh
+|   `-- ompl-1.6.0-cp38-cp38-manylinux_2_28_x86_64.whl
+|-- Motion_Planning
+|   |-- Manipulation
+|   |   |-- Collision
+|   |   |   |-- Collision.py
+|   |   |   |-- __init__.py
+|   |   |   `-- utils.py
+|   |   |-- OMPL_Planner.py
+|   |   |-- __init__.py
+|   |   |-- anygrasp_sdk
+|   |   |   | ...
+|   |-- Navigation
+|   |   |-- A_star
+|   |   |   |-- A_star.py
+|   |   |-- PRM
+|   |   |   |-- probabilistic_road_map.py
+|   |   |-- RRT
+|   |   |   |-- rrt.py
+|   |   |-- TODO.md
+|   |   |-- __init__.py
+|   |   `-- utils.py
+|   `-- Robot
+|   |   |-- Bestman.py
+|   |   |-- Pose.py
+|   |   `-- __init__.py
+|-- README.md
+|-- SLAM
+|-- Task_Planning
+|-- Test
+|   `-- test.py
+|-- User_Interface
+|-- Utils
+|   |-- __init__.py
+|   `-- load_config.py
+|-- Visualization
+    |-- Visualizer.py
+    `-- __init__.py
+`-- APIs_in_utils.txt
+```
+
+
 
 ## 👨‍💻 Basic Demos
 
 **Load Kitchens**
 
 ```
+cd Examples
 python3 ./examples/load_kitchen_v0.py
 ```
+
 <table>
   <tr>
     <td>
@@ -60,8 +177,10 @@ python3 ./examples/load_kitchen_v0.py
 **Navigation**
 
 ```
-python3 ./examples/navigation_basic.py
+cd Examples
+python ./examples/navigation_basic.py
 ```
+
 <table>
   <tr>
     <td>
@@ -75,10 +194,12 @@ python3 ./examples/navigation_basic.py
 **Manipulation**
 
 ```
+cd Examples
 python3 ./examples/grasp_bowl_in_kitchen_v0.py
 ```
 
 ```
+cd Examples
 python3 ./examples/grasp_bowl_from_drawer_in_kitchen0.py
 ```
 
@@ -102,6 +223,7 @@ python3 ./examples/grasp_bowl_from_drawer_in_kitchen0.py
   </tr>
 </table>
 
+
 <!-- <a href="https://www.youtube.com/watch?v=f25d4N_Lv9w">
     <img src="https://img.youtube.com/vi/f25d4N_Lv9w/0.jpg" alt="OMPL" width="300" height="200">
 </a>
@@ -110,12 +232,16 @@ python3 ./examples/grasp_bowl_from_drawer_in_kitchen0.py
     <img src="https://img.youtube.com/vi/7gbh2OGFkCk/0.jpg" alt="OMPL" width="300" height="200">
 </a> -->
 
-###  :blue_book: Additional Resources
+
+
+##  📘 Additional Resources
 
 - **APIs_in_utils.txt**: A detailed list of common functions used in the utility scripts
 
 
-###  🚀 Citation and Reference
+
+##  🚀 Citation and Reference
+
 ```
 @article{ding2023task,
   title={Task and motion planning with large language models for object rearrangement},
