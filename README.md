@@ -9,7 +9,7 @@ Welcome to the official repository for the BestMan Robot Simulator, integrated w
 - Pull the repository and update the submodule
 
 ```
-git clone https://github.com/yding25/BestMan_Pybullet.git
+git clone https://github.com/AutonoBot-Lab/BestMan_Pybullet.git -b refactor
 git submodule init
 git submodule update
 ```
@@ -18,7 +18,7 @@ git submodule update
 
 ### Anaconda
 
-You should install Anaconda or minconda on linux system and then perform the following steps：
+First install `Anaconda` or `minconda` on linux system and then perform the following steps：
 
 ```
 cd Install
@@ -44,17 +44,13 @@ sh conda-install.sh
 docker pull ccr.ccs.tencentyun.com/4090/bestman:v1
 ```
 
-
-
 - Create docker container
 
 ```
 docker run -it --gpus all --name BestMan ccr.ccs.tencentyun.com/4090/bestman:v1
 ```
 
-
-
-- If you install docker on the windows platform, install [VcXsrv Windows X Server](https://sourceforge.net/projects/vcxsrv/), Start and keep running in the background.
+- If docker installed on the windows platform, install [VcXsrv Windows X Server](https://sourceforge.net/projects/vcxsrv/), Start and keep running in the background.
 
 - Execute `echo $DISPLAY` inside the container, Make sure the result is `host.docker.internal:0` so that it can be visualized on the host machine, if not:
 
@@ -161,7 +157,7 @@ export DISPLAY=host.docker.internal:0
 
 ```
 cd Examples
-python3 ./examples/load_kitchen_v0.py
+python3 load_kitchen.py
 ```
 
 <table>
@@ -174,11 +170,12 @@ python3 ./examples/load_kitchen_v0.py
   </tr>
 </table>
 
+
 **Navigation**
 
 ```
 cd Examples
-python ./examples/navigation_basic.py
+python navigation_basic.py
 ```
 
 <table>
@@ -191,16 +188,17 @@ python ./examples/navigation_basic.py
   </tr>
 </table>
 
+
 **Manipulation**
 
 ```
 cd Examples
-python3 ./examples/grasp_bowl_in_kitchen_v0.py
+python grasp_bowl_in_kitchen.py
 ```
 
 ```
 cd Examples
-python3 ./examples/grasp_bowl_from_drawer_in_kitchen0.py
+python grasp_bowl_from_drawer_in_kitchen0.py
 ```
 
 <table>
@@ -224,6 +222,7 @@ python3 ./examples/grasp_bowl_from_drawer_in_kitchen0.py
 </table>
 
 
+
 <!-- <a href="https://www.youtube.com/watch?v=f25d4N_Lv9w">
     <img src="https://img.youtube.com/vi/f25d4N_Lv9w/0.jpg" alt="OMPL" width="300" height="200">
 </a>
@@ -241,6 +240,8 @@ python3 ./examples/grasp_bowl_from_drawer_in_kitchen0.py
 
 
 ##  🚀 Citation and Reference
+
+If you find this work useful, please consider citing:
 
 ```
 @article{ding2023task,
