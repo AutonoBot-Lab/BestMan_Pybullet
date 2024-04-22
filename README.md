@@ -38,6 +38,8 @@ sh conda-install.sh
 
 ### Docker
 
+#### Windows
+
 - Pull docker image from tencentyun
 
 ```
@@ -50,13 +52,19 @@ docker pull ccr.ccs.tencentyun.com/4090/bestman:v1
 docker run -it --gpus all --name BestMan ccr.ccs.tencentyun.com/4090/bestman:v1
 ```
 
-- If docker installed on the windows platform, install [VcXsrv Windows X Server](https://sourceforge.net/projects/vcxsrv/), Start and keep running in the background.
+- Install [VcXsrv Windows X Server](https://sourceforge.net/projects/vcxsrv/), Start and keep running in the background.
 
 - Execute `echo $DISPLAY` inside the container, Make sure the result is `host.docker.internal:0` so that it can be visualized on the host machine, if not:
 
 ```
 export DISPLAY=host.docker.internal:0
 ```
+
+
+
+#### Linux
+
+
 
 
 
