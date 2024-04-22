@@ -4,23 +4,14 @@
 @Time        :   2023/08/31 03:01:50
 """
 
-import math
-import sys
-import os
-import pybullet as p
 
-"""
-Get the utils module path
-"""
-# customized package
-current_path = os.path.abspath(__file__)
-utils_path = os.path.dirname(os.path.dirname(current_path)) + "/utils"
-if os.path.basename(utils_path) != "utils":
-    raise ValueError('Not add the path of folder "utils", please check again!')
-sys.path.append(utils_path)
-from utils_Bestman import Bestman, Pose
-from utils_PbClient import PbClient
-from utils_PbVisualizer import PbVisualizer
+import os 
+import math
+from Motion_Planning.Robot import Bestman, Pose
+from Env import Client
+from Visualization import Visualizer
+from Motion_Planning.Navigation import *
+from Utils import load_config
 
 # load kitchen from three scenarios
 index = 0
