@@ -439,30 +439,6 @@ class Bestman:
         self.arm_height = height
         self.client.run(100)
         print("-" * 20 + "\n" + "Arm height has changed into {}".format(height))
-    
-    # def debug_set_joint_values(self):
-    #     """
-    #     Manually set each joint value of the arm for debugging purposes.
-    #     """
-    #     joint_angles = self.get_arm_joints_angle()
-    #     print("Current joint angles: {}".format(joint_angles))
-
-    #     for i in self.arm_joints_idx:
-    #         joint_value = input(
-    #             "Enter value for joint {} (current value: {}) or 'skip' to keep current value: ".format(
-    #                 i, joint_angles[i]
-    #             )
-    #         )
-    #         if joint_value.lower() == "q":
-    #             print("Skipping joint {}".format(i))
-    #             continue
-    #         try:
-    #             joint_angles[i] = float(joint_value)
-    #         except ValueError:
-    #             print("Invalid input. Keeping current value for joint {}.".format(i))
-
-    #     self.set_arm_to_joint_angles(joint_angles)
-    #     print("Updated joint angles: {}".format(joint_angles))
 
     def get_arm_joint_angles(self):
         """
@@ -486,6 +462,31 @@ class Bestman:
         
         for joint, value in zip(self.arm_joints_idx, joint_angles):
             p.resetJointState(self.arm_id, joint, value, targetVelocity=0)
+            
+    def debug_set_joint_values(self):
+        """
+        Manually set each joint value of the arm for debugging purposes.
+        """
+        
+        joint_angles = self.get_arm_joint_angles()
+        print("Current joint angles: {}".format(joint_angles))
+
+        for i in self.arm_joints_idx:
+            joint_value = input(
+                "Enter value for joint {} (current value: {}) or 'skip' to keep current value: ".format(
+                    i, joint_angles[i]
+                )
+            )
+            if joint_value.lower() == "q":
+                print("Skipping joint {}".format(i))
+                continue
+            try:
+                joint_angles[i] = float(joint_value)
+            except ValueError:
+                print("Invalid input. Keeping current value for joint {}.".format(i))
+
+        self.set_arm_to_joint_angles(joint_angles)
+        print("Updated joint angles: {}".format(joint_angles))
 
     def move_arm_to_joint_angles(self, joint_angles):
         """
