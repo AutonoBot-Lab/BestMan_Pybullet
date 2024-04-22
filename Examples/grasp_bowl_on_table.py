@@ -22,8 +22,10 @@ def main():
     # Init client and visualizer
     client = Client(cfg.Client)
     visualizer = Visualizer(client, cfg.Visualizer)
-    # logID = visualizer.start_record(os.path.splitext(os.path.basename(__file__))[0])    # start recording
-
+    
+    # start_record
+    logID = visualizer.start_record(os.path.splitext(os.path.basename(__file__))[0])    # start recording
+    
     # Init robot
     bestman = Bestman(client, cfg)
     visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
@@ -50,7 +52,8 @@ def main():
     object_goal_pose = Pose([0.9, 0.7, 0.85], [0.0, math.pi / 2.0, 0.0])
     bestman.pick_place(bowl_id, object_goal_pose)
 
-    # visualizer.end_record(logID)
+    # end record
+    visualizer.end_record(logID)
 
     # disconnect from server
     client.wait(50)

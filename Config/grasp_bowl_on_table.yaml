@@ -1,2 +1,10 @@
+# Visualizer params
+Visualizer:
+  Camera: 
+      dist: 4.0
+      position: [1.0, 1.0, 0]
+      yaw: 0.0
+      pitch: -89.9
+
 Robot:
   init_joint: [0, -1.57, 2.0, -1.57, -1.57, 0]
