@@ -12,7 +12,7 @@ def parse_cfg(cfg_node):
         elif isinstance(value, list):
             cfg_node[key] = parse_list(value)
             
-def load_config(config_path):
+def load_config(config_path = None):
     default_config_path = '../Config/default.yaml'
     with open(default_config_path, 'r') as file:
         cfg = CN.load_cfg(file)
