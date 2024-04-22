@@ -36,7 +36,7 @@ conda activate BestMan
 pip install ompl-1.6.0-cp38-cp38-manylinux_2_28_x86_64.whl
 
 # run sh
-sh conda-install.sh
+sh conda_install.sh
 ```
 
 
