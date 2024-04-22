@@ -9,6 +9,6 @@ echo "export PYTHONPATH=\$PYTHONPATH:$project_dir" >> ~/.bashrc
 sudo apt update && sudo apt install libgl1-mesa-glx libglib2.0-0
 
 # Configure x11 forwarding service
-echo "export DISPLAY=host.docker.internal:0" >> ~/.bashrc
+# echo "export DISPLAY=host.docker.internal:0" >> ~/.bashrc
 
 source ~/.bashrc
