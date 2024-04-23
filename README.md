@@ -2,13 +2,11 @@
 
 <!-- # BestMan - A Pybullet-based Mobile Manipulator Simulator -->
 
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/facebookresearch/home-robot/blob/main/LICENSE)
+[![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/downloads/release/python-370/)
+
 Welcome to the official repository for the BestMan Robot Simulator, integrated with Pybullet. This project provides a comprehensive simulation environment for the BestMan robot, a sophisticated machine featuring a robust base and a versatile arm (Ur5e).
 
-
-## software requirements
-Software required:
-
-- Python 3.8
 
 
 ## 💻 Installation
