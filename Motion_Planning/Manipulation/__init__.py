@@ -1,1 +1,1 @@
-from .OMPL_Planner import OMPL_Planner
+from .OMPL_Planner.OMPL_Planner import OMPL_Planner
