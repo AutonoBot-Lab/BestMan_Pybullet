@@ -13,7 +13,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 
-
+import pybullet as p
+import pybullet_data
+import time
+import numpy as np
+import networkx as nx
+import matplotlib.pyplot as plt
+import random
+import xml.etree.ElementTree as ET
+from lisdf.parsing.sdf_j import load_sdf
+from lisdf.utils.transformations import euler_from_quaternion
 """
 Client class
 """
@@ -150,6 +159,63 @@ class Client:
         
         return object_id
     
+    # def parse_lisdf(self, file_path):
+    #     """
+    #     Parse the lisdf file to extract models and camera information.
+
+    #     Parameters:
+    #         file_path (str): Path to the lisdf file.
+
+    #     Returns:
+    #         list: List of models with their name, uri, pose and scale.
+    #         list: XYZ coordinates of the camera.
+    #         list: Point to coordinates for the camera.
+    #     """
+    #     tree = ET.parse(file_path)
+    #     root = tree.getroot()
+
+    #     models = []
+    #     for include in root.iter("include"):
+    #         model = {
+    #             "name": include.get("name"),
+    #             "uri": include.find("uri").text,
+    #             "pose": include.find("pose").text,
+    #             "scale": float(include.find("scale").text),
+    #         }
+    #         models.append(model)
+
+    #     gui = root.find(".//gui")
+    #     camera = gui.find("camera")
+    #     xyz = list(map(float, camera.find("xyz").text.split()))
+    #     point_to = list(map(float, camera.find("point_to").text.split()))
+
+    #     return models, xyz, point_to
+
+    def create_scene_lisdf(self, lisdf_path):
+        """
+        Import the complete environment from the environment file based on the basic environment
+        
+        Args:
+            lisdf_path(str): scene lisdf file path
+        
+        """
+        lissdf_results = load_sdf(lisdf_path)
+        models = lissdf_results.worlds[0].models
+        fixed_base=True
+        for model in models:
+            orientation=list(reversed(euler_from_quaternion(list(reversed(model.pose.quat_wxyz)))))
+            self.load_object(
+                model.uri,
+                model.pose.pos,
+                orientation,
+                model.scale[0],
+                model.name,
+                fixed_base
+            )
+        
+        print('success load scene from {lisdf_path}')
+
+
     def create_scene(self, json_path):
         """
         Import the complete environment from the environment file based on the basic environment
