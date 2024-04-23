@@ -211,7 +211,7 @@ python grasp_bowl_in_kitchen.py
 
 ```
 cd Examples
-python grasp_bowl_from_drawer_in_kitchen0.py
+python grasp_bowl_from_drawer_in_kitchen.py
 ```
 
 <table>
