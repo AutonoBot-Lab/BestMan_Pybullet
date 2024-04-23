@@ -15,6 +15,7 @@ Welcome to the official repository of BestMan, a mobile manipulator simulator (w
 
 ```
 git clone https://github.com/AutonoBot-Lab/BestMan_Pybullet.git -b refactor
+cd BestMan_Pybullet
 git submodule init
 git submodule update
 ```
