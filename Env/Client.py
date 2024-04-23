@@ -7,22 +7,16 @@
 import math
 import json
 import time
+import random
 import pybullet as p
 import pybullet_data
 import numpy as np
 import matplotlib.pyplot as plt
-import random
-
-import pybullet as p
-import pybullet_data
-import time
-import numpy as np
 import networkx as nx
-import matplotlib.pyplot as plt
-import random
 import xml.etree.ElementTree as ET
 from lisdf.parsing.sdf_j import load_sdf
 from lisdf.utils.transformations import euler_from_quaternion
+
 """
 Client class
 """

@@ -25,7 +25,7 @@ def main():
     visualizer = Visualizer(client, cfg.Visualizer)
 
     # Load scene
-    scene_path = '/GithubCode/BestMan_Pybullet/Asset/Kitchen_models/scenes/kitchen_counter.lisdf'
+    scene_path = '../Asset/Kitchen_models/scenes/kitchen_counter.lisdf'
     client.create_scene_lisdf(scene_path)
 
     # logID = pb_client.start_record("example_manipulation")    # start recording
@@ -65,8 +65,6 @@ def main():
     aabb_table = client.get_bounding_box(table_id)
     visualizer.draw_aabb(table_id)
     print("-" * 20 + "\n" + "aabb_table:{}".format(aabb_table))
-
-
     
     client.wait(1000)
     client.disconnect()
