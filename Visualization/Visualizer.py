@@ -73,6 +73,41 @@ class Visualizer:
             physicsClientId=self.client_id,
         )
     
+    def set_camera(self, base_id, width: int = 224, height: int = 224):
+        
+        position, orientation = p.getBasePositionAndOrientation(base_id, physicsClientId=self.client_id)
+        print('pose', position, orientation)
+        
+        r_mat = p.getMatrixFromQuaternion(orientation)
+        tx_vec = np.array([r_mat[0], r_mat[3], r_mat[6]])
+        ty_vec = np.array([r_mat[1], r_mat[4], r_mat[7]])
+        tz_vec = np.array([r_mat[2], r_mat[5], r_mat[8]])
+        camera_position = np.array(position)
+        target_position = camera_position - 1 * ty_vec
+
+        view_mat = p.computeViewMatrix(
+                        cameraEyePosition=camera_position,
+                        cameraTargetPosition=target_position,
+                        cameraUpVector=tz_vec
+                    )
+
+        proj_mat = p.computeProjectionMatrixFOV(
+                        fov=60.0,  # 摄像头的视线夹角
+                        aspect=1.0,
+                        nearVal=0.01,  # 摄像头视距min
+                        farVal=10  # 摄像头视距max
+                    )
+        
+        w, h, rgb, depth, seg = p.getCameraImage(
+                                    width=width,
+                                    height=height,
+                                    viewMatrix=view_mat,
+                                    projectionMatrix=proj_mat,
+                                    physicsClientId=self.client_id
+                                )
+
+        return w, h, rgb, depth, seg
+    
     def capture_screen(self, filename=None, enable_Debug=False):
         """
         Continuously capture the screens of pybullet GUI and save the images to files.
