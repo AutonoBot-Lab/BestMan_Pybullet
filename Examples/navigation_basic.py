@@ -29,8 +29,7 @@ def main():
 
     # logID = pb_client.start_record("example_manipulation")    # start recording
     # Init robot
-    bestman = Bestman(client, cfg)
-    visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
+    bestman = Bestman(client, visualizer, cfg)
 
     # load table, bowl, and chair
     table_id = client.load_object(
@@ -67,32 +66,34 @@ def main():
 
     # plot line connecting init and goal positions
     target_position = [1, 0, 0]
+    # target_position = [5.0, 1.0, 0.0]
     # visualizer.draw_line([1, 0, 0], target_position)
 
     # navigate algorithm
     goal_base_pose = Pose(target_position, [0.0, 0.0, math.pi / 2.0])
-    # nav_planner = AStarPlanner(
-    #     robot_size = bestman.get_robot_size(), 
-    #     obstacles_bounds = client.get_Nav_obstacles_bounds(), 
-    #     resolution = 0.05, 
-    #     enable_plot = True
-    # )
-
+    nav_planner = AStarPlanner(
+        robot_size = bestman.get_robot_size(), 
+        obstacles_bounds = client.get_Nav_obstacles_bounds(), 
+        resolution = 0.05, 
+        enable_plot = True
+    )
+    
     # nav_planner = RRTPlanner(
     #     robot_size = bestman.get_robot_size(), 
     #     obstacles_bounds = client.get_Nav_obstacles_bounds(),
     #     enable_plot = True
     # )
 
-    nav_planner = PRMPlanner(
-        robot_size = bestman.get_robot_size(), 
-        obstacles_bounds = client.get_Nav_obstacles_bounds(), 
-        enable_plot = True
-    )
+    # nav_planner = PRMPlanner(
+    #     robot_size = bestman.get_robot_size(), 
+    #     obstacles_bounds = client.get_Nav_obstacles_bounds(), 
+    #     enable_plot = True
+    # )
 
     path = nav_planner.plan(start_pose = bestman.get_base_pose(), goal_pose = goal_base_pose)
 
-    print(len(path))
+    print('navgation path points:', len(path))
+    print('navgation path:', path)
     
     # navigate segbot
     bestman.navigate_base(goal_base_pose, path)
