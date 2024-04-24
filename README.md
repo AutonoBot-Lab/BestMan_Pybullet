@@ -253,7 +253,7 @@ python grasp_bowl_from_drawer_in_kitchen.py
 
 
 
-##  🚀 Citation and Reference
+##  :handshake: Reference
 
 If you find this work useful, please consider citing:
 
