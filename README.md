@@ -22,7 +22,7 @@ git submodule update
 
 
 
-### Anaconda
+### :shamrock: Anaconda
 
 First install `Anaconda` or `minconda` on linux system and then perform the following steps：
 
@@ -42,9 +42,9 @@ bash conda_install.sh
 
 
 
-### Docker
+### :shamrock: Docker
 
-#### Windows
+##### Windows
 
 - Pull docker image from tencentyun
 
@@ -68,7 +68,7 @@ export DISPLAY=host.docker.internal:0
 
 
 
-#### Linux
+##### Linux
 
 
 
@@ -167,7 +167,7 @@ export DISPLAY=host.docker.internal:0
 
 ## 👨‍💻 Basic Demos
 
-**Load Kitchens**
+:shamrock: **Load Kitchens**
 
 ```
 cd Examples
@@ -185,7 +185,7 @@ python3 load_kitchen.py
 </table>
 
 
-**Navigation**
+:shamrock: **Navigation**
 
 ```
 cd Examples
@@ -203,7 +203,7 @@ python navigation_basic.py
 </table>
 
 
-**Manipulation**
+:shamrock: **Manipulation**
 
 ```
 cd Examples
