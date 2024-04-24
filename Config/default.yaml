@@ -2,6 +2,8 @@
 Client:
   enable_GUI: True            # If True, the GUI will be enabled.
   enable_capture: True
+  width: 2560
+  height: 1440
   enable_Debug: True          # If False, the debug visualizer will be disabled.
   Gravity: [0, 0, -9.8]
   numSolverIterations: 1000   # Set the number of constraint solver iterations; Higher values increase precision but also increase computation time
