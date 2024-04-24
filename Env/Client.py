@@ -42,7 +42,8 @@ class Client:
         
         if cfg.enable_GUI:
             if cfg.enable_capture:
-                width, height = 1920, 1080
+                # width, height = 1920, 1080
+                width, height = cfg.width, cfg.height
                 self.client_id = p.connect(
                     p.GUI, options=f"--width={width} --height={height}"
                 )
@@ -51,7 +52,7 @@ class Client:
                 self.client_id = p.connect(p.GUI)
         else:
             self.client_id = p.connect(p.DIRECT)
-
+        
         if not cfg.enable_Debug:
             p.configureDebugVisualizer(p.COV_ENABLE_GUI, 0)
         
