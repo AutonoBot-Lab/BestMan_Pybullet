@@ -2,6 +2,9 @@ name: BestMan
 channels:
   - defaults
   - conda-forge
+  - anaconda
+  - pytorch
+  - nvidia
 dependencies:
   - _libgcc_mutex=0.1=main
   - _openmp_mutex=5.1=1_gnu
@@ -22,6 +25,13 @@ dependencies:
   - wheel=0.41.2=py38h06a4308_0
   - xz=5.4.6=h5eee18b_0
   - zlib=1.2.13=h5eee18b_0
+  
+  # torch
+  - pytorch==1.13.1 
+  - torchvision==0.14.1 
+  - torchaudio==0.13.1 
+  - pytorch-cuda=11.6
+
   - pip:
       - contourpy==1.1.1
       - cycler==0.12.1
@@ -43,3 +53,7 @@ dependencies:
       - six==1.16.0
       - yacs==0.1.8
       - zipp==3.18.1
+      - lisdf==0.1.1
+
+      # grasp
+      - git+https://github.com/luca-medeiros/lang-segment-anything.git
