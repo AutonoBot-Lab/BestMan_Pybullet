@@ -258,16 +258,23 @@ python grasp_bowl_from_drawer_in_kitchen.py
 If you find this work useful, please consider citing:
 
 ```
-@article{ding2023task,
+@inproceedings{ding2023task,
   title={Task and motion planning with large language models for object rearrangement},
   author={Ding, Yan and Zhang, Xiaohan and Paxton, Chris and Zhang, Shiqi},
-  journal={arXiv preprint arXiv:2303.06247},
-  year={2023}
+  booktitle={2023 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
+  pages={2086--2092},
+  year={2023},
+  organization={IEEE}
 }
+
 @article{ding2023integrating,
-  title={Integrating Action Knowledge and LLMs for Task Planning and Situation Handling in Open Worlds},
+  title={Integrating action knowledge and LLMs for task planning and situation handling in open worlds},
   author={Ding, Yan and Zhang, Xiaohan and Amiri, Saeid and Cao, Nieqing and Yang, Hao and Kaminski, Andy and Esselink, Chad and Zhang, Shiqi},
-  journal={arXiv preprint arXiv:2305.17590},
-  year={2023}
+  journal={Autonomous Robots},
+  volume={47},
+  number={8},
+  pages={981--997},
+  year={2023},
+  publisher={Springer}
 }
 ```
