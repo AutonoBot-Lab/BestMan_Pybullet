@@ -15,7 +15,7 @@ from .Pose import Pose
 from Controller.PIDController import PIDController
 
 class Bestman:
-    def __init__(self, client, cfg):
+    def __init__(self, client, visualizer,  cfg):
         """
         Initialize a new object.
 
@@ -56,6 +56,8 @@ class Bestman:
         
         self.client = client
         self.client_id = self.client.get_client_id()
+        
+        self.visualizer = visualizer
         
         # Init PID controller
         self.frequency = controller_cfg.frequency
@@ -111,6 +113,12 @@ class Bestman:
         
         # Init arm joint angle
         self.move_arm_to_joint_angles(robot_cfg.init_joint)
+        
+        # change robot color
+        self.visualizer.change_robot_color(self.base_id, self.arm_id, False)
+        
+        # update image
+        self.visualizer.set_camera(self.base_id)
         
         # get tcp link
         # if filename.endswith("ur5e.urdf"):
@@ -274,7 +282,7 @@ class Bestman:
         )
         return Pose(base_position, base_orientation)
 
-    def rotate_base(self, target_yaw, gradual=True, step_size=0.05, delay_time=0.05):
+    def rotate_base(self, target_yaw, gradual=False, step_size=0.05, delay_time=0.05):
         """
         Rotate base to a specified yaw angle. Can be done gradually or at once.
 
@@ -287,7 +295,7 @@ class Bestman:
 
         def angle_to_quaternion(yaw):
             return [0, 0, math.sin(yaw / 2.0), math.cos(yaw / 2.0)]
-
+        
         if gradual:
             while abs(self.current_yaw - target_yaw) > step_size:
                 if target_yaw > self.current_yaw:
@@ -380,7 +388,7 @@ class Bestman:
                 output = 0.0
                 pose = self.get_base_pose()
                 break
-
+            
             self.action(-output)     
        
     def navigate_base(self, goal_base_pose, path, visualize = False):
@@ -405,6 +413,8 @@ class Bestman:
                 front_point = [path[i-1][0], path[i-1][1], 0]
                 p.addUserDebugLine(front_point, next_point, lineColorRGB=[1, 0, 0], lineWidth=3, physicsClientId=self.client_id)
             
+            # self.visualizer.set_camera(self.base_id)
+        
         self.rotate_base(goal_base_pose.yaw)
         print("-" * 20 + "\n" + "Navigation is done!")
 
