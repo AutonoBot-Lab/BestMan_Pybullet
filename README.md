@@ -247,7 +247,7 @@ python grasp_bowl_from_drawer_in_kitchen.py
 
 
 
-##  📘 Additional Resources
+##  📘 Documents
 
 - **APIs_in_utils.txt**: A detailed list of common functions used in the utility scripts
 
