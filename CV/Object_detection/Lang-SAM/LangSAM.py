@@ -1,12 +1,13 @@
+import os
 import numpy as np
 from PIL import Image
 from typing import List, Type, Tuple
 # from image_processors.image_processor import ImageProcessor
 from lang_sam import LangSAM
-from ..object_detection import object_detection
+from CV.Object_detection import object_detection
 
 
-class LangSAM(object_detection):
+class Lang_SAM(object_detection):
     
     def __init__(self):
 
@@ -23,6 +24,7 @@ class LangSAM(object_detection):
         mask_filename: str = None,
     ) -> Tuple[np.ndarray, List[int]]:
         """
+        Args:
             image: An image object on which object detection is performed.
             text: Optional parameter for performing text-related object detection tasks, a object name in the scence, eg. "cup". Defaults to None.
             bbox: Optional parameter specifying an initial bounding box. Defaults to None.
@@ -30,6 +32,10 @@ class LangSAM(object_detection):
             box_filename: Optional parameter specifying the filename to save the visualization of bounding boxes. Defaults to None.
             visualize_mask: Optional parameter indicating whether to visualize masks. Defaults to False.
             mask_filename: Optional parameter specifying the filename to save the visualization of masks. Defaults to None.
+            
+        Returns:
+            seg_mask: 
+            bbox: 
         """
         
         masks, boxes, phrases, logits = self.model.predict(image, text)
@@ -50,12 +56,15 @@ class LangSAM(object_detection):
 
 if __name__=='__main__':
     
-    lang_sam = LangSAM()
+    # set work dir to Lang-SAM
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+    lang_sam = Lang_SAM()
     
-    image = Image.open(f"../test_image/test_rgb.png")
+    image = Image.open(f"./test_image/test_rgb.jpg")
     query = str(input("Enter a Object name in the image: "))
-    box_filename = f"../output/box.jpg"
-    mask_filename = f"../output/mask.jpg"
+    box_filename = f"./output/box.jpg"
+    mask_filename = f"./output/mask.jpg"
     
     # Object Segmentaion Mask
     seg_mask, bbox = lang_sam.detect_obj(
