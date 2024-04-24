@@ -34,8 +34,8 @@ class Lang_SAM(object_detection):
             mask_filename: Optional parameter specifying the filename to save the visualization of masks. Defaults to None.
             
         Returns:
-            seg_mask: 
-            bbox: 
+            seg_mask: the segmentation mask of the detected object in the input image.
+            bbox: the bounding box coordinates of the detected object in the input image
         """
         
         masks, boxes, phrases, logits = self.model.predict(image, text)
