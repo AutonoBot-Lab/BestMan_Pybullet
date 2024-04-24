@@ -1,8 +1,8 @@
 # Client parameters
 Client:
   enable_GUI: True            # If True, the GUI will be enabled.
-  enable_Debug: False         # If False, the debug visualizer will be disabled.
   enable_capture: True
+  enable_Debug: True          # If False, the debug visualizer will be disabled.
   Gravity: [0, 0, -9.8]
   numSolverIterations: 1000   # Set the number of constraint solver iterations; Higher values increase precision but also increase computation time
   plane_urdf_path: 'plane.urdf'
