@@ -30,14 +30,13 @@ def main():
 
     # logID = pb_client.start_record("example_manipulation")    # start recording
     # Init robot
-    bestman = Bestman(client, cfg)
-    visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
-
+    bestman = Bestman(client, visualizer, cfg)
+    
     # open the drawer
     client.change_object_joint_angle("elementA", 36, 0.4)
 
     visualizer.draw_aabb_link("elementA", 36)
-
+    
     # navigate to standing position
     standing_pose = Pose([2.85, 2.4, 0], [0.0, 0.0, 0.0])
     # nav_planner = AStarPlanner(
