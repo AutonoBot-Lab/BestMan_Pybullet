@@ -33,7 +33,7 @@ First install `Anaconda` or `minconda` on linux system and then perform the foll
 cd Install
 
 # Create conda environment from environment.yaml
-conda env create -f environment.yaml
+(TD) conda env create -f environment.yaml
 conda activate BestMan
 
 # Install ompl
