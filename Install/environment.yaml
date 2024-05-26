@@ -25,12 +25,6 @@ dependencies:
   - wheel=0.41.2=py38h06a4308_0
   - xz=5.4.6=h5eee18b_0
   - zlib=1.2.13=h5eee18b_0
-  
-  # torch
-  # - pytorch==1.13.1 
-  # - torchvision==0.14.1 
-  # - torchaudio==0.13.1 
-  # - pytorch-cuda=11.6
 
   - pip:
       - contourpy==1.1.1
