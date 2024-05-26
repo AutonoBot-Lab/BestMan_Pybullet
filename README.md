@@ -33,8 +33,11 @@ First install `Anaconda` or `minconda` on linux system and then perform the foll
 cd Install
 
 # Create conda environment from environment.yaml
-(TD) conda env create -f environment.yaml
+conda env create -f environment.yaml
 conda activate BestMan
+conda env update --f environment_torch.yaml 
+conda env update --f environment_additional.yaml 
+
 
 # Install ompl
 pip install ompl-1.6.0-cp38-cp38-manylinux_2_28_x86_64.whl
