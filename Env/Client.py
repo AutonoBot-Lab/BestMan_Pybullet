@@ -125,7 +125,7 @@ class Client:
         object_orientation = p.getQuaternionFromEuler(
             object_orientation, physicsClientId=self.client_id
         )
-        
+
         object_id = p.loadURDF(
             fileName=model_path,
             basePosition=object_position,
@@ -194,7 +194,12 @@ class Client:
             lisdf_path(str): scene lisdf file path
         
         """
+        print(f'lisdf_path:{lisdf_path}')
+
         lissdf_results = load_sdf(lisdf_path)
+        
+        print(f'lisdf_path:{lisdf_path}')
+        
         models = lissdf_results.worlds[0].models
         fixed_base=True
         for model in models:
@@ -208,7 +213,7 @@ class Client:
                 fixed_base
             )
         
-        print('success load scene from {lisdf_path}')
+        print(f'success load scene from {lisdf_path}')
 
 
     def create_scene(self, json_path):
@@ -237,7 +242,7 @@ class Client:
                 object['fixed_base']
             )
         
-        print('success load scene from {json_path}')
+        print(f'success load scene from {json_path}')
             
     # ----------------------------------------------------------------
     # get object joint info / operate object joint

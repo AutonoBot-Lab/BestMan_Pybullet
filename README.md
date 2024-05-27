@@ -78,6 +78,7 @@ export DISPLAY=host.docker.internal:0
 
 
 ##### Linux
+- TBD
 
 
 ## 🔎 Project Structure
