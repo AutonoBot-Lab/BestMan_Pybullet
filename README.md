@@ -3,6 +3,7 @@
 <!-- # BestMan - A Pybullet-based Mobile Manipulator Simulator -->
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/facebookresearch/home-robot/blob/main/LICENSE)
+[![Ubuntu 20.04](https://img.shields.io/badge/Ubuntu-20.04-orange.svg)](https://releases.ubuntu.com/20.04/)
 [![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/downloads/release/python-370/)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
@@ -29,21 +30,25 @@ git submodule update
 
 First install `Anaconda` or `minconda` on linux system and then perform the following steps：
 
+#### Create conda environment
 ```
 cd Install
-
-# Create conda environment from environment.yaml
 conda env create -f environment.yaml
-conda activate BestMan
-conda env update --f environment_torch.yaml 
+conda env update --f environment_torch.yaml
 conda env update --f environment_additional.yaml 
+conda activate BestMan
+```
 
-
-# Install ompl
+#### Install ompl
+```
 pip install ompl-1.6.0-cp38-cp38-manylinux_2_28_x86_64.whl
+```
 
-# run sh
+#### Run sh
+```
 bash conda_install.sh
+source ~/.bashrc
+conda activate BestMan
 ```
 
 
@@ -73,11 +78,7 @@ export DISPLAY=host.docker.internal:0
 ```
 
 
-
 ##### Linux
-
-
-
 
 
 ## 🔎 Project Structure
