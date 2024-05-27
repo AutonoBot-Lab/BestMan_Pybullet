@@ -5,7 +5,7 @@
 """
 
 import os
-from Motion_Planning.Robot.Bestman import Bestman
+from RoboticsToolBox.Bestman import Bestman
 from Env.Client import Client
 from Visualization.Visualizer import Visualizer
 from Utils.load_config import load_config

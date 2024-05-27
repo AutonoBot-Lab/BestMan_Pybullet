@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 from rtree import index
 from scipy.spatial import KDTree
 from Motion_Planning.Navigation.utils import *
-from Motion_Planning.Robot import Pose
+from RoboticsToolBox import Pose
 
 # parameter
 N_SAMPLE = 2000  # number of sample_points

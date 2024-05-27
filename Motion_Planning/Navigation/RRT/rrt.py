@@ -12,7 +12,7 @@ from rtree import index
 import matplotlib.pyplot as plt
 # from ..utils import AreaBounds, plot_rectangle
 from Motion_Planning.Navigation.utils import *  # test in this script
-from Motion_Planning.Robot import Pose
+from RoboticsToolBox import Pose
 
 
 class RRTPlanner:

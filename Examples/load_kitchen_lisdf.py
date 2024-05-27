@@ -6,7 +6,7 @@
 
 import os 
 import math
-from Motion_Planning.Robot import Bestman, Pose
+from RoboticsToolBox import Bestman, Pose
 from Env.Client import Client
 from Visualization import Visualizer
 from Motion_Planning.Navigation import *
