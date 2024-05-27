@@ -25,7 +25,6 @@ git submodule update
 ```
 
 
-
 ### :shamrock: Anaconda
 
 First install `Anaconda` or `minconda` on linux system and then perform the following steps：
