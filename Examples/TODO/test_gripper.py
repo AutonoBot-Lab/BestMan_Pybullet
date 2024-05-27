@@ -8,7 +8,7 @@ import sys
 
 sys.path.append('/BestMan_Pybullet/refactor')
 
-from Motion_Planning.Robot.Bestman import Bestman
+from RoboticsToolBox.Bestman import Bestman
 from refactor.Env.Client import PbClient
 from refactor.Visualization.Visualizer import PbVisualizer
 from Motion_Planning.manipulation.OMPL_Planner import OMPL_Planner
