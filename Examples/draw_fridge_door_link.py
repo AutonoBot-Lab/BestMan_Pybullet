@@ -27,7 +27,7 @@ def main():
     client.create_scene(scene_path)
     
     # Init robot
-    bestman = Bestman(client, cfg)
+    bestman = Bestman(client, visualizer, cfg)
 
     # Init visualizer
     visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)

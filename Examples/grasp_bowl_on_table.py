@@ -27,7 +27,7 @@ def main():
     # logID = visualizer.start_record(os.path.splitext(os.path.basename(__file__))[0])    # start recording
     
     # Init robot
-    bestman = Bestman(client, cfg)
+    bestman = Bestman(client, visualizer, cfg)
     visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
 
     # load table and bowl

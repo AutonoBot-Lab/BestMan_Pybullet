@@ -28,7 +28,7 @@ def main():
 
     # # logID = pb_client.start_record("example_manipulation")    # start recording
     # # Init robot
-    # bestman = Bestman(client, cfg)
+    # bestman = Bestman(client, visualizer, cfg)
     # visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
 
     # disconnect pybullet
