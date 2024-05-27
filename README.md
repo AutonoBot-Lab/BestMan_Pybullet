@@ -30,7 +30,7 @@ git submodule update
 
 First install `Anaconda` or `minconda` on linux system and then perform the following steps：
 
-#### Create conda environment
+- Create conda environment
 ```
 cd Install
 conda env create -f environment.yaml
@@ -39,12 +39,12 @@ conda env update --f environment_additional.yaml
 conda activate BestMan
 ```
 
-#### Install ompl
+- Install ompl
 ```
 pip install ompl-1.6.0-cp38-cp38-manylinux_2_28_x86_64.whl
 ```
 
-#### Run sh
+- Run sh
 ```
 bash conda_install.sh
 source ~/.bashrc
