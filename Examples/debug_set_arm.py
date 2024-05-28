@@ -29,7 +29,7 @@ def main():
     bestman.print_joint_link_info("arm")     # get info about arm
     
     # debug set arm joints
-    bestman.debug_set_joint_values()
+    bestman.sim_debug_set_joint_values()
 
     # disconnect pybullet
     client.wait(1000)

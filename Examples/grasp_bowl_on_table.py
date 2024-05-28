@@ -50,7 +50,7 @@ def main():
 
     # grasp target object
     object_goal_pose = Pose([0.9, 0.7, 0.85], [0.0, math.pi / 2.0, 0.0])
-    bestman.pick_place(bowl_id, object_goal_pose)
+    bestman.pick_place_v1(bowl_id, object_goal_pose)
 
     # end record
     # visualizer.end_record(logID)
