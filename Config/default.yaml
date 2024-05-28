@@ -37,7 +37,7 @@ Controller:
 # Robot params
 Robot:
     
-  init_pose: [1, 0, 0, 0.0, 0.0, "math.pi / 2"]   # The initial pose of base and arm
+  init_pose: [1, 0, 0, 0.0, 0.0, "math.pi / 2"]   # The initial pose of base
   init_joint: [0, -1.57, 1.5, -1.57, -1.57, 0]    # The initial angle of arm joint
   base_urdf_path: "../Asset/mobile_manipulator/base/segbot/segbot.urdf"   # base urdf
   arm_urdf_path: "../Asset/mobile_manipulator/arm/ur5e/ur5e_vacuum_long.urdf"   # arm urdf
