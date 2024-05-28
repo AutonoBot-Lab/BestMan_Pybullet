@@ -93,8 +93,7 @@ cat Asset/project_structure.txt
 :shamrock: **Load Kitchens**
 
 ```
-cd Examples
-python3 load_kitchen.py
+python Examples/load_kitchen.py
 ```
 
 <table>
@@ -111,8 +110,7 @@ python3 load_kitchen.py
 :shamrock: **Navigation**
 
 ```
-cd Examples
-python navigation_basic.py
+python Examples/navigation_basic.py
 ```
 
 <table>
@@ -129,13 +127,11 @@ python navigation_basic.py
 :shamrock: **Manipulation**
 
 ```
-cd Examples
-python grasp_bowl_in_kitchen.py
+python Examples/grasp_bowl_in_kitchen.py
 ```
 
 ```
-cd Examples
-python grasp_bowl_from_drawer_in_kitchen.py
+python Examples/grasp_bowl_from_drawer_in_kitchen.py
 ```
 
 <table>
