@@ -25,7 +25,8 @@ def main():
     visualizer = Visualizer(client, cfg.Visualizer)
 
     # Load scene
-    scene_path = '../Asset/Kitchen_models/scenes/kitchen_counter.lisdf'
+    scene_path = '/Asset/Kitchen_models/scenes/kitchen_counter.lisdf'
+    scene_path = '/home/PJLAB/dingyan/BestMan_Pybullet/Asset/Kitchen_models/scenes/kitchen_counter.lisdf'
     client.create_scene_lisdf(scene_path)
 
     # logID = pb_client.start_record("example_manipulation")    # start recording
