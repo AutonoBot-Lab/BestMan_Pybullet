@@ -96,17 +96,6 @@ cat Asset/project_structure.txt
 python Examples/load_kitchen.py
 ```
 
-<table>
-  <tr>
-    <td>
-      <a href="https://www.youtube.com/watch?v=hes7J-uy2DU">
-        <img src="https://img.youtube.com/vi/hes7J-uy2DU/0.jpg" alt="kitchen"     width="250" height="200">
-      </a>
-    </td>
-  </tr>
-</table>
-
-
 :shamrock: **Navigation**
 
 ```
@@ -115,6 +104,11 @@ python Examples/navigation_basic.py
 
 <table>
   <tr>
+    <td>
+      <a href="https://www.youtube.com/watch?v=HW6oQhs_e5U">
+          <img src="https://img.youtube.com/vi/HW6oQhs_e5U/0.jpg" alt="navigation" width="250" height="200">
+      </a>
+    </td>
     <td>
       <a href="https://www.youtube.com/watch?v=_tVbxgiM-5Q">
           <img src="https://img.youtube.com/vi/_tVbxgiM-5Q/0.jpg" alt="navigation" width="250" height="200">
