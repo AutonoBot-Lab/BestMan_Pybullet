@@ -194,12 +194,8 @@ class Client:
             lisdf_path(str): scene lisdf file path
         
         """
-        print(f'lisdf_path:{lisdf_path}')
-
+        
         lissdf_results = load_sdf(lisdf_path)
-        
-        print(f'lisdf_path:{lisdf_path}')
-        
         models = lissdf_results.worlds[0].models
         fixed_base=True
         for model in models:
