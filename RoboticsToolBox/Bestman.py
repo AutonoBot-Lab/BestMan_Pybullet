@@ -146,7 +146,7 @@ class Bestman:
         # self.visualizer.set_robot_visual_color(self.base_id, self.arm_id)
 
         # global parameters
-        self.init_pos = init_pose   # Used when resetting the robot position
+        self.init_pose = init_pose   # Used when resetting the robot position
         self.gripper_id = None      # Constraints between the end effector and the grasped object, None when not grabbed
 
     # ----------------------------------------------------------------
@@ -355,16 +355,16 @@ class Bestman:
                 return True
         return False
     
-    def move_base_to_next_waypoint(self, next_waypoint):
+    def move_base_to_waypoint(self, waypoint):
         """
-        Move base to next_waypoint
+        Move base to waypoint
         The robot first rotates towards the target, and then moves towards it in a straight line.
         The movement is controlled by a controller (assumed to be a PID controller) that adjusts the velocity of the robot based on the distance to the target.
 
         Args:
-            next_waypoint (Pose): The target pose (position and orientation) for the robot. This should be an instance of a Pose class, which is assumed to have 'x' and 'y' properties.
+            waypoint (Pose): The target pose (position and orientation) for the robot. This should be an instance of a Pose class, which is assumed to have 'x' and 'y' properties.
         """
-        self.next_waypoint = next_waypoint
+        self.next_waypoint = waypoint
         self.target_distance = 0.0
         self.rotated = False
 
@@ -404,7 +404,7 @@ class Bestman:
             
             next_point = [path[i][0], path[i][1], 0]
             # move to each waypoint
-            self.move_base_to_next_waypoint(
+            self.move_base_to_waypoint(
                 Pose([path[i][0], path[i][1], 0], goal_base_pose.orientation)
             )
             
@@ -1274,8 +1274,8 @@ class Bestman:
             # reset the base and arm to initial state when the pose is not given
             p.resetBasePositionAndOrientation(
                 self.base_id,
-                self.init_pos.position,
-                p.getQuaternionFromEuler([0, 0, self.init_pos.yaw]),
+                self.init_pose.position,
+                p.getQuaternionFromEuler([0, 0, self.init_pose.yaw]),
                 physicsClientId=self.client_id,
             ),
             # BUG: need to reset the arm separately or just call the sync_base_arm_pose?
@@ -1291,7 +1291,7 @@ class Bestman:
 
     def get_current_pose(self):
         """
-        Get the current position of the robot
+        Get the current pose (position, orientation) of the robot
         """
         base_position, base_orientation = p.getBasePositionAndOrientation(
             self.base_id, physicsClientId=self.client_id
@@ -1407,7 +1407,7 @@ class Bestman:
         goal_pose = Pose(new_position, current_orientation)
 
         # move to the new position
-        self.move_base_to_next_waypoint(goal_pose)
+        self.move_base_to_waypoint(goal_pose)
 
         result = self.check_collision_navigation()  # check if collision exists
         if result:
