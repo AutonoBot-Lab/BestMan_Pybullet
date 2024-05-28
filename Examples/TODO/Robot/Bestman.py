@@ -450,7 +450,7 @@ class Bestman:
         self.client.run(100)
         print("-" * 20 + "\n" + "Arm height has changed into {}".format(height))
 
-    def get_arm_joint_angles(self):
+    def get_current_joint_values(self):
         """
         Retrieve arm's joint angle
         """
@@ -478,7 +478,7 @@ class Bestman:
         Manually set each joint value of the arm for debugging purposes.
         """
         
-        joint_angles = self.get_arm_joint_angles()
+        joint_angles = self.get_current_joint_values()
         print("Current joint angles: {}".format(joint_angles))
 
         for i in self.arm_joints_idx:

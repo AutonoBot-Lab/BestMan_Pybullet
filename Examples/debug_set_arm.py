@@ -26,7 +26,7 @@ def main():
     bestman = Bestman(client, visualizer, cfg)
     visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
     
-    bestman.get_joint_link_info("arm")     # get info about arm
+    bestman.print_joint_link_info("arm")     # get info about arm
     
     # debug set arm joints
     bestman.debug_set_joint_values()

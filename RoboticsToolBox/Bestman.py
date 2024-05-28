@@ -112,7 +112,7 @@ class Bestman:
         self.sync_base_arm_pose()
         
         # Init arm joint angle
-        self.move_arm_to_joint_angles(robot_cfg.init_joint)
+        self.move_arm_to_joint_values(robot_cfg.init_joint)
         
         # change robot color
         self.visualizer.change_robot_color(self.base_id, self.arm_id, False)
@@ -153,7 +153,7 @@ class Bestman:
     # functions for base and arm
     # ----------------------------------------------------------------
     
-    def get_joint_link_info(self, name):
+    def print_joint_link_info(self, name):
         """
         print base/arm joint and link info of robot
         
@@ -450,27 +450,27 @@ class Bestman:
         self.client.run(100)
         print("-" * 20 + "\n" + "Arm height has changed into {}".format(height))
 
-    def get_arm_joint_angles(self):
+    def get_current_joint_values(self):
         """
         Retrieve arm's joint angle
         """
             
-        current_joint_angles = [
+        current_joint_values = [
             p.getJointState(self.arm_id, i, physicsClientId=self.client_id)[0]
             for i in self.arm_joints_idx
         ]
         
-        return current_joint_angles
+        return current_joint_values
     
-    def set_arm_to_joint_angles(self, joint_angles):
+    def set_arm_to_joint_values(self, joint_values):
         """
         Set arm to move to a specific set of joint angles, witout considering physics
 
         Args:
-            joint_angles: A list of desired joint angles (in radians) for each joint of the arm.
+            joint_values: A list of desired joint angles (in radians) for each joint of the arm.
         """
         
-        for joint, value in zip(self.arm_joints_idx, joint_angles):
+        for joint, value in zip(self.arm_joints_idx, joint_values):
             p.resetJointState(self.arm_id, joint, value, targetVelocity=0)
             
     def debug_set_joint_values(self):
@@ -478,39 +478,39 @@ class Bestman:
         Manually set each joint value of the arm for debugging purposes.
         """
         
-        joint_angles = self.get_arm_joint_angles()
-        print("Current joint angles: {}".format(joint_angles))
+        joint_values = self.get_current_joint_values()
+        print("Current joint angles: {}".format(joint_values))
 
         for i in self.arm_joints_idx:
             joint_value = input(
                 "Enter value for joint {} (current value: {}) or 'skip' to keep current value: ".format(
-                    i, joint_angles[i]
+                    i, joint_values[i]
                 )
             )
             if joint_value.lower() == "q":
                 print("Skipping joint {}".format(i))
                 continue
             try:
-                joint_angles[i] = float(joint_value)
+                joint_values[i] = float(joint_value)
             except ValueError:
                 print("Invalid input. Keeping current value for joint {}.".format(i))
 
-        self.set_arm_to_joint_angles(joint_angles)
-        print("Updated joint angles: {}".format(joint_angles))
+        self.set_arm_to_joint_values(joint_values)
+        print("Updated joint angles: {}".format(joint_values))
 
-    def move_arm_to_joint_angles(self, joint_angles):
+    def move_arm_to_joint_values(self, joint_values):
         """
         Move arm to move to a specific set of joint angles, with considering physics
 
         Args:
-            joint_angles: A list of desired joint angles (in radians) for each joint of the arm.
+            joint_values: A list of desired joint angles (in radians) for each joint of the arm.
         """
         
         p.setJointMotorControlArray(
             bodyIndex=self.arm_id,
             jointIndices=self.arm_joints_idx,
             controlMode=p.POSITION_CONTROL,
-            targetPositions=joint_angles,
+            targetPositions=joint_values,
             physicsClientId=self.client_id
         )
 
@@ -524,7 +524,7 @@ class Bestman:
                 p.getJointState(self.arm_id, i, physicsClientId=self.client_id)[0]
                 for i in self.arm_joints_idx
             ]
-            diff_angles = [abs(a - b) for a, b in zip(joint_angles, current_angles)]
+            diff_angles = [abs(a - b) for a, b in zip(joint_values, current_angles)]
             if all(diff < self.threshold for diff in diff_angles):
                 break
 
@@ -552,7 +552,7 @@ class Bestman:
             p.stepSimulation(physicsClientId=self.client_id)
         print("-" * 20 + "\n" + "Excite trajectory finished!")
 
-    def get_end_effector_info(self):
+    def get_current_end_effector_pose(self):
         """
         Retrieve arm's end effect information
         """
@@ -594,12 +594,12 @@ class Bestman:
     #     # print('debug! end_effector_pose:{} target_pos:{}'.format(end_effector_pose[0], self.target_pos))
     #     return distance
     
-    def joints_to_cartesian(self, joint_angles):
+    def joints_to_cartesian(self, joint_values):
         """
         Transform from arm's joint angles to its Cartesian coordinates
         """
-        # self.set_arm_to_joint_angles(joint_angles)
-        self.move_arm_to_joint_angles(joint_angles)
+        # self.set_arm_to_joint_values(joint_values)
+        self.move_arm_to_joint_values(joint_values)
         end_effector_info = p.getLinkState(
             bodyUniqueId=self.arm_id,
             linkIndex=self.end_effector_index,
@@ -617,7 +617,7 @@ class Bestman:
         """
         Transform from arm's Cartesian coordinates to its joint angles
         """
-        joint_angles = p.calculateInverseKinematics(
+        joint_values = p.calculateInverseKinematics(
             bodyUniqueId=self.arm_id,
             endEffectorLinkIndex=self.end_effector_index,
             targetPosition=position,
@@ -626,7 +626,7 @@ class Bestman:
             residualThreshold=self.threshold,
             physicsClientId=self.client_id,
         )
-        return joint_angles
+        return joint_values
 
     def rotate_end_effector(self, angle):
         """
@@ -642,14 +642,14 @@ class Bestman:
         )
 
         # Create a new list of target joint angles
-        target_joint_angles = [joint_state[0] for joint_state in joint_states]
+        target_joint_values = [joint_state[0] for joint_state in joint_states]
 
         # Add desired rotation to the last joint's current angle
-        target_joint_angles[-1] += angle
+        target_joint_values[-1] += angle
 
         # Set the target angles
-        # self.set_arm_to_joint_angles(target_joint_angles)
-        self.move_arm_to_joint_angles(target_joint_angles)
+        # self.set_arm_to_joint_values(target_joint_values)
+        self.move_arm_to_joint_values(target_joint_values)
 
         # Step the simulation until the joints reach their target angles
         while True:
@@ -657,11 +657,11 @@ class Bestman:
             joint_states = p.getJointStates(
                 self.arm_id, self.arm_joints_idx, physicsClientId=self.client_id
             )
-            current_joint_angles = [joint_state[0] for joint_state in joint_states]
+            current_joint_values = [joint_state[0] for joint_state in joint_states]
 
             # Check if all joints have reached their target angles
             if all(
-                abs(current_joint_angles[i] - target_joint_angles[i]) < 0.01
+                abs(current_joint_values[i] - target_joint_values[i]) < 0.01
                 for i in range(len(self.arm_joints_idx))
             ):
                 break
@@ -703,14 +703,14 @@ class Bestman:
 
         attempts = 0
         while attempts < self.max_attempts:
-            joint_angles = self.cartesian_to_joints(target_position, target_orientation)
+            joint_values = self.cartesian_to_joints(target_position, target_orientation)
 
             # If IK solution is invalid, break this loop and start a new attempt
-            if joint_angles is None or len(joint_angles) != 6:
+            if joint_values is None or len(joint_values) != 6:
                 break
 
             # Test the calculated angles for collision
-            for joint_index, joint_angle in enumerate(joint_angles):
+            for joint_index, joint_angle in enumerate(joint_values):
                 p.resetJointState(
                     self.arm_id,
                     joint_index,
@@ -742,7 +742,7 @@ class Bestman:
                 # print('current_position:{}, target_position:{}, error:{}'.format(current_position, target_position, error))
 
                 if error < self.threshold * 2:
-                    self.move_arm_to_joint_angles(joint_angles)
+                    self.move_arm_to_joint_values(joint_values)
                     # print(
                     #     "Reached target end effector position:{}".format(
                     #         end_effector_goal_pose.position
@@ -1008,14 +1008,14 @@ class Bestman:
 
         attempts = 0
         while attempts < self.max_attempts:
-            joint_angles = self.cartesian_to_joints(target_position, target_orientation)
+            joint_values = self.cartesian_to_joints(target_position, target_orientation)
 
             # If IK solution is invalid, break this loop and start a new attempt
-            if joint_angles is None or len(joint_angles) != 6:
+            if joint_values is None or len(joint_values) != 6:
                 break
 
             # Test the calculated angles for collision
-            for joint_index, joint_angle in enumerate(joint_angles):
+            for joint_index, joint_angle in enumerate(joint_values):
                 p.resetJointState(
                     self.arm_id,
                     joint_index,
@@ -1047,7 +1047,7 @@ class Bestman:
                 # print('current_position:{}, target_position:{}, error:{}'.format(current_position, target_position, error))
 
                 if error < self.threshold * 2:
-                    self.move_arm_to_joint_angles(joint_angles)
+                    self.move_arm_to_joint_values(joint_values)
                     # print(
                     #     "Reached target end effector position:{}".format(
                     #         end_effector_goal_pose.position
@@ -1236,7 +1236,7 @@ class Bestman:
             goal_position: The desired goal position for the target object.
             goal_orientation: The desired goal orientation for the target object.
         """
-        joint_angles = p.calculateInverseKinematics(
+        joint_values = p.calculateInverseKinematics(
             bodyUniqueId=self.arm_id,
             endEffectorLinkIndex=self.end_effector_index,
             targetPosition=goal_position,
@@ -1245,9 +1245,9 @@ class Bestman:
             residualThreshold=self.threshold,
             physicsClientId=self.client_id,
         )
-        print("-" * 20 + "\n" + "IK: joint_angles is {}".format(joint_angles))
+        print("-" * 20 + "\n" + "IK: joint_values is {}".format(joint_values))
 
-        self.move_arm_to_joint_angles(joint_angles)
+        self.move_arm_to_joint_values(joint_values)
 
         state = p.getLinkState(
             bodyUniqueId=self.arm_id,
@@ -1289,7 +1289,7 @@ class Bestman:
             )
             self.sync_base_arm_pose()
 
-    def get_current_pose(self):
+    def get_current_base_pose(self):
         """
         Get the current pose (position, orientation) of the robot
         """

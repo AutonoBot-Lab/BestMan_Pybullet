@@ -53,7 +53,7 @@ def main():
         resolution = 0.05, 
         enable_plot = False
     )
-    path = nav_planner.plan(bestman.get_current_pose(), standing_pose)
+    path = nav_planner.plan(bestman.get_current_base_pose(), standing_pose)
     bestman.navigate_base(standing_pose, path)
     
     # Init ompl planner
