@@ -48,7 +48,7 @@ def main():
     # Navigation
     standing_pose = Pose([3.1, 2.4, 0], [0.0, 0.0, 0.0])
     nav_planner = AStarPlanner(
-        robot_size = bestman.get_robot_size(), 
+        robot_size = bestman.get_robot_max_size(), 
         obstacles_bounds = client.get_Nav_obstacles_bounds(), 
         resolution = 0.05, 
         enable_plot = False
@@ -79,7 +79,7 @@ def main():
     ompl_planner.plan_execute()
 
     # grasp target object
-    bestman.active_gripper(bowl_id, 1)
+    bestman.sim_active_gripper(bowl_id, 1)
     
     # disconnect pybullet
     client.wait(10)

@@ -204,7 +204,7 @@ class OMPL_Planner:
         """
         
         # set arm joint angle to start state
-        self.robot.set_arm_to_joint_values(start)
+        self.robot.sim_set_arm_to_joint_values(start)
         
         print("start_planning")
 
@@ -245,7 +245,7 @@ class OMPL_Planner:
                         self.arm_id, i, p.POSITION_CONTROL, q[i]
                     )
             else:
-                self.robot.set_arm_to_joint_values(q)
+                self.robot.sim_set_arm_to_joint_values(q)
             
             p.stepSimulation()
     

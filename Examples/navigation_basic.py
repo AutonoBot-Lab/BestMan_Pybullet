@@ -72,20 +72,20 @@ def main():
     # navigate algorithm
     goal_base_pose = Pose(target_position, [0.0, 0.0, math.pi / 2.0])
     nav_planner = AStarPlanner(
-        robot_size = bestman.get_robot_size(), 
+        robot_size = bestman.get_robot_max_size(), 
         obstacles_bounds = client.get_Nav_obstacles_bounds(), 
         resolution = 0.05, 
         enable_plot = True
     )
     
     # nav_planner = RRTPlanner(
-    #     robot_size = bestman.get_robot_size(), 
+    #     robot_size = bestman.get_robot_max_size(), 
     #     obstacles_bounds = client.get_Nav_obstacles_bounds(),
     #     enable_plot = True
     # )
 
     # nav_planner = PRMPlanner(
-    #     robot_size = bestman.get_robot_size(), 
+    #     robot_size = bestman.get_robot_max_size(), 
     #     obstacles_bounds = client.get_Nav_obstacles_bounds(), 
     #     enable_plot = True
     # )
