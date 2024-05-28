@@ -31,7 +31,7 @@ def main():
     # Init robot
     bestman = Bestman(client, visualizer, cfg)
     
-    bestman.get_joint_link_info('arm')
+    bestman.print_joint_link_info('arm')
 
     client.wait(1000)
     client.disconnect()

@@ -50,7 +50,7 @@ def main():
         obstacles_bounds = client.get_Nav_obstacles_bounds(), 
         enable_plot=False
     )
-    path = nav_planner.plan(bestman.get_current_pose(), standing_pose)
+    path = nav_planner.plan(bestman.get_current_base_pose(), standing_pose)
     bestman.navigate_base(standing_pose, path, visualize = True)
 
     ompl_planner = OMPL_Planner(

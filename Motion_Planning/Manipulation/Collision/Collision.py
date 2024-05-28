@@ -41,7 +41,7 @@ class Collision:
     def is_state_valid(self, state):
         
         # check self-collision
-        self.robot.set_arm_to_joint_angles(state)
+        self.robot.set_arm_to_joint_values(state)
         for link1, link2 in self.check_link_pairs:
             if pairwise_link_collision(
                 self.arm_id, link1, self.arm_id, link2
