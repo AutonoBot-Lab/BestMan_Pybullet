@@ -30,7 +30,7 @@ class Pose:
             # If it is a 3x3 numpy ndarray, it is assumed to be a rotation matrix
             r = R.from_matrix(orientation)
             self.orientation = r.as_euler('xyz', degrees=False)
-        elif isinstance(orientation, (list, np.ndarray)) and len(orientation) == 3:
+        elif isinstance(orientation, (tuple, list, np.ndarray)) and len(orientation) == 3:
             # If it is a list or a one-dimensional numpy ndarray containing three elements, Euler angles are assumed
             self.orientation = orientation
         else:
