@@ -60,9 +60,9 @@ class AnyGrasp:
             seg_mask (np.ndarray): Object Mask
             bbox (Bbox): Object bbox
             crop_flag (bool, optional): Crop flag. Defaults to False.
-
+        
         Returns:
-            _type_: _description_
+            grasp_pose(Pose): best grasp pose
         """
         
         self.cam = cam
