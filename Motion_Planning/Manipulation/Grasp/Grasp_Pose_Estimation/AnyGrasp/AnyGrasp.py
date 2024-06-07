@@ -17,6 +17,7 @@ from utils.utils import (
 )
 from RoboticsToolBox import Pose
 
+
 class AnyGrasp:
     
     def __init__(self, cfgs):
@@ -60,7 +61,7 @@ class AnyGrasp:
             seg_mask (np.ndarray): Object Mask
             bbox (Bbox): Object bbox
             crop_flag (bool, optional): Crop flag. Defaults to False.
-        
+
         Returns:
             grasp_pose(Pose): best grasp pose
         """
