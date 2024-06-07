@@ -38,7 +38,7 @@ def main():
         bestman,
         cfg.Planner
     )
-
+    
     # Get obstacles info
     ompl_planner.get_obstacles_info()
 
