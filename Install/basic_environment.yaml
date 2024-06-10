@@ -1,0 +1,26 @@
+name: BestMan
+
+channels:
+  - defaults
+  - conda-forge
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/pro
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2
+
+dependencies:
+  - python=3.8
+  - gcc
+  - pip:
+      - yacs==0.1.8
+      - pybullet==3.2.6
+      - numpy==1.24.4
+      - matplotlib==3.7.5
+      - networkx==3.1
+      - lisdf==0.1.1
+      - rtree==1.2.0
+      - scipy==1.10.1
+      - opencv-python==4.9.0.80
+      - ompl-1.6.0-cp38-cp38-manylinux_2_28_x86_64.whl
+      - -i https://pypi.tuna.tsinghua.edu.cn/simple
