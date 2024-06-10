@@ -9,9 +9,7 @@ if [ -z "$PYTHONPATH" ] || ! echo "$PYTHONPATH" | grep -q "$project_dir"; then
 fi
 
 # Install shared file
-# sudo apt update && sudo apt install libgl1-mesa-glx libglib2.0-0
-
-# Configure x11 forwarding service
-# echo "export DISPLAY=host.docker.internal:0" >> ~/.bashrc
-
-source ~/.bashrc
+sudo apt update && sudo apt install -y libgl1-mesa-glx libglib2.0-0
+sudo mkdir /usr/lib/dri
+cd /usr/lib/dri
+sudo ln -s /lib/x86_64-linux-gnu/dri/swrast_dri.so swrast_dri.so

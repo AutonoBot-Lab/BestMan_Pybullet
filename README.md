@@ -29,25 +29,31 @@ git submodule update
 
 First install `Anaconda` or `minconda` on linux system and then perform the following steps：
 
+
+- Configure mamba to speed up the conda environment construction
+```
+# Install conda-libmamba-solver
+conda install -n base conda-libmamba-solver
+conda config --set solver libmamba
+
+# Install mamba
+conda install mamba -n base -c conda-forge
+```
+
+
 - Create conda environment
 ```
 cd Install
-conda env create -f environment.yaml
-conda env update --f environment_torch.yaml
-conda env update --f environment_additional.yaml 
+mamba env create -f basic_environment.yaml
+mamba env update --f environment_torch.yaml
+mamba env update --f environment_additional.yaml 
 conda activate BestMan
 ```
 
-- Install ompl
+- Add project to python search path
 ```
-pip install ompl-1.6.0-cp38-cp38-manylinux_2_28_x86_64.whl
-```
-
-- Run sh
-```
-bash conda_install.sh
+bash pythonpath.sh
 source ~/.bashrc
-conda activate BestMan
 ```
 
 
