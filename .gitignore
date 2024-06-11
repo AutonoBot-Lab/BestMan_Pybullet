@@ -2,3 +2,5 @@
 **/__pycache__
 **/*.pyc
 Examples/log/
+Install/third_party/
+Motion_Planning/Manipulation/Grasp/Grasp_Pose_Estimation/AnyGrasp/license_registration/
