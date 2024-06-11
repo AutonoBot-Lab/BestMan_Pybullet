@@ -1,7 +1,0 @@
-name: BestMan
-channels:
-  - defaults
-dependencies:
-  - pip:
-      # grasp
-      - git+https://github.com/luca-medeiros/lang-segment-anything.git
