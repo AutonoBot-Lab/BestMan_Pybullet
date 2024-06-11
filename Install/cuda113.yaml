@@ -1,7 +1,9 @@
 name: BestMan
+
 channels:
   - pytorch
   - defaults
+
 dependencies:
   - cudatoolkit=11.3
   - pytorch=1.11.0
