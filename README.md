@@ -29,6 +29,28 @@ git submodule update
 
 First install `Anaconda` or `minconda` on linux system and then perform the following steps：
 
+- Run the following script to add the project to the PYTHON search path
+```
+cd Install
+sudo bash pythonpath.sh
+source ~/.bashrc
+```
+
+- Install shared file(If it already exists, skip this step.)
+```
+sudo apt update && sudo apt install -y libgl1-mesa-glx libglib2.0-0
+mkdir /usr/lib/dri
+ln -s /lib/x86_64-linux-gnu/dri/swrast_dri.so /usr/lib/dri/swrast_dri.so
+```
+
+- Install gcc/g++ 9(If it already exists, skip this step.)
+```
+sudo apt install -y build-essential gcc-9 g++-9
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9
+sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 9
+sudo update-alternatives --config gcc  # choice gcc-9
+sudo update-alternatives --config g++  # choice g++-9, which is consistent with the version of gcc
+```
 
 - Configure mamba to speed up the conda environment construction
 ```
@@ -40,22 +62,21 @@ conda config --set solver libmamba
 conda install mamba -n base -c conda-forge
 ```
 
-
 - Create conda environment
 ```
-cd Install
 mamba env create -f basic_environment.yaml
-mamba env update --f environment_torch.yaml
-mamba env update --f environment_additional.yaml 
 conda activate BestMan
-```
 
-- Add project to python search path
-```
-bash pythonpath.sh
-source ~/.bashrc
-```
+# Install MinkowskiEngine
+pip install -U git+https://github.com/NVIDIA/MinkowskiEngine -v --no-deps --global-option="--blas_include_dirs=${CONDA_PREFIX}/include" --global-option="--blas=openblas"
 
+# Install lang-segment-anything
+pip install -U git+https://github.com/luca-medeiros/lang-segment-anything.git
+
+# Install pointnet2
+cd third_party/pointnet2
+python setup.py install
+```
 
 
 ### :shamrock: Docker
