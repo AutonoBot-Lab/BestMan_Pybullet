@@ -1,4 +1,5 @@
 import os
+os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
 import numpy as np
 from PIL import Image
 from typing import List, Type, Tuple
@@ -10,7 +11,7 @@ from Perception.Object_detection import object_detection
 class Lang_SAM(object_detection):
     
     def __init__(self):
-
+        
         self.model = LangSAM()
 
     def detect_obj(
