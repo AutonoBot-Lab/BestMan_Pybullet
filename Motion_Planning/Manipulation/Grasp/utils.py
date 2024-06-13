@@ -1,5 +1,5 @@
 import numpy as np
-from Grasp_Pose_Estimation import CameraParameters
+from Visualization import CameraParameters
 
 def get_3d_points(cam: CameraParameters):
     """Convert depth image to 3D point cloud

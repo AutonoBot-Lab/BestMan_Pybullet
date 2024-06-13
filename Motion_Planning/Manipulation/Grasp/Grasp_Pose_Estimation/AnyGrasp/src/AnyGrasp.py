@@ -1,15 +1,18 @@
-import os
+# import os
 import copy
 import math
 import numpy as np
-from PIL import Image
+# from PIL import Image
+from typing import Type, Tuple
+# from dataclasses import dataclass
 
 from gsnet import AnyGrasp
 from graspnetAPI import GraspGroup
 
-from utils.camera import CameraParameters
-from utils.types import Bbox
-from utils.utils import (
+# from utils.camera import CameraParameters
+from Visualization import CameraParameters
+# from utils.types import Bbox
+from .utils import (
     # get_3d_points,
     visualize_cloud_geometries,
     sample_points,
@@ -17,6 +20,8 @@ from utils.utils import (
 )
 from RoboticsToolBox import Pose
 
+
+Bbox = Tuple[int, int, int, int]
 
 class AnyGrasp:
     
