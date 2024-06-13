@@ -2,7 +2,8 @@ import os
 import numpy as np
 from PIL import Image
 
-from Grasp_Pose_Estimation import AnyGrasp, CameraParameters
+from Visualization import CameraParameters
+from Grasp_Pose_Estimation import AnyGrasp
 from Perception.Object_detection import Lang_SAM
 from utils import get_3d_points
 

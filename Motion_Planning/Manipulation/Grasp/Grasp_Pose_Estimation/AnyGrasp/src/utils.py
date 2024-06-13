@@ -1,4 +1,5 @@
 import numpy as np
+import open3d as o3d
 from PIL import ImageDraw
 
 def sample_points(points, sampling_rate=1):
