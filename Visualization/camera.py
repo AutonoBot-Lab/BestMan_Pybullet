@@ -1,3 +1,4 @@
+import cv2
 import numpy as np
 import pybullet as p
 from PIL import Image
@@ -5,7 +6,7 @@ import matplotlib.pyplot as plt
 from typing import Type, Tuple
 from dataclasses import dataclass
 from matplotlib.colors import LinearSegmentedColormap
-
+from datetime import datetime
 
 @dataclass
 class CameraParameters:
@@ -26,20 +27,43 @@ class Camera:
     """Robotic Camera
     """
     
-    def __init__(self):
+    def __init__(self, cfg, base_id, arm_height):
+        
+        self.base_id = base_id
+        self.arm_height = arm_height
+        
+        self.width = cfg.width      # W
+        self.height = cfg.height    # H
+        self.nearVal = cfg.nearVal
+        self.farVal = cfg.farVal
+        # self.fx = self.fx,
+        # self.fy = cfg.fy,
+        # self.cx = cfg.cx,
+        # self.cy = cfg.cy,
+        # self.head_tilt = cfg.head_tilt,
+        
+        # get rgb and depth image
+        _, _, rgb, depth, _ = self.set_camera()
+        self.image = Image.fromarray(rgb)
+        self.colors = np.array(rgb)
+        self.depths = np.array(depth)
 
     
-    def set_camera(self, base_id, width: int = 224, height: int = 224):
+    def update(self):
         
-        position, orientation = p.getBasePositionAndOrientation(base_id, physicsClientId=self.client_id)
-        print('pose', position, orientation)
+        # get base pose
+        position, orientation = p.getBasePositionAndOrientation(self.base_id)
+        camera_position = np.array([position[0], position[1], self.arm_height + 0.3])
         
+        # The three direction vectors of the camera in the world coordinate system
         r_mat = p.getMatrixFromQuaternion(orientation)
-        tx_vec = np.array([r_mat[0], r_mat[3], r_mat[6]])
-        ty_vec = np.array([r_mat[1], r_mat[4], r_mat[7]])
-        tz_vec = np.array([r_mat[2], r_mat[5], r_mat[8]])
-        camera_position = np.array(position)
-        target_position = camera_position - 1 * ty_vec
+        tx_vec = np.array([r_mat[0], r_mat[3], r_mat[6]])   # x direction vector, the right side of the camera is facing
+        ty_vec = np.array([r_mat[1], r_mat[4], r_mat[7]])   # y direction vector, the camera's forward direction
+        tz_vec = np.array([r_mat[2], r_mat[5], r_mat[8]])   # z direction vector, the vertical direction of the camera
+        
+        # set camera looking forward
+        # target_position = camera_position - 1 * tx_vec
+        target_position = camera_position + 1 * tx_vec
 
         view_mat = p.computeViewMatrix(
                         cameraEyePosition=camera_position,
@@ -47,76 +71,161 @@ class Camera:
                         cameraUpVector=tz_vec
                     )
 
+        # A projection matrix based on the field of view (FOV) to simulate the camera's perspective
         proj_mat = p.computeProjectionMatrixFOV(
-                        fov=60.0,  # 摄像头的视线夹角
-                        aspect=1.0,
-                        nearVal=0.01,  # 摄像头视距min
-                        farVal=10  # 摄像头视距max
+                        fov=60,                            # 摄像头的视线夹角
+                        aspect=self.width/self.height,     # 图像的宽高比
+                        nearVal=self.nearVal,              # 摄像头视距min
+                        farVal=self.farVal                 # 摄像头视距max
                     )
         
+        # width, height, rgb, image, seg
         w, h, rgb, depth, seg = p.getCameraImage(
-                                    width=width,
-                                    height=height,
+                                    width=self.width,
+                                    height=self.height,
                                     viewMatrix=view_mat,
                                     projectionMatrix=proj_mat,
-                                    physicsClientId=self.client_id
+                                    shadow=0     # Disable Shadows
                                 )
 
         return w, h, rgb, depth, seg
     
-
-    def get_depth_image(
-        self, basePos, cameraPos, cameraUp, enable_show=False, enable_save=False
-    ):
+    
+    def get_rgb_image(self, enable_show=False, enable_save=False):
         """
-        Capture a cropped depth image from the PyBullet simulation. It positions the camera based on specified positions and orientations, captures the scene, extracts the depth information, and then crops the depth image around its center. Depth images are representations where pixel values indicate distances to the objects from the camera's perspective. Such images are valuable in robotics and computer vision applications for understanding the spatial relationships and distances between objects in a scene.
+        Capture a rgb image from the Camera.
         Args:
-            basePos (tuple): The target or base position in the scene towards which the camera is oriented. Typically, this could be the position of an object of interest, like a table.
-            cameraPos (tuple): The position coordinates (x, y, z) where the camera is placed in the simulation environment.
-            cameraUp (tuple): The upward direction vector of the camera, which determines the camera's orientation. For instance, (0, 1, 0) would point the camera's upward direction along the positive y-axis.
-
+            enable_show(Bool): whether show
+            enable_save(Bool): whether save
+        
         Returns:
-            np.array: A cropped depth image centered around the midpoint of the captured image, providing depth (distance) information from the camera's perspective.
+            rgb(np.array): rgbimage
         """
-        viewMatrix = p.computeViewMatrix(
-            cameraPos, basePos, cameraUp, physicsClientId=self.client_id
-        )
-        projectionMatrix = p.computeProjectionMatrixFOV(
-            fov=60,
-            aspect=1.0,
-            nearVal=0.01,
-            farVal=100.0,
-            physicsClientId=self.client_id,
-        )
+        
+        # get base pose
+        position, orientation = p.getBasePositionAndOrientation(self.base_id)
+        camera_position = np.array([position[0], position[1], self.arm_height + 0.3])
+        
+        # The three direction vectors of the camera in the world coordinate system
+        r_mat = p.getMatrixFromQuaternion(orientation)
+        tx_vec = np.array([r_mat[0], r_mat[3], r_mat[6]])   # x direction vector, the right side of the camera is facing
+        ty_vec = np.array([r_mat[1], r_mat[4], r_mat[7]])   # y direction vector, the camera's forward direction
+        tz_vec = np.array([r_mat[2], r_mat[5], r_mat[8]])   # z direction vector, the vertical direction of the camera
+        
+        # set camera looking forward
+        # target_position = camera_position - 1 * tx_vec
+        target_position = camera_position + 1 * tx_vec
 
-        img_arr = p.getCameraImage(
-            640, 480, viewMatrix, projectionMatrix, shadow=1, lightDirection=[1, 1, 1]
-        )
-        depth_buffer = img_arr[3]  # depth buffer
-        near = 0.01  # Near plane distance
-        far = 100  # Far plane distance
-        depth = far * near / (far - (far - near) * depth_buffer)
-        # personalized colormap
-        cdict = {
-            "red": [[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]],
-            "green": [[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]],
-            "blue": [[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]],
-        }
-        custom_cmap = LinearSegmentedColormap("custom_cmap", cdict)
-        image_point = [320, 240]
+        view_mat = p.computeViewMatrix(
+                        cameraEyePosition=camera_position,
+                        cameraTargetPosition=target_position,
+                        cameraUpVector=tz_vec
+                    )
 
-        crop_size = 200
-        depth_image = self.crop_image(depth, image_point, crop_size)
-
-        print("depth size:{} * {}".format(len(depth_image), len(depth_image[0])))
-        print("image_point:{}".format(image_point))
+        # A projection matrix based on the field of view (FOV) to simulate the camera's perspective
+        proj_mat = p.computeProjectionMatrixFOV(
+                        fov=60,       # 摄像头的视线夹角
+                        aspect=self.width/self.height,     # 图像的宽高比
+                        nearVal=self.nearVal,   # 摄像头视距min
+                        farVal=self.farVal       # 摄像头视距max
+                    )
+        
+        # width, height, rgb, image, seg
+        _, _, rgb, _, _ = p.getCameraImage(
+                                width=self.width,
+                                height=self.height,
+                                viewMatrix=view_mat,
+                                projectionMatrix=proj_mat,
+                                shadow=0     # Disable Shadows
+                            )
 
         if enable_show:
-            plt.imshow(depth_image, cmap=custom_cmap)
+            plt.imshow(rgb)
+            plt.axis('off')
+            plt.show()
+
+        if enable_save:
+            current_time = datetime.now().strftime('%Y%m%d_%H%M%S')
+            rgb_path = f"../Examples/image/rgb_{current_time}.jpg"
+            rgbImg = cv2.cvtColor(rgb, cv2.COLOR_BGR2RGB)
+            cv2.imwrite(rgb_path, rgbImg)
+            # Image.fromarray(rgb).save(rgb_path)
+        
+        return rgb
+    
+    
+    def get_depth_image(self, enable_show=False, enable_save=False):
+        """
+        Capture a depth image from the Camera.
+        Args:
+            enable_show(Bool): whether show
+            enable_save(Bool): whether save
+        
+        Returns:
+            depth(np.array): depth image
+        """
+        
+        # get base pose
+        position, orientation = p.getBasePositionAndOrientation(self.base_id)
+        camera_position = np.array([position[0], position[1], self.arm_height + 0.3])
+        
+        # The three direction vectors of the camera in the world coordinate system
+        r_mat = p.getMatrixFromQuaternion(orientation)
+        tx_vec = np.array([r_mat[0], r_mat[3], r_mat[6]])   # x direction vector, the right side of the camera is facing
+        ty_vec = np.array([r_mat[1], r_mat[4], r_mat[7]])   # y direction vector, the camera's forward direction
+        tz_vec = np.array([r_mat[2], r_mat[5], r_mat[8]])   # z direction vector, the vertical direction of the camera
+        
+        # set camera looking forward
+        # target_position = camera_position - 1 * tx_vec
+        target_position = camera_position + 1 * tx_vec
+
+        view_mat = p.computeViewMatrix(
+                        cameraEyePosition=camera_position,
+                        cameraTargetPosition=target_position,
+                        cameraUpVector=tz_vec
+                    )
+
+        # A projection matrix based on the field of view (FOV) to simulate the camera's perspective
+        proj_mat = p.computeProjectionMatrixFOV(
+                        fov=60,       # 摄像头的视线夹角
+                        aspect=self.width/self.height,     # 图像的宽高比
+                        nearVal=self.nearVal,   # 摄像头视距min
+                        farVal=self.farVal       # 摄像头视距max
+                    )
+        
+        # width, height, rgb, image, seg
+        _, _, _, depth, _ = p.getCameraImage(
+                                width=self.width,
+                                height=self.height,
+                                viewMatrix=view_mat,
+                                projectionMatrix=proj_mat,
+                                shadow=0     # Disable Shadows
+                            )
+
+        # Convert normalized depth values ​​to actual depth values
+        depth = self.farVal * self.nearVal / (self.farVal - (self.farVal - self.nearVal) * depth)
+        
+        # image_point = [320, 240]
+        # crop_size = 200
+        # depth_image = self.crop_image(depth, image_point, crop_size)
+
+        if enable_show:
+            # Linear color mapping from black (the color when the depth value is 0) to white (the color when the depth value is 1)
+            cdict = {
+                "red": [[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]],
+                "green": [[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]],
+                "blue": [[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]],
+            }
+            custom_cmap = LinearSegmentedColormap("custom_cmap", cdict)
+            plt.imshow(depth, cmap=custom_cmap)
             plt.colorbar()
             plt.show()
 
         if enable_save:
-            plt.imsave("depth_image.png", depth_image, cmap=custom_cmap)
-
-        return depth_image 
+            current_time = datetime.now().strftime('%Y%m%d_%H%M%S')
+            depth_path = f"../Examples/image/depth_{current_time}.png"
+            # plt.imsave(depth_path, depth, cmap=custom_cmap)
+            depth = (depth * 1000).astype(np.uint16)
+            Image.fromarray(depth).save(depth_path)
+        
+        return depth

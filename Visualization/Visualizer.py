@@ -4,16 +4,8 @@
 @Time        :   2023/08/30 22:48:04
 """
 
-import cv2
 import pybullet as p
-import pybullet_data
-import math
-import time
 import numpy as np
-import networkx as nx
-import matplotlib.pyplot as plt
-import random
-from matplotlib.colors import LinearSegmentedColormap
 from PIL import Image
 from datetime import datetime
 
@@ -47,10 +39,9 @@ class Visualizer:
         
         # Init camera pose
         self.set_camera_pose(visualizer_cfg.Camera)
-        self.line_visual = None
 
     # ----------------------------------------------------------------
-    # Camera / Image
+    # Scene camera
     # ----------------------------------------------------------------
     
     def set_camera_pose(self, camera_cfg):
@@ -72,193 +63,49 @@ class Visualizer:
             physicsClientId=self.client_id,
         )
     
-    def set_camera(self, base_id, width: int = 224, height: int = 224):
-        
-        position, orientation = p.getBasePositionAndOrientation(base_id, physicsClientId=self.client_id)
-        print('pose', position, orientation)
-        
-        r_mat = p.getMatrixFromQuaternion(orientation)
-        tx_vec = np.array([r_mat[0], r_mat[3], r_mat[6]])
-        ty_vec = np.array([r_mat[1], r_mat[4], r_mat[7]])
-        tz_vec = np.array([r_mat[2], r_mat[5], r_mat[8]])
-        camera_position = np.array(position)
-        target_position = camera_position - 1 * ty_vec
-
-        view_mat = p.computeViewMatrix(
-                        cameraEyePosition=camera_position,
-                        cameraTargetPosition=target_position,
-                        cameraUpVector=tz_vec
-                    )
-
-        proj_mat = p.computeProjectionMatrixFOV(
-                        fov=60.0,  # 摄像头的视线夹角
-                        aspect=1.0,
-                        nearVal=0.01,  # 摄像头视距min
-                        farVal=10  # 摄像头视距max
-                    )
-        
-        w, h, rgb, depth, seg = p.getCameraImage(
-                                    width=width,
-                                    height=height,
-                                    viewMatrix=view_mat,
-                                    projectionMatrix=proj_mat,
-                                    physicsClientId=self.client_id
-                                )
-
-        return w, h, rgb, depth, seg
     
-    def capture_screen(self, filename=None, enable_Debug=False):
+    def capture_screen(self, filename=None):
         """
-        Continuously capture the screens of pybullet GUI and save the images to files.
-        The file names will be based on the camera target position, distance, and yaw.
+            Continuously capture the screens of pybullet GUI and save the images to files.
+            The file names will be based on the camera target position, distance, and yaw.
 
         Parameters:
-        width (int): The width of the captured image.
-        height (int): The height of the captured image.
+            width (int): The width of the captured image.
+            height (int): The height of the captured image.
         """
-        alpha = 10
-        temp_counter = 0
-        max_counter = 1  # num of images
         
-        if enable_Debug:
-            while temp_counter < max_counter:
-                # Get GUI information
-                (
-                    width,
-                    height,
-                    viewMatrix,
-                    projectionMatrix,
-                    cameraUp,
-                    camForward,
-                    horizonal,
-                    vertical,
-                    yaw,
-                    pitch,
-                    dist,
-                    target,
-                ) = p.getDebugVisualizerCamera()
+        alpha = 10
+        
+        # Get GUI information
+        (
+            width,
+            height,
+            viewMatrix,
+            projectionMatrix,
+            cameraUp,
+            camForward,
+            horizonal,
+            vertical,
+            yaw,
+            pitch,
+            dist,
+            target,
+        ) = p.getDebugVisualizerCamera()
 
-                # Capture the screen
-                _, _, rgba, _, _ = p.getCameraImage(width * alpha, height * alpha)
-                img = np.array(rgba).reshape(height * alpha, width * alpha, 4)
+        # Capture the screen
+        _, _, rgba, _, _ = p.getCameraImage(width * alpha, height * alpha)
+        img = np.array(rgba).reshape(height * alpha, width * alpha, 4)
 
-                # Save the image to the file
-                if filename == None:
-                    # current_time = datetime.now().strftime('%Y%m%d_%H%M%S')
-                    # path_filename = f"./image/{current_time}.png"
-                    path_filename = f"./image/input/target:{target}_dist:{dist}_pitch:{pitch}_yaw:{yaw}.png"
-                else:
-                    path_filename = f"./image/input/{filename}.png"
-                Image.fromarray(img).save(path_filename)
-                temp_counter += 1
-                print("-" * 20 + "image is done!" + "-" * 20)
+        # Save the image to the file
+        if filename == None:
+            current_time = datetime.now().strftime('%Y%m%d_%H%M%S')
+            path_filename = f"../Examples/image/{current_time}.png"
+            # path_filename = f"./image/input/target:{target}_dist:{dist}_pitch:{pitch}_yaw:{yaw}.png"
         else:
-            # Get GUI information
-            (
-                width,
-                height,
-                viewMatrix,
-                projectionMatrix,
-                cameraUp,
-                camForward,
-                horizonal,
-                vertical,
-                yaw,
-                pitch,
-                dist,
-                target,
-            ) = p.getDebugVisualizerCamera()
-
-            # Capture the screen
-            _, _, rgba, _, _ = p.getCameraImage(width * alpha, height * alpha)
-            img = np.array(rgba).reshape(height * alpha, width * alpha, 4)
-
-            print("width:{} height:{}".format(width, height))
-
-            # Save the image to the file
-            if filename == None:
-                # current_time = datetime.now().strftime('%Y%m%d_%H%M%S')
-                # path_filename = f"./image/{current_time}.png"
-                path_filename = f"./image/input/target:{target}_dist:{dist}_pitch:{pitch}_yaw:{yaw}.png"
-            else:
-                path_filename = f"./image/input/{filename}.png"
-            Image.fromarray(img).save(path_filename)
-    
-    def get_depth_image(
-        self, basePos, cameraPos, cameraUp, enable_show=False, enable_save=False
-    ):
-        """
-        Capture a cropped depth image from the PyBullet simulation. It positions the camera based on specified positions and orientations, captures the scene, extracts the depth information, and then crops the depth image around its center. Depth images are representations where pixel values indicate distances to the objects from the camera's perspective. Such images are valuable in robotics and computer vision applications for understanding the spatial relationships and distances between objects in a scene.
-        Args:
-            basePos (tuple): The target or base position in the scene towards which the camera is oriented. Typically, this could be the position of an object of interest, like a table.
-            cameraPos (tuple): The position coordinates (x, y, z) where the camera is placed in the simulation environment.
-            cameraUp (tuple): The upward direction vector of the camera, which determines the camera's orientation. For instance, (0, 1, 0) would point the camera's upward direction along the positive y-axis.
-
-        Returns:
-            np.array: A cropped depth image centered around the midpoint of the captured image, providing depth (distance) information from the camera's perspective.
-        """
-        viewMatrix = p.computeViewMatrix(
-            cameraPos, basePos, cameraUp, physicsClientId=self.client_id
-        )
-        projectionMatrix = p.computeProjectionMatrixFOV(
-            fov=60,
-            aspect=1.0,
-            nearVal=0.01,
-            farVal=100.0,
-            physicsClientId=self.client_id,
-        )
-
-        img_arr = p.getCameraImage(
-            640, 480, viewMatrix, projectionMatrix, shadow=1, lightDirection=[1, 1, 1]
-        )
-        depth_buffer = img_arr[3]  # depth buffer
-        near = 0.01  # Near plane distance
-        far = 100  # Far plane distance
-        depth = far * near / (far - (far - near) * depth_buffer)
-        # personalized colormap
-        cdict = {
-            "red": [[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]],
-            "green": [[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]],
-            "blue": [[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]],
-        }
-        custom_cmap = LinearSegmentedColormap("custom_cmap", cdict)
-        image_point = [320, 240]
-
-        crop_size = 200
-        depth_image = self.crop_image(depth, image_point, crop_size)
-
-        print("depth size:{} * {}".format(len(depth_image), len(depth_image[0])))
-        print("image_point:{}".format(image_point))
-
-        if enable_show:
-            plt.imshow(depth_image, cmap=custom_cmap)
-            plt.colorbar()
-            plt.show()
-
-        if enable_save:
-            plt.imsave("depth_image.png", depth_image, cmap=custom_cmap)
-
-        return depth_image  
-    
-    def crop_image(self, image, center, size):
-        """
-        Crop a given image around a specified center point and returns the cropped portion. The resulting cropped image will be a square with the provided size. If the cropping dimensions exceed the original image boundaries, the function ensures it stays within the original image's dimensions to prevent out-of-bounds access.
-
-        Args:
-            image (np.array): The original image to be cropped. It is assumed to be a two-dimensional array, representing pixel values.
-            center (tuple): A tuple (x, y) specifying the center point around which the image will be cropped.
-            size (int): The side length of the resulting square cropped image.
-
-        Returns:
-            np.array: A cropped portion of the original image centered around the specified center point and with the given size.
-        """
-        image_height, image_width = image.shape
-        top = max(0, int(center[1] - size / 2))
-        bottom = min(image_height, int(center[1] + size / 2))
-        left = max(0, int(center[0] - size / 2))
-        right = min(image_width, int(center[0] + size / 2))
-
-        return image[top:bottom, left:right]
+            path_filename = f"../Examples/image/{filename}.png"
+            
+        Image.fromarray(img).save(path_filename)
+        print("-" * 20 + "capture_screen is done!" + "-" * 20)
             
             
     # ----------------------------------------------------------------
@@ -354,8 +201,8 @@ class Visualizer:
             color: A list representing the RGB values of the line's color. Default is red [1, 0, 0].
             width: The width of the line. Default is 3.0.
         """
-        if self.line_visual is not None:
-            p.removeUserDebugItem(self.line_visual, physicsClientId=self.client_id)
+        # if self.line_visual is not None:
+        #     p.removeUserDebugItem(self.line_visual, physicsClientId=self.client_id)
 
         self.line_visual = p.addUserDebugLine(
             start_pos,
@@ -466,6 +313,25 @@ class Visualizer:
                 lineWidth=2,
                 physicsClientId=self.client_id,
             )
+            
+    def visualize_path(self, path):
+        """
+        visualize the path of Manipution
+        """
+
+        # Reverse the path so that it goes from start to goal
+        path = path[::-1]  # This line reverses the path
+        cartesian_path = [self.joints_to_cartesian(point) for point in path]
+        # print("cartesian_path:{}".format(cartesian_path))
+        for i in range(len(cartesian_path) - 1):
+            p.addUserDebugLine(
+                cartesian_path[i],
+                cartesian_path[i + 1],
+                lineColorRGB=[1, 0, 0],
+                lifeTime=10,
+                lineWidth=3,
+                physicsClientId=self.client_id,
+            )
 
 
     # ----------------------------------------------------------------
@@ -548,157 +414,4 @@ class Visualizer:
                 linkIndex=i,
                 rgbaColor=colors[color],
                 physicsClientId=self.client_id
-            )
-        
-    # def set_elementA_visual_color(self, elementA_id):
-    #     """
-    #     Set the color of element A (oven, container) in the kitchen.
-    #     """
-    #     for i in [1]:  # center counter
-    #         p.changeVisualShape(
-    #             objectUniqueId=elementA_id,
-    #             linkIndex=i,
-    #             rgbaColor=colors["light_white"],
-    #             physicsClientId=self.client_id,
-    #         )
-    #     for i in [2]:  # oven base
-    #         p.changeVisualShape(
-    #             objectUniqueId=elementA_id,
-    #             linkIndex=i,
-    #             rgbaColor=colors["light_white"],
-    #             physicsClientId=self.client_id,
-    #         )
-    #     for i in [3, 4, 5, 6]:  # four ovens
-    #         p.changeVisualShape(
-    #             objectUniqueId=elementA_id,
-    #             linkIndex=i,
-    #             rgbaColor=colors["stainless_steel"],
-    #             physicsClientId=self.client_id,
-    #         )
-    #     for i in [7]:  # rectangle where buttons are on
-    #         p.changeVisualShape(
-    #             objectUniqueId=elementA_id,
-    #             linkIndex=i,
-    #             rgbaColor=colors["wood_dark"],
-    #             physicsClientId=self.client_id,
-    #         )
-    #     for i in [8, 9, 10, 11]:  # four buttons
-    #         p.changeVisualShape(
-    #             objectUniqueId=elementA_id,
-    #             linkIndex=i,
-    #             rgbaColor=colors["black"],
-    #             physicsClientId=self.client_id,
-    #         )
-    #     for i in [30, 33, 34, 42, 43]:  # left and right counter
-    #         p.changeVisualShape(
-    #             objectUniqueId=elementA_id,
-    #             linkIndex=i,
-    #             rgbaColor=colors["light_white"],
-    #             physicsClientId=self.client_id,
-    #         )
-    
-    # def set_elementB_visual_color(self, elementB_id):
-    #     """
-    #     Set the color of element B (counter) in the kitchen.
-    #     """
-    #     # link id:
-    #     for i in [-1]:  # wood_dark
-    #         p.changeVisualShape(
-    #             objectUniqueId=elementB_id,
-    #             linkIndex=i,
-    #             rgbaColor=colors["light_white"],
-    #             physicsClientId=self.client_id,
-    #         )
-
-    # def set_elementC_visual_color(self, elementC_id):
-    #     """
-    #     Set the color of element C (dishwasher) in the kitchen.
-    #     """
-    #     # link id:
-    #     for i in [-1, 0, 1, 2, 3, 4, 5]:
-    #         p.changeVisualShape(
-    #             objectUniqueId=elementC_id,
-    #             linkIndex=i,
-    #             rgbaColor=colors["light_white"],
-    #             physicsClientId=self.client_id,
-    #         )
-
-    # def set_elementD_visual_color(self, elementD_id):
-    #     """
-    #     Set the color of element D (microwave) in the kitchen.
-    #     """
-    #     # link id:
-    #     for i in [0]:  # back
-    #         p.changeVisualShape(
-    #             objectUniqueId=elementD_id,
-    #             linkIndex=i,
-    #             rgbaColor=colors["light_white"],
-    #             physicsClientId=self.client_id,
-    #         )
-
-    #     # link id:
-    #     for i in [1]:  # door
-    #         p.changeVisualShape(
-    #             objectUniqueId=elementD_id,
-    #             linkIndex=i,
-    #             rgbaColor=colors["stainless_steel"],
-    #             physicsClientId=self.client_id,
-    #         )
-
-    # def set_elementE_visual_color(self, elementE_id):
-    #     """
-    #     Set the color of element E (fridge) in the kitchen.
-    #     """
-    #     # link id:
-    #     for i in [-1, 0, 1, 2, 3, 4, 5, 6]:  # wood_light
-    #         p.changeVisualShape(
-    #             objectUniqueId=elementE_id,
-    #             linkIndex=i,
-    #             rgbaColor=colors["light_white"],
-    #             physicsClientId=self.client_id,
-    #         )
-
-    # def set_elementF_visual_color(self, elementF_id):
-    #     """
-    #     Set the color of element F (table) in the kitchen.
-    #     """
-    #     # link id:
-    #     for i in [-1, 0, 1, 2, 3]:
-    #         p.changeVisualShape(
-    #             objectUniqueId=elementF_id,
-    #             linkIndex=i,
-    #             rgbaColor=colors["light_white"],
-    #             physicsClientId=self.client_id,
-    #         )
-
-    # def set_elementG_visual_color(self, elementG_id):
-    #     """
-    #     Set the color of element G (Chair) in the kitchen.
-    #     """
-    #     # link id:
-    #     for i in [-1]:  # light_white
-    #         p.changeVisualShape(
-    #             objectUniqueId=elementG_id,
-    #             linkIndex=i,
-    #             rgbaColor=colors["white"],
-    #             physicsClientId=self.client_id,
-    #         )
-
-    def visualize_path(self, path):
-        """
-        visualize the path of Manipution
-        """
-
-        # Reverse the path so that it goes from start to goal
-        path = path[::-1]  # This line reverses the path
-        cartesian_path = [self.joints_to_cartesian(point) for point in path]
-        # print("cartesian_path:{}".format(cartesian_path))
-        for i in range(len(cartesian_path) - 1):
-            p.addUserDebugLine(
-                cartesian_path[i],
-                cartesian_path[i + 1],
-                lineColorRGB=[1, 0, 0],
-                lifeTime=10,
-                lineWidth=3,
-                physicsClientId=self.client_id,
             )
