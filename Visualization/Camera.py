@@ -2,11 +2,11 @@ import cv2
 import numpy as np
 import pybullet as p
 from PIL import Image
+from datetime import datetime
 import matplotlib.pyplot as plt
 from typing import Type, Tuple
 from dataclasses import dataclass
 from matplotlib.colors import LinearSegmentedColormap
-from datetime import datetime
 
 @dataclass
 class CameraParameters:
@@ -43,7 +43,7 @@ class Camera:
         # self.head_tilt = cfg.head_tilt,
         
         # get rgb and depth image
-        _, _, rgb, depth, _ = self.set_camera()
+        _, _, rgb, depth, _ = self.update()
         self.image = Image.fromarray(rgb)
         self.colors = np.array(rgb)
         self.depths = np.array(depth)
