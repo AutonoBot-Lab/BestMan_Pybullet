@@ -25,15 +25,18 @@ class Pose:
         self.position = position
         self.x, self.y, self.z = position
         
-        # Automatically detect orientation type and convert
+        # Rotation matrix
         if isinstance(orientation, np.ndarray) and orientation.shape == (3, 3):
-            # If it is a 3x3 numpy ndarray, it is assumed to be a rotation matrix
             r = R.from_matrix(orientation)
             self.orientation = r.as_euler('xyz', degrees=False)
+        # Quaternion
+        elif isinstance(orientation, (tuple, list, np.ndarray)) and len(orientation) == 4:
+            r = R.from_quat(orientation)
+            self.orientation = r.as_euler('xyz', degrees=False)
+        # Euler angles
         elif isinstance(orientation, (tuple, list, np.ndarray)) and len(orientation) == 3:
-            # If it is a list or a one-dimensional numpy ndarray containing three elements, Euler angles are assumed
             self.orientation = orientation
         else:
-            raise ValueError("Orientation must be a list of three floats or a 3x3 rotation matrix")
+            raise ValueError("Orientation input must be Rotation matrix / Quaternion / Euler angles")
         
         self.roll, self.pitch, self.yaw = self.orientation
