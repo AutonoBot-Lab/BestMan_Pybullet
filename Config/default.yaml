@@ -37,15 +37,25 @@ Controller:
 # Robot params
 Robot:
     
-  init_pose: [1, 0, 0, 0.0, 0.0, "math.pi / 2"]   # The initial pose of base
-  init_joint: [0, -1.57, 1.5, -1.57, -1.57, 0]    # The initial angle of arm joint
-  base_urdf_path: "../Asset/mobile_manipulator/base/segbot/segbot.urdf"   # base urdf
-  arm_urdf_path: "../Asset/mobile_manipulator/arm/ur5e/ur5e_vacuum_long.urdf"   # arm urdf
-  arm_joints_idx: [0, 1, 2, 3, 4, 5]              # 6 DOF
-  arm_height: 1.02   
+  init_pose: [1, 0, 0, 0.0, 0.0, "math.pi / 2"]                                         # The initial pose of base
+  init_joint: [0, -1.57, 1.5, -1.57, -1.57, 0]                                          # The initial angle of arm joint
+  base_urdf_path: "../Asset/mobile_manipulator/base/segbot/segbot.urdf"                 # base urdf
+  arm_urdf_path: "../Asset/mobile_manipulator/arm/ur5e/ur5e_vacuum_long.urdf"           # arm urdf
+  arm_joints_idx: [0, 1, 2, 3, 4, 5]                                                    # 6 DOF
+  arm_height: 1.02                                                                      # arm place height(Slightly higher than the base)
   end_effector_index: 6
   tcp_link: 11     # The index of the end effector.
   tcp_height: 0.11  # The height of the tcp link.
+
+
+# Camera params
+Camera:
+  # width: 1080
+  # height: 720
+  width: 224          # W
+  height: 224         # H
+  nearVal: 0.01       # Camera near viewing distance
+  farVal: 20          # Camera far viewing distance
 
 
 # ompl planner parameters

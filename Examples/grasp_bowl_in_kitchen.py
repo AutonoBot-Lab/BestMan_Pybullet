@@ -83,7 +83,7 @@ def main():
     
     # disconnect pybullet
     client.wait(10)
-    client.disconnect_pybullet()
+    client.disconnect()
     
 
 if __name__=='__main__':
