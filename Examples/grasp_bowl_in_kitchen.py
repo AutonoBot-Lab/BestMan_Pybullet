@@ -6,7 +6,7 @@
 
 import os
 import math
-from RoboticsToolBox import Bestman, Pose
+from RoboticsToolBox import Bestman_sim, Pose
 from Env import Client
 from Visualization import Visualizer
 from Motion_Planning.Manipulation import OMPL_Planner
@@ -30,7 +30,7 @@ def main():
     client.create_scene(scene_path)
 
     # Init robot
-    bestman = Bestman(client, visualizer, cfg)
+    bestman = Bestman_sim(client, visualizer, cfg)
     visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
 
     # load OMPL planner
@@ -53,7 +53,7 @@ def main():
         resolution = 0.05, 
         enable_plot = False
     )
-    path = nav_planner.plan(bestman.get_current_base_pose(), standing_pose)
+    path = nav_planner.plan(bestman.get_base_pose(), standing_pose)
     bestman.navigate_base(standing_pose, path)
     
     # Init ompl planner

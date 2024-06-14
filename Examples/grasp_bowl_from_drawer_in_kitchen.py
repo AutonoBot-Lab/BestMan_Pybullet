@@ -5,7 +5,7 @@
 """
 
 import os
-from RoboticsToolBox import Bestman, Pose
+from RoboticsToolBox import Bestman_sim, Pose
 from Env import Client
 from Visualization import Visualizer
 from Motion_Planning.Manipulation import OMPL_Planner
@@ -30,7 +30,7 @@ def main():
 
     # logID = pb_client.start_record("example_manipulation")    # start recording
     # Init robot
-    bestman = Bestman(client, visualizer, cfg)
+    bestman = Bestman_sim(client, visualizer, cfg)
     
     # open the drawer
     client.change_object_joint_angle("elementA", 36, 0.4)
@@ -50,7 +50,7 @@ def main():
         obstacles_bounds = client.get_Nav_obstacles_bounds(), 
         enable_plot=False
     )
-    path = nav_planner.plan(bestman.get_current_base_pose(), standing_pose)
+    path = nav_planner.plan(bestman.get_base_pose(), standing_pose)
     bestman.navigate_base(standing_pose, path, visualize = True)
 
     ompl_planner = OMPL_Planner(
