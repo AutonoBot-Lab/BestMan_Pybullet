@@ -5,7 +5,7 @@
 """
 
 import os
-from RoboticsToolBox.Bestman_sim import Bestman_sim
+from RoboticsToolBox.Bestman_sim_panda import Bestman_sim_panda
 from Env.Client import Client
 from Visualization.Visualizer import Visualizer
 from Utils.load_config import load_config
@@ -13,7 +13,7 @@ from Utils.load_config import load_config
 def main():
     
     # load config
-    config_path = '../Config/debug_set_arm.yaml'
+    config_path = '../Config/load_panda.yaml'
     cfg = load_config(config_path)
     print(cfg)
 
@@ -23,14 +23,16 @@ def main():
 
     # logID = pb_client.start_record("example_manipulation")    # start recording
     # Init robot
-    bestman = Bestman_sim(client, visualizer, cfg)
-    visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
-    
-    bestman.print_joint_link_info("arm")     # get info about arm
-    
-    # debug set arm joints
-    bestman.sim_debug_set_arm_to_joint_values()
+    panda = Bestman_sim_panda(client, visualizer, cfg)
+    visualizer.change_robot_color(panda.get_base_id(), panda.get_arm_id(), False)
 
+    for _ in range(10):
+        panda.sim_active_gripper(0)
+        client.wait(2)
+        panda.sim_active_gripper(1)
+        client.wait(2)
+    
+    
     # disconnect pybullet
     client.wait(1000)
     client.disconnect()
