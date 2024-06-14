@@ -5,3 +5,6 @@ Visualizer:
       position: [1.6, 0, 1.66]
       yaw: 90.0
       pitch: -89.9
+
+Robot:
+  init_joint: [0, -2.0, 2.0, -2.0, 2.0, 2.0]

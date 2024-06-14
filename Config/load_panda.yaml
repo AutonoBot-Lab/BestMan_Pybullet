@@ -8,13 +8,7 @@ Visualizer:
 
 # Robot params
 Robot:
-    
-  init_pose: [1, 0, 0, 0.0, 0.0, "math.pi / 2"]   # The initial pose of base and arm
-  init_joint: [0.98, 0.458, 0.31, -2.24, -0.30, 2.66, 2.32]    # The initial angle of arm joint
-  base_urdf_path: "../Asset/mobile_manipulator/base/segbot/segbot.urdf"   # base urdf
-  arm_urdf_path: "../Asset/mobile_manipulator/arm/panda/panda.urdf"       # arm urdf
-  arm_joints_idx: [0, 1, 2, 3, 4, 5, 6]              # 7 DOF
-  arm_height: 1.02   
-  end_effector_index: 11
-  tcp_link: -1     # The index of the end effector.
-  tcp_height: 0.11  # The height of the tcp link.
+  
+  init_joint: [0.98, 0.458, 0.31, -2.24, -0.30, 2.66, 2.32]                  # The initial angle of arm joint
+  arm_urdf_path: "../Asset/mobile_manipulator/arm/panda/panda.urdf"          # arm urdf
+  arm_joints_idx: [0, 1, 2, 3, 4, 5, 6]                                      # 7 DOF
