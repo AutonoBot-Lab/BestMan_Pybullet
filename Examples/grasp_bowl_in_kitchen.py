@@ -72,6 +72,10 @@ def main():
         nav_obstacle_tag=False,
     )
     
+    # get rgb image
+    bestman.update_camera()
+    bestman.get_camera_rgb_image(True, True)
+    
     # set target object for grasping
     ompl_planner.set_target(bowl_id)
     
