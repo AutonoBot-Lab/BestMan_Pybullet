@@ -53,15 +53,16 @@ def main():
     path = nav_planner.plan(bestman.get_base_pose(), standing_pose)
     bestman.navigate_base(standing_pose, path, visualize = True)
 
-    ompl_planner = OMPL_Planner(
-        bestman,
-        cfg.Planner
-    )
+    # # load bowl
+    # bowl_id = client.load_object(
+    #     "../Asset/URDF_models/utensil_bowl_blue/model.urdf",
+    #     [3.6, 2.4, 0.6],
+    #     [0.0, 0.0, 0.0],
+    #     1.0,
+    #     "bowl",
+    #     False
+    # )
 
-    # get obstacles info
-    ompl_planner.get_obstacles_info()
-
-    # load bowl
     bowl_id = client.load_object(
         "../Asset/URDF_models/utensil_bowl_blue/model.urdf",
         [3.6, 2.4, 0.6],
@@ -71,14 +72,26 @@ def main():
         False
     )
 
+    ompl_planner = OMPL_Planner(
+        bestman,
+        cfg.Planner
+    )
+    
+    # get obstacles info
+    ompl_planner.get_obstacles_info()
+    
+    # get rgb image
+    bestman.update_camera()
+    bestman.get_camera_rgb_image(True, True)
+
     # set target object for grasping
-    ompl_planner.set_target(bowl_id)
+    ompl_planner.set_target("bowl")
 
     # reach target object
     ompl_planner.plan_execute()
 
     # grasp target object
-    bestman.sim_active_gripper(bowl_id, 1)
+    bestman.sim_active_gripper("bowl", 1)
 
     # disconnect pybullet
     client.wait(1000)

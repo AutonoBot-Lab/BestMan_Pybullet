@@ -99,7 +99,8 @@ class OMPL_Planner:
 
         self.ss.setPlanner(self.planner)
 
-    def set_target(self, target_id):
+    # def set_target(self, target_id):
+    def set_target(self, target):
         """
         Set the target to be used for the manipulation task.
 
@@ -107,10 +108,13 @@ class OMPL_Planner:
             target_id: id of the target object.
         """
               
-        try:
-            _ = p.getBodyInfo(target_id)
-        except Exception as e:
-            print(f"Target object not set: {e}")
+        if isinstance(target, str):
+            if hasattr(self.client, target):
+                target_id = getattr(self.client, target)
+            else:
+                raise AttributeError(f"scene has not {object} object!")
+        else:
+            target_id = target
         
         # get target object bounds
         min_x, min_y, _, max_x, max_y, max_z = self.client.get_bounding_box(target_id)

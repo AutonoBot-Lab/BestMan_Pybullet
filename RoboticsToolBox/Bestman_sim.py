@@ -122,8 +122,8 @@ class Bestman_sim:
         
         # update image
         self.camera.update()
-        self.camera.get_rgb_image(True, True)
-        self.camera.get_depth_image(True, True)
+        # self.camera.get_rgb_image(True, True)
+        # self.camera.get_depth_image(True, True)
         
         # get tcp link
         # if filename.endswith("ur5e.urdf"):
@@ -352,10 +352,10 @@ class Bestman_sim:
                 front_point = [path[i-1][0], path[i-1][1], 0]
                 p.addUserDebugLine(front_point, next_point, lineColorRGB=[1, 0, 0], lineWidth=3, physicsClientId=self.client_id)
 
-            self.camera.update()
+            # self.camera.update()
             
         self.rotate_base(goal_base_pose.yaw)
-        self.camera.update()
+        # self.camera.update()
         print("-" * 20 + "\n" + "Navigation is done!")
 
     # TODO: 此处的get_standing_map与compute_standing_position是配套计算机器人想要抓取某物体时最佳的站立位置,但这里只是简单的做法
@@ -1069,7 +1069,8 @@ class Bestman_sim:
     # functions for gripper
     # ----------------------------------------------------------------
 
-    def sim_active_gripper(self, object_id, value):
+    # def sim_active_gripper(self, object_id, value):
+    def sim_active_gripper(self, object, value):
         """
         Activate or deactivate the gripper.
 
@@ -1078,6 +1079,14 @@ class Bestman_sim:
             value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).
         """
 
+        if isinstance(object, str):
+            if hasattr(self.client, object):
+                object_id = getattr(self.client, object)
+            else:
+                raise AttributeError(f"scene has not {object} object!")
+        else:
+            object_id = object
+          
         gripper_status = {"ungrasp": 0, "grasp": 1}
         gripper_value = (
             gripper_status["grasp"] if value == 1 else gripper_status["ungrasp"]
@@ -1125,6 +1134,20 @@ class Bestman_sim:
             p.stepSimulation(physicsClientId=self.client_id)
             # time.sleep(1.0 / self.frequency)
             
+    
+    # ----------------------------------------------------------------
+    # functions for camera
+    # ----------------------------------------------------------------
+
+    def update_camera(self):
+        self.camera.update()
+        
+    def get_camera_rgb_image(self, enable_show=False, enable_save=False):
+        self.camera.get_rgb_image(enable_show, enable_save)
+    
+    def get_camera_depth_image(self, enable_show=False, enable_save=False):
+        self.camera.get_depth_image(enable_show, enable_save)
+        
     
     # ----------------------------------------------------------------
     # functions for pick / place
