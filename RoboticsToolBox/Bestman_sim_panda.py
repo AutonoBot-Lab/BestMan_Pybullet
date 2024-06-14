@@ -14,7 +14,7 @@ from .Pose import Pose
 from Controller.PIDController import PIDController
 from Visualization import Camera
 
-class Bestman_sim:
+class Bestman_sim_panda:
     
     def __init__(self, client, visualizer,  cfg):
         """
@@ -95,7 +95,22 @@ class Bestman_sim:
         self.arm_joints_idx = robot_cfg.arm_joints_idx
         self.DOF = len(self.arm_joints_idx)
         self.arm_height = robot_cfg.arm_height
-
+        
+        # Create a gear constraint to keep the fingers symmetrically centered
+        c = p.createConstraint(
+            self.arm_id,
+            9,
+            self.arm_id,
+            10,
+            jointType=p.JOINT_GEAR,
+            jointAxis=[1, 0, 0],
+            parentFramePosition=[0, 0, 0],
+            childFramePosition=[0, 0, 0]
+        )
+        
+        # Constraint parameters
+        p.changeConstraint(c, gearRatio=-1, erp=0.1, maxForce=50)
+        
         # Add constraint between base and arm
         p.createConstraint(
             parentBodyUniqueId=self.base_id,
@@ -155,8 +170,7 @@ class Bestman_sim:
 
         # global parameters
         self.init_pose = init_pose   # Used when resetting the robot position
-        self.gripper_id = None      # Constraints between the end effector and the grasped object, None when not grabbed
-
+        
     
     # ----------------------------------------------------------------
     # functions for base
@@ -1071,9 +1085,8 @@ class Bestman_sim:
     # ----------------------------------------------------------------
     # functions for gripper
     # ----------------------------------------------------------------
-
-    # def sim_active_gripper(self, object_id, value):
-    def sim_active_gripper(self, object, value):
+    
+    def sim_active_gripper(self, value):
         """
         Activate or deactivate the gripper.
 
@@ -1082,60 +1095,16 @@ class Bestman_sim:
             value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).
         """
 
-        if isinstance(object, str):
-            if hasattr(self.client, object):
-                object_id = getattr(self.client, object)
-            else:
-                raise AttributeError(f"scene has not {object} object!")
+        if value == 1:
+            for i in [9, 10]:
+                p.setJointMotorControl2(self.arm_id, i, p.POSITION_CONTROL, 0.04, force=10)
+        elif value == 0:
+            for i in [9, 10]:
+                p.setJointMotorControl2(self.arm_id, i, p.POSITION_CONTROL, 0.01, force=10)
         else:
-            object_id = object
-          
-        gripper_status = {"ungrasp": 0, "grasp": 1}
-        gripper_value = (
-            gripper_status["grasp"] if value == 1 else gripper_status["ungrasp"]
-        )
-
-        if gripper_value == 0 and self.gripper_id != None:
-            p.removeConstraint(self.gripper_id, physicsClientId=self.client_id)
-            self.gripper_id = None
-            for _ in range(self.frequency):
-                p.stepSimulation(physicsClientId=self.client_id)
-            print("-" * 20 + "\n" + "Gripper has been deactivated!")
-
-        if gripper_value == 1 and self.gripper_id == None:
-            cube_orn = p.getQuaternionFromEuler([0, math.pi, 0])  # control rotation
-            if self.tcp_link != -1:
-                self.gripper_id = p.createConstraint(
-                    self.arm_id,
-                    self.tcp_link,
-                    object_id,
-                    -1,
-                    p.JOINT_FIXED,
-                    [0, 0, 0],
-                    [0, 0, 0],
-                    [0, 0, 0],
-                    childFrameOrientation=cube_orn,
-                    physicsClientId=self.client_id,
-                )
-                print("-" * 20 + "\n" + "Gripper has been activated!")
-            else:
-                self.gripper_id = p.createConstraint(
-                    self.arm_id,
-                    self.end_effector_index,
-                    object_id,
-                    -1,
-                    p.JOINT_FIXED,
-                    [0, 0, 0],
-                    [0, 0, 0],
-                    [0, 0, 0],
-                    childFrameOrientation=cube_orn,
-                    physicsClientId=self.client_id,
-                )
-                print("-" * 20 + "\n" + "Gripper has been activated!")
+            raise(ValueError("gripper value must be 0 / 1 !"))
         
-        for _ in range(10):
-            p.stepSimulation(physicsClientId=self.client_id)
-            # time.sleep(1.0 / self.frequency)
+        self.client.run(10)
             
     
     # ----------------------------------------------------------------
