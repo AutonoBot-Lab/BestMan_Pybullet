@@ -6,7 +6,7 @@
 
 import os 
 import math
-from RoboticsToolBox import Bestman, Pose
+from RoboticsToolBox import Bestman_sim, Pose
 from Env.Client import Client
 from Visualization import Visualizer
 from Motion_Planning.Navigation import *
@@ -30,7 +30,7 @@ def main():
 
     # logID = pb_client.start_record("example_manipulation")    # start recording
     # Init robot
-    bestman = Bestman(client, visualizer, cfg)
+    bestman = Bestman_sim(client, visualizer, cfg)
     visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
 
     # load table, bowl, and chair

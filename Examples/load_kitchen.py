@@ -5,7 +5,7 @@
 """
 
 import os
-from RoboticsToolBox import Bestman
+from RoboticsToolBox import Bestman_sim
 from Env import Client
 from Visualization import Visualizer
 from Utils import load_config

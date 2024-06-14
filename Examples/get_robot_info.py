@@ -6,7 +6,7 @@
 
 import os 
 import math
-from RoboticsToolBox import Bestman, Pose
+from RoboticsToolBox import Bestman_sim, Pose
 from Env.Client import Client
 from Visualization import Visualizer
 from Motion_Planning.Navigation import *
@@ -29,7 +29,7 @@ def main():
 
     # logID = pb_client.start_record("example_manipulation")    # start recording
     # Init robot
-    bestman = Bestman(client, visualizer, cfg)
+    bestman = Bestman_sim(client, visualizer, cfg)
     
     bestman.print_joint_link_info('arm')
 

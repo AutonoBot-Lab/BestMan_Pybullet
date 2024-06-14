@@ -6,7 +6,7 @@
 
 import os
 import math
-from RoboticsToolBox import Bestman
+from RoboticsToolBox import Bestman_sim
 from Env import Client
 from Visualization import Visualizer
 from Utils import load_config
@@ -27,8 +27,8 @@ def main():
     client.create_scene(scene_path)
     
     # Init robot
-    bestman = Bestman(client, visualizer, cfg)
-
+    bestman = Bestman_sim(client, visualizer, cfg)
+    
     # Init visualizer
     visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
 
@@ -40,7 +40,7 @@ def main():
 
     # disconnect pybullet
     client.wait(1000)
-    client.disconnect_pybullet()
+    client.disconnect()
     
 if __name__=='__main__':
     
