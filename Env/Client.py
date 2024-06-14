@@ -60,12 +60,15 @@ class Client:
         p.setGravity(cfg.Gravity[0], cfg.Gravity[1], cfg.Gravity[2])
         p.setPhysicsEngineParameter(
             numSolverIterations=cfg.numSolverIterations
-        )   # Set the number of constraint solver iterations; Higher values increase precision but also increase computation time
+        )
         
-        planeId = p.loadURDF(cfg.plane_urdf_path)
+        # Enable caching of graphic shapes when loading URDF files
+        self.enable_cache = p.URDF_ENABLE_CACHED_GRAPHICS_SHAPES
+        planeId = p.loadURDF(cfg.plane_urdf_path, flags=self.enable_cache)
         
-        # parameters for base
-        self.frequency = cfg.frequency  # simulation step for base and arm
+        # parameters
+        # self.frequency = cfg.frequency  # simulation step
+        self.timestep = 1. / cfg.frequency
         self.timeout = cfg.timeout      # maximum time for planning
         
         # Obstacles in the environment
@@ -91,7 +94,8 @@ class Client:
     def run(self, x):  # steps
         for _ in range(x):
             p.stepSimulation(physicsClientId=self.client_id)
-            time.sleep(1.0 / self.frequency)
+            time.sleep(self.timestep)
+        
         print("-" * 20 + "\n" + "Has runned {} simulation steps".format(x)) 
         
 
@@ -133,6 +137,7 @@ class Client:
             globalScaling=scale,
             useFixedBase=fixed_base,
             physicsClientId=self.client_id,
+            flags=self.enable_cache
         )
         
         setattr(
@@ -150,7 +155,8 @@ class Client:
         if nav_obstacle_tag:
             self.obstacle_navigation_ids.append(object_id)
         # self.obstacle_manipulation_ids.append(getattr(self, f"{obj_name}_id"))
-        time.sleep(1.0 / self.frequency)
+        # time.sleep(1.0 / self.frequency)
+        self.run(self.timestep)
         
         return object_id
     
