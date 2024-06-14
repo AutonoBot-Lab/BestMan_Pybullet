@@ -204,7 +204,7 @@ class Camera:
 
         # Convert normalized depth values ​​to actual depth values
         depth = self.farVal * self.nearVal / (self.farVal - (self.farVal - self.nearVal) * depth)
-        
+
         # image_point = [320, 240]
         # crop_size = 200
         # depth_image = self.crop_image(depth, image_point, crop_size)
@@ -225,7 +225,7 @@ class Camera:
             current_time = datetime.now().strftime('%Y%m%d_%H%M%S')
             depth_path = f"../Examples/image/depth_{current_time}.png"
             # plt.imsave(depth_path, depth, cmap=custom_cmap)
-            depth = (depth * 1000).astype(np.uint16)
-            Image.fromarray(depth).save(depth_path)
+            depth_img = (depth * 1000).astype(np.uint16)
+            Image.fromarray(depth_img).save(depth_path)
         
         return depth
