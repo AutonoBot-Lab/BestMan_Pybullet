@@ -23,10 +23,10 @@ Visualizer:
 # PIDController params
 Controller:
   frequency : 240
-  timeout : 100.0
+  timeout : 10.0                # 
   max_force : 500
   max_iterations : 10000
-  threshold : 0.01
+  threshold : 0.015
   max_attempts : 500
   target_distance : 0.0
   Kp : 0.01
