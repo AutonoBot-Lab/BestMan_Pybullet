@@ -5,14 +5,14 @@
 """
 
 import os
-from RoboticsToolBox.Bestman_sim_panda import Bestman_sim_panda
-from Env.Client import Client
-from Visualization.Visualizer import Visualizer
-from Utils.load_config import load_config
+from Env import Client
+from Utils import load_config
+from Visualization import Visualizer
+from RoboticsToolBox import Bestman_sim_panda
 
-def main():
+def main(filename):
     
-    # load config
+    # Load config
     config_path = '../Config/debug_set_arm.yaml'
     cfg = load_config(config_path)
     print(cfg)
@@ -21,18 +21,24 @@ def main():
     client = Client(cfg.Client)
     visualizer = Visualizer(client, cfg.Visualizer)
 
-    # logID = pb_client.start_record("example_manipulation")    # start recording
+    # Start recording
+    visualizer.start_record(filename)
+    
     # Init robot
     bestman = Bestman_sim_panda(client, visualizer, cfg)
     visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
     
-    bestman.print_joint_link_info("arm")     # get info about arm
+    # Get info about arm
+    bestman.print_joint_link_info("arm")
     
-    # debug set arm joints
+    # Debug set arm joints
     bestman.sim_debug_set_arm_to_joint_values()
     
-    # disconnect pybullet
-    client.wait(1000)
+    # End record
+    visualizer.end_record()
+    
+    # Disconnect pybullet
+    client.wait(5)
     client.disconnect()
 
 
@@ -41,4 +47,7 @@ if __name__=='__main__':
     # set work dir to Examples
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     
-    main()
+   # get current file name
+    filename = os.path.splitext(os.path.basename(__file__))[0]
+
+    main(filename)

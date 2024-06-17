@@ -5,14 +5,12 @@
 """
 
 import os 
-import math
-from RoboticsToolBox import Bestman_sim, Pose
-from Env.Client import Client
-from Visualization import Visualizer
-from Motion_Planning.Navigation import *
+from Env import Client
 from Utils import load_config
+from Visualization import Visualizer
+from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long
 
-def main():
+def main(filename):
     
     # Load config
     config_path = '../Config/navigation_basic.yaml'
@@ -23,17 +21,23 @@ def main():
     client = Client(cfg.Client)
     visualizer = Visualizer(client, cfg.Visualizer)
 
+    # Start recording
+    visualizer.start_record(filename)
+    
     # Load scene
     scene_path = '../Asset/Scene/Kitchen.json'
     client.create_scene(scene_path)
 
-    # logID = pb_client.start_record("example_manipulation")    # start recording
     # Init robot
-    bestman = Bestman_sim(client, visualizer, cfg)
+    bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
     
     bestman.print_joint_link_info('arm')
 
-    client.wait(1000)
+    # End record
+    visualizer.end_record()
+
+    # Disconnect pybullet
+    client.wait(5)
     client.disconnect()
     
 if __name__=='__main__':
@@ -41,4 +45,7 @@ if __name__=='__main__':
     # set work dir to Examples
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     
-    main()
+    # get current file name
+    filename = os.path.splitext(os.path.basename(__file__))[0]
+
+    main(filename)

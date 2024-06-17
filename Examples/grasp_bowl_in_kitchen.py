@@ -14,7 +14,7 @@ from Motion_Planning.Navigation import *
 from Utils import load_config
 
 
-def main(file_name):
+def main(filename):
     
     # Load config
     config_path = '../Config/grasp_bowl_in_kitchen.yaml'
@@ -26,7 +26,7 @@ def main(file_name):
     visualizer = Visualizer(client, cfg.Visualizer)\
     
     # Start record
-    visualizer.start_record(file_name)
+    visualizer.start_record(filename)
 
     # Load scene
     scene_path = '../Asset/Scene/Kitchen.json'
@@ -79,12 +79,20 @@ def main(file_name):
     # bestman.update_camera()
     # bestman.get_camera_rgb_image(False, False)
     
-    # set target object for grasping
-    ompl_planner.set_target(bowl_id)
+    # # set target object for grasping
+    # ompl_planner.set_target(bowl_id)
     
-    # reach target object
-    ompl_planner.plan_execute()
-
+    # # reach target object
+    # ompl_planner.plan_execute()
+    
+    # Planning
+    goal = ompl_planner.set_target("bowl")
+    start = bestman.get_current_joint_values()
+    path = ompl_planner.plan(start, goal)
+    
+    # Robot execute
+    bestman.execute_trajectory(path)
+    
     # grasp target object
     bestman.sim_active_gripper(bowl_id, 1)
     
@@ -102,7 +110,6 @@ if __name__=='__main__':
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     
     # get current file name
-    current_file_path = __file__
-    file_name = os.path.splitext(os.path.basename(current_file_path))[0]
+    filename = os.path.splitext(os.path.basename(__file__))[0]
     
-    main(file_name)
+    main(filename)

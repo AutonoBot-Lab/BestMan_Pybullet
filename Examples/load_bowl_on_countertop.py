@@ -7,14 +7,14 @@
 
 import os 
 import math
-from RoboticsToolBox import Bestman_sim, Pose
+from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long
 from Env import Client
 from Visualization import Visualizer
 from Motion_Planning.Navigation import *
 from Utils import load_config
 
 
-def main():
+def main(filename):
     
      # Load config
     config_path = '../Config/load_bowl_on_countertop.yaml'
@@ -25,11 +25,11 @@ def main():
     client = Client(cfg.Client)
     visualizer = Visualizer(client, cfg.Visualizer)
     
-    # start_record
-    # logID = visualizer.start_record(os.path.splitext(os.path.basename(__file__))[0])    # start recording
+    # Start record
+    visualizer.start_record(filename)
     
     # Init robot
-    bestman = Bestman_sim(client, visualizer, cfg)
+    bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
     visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
 
     # load table, bowl, and chair
@@ -39,7 +39,7 @@ def main():
         [0.0, 0.0, math.pi / 2],
         1.0,
         "countertop",
-        fixed_base=True,
+        fixed_base=True
     )
     
     client.get_bounding_box(countertop_id, True)
@@ -55,8 +55,11 @@ def main():
         nav_obstacle_tag=False,
     )
 
+    # End record
+    visualizer.end_record()
+    
     # disconnect from server
-    client.wait(50)
+    client.wait(5)
     client.disconnect()
     
     
@@ -65,5 +68,8 @@ if __name__=='__main__':
     # set work dir to Examples
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     
-    main()
+    # get current file name
+    filename = os.path.splitext(os.path.basename(__file__))[0]
+    
+    main(filename)
 
