@@ -5,7 +5,7 @@
 """
 
 import os
-from RoboticsToolBox.Bestman_sim import Bestman_sim
+from RoboticsToolBox.Bestman_sim_panda import Bestman_sim_panda
 from Env.Client import Client
 from Visualization.Visualizer import Visualizer
 from Utils.load_config import load_config
@@ -23,14 +23,14 @@ def main():
 
     # logID = pb_client.start_record("example_manipulation")    # start recording
     # Init robot
-    bestman = Bestman_sim(client, visualizer, cfg)
+    bestman = Bestman_sim_panda(client, visualizer, cfg)
     visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
     
     bestman.print_joint_link_info("arm")     # get info about arm
     
     # debug set arm joints
     bestman.sim_debug_set_arm_to_joint_values()
-
+    
     # disconnect pybullet
     client.wait(1000)
     client.disconnect()
