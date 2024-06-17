@@ -21,7 +21,7 @@ from lisdf.utils.transformations import euler_from_quaternion
 Client class
 """
 
-
+       
 class Client:
     def __init__(self, cfg):
         """
@@ -47,7 +47,6 @@ class Client:
                 self.client_id = p.connect(
                     p.GUI, options=f"--width={width} --height={height}"
                 )
-                p.configureDebugVisualizer(p.COV_ENABLE_SHADOWS, 0)
             else:
                 self.client_id = p.connect(p.GUI)
         else:
@@ -95,7 +94,6 @@ class Client:
         for _ in range(x):
             p.stepSimulation(physicsClientId=self.client_id)
             time.sleep(self.timestep)
-        
         print("-" * 20 + "\n" + "Has runned {} simulation steps".format(x)) 
         
 
@@ -156,7 +154,7 @@ class Client:
             self.obstacle_navigation_ids.append(object_id)
         # self.obstacle_manipulation_ids.append(getattr(self, f"{obj_name}_id"))
         # time.sleep(1.0 / self.frequency)
-        self.run(self.timestep)
+        self.wait(self.timestep)
         
         return object_id
     
