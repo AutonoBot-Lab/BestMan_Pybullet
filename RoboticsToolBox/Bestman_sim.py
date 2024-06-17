@@ -8,7 +8,7 @@ import math
 import time
 import numpy as np
 import pybullet as p
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 
 from .Pose import Pose
 from Visualization import Camera
@@ -732,25 +732,19 @@ class Bestman_sim:
             targetPositions=joint_values,
             physicsClientId=self.client_id
         )
-
+        
         start_time = time.time()  # avoid time anomaly
 
         while True:
             p.stepSimulation(physicsClientId=self.client_id)
-
-            # Check if reach the goal
-            current_angles = [
-                p.getJointState(self.arm_id, i, physicsClientId=self.client_id)[0]
-                for i in self.arm_joints_idx
-            ]
+            joint_states = p.getJointStates(self.arm_id, self.arm_joints_idx, physicsClientId=self.client_id)
+            current_angles = [state[0] for state in joint_states]
             diff_angles = [abs(a - b) for a, b in zip(joint_values, current_angles)]
             if all(diff < self.threshold for diff in diff_angles):
                 break
-
+            
             if time.time() - start_time > self.timeout:  # avoid time anomaly
-                print(
-                    "-" * 20 + "\n" + "Timeout before reaching target joint position."
-                )
+                print("-" * 20 + "\n" + "Timeout before reaching target joint position.")
                 break
             
     def joints_to_cartesian(self, joint_values):
@@ -778,7 +772,8 @@ class Bestman_sim:
         # print("orientation:{}".format(orientation))
         return position
 
-    def cartesian_to_joints(self, position, orientation):
+    # def cartesian_to_joints(self, position, orientation):
+    def cartesian_to_joints(self, pose):
         """
         Transforms the robot arm's Cartesian coordinates to its joint angles.
         
@@ -792,8 +787,8 @@ class Bestman_sim:
         joint_values = p.calculateInverseKinematics(
             bodyUniqueId=self.arm_id,
             endEffectorLinkIndex=self.end_effector_index,
-            targetPosition=position,
-            targetOrientation=p.getQuaternionFromEuler(orientation),
+            targetPosition=pose.position,
+            targetOrientation=p.getQuaternionFromEuler(pose.orientation),
             maxNumIterations=self.max_iterations,
             residualThreshold=self.threshold,
             physicsClientId=self.client_id,
@@ -869,13 +864,13 @@ class Bestman_sim:
         #     print("Current position is already close to target position. No need to move.")
         #     return True
 
-        target_position = end_effector_goal_pose.position
-        target_orientation = end_effector_goal_pose.orientation
+        # target_position = end_effector_goal_pose.position
+        # target_orientation = end_effector_goal_pose.orientation
         # target_orientation = [0, math.pi / 2.0, 0]  # vcertical downward grip
 
         attempts = 0
         while attempts < self.max_attempts:
-            joint_values = self.cartesian_to_joints(target_position, target_orientation)
+            joint_values = self.cartesian_to_joints(end_effector_goal_pose)
 
             # If IK solution is invalid, break this loop and start a new attempt
             if joint_values is None or len(joint_values) != 6:
@@ -909,7 +904,7 @@ class Bestman_sim:
 
                 # calculate error
                 error = np.linalg.norm(
-                    np.array(target_position) - np.array(current_position)
+                    np.array(end_effector_goal_pose.position) - np.array(current_position)
                 )
                 # print('current_position:{}, target_position:{}, error:{}'.format(current_position, target_position, error))
 
@@ -939,49 +934,31 @@ class Bestman_sim:
             trajectory: List, each element is a list of angles, corresponding to a transformation
         """
         for joints_value in trajectory:
-            # print("joints_value:{}".format(joints_value))
-            p.setJointMotorControlArray(
-                bodyUniqueId=self.arm_id,
-                jointIndices=[0, 1, 2, 3, 4, 5],
-                controlMode=p.POSITION_CONTROL,
-                targetPositions=joints_value,
-            )
-            p.stepSimulation(physicsClientId=self.client_id)
-        print("-" * 20 + "\n" + "Excite trajectory finished!")
+            self.move_arm_to_joint_values(joints_value)
+        print("\n" + "-" * 20 + "\n" + "Excite trajectory finished!"+ "\n" + "-" * 20 + "\n")
     
-    # def calculate_IK_error(self, goal_position, goal_orientation):
-    #     """
-    #     Calculate the inverse kinematics (IK) error for performing pick-and-place manipulation of an object using a robot arm.
+    def calculate_IK_error(self, goal_pose):
+        """
+        Calculate the inverse kinematics (IK) error for performing pick-and-place manipulation of an object using a robot arm.
 
-    #     Args:
-    #         goal_position: The desired goal position for the target object.
-    #         goal_orientation: The desired goal orientation for the target object.
-    #     """
-    #     joint_values = p.calculateInverseKinematics(
-    #         bodyUniqueId=self.arm_id,
-    #         endEffectorLinkIndex=self.end_effector_index,
-    #         targetPosition=goal_position,
-    #         targetOrientation=p.getQuaternionFromEuler(goal_orientation),
-    #         maxNumIterations=self.max_iterations,
-    #         residualThreshold=self.threshold,
-    #         physicsClientId=self.client_id,
-    #     )
-    #     print("-" * 20 + "\n" + "IK: joint_values is {}".format(joint_values))
-
-    #     self.move_arm_to_joint_values(joint_values)
-
-    #     state = p.getLinkState(
-    #         bodyUniqueId=self.arm_id,
-    #         linkIndex=self.end_effector_index,
-    #         physicsClientId=self.client_id,
-    #     )
-    #     actual_position = state[0]
-    #     print("actual position: {}".format(actual_position))
-
-    #     target_position = np.array(goal_position)
-    #     actual_position = np.array(actual_position)
-    #     difference = np.linalg.norm(target_position - actual_position)
-    #     print("IK error: {}".format(difference))
+        Args:
+            goal_position: The desired goal position for the target object.
+            goal_orientation: The desired goal orientation for the target object.
+        """
+        
+        end_effector_pose = p.getLinkState(
+            bodyUniqueId=self.arm_id,
+            linkIndex=self.end_effector_index,
+            physicsClientId=self.client_id
+        )
+        
+        print(end_effector_pose[0])
+        
+        distance = np.linalg.norm(
+            np.array(end_effector_pose[0]) - np.array(goal_pose.position)
+        )
+        
+        return distance
     
     
     # ----------------------------------------------------------------
