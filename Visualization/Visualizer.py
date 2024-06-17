@@ -4,6 +4,7 @@
 @Time        :   2023/08/30 22:48:04
 """
 
+import cv2
 import pybullet as p
 import numpy as np
 from PIL import Image
@@ -74,37 +75,40 @@ class Visualizer:
             height (int): The height of the captured image.
         """
         
-        alpha = 10
-        
         # Get GUI information
         (
             width,
             height,
             viewMatrix,
             projectionMatrix,
-            cameraUp,
-            camForward,
-            horizonal,
-            vertical,
-            yaw,
-            pitch,
-            dist,
-            target,
+            _,
+            _,
+            _,
+            _,
+            _,
+            _,
+            _,
+            _,
         ) = p.getDebugVisualizerCamera()
 
         # Capture the screen
-        _, _, rgba, _, _ = p.getCameraImage(width * alpha, height * alpha)
-        img = np.array(rgba).reshape(height * alpha, width * alpha, 4)
+        _, _, rgb, _, _ = p.getCameraImage(
+                                width=width,
+                                height=height,
+                                viewMatrix=viewMatrix,
+                                projectionMatrix=projectionMatrix,
+                                renderer=p.ER_BULLET_HARDWARE_OPENGL
+                            )
 
         # Save the image to the file
         if filename == None:
             current_time = datetime.now().strftime('%Y%m%d_%H%M%S')
-            path_filename = f"../Examples/image/{current_time}.png"
-            # path_filename = f"./image/input/target:{target}_dist:{dist}_pitch:{pitch}_yaw:{yaw}.png"
+            rgb_path = f"../Examples/image/{current_time}.png"
         else:
-            path_filename = f"../Examples/image/{filename}.png"
-            
-        Image.fromarray(img).save(path_filename)
+            rgb_path = f"../Examples/image/{filename}.png"
+        rgbImg = cv2.cvtColor(rgb, cv2.COLOR_BGR2RGB)
+        cv2.imwrite(rgb_path, rgbImg)
+        
         print("-" * 20 + "capture_screen is done!" + "-" * 20)
             
             
@@ -166,7 +170,7 @@ class Visualizer:
         Enable and disable recording
         """
         
-        logId = p.startStateLogging(
+        self.logId = p.startStateLogging(
             p.STATE_LOGGING_VIDEO_MP4,
             "../Examples/log/" + fileName + ".mp4",
             physicsClientId=self.client_id
@@ -181,10 +185,10 @@ class Visualizer:
             + ".mp4"
         )
         
-        return logId
+        # return logId
 
-    def end_record(self, logId):
-        p.stopStateLogging(logId, physicsClientId=self.client_id)
+    def end_record(self):
+        p.stopStateLogging(self.logId, physicsClientId=self.client_id)
         
         
     # ----------------------------------------------------------------

@@ -85,7 +85,8 @@ class Camera:
                                     height=self.height,
                                     viewMatrix=view_mat,
                                     projectionMatrix=proj_mat,
-                                    shadow=0     # Disable Shadows
+                                    shadow=0,     # Disable Shadows
+                                    renderer=p.ER_TINY_RENDERER
                                 )
 
         return w, h, rgb, depth, seg
@@ -146,7 +147,7 @@ class Camera:
 
         if enable_save:
             current_time = datetime.now().strftime('%Y%m%d_%H%M%S')
-            rgb_path = f"../Examples/image/rgb_{current_time}.jpg"
+            rgb_path = f"../Examples/image/rgb_{current_time}.png"
             rgbImg = cv2.cvtColor(rgb, cv2.COLOR_BGR2RGB)
             cv2.imwrite(rgb_path, rgbImg)
             # Image.fromarray(rgb).save(rgb_path)
