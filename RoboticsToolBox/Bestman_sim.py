@@ -927,19 +927,18 @@ class Bestman_sim:
         return False
     
     def execute_trajectory(self, trajectory):
-        """
-        Execute the path planned by Planner
+        """Execute the path planned by Planner
 
         Args:
             trajectory: List, each element is a list of angles, corresponding to a transformation
         """
+        
         for joints_value in trajectory:
             self.move_arm_to_joint_values(joints_value)
         print("\n" + "-" * 20 + "\n" + "Excite trajectory finished!"+ "\n" + "-" * 20 + "\n")
     
     def calculate_IK_error(self, goal_pose):
-        """
-        Calculate the inverse kinematics (IK) error for performing pick-and-place manipulation of an object using a robot arm.
+        """Calculate the inverse kinematics (IK) error for performing pick-and-place manipulation of an object using a robot arm.
 
         Args:
             goal_position: The desired goal position for the target object.
@@ -952,11 +951,7 @@ class Bestman_sim:
             physicsClientId=self.client_id
         )
         
-        print(end_effector_pose[0])
-        
-        distance = np.linalg.norm(
-            np.array(end_effector_pose[0]) - np.array(goal_pose.position)
-        )
+        distance = np.linalg.norm(np.array(end_effector_pose[0]) - np.array(goal_pose.position))
         
         return distance
     
@@ -966,8 +961,7 @@ class Bestman_sim:
     # ----------------------------------------------------------------
     
     def get_robot_max_size(self):
-        """
-        Retrieves the maximum size of the robot (arm and base) in meters.
+        """Retrieves the maximum size of the robot (arm and base) in meters.
 
         Returns:
             float: The maximum size of the robot in meters.
@@ -1013,18 +1007,16 @@ class Bestman_sim:
         elif name == "arm":
             id = self.arm_id
         else:
-            print(
-                "unknown name: {}, please input base or arm!".format(name)
-            )
+            print("unknown name: {}, please input base or arm!".format(name))
 
         num_joints = p.getNumJoints(id, physicsClientId=self.client_id)
-        print("-" * 20 + "\n" + "Robot {} has {} joints".format(id, num_joints))
+        print("\n" + "-" * 20 + "\n" + "Robot {} has {} joints".format(id, num_joints) + "\n" + "-" * 20 + "\n")
         for i in range(num_joints):
             joint_info = p.getJointInfo(id, i, physicsClientId=self.client_id)
             joint_name = joint_info[1]
+            link_name = joint_info[12].decode("UTF-8")
             joint_state = p.getJointState(id, i, physicsClientId=self.client_id)
             joint_angle = joint_state[0]
-            link_name = joint_info[12].decode("UTF-8")
             print(
                 "Joint index:{}, name:{}, angle:{}".format(i, joint_name, joint_angle)
             )
@@ -1145,7 +1137,7 @@ class Bestman_sim:
                 gripper_value = gripper_status["ungrasp"]
 
             if step < 80:
-                self.move_end_effector_to_goal_position(
+                self.move_end_effector_to_goal_pose(
                     Pose(target_position, object_goal_orientation)
                 )
 
