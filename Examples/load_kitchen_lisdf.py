@@ -13,7 +13,7 @@ from Motion_Planning.Navigation import *
 from Utils import load_config
 
 
-def main():
+def main(filename):
     
     # Load config
     config_path = '../Config/navigation_basic.yaml'
@@ -23,6 +23,9 @@ def main():
     # Init client and visualizer
     client = Client(cfg.Client)
     visualizer = Visualizer(client, cfg.Visualizer)
+
+    # Start record
+    visualizer.start_record(filename)
 
     # Load scene
     scene_path = '../Asset/Kitchen_models/scenes/kitchen_counter.lisdf'
@@ -66,11 +69,18 @@ def main():
     visualizer.draw_aabb(table_id)
     print("-" * 20 + "\n" + "aabb_table:{}".format(aabb_table))
     
-    client.wait(1000)
+    # End record
+    visualizer.end_record()
+
+    client.wait(5)
     client.disconnect()
     
 if __name__=='__main__':
     
     # set work dir to Examples
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    main()
+    
+    # get current file name
+    filename = os.path.splitext(os.path.basename(__file__))[0]
+    
+    main(filename)

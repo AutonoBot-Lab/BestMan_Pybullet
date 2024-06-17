@@ -5,7 +5,7 @@
 """
 
 import os
-from RoboticsToolBox import Bestman_sim, Pose
+from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long, Pose
 from Env import Client
 from Visualization import Visualizer
 from Motion_Planning.Manipulation import OMPL_Planner
@@ -13,7 +13,7 @@ from Motion_Planning.Navigation import *
 from Utils import load_config
 
 
-def main():
+def main(filename):
     
     # Load config
     config_path = '../Config/grasp_bowl_from_drawer_in_kitchen.yaml'
@@ -28,41 +28,34 @@ def main():
     scene_path = '../Asset/Scene/Kitchen.json'
     client.create_scene(scene_path)
 
-    # logID = pb_client.start_record("example_manipulation")    # start recording
-    # Init robot
-    bestman = Bestman_sim(client, visualizer, cfg)
+    # Start record
+    visualizer.start_record(filename)
     
-    # open the drawer
+    # Init robot
+    bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
+    
+    # Open the drawer
     client.change_object_joint_angle("elementA", 36, 0.4)
 
     visualizer.draw_aabb_link("elementA", 36)
     
-    # navigate to standing position
+    # Navigate to standing position
     standing_pose = Pose([2.85, 2.4, 0], [0.0, 0.0, 0.0])
-    # nav_planner = AStarPlanner(
-    #     robot_size = bestman.get_robot_max_size(), 
-    #     obstacles_bounds = client.get_Nav_obstacles_bounds(), 
-    #     resolution = 0.05, 
-    #     enable_plot = False
-    # )
-    nav_planner = RRTPlanner(
+    nav_planner = AStarPlanner(
         robot_size = bestman.get_robot_max_size(), 
         obstacles_bounds = client.get_Nav_obstacles_bounds(), 
-        enable_plot=False
+        resolution = 0.05, 
+        enable_plot = False
     )
+    # nav_planner = RRTPlanner(
+    #     robot_size = bestman.get_robot_max_size(), 
+    #     obstacles_bounds = client.get_Nav_obstacles_bounds(), 
+    #     enable_plot=False
+    # )
     path = nav_planner.plan(bestman.get_base_pose(), standing_pose)
     bestman.navigate_base(standing_pose, path, visualize = True)
 
-    # # load bowl
-    # bowl_id = client.load_object(
-    #     "../Asset/URDF_models/utensil_bowl_blue/model.urdf",
-    #     [3.6, 2.4, 0.6],
-    #     [0.0, 0.0, 0.0],
-    #     1.0,
-    #     "bowl",
-    #     False
-    # )
-
+    # Load bowl
     bowl_id = client.load_object(
         "../Asset/URDF_models/utensil_bowl_blue/model.urdf",
         [3.6, 2.4, 0.6],
@@ -71,30 +64,36 @@ def main():
         "bowl",
         False
     )
-
+    
+    # Init planner
     ompl_planner = OMPL_Planner(
         bestman,
         cfg.Planner
     )
     
-    # get obstacles info
+    # Get obstacles info
     ompl_planner.get_obstacles_info()
     
-    # get rgb image
-    bestman.update_camera()
-    bestman.get_camera_rgb_image(True, True)
+    # Get rgb image
+    # bestman.update_camera()
+    # bestman.get_camera_rgb_image(True, True)
 
-    # set target object for grasping
-    ompl_planner.set_target("bowl")
-
-    # reach target object
-    ompl_planner.plan_execute()
-
+    # Planning
+    goal = ompl_planner.set_target("bowl")
+    start = bestman.get_current_joint_values()
+    path = ompl_planner.plan(start, goal)
+    
+    # Robot execute
+    bestman.execute_trajectory(path)
+    
     # grasp target object
     bestman.sim_active_gripper("bowl", 1)
+    
+    # End record
+    visualizer.end_record()
 
-    # disconnect pybullet
-    client.wait(1000)
+    # disconnect
+    client.wait(5)
     client.disconnect()
 
 
@@ -103,4 +102,7 @@ if __name__=='__main__':
     # set work dir to Examples
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     
-    main()
+    # get current file name
+    filename = os.path.splitext(os.path.basename(__file__))[0]
+
+    main(filename)

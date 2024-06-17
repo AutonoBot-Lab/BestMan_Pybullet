@@ -16,23 +16,17 @@ def main():
     # Load config 
     config_path = '../Config/load_kitchen.yaml'
     cfg = load_config(config_path)
-    # print(cfg)
+    print(cfg)
 
     # Init client and visualizer
     client = Client(cfg.Client)
-    visualizer = Visualizer(client, cfg.Visualizer)
     
     # Load scene
     scene_path = '../Asset/Scene/Kitchen.json'
     client.create_scene(scene_path)
 
-    # # logID = pb_client.start_record("example_manipulation")    # start recording
-    # # Init robot
-    # bestman = Bestman(client, visualizer, cfg)
-    # visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
-
     # disconnect pybullet
-    client.wait(50)
+    client.wait(5)
     client.disconnect()
     
 

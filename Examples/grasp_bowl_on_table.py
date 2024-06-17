@@ -6,13 +6,13 @@
 
 import os 
 import math
-from RoboticsToolBox import Bestman_sim, Pose
+from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long, Pose
 from Env import Client
 from Visualization import Visualizer
 from Motion_Planning.Navigation import *
 from Utils import load_config
 
-def main():
+def main(filename):
     
     # Load config
     config_path = '../Config/grasp_bowl_on_table.yaml'
@@ -23,14 +23,14 @@ def main():
     client = Client(cfg.Client)
     visualizer = Visualizer(client, cfg.Visualizer)
     
-    # start_record
-    # logID = visualizer.start_record(os.path.splitext(os.path.basename(__file__))[0])    # start recording
+    # Start record
+    visualizer.start_record(filename)
     
     # Init robot
-    bestman = Bestman_sim(client, visualizer, cfg)
+    bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
     visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
 
-    # load table and bowl
+    # Load table and bowl
     table_id = client.load_object(
         "../Asset/URDF_models/furniture_table_rectangle_high/table.urdf",
         [1.0, 1.0, 0.0],
@@ -52,11 +52,11 @@ def main():
     object_goal_pose = Pose([0.9, 0.7, 0.85], [0.0, math.pi / 2.0, 0.0])
     bestman.pick_place_v1(bowl_id, object_goal_pose)
 
-    # end record
-    # visualizer.end_record(logID)
+    # End record
+    visualizer.end_record()
 
     # disconnect from server
-    client.wait(50)
+    client.wait(5)
     client.disconnect()
     
 
@@ -65,4 +65,8 @@ if __name__=='__main__':
     # set work dir to Examples
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     
-    main()
+    # get current file name
+    filename = os.path.splitext(os.path.basename(__file__))[0]
+    
+    main(filename)
+

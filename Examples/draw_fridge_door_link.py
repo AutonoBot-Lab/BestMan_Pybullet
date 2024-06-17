@@ -6,40 +6,46 @@
 
 import os
 import math
-from RoboticsToolBox import Bestman_sim
 from Env import Client
-from Visualization import Visualizer
 from Utils import load_config
+from Visualization import Visualizer
+from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long
 
-def main():
+def main(filename):
     
-    # load config
+    # Load config
     config_path = '../Config/draw_AABB_fridge_door_link.yaml'
     cfg = load_config(config_path)
     print(cfg)
 
-    # initial client and visualizer
+    # Initial client and visualizer
     client = Client(cfg.Client)
     visualizer = Visualizer(client, cfg.Visualizer)
 
-    # load scene
+    # Start recording
+    visualizer.start_record(filename)
+
+    # Load scene
     scene_path = '../Asset/Scene/Kitchen.json'
     client.create_scene(scene_path)
     
     # Init robot
-    bestman = Bestman_sim(client, visualizer, cfg)
+    bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
     
     # Init visualizer
     visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
 
-    # open fridge
+    # Open fridge
     client.change_object_joint_angle('elementE', 1, math.pi / 2)
 
-    # draw fridge aabb link
+    # Draw fridge aabb link
     visualizer.draw_aabb_link('elementE', 1)
 
-    # disconnect pybullet
-    client.wait(1000)
+    # End record
+    visualizer.end_record()
+
+    # Disconnect pybullet
+    client.wait(5)
     client.disconnect()
     
 if __name__=='__main__':
@@ -47,4 +53,7 @@ if __name__=='__main__':
     # set work dir to Examples
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     
-    main()
+    # get current file name
+    filename = os.path.splitext(os.path.basename(__file__))[0]
+
+    main(filename)
