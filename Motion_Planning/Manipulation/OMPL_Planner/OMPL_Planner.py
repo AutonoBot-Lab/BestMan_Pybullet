@@ -100,8 +100,7 @@ class OMPL_Planner:
             return
 
         self.ss.setPlanner(self.planner)
-
-    # def set_target(self, target_id):
+    
     def set_target(self, target):
         """
         Set the target to be used for the manipulation task.
@@ -121,13 +120,10 @@ class OMPL_Planner:
         # get target object bounds
         min_x, min_y, _, max_x, max_y, max_z = self.client.get_bounding_box(target_id)
         
-        # set target object postion
+        # set target object Pose
         goal_pose = Pose([(min_x + max_x) / 2, (min_y + max_y) / 2, max_z + self.robot.tcp_height + 0.02], [0.0, math.pi / 2.0, 0.0])
-        # target_pos = ((min_x + max_x) / 2, (min_y + max_y) / 2, max_z)
-        # target_orientation = [0.0, math.pi / 2.0, 0.0]      # vertical
-        # self.target_pose = Pose(target_pos, target_orientation)
         
-        # set target grasp angle
+        # get goal angle
         goal = self.robot.cartesian_to_joints(goal_pose)
         
         return goal
