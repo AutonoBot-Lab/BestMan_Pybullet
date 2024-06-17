@@ -8,9 +8,12 @@ import math
 import time
 import numpy as np
 import pybullet as p
+from abc import ABC, abstractmethod
+
 from .Pose import Pose
-from Controller.PIDController import PIDController
 from Visualization import Camera
+from Controller.PIDController import PIDController
+
 
 class Bestman_sim:
     
@@ -1069,8 +1072,8 @@ class Bestman_sim:
     # ----------------------------------------------------------------
     # functions for gripper
     # ----------------------------------------------------------------
-
-    # def sim_active_gripper(self, object_id, value):
+    
+    @abstractmethod
     def sim_active_gripper(self, object, value):
         """
         Activate or deactivate the gripper.
@@ -1079,62 +1082,7 @@ class Bestman_sim:
             object_id (init): ID of the object related to gripper action.
             value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).
         """
-
-        if isinstance(object, str):
-            if hasattr(self.client, object):
-                object_id = getattr(self.client, object)
-            else:
-                raise AttributeError(f"scene has not {object} object!")
-        else:
-            object_id = object
-          
-        gripper_status = {"ungrasp": 0, "grasp": 1}
-        gripper_value = (
-            gripper_status["grasp"] if value == 1 else gripper_status["ungrasp"]
-        )
-
-        if gripper_value == 0 and self.gripper_id != None:
-            p.removeConstraint(self.gripper_id, physicsClientId=self.client_id)
-            self.gripper_id = None
-            for _ in range(self.frequency):
-                p.stepSimulation(physicsClientId=self.client_id)
-            print("-" * 20 + "\n" + "Gripper has been deactivated!")
-
-        if gripper_value == 1 and self.gripper_id == None:
-            cube_orn = p.getQuaternionFromEuler([0, math.pi, 0])  # control rotation
-            if self.tcp_link != -1:
-                self.gripper_id = p.createConstraint(
-                    self.arm_id,
-                    self.tcp_link,
-                    object_id,
-                    -1,
-                    p.JOINT_FIXED,
-                    [0, 0, 0],
-                    [0, 0, 0],
-                    [0, 0, 0],
-                    childFrameOrientation=cube_orn,
-                    physicsClientId=self.client_id,
-                )
-                print("-" * 20 + "\n" + "Gripper has been activated!")
-            else:
-                self.gripper_id = p.createConstraint(
-                    self.arm_id,
-                    self.end_effector_index,
-                    object_id,
-                    -1,
-                    p.JOINT_FIXED,
-                    [0, 0, 0],
-                    [0, 0, 0],
-                    [0, 0, 0],
-                    childFrameOrientation=cube_orn,
-                    physicsClientId=self.client_id,
-                )
-                print("-" * 20 + "\n" + "Gripper has been activated!")
-        
-        for _ in range(10):
-            p.stepSimulation(physicsClientId=self.client_id)
-            # time.sleep(1.0 / self.frequency)
-            
+        pass    
     
     # ----------------------------------------------------------------
     # functions for camera
@@ -1148,7 +1096,7 @@ class Bestman_sim:
     
     def get_camera_depth_image(self, enable_show=False, enable_save=False):
         self.camera.get_depth_image(enable_show, enable_save)
-        
+    
     
     # ----------------------------------------------------------------
     # functions for pick / place
