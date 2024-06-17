@@ -47,6 +47,7 @@ class Client:
                 self.client_id = p.connect(
                     p.GUI, options=f"--width={width} --height={height}"
                 )
+                p.configureDebugVisualizer(p.COV_ENABLE_SHADOWS, 0)
             else:
                 self.client_id = p.connect(p.GUI)
         else:
