@@ -2,9 +2,9 @@
 Client:
   enable_GUI: True                # If True, the GUI will be enabled.
   enable_capture: True            # If True, custom image size
-  width: 2560                     # W
-  height: 1440                    # H
-  enable_Debug: True              # If False, the debug visualizer will be disabled.
+  width: 1280                     # W
+  height: 720                     # H
+  enable_Debug: True             # If False, the debug visualizer will be disabled.
   Gravity: [0, 0, -9.8]           # Simulation environment gravity coefficient
   numSolverIterations: 1000       # Set the number of constraint solver iterations; Higher values increase precision but also increase computation time
   plane_urdf_path: 'plane.urdf'   # plane
