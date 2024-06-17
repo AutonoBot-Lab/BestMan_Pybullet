@@ -6,7 +6,7 @@
 
 import os
 import math
-from RoboticsToolBox import Bestman_sim, Pose
+from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long, Pose
 from Env import Client
 from Visualization import Visualizer
 from Motion_Planning.Manipulation import OMPL_Planner
@@ -14,7 +14,7 @@ from Motion_Planning.Navigation import *
 from Utils import load_config
 
 
-def main():
+def main(file_name):
     
     # Load config
     config_path = '../Config/grasp_bowl_in_kitchen.yaml'
@@ -23,14 +23,17 @@ def main():
 
     # Init client and visualizer
     client = Client(cfg.Client)
-    visualizer = Visualizer(client, cfg.Visualizer)
+    visualizer = Visualizer(client, cfg.Visualizer)\
+    
+    # Start record
+    visualizer.start_record(file_name)
 
     # Load scene
     scene_path = '../Asset/Scene/Kitchen.json'
     client.create_scene(scene_path)
-
+    
     # Init robot
-    bestman = Bestman_sim(client, visualizer, cfg)
+    bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
     visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
 
     # load OMPL planner
@@ -72,9 +75,9 @@ def main():
         nav_obstacle_tag=False,
     )
     
-    # get rgb image
-    bestman.update_camera()
-    bestman.get_camera_rgb_image(True, True)
+    # # get rgb image
+    # bestman.update_camera()
+    # bestman.get_camera_rgb_image(False, False)
     
     # set target object for grasping
     ompl_planner.set_target(bowl_id)
@@ -85,8 +88,11 @@ def main():
     # grasp target object
     bestman.sim_active_gripper(bowl_id, 1)
     
+    # End record
+    visualizer.end_record()
+    
     # disconnect pybullet
-    client.wait(10)
+    client.wait(5)
     client.disconnect()
     
 
@@ -95,4 +101,8 @@ if __name__=='__main__':
     # set work dir to Examples
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     
-    main()
+    # get current file name
+    current_file_path = __file__
+    file_name = os.path.splitext(os.path.basename(current_file_path))[0]
+    
+    main(file_name)
