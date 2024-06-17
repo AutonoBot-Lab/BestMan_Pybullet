@@ -10,12 +10,10 @@ import numpy as np
 import pybullet as p
 from ompl import base as ob
 from ompl import geometric as og
-
-from RoboticsToolBox import Pose
+from .utils import *
 from ..Collision import Collision
 
-# INTERPOLATE_NUM = 500
-INTERPOLATE_NUM = 20
+INTERPOLATE_NUM = 500
 DEFAULT_PLANNING_TIME = 5.0     # planning time threshold
 
 class OMPL_Planner:
@@ -52,9 +50,9 @@ class OMPL_Planner:
         self.set_obstacles()
         
         # preparation for Manipution planning
-        self.space = ob.RealVectorStateSpace(self.DOF)      # Creating a state space
-        bounds = ob.RealVectorBounds(self.DOF)              # Creating Boundary
-        joint_bounds = self.robot.get_joint_bounds()        # Get joint boundaries
+        self.space = ob.RealVectorStateSpace(self.DOF)
+        bounds = ob.RealVectorBounds(self.DOF)
+        joint_bounds = self.robot.get_joint_bounds()
         for i, bound in enumerate(joint_bounds):
             bounds.setLow(i, bound[0])
             bounds.setHigh(i, bound[1])
@@ -122,15 +120,16 @@ class OMPL_Planner:
         min_x, min_y, _, max_x, max_y, max_z = self.client.get_bounding_box(target_id)
         
         # set target object postion
-        goal_pose = Pose([(min_x + max_x) / 2, (min_y + max_y) / 2, max_z + self.robot.tcp_height + 0.02], [0.0, math.pi / 2.0, 0.0])
-        # target_pos = ((min_x + max_x) / 2, (min_y + max_y) / 2, max_z)
-        # target_orientation = [0.0, math.pi / 2.0, 0.0]      # vertical
-        # self.target_pose = Pose(target_pos, target_orientation)
+        self.target_pos = (
+            (min_x + max_x) / 2,
+            (min_y + max_y) / 2,
+            max_z
+        )
+        target_orientation = [0.0, math.pi / 2.0, 0.0]      # vertical
         
         # set target grasp angle
-        goal = self.robot.cartesian_to_joints(goal_pose)
-        
-        return goal
+        self.goal = self.robot.cartesian_to_joints(position=[self.target_pos[0], self.target_pos[1], max_z + self.robot.tcp_height + 0.01], 
+                                                   orientation=target_orientation)
     
     # ----------------------------------------------------------------
     # obstacles
@@ -169,11 +168,34 @@ class OMPL_Planner:
                 print(f"Obstacle Name: {item_name}, ID: {obstacle_id}")
     
     # ----------------------------------------------------------------
-    # functions for plan 
+    # plan / execute
     # ----------------------------------------------------------------
+    
+    def compute_distance(self, end_effector_link_index):
+        """
+        Compute the distance between the end effector and the object.
+
+        Args:
+                end_effector_link_index: index of the end effector link.
+
+        Returns:
+                distance: distance between the end - effector and the object.
+        """
+        
+        end_effector_pose = p.getLinkState(self.arm_id, end_effector_link_index)
+
+        # Compute the distance between the end-effector and the object
+        distance = np.linalg.norm(
+            np.array(end_effector_pose[0]) - np.array(self.target_pos)
+        )
+
+        print(f'end_effector_pose:{end_effector_pose[0]}, target_pos:{self.target_pos}')
+        
+        return distance
 
     def plan(self, start, goal, allowed_time=DEFAULT_PLANNING_TIME):
-        """Plan grasp from start to goal.
+        """
+        Plan grasp from start to goal.
         This is a wrapper around OMPL grasp planning algorithm.
 
         Args:
@@ -181,10 +203,14 @@ class OMPL_Planner:
             goal: state to go to after planning has been completed.
 
         Returns:
+            solved: Flag whether a feasible solution has been found
             path: a list of robot state.
         """
         
-        print("\n" + "-" * 20 + "\n" + "Start planning"+ "\n" + "-" * 20 + "\n")
+        # set arm joint angle to start state
+        self.robot.sim_set_arm_to_joint_values(start)
+        
+        print("start_planning")
 
         # set the start and goal states
         s = ob.State(self.space)
@@ -196,19 +222,81 @@ class OMPL_Planner:
 
         # attempt to solve the problem within allowed planning time
         solved = self.ss.solve(allowed_time)
+        path = []
         if solved:
+            print(
+                "Found solution: interpolating into {} segments".format(INTERPOLATE_NUM)
+            )
+            # print the path to screen
             sol_path_geometric = self.ss.getSolutionPath()
-            sol_path_geometric.interpolate(INTERPOLATE_NUM)     # Generate more intermediate states to make the path smoother and more refined
+            sol_path_geometric.interpolate(INTERPOLATE_NUM)
             sol_path_states = sol_path_geometric.getStates()
-            path = [self.state_to_list(state) for state in sol_path_states]
-            print("\n" + "-" * 20 + "\n" + "End planning"+ "\n" + "-" * 20 + "\n")
-            return path
+            path = [state_to_list(state, self.DOF) for state in sol_path_states]
         else:
-            raise RuntimeError("No solution found!")
+            print("No solution found")
+        
+        return solved, path
+
+    def execute(self, path, dynamics=False):
+        """
+        arm execute a given path
+        """
+        
+        for q in path:
+            if dynamics:
+                for i in self.joint_idx:
+                    p.setJointMotorControl2(
+                        self.arm_id, i, p.POSITION_CONTROL, q[i]
+                    )
+            else:
+                self.robot.sim_set_arm_to_joint_values(q)
+            
+            p.stepSimulation()
     
-    # ----------------------------------------------------------------
-    # plan / execute
-    # ----------------------------------------------------------------
-    
-    def state_to_list(self, state):
-        return [state[i] for i in range(self.DOF)]
+    def plan_execute(self):
+        """
+        Reach an object from start to goal
+        """
+        
+        # start arm joint angles
+        start = self.robot.get_current_joint_values()
+        
+        attempts = 0
+        while attempts < self.max_attempts:
+            
+            attempts += 1
+            
+            # Manipution plan
+            res, path = self.plan(start, self.goal)
+
+            # Execute the path and attach the object to the robot
+            if res:
+                
+                self.execute(path, True)
+                # self.execute(path)
+                
+                # Check if the robot is close to the object
+                if self.tcp_link != -1:
+                    distance = self.compute_distance(self.tcp_link)
+                else:
+                    distance = self.compute_distance(self.robot.end_effector_link_index)
+                    print("Attention, the distance is computed without tcp link")
+                
+                print("Distance to goal:{}".format(distance))
+                
+                # This method grasses the robot if the distance is below threshold.
+                if distance <= self.threshold:
+                    print(
+                        "After {} trials, successfully grasped (error:{}).".format(
+                            attempts, distance
+                        )
+                    )
+                    
+                    break
+
+        if attempts >= self.max_attempts:
+            print(
+                "Could not reach target position without collision after {} attempts".format(
+                    self.max_attempts
+                )
+            )  
