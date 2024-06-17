@@ -12,7 +12,7 @@ from .Pose import Pose
 from Controller.PIDController import PIDController
 from Visualization import Camera
 
-class Bestman_sim:
+class Bestman_sim_ur5e_vacuum_long:
     
     def __init__(self, client, visualizer,  cfg):
         """
@@ -21,7 +21,7 @@ class Bestman_sim:
         Parameters:
             init_pos (list, optional): A list of three floats representing the initial position. Defaults to [0, 0, 0].
             client (object): The pybullet client object.
-        
+
         Attributes:
             client (object): The pybullet client object.
             client_id (int): The client id returned by the pybullet client.
@@ -153,7 +153,7 @@ class Bestman_sim:
 
         # global parameters
         self.init_pose = init_pose   # Used when resetting the robot position
-        # self.gripper_id = None      # Constraints between the end effector and the grasped object, None when not grabbed
+        self.gripper_id = None      # Constraints between the end effector and the grasped object, None when not grabbed
 
     
     # ----------------------------------------------------------------
@@ -667,6 +667,36 @@ class Bestman_sim:
         )
         return end_effector_position, end_effector_orientation
     
+    def print_joint_link_info(self, name):
+        """
+        print base/arm joint and link info of robot
+        
+        Args:
+            name(str): 'base' or 'arm'
+        """
+        
+        if name == "base":
+            id = self.base_id
+        elif name == "arm":
+            id = self.arm_id
+        else:
+            print(
+                "unknown name: {}, please input base or arm!".format(name)
+            )
+
+        num_joints = p.getNumJoints(id, physicsClientId=self.client_id)
+        print("-" * 20 + "\n" + "Robot {} has {} joints".format(id, num_joints))
+        for i in range(num_joints):
+            joint_info = p.getJointInfo(id, i, physicsClientId=self.client_id)
+            joint_name = joint_info[1]
+            joint_state = p.getJointState(id, i, physicsClientId=self.client_id)
+            joint_angle = joint_state[0]
+            link_name = joint_info[12].decode("UTF-8")
+            print(
+                "Joint index:{}, name:{}, angle:{}".format(i, joint_name, joint_angle)
+            )
+            print("Link index: {}, name: {}".format(i, link_name))
+    
     def sim_adjust_arm_height(self, height):
         """
         Dynamically adjusts the height of the robot arm.
@@ -1020,36 +1050,6 @@ class Bestman_sim:
         
         return robot_size
     
-    def print_joint_link_info(self, name):
-        """
-        print base/arm joint and link info of robot
-        
-        Args:
-            name(str): 'base' or 'arm'
-        """
-        
-        if name == "base":
-            id = self.base_id
-        elif name == "arm":
-            id = self.arm_id
-        else:
-            print(
-                "unknown name: {}, please input base or arm!".format(name)
-            )
-
-        num_joints = p.getNumJoints(id, physicsClientId=self.client_id)
-        print("-" * 20 + "\n" + "Robot {} has {} joints".format(id, num_joints))
-        for i in range(num_joints):
-            joint_info = p.getJointInfo(id, i, physicsClientId=self.client_id)
-            joint_name = joint_info[1]
-            joint_state = p.getJointState(id, i, physicsClientId=self.client_id)
-            joint_angle = joint_state[0]
-            link_name = joint_info[12].decode("UTF-8")
-            print(
-                "Joint index:{}, name:{}, angle:{}".format(i, joint_name, joint_angle)
-            )
-            print("Link index: {}, name: {}".format(i, link_name))
-    
     def sim_sync_base_arm_pose(self):
         """
         Synchronizes the pose of the robot arm with the base.
@@ -1074,7 +1074,7 @@ class Bestman_sim:
     def sim_active_gripper(self, object, value):
         """
         Activate or deactivate the gripper.
-        
+
         Args:
             object_id (init): ID of the object related to gripper action.
             value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).
