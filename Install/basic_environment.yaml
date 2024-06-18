@@ -3,22 +3,11 @@ name: BestMan
 channels:
   - defaults
   - conda-forge
-  - pytorch
-  - pytorch3d
-  - nvidia
-  - pyg
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2
 
 dependencies:
   - python=3.8.*
   - pip
   - pybind11
-  - pytorch=1.13.1
-  - torchvision=0.14.1
-  - torchaudio=0.13.1
-  - pytorch-cuda=11.6
   - ninja
   - openblas-devel
   - yacs==0.1.8
@@ -34,5 +23,3 @@ dependencies:
       - open3d
       - graspnetAPI
       - ompl-1.6.0-cp38-cp38-manylinux_2_28_x86_64.whl
-
-      - -i https://pypi.tuna.tsinghua.edu.cn/simple
