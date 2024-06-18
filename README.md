@@ -25,7 +25,7 @@ git submodule update
 ```
 
 
-### :shamrock: Anaconda
+### :shamrock: Conda
 
 First install `Anaconda` or `minconda` on linux system and then perform the following steps：
 
@@ -36,20 +36,24 @@ sudo bash pythonpath.sh
 source ~/.bashrc
 ```
 
-- Install shared file(If it already exists, skip this step.)
+- Install shared file (If it already exists, skip this step.)
 ```
 sudo apt update && sudo apt install -y libgl1-mesa-glx libglib2.0-0
 sudo mkdir /usr/lib/dri
 sudo ln -s /lib/x86_64-linux-gnu/dri/swrast_dri.so /usr/lib/dri/swrast_dri.so
 ```
 
-- Install gcc/g++ 9(If it already exists, skip this step.)
+- Install gcc/g++ 9 (If it already exists, skip this step.)
 ```
 sudo apt install -y build-essential gcc-9 g++-9
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9
 sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 9
 sudo update-alternatives --config gcc  # choice gcc-9
-sudo update-alternatives --config g++  # choice g++-9, which is consistent with the version of gcc
+sudo update-alternatives --config g++  # choice g++-9
+
+# Make sure gcc and g++ versions are consistent
+gcc -v
+g++ -v
 ```
 
 - Configure mamba to speed up the conda environment construction
