@@ -69,7 +69,10 @@ conda install mamba -n base -c conda-forge
 - Create conda environment
 ```
 mamba env create -f basic_environment.yaml
-conda activate BestMan
+mamba activate BestMan
+
+# Install torch
+mamba env update -f cu116.yaml
 
 # Install MinkowskiEngine
 pip install -U git+https://github.com/NVIDIA/MinkowskiEngine -v --no-deps --global-option="--blas_include_dirs=${CONDA_PREFIX}/include" --global-option="--blas=openblas"
