@@ -39,8 +39,8 @@ source ~/.bashrc
 - Install shared file(If it already exists, skip this step.)
 ```
 sudo apt update && sudo apt install -y libgl1-mesa-glx libglib2.0-0
-mkdir /usr/lib/dri
-ln -s /lib/x86_64-linux-gnu/dri/swrast_dri.so /usr/lib/dri/swrast_dri.so
+sudo mkdir /usr/lib/dri
+sudo ln -s /lib/x86_64-linux-gnu/dri/swrast_dri.so /usr/lib/dri/swrast_dri.so
 ```
 
 - Install gcc/g++ 9(If it already exists, skip this step.)
