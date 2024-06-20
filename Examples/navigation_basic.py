@@ -10,6 +10,7 @@ from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long, Pose
 from Env.Client import Client
 from Visualization import Visualizer
 from Motion_Planning.Navigation import *
+from SLAM import simple_slam
 from Utils import load_config
 
 def main(filename):
@@ -70,12 +71,15 @@ def main(filename):
     target_position = [1, 0, 0]
     # target_position = [5.0, 1.0, 0.0]
     # visualizer.draw_line([1, 0, 0], target_position)
-
+    
+    # Simple SLAM
+    nav_obstacles_bounds = simple_slam(client, bestman, True)
+    
     # navigate algorithm
     goal_base_pose = Pose(target_position, [0.0, 0.0, math.pi / 2.0])
     nav_planner = AStarPlanner(
         robot_size = bestman.get_robot_max_size(), 
-        obstacles_bounds = client.get_Nav_obstacles_bounds(), 
+        obstacles_bounds = nav_obstacles_bounds, 
         resolution = 0.05, 
         enable_plot = True
     )
@@ -92,7 +96,7 @@ def main(filename):
     #     enable_plot = True
     # )
     
-    path = nav_planner.plan(start_pose = bestman.get_base_pose(), goal_pose = goal_base_pose)
+    path = nav_planner.plan(start_pose = bestman.get_current_base_pose(), goal_pose = goal_base_pose)
 
     print('navgation path points:', len(path))
     print('navgation path:', path)

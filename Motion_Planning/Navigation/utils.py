@@ -13,7 +13,6 @@ class AreaBounds:
 		self.y_min = min([self.y_min, start[1], goal[1]]) -2
 		self.x_max = max([self.x_max, start[0], goal[0]]) +2
 		self.y_max = max([self.y_max, start[1], goal[1]]) +2
-		print('area:', self.x_min, self.y_min, self.x_max, self.y_max)
             
             
 def plot_rectangle(x_min, y_min, x_max, y_max):  # pragma: no cover
