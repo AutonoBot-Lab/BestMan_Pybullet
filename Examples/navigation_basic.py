@@ -34,14 +34,13 @@ def main(filename):
     # Init robot
     bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
 
-    # load table, bowl, and chair
+    # Load table, bowl, and chair
     table_id = client.load_object(
         "../Asset/URDF_models/furniture_table_rectangle_high/table.urdf",
         [1.0, 1.0, 0.0],
         [0.0, 0.0, 0.0],
         1.0,
-        "table",
-        fixed_base=True,
+        "table"
     )
 
     bowl_id = client.load_object(
@@ -49,8 +48,7 @@ def main(filename):
         [0.6, 0.6, 0.85],
         [0.0, 0.0, 0.0],
         1.0,
-        "bowl",
-        nav_obstacle_tag=False,
+        "bowl"
     )
 
     chair_id = client.load_object(
@@ -58,25 +56,19 @@ def main(filename):
         [-0.3, 0.8, 0.1],
         [math.pi / 2.0 * 3, 0.0, math.pi / 2.0],
         1.5,
-        "chair",
-        nav_obstacle_tag=False,
+        "chair"
     )
 
-    # get bounding box of objects
+    # Get bounding box of objects
     aabb_table = client.get_bounding_box(table_id)
     visualizer.draw_aabb(table_id)
     print("-" * 20 + "\n" + "aabb_table:{}".format(aabb_table))
 
-    # plot line connecting init and goal positions
-    target_position = [1, 0, 0]
-    # target_position = [5.0, 1.0, 0.0]
-    # visualizer.draw_line([1, 0, 0], target_position)
-    
     # Simple SLAM
     nav_obstacles_bounds = simple_slam(client, bestman, True)
     
     # navigate algorithm
-    goal_base_pose = Pose(target_position, [0.0, 0.0, math.pi / 2.0])
+    goal_base_pose = Pose([1, 0, 0], [0.0, 0.0, math.pi / 2.0])
     nav_planner = AStarPlanner(
         robot_size = bestman.get_robot_max_size(), 
         obstacles_bounds = nav_obstacles_bounds, 
@@ -97,16 +89,13 @@ def main(filename):
     # )
     
     path = nav_planner.plan(start_pose = bestman.get_current_base_pose(), goal_pose = goal_base_pose)
-
-    print('navgation path points:', len(path))
-    print('navgation path:', path)
     
     # navigate segbot
     bestman.navigate_base(goal_base_pose, path)
     
     # End record
     visualizer.end_record()
-
+    
     client.wait(5)
     client.disconnect()
     
