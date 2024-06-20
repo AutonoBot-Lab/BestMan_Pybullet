@@ -141,6 +141,7 @@ class RRTPlanner:
         plt.axis([self.area.x_min, self.area.x_max, self.area.y_min, self.area.y_max])
         plt.axis("equal")
         # plt.grid(True)
+        plt.title("Navigation Visualization")
         plt.pause(0.01)
         plt.show()
         
