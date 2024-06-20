@@ -334,7 +334,7 @@ class Bestman_sim:
             
             self.sim_action(-output)     
     
-    def navigate_base(self, goal_base_pose, path, visualize = False):
+    def navigate_base(self, goal_base_pose, path, enable_plot = False):
         """
         Navigate a robot from its current position to a specified goal position
 
@@ -352,7 +352,7 @@ class Bestman_sim:
             )
             
             # draw the trajectory
-            if i != 0 and visualize:
+            if i != 0 and enable_plot:
                 front_point = [path[i-1][0], path[i-1][1], 0]
                 p.addUserDebugLine(front_point, next_point, lineColorRGB=[1, 0, 0], lineWidth=3, physicsClientId=self.client_id)
 
@@ -651,24 +651,13 @@ class Bestman_sim:
         """
         Retrieve arm's end effect information
         """
-        joint_info = p.getJointInfo(
-            self.arm_id, self.end_effector_index, physicsClientId=self.client_id
-        )
-        end_effector_name = joint_info[1].decode("utf-8")
+        
         end_effector_info = p.getLinkState(
             bodyUniqueId=self.arm_id,
             linkIndex=self.end_effector_index,
             physicsClientId=self.client_id,
         )
-        end_effector_position = end_effector_info[0]
-        end_effector_orientation = end_effector_info[1]
-        print("-" * 20 + "\n" + "End effector name:{}".format(end_effector_name))
-        print(
-            "Position:{}; Orientation:{}".format(
-                end_effector_position, end_effector_orientation
-            )
-        )
-        return end_effector_position, end_effector_orientation
+        return Pose(end_effector_info[0], end_effector_info[1])
     
     def sim_adjust_arm_height(self, height):
         """
@@ -926,15 +915,24 @@ class Bestman_sim:
         )
         return False
     
-    def execute_trajectory(self, trajectory):
+    def execute_trajectory(self, trajectory, enable_plot=False):
         """Execute the path planned by Planner
 
         Args:
             trajectory: List, each element is a list of angles, corresponding to a transformation
         """
         
-        for joints_value in trajectory:
-            self.move_arm_to_joint_values(joints_value)
+        for i in range(len(trajectory)):
+            self.move_arm_to_joint_values(trajectory[i])
+            
+            current_point = self.get_current_end_effector_pose().position
+            
+            # draw the trajectory
+            if i != 0 and enable_plot:
+                p.addUserDebugLine(front_point, current_point, lineColorRGB=[1, 0, 0], lineWidth=3, physicsClientId=self.client_id)
+            
+            front_point = current_point
+        
         print("\n" + "-" * 20 + "\n" + "Excite trajectory finished!"+ "\n" + "-" * 20 + "\n")
     
     def calculate_IK_error(self, goal_pose):
