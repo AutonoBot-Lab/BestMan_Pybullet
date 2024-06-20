@@ -85,9 +85,10 @@ class PRMPlanner:
         plt.plot(self.goal_position[0], self.goal_position[1], "^c")
         plt.plot(self.rx, self.ry, "-r")
         plt.pause(0.001)
-        plt.show()
         plt.grid(True)
         plt.axis("equal")
+        plt.title("Navigation Visualization")
+        plt.show()
 
 
     def is_collision(self, sx, sy, gx, gy):
