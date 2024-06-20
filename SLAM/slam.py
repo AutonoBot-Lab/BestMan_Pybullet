@@ -22,6 +22,7 @@ def simple_slam(client, robot, enable_plot=False):
         plt.axis([area.x_min, area.x_max, area.y_min, area.y_max])
         plt.axis("equal")
         # plt.grid(True)    # grid line 
+        plt.title("SLAM Visualization")
         plt.pause(0.01)
         plt.show()
     
