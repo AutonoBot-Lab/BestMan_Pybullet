@@ -172,7 +172,7 @@ class Bestman_sim:
         """
         return self.base_id
 
-    def get_base_pose(self):
+    def get_current_base_pose(self):
         """
         Retrieves the current position and orientation of the robot base.
 
@@ -312,7 +312,7 @@ class Bestman_sim:
         self.rotated = False
 
         while True:
-            pose = self.get_base_pose()
+            pose = self.get_current_base_pose()
             target = self.next_waypoint
             x, y = pose.x, pose.y
 
@@ -325,11 +325,11 @@ class Bestman_sim:
             if not self.rotated:
                 self.rotate_base(yaw)
                 self.rotated = True
-
+            
             THRESHOLD = 0.01
             if distance < THRESHOLD:
                 output = 0.0
-                pose = self.get_base_pose()
+                pose = self.get_current_base_pose()
                 break
             
             self.sim_action(-output)     
@@ -357,7 +357,7 @@ class Bestman_sim:
                 p.addUserDebugLine(front_point, next_point, lineColorRGB=[1, 0, 0], lineWidth=3, physicsClientId=self.client_id)
 
             # self.camera.update()
-            
+        
         self.rotate_base(goal_base_pose.yaw)
         # self.camera.update()
         print("-" * 20 + "\n" + "Navigation is done!")
@@ -555,7 +555,7 @@ class Bestman_sim:
     #         ]
 
     #     # get robot position
-    #     pose = self.get_base_pose()
+    #     pose = self.get_current_base_pose()
     #     robot_position = [pose.x, pose.y]
 
     #     # compute the Euclidean distance between object_position and each standing position
