@@ -106,7 +106,7 @@ class OMPL_Planner:
         Set the target to be used for the manipulation task.
 
         Args:
-            target_id: id of the target object.
+            target: id / name of the target object.
         """
               
         if isinstance(target, str):
@@ -121,10 +121,23 @@ class OMPL_Planner:
         min_x, min_y, _, max_x, max_y, max_z = self.client.get_bounding_box(target_id)
         
         # set target object Pose
-        goal_pose = Pose([(min_x + max_x) / 2, (min_y + max_y) / 2, max_z + self.robot.tcp_height + 0.02], [0.0, math.pi / 2.0, 0.0])
+        goal_pose = Pose([(min_x + max_x) / 2, (min_y + max_y) / 2, max_z + self.robot.tcp_height + 0.05], [0.0, math.pi / 2.0, 0.0])
         
         # get goal angle
         goal = self.robot.cartesian_to_joints(goal_pose)
+        
+        return goal
+    
+    def set_target_pose(self, target_pose):
+        """
+        Set the target to be used for the manipulation task.
+
+        Args:
+            target_pose: pose of the target object.
+        """
+        
+        # get goal angle
+        goal = self.robot.cartesian_to_joints(target_pose)
         
         return goal
     
