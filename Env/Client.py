@@ -70,17 +70,14 @@ class Client:
     
     def disconnect(self):
         p.disconnect(physicsClientId=self.client_id)
-        print("-" * 20 + "\n" + "The client is disconnected!" + "\n" + "-" * 20)
 
     def wait(self, x):  # seconds
         time.sleep(x)
-        print("-" * 20 + "\n" + "The client has waitted {} seconds".format(x))
 
-    def run(self, x):  # steps
+    def run(self, x=1):  # steps
         for _ in range(x):
             p.stepSimulation(physicsClientId=self.client_id)
             time.sleep(self.timestep)
-        print("-" * 20 + "\n" + "The client has runned {} simulation steps".format(x)) 
         
 
     # ----------------------------------------------------------------
@@ -129,7 +126,7 @@ class Client:
             object_id
         )
         
-        self.wait(self.timestep)
+        self.run(10)
         
         return object_id
 
@@ -210,15 +207,23 @@ class Client:
     # Get info from environment
     # ----------------------------------------------------------------
 
-    def get_bounding_box(self, object_id):
+    def get_bounding_box(self, object):
         """
         This function retrieves the bounding box for a given object in the PyBullet simulation environment.
 
         Args:
-            object_id (int): The ID of the object in the PyBullet simulation.
+            object (int / str): The id / name of the object in the PyBullet simulation.
         Prints:
             The function prints the minimum and maximum x, y, z coordinates of the bounding box of the object.
         """
+        
+        if isinstance(object, str):
+            assert(hasattr(self, object), f"scene has not object named {object}!")
+            object_id = getattr(self, object)
+        elif isinstance(object, int):
+            object_id = object
+        else:
+            assert(0, "error input type")
         
         link_ids = [i for i in range(-1, p.getNumJoints(object_id, physicsClientId=self.client_id))]
 
