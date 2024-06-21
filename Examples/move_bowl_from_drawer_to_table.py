@@ -5,6 +5,7 @@
 """
 
 import os
+import math
 from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long, Pose
 from Env import Client
 from Visualization import Visualizer
@@ -26,9 +27,9 @@ def main(filename):
     visualizer = Visualizer(client, cfg.Visualizer)
 
     # Load scene
-    scene_path = '../Asset/Scene/Kitchen.json'
+    scene_path = '../Asset/Scene/Kitchen_1.json'
     client.create_scene(scene_path)
-
+    
     # Start record
     visualizer.start_record(filename)
     
@@ -37,14 +38,12 @@ def main(filename):
     
     # Open the drawer
     client.change_object_joint_angle("elementA", 36, 0.4)
-
     visualizer.draw_aabb_link("elementA", 36)
     
     # Simple SLAM
     nav_obstacles_bounds = simple_slam(client, bestman, False)
     
     # Navigate to standing position
-    standing_pose = Pose([2.85, 2.4, 0], [0.0, 0.0, 0.0])
     nav_planner = AStarPlanner(
         robot_size = bestman.get_robot_max_size(), 
         obstacles_bounds = nav_obstacles_bounds, 
@@ -56,8 +55,9 @@ def main(filename):
     #     obstacles_bounds = client.get_Nav_obstacles_bounds(), 
     #     enable_plot=False
     # )
-    path = nav_planner.plan(bestman.get_current_base_pose(), standing_pose)
-    bestman.navigate_base(standing_pose, path, enable_plot=True)
+    standing_pose1 = Pose([2.85, 2.4, 0], [0.0, 0.0, 0.0])
+    path = nav_planner.plan(bestman.get_current_base_pose(), standing_pose1)
+    bestman.navigate_base(standing_pose1, path, enable_plot=True)
 
     # Load bowl
     bowl_id = client.load_object(
@@ -87,11 +87,37 @@ def main(filename):
     start = bestman.get_current_joint_values()
     path = ompl_planner.plan(start, goal)
     
-    # Robot execute
+    # Robot execute, Reach object
     bestman.execute_trajectory(path, enable_plot=True)
     
     # grasp target object
     bestman.sim_active_gripper("bowl", 1)
+    
+    # # Up 20cm
+    # goal = ompl_planner.set_target("bowl")
+    
+    client.wait(2)
+    
+    # Come back to grasp init pose
+    bestman.execute_trajectory(path[::-1], enable_plot=True)
+    
+    # Navigation to next pose
+    standing_pose2 = Pose([1.0, 2, 0], [0.0, 0.0, -math.pi / 2])
+    path = nav_planner.plan(bestman.get_current_base_pose(), standing_pose2)
+    bestman.navigate_base(standing_pose2, path, enable_plot=True)
+    
+    print(client.get_bounding_box("table"))
+    
+    # Move arm to table
+    place_pose = Pose([1.0, 1.0, 0.9], [0.0, math.pi / 2.0, 0.0])
+    bestman.move_end_effector_to_goal_pose(place_pose)
+    
+    # place the bowl
+    bestman.sim_active_gripper("bowl", 0)
+    
+    # Up arm
+    place_pose = Pose([1.0, 1.0, 1.5], [0.0, math.pi / 2.0, 0.0])
+    bestman.move_end_effector_to_goal_pose(place_pose)
     
     # End record
     visualizer.end_record()
