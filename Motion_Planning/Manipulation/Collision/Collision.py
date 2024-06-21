@@ -22,8 +22,9 @@ class Collision:
     
     def setup_collision_detection(self, self_collisions=True, allow_collision_links=[]):
         
+        all_joint_idx = self.robot.get_all_joint_idx()
         self.check_link_pairs = (
-            get_self_link_pairs(self.arm_id, self.joint_idx)
+            get_self_link_pairs(self.arm_id, all_joint_idx)
             if self_collisions
             else []
         )
@@ -31,7 +32,7 @@ class Collision:
         moving_links = frozenset(
             [
                 item
-                for item in get_moving_links(self.arm_id, self.joint_idx)
+                for item in get_moving_links(self.arm_id, all_joint_idx)
                 if not item in allow_collision_links
             ]
         )
