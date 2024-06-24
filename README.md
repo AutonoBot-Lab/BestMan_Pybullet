@@ -78,7 +78,7 @@ docker pull yk1127/bestman:v1
 - Create docker container
 
 ```
-docker run -it --gpus all --name BestMan ccr.ccs.tencentyun.com/4090/bestman:v1
+docker run -it --name BestMan yk1127/bestman:v1
 ```
 
 - Install [VcXsrv Windows X Server](https://sourceforge.net/projects/vcxsrv/), Start and keep running in the background.
