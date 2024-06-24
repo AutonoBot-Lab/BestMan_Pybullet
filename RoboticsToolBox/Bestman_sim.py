@@ -149,14 +149,9 @@ class Bestman_sim:
         self.end_effector_index = robot_cfg.end_effector_index
         self.tcp_link = robot_cfg.tcp_link
         self.tcp_height = robot_cfg.tcp_height
-
-        # # Set arm and base colors
-        # self.visualizer = Visualizer(client)
-        # self.visualizer.set_robot_visual_color(self.base_id, self.arm_id)
-
+        
         # global parameters
         self.init_pose = init_pose   # Used when resetting the robot position
-        # self.gripper_id = None      # Constraints between the end effector and the grasped object, None when not grabbed
 
     
     # ----------------------------------------------------------------
@@ -183,9 +178,6 @@ class Bestman_sim:
         base_position, base_orientation = p.getBasePositionAndOrientation(
             self.base_id, physicsClientId=self.client_id
         )
-        # base_orientation = p.getEulerFromQuaternion(
-        #     base_orientation, physicsClientId=self.client_id
-        # )
         return Pose(base_position, base_orientation)
 
     # TODO: 为什么需要这个函数,而且也没有判断是否停下来了
@@ -217,6 +209,7 @@ class Bestman_sim:
             return [0, 0, math.sin(yaw / 2.0), math.cos(yaw / 2.0)]
         
         if gradual:
+            
             while abs(self.current_yaw - target_yaw) > step_size:
                 if target_yaw > self.current_yaw:
                     self.current_yaw = min(self.current_yaw + step_size, target_yaw)
@@ -230,12 +223,8 @@ class Bestman_sim:
                 p.resetBasePositionAndOrientation(
                     self.base_id, position, orientation, physicsClientId=self.client_id
                 )
-
-                if self.arm_id is not None:
-                    self.sim_sync_base_arm_pose()
-
-                p.stepSimulation(physicsClientId=self.client_id)
-                # time.sleep(1.0 / self.frequency)
+                
+                self.sim_sync_base_arm_pose()
 
             # Ensure final orientation is set accurately
             orientation = angle_to_quaternion(target_yaw)
@@ -245,8 +234,7 @@ class Bestman_sim:
             p.resetBasePositionAndOrientation(
                 self.base_id, position, orientation, physicsClientId=self.client_id
             )
-            p.stepSimulation(physicsClientId=self.client_id)
-            # time.sleep(1.0 / self.frequency)
+            self.client.run()
 
         else:
             orientation = angle_to_quaternion(target_yaw)
@@ -256,11 +244,10 @@ class Bestman_sim:
             p.resetBasePositionAndOrientation(
                 self.base_id, position, orientation, physicsClientId=self.client_id
             )
-
-            if self.arm_id is not None:
-                self.sim_sync_base_arm_pose()
-   
-            p.stepSimulation(physicsClientId=self.client_id)
+            
+            self.sim_sync_base_arm_pose()
+            
+            self.client.run()
         
         # self.camera.update()
     
@@ -283,10 +270,6 @@ class Bestman_sim:
 
         target_position = [position[0] + delta_x, position[1] + delta_y, position[2]]
         target_orientation = orientation
-        
-        # result = self.check_collision_navigation()  # check if collision exists
-        # if result:
-        #     assert "Collision detected during navigation, stopping..."
 
         p.resetBasePositionAndOrientation(
             self.base_id,
@@ -294,9 +277,8 @@ class Bestman_sim:
             target_orientation,
             physicsClientId=self.client_id,
         )
+        
         self.sim_sync_base_arm_pose()
-        # self.camera.update()
-        # time.sleep(1.0 / self.frequency)
     
     def move_base_to_waypoint(self, waypoint):
         """
@@ -332,7 +314,9 @@ class Bestman_sim:
                 pose = self.get_current_base_pose()
                 break
             
-            self.sim_action(-output)     
+            self.sim_action(-output)
+            
+        self.client.run(10) 
     
     def navigate_base(self, goal_base_pose, path, enable_plot = False):
         """
@@ -359,222 +343,9 @@ class Bestman_sim:
             # self.camera.update()
         
         self.rotate_base(goal_base_pose.yaw)
+        self.client.run(10)
         # self.camera.update()
         print("-" * 20 + "\n" + "Navigation is done!")
-
-    # TODO: 此处的get_standing_map与compute_standing_position是配套计算机器人想要抓取某物体时最佳的站立位置,但这里只是简单的做法
-    # def get_standing_map(
-    #     self,
-    #     object_position,
-    #     radius=1.0,
-    #     resolution=0.03,
-    #     x_max=10,
-    #     y_max=10,
-    #     enable_accurate_occupancy_map=True,
-    #     enable_plot=True,
-    # ):
-    #     """
-    #     Find the grid cells that correspond to a circle centered around a given position.
-
-    #     Args:
-    #         object_position (list): The coordinates of the center of the circle [x, y].
-    #         radius (float): The radius of the circle.
-    #         resolution (float): The size of each cell in the grid.
-    #         x_max (float): The maximum value for x coordinate in the grid.
-    #         y_max (float): The maximum value for y coordinate in the grid.
-
-    #     Returns:
-    #         A list of grid cells that are inside the circle.
-    #     """
-    #     print("object_position:{}".format(object_position))
-    #     # object_position = object_position[0:2]  # only care about x, y
-
-    #     def to_grid_coordinates(point, resolution):
-    #         return [
-    #             int(round((coordinate + max_val) / resolution))
-    #             for coordinate, max_val in zip(point, [x_max, y_max])
-    #         ]
-
-    #     # Defining the environment size (in meters) and resolution
-    #     size_x = 2 * x_max
-    #     size_y = 2 * y_max
-    #     n_points_x = int(size_x / resolution)
-    #     n_points_y = int(size_y / resolution)
-
-    #     # Create a 2D grid representing the environment
-    #     affordance_map = np.zeros((n_points_x, n_points_y))
-    #     static_map = np.zeros((n_points_x, n_points_y))
-
-    #     # get arm and base size in meters
-    #     (
-    #         min_x_base,
-    #         min_y_base,
-    #         _,
-    #         max_x_base,
-    #         max_y_base,
-    #         _,
-    #     ) = self.client.get_bounding_box(self.base_id)
-    #     (
-    #         min_x_arm,
-    #         min_y_arm,
-    #         _,
-    #         max_x_arm,
-    #         max_y_arm,
-    #         _,
-    #     ) = self.client.get_bounding_box(self.arm_id)
-    #     robot_size = max(
-    #         max_x_base - min_x_base,
-    #         max_y_base - min_y_base,
-    #         max_x_arm - min_x_arm,
-    #         max_y_arm - min_y_arm,
-    #     )
-    #     # print("robot size:{}".format(robot_size))
-
-    #     # Compute the number of grid cells to inflate around each obstacle
-    #     inflate_cells = int(round(robot_size / 2 / resolution))
-
-    #     center_grid = to_grid_coordinates(object_position, resolution)
-    #     radius_grid = int(round(radius / resolution))
-
-    #     # Mark the cells inside the circle as 1
-    #     for i in range(
-    #         max(0, center_grid[0] - radius_grid),
-    #         min(n_points_x, center_grid[0] + radius_grid + 1),
-    #     ):
-    #         for j in range(
-    #             max(0, center_grid[1] - radius_grid),
-    #             min(n_points_y, center_grid[1] + radius_grid + 1),
-    #         ):
-    #             if (i - center_grid[0]) ** 2 + (
-    #                 j - center_grid[1]
-    #             ) ** 2 <= radius_grid**2:
-    #                 affordance_map[i][j] = 1
-
-    #     # Mark the cells occupied by objects as 1
-    #     if not enable_accurate_occupancy_map:
-    #         # get occupancy map
-    #         for obstacle_id in self.client.obstacle_navigation_ids:
-    #             aabb = self.client.get_bounding_box(obstacle_id)
-    #             for i in range(
-    #                 int((aabb[0] + x_max) / resolution),
-    #                 int((aabb[3] + x_max) / resolution),
-    #             ):
-    #                 for j in range(
-    #                     int((aabb[1] + y_max) / resolution),
-    #                     int((aabb[4] + y_max) / resolution),
-    #                 ):
-    #                     static_map[i][j] = 1
-    #     else:
-    #         # get accurate occupancy map
-    #         for obstacle_id in self.client.obstacle_navigation_ids:
-    #             link_ids = [
-    #                 i
-    #                 for i in range(
-    #                     -1, p.getNumJoints(obstacle_id, physicsClientId=self.client_id)
-    #                 )
-    #             ]
-    #             for link_id in link_ids:
-    #                 aabb_link = p.getAABB(
-    #                     obstacle_id, link_id, physicsClientId=self.client_id
-    #                 )
-    #                 aabb_link = list(aabb_link[0] + aabb_link[1])
-    #                 print(
-    #                     "-" * 20
-    #                     + "\n"
-    #                     + "obstacle_id:{} link_id:{} aabb_link:{}".format(
-    #                         obstacle_id, link_id, aabb_link
-    #                     )
-    #                 )
-    #                 for i in range(
-    #                     max(
-    #                         0, int((aabb_link[0] + x_max) / resolution) - inflate_cells
-    #                     ),
-    #                     min(
-    #                         n_points_x,
-    #                         int((aabb_link[3] + x_max) / resolution) + inflate_cells,
-    #                     ),
-    #                 ):
-    #                     for j in range(
-    #                         max(
-    #                             0,
-    #                             int((aabb_link[1] + y_max) / resolution)
-    #                             - inflate_cells,
-    #                         ),
-    #                         min(
-    #                             n_points_y,
-    #                             int((aabb_link[4] + y_max) / resolution)
-    #                             + inflate_cells,
-    #                         ),
-    #                     ):
-    #                         static_map[i][j] = 1
-
-    #     # 1 in affordance_map, 0 in static_map
-    #     standing_map = np.logical_and(affordance_map, np.logical_not(static_map))
-    #     if enable_plot:
-    #         plt.figure(figsize=(10, 5))
-
-    #         plt.subplot(1, 2, 1)
-    #         plt.imshow(affordance_map + 2 * static_map, cmap="gray", vmin=0, vmax=3)
-    #         plt.title("Affordance Map + Static Map")
-
-    #         plt.subplot(1, 2, 2)
-    #         plt.imshow(standing_map, cmap="gray")
-    #         plt.title("Standing Map")
-
-    #         plt.show()
-
-    #     return standing_map
-
-    # def compute_standing_position(
-    #     self, object_position, standing_map, x_max=10, y_max=10, resolution=0.03
-    # ):
-    #     """
-    #     Compute the most suitable standing position from the standing map.
-
-    #     The strategy is to select the standing position that minimizes the sum of the Euclidean distances to the object and the robot.
-
-    #     Args:
-    #         object_position (list): The coordinates of the center of the object [x, y].
-    #         standing_map (numpy array): The computed standing map.
-
-    #     Returns:
-    #         The most suitable standing position [x, y].
-    #     """
-    #     # convert standing_map to a list of coordinates
-    #     standing_positions = np.argwhere(standing_map)
-
-    #     # if no standing positions available, return None
-    #     if len(standing_positions) == 0:
-    #         return None
-
-    #     # convert grid coordinates to world coordinates
-    #     def to_world_coordinates(point, resolution):
-    #         return [
-    #             coordinate * resolution - max_val
-    #             for coordinate, max_val in zip(point, [x_max, y_max])
-    #         ]
-
-    #     # get robot position
-    #     pose = self.get_current_base_pose()
-    #     robot_position = [pose.x, pose.y]
-
-    #     # compute the Euclidean distance between object_position and each standing position
-    #     # and the distance between robot_position and each standing position
-    #     object_distances = np.linalg.norm(
-    #         standing_positions - object_position[:2], axis=1
-    #     )
-    #     robot_distances = np.linalg.norm(standing_positions - robot_position, axis=1)
-        
-    #     # find the standing position with the minimum sum of distances to the object and the robot
-    #     total_distances = object_distances + robot_distances
-    #     best_position = standing_positions[np.argmin(total_distances)]
-    #     best_position_world = to_world_coordinates(best_position, resolution)
-
-    #     # add z coordinate
-    #     z = 0  # set to the height of the robot's base above the ground
-    #     best_position_world_3d = [best_position_world[0], best_position_world[1], z]
-
-    #     return best_position_world_3d
     
     
     # ----------------------------------------------------------------
@@ -606,7 +377,16 @@ class Bestman_sim:
         Returns:
             list: A list of indices for the joints in the robot arm.
         """  
-        return  self.arm_joints_idx
+        return self.arm_joints_idx
+    
+    def get_all_joint_idx(self):
+        """
+        Retrieves the indices of the joints in the robot arm.
+        
+        Returns:
+            list: A list of indices for the joints in the robot arm.
+        """  
+        return list(range(p.getNumJoints(self.arm_id, physicsClientId=self.client_id)))
     
     def get_tcp_link(self):
         """
@@ -725,7 +505,7 @@ class Bestman_sim:
         start_time = time.time()  # avoid time anomaly
 
         while True:
-            p.stepSimulation(physicsClientId=self.client_id)
+            self.client.run()
             joint_states = p.getJointStates(self.arm_id, self.arm_joints_idx, physicsClientId=self.client_id)
             current_angles = [state[0] for state in joint_states]
             diff_angles = [abs(a - b) for a, b in zip(joint_values, current_angles)]
@@ -746,8 +526,9 @@ class Bestman_sim:
         Returns:
             tuple: A tuple containing the Cartesian coordinates (position and orientation) of the robot arm.
         """
-        # self.sim_set_arm_to_joint_values(joint_values)
+        
         self.move_arm_to_joint_values(joint_values)
+        
         end_effector_info = p.getLinkState(
             bodyUniqueId=self.arm_id,
             linkIndex=self.end_effector_index,
@@ -757,11 +538,8 @@ class Bestman_sim:
             end_effector_info[1], physicsClientId=self.client_id
         )
         position = end_effector_info[0]
-        # print("-" * 30 + "\n" + "position:{}".format(position))
-        # print("orientation:{}".format(orientation))
-        return position
+        return Pose(position, orientation)
 
-    # def cartesian_to_joints(self, position, orientation):
     def cartesian_to_joints(self, pose):
         """
         Transforms the robot arm's Cartesian coordinates to its joint angles.
@@ -804,7 +582,6 @@ class Bestman_sim:
         target_joint_values[-1] += angle
 
         # Set the target angles
-        # self.sim_set_arm_to_joint_values(target_joint_values)
         self.move_arm_to_joint_values(target_joint_values)
 
         # Step the simulation until the joints reach their target angles
@@ -821,9 +598,8 @@ class Bestman_sim:
                 for i in range(len(self.arm_joints_idx))
             ):
                 break
-
-            p.stepSimulation(physicsClientId=self.client_id)
-            # time.sleep(1.0 / self.frequency)
+            
+            self.client.run()
 
         print("-" * 20 + "\n" + "Rotation completed!")
 
@@ -834,86 +610,13 @@ class Bestman_sim:
         Args:
             end_effector_goal_pose (Pose): The desired pose of the end effector (includes both position and orientation).
         """
-
-        # get current end effector position
-        state = p.getLinkState(
-            bodyUniqueId=self.arm_id,
-            linkIndex=self.end_effector_index,
-            physicsClientId=self.client_id,
-        )
-        current_position = state[0]
-
-        # calculate distance
-        distance = np.linalg.norm(
-            np.array(end_effector_goal_pose.position) - np.array(current_position)
-        )
-
-        # # check if the distance is small enough, if yes, return immediately
-        # if distance < self.threshold:  # use an appropriate value here
-        #     print("Current position is already close to target position. No need to move.")
-        #     return True
-
-        # target_position = end_effector_goal_pose.position
-        # target_orientation = end_effector_goal_pose.orientation
-        # target_orientation = [0, math.pi / 2.0, 0]  # vcertical downward grip
-
-        attempts = 0
-        while attempts < self.max_attempts:
-            joint_values = self.cartesian_to_joints(end_effector_goal_pose)
-
-            # If IK solution is invalid, break this loop and start a new attempt
-            if joint_values is None or len(joint_values) != 6:
-                break
-
-            # Test the calculated angles for collision
-            for joint_index, joint_angle in enumerate(joint_values):
-                p.resetJointState(
-                    self.arm_id,
-                    joint_index,
-                    joint_angle,
-                    physicsClientId=self.client_id,
-                )
-
-            p.stepSimulation(physicsClientId=self.client_id)
-
-            # if p.getContactPoints(self.arm_id): # collision with other objects
-            if p.getContactPoints(
-                self.arm_id, self.base_id, physicsClientId=self.client_id
-            ):
-                # Collision detected, break and re-calculate the IK
-                break
-            else:
-                # get current end effector position
-                state = p.getLinkState(
-                    bodyUniqueId=self.arm_id,
-                    linkIndex=self.end_effector_index,
-                    physicsClientId=self.client_id,
-                )
-                current_position = state[0]
-
-                # calculate error
-                error = np.linalg.norm(
-                    np.array(end_effector_goal_pose.position) - np.array(current_position)
-                )
-                # print('current_position:{}, target_position:{}, error:{}'.format(current_position, target_position, error))
-
-                if error < self.threshold * 2:
-                    self.move_arm_to_joint_values(joint_values)
-                    # print(
-                    #     "Reached target end effector position:{}".format(
-                    #         end_effector_goal_pose.position
-                    #     )
-                    # )
-                    return True
-            attempts += 1
-        print(
-            "-" * 20
-            + "\n"
-            + "Could not reach target position without collision after {} attempts".format(
-                self.max_attempts
-            )
-        )
-        return False
+        
+        joint_values = self.cartesian_to_joints(end_effector_goal_pose)
+        
+        self.move_arm_to_joint_values(joint_values)
+        
+        # self.client.run(240)
+        print("-" * 20 + "\n" + "Could not reach target position without collision after {} attempts".format(self.max_attempts))
     
     def execute_trajectory(self, trajectory, enable_plot=False):
         """Execute the path planned by Planner
@@ -933,6 +636,7 @@ class Bestman_sim:
             
             front_point = current_point
         
+        self.client.run(10)
         print("\n" + "-" * 20 + "\n" + "Excite trajectory finished!"+ "\n" + "-" * 20 + "\n")
     
     def calculate_IK_error(self, goal_pose):
@@ -1030,10 +734,11 @@ class Bestman_sim:
         position, orientation = p.getBasePositionAndOrientation(
             self.base_id, physicsClientId=self.client_id
         )
-        position = [position[0], position[1], self.arm_height]  # fixed height
-        p.resetBasePositionAndOrientation(
-            self.arm_id, position, orientation, physicsClientId=self.client_id
-        )
+        if self.arm_id is not None:
+            position = [position[0], position[1], self.arm_height]      # fixed arm height
+            p.resetBasePositionAndOrientation(
+                self.arm_id, position, orientation, physicsClientId=self.client_id
+            )
 
     
     # ----------------------------------------------------------------
@@ -1142,8 +847,9 @@ class Bestman_sim:
             if gripper_value == 0 and self.gripper_id != None:
                 p.removeConstraint(self.gripper_id, physicsClientId=self.client_id)
                 self.gripper_id = None
-                for _ in range(self.frequency):
-                    p.stepSimulation(physicsClientId=self.client_id)
+                self.client.run(240)
+                # for _ in range(self.frequency):
+                #     p.stepSimulation(physicsClientId=self.client_id)
 
             if gripper_value == 1 and self.gripper_id == None:
                 cube_orn = p.getQuaternionFromEuler([0, math.pi, 0])  # control rotation
@@ -1174,7 +880,8 @@ class Bestman_sim:
                         physicsClientId=self.client_id,
                     )
 
-            p.stepSimulation(physicsClientId=self.client_id)
+            # p.stepSimulation(physicsClientId=self.client_id)
+            self.client.run(10)
     
         print("-" * 20 + "\n" + "manipulation is done!")
 
