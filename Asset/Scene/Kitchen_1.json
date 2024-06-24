@@ -49,7 +49,17 @@
         "object_position": [4.1, 5.42, 1.055],
         "object_orientation": [0, 0, 0],
         "scale": 1.1,
-        "obj_name": "fridge",
+        "obj_name": "elementE",
+        "fixed_base": true
+    },
+
+
+    {
+        "model_path": "../Asset/URDF_models/furniture_table_rectangle_high/table.urdf",
+        "object_position": [1.0, 1.0, 0.0],
+        "object_orientation": [0.0, 0.0, 0.0],
+        "scale": 1.0,
+        "obj_name": "table",
         "fixed_base": true
     }
 ]
