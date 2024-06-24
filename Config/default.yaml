@@ -58,6 +58,6 @@ Camera:
 
 # ompl planner parameters
 Planner:
-  planner: "RRTConnect"
-  threshold: 0.15
-  max_attempts: 500
+  planner: "RRTConnect"       # planner
+  planning_time: 5.0          # Maximum planning time
+  interpolate_num: 500        # The number of linear interpolation insertion points.
