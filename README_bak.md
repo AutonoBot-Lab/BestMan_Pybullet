@@ -18,7 +18,7 @@ Welcome to the official repository of BestMan, a mobile manipulator simulator (w
 - Pull the repository and update the submodule
 
 ```
-git clone https://github.com/AutonoBot-Lab/BestMan_Pybullet.git --branch master
+git clone https://github.com/AutonoBot-Lab/BestMan_Pybullet.git -b refactor
 cd BestMan_Pybullet
 git submodule init
 git submodule update
@@ -27,7 +27,7 @@ git submodule update
 
 ### :shamrock: Conda
 
-First install [Anaconda / minconda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html) on linux system and then perform the following steps：
+First install `Anaconda` or `minconda` on linux system and then perform the following steps：
 
 - Run the following script to add the project to the PYTHON search path
 ```
@@ -43,7 +43,20 @@ sudo mkdir /usr/lib/dri
 sudo ln -s /lib/x86_64-linux-gnu/dri/swrast_dri.so /usr/lib/dri/swrast_dri.so
 ```
 
-- Optional: Configure mamba to speed up the conda environment construction
+- Install gcc/g++ 9 (If it already exists, skip this step.)
+```
+sudo apt install -y build-essential gcc-9 g++-9
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9
+sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 9
+sudo update-alternatives --config gcc  # choice gcc-9
+sudo update-alternatives --config g++  # choice g++-9
+
+# Make sure gcc and g++ versions are consistent
+gcc -v
+g++ -v
+```
+
+- Configure mamba to speed up the conda environment construction
 ```
 # Install conda-libmamba-solver
 conda install -n base conda-libmamba-solver
@@ -53,10 +66,23 @@ conda config --set solver libmamba
 conda install mamba -n base -c conda-forge
 ```
 
-- Create conda environment (If mamba is configured, the command uses mamba, otherwise conda)
+- Create conda environment
 ```
-mamba(conda) env create -f basic_environment.yaml
-mamba(conda) activate BestMan
+mamba env create -f basic_environment.yaml
+mamba activate BestMan
+
+# Install torch
+mamba env update -f cuda116.yaml
+
+# Install MinkowskiEngine
+pip install -U git+https://github.com/NVIDIA/MinkowskiEngine -v --no-deps --global-option="--blas_include_dirs=${CONDA_PREFIX}/include" --global-option="--blas=openblas"
+
+# Install lang-segment-anything
+pip install -U git+https://github.com/luca-medeiros/lang-segment-anything.git
+
+# Install pointnet2
+cd third_party/pointnet2
+python setup.py install
 ```
 
 
