@@ -47,17 +47,18 @@ class OMPL_Planner:
         self.collision = Collision(robot, self.obstacles)
         self.set_obstacles()
         
-        # preparation for Manipution planning
-        self.space = ob.RealVectorStateSpace(self.DOF)      # Creating a state space
-        bounds = ob.RealVectorBounds(self.DOF)              # Creating Boundary
-        joint_bounds = self.robot.get_joint_bounds()        # Get joint boundaries
+        # preparation for OMPL planning
+        self.space = ob.RealVectorStateSpace(self.DOF)      # construct the state space
+        bounds = ob.RealVectorBounds(self.DOF)              # creating Boundary
+        joint_bounds = self.robot.get_joint_bounds()        # get joint boundaries
         for i, bound in enumerate(joint_bounds):
             bounds.setLow(i, bound[0])
             bounds.setHigh(i, bound[1])
-        self.space.setBounds(bounds)
+        self.space.setBounds(bounds)                        # set bounds
         
         self.ss = og.SimpleSetup(self.space)
         self.ss.setStateValidityChecker(ob.StateValidityCheckerFn(self.collision.is_state_valid))
+        
         self.si = self.ss.getSpaceInformation()
         
         # planner cfgs
