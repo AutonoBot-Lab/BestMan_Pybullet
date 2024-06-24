@@ -238,3 +238,23 @@ class Client:
         max_x, max_y, max_z = np.max(max_bounds, axis=0)
 
         return [min_x, min_y, min_z, max_x, max_y, max_z]
+    
+    def get_link_bounding_box(self, object, link_id):
+        """
+        This function retrieves the link bounding box for a given object in the PyBullet simulation environment.
+
+        Args:
+            object (int / str): The id / name of the object in the PyBullet simulation.
+            link_id (int): The id of the link
+        """
+        
+        if isinstance(object, str):
+            assert(hasattr(self, object), f"scene has not object named {object}!")
+            object_id = getattr(self, object)
+        elif isinstance(object, int):
+            object_id = object
+        else:
+            assert(0, "error input type")
+        
+        (min_x, min_y, min_z), (max_x, max_y, max_z) = p.getAABB(object_id, link_id, physicsClientId=self.client_id)
+        return [min_x, min_y, min_z, max_x, max_y, max_z]
