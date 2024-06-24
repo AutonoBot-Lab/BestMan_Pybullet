@@ -397,6 +397,15 @@ class Bestman_sim:
         """
         return self.tcp_link
     
+    def get_tcp_link_height(self):
+        """
+        Retrieves the TCP (Tool Center Point) link height of the robot arm.
+        
+        Returns:
+            str: The TCP link of the robot arm.
+        """
+        return self.tcp_height
+    
     def get_end_effector_link(self):
         # TODO
         return None
@@ -513,6 +522,8 @@ class Bestman_sim:
                 break
             
             if time.time() - start_time > self.timeout:  # avoid time anomaly
+                if p.getContactPoints(self.arm_id):
+                    assert(0, "-" * 20 + "\n" + "The arm collides with other objects!")
                 print("-" * 20 + "\n" + "Timeout before reaching target joint position.")
                 break
             
@@ -636,7 +647,7 @@ class Bestman_sim:
             
             front_point = current_point
         
-        self.client.run(10)
+        self.client.run(240)
         print("\n" + "-" * 20 + "\n" + "Excite trajectory finished!"+ "\n" + "-" * 20 + "\n")
     
     def calculate_IK_error(self, goal_pose):

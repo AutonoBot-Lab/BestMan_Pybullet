@@ -22,20 +22,20 @@ class Pose:
             yaw (float): The yaw component of the orientation.
         """
         
-        self.position = position
+        self.position = list(position)
         self.x, self.y, self.z = position
         
         # Rotation matrix
         if isinstance(orientation, np.ndarray) and orientation.shape == (3, 3):
             r = R.from_matrix(orientation)
-            self.orientation = r.as_euler('xyz', degrees=False)
+            self.orientation = list(r.as_euler('xyz', degrees=False))
         # Quaternion
         elif isinstance(orientation, (tuple, list, np.ndarray)) and len(orientation) == 4:
             r = R.from_quat(orientation)
-            self.orientation = r.as_euler('xyz', degrees=False)
+            self.orientation = list(r.as_euler('xyz', degrees=False))
         # Euler angles
         elif isinstance(orientation, (tuple, list, np.ndarray)) and len(orientation) == 3:
-            self.orientation = orientation
+            self.orientation = list(orientation)
         else:
             raise ValueError("Orientation input must be Rotation matrix / Quaternion / Euler angles")
         
