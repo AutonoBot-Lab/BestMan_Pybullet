@@ -67,12 +67,12 @@ mamba(conda) activate BestMan
 
 ### :shamrock: Docker
 
-##### Windows
+#### Windows
 
-- Pull docker image from tencentyun
+- Pull docker image from DockerHub
 
 ```
-docker pull ccr.ccs.tencentyun.com/4090/bestman:v1
+docker pull yk1127/bestman:v1
 ```
 
 - Create docker container
@@ -90,7 +90,7 @@ export DISPLAY=host.docker.internal:0
 ```
 
 
-##### Linux
+#### Linux
 - TBD
 
 
