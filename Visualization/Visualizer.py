@@ -115,7 +115,8 @@ class Visualizer:
     # ----------------------------------------------------------------
     # Axes
     # ----------------------------------------------------------------
-    def draw_axes(self, length=2.0, lineWidth=2.0, textSize=3.0):
+    
+    def draw_axes(self, length=1.0, lineWidth=2.0, textSize=1.0):
         """
         Draws the x and y axes in the PyBullet environment with text labels.
         
@@ -143,6 +144,15 @@ class Visualizer:
             lineWidth=lineWidth,
             physicsClientId=self.client_id,
         )
+        
+        # Drawing the Z-axis (in blue)
+        p.addUserDebugLine(
+            lineFromXYZ=origin,
+            lineToXYZ=[0, 0, length],
+            lineColorRGB=[0, 0, 1],
+            lineWidth=lineWidth,
+            physicsClientId=self.client_id,
+        )
 
         # Adding text labels
         p.addUserDebugText(
@@ -152,10 +162,19 @@ class Visualizer:
             textSize=textSize,
             physicsClientId=self.client_id,
         )
+        
         p.addUserDebugText(
             text="Y",
             textPosition=[0, length + 0.1, 0],
             textColorRGB=[0, 1, 0],
+            textSize=textSize,
+            physicsClientId=self.client_id,
+        )
+        
+        p.addUserDebugText(
+            text="Z",
+            textPosition=[0, 0, length + 0.1],
+            textColorRGB=[0, 0, 1],
             textSize=textSize,
             physicsClientId=self.client_id,
         )
