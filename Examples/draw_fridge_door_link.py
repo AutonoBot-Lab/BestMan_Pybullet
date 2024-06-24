@@ -35,17 +35,18 @@ def main(filename):
     # Init visualizer
     visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
 
-    # Open fridge
-    client.change_object_joint_angle('elementE', 1, math.pi / 2)
+    # Open fridge joint between handle and door
+    client.change_object_joint_angle('fridge', 1, math.pi / 2)
 
     # Draw fridge aabb link
-    visualizer.draw_aabb_link('elementE', 1)
+    visualizer.draw_aabb_link('fridge', 1)      # door
+    visualizer.draw_aabb_link('fridge', 2)      # handle
 
     # End record
     visualizer.end_record()
 
     # Disconnect pybullet
-    client.wait(5)
+    client.wait(10)
     client.disconnect()
     
 if __name__=='__main__':
