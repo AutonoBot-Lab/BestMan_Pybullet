@@ -6,7 +6,6 @@
 
 
 import math
-import numpy as np
 import pybullet as p
 from ompl import base as ob
 from ompl import geometric as og
@@ -14,9 +13,6 @@ from ompl import geometric as og
 from RoboticsToolBox import Pose
 from ..Collision import Collision
 
-# INTERPOLATE_NUM = 500
-INTERPOLATE_NUM = 20
-DEFAULT_PLANNING_TIME = 5.0     # planning time threshold
 
 class OMPL_Planner:
     def __init__(
@@ -35,14 +31,14 @@ class OMPL_Planner:
            threshold: The threshold value ONLY for repalnning.
         """
         
-        # arm
+        # arm info
         self.robot = robot
         self.arm_id = robot.get_arm_id()
         self.joint_idx = robot.get_joint_idx()
         self.tcp_link = robot.get_tcp_link()
         self.DOF = robot.get_DOF()
         
-        # client
+        # client info
         self.client = robot.client
         self.client_id = self.client.get_client_id()
         
@@ -64,10 +60,10 @@ class OMPL_Planner:
         self.ss.setStateValidityChecker(ob.StateValidityCheckerFn(self.collision.is_state_valid))
         self.si = self.ss.getSpaceInformation()
         
-        # planner
-        self.max_attempts = Planner_cfg.max_attempts
-        self.threshold = Planner_cfg.threshold
+        # planner cfgs
         self.set_planner(Planner_cfg.planner)
+        self.planning_time = Planner_cfg.planning_time
+        self.interpolate_num = Planner_cfg.interpolate_num
 
     # ----------------------------------------------------------------
     # set planner / goal
@@ -169,9 +165,8 @@ class OMPL_Planner:
         """
         
         if self.obstacles == []:
-            print("Obstacle list is empty")
+            print("\n" + "-" * 20 + "\n" + "Obstacle list is empty" + "\n" + "-" * 20 + "\n")
         else:
-            # print the IDs and names of all obstacles in the scene
             for obstacle_id in self.obstacles:
                 item_info = p.getBodyInfo(obstacle_id)
                 item_name = item_info[1].decode("utf-8")
@@ -181,7 +176,7 @@ class OMPL_Planner:
     # functions for plan 
     # ----------------------------------------------------------------
 
-    def plan(self, start, goal, allowed_time=DEFAULT_PLANNING_TIME):
+    def plan(self, start, goal):
         """Plan grasp from start to goal.
         This is a wrapper around OMPL grasp planning algorithm.
 
@@ -204,10 +199,10 @@ class OMPL_Planner:
         self.ss.setStartAndGoalStates(s, g)
 
         # attempt to solve the problem within allowed planning time
-        solved = self.ss.solve(allowed_time)
+        solved = self.ss.solve(self.planning_time)
         if solved:
             sol_path_geometric = self.ss.getSolutionPath()
-            sol_path_geometric.interpolate(INTERPOLATE_NUM)     # Generate more intermediate states to make the path smoother and more refined
+            sol_path_geometric.interpolate(self.interpolate_num)     # Linear interpolation, Generate more intermediate states to make the path smoother and more refined
             sol_path_states = sol_path_geometric.getStates()
             path = [self.state_to_list(state) for state in sol_path_states]
             print("\n" + "-" * 20 + "\n" + "End planning"+ "\n" + "-" * 20 + "\n")
@@ -216,7 +211,7 @@ class OMPL_Planner:
             raise RuntimeError("No solution found!")
     
     # ----------------------------------------------------------------
-    # plan / execute
+    # Utils
     # ----------------------------------------------------------------
     
     def state_to_list(self, state):
