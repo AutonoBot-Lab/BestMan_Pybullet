@@ -7,6 +7,9 @@ channels:
 dependencies:
   - python=3.8.*
   - pip
+  - pybind11
+  - ninja
+  - openblas-devel
   - yacs==0.1.8
   - networkx==3.1
   - rtree==1.2.0
@@ -17,4 +20,6 @@ dependencies:
       - numpy==1.23.5
       - opencv-python
       - pybullet==3.2.6
+      - open3d
+      - graspnetAPI
       - ompl-1.6.0-cp38-cp38-manylinux_2_28_x86_64.whl

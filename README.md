@@ -36,6 +36,34 @@ sudo bash pythonpath.sh
 source ~/.bashrc
 ```
 
+- Install ffmpeg to enable video record
+```
+sudo apt update && sudo apt install ffmpeg
+```
+
+- Install shared file (If it already exists, skip this step.)
+```
+sudo apt install -y libgl1-mesa-glx libglib2.0-0
+sudo mkdir /usr/lib/dri
+sudo ln -s /lib/x86_64-linux-gnu/dri/swrast_dri.so /usr/lib/dri/swrast_dri.so
+```
+
+- Optional: Configure mamba to speed up the conda environment construction
+```
+# Install conda-libmamba-solver
+conda install -n base conda-libmamba-solver
+conda config --set solver libmamba
+
+# Install mamba
+conda install mamba -n base -c conda-forge
+```
+
+- Create conda environment (If mamba is configured, the command uses mamba, otherwise conda)
+```
+mamba(conda) env create -f basic_environment.yaml
+mamba(conda) activate BestMan
+```
+
 - Install shared file (If it already exists, skip this step.)
 ```
 sudo apt update && sudo apt install -y libgl1-mesa-glx libglib2.0-0
@@ -59,21 +87,20 @@ mamba(conda) env create -f basic_environment.yaml
 mamba(conda) activate BestMan
 ```
 
-
 ### :shamrock: Docker
 
-##### Windows
+#### Windows
 
-- Pull docker image from tencentyun
+- Pull docker image from DockerHub
 
 ```
-docker pull ccr.ccs.tencentyun.com/4090/bestman:v1
+docker pull yk1127/bestman:v1
 ```
 
 - Create docker container
 
 ```
-docker run -it --gpus all --name BestMan ccr.ccs.tencentyun.com/4090/bestman:v1
+docker run -it --name BestMan yk1127/bestman:v1
 ```
 
 - Install [VcXsrv Windows X Server](https://sourceforge.net/projects/vcxsrv/), Start and keep running in the background.
@@ -85,7 +112,7 @@ export DISPLAY=host.docker.internal:0
 ```
 
 
-##### Linux
+#### Linux
 - TBD
 
 
@@ -98,16 +125,21 @@ cat Asset/project_structure.txt
 
 ## 👨‍💻 Basic Demos
 
+```
+cd Examples/
+```
+
 :shamrock: **Load Kitchens**
 
+
 ```
-python Examples/load_kitchen.py
+python load_kitchen.py
 ```
 
 :shamrock: **Navigation**
 
 ```
-python Examples/navigation_basic.py
+python navigation_basic.py
 ```
 
 <table>
@@ -129,11 +161,11 @@ python Examples/navigation_basic.py
 :shamrock: **Manipulation**
 
 ```
-python Examples/grasp_bowl_in_kitchen.py
+python grasp_bowl_in_kitchen.py
 ```
 
 ```
-python Examples/grasp_bowl_from_drawer_in_kitchen.py
+python grasp_bowl_from_drawer_in_kitchen.py
 ```
 
 <table>
@@ -156,22 +188,13 @@ python Examples/grasp_bowl_from_drawer_in_kitchen.py
   </tr>
 </table>
 
-
-
 <!-- <a href="https://www.youtube.com/watch?v=f25d4N_Lv9w">
     <img src="https://img.youtube.com/vi/f25d4N_Lv9w/0.jpg" alt="OMPL" width="300" height="200">
 </a>
 
-<a href="https://www.youtube.com/watch?v=7gbh2OGFkCk">
-    <img src="https://img.youtube.com/vi/7gbh2OGFkCk/0.jpg" alt="OMPL" width="300" height="200">
-</a> -->
-
-
-
 ##  📘 Documents
 
 :shamrock: **APIs_in_utils.txt**: A detailed list of common functions used in the utility scripts
-
 
 
 ##  :handshake: Reference

@@ -58,7 +58,7 @@ class OMPL_Planner:
         
         self.ss = og.SimpleSetup(self.space)
         self.ss.setStateValidityChecker(ob.StateValidityCheckerFn(self.collision.is_state_valid))
-        
+
         self.si = self.ss.getSpaceInformation()
         
         # planner cfgs
