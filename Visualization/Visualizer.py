@@ -211,7 +211,7 @@ class Visualizer:
         
         
     # ----------------------------------------------------------------
-    # draw line / aabb
+    # line / aabb
     # ----------------------------------------------------------------
 
     def draw_line(self, start_pos, target_pos, color=[1, 0, 0], width=3.0):
@@ -224,8 +224,6 @@ class Visualizer:
             color: A list representing the RGB values of the line's color. Default is red [1, 0, 0].
             width: The width of the line. Default is 3.0.
         """
-        # if self.line_visual is not None:
-        #     p.removeUserDebugItem(self.line_visual, physicsClientId=self.client_id)
 
         self.line_visual = p.addUserDebugLine(
             start_pos,
@@ -234,6 +232,9 @@ class Visualizer:
             lineWidth=width,
             physicsClientId=self.client_id,
         )
+        
+    def remove_all_line(self):
+        p.removeAllUserDebugItems()
 
     def draw_aabb(self, object_id):
         """
