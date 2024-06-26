@@ -407,8 +407,13 @@ class Bestman_sim:
         return self.tcp_height
     
     def get_end_effector_link(self):
-        # TODO
-        return None
+        """
+        Retrieves the end effector link id 
+        
+        Returns:
+            str: The end effector link id of the robot arm.
+        """
+        return self.end_effector_index
 
     def get_joint_bounds(self):
         """
