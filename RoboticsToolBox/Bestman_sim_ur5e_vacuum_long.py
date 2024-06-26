@@ -24,7 +24,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
     # functions for gripper
     # ----------------------------------------------------------------
 
-    def sim_active_gripper(self, object, value):
+    def sim_active_gripper_fixed(self, object, value):
         """
         Activate or deactivate the gripper.
 
@@ -40,21 +40,14 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
                 raise AttributeError(f"scene has not {object} object!")
         else:
             object_id = object
-          
-        # gripper_status = {"ungrasp": 0, "grasp": 1}
-        # gripper_value = (
-        #     gripper_status["grasp"] if value == 1 else gripper_status["ungrasp"]
-        # )
         
-        # 
+        # ungrasp
         if value == 0 and self.gripper_id != None:
             p.removeConstraint(self.gripper_id, physicsClientId=self.client_id)
             self.gripper_id = None
-            # for _ in range(self.frequency):
-            #     p.stepSimulation(physicsClientId=self.client_id)
             print("-" * 20 + "\n" + "Gripper has been deactivated!")
         
-        
+        # grasp
         if value == 1 and self.gripper_id == None:
             cube_orn = p.getQuaternionFromEuler([0, math.pi, 0])  # control rotation
             if self.tcp_link != -1:
@@ -88,10 +81,10 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
         
         self.client.run(240)
         
-    def sim_test_active_gripper(self, object, link_id, value):
+    def sim_active_gripper_movable(self, object, link_id, value):
         """
         Activate or deactivate the gripper.
-
+        
         Args:
             object_id (init): ID of the object related to gripper action.
             value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).
@@ -104,27 +97,30 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
                 raise AttributeError(f"scene has not {object} object!")
         else:
             object_id = object
-
+        
+        # ungrasp
         if value == 0 and self.gripper_id != None:
             p.removeConstraint(self.gripper_id, physicsClientId=self.client_id)
             self.gripper_id = None
             print("-" * 20 + "\n" + "Gripper has been deactivated!")
         
-        
+        # grasp
         if value == 1 and self.gripper_id == None:
-            cube_orn = p.getQuaternionFromEuler([0, math.pi, 0])  # control rotation
-            self.gripper_id = p.createConstraint(
-                self.arm_id,
-                self.tcp_link,
-                object_id,
-                link_id,
-                p.JOINT_FIXED,
-                [0, 0, 0],
-                [0, 0, 0],
-                [0, 0, 0],
-                childFrameOrientation=cube_orn,
-                physicsClientId=self.client_id,
-            )
-            print("-" * 20 + "\n" + "Gripper has been activated!")
-        
-        self.client.run(240)
+            link_state = p.getLinkState(object_id, link_id)
+            vec_inv, quat_inv = p.invertTransform(link_state[0], link_state[1])
+            
+            current_pose = self.client.get_object_link_pose(self.arm_id, self.tcp_link)
+            transform_start_to_link = p.multiplyTransforms(vec_inv, quat_inv, current_pose.position, p.getQuaternionFromEuler(current_pose.orientation))
+            
+            constraint_id = p.createConstraint(
+                    parentBodyUniqueId=object_id,
+                    parentLinkIndex=link_id,
+                    childBodyUniqueId=self.arm_id,
+                    childLinkIndex=self.tcp_link,
+                    jointType=p.JOINT_POINT2POINT,
+                    jointAxis=[0, 0, 0],
+                    parentFramePosition=transform_start_to_link[0],
+                    parentFrameOrientation=transform_start_to_link[1],
+                    childFramePosition=[0, 0, 0],
+                )
+            p.changeConstraint(constraint_id, maxForce=2000)
