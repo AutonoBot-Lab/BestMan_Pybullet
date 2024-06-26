@@ -12,6 +12,8 @@ import numpy as np
 import pybullet as p
 import pybullet_data
 
+from RoboticsToolBox import Pose
+
   
 class Client:
     def __init__(self, cfg):
@@ -163,20 +165,6 @@ class Client:
     # object joint info / operate
     # ----------------------------------------------------------------
     
-    def print_object_joint_info(self, object_id):
-        """
-        Get object's joint info
-        """
-        
-        num_joints = p.getNumJoints(object_id, physicsClientId=self.client_id)
-        print("-" * 20 + "\n" + "The object {} has {} joints".format(object_id, num_joints))
-        for i in range(num_joints):
-            joint_info = p.getJointInfo(object_id, i, physicsClientId=self.client_id)
-            joint_name = joint_info[1]
-            joint_state = p.getJointState(object_id, i, physicsClientId=self.client_id)
-            joint_angle = joint_state[0]
-            print("Joint index:{}, name:{}, angle:{}".format(i, joint_name, joint_angle))
-    
     def change_object_joint_angle(
         self, object_name, joint_index, target_position, max_force=5
     ):
@@ -207,6 +195,41 @@ class Client:
     # Get info from environment
     # ----------------------------------------------------------------
 
+    def print_object_joint_info(self, object_id):
+        """
+        Get object's joint info
+        """
+        
+        num_joints = p.getNumJoints(object_id, physicsClientId=self.client_id)
+        print("-" * 20 + "\n" + "The object {} has {} joints".format(object_id, num_joints))
+        for i in range(num_joints):
+            joint_info = p.getJointInfo(object_id, i, physicsClientId=self.client_id)
+            joint_name = joint_info[1]
+            joint_state = p.getJointState(object_id, i, physicsClientId=self.client_id)
+            joint_angle = joint_state[0]
+            print("Joint index:{}, name:{}, angle:{}".format(i, joint_name, joint_angle))
+    
+    def get_object_link_pose(self, object, link_id):
+        """
+        This function retrieves the pose for a given object link
+
+        Args:
+            object (int / str): The id / name of the object in the PyBullet simulation.
+            link_id: The id of object link
+        """
+        
+        if isinstance(object, str):
+            assert(hasattr(self, object), f"scene has not object named {object}!")
+            object_id = getattr(self, object)
+        elif isinstance(object, int):
+            object_id = object
+        else:
+            assert(0, "error input type")
+        
+        link_state = p.getLinkState(object_id, link_id)
+        # return Pose(link_state[4], link_state[5])
+        return Pose(link_state[0], link_state[1])
+    
     def get_bounding_box(self, object):
         """
         This function retrieves the bounding box for a given object in the PyBullet simulation environment.
