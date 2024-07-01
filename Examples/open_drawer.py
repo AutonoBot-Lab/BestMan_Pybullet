@@ -73,89 +73,37 @@ def main(filename):
     # Init visualizer
     visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
 
-    # Draw fridge aabb link
-    # visualizer.draw_aabb_link('elementA', 36)
+    # Draw drawer link
     visualizer.draw_aabb_link('elementA', 36)
-    # visualizer.draw_aabb_link(3, bestman.get_tcp_link())
-    # visualizer.draw_aabb_link(3, bestman.get_end_effector_link())
     
     # Init planner
     ompl_planner = OMPL_Planner(
         bestman,
         cfg.Planner
     )
-    # get target object bounds
+    
+    # Get goal joint values
     min_x, min_y, min_z, max_x, max_y, max_z = client.get_link_bounding_box('elementA', 36)
-    
-    # set target object Pose
     goal_pose = Pose([min_x + 0.01, (min_y + max_y) / 2, (min_z + max_z) / 2], [0.0, 0.0, 0.0])
-    
-    # get goal angle
-    # goal = bestman.cartesian_to_joints(goal_pose)
     goal = ompl_planner.set_target_pose(goal_pose)
     
+    # Plan / Execute / Suctate drawer
     start = bestman.get_current_joint_values()
     path = ompl_planner.plan(start, goal)
-    
-    # Reach fridge door
     bestman.execute_trajectory(path, True)
-    
-    # bestman.sim_test_active_gripper('fridge', 2, 1)
-    
-    # link_state = p.getLinkState(drawer_id, 36)
-    # vec_inv, quat_inv = p.invertTransform(link_state[0], link_state[1])
-    
-    # current_pose = client.get_object_link_pose(bestman.get_arm_id(), bestman.get_tcp_link())
-    # transform_start_to_link = p.multiplyTransforms(vec_inv, quat_inv, current_pose.position, p.getQuaternionFromEuler(current_pose.orientation))
-    
-    # constraint_id = p.createConstraint(
-    #         parentBodyUniqueId=drawer_id,
-    #         parentLinkIndex=36,
-    #         childBodyUniqueId=bestman.get_arm_id(),
-    #         childLinkIndex=bestman.get_tcp_link(),
-    #         jointType=p.JOINT_POINT2POINT,
-    #         jointAxis=[0, 0, 0],
-    #         parentFramePosition=transform_start_to_link[0],
-    #         parentFrameOrientation=transform_start_to_link[1],
-    #         childFramePosition=[0, 0, 0],
-    #     )
-    # p.changeConstraint(constraint_id, maxForce=2000)
     bestman.sim_active_gripper_movable('elementA', 36, 1)
-    
-    # direction_vec = np.array([1, 0, 0])
-    # position_end = current_pose.position - direction_vec * 0.5
-    # bestman.move_end_effector_to_goal_pose(Pose(position_end, goal_pose.orientation))
-    
-    # rotation_matrix = np.array(p.getMatrixFromQuaternion(quat_inv)).reshape(3, 3)
-    # world_surface_normal = rotation_matrix @ np.array([0, 0, 1])
-    # print(world_surface_normal)
-    # normal_end =  np.array(link_state[0]) + 2 * world_surface_normal
-    # p.addUserDebugLine(link_state[0], normal_end, lineColorRGB=[1, 0, 0], lineWidth=2)
 
-    init_pose = bestman.get_current_end_effector_pose()
-    # end = np.array(start) - np.array([2, 0, 0])
-    # p.addUserDebugLine(start, end, lineColorRGB=[1, 0, 0], lineWidth=2)
-    
-    rotated_poses = [pull_out(init_pose, i, 0.004) for i in range(0, 50)]
-    
     visualizer.remove_all_line()
     
-    for i in range(len(rotated_poses)):
-        current_pose = rotated_poses[i]
-        current_position = current_pose.position    
-        start = bestman.get_current_joint_values()
-        goal = ompl_planner.set_target_pose(current_pose)
-        path = ompl_planner.plan(start, goal)
-        # bestman.move_end_effector_to_goal_pose(current_pose)
-        bestman.execute_trajectory(path)
-        if i != 0:
-            p.addUserDebugLine(last_pos, current_position, lineColorRGB=[1, 0, 0], lineWidth=2)
-        last_pos = current_position
+    # The end effector Move along the specified trajectory get effector to open the drawer
+    init_pose = bestman.get_current_end_effector_pose()
+    pull_joints = [bestman.cartesian_to_joints(pull_out(init_pose, i, 0.004)) for i in range(0, 50)]
+    bestman.execute_trajectory(pull_joints, True)
     
-    # Disconnect pybullet
-    client.wait(10)
+    # Wait
+    client.wait(5)
     
-    # End record
+    # End record / Disconnect pybullet
     visualizer.end_record()
     client.disconnect()
     
