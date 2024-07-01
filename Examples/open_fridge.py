@@ -24,7 +24,7 @@ def rotate_point_3d_around_axis(init_pose, rotate_axis, theta):
         init_pose -- the initial point's pose (including position and Euler angle pose)
         rotate_axis -- the origin coordinates of the rotation axis (a, b, c)
         theta -- the rotation angle (radians)
-
+    
     Returns:
         Pose -- the pose of the rotated point (including position and Euler angle pose)
     """
@@ -64,18 +64,12 @@ def main(filename):
     visualizer = Visualizer(client, cfg.Visualizer)
     visualizer.draw_axes()
     
+    # Load scene
+    scene_path = '../Asset/Scene/Kitchen.json'
+    client.create_scene(scene_path)
+    
     # Start recording
     visualizer.start_record(filename)
-
-    # Load fridge
-    fridge_id = client.load_object(
-        "../Asset/Kitchen_models/models/Fridge/10144/mobility.urdf",
-        [4.1, 5.42, 1.055],
-        [0, 0, 0],
-        1.1,
-        "fridge",
-        True
-    )
     
     # Init robot
     bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
@@ -104,11 +98,12 @@ def main(filename):
     bestman.sim_active_gripper_movable('fridge', 1, 1)
 
     visualizer.remove_all_line()
-        
+    
     # The end effector Move along the specified trajectory get effector to open the door
     init_pose = bestman.get_current_end_effector_pose()
-    rotate_axis = p.getLinkState(fridge_id, 1)[4]
-    heta_values = [math.radians(deg) for deg in range(0, 31)]
+    rotate_axis = p.getLinkState(client.get_object_id("fridge"), 1)[4]
+    angles = 15
+    heta_values = [math.radians(deg) for deg in range(0, angles+1)]
     rotated_joints = [bestman.cartesian_to_joints(rotate_point_3d_around_axis(init_pose, rotate_axis, theta)) for theta in heta_values]
     bestman.execute_trajectory(rotated_joints, True)
     

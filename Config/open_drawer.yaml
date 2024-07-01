@@ -6,11 +6,11 @@ Visualizer:
       pitch: -40.0
 
 Robot:
-  init_pose: [2.7, 2.4, 0.0, 0.0, 0.0, 0.0]  # The initial pose of base and arm
+  init_pose: [2.8, 2.8, 0.0, 0.0, 0.0, 0.0]  # The initial pose of base and arm
   init_joint: [0, -1.57, 2.0, -1.57, -1.57, 0]
 
 Planner:
   # planner: "RRTConnect"       # planner
   planner: "RRTConnect"          # planner (The effect seems to be better than RTT)
   planning_time: 5.0          # Maximum planning time
-  interpolate_num: 5         # The number of linear interpolation insertion points.
+  interpolate_num: 50         # The number of linear interpolation insertion points.
