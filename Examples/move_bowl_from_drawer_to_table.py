@@ -18,7 +18,7 @@ from Utils import load_config
 def main(filename):
     
     # Load config
-    config_path = '../Config/grasp_bowl_from_drawer_in_kitchen.yaml'
+    config_path = '../Config/move_bowl_from_drawer_to_table.yaml'
     cfg = load_config(config_path)
     print(cfg)
 
@@ -91,12 +91,10 @@ def main(filename):
     bestman.execute_trajectory(path, enable_plot=True)
     
     # grasp target object
-    bestman.sim_active_gripper("bowl", 1)
+    bestman.sim_active_gripper_fixed("bowl", 1)
     
     # # Up 20cm
     # goal = ompl_planner.set_target("bowl")
-    
-    client.wait(2)
     
     # Come back to grasp init pose
     bestman.execute_trajectory(path[::-1], enable_plot=True)
@@ -109,11 +107,11 @@ def main(filename):
     print(client.get_bounding_box("table"))
     
     # Move arm to table
-    place_pose = Pose([1.0, 1.0, 0.9], [0.0, math.pi / 2.0, 0.0])
+    place_pose = Pose([1.0, 1.0, 1.0], [0.0, math.pi / 2.0, 0.0])
     bestman.move_end_effector_to_goal_pose(place_pose)
     
     # place the bowl
-    bestman.sim_active_gripper("bowl", 0)
+    bestman.sim_active_gripper_fixed("bowl", 0)
     
     # Up arm
     place_pose = Pose([1.0, 1.0, 1.5], [0.0, math.pi / 2.0, 0.0])
