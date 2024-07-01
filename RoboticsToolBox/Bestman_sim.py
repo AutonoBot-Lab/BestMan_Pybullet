@@ -619,7 +619,7 @@ class Bestman_sim:
 
         print("-" * 20 + "\n" + "Rotation completed!")
 
-    def move_end_effector_to_goal_pose(self, end_effector_goal_pose):
+    def move_end_effector_to_goal_pose(self, end_effector_goal_pose, steps=10):
         """
         Move arm's end effector to a target position.
 
@@ -627,11 +627,14 @@ class Bestman_sim:
             end_effector_goal_pose (Pose): The desired pose of the end effector (includes both position and orientation).
         """
         
-        joint_values = self.cartesian_to_joints(end_effector_goal_pose)
-        
-        self.move_arm_to_joint_values(joint_values)
-        
-        # self.client.run(240)
+        start_pose = self.get_current_end_effector_pose()
+        for t in np.linspace(0, 1, steps):
+            interpolated_position = (1 - t) * np.array(start_pose.position) + t * np.array(end_effector_goal_pose.position)
+            interpolated_orientation = p.getQuaternionSlerp(p.getQuaternionFromEuler(start_pose.orientation), p.getQuaternionFromEuler(end_effector_goal_pose.orientation), t)
+            interpolated_pose = Pose(interpolated_position, interpolated_orientation)
+            joint_values = self.cartesian_to_joints(interpolated_pose)
+            self.move_arm_to_joint_values(joint_values)
+        self.client.run(240)
         print("-" * 20 + "\n" + "Could not reach target position without collision after {} attempts".format(self.max_attempts))
     
     def execute_trajectory(self, trajectory, enable_plot=False):
@@ -644,6 +647,7 @@ class Bestman_sim:
         for i in range(len(trajectory)):
             self.move_arm_to_joint_values(trajectory[i])
             
+            # self.visualizer.draw_link_pose(self.arm_id, self.end_effector_index)
             current_point = self.get_current_end_effector_pose().position
             
             # draw the trajectory
