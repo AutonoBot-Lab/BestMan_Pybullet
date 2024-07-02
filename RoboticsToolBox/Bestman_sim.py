@@ -647,7 +647,8 @@ class Bestman_sim:
         for i in range(len(trajectory)):
             self.move_arm_to_joint_values(trajectory[i])
             
-            # self.visualizer.draw_link_pose(self.arm_id, self.end_effector_index)
+            # if i % 3 == 0:
+                # self.visualizer.draw_link_pose(self.arm_id, self.end_effector_index)
             current_point = self.get_current_end_effector_pose().position
             
             # draw the trajectory
