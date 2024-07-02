@@ -12,3 +12,8 @@
 	path = Motion_Planning/Manipulation/anygrasp_sdk
 	url = https://github.com/graspnet/anygrasp_sdk.git
     branch = main
+
+[submodule "pybullet-blender-recorder"]
+	path = Install/third_party/pybullet-blender-recorder
+	url = https://github.com/huy-ha/pybullet-blender-recorder.git
+	branch = master

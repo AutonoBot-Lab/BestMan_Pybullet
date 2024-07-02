@@ -1,7 +1,7 @@
 .vscode
 **/__pycache__
 **/*.pyc
-Install/third_party/
+Install/third_party/pointnet2
 Motion_Planning/Manipulation/Grasp/Grasp_Pose_Estimation/AnyGrasp/license_registration/
 Motion_Planning/Manipulation/Grasp/.TimeRecord
 Motion_Planning/Manipulation/Grasp/Grasp_Pose_Estimation/AnyGrasp/license/
