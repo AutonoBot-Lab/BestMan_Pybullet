@@ -53,7 +53,7 @@ def main(filename):
 
     chair_id = client.load_object(
         "../Asset/URDF_models/furniture_chair/model.urdf",
-        [-0.3, 0.8, 0.1],
+        [-0.3, 0.8, 0.0],
         [math.pi / 2.0 * 3, 0.0, math.pi / 2.0],
         1.5,
         "chair"
