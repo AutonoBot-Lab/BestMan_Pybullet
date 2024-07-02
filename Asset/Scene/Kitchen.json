@@ -40,10 +40,10 @@
         "object_position": [4.0, 2.9, 1.1],
         "object_orientation": [0, 0, 0],
         "scale": 0.5,
-        "obj_name": "elementD",
+        "obj_name": "microwave",
         "fixed_base": true
     },
-
+    
     {
         "model_path": "../Asset/Kitchen_models/models/Fridge/10144/mobility.urdf",
         "object_position": [4.1, 5.42, 1.055],
