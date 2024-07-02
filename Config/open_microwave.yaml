@@ -1,0 +1,10 @@
+Visualizer:
+  Camera: 
+      dist: 2.0
+      position: [4.0, 2.9, 1.1]
+      yaw: -86.4
+      pitch: -40.0
+
+Robot:
+  init_pose: [2.9, 2.9, 0.0, 0.0, 0.0, 0.0]   # The initial pose of base and arm
+  init_joint: [0, -1.57, 2.0, -1.57, -1.57, 0]
