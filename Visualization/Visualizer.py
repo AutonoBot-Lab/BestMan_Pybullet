@@ -128,8 +128,7 @@ class Visualizer:
         origin = [0, 0, 0]  # The start point of the axes
 
         # Drawing the X-axis (in red)
-        p.addUserDebugLine(
-            lineFromXYZ=origin,
+        p.addUserDebugLine(lineFromXYZ=origin,
             lineToXYZ=[length, 0, 0],
             lineColorRGB=[1, 0, 0],
             lineWidth=lineWidth,
@@ -211,7 +210,7 @@ class Visualizer:
         
         
     # ----------------------------------------------------------------
-    # line / aabb
+    # line / aabb / pose
     # ----------------------------------------------------------------
 
     def draw_line(self, start_pos, target_pos, color=[1, 0, 0], width=3.0):
@@ -236,13 +235,19 @@ class Visualizer:
     def remove_all_line(self):
         p.removeAllUserDebugItems()
 
-    def draw_aabb(self, object_id):
+    def draw_aabb(self, object):
         """
         Draw an Axis-Aligned Bounding Box (AABB) around the specified table object in the simulation. The AABB is a box that covers the entire object based on its maximum and minimum coordinates along each axis. It can be useful for various purposes, such as collision detection, spatial partitioning, and bounding volume hierarchies.
 
         Args:
             table_id: The unique identifier of the table object in the simulation for which the AABB is to be drawn.
         """
+        
+        if isinstance(object, (int)):
+            object_id = object
+        elif isinstance(object, (str)):
+            object_id = self.client.get_object_id(object)
+        
         link_ids = [
             i
             for i in range(
@@ -297,10 +302,12 @@ class Visualizer:
             link_id: The index of the link for which the AABB is to be drawn. Default is -1, which means the entire object.
         """
         
-        if isinstance(object, (int)):   # input type is object id
-            object_id = object
-        elif isinstance(object, (str)): # input type is object name
-            object_id = getattr(self.client, object)
+        # if isinstance(object, (int)):
+        #     object_id = object
+        # elif isinstance(object, (str)):
+        #     object_id = self.client.get_object_id(object)
+        object_id = self.client.resolve_object_id(object)
+        
         aabb = p.getAABB(object_id, link_id, physicsClientId=self.client_id)
         aabb_min = aabb[0]
         aabb_max = aabb[1]
@@ -338,24 +345,49 @@ class Visualizer:
                 physicsClientId=self.client_id,
             )
             
-    def visualize_path(self, path):
+    def draw_pose(self, object, length=0.25, lineWidth=2.0, textSize=1.0):
+        """draw object pose
         """
-        visualize the path of Manipution
-        """
+        
+        object_id = self.client.resolve_object_id(object)
+        position, orientation = p.getBasePositionAndOrientation(object_id)
 
-        # Reverse the path so that it goes from start to goal
-        path = path[::-1]  # This line reverses the path
-        cartesian_path = [self.joints_to_cartesian(point) for point in path]
-        # print("cartesian_path:{}".format(cartesian_path))
-        for i in range(len(cartesian_path) - 1):
-            p.addUserDebugLine(
-                cartesian_path[i],
-                cartesian_path[i + 1],
-                lineColorRGB=[1, 0, 0],
-                lifeTime=10,
-                lineWidth=3,
-                physicsClientId=self.client_id,
-            )
+        orientation_matrix = np.array(p.getMatrixFromQuaternion(orientation)).reshape(3, 3)
+        axes_position = np.array(position)[:, np.newaxis] + length * orientation_matrix
+        text_position = np.array(position)[:, np.newaxis] + (length + 0.1) * orientation_matrix
+        
+        # draw pose
+        p.addUserDebugLine(position, axes_position[:, 0], [1, 0, 0], lineWidth, 0)
+        p.addUserDebugLine(position, axes_position[:, 1], [0, 1, 0], lineWidth, 0)
+        p.addUserDebugLine(position, axes_position[:, 2], [0, 0, 1], lineWidth, 0)
+        
+        # Adding text labels
+        p.addUserDebugText(text="X", textPosition=text_position[:, 0], textColorRGB=[1, 0, 0], textSize=textSize)
+        p.addUserDebugText(text="Y", textPosition=text_position[:, 1], textColorRGB=[0, 1, 0], textSize=textSize)
+        p.addUserDebugText(text="Z", textPosition=text_position[:, 2], textColorRGB=[0, 0, 1], textSize=textSize)
+        
+    def draw_link_pose(self, object, link_id, length=0.25, lineWidth=2.0, textSize=1.0):
+        """draw object pose
+        """
+        
+        object_id = self.client.resolve_object_id(object)
+        # position, orientation = p.getBasePositionAndOrientation(object_id)
+        link_state = p.getLinkState(object_id, link_id, computeLinkVelocity=0)
+        position, orientation = link_state[0], link_state[1]
+        
+        orientation_matrix = np.array(p.getMatrixFromQuaternion(orientation)).reshape(3, 3)
+        axes_position = np.array(position)[:, np.newaxis] + length * orientation_matrix
+        text_position = np.array(position)[:, np.newaxis] + (length + 0.1) * orientation_matrix
+        
+        # draw pose
+        p.addUserDebugLine(position, axes_position[:, 0], [1, 0, 0], lineWidth, 0)
+        p.addUserDebugLine(position, axes_position[:, 1], [0, 1, 0], lineWidth, 0)
+        p.addUserDebugLine(position, axes_position[:, 2], [0, 0, 1], lineWidth, 0)
+        
+        # Adding text labels
+        p.addUserDebugText(text="X", textPosition=text_position[:, 0], textColorRGB=[1, 0, 0], textSize=textSize)
+        p.addUserDebugText(text="Y", textPosition=text_position[:, 1], textColorRGB=[0, 1, 0], textSize=textSize)
+        p.addUserDebugText(text="Z", textPosition=text_position[:, 2], textColorRGB=[0, 0, 1], textSize=textSize)
 
 
     # ----------------------------------------------------------------
