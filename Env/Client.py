@@ -195,10 +195,29 @@ class Client:
     # Get info from environment
     # ----------------------------------------------------------------
 
-    def print_object_joint_info(self, object_id):
+    def get_object_id(self, object_name):
+        """Get object id
         """
-        Get object's joint info
+        return getattr(self, object_name)
+    
+    def resolve_object_id(self, object):
+        """Resolve object id
         """
+
+        if isinstance(object, str):
+            assert(hasattr(self, object), f"scene has not object named {object}!")
+            object_id = self.get_object_id(object)
+        elif isinstance(object, int):
+            object_id = object
+        else:
+            assert(0, "error input type")
+        return object_id
+    
+    def print_object_joint_info(self, object):
+        """Get object's link and joint info
+        """
+        
+        object_id = self.resolve_object_id(object)
         
         num_joints = p.getNumJoints(object_id, physicsClientId=self.client_id)
         print("-" * 20 + "\n" + "The object {} has {} joints".format(object_id, num_joints))
@@ -218,16 +237,8 @@ class Client:
             link_id: The id of object link
         """
         
-        if isinstance(object, str):
-            assert(hasattr(self, object), f"scene has not object named {object}!")
-            object_id = getattr(self, object)
-        elif isinstance(object, int):
-            object_id = object
-        else:
-            assert(0, "error input type")
-        
+        object_id = self.resolve_object_id(object)
         link_state = p.getLinkState(object_id, link_id)
-        # return Pose(link_state[4], link_state[5])
         return Pose(link_state[0], link_state[1])
     
     def get_bounding_box(self, object):
@@ -240,13 +251,7 @@ class Client:
             The function prints the minimum and maximum x, y, z coordinates of the bounding box of the object.
         """
         
-        if isinstance(object, str):
-            assert(hasattr(self, object), f"scene has not object named {object}!")
-            object_id = getattr(self, object)
-        elif isinstance(object, int):
-            object_id = object
-        else:
-            assert(0, "error input type")
+        object_id = self.resolve_object_id(object)
         
         link_ids = [i for i in range(-1, p.getNumJoints(object_id, physicsClientId=self.client_id))]
 
@@ -271,13 +276,7 @@ class Client:
             link_id (int): The id of the link
         """
         
-        if isinstance(object, str):
-            assert(hasattr(self, object), f"scene has not object named {object}!")
-            object_id = getattr(self, object)
-        elif isinstance(object, int):
-            object_id = object
-        else:
-            assert(0, "error input type")
+        object_id = self.resolve_object_id(object)
         
         (min_x, min_y, min_z), (max_x, max_y, max_z) = p.getAABB(object_id, link_id, physicsClientId=self.client_id)
         return [min_x, min_y, min_z, max_x, max_y, max_z]
