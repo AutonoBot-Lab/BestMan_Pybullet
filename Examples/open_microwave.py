@@ -11,9 +11,7 @@ import pybullet as p
 from Env import Client
 from Utils import load_config
 from Visualization import Visualizer
-from SLAM import simple_slam
 from Motion_Planning.Manipulation import OMPL_Planner
-from Motion_Planning.Navigation import AStarPlanner
 from RoboticsToolBox import Pose, Bestman_sim_ur5e_vacuum_long
 
 
@@ -60,13 +58,14 @@ def rotate_point_3d_around_axis(init_pose, rotate_axis, theta, clockwise=True):
     return Pose(final_position, rotated_euler_angles)
 
 
+
 def main(filename):
     
     # Load config
-    config_path = '../Config/open_fridge.yaml'
+    config_path = '../Config/open_microwave.yaml'
     cfg = load_config(config_path)
     print(cfg)
-
+    
     # Initial client and visualizer
     client = Client(cfg.Client)
     visualizer = Visualizer(client, cfg.Visualizer)
@@ -75,7 +74,7 @@ def main(filename):
     # Load scene
     scene_path = '../Asset/Scene/Kitchen.json'
     client.create_scene(scene_path)
-    
+
     # Start recording
     visualizer.start_record(filename)
     
@@ -85,8 +84,12 @@ def main(filename):
     # Init visualizer
     visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
 
-    # Draw fridge door handle
-    visualizer.draw_aabb_link('fridge', 2)
+    # Draw microwave door
+    visualizer.draw_aabb_link('microwave', 1)
+    # client.change_object_joint_angle('microwave', 1, math.pi / 6)
+    
+    # # Simple SLAM
+    # nav_obstacles_bounds = simple_slam(client, bestman, True)
     
     # Init planner
     ompl_planner = OMPL_Planner(
@@ -95,28 +98,30 @@ def main(filename):
     )
     
     # Get goal joint values
-    min_x, min_y, min_z, max_x, max_y, max_z = client.get_link_bounding_box('fridge', 2)
+    min_x, min_y, min_z, max_x, max_y, max_z = client.get_link_bounding_box('microwave', 1)
     goal_pose = Pose([min_x - bestman.get_tcp_link_height() - 0.035, (min_y + max_y) / 2, (min_z + max_z) / 2], [0.0, 0.0, 0.0])
     goal = ompl_planner.set_target_pose(goal_pose)
     
-    # Plan / Execute / Suctate fridge handle
+    # Plan / Execute / Suctate microwave door
     start = bestman.get_current_joint_values()
     path = ompl_planner.plan(start, goal)
     bestman.execute_trajectory(path, True)
-    bestman.sim_active_gripper_movable('fridge', 1, 1)
+    bestman.sim_active_gripper_movable('microwave', 1, 1)
 
     visualizer.remove_all_line()
     
     # The end effector Move along the specified trajectory get effector to open the door
     init_pose = bestman.get_current_end_effector_pose()
-    rotate_axis = p.getLinkState(client.get_object_id("fridge"), 1)[4]
-    angles = 15
+    
+    microwave_id = client.get_object_id('microwave')
+    rotate_axis = p.getLinkState(microwave_id, 1)[4]
+    angles = 30
     heta_values = [math.radians(deg) for deg in range(0, angles+1)]
-    rotated_joints = [bestman.cartesian_to_joints(rotate_point_3d_around_axis(init_pose, rotate_axis, theta, False)) for theta in heta_values]
+    rotated_joints = [bestman.cartesian_to_joints(rotate_point_3d_around_axis(init_pose, rotate_axis, theta, True)) for theta in heta_values]
     bestman.execute_trajectory(rotated_joints, True)
     
     # Wait
-    client.wait(5)
+    client.wait(10)
     
     # End record / Disconnect pybullet
     visualizer.end_record()
