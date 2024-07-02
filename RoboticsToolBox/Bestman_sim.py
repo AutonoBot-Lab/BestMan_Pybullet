@@ -83,6 +83,7 @@ class Bestman_sim:
             physicsClientId=self.client_id,
             flags=self.enable_cache
         )
+        setattr(self.client, 'base', self.base_id)
 
         # Init arm
         self.arm_id = p.loadURDF(
@@ -93,6 +94,7 @@ class Bestman_sim:
             physicsClientId=self.client_id,
             flags=self.enable_cache
         )
+        setattr(self.client, 'arm', self.arm_id)
         self.arm_joints_idx = robot_cfg.arm_joints_idx
         self.DOF = len(self.arm_joints_idx)
         self.arm_height = robot_cfg.arm_height
