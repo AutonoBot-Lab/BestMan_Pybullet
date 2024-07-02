@@ -165,6 +165,13 @@ class Client:
     # object joint info / operate
     # ----------------------------------------------------------------
     
+    def remove_object(self, object):
+        """Remove object in scene
+        """
+        object_id = self.resolve_object_id(object)
+        p.removeBody(object_id)
+        self.run(120)
+    
     def change_object_joint_angle(
         self, object_name, joint_index, target_position, max_force=5
     ):
@@ -178,7 +185,8 @@ class Client:
         max_force (float): The maximum force to be applied to achieve the target position.
         """
         
-        object_id = getattr(self, object_name)
+        # object_id = getattr(self, object_name)
+        object_id = self.resolve_object_id(object)
         p.setJointMotorControl2(
             bodyUniqueId=object_id,
             jointIndex=joint_index,
