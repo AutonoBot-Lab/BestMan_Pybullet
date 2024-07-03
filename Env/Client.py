@@ -13,8 +13,8 @@ import pybullet as p
 import pybullet_data
 
 from RoboticsToolBox import Pose
+from Visualization import PyBulletRecorder
 
-  
 class Client:
     def __init__(self, cfg):
         """
@@ -54,9 +54,13 @@ class Client:
             numSolverIterations=cfg.numSolverIterations
         )
         
+        # pybullet recorder for blender show
+        self.recorder = PyBulletRecorder()
+        
         # Enable caching of graphic shapes when loading URDF files
         self.enable_cache = p.URDF_ENABLE_CACHED_GRAPHICS_SHAPES
         planeId = p.loadURDF(cfg.plane_urdf_path, flags=self.enable_cache)
+        # self.recorder.register_object(planeId, urdf_path)
         
         # parameters
         self.timestep = 1. / cfg.frequency
@@ -80,6 +84,7 @@ class Client:
         for _ in range(x):
             p.stepSimulation(physicsClientId=self.client_id)
             time.sleep(self.timestep)
+            self.recorder.add_keyframe()
         
 
     # ----------------------------------------------------------------
@@ -121,6 +126,8 @@ class Client:
             physicsClientId=self.client_id,
             flags=self.enable_cache
         )
+
+        self.recorder.register_object(object_id, model_path)
         
         setattr(
             self,
@@ -213,7 +220,7 @@ class Client:
         """
 
         if isinstance(object, str):
-            assert(hasattr(self, object), f"scene has not object named {object}!")
+            assert hasattr(self, object), f"scene has not object named {object}!"
             object_id = self.get_object_id(object)
         elif isinstance(object, int):
             object_id = object
@@ -278,7 +285,7 @@ class Client:
     def get_link_bounding_box(self, object, link_id):
         """
         This function retrieves the link bounding box for a given object in the PyBullet simulation environment.
-
+        
         Args:
             object (int / str): The id / name of the object in the PyBullet simulation.
             link_id (int): The id of the link
@@ -288,3 +295,12 @@ class Client:
         
         (min_x, min_y, min_z), (max_x, max_y, max_z) = p.getAABB(object_id, link_id, physicsClientId=self.client_id)
         return [min_x, min_y, min_z, max_x, max_y, max_z]
+    
+    # ----------------------------------------------------------------
+    # For blender
+    # ----------------------------------------------------------------
+
+    def record_save(self, filename):
+        self.recorder.save(f'../Examples/record/{filename}.pkl')
+
+
