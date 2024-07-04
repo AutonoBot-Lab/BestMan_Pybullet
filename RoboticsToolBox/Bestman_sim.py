@@ -768,16 +768,16 @@ class Bestman_sim:
     # functions for gripper
     # ----------------------------------------------------------------
     
-    @abstractmethod
-    def sim_active_gripper(self, object, value):
-        """
-        Activate or deactivate the gripper.
+    # @abstractmethod
+    # def sim_active_gripper(self, object, value):
+    #     """
+    #     Activate or deactivate the gripper.
         
-        Args:
-            object_id (init): ID of the object related to gripper action.
-            value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).
-        """
-        pass    
+    #     Args:
+    #         object_id (init): ID of the object related to gripper action.
+    #         value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).
+    #     """
+    #     pass    
     
     # ----------------------------------------------------------------
     # functions for camera
@@ -920,6 +920,14 @@ class Bestman_sim:
         # TODO
         return None
 
+    def pick(self, object):
+        object_id = self.client.resolve_object_id(object)
+        object_goal_position, object_goal_orientation = object_goal_pose.position, object_goal_pose.orientation
+        object_position_init, orientation = p.getBasePositionAndOrientation(
+            object_id, physicsClientId=self.client_id
+        )
+        
+        
     def place(self, object_init_pose):
         # TODO
         return None

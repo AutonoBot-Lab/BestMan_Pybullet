@@ -11,9 +11,7 @@ import pybullet as p
 from Env import Client
 from Utils import load_config
 from Visualization import Visualizer
-from SLAM import simple_slam
 from Motion_Planning.Manipulation import OMPL_Planner
-from Motion_Planning.Navigation import AStarPlanner
 from RoboticsToolBox import Pose, Bestman_sim_ur5e_vacuum_long
 
 

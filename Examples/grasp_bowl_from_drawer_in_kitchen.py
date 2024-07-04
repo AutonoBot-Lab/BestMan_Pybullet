@@ -91,7 +91,7 @@ def main(filename):
     bestman.execute_trajectory(path, enable_plot=True)
     
     # grasp target object
-    bestman.sim_active_gripper("bowl", 1)
+    bestman.sim_active_gripper_fixed("bowl", 1)
     
     # End record
     visualizer.end_record()

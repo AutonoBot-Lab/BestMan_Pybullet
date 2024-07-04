@@ -13,7 +13,7 @@ import pybullet as p
 import pybullet_data
 
 from RoboticsToolBox import Pose
-from Visualization import PyBulletRecorder
+# from Visualization import PyBulletRecorder
 
 class Client:
     def __init__(self, cfg):
@@ -55,7 +55,7 @@ class Client:
         )
         
         # pybullet recorder for blender show
-        self.recorder = PyBulletRecorder()
+        # self.recorder = PyBulletRecorder()
         
         # Enable caching of graphic shapes when loading URDF files
         self.enable_cache = p.URDF_ENABLE_CACHED_GRAPHICS_SHAPES
@@ -84,7 +84,7 @@ class Client:
         for _ in range(x):
             p.stepSimulation(physicsClientId=self.client_id)
             time.sleep(self.timestep)
-            self.recorder.add_keyframe()
+            # self.recorder.add_keyframe()
         
 
     # ----------------------------------------------------------------
@@ -127,7 +127,7 @@ class Client:
             flags=self.enable_cache
         )
 
-        self.recorder.register_object(object_id, model_path)
+        # self.recorder.register_object(object_id, model_path)
         
         setattr(
             self,
@@ -180,7 +180,7 @@ class Client:
         self.run(120)
     
     def change_object_joint_angle(
-        self, object_name, joint_index, target_position, max_force=5
+        self, object, joint_index, target_position, max_force=5
     ):
         """
         Change the state of a specific joint of the object.
@@ -299,8 +299,8 @@ class Client:
     # ----------------------------------------------------------------
     # For blender
     # ----------------------------------------------------------------
-
-    def record_save(self, filename):
-        self.recorder.save(f'../Examples/record/{filename}.pkl')
+    
+    # def record_save(self, filename):
+    #     self.recorder.save(f'../Examples/record/{filename}.pkl')
 
 
