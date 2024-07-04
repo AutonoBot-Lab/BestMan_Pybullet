@@ -919,15 +919,3 @@ class Bestman_sim:
     def pick_v2(self, object_init_pose):
         # TODO
         return None
-
-    def pick(self, object):
-        object_id = self.client.resolve_object_id(object)
-        object_goal_position, object_goal_orientation = object_goal_pose.position, object_goal_pose.orientation
-        object_position_init, orientation = p.getBasePositionAndOrientation(
-            object_id, physicsClientId=self.client_id
-        )
-        
-        
-    def place(self, object_init_pose):
-        # TODO
-        return None
