@@ -22,6 +22,7 @@ def main(filename):
     # Init client and visualizer
     client = Client(cfg.Client)
     visualizer = Visualizer(client, cfg.Visualizer)
+    visualizer.draw_axes()
     
     # Start record
     visualizer.start_record(filename)
@@ -47,10 +48,10 @@ def main(filename):
         1.0,
         "bowl"
     )
-
+    
     # grasp target object
-    object_goal_pose = Pose([0.9, 0.7, 0.85], [0.0, math.pi / 2.0, 0.0])
-    bestman.pick_place_v1(bowl_id, object_goal_pose)
+    object_goal_pose = Pose([1.4, 1.2, 1.0], [0.0, math.pi / 2.0, 0.0])
+    bestman.pick_place("bowl", object_goal_pose)
     
     # End record
     visualizer.end_record()
