@@ -12,6 +12,7 @@ from Visualization import Visualizer
 from Motion_Planning.Manipulation import OMPL_Planner
 from Motion_Planning.Navigation import *
 from Utils import load_config
+from SLAM import simple_slam
 
 
 def main(filename):
@@ -23,7 +24,8 @@ def main(filename):
 
     # Init client and visualizer
     client = Client(cfg.Client)
-    visualizer = Visualizer(client, cfg.Visualizer)\
+    visualizer = Visualizer(client, cfg.Visualizer)
+    visualizer.draw_axes()
     
     # Start record
     visualizer.start_record(filename)
@@ -46,17 +48,20 @@ def main(filename):
     ompl_planner.get_obstacles_info()
 
     # Open fridge
-    client.change_object_joint_angle("elementE", 1, math.pi / 2.0)
+    # client.change_object_joint_angle("microwave", 1, math.pi / 2.0)
 
+    # Simple SLAM
+    nav_obstacles_bounds = simple_slam(client, bestman, True)
+    
     # Navigation
-    standing_pose = Pose([3.1, 2.4, 0], [0.0, 0.0, 0.0])
-    nav_planner = AStarPlanner(
+    standing_pose = Pose([2.9, 2.55, 0], [0.0, 0.0, 0.0])
+    nav_planner = AStarPlanner( 
         robot_size = bestman.get_robot_max_size(), 
-        obstacles_bounds = client.get_Nav_obstacles_bounds(), 
+        obstacles_bounds = nav_obstacles_bounds, 
         resolution = 0.05, 
         enable_plot = False
     )
-    path = nav_planner.plan(bestman.get_base_pose(), standing_pose)
+    path = nav_planner.plan(bestman.get_current_base_pose(), standing_pose)
     bestman.navigate_base(standing_pose, path)
     
     # Init ompl planner
@@ -71,9 +76,10 @@ def main(filename):
         [3.8, 2.4, 0.95],
         [0.0, 0.0, 0.0],
         1.0,
-        "bowl",
-        nav_obstacle_tag=False,
+        "bowl"
     )
+    
+    visualizer.draw_pose("bowl")
     
     # # get rgb image
     # bestman.update_camera()
@@ -94,7 +100,7 @@ def main(filename):
     bestman.execute_trajectory(path)
     
     # grasp target object
-    bestman.sim_active_gripper(bowl_id, 1)
+    bestman.sim_active_gripper_fixed(bowl_id, 1)
     
     # End record
     visualizer.end_record()

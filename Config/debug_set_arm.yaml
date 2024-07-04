@@ -7,4 +7,4 @@ Visualizer:
       pitch: -89.9
 
 Robot:
-  init_joint: [0, -2.0, 2.0, -2.0, 2.0, 2.0]
+  init_joint: [0, -1.57, 2.0, -1.57, -1.57, 0]

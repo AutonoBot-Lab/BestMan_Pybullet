@@ -93,9 +93,6 @@ def main(filename):
     # grasp target object
     bestman.sim_active_gripper_fixed("bowl", 1)
     
-    # # Up 20cm
-    # goal = ompl_planner.set_target("bowl")
-    
     # Come back to grasp init pose
     bestman.execute_trajectory(path[::-1], enable_plot=True)
     
@@ -103,8 +100,6 @@ def main(filename):
     standing_pose2 = Pose([1.0, 2, 0], [0.0, 0.0, -math.pi / 2])
     path = nav_planner.plan(bestman.get_current_base_pose(), standing_pose2)
     bestman.navigate_base(standing_pose2, path, enable_plot=True)
-    
-    print(client.get_bounding_box("table"))
     
     # Move arm to table
     place_pose = Pose([1.0, 1.0, 1.0], [0.0, math.pi / 2.0, 0.0])
@@ -121,7 +116,7 @@ def main(filename):
     visualizer.end_record()
     
     # disconnect
-    client.wait(20)
+    client.wait(10)
     client.disconnect()
 
 

@@ -51,7 +51,7 @@ def main(filename):
     # grasp target object
     object_goal_pose = Pose([0.9, 0.7, 0.85], [0.0, math.pi / 2.0, 0.0])
     bestman.pick_place_v1(bowl_id, object_goal_pose)
-
+    
     # End record
     visualizer.end_record()
 

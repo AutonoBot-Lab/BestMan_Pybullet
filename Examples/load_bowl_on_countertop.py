@@ -41,8 +41,6 @@ def main(filename):
         "countertop",
         fixed_base=True
     )
-    
-    client.get_bounding_box(countertop_id, True)
 
     visualizer.set_object_color(countertop_id, "light_white")
 
@@ -51,8 +49,7 @@ def main(filename):
         [0.0, 0.5, 1.05],
         [0.0, 0.0, 0.0],
         1.0,
-        "bowl",
-        nav_obstacle_tag=False,
+        "bowl"
     )
 
     # End record
