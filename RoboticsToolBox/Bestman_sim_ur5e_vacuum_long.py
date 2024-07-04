@@ -5,8 +5,10 @@
 """
 
 import math
+import numpy as np
 import pybullet as p
 from .Bestman_sim import Bestman_sim
+from .Pose import Pose
 
 
 class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
@@ -33,13 +35,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
             value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).
         """
 
-        if isinstance(object, str):
-            if hasattr(self.client, object):
-                object_id = getattr(self.client, object)
-            else:
-                raise AttributeError(f"scene has not {object} object!")
-        else:
-            object_id = object
+        object_id = self.client.resolve_object_id(object)
         
         # ungrasp
         if value == 0 and self.gripper_id != None:
@@ -63,7 +59,6 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
                     childFrameOrientation=cube_orn,
                     physicsClientId=self.client_id,
                 )
-                print("-" * 20 + "\n" + "Gripper has been activated!")
             else:
                 self.gripper_id = p.createConstraint(
                     self.arm_id,
@@ -77,7 +72,8 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
                     childFrameOrientation=cube_orn,
                     physicsClientId=self.client_id,
                 )
-                print("-" * 20 + "\n" + "Gripper has been activated!")
+            self.object_id = object_id
+            print("-" * 20 + "\n" + "Gripper has been activated!")
         
         self.client.run(240)
         
@@ -90,13 +86,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
             value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).
         """
 
-        if isinstance(object, str):
-            if hasattr(self.client, object):
-                object_id = getattr(self.client, object)
-            else:
-                raise AttributeError(f"scene has not {object} object!")
-        else:
-            object_id = object
+        object_id = self.client.resolve_object_id(object)
         
         # ungrasp
         if value == 0 and self.gripper_id != None:
@@ -124,3 +114,29 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
                     childFramePosition=[0, 0, 0],
                 )
             p.changeConstraint(constraint_id, maxForce=2000)
+
+    
+    # ----------------------------------------------------------------
+    # functions for gripper
+    # ----------------------------------------------------------------
+    
+    def pick(self, object):
+        init_pose = self.get_current_end_effector_pose()
+        object_id = self.client.resolve_object_id(object)
+        min_x, min_y, _, max_x, max_y, max_z = self.client.get_bounding_box(object_id)
+        goal_pose = Pose([(min_x + max_x) / 2, (min_y + max_y) / 2, max_z + self.tcp_height + 0.05], [0.0, math.pi / 2.0, 0.0])
+        self.move_end_effector_to_goal_pose(goal_pose)
+        self.sim_active_gripper_fixed(object_id, 1)
+        self.move_end_effector_to_goal_pose(init_pose)
+    
+    def place(self, goal_pose):
+        init_pose = self.get_current_end_effector_pose()
+        self.move_end_effector_to_goal_pose(goal_pose)
+        self.sim_active_gripper_fixed(self.object_id, 0)
+        self.move_end_effector_to_goal_pose(init_pose)
+        
+    def pick_place(self, object, goal_pose):
+        self.pick(object)
+        self.place(goal_pose)
+        
+        
