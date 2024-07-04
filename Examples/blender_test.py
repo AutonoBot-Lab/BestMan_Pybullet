@@ -14,7 +14,7 @@ from RoboticsToolBox import Bestman_sim_panda
 def main(filename):
     
     # Load config
-    config_path = '../Config/debug_set_arm.yaml'
+    config_path = '../Config/blender_test.yaml'
     cfg = load_config(config_path)
     print(cfg)
 
@@ -34,26 +34,26 @@ def main(filename):
         "table"
     )
 
-    # bowl_id = client.load_object(
-    #     "../Asset/URDF_models/utensil_bowl_blue/model.urdf",
-    #     [0.6, 0.6, 0.85],
-    #     [0.0, 0.0, 0.0],
-    #     1.0,
-    #     "bowl"
-    # )
+    bowl_id = client.load_object(
+        "../Asset/URDF_models/utensil_bowl_blue/model.urdf",
+        [0.6, 0.6, 0.85],
+        [0.0, 0.0, 0.0],
+        1.0,
+        "bowl"
+    )
     
-    # chair_id = client.load_object(
-    #     "../Asset/URDF_models/furniture_chair/model.urdf",
-    #     [-0.3, 0.8, 0.5],
-    #     [math.pi / 2.0 * 3, 0.0, math.pi / 2.0],
-    #     1.5,
-    #     "chair"
-    # )
+    chair_id = client.load_object(
+        "../Asset/URDF_models/furniture_chair/model.urdf",
+        [-0.3, 0.8, 0.5],
+        [math.pi / 2.0 * 3, 0.0, math.pi / 2.0],
+        1.5,
+        "chair"
+    )
     
     # End record
     # visualizer.end_record()
-    client.record_save('table_test')
-
+    client.record_save('blender_test')
+    
     # Disconnect pybullet
     client.wait(5)
     client.disconnect()
