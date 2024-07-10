@@ -4,16 +4,18 @@
 @Time        :   2023/08/30 22:22:14
 """
 
+import os
 import math
 import json
 import time
 import random
+from datetime import datetime
 import numpy as np
 import pybullet as p
 import pybullet_data
 
 from RoboticsToolBox import Pose
-# from Visualization import PyBulletRecorder
+from Visualization import PyBulletRecorder
 
 class Client:
     def __init__(self, cfg):
@@ -55,12 +57,13 @@ class Client:
         )
         
         # pybullet recorder for blender show
-        # self.recorder = PyBulletRecorder()
+        self.blender = cfg.blender
+        if self.blender: self.recorder = PyBulletRecorder()
         
         # Enable caching of graphic shapes when loading URDF files
         self.enable_cache = p.URDF_ENABLE_CACHED_GRAPHICS_SHAPES
         planeId = p.loadURDF(cfg.plane_urdf_path, flags=self.enable_cache)
-        # self.recorder.register_object(planeId, urdf_path)
+        # self.register_object(planeId, os.path.join(pybullet_data.getDataPath(), cfg.plane_urdf_path))
         
         # parameters
         self.timestep = 1. / cfg.frequency
@@ -75,6 +78,7 @@ class Client:
         return self.client_id
     
     def disconnect(self):
+        self.record_save()
         p.disconnect(physicsClientId=self.client_id)
 
     def wait(self, x):  # seconds
@@ -84,7 +88,7 @@ class Client:
         for _ in range(x):
             p.stepSimulation(physicsClientId=self.client_id)
             time.sleep(self.timestep)
-            # self.recorder.add_keyframe()
+            if self.blender: self.recorder.add_keyframe()
         
 
     # ----------------------------------------------------------------
@@ -93,11 +97,11 @@ class Client:
     
     def load_object(
         self,
+        obj_name,
         model_path,
         object_position,
         object_orientation,
-        scale,
-        obj_name,
+        scale=1,
         fixed_base=False
     ):
         """
@@ -127,7 +131,7 @@ class Client:
             flags=self.enable_cache
         )
 
-        # self.recorder.register_object(object_id, model_path)
+        if self.blender: self.register_object(object_id, model_path, scale)
         
         setattr(
             self,
@@ -135,7 +139,7 @@ class Client:
             object_id
         )
         
-        self.run(10)
+        self.run(120)
         
         return object_id
 
@@ -157,11 +161,11 @@ class Client:
             object_orientation = [eval(i) if isinstance(i, str) else i for i in object['object_orientation']]
 
             self.load_object(
+                object['obj_name'],
                 object['model_path'],
                 object['object_position'],
                 object_orientation,
                 object['scale'],
-                object['obj_name'],
                 object['fixed_base']
             )
         
@@ -204,7 +208,9 @@ class Client:
         )
         
         self.run(240)
-    
+        
+    def register_object(self, object_id, model_path, scale=1.0):
+        self.recorder.register_object(object_id, model_path, scale)
     
     # ----------------------------------------------------------------
     # Get info from environment
@@ -300,7 +306,8 @@ class Client:
     # For blender
     # ----------------------------------------------------------------
     
-    # def record_save(self, filename):
-    #     self.recorder.save(f'../Examples/record/{filename}.pkl')
+    def record_save(self):
+        current_time = datetime.now().strftime('%Y%m%d_%H%M%S')
+        self.recorder.save(f'../Examples/record/{current_time}.pkl')
 
 

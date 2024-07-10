@@ -52,7 +52,6 @@ def main(filename):
     
     # End record
     # visualizer.end_record()
-    client.record_save('blender_test')
     
     # Disconnect pybullet
     client.wait(5)

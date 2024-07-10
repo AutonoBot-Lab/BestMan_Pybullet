@@ -84,7 +84,8 @@ class Bestman_sim:
             flags=self.enable_cache
         )
         setattr(self.client, 'base', self.base_id)
-
+        self.client.register_object(self.base_id, robot_cfg.base_urdf_path)
+        
         # Init arm
         self.arm_id = p.loadURDF(
             fileName=robot_cfg.arm_urdf_path,
@@ -95,10 +96,11 @@ class Bestman_sim:
             flags=self.enable_cache
         )
         setattr(self.client, 'arm', self.arm_id)
+        self.client.register_object(self.arm_id, robot_cfg.arm_urdf_path)
         self.arm_joints_idx = robot_cfg.arm_joints_idx
         self.DOF = len(self.arm_joints_idx)
         self.arm_height = robot_cfg.arm_height
-
+        
         # Add constraint between base and arm
         p.createConstraint(
             parentBodyUniqueId=self.base_id,
@@ -636,7 +638,7 @@ class Bestman_sim:
             interpolated_pose = Pose(interpolated_position, interpolated_orientation)
             joint_values = self.cartesian_to_joints(interpolated_pose)
             self.move_arm_to_joint_values(joint_values)
-        self.client.run(240)
+        self.client.run(120)
         print("-" * 20 + "\n" + "Could not reach target position without collision after {} attempts".format(self.max_attempts))
     
     def execute_trajectory(self, trajectory, enable_plot=False):
@@ -753,14 +755,13 @@ class Bestman_sim:
         
         This function ensures that the positions of the robot arm and base are aligned.
         """
-        
-        position, orientation = p.getBasePositionAndOrientation(
-            self.base_id, physicsClientId=self.client_id
-        )
+
+        position, _ = p.getBasePositionAndOrientation(self.base_id, physicsClientId=self.client_id)
+        _, orientation = p.getBasePositionAndOrientation(self.arm_id, physicsClientId=self.client_id)
         if self.arm_id is not None:
-            position = [position[0], position[1], self.arm_height]      # fixed arm height
+            # position = [position[0], position[1], self.arm_height]      # fixed arm height
             p.resetBasePositionAndOrientation(
-                self.arm_id, position, orientation, physicsClientId=self.client_id
+                self.arm_id, [position[0], position[1], self.arm_height] , orientation, physicsClientId=self.client_id
             )
 
     
