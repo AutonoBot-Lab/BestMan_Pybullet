@@ -6,6 +6,7 @@
 
 import os
 import math
+import pybullet as p
 from Env import Client
 from Utils import load_config
 from Visualization import Visualizer
@@ -20,38 +21,33 @@ def main(filename):
 
     # Init client and visualizer
     client = Client(cfg.Client)
-    visualizer = Visualizer(client, cfg.Visualizer)
-
-    # Start recording
-    # visualizer.start_record(filename)
     
     # Load table, bowl, and chair
     table_id = client.load_object(
+        "table",
         "../Asset/URDF_models/furniture_table_rectangle_high/table.urdf",
         [1.0, 1.0, 0.0],
         [0.0, 0.0, 0.0],
         1.0,
-        "table"
+        True
     )
 
+    chair_id = client.load_object(
+        "chair",
+        "../Asset/URDF_models/furniture_chair/model.urdf",
+        [-0.3, 0.8, 0.0],
+        [0.0, 0.0, 0.0],
+        1.5,
+        True
+    )
+    
     bowl_id = client.load_object(
+        "bowl",
         "../Asset/URDF_models/utensil_bowl_blue/model.urdf",
         [0.6, 0.6, 0.85],
         [0.0, 0.0, 0.0],
-        1.0,
-        "bowl"
+        1.0
     )
-    
-    chair_id = client.load_object(
-        "../Asset/URDF_models/furniture_chair/model.urdf",
-        [-0.3, 0.8, 0.5],
-        [math.pi / 2.0 * 3, 0.0, math.pi / 2.0],
-        1.5,
-        "chair"
-    )
-    
-    # End record
-    # visualizer.end_record()
     
     # Disconnect pybullet
     client.wait(5)

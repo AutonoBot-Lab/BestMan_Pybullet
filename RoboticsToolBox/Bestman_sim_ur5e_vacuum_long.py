@@ -75,7 +75,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
             self.object_id = object_id
             print("-" * 20 + "\n" + "Gripper has been activated!")
         
-        self.client.run(240)
+        self.client.run(10)
         
     def sim_active_gripper_movable(self, object, link_id, value):
         """

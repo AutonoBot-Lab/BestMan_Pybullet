@@ -152,7 +152,7 @@
 		<axis xyz="0 -1 0"/>
 		<child link="link_0"/>
 		<parent link="link_5"/>
-		<limit lower="-0.0" upper="1.5707963267948966"/>
+		<limit effort="30" velocity="1.0" lower="-0.0" upper="1.5707963267948966"/>
 	</joint>
 	<link name="link_1">
 		<visual name="door_button-5">
@@ -173,7 +173,7 @@
 		<axis xyz="0 0 -1"/>
 		<child link="link_1"/>
 		<parent link="link_5"/>
-		<limit lower="0.0040000000000000036" upper="0.01200000000000001"/>
+		<limit effort="30" velocity="1.0" lower="0.0040000000000000036" upper="0.01200000000000001"/>
 	</joint>
 	<link name="link_2">
 		<visual name="control_button-6">

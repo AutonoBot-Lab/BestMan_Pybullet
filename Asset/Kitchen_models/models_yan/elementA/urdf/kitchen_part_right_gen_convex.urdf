@@ -34,13 +34,13 @@
     <visual name="sektion_visual">
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/walls.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/walls.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="White"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/walls.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/walls.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link> -->
@@ -124,7 +124,7 @@
       <geometry>
         <box size="0.71 0.76 0.92"/>
         <!--box size="0.1 0.1 0.92"/-->
-        <!--mesh filename="package://elementA/meshes/obj/Oven.OBJ" scale="1.0 1.0 1.0"/-->
+        <!--mesh filename="../meshes/obj/Oven.OBJ" scale="1.0 1.0 1.0"/-->
       </geometry>
       <material name="White"/>
     </visual>
@@ -133,7 +133,7 @@
       <geometry>
         <box size="0.71 0.76 0.92"/>
         <!--box size="0.1 0.1 0.92"/-->
-        <!--mesh filename="package://elementA/meshes/obj/Oven.OBJ" scale="1.0 1.0 1.0"/-->
+        <!--mesh filename="../meshes/obj/Oven.OBJ" scale="1.0 1.0 1.0"/-->
       </geometry>
     </collision>
   </link>
@@ -317,13 +317,13 @@
     <visual name="sektion_visual">
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/sektion_top_three.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/sektion_top_three.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="White"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/sektion_top_three.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/sektion_top_three.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -356,13 +356,13 @@
     <visual name="baker_visual">
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/front_vertical_right.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/front_vertical_right.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="Grey"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/front_vertical_right.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/front_vertical_right.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -381,13 +381,13 @@
     <visual name="baker_visual">
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="White"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -420,13 +420,13 @@
     <visual name="chewie_door_right_visual">
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/front_vertical_right.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/front_vertical_right.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="Grey"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/front_vertical_right.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/front_vertical_right.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -445,13 +445,13 @@
     <visual name="chewie_door_right_handle_visual">
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="White"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -484,13 +484,13 @@
     <visual name="chewie_door_left_visual">
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/front_vertical_left.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/front_vertical_left.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="Grey"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/front_vertical_left.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/front_vertical_left.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -509,13 +509,13 @@
     <visual name="chewie_door_left_handle_visual">
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="White"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -535,13 +535,13 @@
     <visual name="dagger_visual">
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/sektion_top_two_glass.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/sektion_top_two_glass.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="White"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/sektion_top_two_glass.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/sektion_top_two_glass.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -574,13 +574,13 @@
     <visual name="dagger_door_left_visual">
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/front_vertical_left.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/front_vertical_left.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="Grey"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/front_vertical_left.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/front_vertical_left.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -599,13 +599,13 @@
     <visual name="dagger_door_left_handle_visual">
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="White"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -638,13 +638,13 @@
     <visual name="dagger_door_right_visual">
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/front_vertical_right.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/front_vertical_right.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="Grey"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/front_vertical_right.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/front_vertical_right.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -663,13 +663,13 @@
     <visual name="dagger_door_right_handle_visual">
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="White"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -719,7 +719,7 @@
     <visual name="hitman_visual">
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/sektion_bottom_two_drawers.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/sektion_bottom_two_drawers.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="White"/>
     </visual>
@@ -751,7 +751,7 @@
     <collision>
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/sektion_bottom_two_drawers.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/sektion_bottom_two_drawers.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -822,7 +822,7 @@
     <visual name="hitman_drawer_top_visual">
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/drawer_large.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/drawer_large.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="Grey"/>
     </visual>
@@ -853,7 +853,7 @@
     <collision>
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/drawer_large.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/drawer_large.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -880,13 +880,13 @@
     <visual name="hitman_drawer_top_visual">
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="White"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -935,7 +935,7 @@
     <visual name="hitman_drawer_top_visual">
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/drawer_large.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/drawer_large.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="Grey"/>
     </visual>
@@ -966,7 +966,7 @@
     <collision>
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/drawer_large.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/drawer_large.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -993,13 +993,13 @@
     <visual name="hitman_drawer_bottom_visual">
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="White"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -1049,7 +1049,7 @@
     <visual name="indigo_visual">
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/sektion_bottom_cabinet.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/sektion_bottom_cabinet.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="White"/>
     </visual>
@@ -1082,7 +1082,7 @@
     <collision>
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/sektion_bottom_cabinet.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/sektion_bottom_cabinet.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -1139,14 +1139,14 @@
     <visual>
       <origin rpy="0  0  0" xyz="-0.0015,  0.0005, -0.0425"/>
       <geometry>
-        <box size="0.511,  0.699,  0.001"/>
+        <box size="0.511  0.699  0.001"/>
       </geometry>
       <material name="Grey"/>
     </visual>
     <visual name="sektion_bottom_drawer_top_visual">
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/drawer.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/drawer.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="Grey"/>
     </visual>
@@ -1177,7 +1177,7 @@
     <collision>
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/drawer.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/drawer.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -1190,13 +1190,13 @@
     <visual name="sektion_bottom_drawer_handle_top_visual">
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="White"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -1231,14 +1231,14 @@
     <visual>
       <origin rpy="0  0  0" xyz="-0.0015,  0.0005, -0.0425"/>
       <geometry>
-        <box size="0.511,  0.699,  0.001"/>
+        <box size="0.511  0.699  0.001"/>
       </geometry>
       <material name="Grey"/>
     </visual>
     <visual name="sektion_bottom_drawer_bottom_visual">
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/drawer.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/drawer.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="Grey"/>
     </visual>
@@ -1268,7 +1268,7 @@
     </collision>
     <collision>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/drawer.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/drawer.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -1281,13 +1281,13 @@
     <visual name="indigo_drawer_top_visual">
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="White"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -1302,14 +1302,14 @@
     <visual name="indigo_door_right_visual">
       <origin rpy="0  0  0" xyz="0  -0.184706  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/front_bottom_vertical_door.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/front_bottom_vertical_door.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="Grey"/>
     </visual>
     <collision>
       <origin rpy="0  0  0" xyz="0  -0.184706  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/front_bottom_vertical_door.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/front_bottom_vertical_door.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -1322,14 +1322,14 @@
     <visual name="indigo_door_right_nob_visual">
       <origin rpy="0  0  0" xyz="0  -0.184706  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="White"/>
     </visual>
     <collision>
       <origin rpy="0  0  0" xyz="0  -0.184706  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -1345,14 +1345,14 @@
     <visual name="indigo_door_left_visual">
       <origin rpy="0  0  0" xyz="0  0.184706  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/front_bottom_vertical_door.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/front_bottom_vertical_door.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="Grey"/>
     </visual>
     <collision>
       <origin rpy="0  0  0" xyz="0  0.184706  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/front_bottom_vertical_door.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/front_bottom_vertical_door.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
@@ -1365,14 +1365,14 @@
     <visual name="indigo_door_left_nob_visual">
       <origin rpy="0  0  0" xyz="0  0.184706  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
       </geometry>
       <material name="White"/>
     </visual>
     <collision>
       <origin rpy="0  0  0" xyz="0  0.184706  0"/>
       <geometry>
-        <mesh filename="package://elementA/meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
+        <mesh filename="../meshes/obj/handle.obj" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>

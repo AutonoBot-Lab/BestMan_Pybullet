@@ -39,9 +39,9 @@ class ANIM_OT_import_pybullet_sim(Operator, ImportHelper):
         default='*.pkl',
         options={'HIDDEN'})
     skip_frames:  bpy.props.IntProperty(
-        name="Skip Frames", default=1, min=1, max=100)
+        name="Skip Frames", default=4, min=1, max=100)
     max_frames:  bpy.props.IntProperty(
-        name="Max Frames", default=-1, min=-1, max=100000)
+        name="Max Frames", default=-1, min=-1, max=10000)
 
     def execute(self, context):
         for file in self.files:
@@ -54,7 +54,7 @@ class ANIM_OT_import_pybullet_sim(Operator, ImportHelper):
                 bpy.context.scene.collection.children.link(collection)
                 context.view_layer.active_layer_collection = \
                     context.view_layer.layer_collection.children[-1]
-
+                
                 for obj_key in data:
                     pybullet_obj = data[obj_key]
                     if pybullet_obj['type'] == 'mesh':
@@ -89,7 +89,8 @@ class ANIM_OT_import_pybullet_sim(Operator, ImportHelper):
                                 bpy.ops.object.delete(use_global=True)
                             else:
                                 scale = pybullet_obj['mesh_scale']
-                                if scale is not None and 'dae' not in extension:
+                                # if scale is not None and 'dae' not in extension:
+                                if scale is not None:
                                     import_obj.scale.x = scale[0]
                                     import_obj.scale.y = scale[1]
                                     import_obj.scale.z = scale[2]
@@ -106,36 +107,6 @@ class ANIM_OT_import_pybullet_sim(Operator, ImportHelper):
                             bpy.ops.object.join()
                         blender_obj = context.view_layer.objects.active
                         blender_obj.name = obj_key
-                        
-                        if 'dae' in extension:
-                            # Keyframe motion of imported object
-                            for frame_count, frame_data in enumerate(
-                                    pybullet_obj['frames']):
-                                if frame_count % self.skip_frames != 0:
-                                    continue
-                                if self.max_frames > 1 and frame_count > self.max_frames:
-                                    print('Exceed max frame count')
-                                    break
-                                percentage_done = frame_count / \
-                                    len(pybullet_obj['frames'])
-                                print(f'\r[{percentage_done*100:.01f}% | {obj_key}]',
-                                    '#' * int(60*percentage_done), end='')
-                                pos = frame_data['position']
-                                orn = frame_data['orientation']
-                                context.scene.frame_set(
-                                    frame_count // self.skip_frames)
-                                
-                                # Apply position and rotation
-                                blender_obj.location.x = pos[0]
-                                blender_obj.location.y = pos[1]
-                                blender_obj.location.z = pos[2]
-                                blender_obj.rotation_mode = 'QUATERNION'
-                                
-                                bpy.ops.anim.keyframe_insert_menu(
-                                    type='Rotation')
-                                bpy.ops.anim.keyframe_insert_menu(
-                                    type='Location')
-                            continue
                         
                     elif pybullet_obj['type'] == 'box':
                         size = pybullet_obj['mesh_scale']  # Assuming mesh_scale contains box dimensions
@@ -171,21 +142,20 @@ class ANIM_OT_import_pybullet_sim(Operator, ImportHelper):
 
 
                     # Keyframe motion of imported object
-                    for frame_count, frame_data in enumerate(
-                            pybullet_obj['frames']):
+                    for _, frame_data in enumerate(pybullet_obj['frames']):
+                        frame_count = frame_data['frame']
                         if frame_count % self.skip_frames != 0:
                             continue
                         if self.max_frames > 1 and frame_count > self.max_frames:
                             print('Exceed max frame count')
                             break
-                        percentage_done = frame_count / \
-                            len(pybullet_obj['frames'])
-                        print(f'\r[{percentage_done*100:.01f}% | {obj_key}]',
-                              '#' * int(60*percentage_done), end='')
+                        # percentage_done = frame_count / \
+                        #     len(pybullet_obj['frames'])
+                        # print(f'\r[{percentage_done*100:.01f}% | {obj_key}]',
+                        #       '#' * int(60*percentage_done), end='')
                         pos = frame_data['position']
                         orn = frame_data['orientation']
-                        context.scene.frame_set(
-                            frame_count // self.skip_frames)
+                        context.scene.frame_set(frame_count // self.skip_frames)
                         
                         # Apply position and rotation
                         blender_obj.location.x = pos[0]

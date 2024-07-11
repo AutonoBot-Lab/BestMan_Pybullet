@@ -56,7 +56,7 @@ class Bestman_sim:
         self.client_id = self.client.get_client_id()
         
         self.visualizer = visualizer
-        self.enable_cache = p.URDF_ENABLE_CACHED_GRAPHICS_SHAPES   # Enable caching of graphic shapes when loading URDF files
+        # self.enable_cache = p.URDF_ENABLE_CACHED_GRAPHICS_SHAPES   # Enable caching of graphic shapes when loading URDF files
         
         # Init PID controller
         controller_cfg = cfg.Controller
@@ -75,28 +75,44 @@ class Bestman_sim:
         # Init base
         robot_cfg = cfg.Robot
         init_pose = Pose(robot_cfg.init_pose[:3], robot_cfg.init_pose[3:])
-        self.base_id = p.loadURDF(
-            fileName=robot_cfg.base_urdf_path,
-            basePosition=init_pose.position,
-            baseOrientation=p.getQuaternionFromEuler(init_pose.orientation),
-            useFixedBase=True,
-            physicsClientId=self.client_id,
-            flags=self.enable_cache
+        # self.base_id = p.loadURDF(
+        #     fileName=robot_cfg.base_urdf_path,
+        #     basePosition=init_pose.position,
+        #     baseOrientation=p.getQuaternionFromEuler(init_pose.orientation),
+        #     useFixedBase=True,
+        #     physicsClientId=self.client_id,
+        #     flags=self.enable_cache
+        # )
+        self.base_id = self.client.load_object(
+            obj_name='base',
+            model_path=robot_cfg.base_urdf_path,
+            object_position=init_pose.position,
+            object_orientation=init_pose.orientation,
+            fixed_base = True
         )
-        setattr(self.client, 'base', self.base_id)
-        self.client.register_object(self.base_id, robot_cfg.base_urdf_path)
+        # setattr(self.client, 'base', self.base_id)
+        # if self.client.blender: self.client.register_object(self.base_id, robot_cfg.base_urdf_path)
         
         # Init arm
-        self.arm_id = p.loadURDF(
-            fileName=robot_cfg.arm_urdf_path,
-            basePosition=init_pose.position,
-            baseOrientation=p.getQuaternionFromEuler(init_pose.orientation),
-            useFixedBase=True,
-            physicsClientId=self.client_id,
-            flags=self.enable_cache
+        # self.arm_id = p.loadURDF(
+        #     fileName=robot_cfg.arm_urdf_path,
+        #     basePosition=init_pose.position,
+        #     baseOrientation=p.getQuaternionFromEuler(init_pose.orientation),
+        #     useFixedBase=True,
+        #     physicsClientId=self.client_id,
+        #     flags=self.enable_cache
+        # )
+        self.arm_id = self.client.load_object(
+            obj_name='arm',
+            model_path=robot_cfg.arm_urdf_path,
+            object_position=init_pose.position,
+            object_orientation=init_pose.orientation,
+            fixed_base = True
         )
-        setattr(self.client, 'arm', self.arm_id)
-        self.client.register_object(self.arm_id, robot_cfg.arm_urdf_path)
+        
+        
+        # setattr(self.client, 'arm', self.arm_id)
+        # if self.client.blender: self.client.register_object(self.arm_id, robot_cfg.arm_urdf_path)
         self.arm_joints_idx = robot_cfg.arm_joints_idx
         self.DOF = len(self.arm_joints_idx)
         self.arm_height = robot_cfg.arm_height
@@ -125,11 +141,11 @@ class Bestman_sim:
         self.visualizer.change_robot_color(self.base_id, self.arm_id, False)
         
         # Init camera
-        Camera_cfg = cfg.Camera
-        self.camera = Camera(Camera_cfg, self.base_id, self.arm_height)
+        # Camera_cfg = cfg.Camera
+        # self.camera = Camera(Camera_cfg, self.base_id, self.arm_height)
         
         # update image
-        self.camera.update()
+        # self.camera.update()
         # self.camera.get_rgb_image(True, True)
         # self.camera.get_depth_image(True, True)
         
@@ -307,7 +323,7 @@ class Bestman_sim:
 
             self.distance_controller.set_goal(self.target_distance)
             output = self.distance_controller.calculate(distance)
-
+            
             if not self.rotated:
                 self.rotate_base(yaw)
                 self.rotated = True
@@ -320,7 +336,7 @@ class Bestman_sim:
             
             self.sim_action(-output)
             
-        self.client.run(10) 
+        self.client.run() 
     
     def navigate_base(self, goal_base_pose, path, enable_plot = False):
         """
@@ -533,7 +549,7 @@ class Bestman_sim:
             if time.time() - start_time > self.timeout:  # avoid time anomaly
                 if p.getContactPoints(self.arm_id):
                     assert(0, "-" * 20 + "\n" + "The arm collides with other objects!")
-                print("-" * 20 + "\n" + "Timeout before reaching target joint position.")
+                # print("-" * 20 + "\n" + "Timeout before reaching target joint position.")
                 break
             
     def joints_to_cartesian(self, joint_values):
@@ -638,8 +654,7 @@ class Bestman_sim:
             interpolated_pose = Pose(interpolated_position, interpolated_orientation)
             joint_values = self.cartesian_to_joints(interpolated_pose)
             self.move_arm_to_joint_values(joint_values)
-        self.client.run(120)
-        print("-" * 20 + "\n" + "Could not reach target position without collision after {} attempts".format(self.max_attempts))
+        self.client.run(10)
     
     def execute_trajectory(self, trajectory, enable_plot=False):
         """Execute the path planned by Planner
@@ -661,7 +676,7 @@ class Bestman_sim:
             
             front_point = current_point
         
-        self.client.run(240)
+        self.client.run(10)
         print("\n" + "-" * 20 + "\n" + "Excite trajectory finished!"+ "\n" + "-" * 20 + "\n")
     
     def calculate_IK_error(self, goal_pose):
@@ -756,13 +771,12 @@ class Bestman_sim:
         This function ensures that the positions of the robot arm and base are aligned.
         """
 
-        position, _ = p.getBasePositionAndOrientation(self.base_id, physicsClientId=self.client_id)
-        _, orientation = p.getBasePositionAndOrientation(self.arm_id, physicsClientId=self.client_id)
+        position, orientation = p.getBasePositionAndOrientation(self.base_id, physicsClientId=self.client_id)
         if self.arm_id is not None:
-            # position = [position[0], position[1], self.arm_height]      # fixed arm height
             p.resetBasePositionAndOrientation(
                 self.arm_id, [position[0], position[1], self.arm_height] , orientation, physicsClientId=self.client_id
             )
+            # self.client.run()
 
     
     # ----------------------------------------------------------------

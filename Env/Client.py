@@ -60,14 +60,20 @@ class Client:
         self.blender = cfg.blender
         if self.blender: self.recorder = PyBulletRecorder()
         
-        # Enable caching of graphic shapes when loading URDF files
-        self.enable_cache = p.URDF_ENABLE_CACHED_GRAPHICS_SHAPES
-        planeId = p.loadURDF(cfg.plane_urdf_path, flags=self.enable_cache)
-        # self.register_object(planeId, os.path.join(pybullet_data.getDataPath(), cfg.plane_urdf_path))
-        
         # parameters
         self.timestep = 1. / cfg.frequency
         self.timeout = cfg.timeout      # maximum time for planning
+
+        # Enable caching of graphic shapes when loading URDF files
+        self.enable_cache = p.URDF_ENABLE_CACHED_GRAPHICS_SHAPES
+        planeId = p.loadURDF(cfg.plane_urdf_path, flags=self.enable_cache)
+        # plane_path = os.path.join(pybullet_data.getDataPath(), cfg.plane_urdf_path)
+        # planeId = self.load_object(
+        #     obj_name='plane',
+        #     model_path=plane_path,
+        #     scale=0.5,
+        #     fixed_base=True
+        # )
 
     
     # ----------------------------------------------------------------
@@ -78,7 +84,7 @@ class Client:
         return self.client_id
     
     def disconnect(self):
-        self.record_save()
+        if self.blender: self.record_save()
         p.disconnect(physicsClientId=self.client_id)
 
     def wait(self, x):  # seconds
@@ -99,8 +105,8 @@ class Client:
         self,
         obj_name,
         model_path,
-        object_position,
-        object_orientation,
+        object_position=[0, 0, 0],
+        object_orientation=[0, 0, 0],
         scale=1,
         fixed_base=False
     ):
@@ -139,7 +145,7 @@ class Client:
             object_id
         )
         
-        self.run(120)
+        self.run(10)
         
         return object_id
 
