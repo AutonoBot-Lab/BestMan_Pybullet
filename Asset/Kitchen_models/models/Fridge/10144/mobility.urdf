@@ -54,7 +54,7 @@
 		<axis xyz="0 1 0"/>
 		<child link="fridge_door_handle"/>
 		<parent link="door_frame"/>
-		<limit effort="1000.0" lower="0.0" upper="0.4"/>
+		<limit effort="1000.0" velocity="1.0" lower="0.0" upper="0.4"/>
 	</joint>
 
 	<joint name="fridge_door" type="revolute">
@@ -62,7 +62,7 @@
 		<axis xyz="0 1 0"/>
 		<child link="door_frame"/>
 		<parent link="fridge_body"/>
-		<limit lower="0.0" upper="2.967"/>
+		<limit effort="30" velocity="1.0" lower="0.0" upper="2.967"/>
 	</joint>
 
 

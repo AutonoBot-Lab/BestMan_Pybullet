@@ -54,13 +54,14 @@ class PyBulletRecorder:
                 position, orientation = self.transform(
                     position=link_state[4],
                     orientation=link_state[5])
-                
+            
             return {
                 'position': list(position),
                 'orientation': list(orientation)
             }
 
     def __init__(self):
+        self.frame_cnt = 0
         self.states = []
         self.links = []
 
@@ -105,6 +106,7 @@ class PyBulletRecorder:
                     
                     elif link_visual.geometry.box is not None:
                         box_size = link_visual.geometry.box.size
+                        assert len(box_size) == 3, "wrong box size, please check object urdf file!"
                         self.links.append(
                             PyBulletRecorder.LinkTracker(
                                 type='box',  # Specify type as box
@@ -148,8 +150,11 @@ class PyBulletRecorder:
         # Ideally, call every p.stepSimulation()
         current_state = {}
         for link in self.links:
-            current_state[link.name] = link.get_keyframe()
+            link_frame = link.get_keyframe()
+            link_frame['frame'] = self.frame_cnt
+            current_state[link.name] = link_frame
         self.states.append(current_state)
+        self.frame_cnt += 1
 
     def prompt_save(self):
         layout = [[sg.Text('Do you want to save previous episode?')],
@@ -186,9 +191,9 @@ class PyBulletRecorder:
                 'mesh_scale': link.mesh_scale,
                 'frames': [state[link.name] for state in self.states if link.name in state]
             }
-        print("frames num {}".format(len(self.states)))
+        print("[Recorder] Frames num {}".format(len(self.states)))
         return retval
-
+    
     def save(self, path):
         if path is None:
             print("[Recorder] Path is None.. not saving")

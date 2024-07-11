@@ -25,7 +25,7 @@ def main(filename):
     visualizer.draw_axes()
     
     # Start record
-    visualizer.start_record(filename)
+    # visualizer.start_record(filename)
     
     # Init robot
     bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
@@ -33,20 +33,20 @@ def main(filename):
 
     # Load table and bowl
     table_id = client.load_object(
+        "table",
         "../Asset/URDF_models/furniture_table_rectangle_high/table.urdf",
         [1.0, 1.0, 0.0],
         [0.0, 0.0, 0.0],
         1.0,
-        "table",
         fixed_base=True,
     )
 
     bowl_id = client.load_object(
+        "bowl",
         "../Asset/URDF_models/utensil_bowl_blue/model.urdf",
         [0.6, 0.6, 0.85],
         [0.0, 0.0, 0.0],
-        1.0,
-        "bowl"
+        1.0
     )
     
     # grasp target object
@@ -54,7 +54,7 @@ def main(filename):
     bestman.pick_place("bowl", object_goal_pose)
     
     # End record
-    visualizer.end_record()
+    # visualizer.end_record()
 
     # disconnect from server
     client.wait(5)
