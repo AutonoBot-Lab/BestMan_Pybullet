@@ -124,7 +124,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
         init_pose = self.get_current_end_effector_pose()
         object_id = self.client.resolve_object_id(object)
         min_x, min_y, _, max_x, max_y, max_z = self.client.get_bounding_box(object_id)
-        goal_pose = Pose([(min_x + max_x) / 2, (min_y + max_y) / 2, max_z + self.tcp_height + 0.05], [0.0, math.pi / 2.0, 0.0])
+        goal_pose = Pose([(min_x + max_x) / 2, (min_y + max_y) / 2, max_z + self.tcp_height], [0.0, math.pi / 2.0, 0.0])
         self.move_end_effector_to_goal_pose(goal_pose)
         self.sim_active_gripper_fixed(object_id, 1)
         self.move_end_effector_to_goal_pose(init_pose)
