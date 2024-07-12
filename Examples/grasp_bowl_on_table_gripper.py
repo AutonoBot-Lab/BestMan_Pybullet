@@ -30,23 +30,23 @@ def main(filename):
     # Init robot
     bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
     visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
-
+    
     # Load table and bowl
     table_id = client.load_object(
-        "table",
         "../Asset/URDF_models/furniture_table_rectangle_high/table.urdf",
         [1.0, 1.0, 0.0],
         [0.0, 0.0, 0.0],
         1.0,
+        "table",
         fixed_base=True,
     )
-
+    
     bowl_id = client.load_object(
-        "bowl",
         "../Asset/URDF_models/utensil_bowl_blue/model.urdf",
         [0.6, 0.6, 0.85],
         [0.0, 0.0, 0.0],
-        1.0
+        1.0,
+        "bowl"
     )
     
     # grasp target object

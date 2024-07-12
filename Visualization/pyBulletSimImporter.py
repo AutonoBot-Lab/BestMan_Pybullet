@@ -39,7 +39,7 @@ class ANIM_OT_import_pybullet_sim(Operator, ImportHelper):
         default='*.pkl',
         options={'HIDDEN'})
     skip_frames:  bpy.props.IntProperty(
-        name="Skip Frames", default=4, min=1, max=100)
+        name="Skip Frames", default=3, min=1, max=100)
     max_frames:  bpy.props.IntProperty(
         name="Max Frames", default=-1, min=-1, max=10000)
 
@@ -59,7 +59,6 @@ class ANIM_OT_import_pybullet_sim(Operator, ImportHelper):
                     pybullet_obj = data[obj_key]
                     if pybullet_obj['type'] == 'mesh':
                         # Load mesh of each link
-                        # assert pybullet_obj['type'] == 'mesh'
                         extension = pybullet_obj['mesh_path'].split(
                             ".")[-1].lower()
                         # Handle different mesh formats
@@ -76,7 +75,7 @@ class ANIM_OT_import_pybullet_sim(Operator, ImportHelper):
                         else:
                             print("Unsupported File Format:{}".format(extension))
                             pass
-
+                        
                         # Delete lights and camera
                         parts = 0
                         final_objs = []
@@ -89,8 +88,8 @@ class ANIM_OT_import_pybullet_sim(Operator, ImportHelper):
                                 bpy.ops.object.delete(use_global=True)
                             else:
                                 scale = pybullet_obj['mesh_scale']
-                                # if scale is not None and 'dae' not in extension:
-                                if scale is not None:
+                                if scale is not None and 'dae' not in extension:
+                                # if scale is not None:
                                     import_obj.scale.x = scale[0]
                                     import_obj.scale.y = scale[1]
                                     import_obj.scale.z = scale[2]
@@ -139,20 +138,34 @@ class ANIM_OT_import_pybullet_sim(Operator, ImportHelper):
                         for import_obj in context.selected_objects:
                             if 'Camera' in import_obj.name or 'Light' in import_obj.name or 'Lamp' in import_obj.name:
                                 bpy.ops.object.delete(use_global=True)
-
-
+                    
+                    # mat = bpy.data.materials.new(name="Material")
+                    # mat.use_nodes = True
+                    # bsdf = mat.node_tree.nodes["Principled BSDF"]
+                    # bsdf.inputs['Base Color'].default_value = pybullet_obj['rgba']
+                    # if len(blender_obj.data.materials):
+                    #     blender_obj.data.materials[0] = mat
+                    # else:
+                    #     blender_obj.data.materials.append(mat)
+                        
+                    # 确保对象的视口显示模式为材质预览或渲染
+                    bpy.context.area.ui_type = 'VIEW_3D'
+                    for area in bpy.context.screen.areas:
+                        if area.type == 'VIEW_3D':
+                            for space in area.spaces:
+                                if space.type == 'VIEW_3D':
+                                    space.shading.type = 'MATERIAL'
+                    
                     # Keyframe motion of imported object
                     for _, frame_data in enumerate(pybullet_obj['frames']):
+                        
                         frame_count = frame_data['frame']
                         if frame_count % self.skip_frames != 0:
                             continue
                         if self.max_frames > 1 and frame_count > self.max_frames:
                             print('Exceed max frame count')
                             break
-                        # percentage_done = frame_count / \
-                        #     len(pybullet_obj['frames'])
-                        # print(f'\r[{percentage_done*100:.01f}% | {obj_key}]',
-                        #       '#' * int(60*percentage_done), end='')
+                        
                         pos = frame_data['position']
                         orn = frame_data['orientation']
                         context.scene.frame_set(frame_count // self.skip_frames)
@@ -171,6 +184,7 @@ class ANIM_OT_import_pybullet_sim(Operator, ImportHelper):
                             type='Rotation')
                         bpy.ops.anim.keyframe_insert_menu(
                             type='Location')
+        
         return {'FINISHED'}
 
 

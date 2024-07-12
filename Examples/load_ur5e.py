@@ -5,7 +5,7 @@
 """
 
 import os
-from RoboticsToolBox.Bestman_sim_panda import Bestman_sim_panda
+from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long
 from Env.Client import Client
 from Visualization.Visualizer import Visualizer
 from Utils.load_config import load_config
@@ -13,7 +13,7 @@ from Utils.load_config import load_config
 def main(filename):
     
     # load config
-    config_path = '../Config/load_panda.yaml'
+    config_path = '../Config/load_ur5e.yaml'
     cfg = load_config(config_path)
     print(cfg)
 
@@ -22,20 +22,14 @@ def main(filename):
     visualizer = Visualizer(client, cfg.Visualizer)
 
     # Start record
-    visualizer.start_record(filename)
+    # visualizer.start_record(filename)
     
     # Init robot
-    panda = Bestman_sim_panda(client, visualizer, cfg)
-    visualizer.change_robot_color(panda.get_base_id(), panda.get_arm_id(), False)
-    
-    for _ in range(2):
-        panda.sim_active_gripper(0)
-        client.wait(2)
-        panda.sim_active_gripper(1)
-        client.wait(2)
+    ur5e = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
+    visualizer.change_robot_color(ur5e.get_base_id(), ur5e.get_arm_id(), False)
     
     # End record
-    visualizer.end_record()
+    # visualizer.end_record()
     
     # disconnect pybullet
     client.wait(5)
