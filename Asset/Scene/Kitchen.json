@@ -7,7 +7,7 @@
         "obj_name": "elementA",
         "fixed_base": true
     },
-
+    
     {
         "model_path": "../Asset/Kitchen_models/models_yan/elementB/model.urdf",
         "object_position": [4.1, 4.55, 0.55],

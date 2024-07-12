@@ -227,7 +227,7 @@
       <geometry>
         <mesh filename="../.././end_effector/sucker/long_vacuum_gripper/base.obj" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="DarkGrey"/>
+      <!-- <material name="DarkGrey"/> -->
     </visual>
   </link>
 
@@ -253,7 +253,7 @@
       <geometry>
         <mesh filename="../.././end_effector/sucker/long_vacuum_gripper/mid.obj" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="DarkGrey"/>
+      <!-- <material name="DarkGrey"/> -->
     </visual>
   </link>
 

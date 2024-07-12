@@ -1,0 +1,3 @@
+Instantiated with filepath=None->None, scale=[1.0, 1.0, 1.0], mesh=<bpy_struct, Mesh("forearm") at 0x0000026FEBBA2408>, meshname=forearm, material=None, mesh_orientation=None, {}
+->trying export of <bpy_struct, Mesh("forearm") at 0x0000026FEBBA2408> to C:\Users\yk\phobos-models\ur5e\meshes\stl\forearm.stl
+->wrote stl to C:\Users\yk\phobos-models\ur5e\meshes\stl\forearm.stl from bpy_types.Mesh
