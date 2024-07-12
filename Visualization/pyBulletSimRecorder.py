@@ -1,7 +1,8 @@
 import pybullet as p
 import PySimpleGUI as sg
 import pickle
-from os import getcwd
+# from os import getcwd
+import os
 from urdfpy import URDF
 from os.path import abspath, dirname, basename, splitext
 from transforms3d.affines import decompose
@@ -85,7 +86,7 @@ class PyBulletRecorder:
                                     global_scaling, global_scaling]\
                             if link_visual.geometry.mesh.scale is None\
                             else link_visual.geometry.mesh.scale * global_scaling
-                        
+
                         self.links.append(
                             PyBulletRecorder.LinkTracker(
                                 type='mesh',
@@ -100,8 +101,8 @@ class PyBulletRecorder:
                                 if link_id == -1
                                 else np.identity(4)) @
                                 link_visual.origin * global_scaling,
-                                mesh_path=dir_path + '/' +
-                                link_visual.geometry.mesh.filename,
+                                mesh_path=os.path.join(dir_path, link_visual.geometry.mesh.filename),
+                                # mesh_path=dir_path + '/' + link_visual.geometry.mesh.filename,
                                 mesh_scale=mesh_scale))
                     
                     elif link_visual.geometry.box is not None:
@@ -171,7 +172,7 @@ class PyBulletRecorder:
         window.close()
         if save:
             layout = [[sg.Text('Where do you want to save it?')],
-                      [sg.Text('Path'), sg.InputText(getcwd())],
+                      [sg.Text('Path'), sg.InputText(os.getcwd())],
                       [sg.Button('OK')]]
             window = sg.Window('PyBullet Recorder', layout)
             event, values = window.read()

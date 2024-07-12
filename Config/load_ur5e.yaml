@@ -1,0 +1,7 @@
+# Visualizer params
+Visualizer:
+  Camera: 
+      dist: 2.0
+      position: [1.0, 0.0, 0]
+      yaw: -86.4
+      pitch: -52.3
