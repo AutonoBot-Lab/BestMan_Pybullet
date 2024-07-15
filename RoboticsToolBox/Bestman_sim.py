@@ -336,7 +336,7 @@ class Bestman_sim:
             
             self.sim_action(-output)
             
-        self.client.run() 
+        self.client.run(10) 
     
     def navigate_base(self, goal_base_pose, path, enable_plot = False):
         """
@@ -481,7 +481,7 @@ class Bestman_sim:
             height (float): The new height to set for the robot arm.
         """
         self.arm_height = height
-        self.client.run(100)
+        self.client.run(10)
         print("-" * 20 + "\n" + "Arm height has changed into {}".format(height))
     
     def sim_set_arm_to_joint_values(self, joint_values):
@@ -885,7 +885,7 @@ class Bestman_sim:
             if gripper_value == 0 and self.gripper_id != None:
                 p.removeConstraint(self.gripper_id, physicsClientId=self.client_id)
                 self.gripper_id = None
-                self.client.run(240)
+                self.client.run(10)
                 # for _ in range(self.frequency):
                 #     p.stepSimulation(physicsClientId=self.client_id)
 

@@ -187,7 +187,7 @@ class Client:
         """
         object_id = self.resolve_object_id(object)
         p.removeBody(object_id)
-        self.run(120)
+        self.run(10)
     
     def change_object_joint_angle(
         self, object, joint_index, target_position, max_force=5
@@ -213,7 +213,7 @@ class Client:
             physicsClientId=self.client_id,
         )
         
-        self.run(240)
+        self.run(10)
         
     def register_object(self, object_id, model_path, scale=1.0):
         self.recorder.register_object(object_id, model_path, scale)

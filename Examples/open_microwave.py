@@ -99,7 +99,7 @@ def main(filename):
     
     # Get goal joint values
     min_x, min_y, min_z, max_x, max_y, max_z = client.get_link_bounding_box('microwave', 1)
-    goal_pose = Pose([min_x - bestman.get_tcp_link_height() - 0.035, (min_y + max_y) / 2, (min_z + max_z) / 2], [0.0, 0.0, 0.0])
+    goal_pose = Pose([min_x - bestman.get_tcp_link_height() - 0.05, (min_y + max_y) / 2, (min_z + max_z) / 2], [0.0, 0.0, 0.0])
     goal = ompl_planner.set_target_pose(goal_pose)
     
     # Plan / Execute / Suctate microwave door
