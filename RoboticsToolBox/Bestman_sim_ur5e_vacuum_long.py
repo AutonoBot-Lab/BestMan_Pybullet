@@ -56,9 +56,12 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
                     [0, 0, 0],
                     [0, 0, 0],
                     [0, 0, 0],
-                    childFrameOrientation=cube_orn,
+                    childFrameOrientation=cube_orn, 
                     physicsClientId=self.client_id,
                 )
+                p.changeConstraint(self.gripper_id, maxForce=2000, erp=0.2, physicsClientId=self.client_id)
+                p.changeDynamics(self.arm_id, self.tcp_link, lateralFriction=1.0, physicsClientId=self.client_id)
+                p.changeDynamics(object_id, -1, lateralFriction=1.0, physicsClientId=self.client_id)
             else:
                 self.gripper_id = p.createConstraint(
                     self.arm_id,
