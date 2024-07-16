@@ -15,7 +15,7 @@ from Utils import load_config
 def main(filename):
     
     # Load config
-    config_path = '../Config/grasp_bowl_on_table_gripper.yaml'
+    config_path = '../Config/grasp_lego_on_table_gripper.yaml'
     cfg = load_config(config_path)
     print(cfg)
 
@@ -58,7 +58,7 @@ def main(filename):
     # visualizer.end_record()
 
     # disconnect from server
-    client.wait(50)
+    client.wait(5)
     client.disconnect()
     
 
