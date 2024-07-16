@@ -471,7 +471,7 @@ class Bestman_sim:
             linkIndex=self.end_effector_index,
             physicsClientId=self.client_id,
         )
-        return Pose(end_effector_info[0], end_effector_info[1])
+        return Pose(end_effector_info[4], end_effector_info[5])
     
     def sim_adjust_arm_height(self, height):
         """
@@ -595,7 +595,8 @@ class Bestman_sim:
             maxNumIterations=self.max_iterations,
             residualThreshold=self.threshold,
             physicsClientId=self.client_id,
-        )
+        )[:self.DOF]
+        
         return joint_values
     
     def rotate_end_effector(self, angle):
@@ -654,7 +655,9 @@ class Bestman_sim:
             interpolated_pose = Pose(interpolated_position, interpolated_orientation)
             joint_values = self.cartesian_to_joints(interpolated_pose)
             self.move_arm_to_joint_values(joint_values)
-        self.client.run(10)
+        # joint_values = self.cartesian_to_joints(end_effector_goal_pose)
+        # self.move_arm_to_joint_values(joint_values)
+        self.client.run(40)
     
     def execute_trajectory(self, trajectory, enable_plot=False):
         """Execute the path planned by Planner
