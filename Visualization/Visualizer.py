@@ -371,9 +371,11 @@ class Visualizer:
         """
         
         object_id = self.client.resolve_object_id(object)
+        
         # position, orientation = p.getBasePositionAndOrientation(object_id)
         link_state = p.getLinkState(object_id, link_id, computeLinkVelocity=0)
-        position, orientation = link_state[0], link_state[1]
+        # position, orientation = link_state[0], link_state[1]
+        position, orientation = link_state[4], link_state[5]
         
         orientation_matrix = np.array(p.getMatrixFromQuaternion(orientation)).reshape(3, 3)
         axes_position = np.array(position)[:, np.newaxis] + length * orientation_matrix

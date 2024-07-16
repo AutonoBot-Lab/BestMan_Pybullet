@@ -4,7 +4,6 @@
 @Time        :   2023/08/30 22:22:14
 """
 
-import os
 import math
 import json
 import time
@@ -82,6 +81,9 @@ class Client:
 
     def get_client_id(self):
         return self.client_id
+    
+    def get_datapath(self):
+        return pybullet_data.getDataPath()
     
     def disconnect(self):
         if self.blender: self.record_save()
