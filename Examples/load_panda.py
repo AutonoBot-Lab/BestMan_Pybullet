@@ -28,7 +28,7 @@ def main(filename):
     panda = Bestman_sim_panda(client, visualizer, cfg)
     visualizer.change_robot_color(panda.get_base_id(), panda.get_arm_id(), False)
     
-    for _ in range(2):
+    for _ in range(5):
         panda.sim_active_gripper(0)
         client.wait(2)
         panda.sim_active_gripper(1)

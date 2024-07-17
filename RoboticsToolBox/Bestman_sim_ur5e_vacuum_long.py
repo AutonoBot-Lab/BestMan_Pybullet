@@ -20,8 +20,6 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
         # Init parent class: BestMan_sim
         super().__init__(client, visualizer,  cfg)
     
-        self.gripper_id = None
-    
     # ----------------------------------------------------------------
     # functions for gripper
     # ----------------------------------------------------------------
@@ -45,7 +43,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
         
         # grasp
         if value == 1 and self.gripper_id == None:
-            cube_orn = p.getQuaternionFromEuler([0, math.pi, 0])  # control rotation
+            cube_orn = p.getQuaternionFromEuler([0, math.pi, 0])
             if self.tcp_link != -1:
                 self.gripper_id = p.createConstraint(
                     self.arm_id,
@@ -57,11 +55,11 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
                     [0, 0, 0],
                     [0, 0, 0],
                     childFrameOrientation=cube_orn, 
-                    physicsClientId=self.client_id,
+                    physicsClientId=self.client_id
                 )
-                p.changeConstraint(self.gripper_id, maxForce=2000, erp=0.2, physicsClientId=self.client_id)
-                p.changeDynamics(self.arm_id, self.tcp_link, lateralFriction=1.0, physicsClientId=self.client_id)
-                p.changeDynamics(object_id, -1, lateralFriction=1.0, physicsClientId=self.client_id)
+                # p.changeConstraint(self.gripper_id, maxForce=2000, erp=0.2, physicsClientId=self.client_id)
+                # p.changeDynamics(self.arm_id, self.tcp_link, lateralFriction=1.0, physicsClientId=self.client_id)
+                # p.changeDynamics(object_id, -1, lateralFriction=1.0, physicsClientId=self.client_id)
             else:
                 self.gripper_id = p.createConstraint(
                     self.arm_id,
@@ -101,11 +99,9 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
         if value == 1 and self.gripper_id == None:
             link_state = p.getLinkState(object_id, link_id)
             vec_inv, quat_inv = p.invertTransform(link_state[0], link_state[1])
-            
             current_pose = self.client.get_object_link_pose(self.arm_id, self.tcp_link)
             transform_start_to_link = p.multiplyTransforms(vec_inv, quat_inv, current_pose.position, p.getQuaternionFromEuler(current_pose.orientation))
-            
-            constraint_id = p.createConstraint(
+            self.gripper_id = p.createConstraint(
                     parentBodyUniqueId=object_id,
                     parentLinkIndex=link_id,
                     childBodyUniqueId=self.arm_id,
@@ -114,9 +110,9 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
                     jointAxis=[0, 0, 0],
                     parentFramePosition=transform_start_to_link[0],
                     parentFrameOrientation=transform_start_to_link[1],
-                    childFramePosition=[0, 0, 0],
+                    childFramePosition=[0, 0, 0]
                 )
-            p.changeConstraint(constraint_id, maxForce=2000)
+            p.changeConstraint(self.gripper_id, maxForce=2000)
 
     
     # ----------------------------------------------------------------

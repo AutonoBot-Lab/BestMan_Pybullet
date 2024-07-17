@@ -268,7 +268,8 @@ class Client:
         
         object_id = self.resolve_object_id(object)
         link_state = p.getLinkState(object_id, link_id)
-        return Pose(link_state[0], link_state[1])
+        # return Pose(link_state[0], link_state[1])
+        return Pose(link_state[4], link_state[5])
     
     def get_bounding_box(self, object):
         """

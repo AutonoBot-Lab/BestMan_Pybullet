@@ -33,9 +33,6 @@ class Bestman_sim_panda(Bestman_sim):
         
         # Constraint parameters
         p.changeConstraint(c, gearRatio=-1, erp=0.1, maxForce=50)
-        
-        # for i in range(p.getNumJoints(self.arm_id)):
-        #     p.changeDynamics(self.arm_id, i, linearDamping=0, angularDamping=0)
 
     
     # ----------------------------------------------------------------
@@ -61,6 +58,57 @@ class Bestman_sim_panda(Bestman_sim):
             raise(ValueError("gripper value must be 0 / 1 !"))
         
         self.client.run(30)
+        
+    def sim_active_gripper_movable(self, object, link_id, value):
+        """
+        Activate or deactivate the gripper.
+        
+        Args:
+            object_id (init): ID of the object related to gripper action.
+            value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).
+        """
+
+        object_id = self.client.resolve_object_id(object)
+        
+        # ungrasp
+        if value == 0 and self.gripper_id != None:
+            p.removeConstraint(self.gripper_id, physicsClientId=self.client_id)
+            self.gripper_id = None
+            print("-" * 20 + "\n" + "Gripper has been deactivated!")
+        
+        # grasp
+        if value == 1 and self.gripper_id == None:
+            link_state = p.getLinkState(object_id, link_id)
+            vec_inv, quat_inv = p.invertTransform(link_state[0], link_state[1])
+            if self.tcp_link != -1:
+                current_pose = self.client.get_object_link_pose(self.arm_id, self.tcp_link)
+                transform_start_to_link = p.multiplyTransforms(vec_inv, quat_inv, current_pose.position, p.getQuaternionFromEuler(current_pose.orientation))
+                self.gripper_id = p.createConstraint(
+                        parentBodyUniqueId=object_id,
+                        parentLinkIndex=link_id,
+                        childBodyUniqueId=self.arm_id,
+                        childLinkIndex=self.tcp_link,
+                        jointType=p.JOINT_POINT2POINT,
+                        jointAxis=[0, 0, 0],
+                        parentFramePosition=transform_start_to_link[0],
+                        parentFrameOrientation=transform_start_to_link[1],
+                        childFramePosition=[0, 0, 0]
+                    )
+            else:
+                current_pose = self.client.get_object_link_pose(self.arm_id, self.end_effector_index)
+                transform_start_to_link = p.multiplyTransforms(vec_inv, quat_inv, current_pose.position, p.getQuaternionFromEuler(current_pose.orientation))
+                self.gripper_id = p.createConstraint(
+                        parentBodyUniqueId=object_id,
+                        parentLinkIndex=link_id,
+                        childBodyUniqueId=self.arm_id,
+                        childLinkIndex=self.tcp_link,
+                        jointType=p.JOINT_POINT2POINT,
+                        jointAxis=[0, 0, 0],
+                        parentFramePosition=transform_start_to_link[0],
+                        parentFrameOrientation=transform_start_to_link[1],
+                        childFramePosition=[0, 0, 0]
+                    )
+            p.changeConstraint(self.gripper_id, maxForce=2000)
     
     
     # ----------------------------------------------------------------
@@ -71,9 +119,9 @@ class Bestman_sim_panda(Bestman_sim):
         object_id = self.client.resolve_object_id(object)
         position, _ = p.getBasePositionAndOrientation(object_id)
         goal_pose = Pose([position[0], position[1], position[2]+0.015], [0, math.pi, 0])
-        self.move_end_effector_to_goal_pose(goal_pose)
+        self.move_end_effector_to_goal_pose(goal_pose, 50)
         goal_pose = Pose([position[0], position[1], position[2]-0.005], [0, math.pi, 0])
-        self.move_end_effector_to_goal_pose(goal_pose)
+        self.move_end_effector_to_goal_pose(goal_pose, 50)
         self.sim_active_gripper(0)
     
     def place(self, goal_pose):
@@ -81,8 +129,8 @@ class Bestman_sim_panda(Bestman_sim):
         init_pos, _ = init_pose.position, init_pose.orientation
         goal_pos, goal_orn = goal_pose.position, goal_pose.orientation
         tmp_pose = Pose([init_pos[0], init_pos[1], goal_pos[2]], goal_orn)
-        self.move_end_effector_to_goal_pose(tmp_pose)
-        self.move_end_effector_to_goal_pose(goal_pose, 30)
+        self.move_end_effector_to_goal_pose(tmp_pose, 50)
+        self.move_end_effector_to_goal_pose(goal_pose, 50)
         self.sim_active_gripper(1)
     
     def pick_place(self, object, goal_pose):

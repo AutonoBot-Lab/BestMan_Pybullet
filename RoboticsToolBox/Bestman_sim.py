@@ -135,7 +135,8 @@ class Bestman_sim:
         self.sim_sync_base_arm_pose()
         
         # Init arm joint angle
-        self.move_arm_to_joint_values(robot_cfg.init_joint)
+        # self.move_arm_to_joint_values(robot_cfg.init_joint)
+        self.sim_set_arm_to_joint_values(robot_cfg.init_joint)
         
         # change robot color
         self.visualizer.change_robot_color(self.base_id, self.arm_id, False)
@@ -172,6 +173,7 @@ class Bestman_sim:
         
         # global parameters
         self.init_pose = init_pose   # Used when resetting the robot position
+        self.gripper_id = None       # Used for grasp 
 
     
     # ----------------------------------------------------------------
@@ -445,7 +447,7 @@ class Bestman_sim:
             list: A list of tuples representing the joint bounds, where each tuple contains the minimum and maximum values for a joint.
         """
         
-        joint_bounds = [p.getJointInfo(self.arm_id, joint_id)[8:10] for joint_id in self.arm_joints_idx]
+        joint_bounds = [p.getJointInfo(self.arm_id, joint_id)[8:10] for joint_id in self.arm_joints_idx]    # get joint lower and upper limit
         print("Joint bounds: {}".format(joint_bounds))
         return joint_bounds
 
@@ -494,6 +496,7 @@ class Bestman_sim:
         
         for joint, value in zip(self.arm_joints_idx, joint_values):
             p.resetJointState(self.arm_id, joint, value, targetVelocity=0)
+        self.client.run(10)
             
     def sim_debug_set_arm_to_joint_values(self):
         """
@@ -779,8 +782,7 @@ class Bestman_sim:
             p.resetBasePositionAndOrientation(
                 self.arm_id, [position[0], position[1], self.arm_height] , orientation, physicsClientId=self.client_id
             )
-            # self.client.run()
-
+        
     
     # ----------------------------------------------------------------
     # functions for gripper
