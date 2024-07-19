@@ -1,9 +1,32 @@
 import numpy as np
 import open3d as o3d
 from PIL import ImageDraw
+from typing import Tuple
+from Visualization import CameraParameters
+
+Bbox = Tuple[int, int, int, int]
+
+def get_3d_points(cam: CameraParameters):
+    """Convert depth image to 3D point cloud
+
+    Args:
+        cam (CameraParameters): Camera internal parameters
+    
+    Returns:
+        points(np.array): 3D point cloud
+    """
+    
+    xmap, ymap = np.arange(cam.depths.shape[1]), np.arange(cam.depths.shape[0])
+    xmap, ymap = np.meshgrid(xmap, ymap)
+    points_z = cam.depths
+    points_x = (xmap - cam.cx) / cam.fx * points_z
+    points_y = (ymap - cam.cy) / cam.fy * points_z
+    points = np.stack((points_x, points_y, points_z), axis=2)
+    return points
 
 def sample_points(points, sampling_rate=1):
-    
+    """Randomly sample some points from a given set of points at a specified sampling rate
+    """
     N = len(points)
     num_samples = int(N*sampling_rate)
     indices = np.random.choice(N, num_samples, replace=False)
@@ -12,7 +35,8 @@ def sample_points(points, sampling_rate=1):
 
 
 def draw_rectangle(image, bbox, width=5):
-    
+    """Draw a green rectangle on the given image
+    """
     img_drw = ImageDraw.Draw(image)
     x1, y1, x2, y2 = bbox[0], bbox[1], bbox[2], bbox[3]
 
@@ -60,10 +84,10 @@ def visualize_cloud_geometries(cloud, geometries, translation = None, rotation =
         view_control.scale(zoom_scale_factor)
 
         visualizer.capture_screen_image(save_file, do_render = True)
-        print(f"Saved screen shot visualization at {save_file}")
+        print(f"[AnyGrasp] Saved screen shot visualization at {save_file}")
 
     if visualize:
-        visualizer.add_geometry(coordinate_frame)
+        # visualizer.add_geometry(coordinate_frame)
         visualizer.run()
     else:
         visualizer.destroy_window()    

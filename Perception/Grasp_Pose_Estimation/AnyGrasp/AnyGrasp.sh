@@ -1,0 +1,1 @@
+python AnyGrasp.py --checkpoint_path checkpoint/checkpoint_detection.tar --top_down_grasp --debug

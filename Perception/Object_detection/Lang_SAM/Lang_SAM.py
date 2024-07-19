@@ -6,7 +6,7 @@ import numpy as np
 from PIL import Image, ImageDraw
 from typing import List, Type, Tuple
 from lang_sam import LangSAM
-from .utils import draw_rectangle
+from utils import draw_rectangle
 
 
 class Lang_SAM():
