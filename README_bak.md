@@ -127,14 +127,16 @@ cat Asset/project_structure.txt
 
 ## 👨‍💻 Basic Demos
 
-We have supplemented and improved the [pybullet-blender-recorder](https://github.com/huy-ha/pybullet-blender-recorder) code base, importing the images in the pybullet scene into blender for rendering, which improves the rendering effect. For simple scenes and tasks, the import can be completed within 2 minutes, and for complex scenes and tasks, the import can be completed within half an hour.
+&emsp;&emsp;We have supplemented and improved the [pybullet-blender-recorder](https://github.com/huy-ha/pybullet-blender-recorder) code base, importing the images in the pybullet scene into blender for rendering, which improves the rendering effect. For simple scenes and tasks, the import can be completed within 2 minutes, and for complex scenes and tasks, the import can be completed within half an hour.
 
-​		Below are some examples and their rendering in Blender:
+<br/>
+First, Enter directory Examples:
 
 ```
 cd Examples
 ```
 
+Below are some examples and their rendering in Blender
 
 
 :shamrock: **Navigation**
