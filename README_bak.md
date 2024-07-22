@@ -24,7 +24,6 @@ git submodule init
 git submodule update
 ```
 
-
 ### :shamrock: Conda
 
 First install `Anaconda` or `minconda` on linux system and then perform the following steps：
@@ -85,7 +84,7 @@ pip install -U git+https://github.com/luca-medeiros/lang-segment-anything.git
 cd third_party/pointnet2
 python setup.py install
 ```
-
+<br/>
 
 
 ### :shamrock: Docker
@@ -115,7 +114,7 @@ export DISPLAY=host.docker.internal:0
 
 ##### Linux
 - TBD
-
+<br/>
 
 
 ## 🔎 Project Structure
@@ -123,12 +122,12 @@ export DISPLAY=host.docker.internal:0
 ```
 cat Asset/project_structure.txt
 ```
-
+<br/>
 
 
 ## 👨‍💻 Basic Demos
 
-​		We have supplemented and improved the [pybullet-blender-recorder](https://github.com/huy-ha/pybullet-blender-recorder) code base, importing the images in the pybullet scene into blender for rendering, which improves the rendering effect. For simple scenes and tasks, the import can be completed within 2 minutes, and for complex scenes and tasks, the import can be completed within half an hour.
+We have supplemented and improved the [pybullet-blender-recorder](https://github.com/huy-ha/pybullet-blender-recorder) code base, importing the images in the pybullet scene into blender for rendering, which improves the rendering effect. For simple scenes and tasks, the import can be completed within 2 minutes, and for complex scenes and tasks, the import can be completed within half an hour.
 
 ​		Below are some examples and their rendering in Blender:
 
@@ -148,6 +147,7 @@ https://github.com/user-attachments/assets/b62e8a39-ae3f-4e55-8035-e0592fdec6ac
 
 https://github.com/user-attachments/assets/64b1334a-4ad3-4e4f-aaab-e3e7c9afed6a
 
+<br/>
 
 
 :shamrock: **Manipulation**
@@ -161,7 +161,7 @@ python open_fridge.py
 https://github.com/user-attachments/assets/ffdb8468-5125-4d72-aa5b-4c237ac58a57 
 
 https://github.com/user-attachments/assets/ed07b856-74ce-4299-9ba5-9de012b9eef5 
-
+<br/>
 
 
 - Open microwave
@@ -173,7 +173,7 @@ python open_microwave.py
 https://github.com/user-attachments/assets/df0dbfea-a91a-43bd-8204-c61745aa40d9 
 
 https://github.com/user-attachments/assets/77530f8d-30fb-471c-8e6d-40f8dddfd56a  
-
+<br/>
 
 
 - Grasp bowl on table use sucker
@@ -186,6 +186,7 @@ https://github.com/user-attachments/assets/55e9f3ec-6c42-4f90-a5b1-b38d2c90e6b9
 
 https://github.com/user-attachments/assets/76909a22-e268-44b5-9415-4ef42f528f14 
 
+<br/>
 
 
 - Grasp lego on table use gripper
@@ -198,6 +199,7 @@ https://github.com/user-attachments/assets/2260d167-6b13-4281-99fe-a6fcf42cf3d8
 
 https://github.com/user-attachments/assets/beb7d70c-fa83-4229-a0dc-82eb95da92ff  
 
+<br/>
 
 
 - Move bowl from drawer to table
@@ -210,6 +212,7 @@ https://github.com/user-attachments/assets/d48ea499-eac4-4810-88fe-306f71504216
 
 https://github.com/user-attachments/assets/580e658a-fd33-49d5-ad1c-ae513974a807 
 
+<br/>
 
 
 ##  📘 Documents
