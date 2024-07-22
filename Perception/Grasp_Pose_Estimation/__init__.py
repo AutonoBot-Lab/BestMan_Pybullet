@@ -1,1 +1,1 @@
-from .AnyGrasp.src.AnyGrasp import AnyGrasp
+from AnyGrasp.AnyGrasp import Anygrasp
