@@ -4,9 +4,9 @@ import copy
 import math
 import numpy as np
 from PIL import Image
+import matplotlib.pyplot as plt
 from gsnet import AnyGrasp
 from graspnetAPI import GraspGroup
-from Visualization import CameraParameters
 from utils import (
     Bbox,
     get_3d_points,
@@ -15,6 +15,7 @@ from utils import (
     draw_rectangle
 )
 from RoboticsToolBox import Pose
+from Visualization import CameraParameters
 from Perception.Object_detection import Lang_SAM
 
 class Anygrasp:
@@ -139,6 +140,10 @@ class Anygrasp:
             return False, None
 
         projections_file_name = (os.path.join(self.cfgs.output_dir, "grasp_projections.png"))
+        plt.imshow(image)
+        plt.axis('off')
+        plt.show()
+        
         image.save(projections_file_name)
         print(f"[AnyGrasp] Saved projections of grasps at {projections_file_name}")
 
