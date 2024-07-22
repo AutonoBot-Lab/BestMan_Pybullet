@@ -32,7 +32,8 @@ First install `Anaconda` or `minconda` on linux system and then perform the foll
 - Run the following script to add the project to the PYTHON search path
 ```
 cd Install
-sudo bash pythonpath.sh
+chmod 777 pythonpath.sh
+bash pythonpath.sh
 source ~/.bashrc
 ```
 
@@ -86,6 +87,7 @@ python setup.py install
 ```
 
 
+
 ### :shamrock: Docker
 
 ##### Windows
@@ -115,6 +117,7 @@ export DISPLAY=host.docker.internal:0
 - TBD
 
 
+
 ## 🔎 Project Structure
 
 ```
@@ -122,75 +125,38 @@ cat Asset/project_structure.txt
 ```
 
 
+
 ## 👨‍💻 Basic Demos
 
-:shamrock: **Load Kitchens**
+​		We have supplemented and improved the [pybullet-blender-recorder](https://github.com/huy-ha/pybullet-blender-recorder) code base, importing the images in the pybullet scene into blender for rendering, which improves the rendering effect. For simple scenes and tasks, the import can be completed within 2 minutes, and for complex scenes and tasks, the import can be completed within half an hour.
+
+​		Below are some examples and their rendering in Blender:
 
 ```
-python Examples/load_kitchen.py
+cd Examples
 ```
+
+
 
 :shamrock: **Navigation**
 
 ```
-python Examples/navigation_basic.py
+python navigation_basic.py
 ```
 
-<table>
-  <tr>
-    <td>
-      <a href="https://www.youtube.com/watch?v=HW6oQhs_e5U">
-          <img src="https://img.youtube.com/vi/HW6oQhs_e5U/0.jpg" alt="navigation" width="250" height="200">
-      </a>
-    </td>
-    <td>
-      <a href="https://www.youtube.com/watch?v=_tVbxgiM-5Q">
-          <img src="https://img.youtube.com/vi/_tVbxgiM-5Q/0.jpg" alt="navigation" width="250" height="200">
-      </a>
-    </td>
-  </tr>
-</table>
+https://github.com/user-attachments/assets/b62e8a39-ae3f-4e55-8035-e0592fdec6ac
+
+https://github.com/user-attachments/assets/ade4f0cf-d120-402a-b7b7-0f645832f0d8
+
 
 
 :shamrock: **Manipulation**
 
 ```
-python Examples/grasp_bowl_in_kitchen.py
+python open_fridge.py
 ```
 
-```
-python Examples/grasp_bowl_from_drawer_in_kitchen.py
-```
-
-<table>
-  <tr>
-    <td>
-      <a href="https://www.youtube.com/watch?v=XnmEqOgxNM4">
-        <img src="https://img.youtube.com/vi/XnmEqOgxNM4/0.jpg" alt="manipulation" width="250" height="200">
-      </a>
-    </td>
-    <td>
-      <a href="https://www.youtube.com/watch?v=f25d4N_Lv9w">
-        <img src="https://img.youtube.com/vi/f25d4N_Lv9w/0.jpg" alt="Video 1" width="250" height="200">
-      </a>
-    </td>
-    <td>
-      <a href="https://www.youtube.com/watch?v=7gbh2OGFkCk">
-        <img src="https://img.youtube.com/vi/7gbh2OGFkCk/0.jpg" alt="Video 2" width="250" height="200">
-      </a>
-    </td>
-  </tr>
-</table>
-
-
-
-<!-- <a href="https://www.youtube.com/watch?v=f25d4N_Lv9w">
-    <img src="https://img.youtube.com/vi/f25d4N_Lv9w/0.jpg" alt="OMPL" width="300" height="200">
-</a>
-
-<a href="https://www.youtube.com/watch?v=7gbh2OGFkCk">
-    <img src="https://img.youtube.com/vi/7gbh2OGFkCk/0.jpg" alt="OMPL" width="300" height="200">
-</a> -->
+https://github.com/user-attachments/assets/ffdb8468-5125-4d72-aa5b-4c237ac58a57
 
 
 
