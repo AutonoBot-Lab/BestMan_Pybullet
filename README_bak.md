@@ -144,9 +144,9 @@ cd Examples
 python navigation_basic.py
 ```
 
-https://github.com/user-attachments/assets/b62e8a39-ae3f-4e55-8035-e0592fdec6ac
+https://github.com/user-attachments/assets/b62e8a39-ae3f-4e55-8035-e0592fdec6ac 
 
-https://github.com/user-attachments/assets/64b1334a-4ad3-4e4f-aaab-e3e7c9afed6a
+https://github.com/user-attachments/assets/64b1334a-4ad3-4e4f-aaab-e3e7c9afed6a 
 
 
 
@@ -158,9 +158,9 @@ https://github.com/user-attachments/assets/64b1334a-4ad3-4e4f-aaab-e3e7c9afed6a
 python open_fridge.py
 ```
 
-https://github.com/user-attachments/assets/ffdb8468-5125-4d72-aa5b-4c237ac58a57
+https://github.com/user-attachments/assets/ffdb8468-5125-4d72-aa5b-4c237ac58a57 
 
-https://github.com/user-attachments/assets/ed07b856-74ce-4299-9ba5-9de012b9eef5
+https://github.com/user-attachments/assets/ed07b856-74ce-4299-9ba5-9de012b9eef5 
 
 
 
@@ -170,9 +170,9 @@ https://github.com/user-attachments/assets/ed07b856-74ce-4299-9ba5-9de012b9eef5
 python open_microwave.py
 ```
 
-https://github.com/user-attachments/assets/df0dbfea-a91a-43bd-8204-c61745aa40d9
+https://github.com/user-attachments/assets/df0dbfea-a91a-43bd-8204-c61745aa40d9 
 
-https://github.com/user-attachments/assets/77530f8d-30fb-471c-8e6d-40f8dddfd56a
+https://github.com/user-attachments/assets/77530f8d-30fb-471c-8e6d-40f8dddfd56a  
 
 
 
@@ -182,9 +182,9 @@ https://github.com/user-attachments/assets/77530f8d-30fb-471c-8e6d-40f8dddfd56a
 python grasp_bowl_on_table_sucker.py
 ```
 
-https://github.com/user-attachments/assets/55e9f3ec-6c42-4f90-a5b1-b38d2c90e6b9
+https://github.com/user-attachments/assets/55e9f3ec-6c42-4f90-a5b1-b38d2c90e6b9 
 
-https://github.com/user-attachments/assets/76909a22-e268-44b5-9415-4ef42f528f14
+https://github.com/user-attachments/assets/76909a22-e268-44b5-9415-4ef42f528f14 
 
 
 
@@ -194,9 +194,9 @@ https://github.com/user-attachments/assets/76909a22-e268-44b5-9415-4ef42f528f14
 python grasp_lego_on_table_gripper.py
 ```
 
-https://github.com/user-attachments/assets/2260d167-6b13-4281-99fe-a6fcf42cf3d8
+https://github.com/user-attachments/assets/2260d167-6b13-4281-99fe-a6fcf42cf3d8  
 
-https://github.com/user-attachments/assets/beb7d70c-fa83-4229-a0dc-82eb95da92ff
+https://github.com/user-attachments/assets/beb7d70c-fa83-4229-a0dc-82eb95da92ff  
 
 
 
@@ -206,9 +206,9 @@ https://github.com/user-attachments/assets/beb7d70c-fa83-4229-a0dc-82eb95da92ff
 python move_bowl_from_drawer_to_table.py
 ```
 
-https://github.com/user-attachments/assets/d48ea499-eac4-4810-88fe-306f71504216
+https://github.com/user-attachments/assets/d48ea499-eac4-4810-88fe-306f71504216 
 
-https://github.com/user-attachments/assets/580e658a-fd33-49d5-ad1c-ae513974a807
+https://github.com/user-attachments/assets/580e658a-fd33-49d5-ad1c-ae513974a807 
 
 
 
