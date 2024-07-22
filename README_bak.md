@@ -66,7 +66,7 @@ conda config --set solver libmamba
 conda install mamba -n base -c conda-forge
 ```
 
-- Create conda environment
+- Create basic conda environment
 ```
 mamba env create -f basic_environment.yaml
 mamba activate BestMan
