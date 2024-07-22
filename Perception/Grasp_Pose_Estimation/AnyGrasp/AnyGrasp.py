@@ -17,7 +17,6 @@ from utils import (
 from RoboticsToolBox import Pose
 from Perception.Object_detection import Lang_SAM
 
-
 class Anygrasp:
     
     def __init__(self, cfgs):
@@ -62,7 +61,6 @@ class Anygrasp:
             points, indices = sample_points(points, self.cfgs.sampling_rate)
             colors_m = colors_m[indices]
 
-        # Grasp prediction, return grasp group and point cloud
         # gg is a list of grasps of type graspgroup in graspnetAPI
         xmin = points[:, 0].min()
         xmax = points[:, 0].max()
@@ -71,7 +69,8 @@ class Anygrasp:
         zmin = points[:, 2].min()
         zmax = points[:, 2].max()
         lims = [xmin, xmax, ymin, ymax, zmin, zmax]
-        gg, cloud = self.grasping_model.get_grasp(points, colors_m, lims)
+        # Grasp prediction, return grasp group and point cloud
+        gg, cloud = self.grasping_model.get_grasp(points, colors_m, lims, apply_object_mask=True, dense_grasp=False, collision_detection=True)
 
         if len(gg) == 0:
             print("[AnyGrasp] No Grasp detected after collision detection!")
@@ -84,7 +83,6 @@ class Anygrasp:
         filter_gg = GraspGroup()
 
         # Filtering the grasps by penalising the vertical grasps as they are not robust to calibration errors.
-        # bbox_x_min, bbox_y_min, bbox_x_max, bbox_y_max = bbox
         W, H = self.cam.image.size
 
         # Reference direction vector, indicating the ideal grasping direction.
@@ -140,7 +138,7 @@ class Anygrasp:
             )
             return False, None
 
-        projections_file_name = (os.path.join(self.cfgs.output_dir, "grasp_projections.jpg"))
+        projections_file_name = (os.path.join(self.cfgs.output_dir, "grasp_projections.png"))
         image.save(projections_file_name)
         print(f"[AnyGrasp] Saved projections of grasps at {projections_file_name}")
 
@@ -163,14 +161,14 @@ class Anygrasp:
                 cloud,
                 grippers,
                 visualize=not self.cfgs.headless,
-                save_file=os.path.join(self.cfgs.output_dir, "poses.jpg"),
+                save_file=os.path.join(self.cfgs.output_dir, "poses.png"),
             )
 
             visualize_cloud_geometries(
                 cloud,
                 [filter_grippers[0].paint_uniform_color([1.0, 0.0, 0.0])],
                 visualize=not self.cfgs.headless,
-                save_file=os.path.join(self.cfgs.output_dir, "best_pose.jpg"),
+                save_file=os.path.join(self.cfgs.output_dir, "best_pose.png"),
             )
         
         # grasp_result = [
@@ -183,22 +181,28 @@ class Anygrasp:
 
 if __name__=='__main__':
 
-    # set work dir to Lang-SAM
+    # set work dir to AnyGrasp
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
     # cfgs
     parser = argparse.ArgumentParser()
     parser.add_argument("--checkpoint_path", default="./checkpoints/checkpoint_detection.tar", help="Model checkpoint path")
-    parser.add_argument("--max_gripper_width", type=float, default=0.07, help="Maximum gripper width (<=0.1m)")
-    parser.add_argument("--gripper_height", type=float, default=0.05, help="Gripper height")
+    parser.add_argument("--max_gripper_width", type=float, default=0.1, help="Maximum gripper width (<=0.1m)")
+    parser.add_argument("--gripper_height", type=float, default=0.03, help="Gripper height")
     parser.add_argument("--top_down_grasp", action="store_true", help="Output top-down grasps")
     parser.add_argument("--debug", action="store_true", help="Enable visualization")
-    parser.add_argument("--headless", action="store_true", help="Enable headless mode")
-    parser.add_argument("--max_depth", type=float, default=2.0, help="Maximum depth of point cloud")
+    parser.add_argument("--headless", action="store_true", help="Enable headless mode, don't save visualization result")
+    parser.add_argument("--max_depth", type=float, default=1.0, help="Maximum depth of point cloud")
     parser.add_argument("--min_depth", type=float, default=0, help="Maximum depth of point cloud")
     parser.add_argument("--sampling_rate", type=float, default=1.0, help="Sampling rate of points [<= 1]")
-    parser.add_argument("--input_dir", default="./test_data/example1", help="Input data dir")
-    parser.add_argument("--output_dir", default="./output/example1", help="Output data dir")
+    parser.add_argument("--input_dir", default="./test_data/example2", help="Input data dir")
+    parser.add_argument("--output_dir", default="./output/example2", help="Output data dir")
+    parser.add_argument("--fx", type=float, default=306, help="Focal length in the x direction")
+    parser.add_argument("--fy", type=float, default=306, help="Focal length in the y direction")
+    parser.add_argument("--cx", type=float, default=118, help="Center of the optical axis in the x-direction")
+    parser.add_argument("--cy", type=float, default=211, help="Center of the optical axis in the y-direction")
+    parser.add_argument("--scale", type=float, default=0.001, help="Convert the original depth value in the depth image to the actual depth value")
+    parser.add_argument("--head_tilt", type=float, default=-0.45, help="Tilt angle for ideal gripping pose")
     cfgs = parser.parse_args()
     cfgs.max_gripper_width = max(0, min(0.2, cfgs.max_gripper_width))
 
@@ -206,18 +210,10 @@ if __name__=='__main__':
         os.mkdir(cfgs.output_dir)
     
     # camera parameters
-    fx, fy, cx, cy = 306, 306, 118, 211
-    scale = 0.001   # convert the original depth value in the depth image to the actual depth value (usually in meters)
-    head_tilt = -45 / 100
     colors = np.array(Image.open(os.path.join(cfgs.input_dir, "color.png")), dtype=np.float32) / 255.0
     image = Image.open(os.path.join(cfgs.input_dir, "color.png"))
-    depths = np.array(Image.open(os.path.join(cfgs.input_dir, "depth.png"))) * scale
-    # if tries == 1:
-    #     self.action = str(input("Enter action [pick/place]: "))
-        # self.query = str(input("Enter a Object name in the scence: "))
-    # depths = depths * scale
-    # head_tilt = head_tilt / 100
-    cam = CameraParameters(fx, fy, cx, cy, head_tilt, image, colors, depths)
+    depths = np.array(Image.open(os.path.join(cfgs.input_dir, "depth.png"))) * cfgs.scale
+    cam = CameraParameters(cfgs.fx, cfgs.fy, cfgs.cx, cfgs.cy, cfgs.head_tilt, image, colors, depths)
     
     # object detection
     lang_sam = Lang_SAM()
