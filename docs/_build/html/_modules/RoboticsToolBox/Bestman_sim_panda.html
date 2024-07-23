@@ -1,0 +1,469 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RoboticsToolBox.Bestman_sim_panda &#8212; BestMan_Pybullet 1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/RoboticsToolBox/Bestman_sim_panda';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">BestMan_Pybullet 1.0 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for RoboticsToolBox.Bestman_sim_panda</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">@Description :   A few functions used in bestman robot, where the robot has a base and an arm.</span>
+<span class="sd">@Author      :   Yan Ding </span>
+<span class="sd">@Time        :   2023/08/30 20:43:44</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">pybullet</span> <span class="k">as</span> <span class="nn">p</span>
+
+<span class="kn">from</span> <span class="nn">.Bestman_sim</span> <span class="kn">import</span> <span class="n">Bestman_sim</span>
+<span class="kn">from</span> <span class="nn">.Pose</span> <span class="kn">import</span> <span class="n">Pose</span>
+
+<div class="viewcode-block" id="Bestman_sim_panda"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim_panda">[docs]</a><span class="k">class</span> <span class="nc">Bestman_sim_panda</span><span class="p">(</span><span class="n">Bestman_sim</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class representing a simulation for the Bestman robot equipped with a Panda arm.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="Bestman_sim_panda.__init__"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim_panda.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">visualizer</span><span class="p">,</span>  <span class="n">cfg</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the Bestman_sim_panda with the given parameters.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            client (int): The PyBullet client ID.</span>
+<span class="sd">            visualizer (bool): Flag indicating whether visualization is enabled.</span>
+<span class="sd">            cfg (dict): Configuration settings.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># Init parent class: BestMan_sim</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">visualizer</span><span class="p">,</span>  <span class="n">cfg</span><span class="p">)</span>
+        
+        <span class="c1"># Create a gear constraint to keep the fingers symmetrically centered</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">createConstraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span>
+            <span class="mi">9</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span>
+            <span class="mi">10</span><span class="p">,</span>
+            <span class="n">jointType</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">JOINT_GEAR</span><span class="p">,</span>
+            <span class="n">jointAxis</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="n">parentFramePosition</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="n">childFramePosition</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="p">)</span>
+        
+        <span class="c1"># Constraint parameters</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">changeConstraint</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">gearRatio</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">erp</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">maxForce</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></div>
+
+    
+    <span class="c1"># ----------------------------------------------------------------</span>
+    <span class="c1"># functions for gripper</span>
+    <span class="c1"># ----------------------------------------------------------------</span>
+    
+<div class="viewcode-block" id="Bestman_sim_panda.sim_active_gripper"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim_panda.sim_active_gripper">[docs]</a>    <span class="k">def</span> <span class="nf">sim_active_gripper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Activate or deactivate the gripper.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">]:</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">setJointMotorControl2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">POSITION_CONTROL</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">]:</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">setJointMotorControl2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">POSITION_CONTROL</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;gripper value must be 0 / 1 !&quot;</span><span class="p">))</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="Bestman_sim_panda.sim_active_gripper_movable"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim_panda.sim_active_gripper_movable">[docs]</a>    <span class="k">def</span> <span class="nf">sim_active_gripper_movable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">link_id</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Activate or deactivate the gripper for a movable object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            object (str): The name or ID of the object related to gripper action.</span>
+<span class="sd">            link_id (int): The ID of the link on the object to be grasped.</span>
+<span class="sd">            value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">object_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">resolve_object_id</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+        
+        <span class="c1"># ungrasp</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">gripper_id</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">removeConstraint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gripper_id</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gripper_id</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;Gripper has been deactivated!&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># grasp</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">gripper_id</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">link_state</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getLinkState</span><span class="p">(</span><span class="n">object_id</span><span class="p">,</span> <span class="n">link_id</span><span class="p">)</span>
+            <span class="n">vec_inv</span><span class="p">,</span> <span class="n">quat_inv</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">invertTransform</span><span class="p">(</span><span class="n">link_state</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">link_state</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tcp_link</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">current_pose</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_object_link_pose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tcp_link</span><span class="p">)</span>
+                <span class="n">transform_start_to_link</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">multiplyTransforms</span><span class="p">(</span><span class="n">vec_inv</span><span class="p">,</span> <span class="n">quat_inv</span><span class="p">,</span> <span class="n">current_pose</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">getQuaternionFromEuler</span><span class="p">(</span><span class="n">current_pose</span><span class="o">.</span><span class="n">orientation</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">gripper_id</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">createConstraint</span><span class="p">(</span>
+                        <span class="n">parentBodyUniqueId</span><span class="o">=</span><span class="n">object_id</span><span class="p">,</span>
+                        <span class="n">parentLinkIndex</span><span class="o">=</span><span class="n">link_id</span><span class="p">,</span>
+                        <span class="n">childBodyUniqueId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span>
+                        <span class="n">childLinkIndex</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tcp_link</span><span class="p">,</span>
+                        <span class="n">jointType</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">JOINT_POINT2POINT</span><span class="p">,</span>
+                        <span class="n">jointAxis</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                        <span class="n">parentFramePosition</span><span class="o">=</span><span class="n">transform_start_to_link</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                        <span class="n">parentFrameOrientation</span><span class="o">=</span><span class="n">transform_start_to_link</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                        <span class="n">childFramePosition</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+                    <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">current_pose</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_object_link_pose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_effector_index</span><span class="p">)</span>
+                <span class="n">transform_start_to_link</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">multiplyTransforms</span><span class="p">(</span><span class="n">vec_inv</span><span class="p">,</span> <span class="n">quat_inv</span><span class="p">,</span> <span class="n">current_pose</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">getQuaternionFromEuler</span><span class="p">(</span><span class="n">current_pose</span><span class="o">.</span><span class="n">orientation</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">gripper_id</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">createConstraint</span><span class="p">(</span>
+                        <span class="n">parentBodyUniqueId</span><span class="o">=</span><span class="n">object_id</span><span class="p">,</span>
+                        <span class="n">parentLinkIndex</span><span class="o">=</span><span class="n">link_id</span><span class="p">,</span>
+                        <span class="n">childBodyUniqueId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span>
+                        <span class="n">childLinkIndex</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tcp_link</span><span class="p">,</span>
+                        <span class="n">jointType</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">JOINT_POINT2POINT</span><span class="p">,</span>
+                        <span class="n">jointAxis</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                        <span class="n">parentFramePosition</span><span class="o">=</span><span class="n">transform_start_to_link</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                        <span class="n">parentFrameOrientation</span><span class="o">=</span><span class="n">transform_start_to_link</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                        <span class="n">childFramePosition</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+                    <span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">changeConstraint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gripper_id</span><span class="p">,</span> <span class="n">maxForce</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span></div>
+    
+    
+    <span class="c1"># ----------------------------------------------------------------</span>
+    <span class="c1"># functions for pick and place</span>
+    <span class="c1"># ----------------------------------------------------------------</span>
+    
+<div class="viewcode-block" id="Bestman_sim_panda.pick"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim_panda.pick">[docs]</a>    <span class="k">def</span> <span class="nf">pick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Pick up the specified object without collision.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            object (str): The name or ID of the object to be picked up.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">object_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">resolve_object_id</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+        <span class="n">position</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getBasePositionAndOrientation</span><span class="p">(</span><span class="n">object_id</span><span class="p">)</span>
+        <span class="n">goal_pose</span> <span class="o">=</span> <span class="n">Pose</span><span class="p">([</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="mf">0.015</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">move_end_effector_to_goal_pose</span><span class="p">(</span><span class="n">goal_pose</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+        <span class="n">goal_pose</span> <span class="o">=</span> <span class="n">Pose</span><span class="p">([</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="mf">0.005</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">move_end_effector_to_goal_pose</span><span class="p">(</span><span class="n">goal_pose</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim_active_gripper</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="Bestman_sim_panda.place"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim_panda.place">[docs]</a>    <span class="k">def</span> <span class="nf">place</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">goal_pose</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Place an object at the specified goal pose without collision.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            goal_pose (Pose): The pose where the object will be placed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">init_pose</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_end_effector_pose</span><span class="p">()</span>
+        <span class="n">init_pos</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">init_pose</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="n">init_pose</span><span class="o">.</span><span class="n">orientation</span>
+        <span class="n">goal_pos</span><span class="p">,</span> <span class="n">goal_orn</span> <span class="o">=</span> <span class="n">goal_pose</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="n">goal_pose</span><span class="o">.</span><span class="n">orientation</span>
+        <span class="n">tmp_pose</span> <span class="o">=</span> <span class="n">Pose</span><span class="p">([</span><span class="n">init_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">init_pos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">goal_pos</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">goal_orn</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">move_end_effector_to_goal_pose</span><span class="p">(</span><span class="n">tmp_pose</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">move_end_effector_to_goal_pose</span><span class="p">(</span><span class="n">goal_pose</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim_active_gripper</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="Bestman_sim_panda.pick_place"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim_panda.pick_place">[docs]</a>    <span class="k">def</span> <span class="nf">pick_place</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">goal_pose</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform a pick and place operation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            object (str): The name or ID of the object to be picked up.</span>
+<span class="sd">            goal_pose (Pose): The pose where the object will be placed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pick</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">place</span><span class="p">(</span><span class="n">goal_pose</span><span class="p">)</span></div></div>
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By kui yang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, kui yang.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
