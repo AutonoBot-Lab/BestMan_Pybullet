@@ -5,16 +5,21 @@
 """
 
 class PIDController:
+    """
+    A PID (Proportional-Integral-Derivative) controller for computing control output based on
+    the difference between a setpoint and a process value.
+    """
     def __init__(self, Kp, Ki, Kd, setpoint):
         """
         Initialize the PID controller with the given parameters. It is assumed
         that the setpoint is a function of the PID controller and that the
         parameters are in the form of numpy arrays.
+
         Args:
-            Kp: The parameter matrix for the Poisson process.
-            Ki: The parameter matrix for the Integral process.
-            Kd: The parameter matrix for the Dirichlet process.
-            setpoint: The target value for the PID controller.
+            Kp (float or numpy.ndarray): The proportional gain parameter.
+            Ki (float or numpy.ndarray): The integral gain parameter.
+            Kd (float or numpy.ndarray): The derivative gain parameter.
+            setpoint (float): The target value for the PID controller.
         """
         # Initialize the PID controller with the given parameters
         self.Kp = Kp
@@ -28,9 +33,13 @@ class PIDController:
 
     def calculate(self, process_value):
         """
-        Calculate the PID for a given process value.
-        Args: process_value: The value of the process to be controlled.
-        Returns: The output of the PID controller.
+        Calculate the PID output for a given process value.
+
+        Args:
+            process_value (float): The value of the process to be controlled.
+
+        Returns:
+            float: The output of the PID controller.
         """
         # Calculate the error, integral and derivative terms
         error = self.setpoint - process_value
@@ -45,6 +54,8 @@ class PIDController:
     def set_goal(self, setpoint):
         """
         Set the goal that will be used for this step.
-        Args: setpoint: The Goal to be reached.
+
+        Args:
+            setpoint (float): The goal to be reached.
         """
         self.setpoint = setpoint

@@ -12,44 +12,45 @@ from abc import abstractmethod
 
 from .Pose import Pose
 from Visualization import Camera
-from Controller.PIDController import PIDController
+from Controller import PIDController
 
 
 class Bestman_sim:
-    
+    """
+        Attributes:
+        client (object): The pybullet client object.
+        client_id (int): The client id returned by the pybullet client.
+        
+        frequency (int): The frequency of the PID controller.
+        timeout (float): The timeout value for the PID controller.
+        max_force (int): The maximum force for the PID controller.
+        max_iterations (int): The maximum number of iterations for the PID controller.
+        threshold (float): The threshold value for the PID controller.
+        max_attempts (int): The maximum number of attempts for the PID controller.
+        target_distance (float): The target distance for the PID controller.
+        controller (object): The PID controller object.
+        rotated (bool): A flag indicating whether the object has been rotated.
+        
+        init_pos (object): The initial position object.
+        base_id (int): The base id of the URDF model.
+        arm_id (int): The arm id of the URDF model.
+        arm_joints_idx (list): A list of joint indexes.
+        arm_height (float): The height of the arm.
+        end_effector_index (int): The index of the end effector.
+        tcp_link (int): The tcp link index.
+        tcp_height (float): The height of the tcp link.
+        
+        visualizer (object): The visualizer object.
+        gripper_id (None): The gripper id. Initialized to None.
+    """
     def __init__(self, client, visualizer,  cfg):
         """
-        Initialize a new object.
+        Initialize a new robot.
 
-        Parameters:
-            init_pos (list, optional): A list of three floats representing the initial position. Defaults to [0, 0, 0].
+        Args:
             client (object): The pybullet client object.
-        
-        Attributes:
-            client (object): The pybullet client object.
-            client_id (int): The client id returned by the pybullet client.
-            
-            frequency (int): The frequency of the PID controller.
-            timeout (float): The timeout value for the PID controller.
-            max_force (int): The maximum force for the PID controller.
-            max_iterations (int): The maximum number of iterations for the PID controller.
-            threshold (float): The threshold value for the PID controller.
-            max_attempts (int): The maximum number of attempts for the PID controller.
-            target_distance (float): The target distance for the PID controller.
-            controller (object): The PID controller object.
-            rotated (bool): A flag indicating whether the object has been rotated.
-            
-            init_pos (object): The initial position object.
-            base_id (int): The base id of the URDF model.
-            arm_id (int): The arm id of the URDF model.
-            arm_joints_idx (list): A list of joint indexes.
-            arm_height (float): The height of the arm.
-            end_effector_index (int): The index of the end effector.
-            tcp_link (int): The tcp link index.
-            tcp_height (float): The height of the tcp link.
-            
             visualizer (object): The visualizer object.
-            gripper_id (None): The gripper id. Initialized to None.
+            cfg (object): Configuration object containing parameters for the PID controller and robot setup.
         """
         
         self.client = client

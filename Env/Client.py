@@ -17,20 +17,16 @@ from RoboticsToolBox import Pose
 from Visualization import PyBulletRecorder
 
 class Client:
+    """
+    Pybullet client, Provides some interfaces for interacting with simulation scenes
+    """
+
     def __init__(self, cfg):
         """
-        Initialize a new PbClient object.
+        Initialize a new PyBullet Client object.
 
-        Parameters:
-            enable_GUI (bool): If True, the GUI will be enabled.
-            enable_Debug (bool): If False, the debug visualizer will be disabled.
-
-        Attributes:
-            client_id (int): The id of the client.
-            frequency (int): The simulation step for base and arm.
-            timeout (float): The maximum time for planning.
-            obstacle_navigation_ids (list): List of navigation obstacle ids.
-            obstacle_manipulation_ids (list): List of manipulation obstacle ids.
+        Args:
+            cfg (Config): Configuration object with various settings for the simulation.
         """
         
         if cfg.enable_GUI:
@@ -80,19 +76,46 @@ class Client:
     # ----------------------------------------------------------------
 
     def get_client_id(self):
+        """
+        Get the PyBullet client ID.
+
+        Returns:
+            int: The PyBullet client ID.
+        """
         return self.client_id
     
     def get_datapath(self):
+        """
+        Get the path to the PyBullet data files.
+
+        Returns:
+            str: The path to the PyBullet data files.
+        """
         return pybullet_data.getDataPath()
     
     def disconnect(self):
+        """
+        Disconnect from the PyBullet simulation. Save the recorder data if Blender is enabled.
+        """
         if self.blender: self.record_save()
         p.disconnect(physicsClientId=self.client_id)
 
     def wait(self, x):  # seconds
+        """
+        Pause the execution for a given number of seconds.
+
+        Args:
+            x (float): Number of seconds to wait.
+        """
         time.sleep(x)
 
     def run(self, x=1):  # steps
+        """
+        Step the simulation for a given number of steps.
+         
+        Args:
+            x (int): Number of simulation steps to run.
+        """
         for _ in range(x):
             p.stepSimulation(physicsClientId=self.client_id)
             time.sleep(self.timestep)
@@ -116,13 +139,15 @@ class Client:
         Load a given object into the PyBullet simulation environment.
 
         Args:
-            model_path (str): The path to the URDF file for the object.
-            object_position (list): The initial position of the object
-            object_orientation (list): The initial orientation of the object
             obj_name (str): The name of the object.
+            model_path (str): The path to the URDF file for the object.
+            object_position (list): The initial position of the object.
+            object_orientation (list): The initial orientation of the object.
+            scale (float): The scale of the object.
+            fixed_base (bool): If True, the object is fixed in place.
 
         Returns:
-            The ID of the loaded object in the PyBullet simulation.
+            int: The ID of the loaded object in the PyBullet simulation.
         """
         
         object_orientation = p.getQuaternionFromEuler(
@@ -154,11 +179,10 @@ class Client:
 
     def create_scene(self, json_path):
         """
-        Import the complete environment from the environment file based on the basic environment
-        
+        Import the complete environment from the environment file based on the basic environment.
+
         Args:
-            json_path(str): scene json file path
-        
+            json_path (str): Path to the scene JSON file.
         """
         
         with open(json_path, 'r') as f:
@@ -185,7 +209,11 @@ class Client:
     # ----------------------------------------------------------------
     
     def remove_object(self, object):
-        """Remove object in scene
+        """
+        Remove an object from the scene.
+
+        Args:
+            object (int / str): The ID or name of the object to remove.
         """
         object_id = self.resolve_object_id(object)
         p.removeBody(object_id)
@@ -198,13 +226,12 @@ class Client:
         Change the state of a specific joint of the object.
 
         Args:
-        object_id (int): The id of the object.
-        joint_index (int): The index of the joint to be changed.
-        target_position (float): The target position of the joint in radians.
-        max_force (float): The maximum force to be applied to achieve the target position.
+            object (int / str): The ID or name of the object.
+            joint_index (int): The index of the joint to be changed.
+            target_position (float): The target position of the joint in radians.
+            max_force (float): The maximum force to be applied to achieve the target position.
         """
         
-        # object_id = getattr(self, object_name)
         object_id = self.resolve_object_id(object)
         p.setJointMotorControl2(
             bodyUniqueId=object_id,
@@ -216,23 +243,36 @@ class Client:
         )
         
         self.run(10)
-        
-    def register_object(self, object_id, model_path, scale=1.0):
-        self.recorder.register_object(object_id, model_path, scale)
     
     # ----------------------------------------------------------------
     # Get info from environment
     # ----------------------------------------------------------------
 
     def get_object_id(self, object_name):
-        """Get object id
+        """
+        Get the ID of an object by its name.
+
+        Args:
+            object_name (str): The name of the object.
+
+        Returns:
+            int: The ID of the object.
         """
         return getattr(self, object_name)
     
     def resolve_object_id(self, object):
-        """Resolve object id
         """
+        Resolve the object ID from either an ID or name.
 
+        Args:
+            object (int / str): The ID or name of the object.
+
+        Returns:
+            int: The ID of the object.
+        
+        Raises:
+            AssertionError: If the object name does not exist or the input type is incorrect.
+        """
         if isinstance(object, str):
             assert hasattr(self, object), f"scene has not object named {object}!"
             object_id = self.get_object_id(object)
@@ -243,7 +283,11 @@ class Client:
         return object_id
     
     def print_object_joint_info(self, object):
-        """Get object's link and joint info
+        """
+        Print information about the links and joints of an object.
+
+        Args:
+            object (int / str): The ID or name of the object.
         """
         
         object_id = self.resolve_object_id(object)
@@ -259,11 +303,14 @@ class Client:
     
     def get_object_link_pose(self, object, link_id):
         """
-        This function retrieves the pose for a given object link
+        Retrieve the pose of a given link of an object.
 
         Args:
-            object (int / str): The id / name of the object in the PyBullet simulation.
-            link_id: The id of object link
+            object (int / str): The ID or name of the object.
+            link_id (int): The ID of the link.
+
+        Returns:
+            Pose: The pose of the link.
         """
         
         object_id = self.resolve_object_id(object)
@@ -273,12 +320,13 @@ class Client:
     
     def get_bounding_box(self, object):
         """
-        This function retrieves the bounding box for a given object in the PyBullet simulation environment.
+        Retrieve the bounding box of a given object in the PyBullet simulation environment.
 
         Args:
-            object (int / str): The id / name of the object in the PyBullet simulation.
-        Prints:
-            The function prints the minimum and maximum x, y, z coordinates of the bounding box of the object.
+            object (int / str): The ID or name of the object.
+
+        Returns:
+            list: The minimum and maximum x, y, z coordinates of the bounding box.
         """
         
         object_id = self.resolve_object_id(object)
@@ -299,11 +347,14 @@ class Client:
     
     def get_link_bounding_box(self, object, link_id):
         """
-        This function retrieves the link bounding box for a given object in the PyBullet simulation environment.
-        
+        Retrieve the bounding box of a specific link of an object in the PyBullet simulation environment.
+
         Args:
-            object (int / str): The id / name of the object in the PyBullet simulation.
-            link_id (int): The id of the link
+            object (int / str): The ID or name of the object.
+            link_id (int): The ID of the link.
+
+        Returns:
+            list: The minimum and maximum x, y, z coordinates of the bounding box.
         """
         
         object_id = self.resolve_object_id(object)
@@ -315,7 +366,21 @@ class Client:
     # For blender
     # ----------------------------------------------------------------
     
+    def register_object(self, object_id, model_path, scale=1.0):
+        """
+        Register an object with the PyBullet-blender recorder.
+
+        Args:
+            object_id (int): The ID of the object.
+            model_path (str): The path to the model file of the object.
+            scale (float): The scale of the object.
+        """
+        self.recorder.register_object(object_id, model_path, scale)
+    
     def record_save(self):
+        """
+        Save the current pybullet-blender recording to a file with a timestamped name.
+        """
         current_time = datetime.now().strftime('%Y%m%d_%H%M%S')
         self.recorder.save(f'../Examples/record/{current_time}.pkl')
 

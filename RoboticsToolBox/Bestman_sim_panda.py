@@ -11,9 +11,18 @@ from .Bestman_sim import Bestman_sim
 from .Pose import Pose
 
 class Bestman_sim_panda(Bestman_sim):
+    """
+    A class representing a simulation for the Bestman robot equipped with a Panda arm.
+    """
     
     def __init__(self, client, visualizer,  cfg):
-        """BestMan_sim for panda arm.
+        """
+        Initialize the Bestman_sim_panda with the given parameters.
+
+        Args:
+            client (int): The PyBullet client ID.
+            visualizer (bool): Flag indicating whether visualization is enabled.
+            cfg (dict): Configuration settings.
         """
         
         # Init parent class: BestMan_sim
@@ -44,7 +53,6 @@ class Bestman_sim_panda(Bestman_sim):
         Activate or deactivate the gripper.
 
         Args:
-            object_id (init): ID of the object related to gripper action.
             value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).
         """
 
@@ -61,10 +69,11 @@ class Bestman_sim_panda(Bestman_sim):
         
     def sim_active_gripper_movable(self, object, link_id, value):
         """
-        Activate or deactivate the gripper.
-        
+        Activate or deactivate the gripper for a movable object.
+
         Args:
-            object_id (init): ID of the object related to gripper action.
+            object (str): The name or ID of the object related to gripper action.
+            link_id (int): The ID of the link on the object to be grasped.
             value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).
         """
 
@@ -116,6 +125,12 @@ class Bestman_sim_panda(Bestman_sim):
     # ----------------------------------------------------------------
     
     def pick(self, object):
+        """
+        Pick up the specified object without collision.
+
+        Args:
+            object (str): The name or ID of the object to be picked up.
+        """
         object_id = self.client.resolve_object_id(object)
         position, _ = p.getBasePositionAndOrientation(object_id)
         goal_pose = Pose([position[0], position[1], position[2]+0.015], [0, math.pi, 0])
@@ -125,6 +140,12 @@ class Bestman_sim_panda(Bestman_sim):
         self.sim_active_gripper(0)
     
     def place(self, goal_pose):
+        """
+        Place an object at the specified goal pose without collision.
+
+        Args:
+            goal_pose (Pose): The pose where the object will be placed.
+        """
         init_pose = self.get_current_end_effector_pose()
         init_pos, _ = init_pose.position, init_pose.orientation
         goal_pos, goal_orn = goal_pose.position, goal_pose.orientation
@@ -134,5 +155,12 @@ class Bestman_sim_panda(Bestman_sim):
         self.sim_active_gripper(1)
     
     def pick_place(self, object, goal_pose):
+        """
+        Perform a pick and place operation.
+
+        Args:
+            object (str): The name or ID of the object to be picked up.
+            goal_pose (Pose): The pose where the object will be placed.
+        """
         self.pick(object)
         self.place(goal_pose)
