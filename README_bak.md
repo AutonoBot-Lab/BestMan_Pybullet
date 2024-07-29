@@ -36,7 +36,7 @@ bash pythonpath.sh
 source ~/.bashrc
 ```
 
-- Install shared file (If it already exists, skip this step.)
+- Configure related libraries and links to support OpenGL rendering (If it already exists, skip this step.)
 ```
 sudo apt update && sudo apt install -y libgl1-mesa-glx libglib2.0-0
 sudo mkdir /usr/lib/dri
@@ -56,13 +56,8 @@ gcc -v
 g++ -v
 ```
 
-- Configure mamba to speed up the conda environment construction
+- Configure mamba to speed up the conda environment construction (Optional, skip if installation is slow or fails)
 ```
-# Install conda-libmamba-solver
-conda install -n base conda-libmamba-solver
-conda config --set solver libmamba
-
-# Install mamba
 conda install mamba -n base -c conda-forge
 ```
 
