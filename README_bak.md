@@ -63,11 +63,8 @@ conda install mamba -n base -c conda-forge
 
 - Create basic conda environment
 ```
-mamba env create -f basic_environment.yaml
-mamba activate BestMan
-
-# Install torch
-mamba env update -f cuda116.yaml
+conda(mamba) env create -f basic_environment.yaml
+conda(mamba) activate BestMan
 
 # Install MinkowskiEngine
 pip install -U git+https://github.com/NVIDIA/MinkowskiEngine -v --no-deps --global-option="--blas_include_dirs=${CONDA_PREFIX}/include" --global-option="--blas=openblas"
@@ -78,6 +75,9 @@ pip install -U git+https://github.com/luca-medeiros/lang-segment-anything.git
 # Install pointnet2
 cd third_party/pointnet2
 python setup.py install
+
+# Install torch
+conda(mamba) env update -f cuda116.yaml
 ```
 <br/>
 
