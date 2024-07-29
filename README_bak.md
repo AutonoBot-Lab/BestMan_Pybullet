@@ -66,6 +66,9 @@ conda install mamba -n base -c conda-forge
 conda(mamba) env create -f basic_environment.yaml
 conda(mamba) activate BestMan
 
+# Install torch
+conda(mamba) env update -f cuda116.yaml
+
 # Install lang-segment-anything
 pip install -U git+https://github.com/luca-medeiros/lang-segment-anything.git
 
@@ -78,9 +81,6 @@ pip install graspnetAPI
 # Install pointnet2
 cd third_party/pointnet2
 python setup.py install
-
-# Install torch
-conda(mamba) env update -f cuda116.yaml
 ```
 <br/>
 
