@@ -66,11 +66,14 @@ conda install mamba -n base -c conda-forge
 conda(mamba) env create -f basic_environment.yaml
 conda(mamba) activate BestMan
 
+# Install lang-segment-anything
+pip install -U git+https://github.com/luca-medeiros/lang-segment-anything.git
+
 # Install MinkowskiEngine
 pip install -U git+https://github.com/NVIDIA/MinkowskiEngine -v --no-deps --global-option="--blas_include_dirs=${CONDA_PREFIX}/include" --global-option="--blas=openblas"
 
-# Install lang-segment-anything
-pip install -U git+https://github.com/luca-medeiros/lang-segment-anything.git
+# Install graspnetAPI
+pip install graspnetAPI
 
 # Install pointnet2
 cd third_party/pointnet2
