@@ -5,8 +5,8 @@ API References
    :maxdepth: 2
    :caption: Modules:
 
-   Controller
    Env
+   Controller
    RoboticsToolBox
    Perception/Perception
    SLAM
