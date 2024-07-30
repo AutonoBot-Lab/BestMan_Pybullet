@@ -5,9 +5,7 @@
 """
 
 import os
-from RoboticsToolBox import Bestman_sim
 from Env import Client
-from Visualization import Visualizer
 from Utils import load_config
 
 
@@ -26,7 +24,7 @@ def main():
     client.create_scene(scene_path)
 
     # disconnect pybullet
-    client.wait(5)
+    client.wait(10)
     client.disconnect()
     
 

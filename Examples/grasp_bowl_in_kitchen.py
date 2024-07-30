@@ -29,7 +29,7 @@ def main(filename):
     
     # Start record
     visualizer.start_record(filename)
-
+    
     # Load scene
     scene_path = '../Asset/Scene/Kitchen.json'
     client.create_scene(scene_path)

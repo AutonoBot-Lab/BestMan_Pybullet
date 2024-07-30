@@ -52,6 +52,8 @@ def main(filename):
         1.0
     )
 
+    client.run(240)
+
     # End record
     visualizer.end_record()
     
