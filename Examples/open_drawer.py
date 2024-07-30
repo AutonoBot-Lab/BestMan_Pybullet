@@ -59,11 +59,11 @@ def main(filename):
 
     # Load drawer
     drawer_id = client.load_object(
+        "elementA",
         "../Asset/Kitchen_models/models_yan/elementA/urdf/kitchen_part_right_gen_convex.urdf",
         [4, 2, 1.477],
         [0, 0, math.pi],
         1.0,
-        "elementA",
         True
     )
     
