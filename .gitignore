@@ -8,8 +8,10 @@ Motion_Planning/Manipulation/Grasp/.TimeRecord
 Motion_Planning/Manipulation/Grasp/Grasp_Pose_Estimation/AnyGrasp/license/
 .TimeRecord
 Test
-Examples/image/
+Examples/image/rgb*
+Examples/image/depth*
 Examples/record/
+!Examples/record/.gitkeep
 Examples/blender/
 Asset/mobile_manipulator/arm/moveit_config
 Perception/Grasp_Pose_Estimation/AnyGrasp/license
