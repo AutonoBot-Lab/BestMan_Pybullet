@@ -158,6 +158,7 @@ class Camera:
         if enable_show:
             plt.imshow(rgb)
             plt.axis('off')
+            plt.title('rgb image')
             plt.show()
 
         if enable_save:
@@ -236,6 +237,7 @@ class Camera:
             custom_cmap = LinearSegmentedColormap("custom_cmap", cdict)
             plt.imshow(depth, cmap=custom_cmap)
             plt.colorbar()
+            plt.title('depth image')
             plt.show()
 
         if enable_save:
