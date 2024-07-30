@@ -10,7 +10,7 @@ Motion_Planning/Manipulation/Grasp/Grasp_Pose_Estimation/AnyGrasp/license/
 Test
 Examples/image/rgb*
 Examples/image/depth*
-Examples/record/
+Examples/record/*
 !Examples/record/.gitkeep
 Examples/blender/
 Asset/mobile_manipulator/arm/moveit_config
