@@ -11,7 +11,11 @@ import numpy as np
 
 
 class PyBulletRecorder:
+    """A class for recording PyBullet simulations."""
+
     class LinkTracker:
+        """Tracks the state of a link in the simulation."""
+
         def __init__(self,
                      type,
                      name,
@@ -20,6 +24,18 @@ class PyBulletRecorder:
                      link_origin,
                      mesh_path,
                      mesh_scale):
+            """
+            Initializes the LinkTracker class.
+            
+            Args:
+                type (str): The type of the link (e.g., 'mesh', 'box').
+                name (str): The name of the link.
+                body_id (int): The ID of the body to which the link belongs.
+                link_id (int): The ID of the link.
+                link_origin (np.ndarray): The origin transformation of the link.
+                mesh_path (str): The path to the mesh file.
+                mesh_scale (list): The scale of the mesh.
+            """
             self.type = type
             self.name = name
             self.body_id = body_id
@@ -33,7 +49,15 @@ class PyBulletRecorder:
             self.mesh_scale = mesh_scale
         
         def transform(self, position, orientation):
-            """link Local pose to global pose
+            """
+            Transforms a local pose to a global pose.
+            
+            Args:
+                position (list): The position of the link.
+                orientation (list): The orientation of the link.
+            
+            Returns:
+                tuple: The transformed position and orientation.
             """
             return p.multiplyTransforms(
                 position, orientation,
@@ -41,7 +65,11 @@ class PyBulletRecorder:
             )
 
         def get_keyframe(self):
-            """get link global pose
+            """
+            Gets the global pose of the link.
+            
+            Returns:
+                dict: The position and orientation of the link.
             """
             if self.link_id == -1:
                 position, orientation = p.getBasePositionAndOrientation(
@@ -62,11 +90,20 @@ class PyBulletRecorder:
             }
 
     def __init__(self):
+        """Initializes the PyBulletRecorder class."""
         self.frame_cnt = 0
         self.states = []
         self.links = []
 
     def register_object(self, body_id, urdf_path, global_scaling):
+        """
+        Registers an object in the simulation for tracking.
+        
+        Args:
+            body_id (int): The ID of the body to be registered.
+            urdf_path (str): The path to the URDF file of the object.
+            global_scaling (float): The global scaling factor for the object.
+        """
         link_id_map = dict()
         n = p.getNumJoints(body_id)
         link_id_map[p.getBodyInfo(body_id)[0].decode('gb2312')] = -1    # object base link id
@@ -148,6 +185,7 @@ class PyBulletRecorder:
                             ))
 
     def add_keyframe(self):
+        """Adds a keyframe of the current simulation state."""
         # Ideally, call every p.stepSimulation()
         current_state = {}
         for link in self.links:
@@ -158,6 +196,7 @@ class PyBulletRecorder:
         self.frame_cnt += 1
 
     def prompt_save(self):
+        """Prompts the user to save the recorded simulation states."""
         layout = [[sg.Text('Do you want to save previous episode?')],
                   [sg.Button('Yes'), sg.Button('No')]]
         window = sg.Window('PyBullet Recorder', layout)
@@ -181,9 +220,16 @@ class PyBulletRecorder:
         self.reset()
 
     def reset(self):
+        """Resets the recorded simulation states."""
         self.states = []
 
     def get_formatted_output(self):
+        """
+        Gets the formatted output of the recorded simulation states.
+        
+        Returns:
+            dict: Formatted output of the recorded simulation states.
+        """
         retval = {}
         for link in self.links:
             retval[link.name] = {
@@ -196,6 +242,12 @@ class PyBulletRecorder:
         return retval
     
     def save(self, path):
+        """
+        Saves the recorded simulation states to a file.
+        
+        Args:
+            path (str): The path to save the recorded simulation states.
+        """
         if path is None:
             print("[Recorder] Path is None.. not saving")
         else:

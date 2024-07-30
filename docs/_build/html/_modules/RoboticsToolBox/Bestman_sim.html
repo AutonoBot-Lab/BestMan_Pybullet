@@ -1,0 +1,1207 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RoboticsToolBox.Bestman_sim &#8212; BestMan_Pybullet 1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/RoboticsToolBox/Bestman_sim';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">BestMan_Pybullet 1.0 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for RoboticsToolBox.Bestman_sim</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">@Description :   A few functions used in bestman robot, where the robot has a base and an arm.</span>
+<span class="sd">@Author      :   Yan Ding </span>
+<span class="sd">@Time        :   2023/08/30 20:43:44</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pybullet</span> <span class="k">as</span> <span class="nn">p</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
+
+<span class="kn">from</span> <span class="nn">.Pose</span> <span class="kn">import</span> <span class="n">Pose</span>
+<span class="kn">from</span> <span class="nn">Visualization</span> <span class="kn">import</span> <span class="n">Camera</span>
+<span class="kn">from</span> <span class="nn">Controller</span> <span class="kn">import</span> <span class="n">PIDController</span>
+
+
+<div class="viewcode-block" id="Bestman_sim"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim">[docs]</a><span class="k">class</span> <span class="nc">Bestman_sim</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A basic class for BestMan robot</span>
+<span class="sd">        </span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        client (object): The pybullet client object.</span>
+<span class="sd">        client_id (int): The client id returned by the pybullet client.</span>
+<span class="sd">        </span>
+<span class="sd">        frequency (int): The frequency of the PID controller.</span>
+<span class="sd">        timeout (float): The timeout value for the PID controller.</span>
+<span class="sd">        max_force (int): The maximum force for the PID controller.</span>
+<span class="sd">        max_iterations (int): The maximum number of iterations for the PID controller.</span>
+<span class="sd">        threshold (float): The threshold value for the PID controller.</span>
+<span class="sd">        max_attempts (int): The maximum number of attempts for the PID controller.</span>
+<span class="sd">        target_distance (float): The target distance for the PID controller.</span>
+<span class="sd">        controller (object): The PID controller object.</span>
+<span class="sd">        rotated (bool): A flag indicating whether the object has been rotated.</span>
+<span class="sd">        </span>
+<span class="sd">        init_pos (object): The initial position object.</span>
+<span class="sd">        base_id (int): The base id of the URDF model.</span>
+<span class="sd">        arm_id (int): The arm id of the URDF model.</span>
+<span class="sd">        arm_joints_idx (list): A list of joint indexes.</span>
+<span class="sd">        arm_height (float): The height of the arm.</span>
+<span class="sd">        end_effector_index (int): The index of the end effector.</span>
+<span class="sd">        tcp_link (int): The tcp link index.</span>
+<span class="sd">        tcp_height (float): The height of the tcp link.</span>
+<span class="sd">        </span>
+<span class="sd">        visualizer (object): The visualizer object.</span>
+<span class="sd">        gripper_id (None): The gripper id. Initialized to None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="Bestman_sim.__init__"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">visualizer</span><span class="p">,</span>  <span class="n">cfg</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a new robot.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            client (object): The pybullet client object.</span>
+<span class="sd">            visualizer (object): The visualizer object.</span>
+<span class="sd">            cfg (object): Configuration object containing parameters for the PID controller and robot setup.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_client_id</span><span class="p">()</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">visualizer</span> <span class="o">=</span> <span class="n">visualizer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enable_cache</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">URDF_ENABLE_CACHED_GRAPHICS_SHAPES</span>   <span class="c1"># Enable caching of graphic shapes when loading URDF files</span>
+        
+        <span class="c1"># Init PID controller</span>
+        <span class="n">controller_cfg</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">Controller</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frequency</span> <span class="o">=</span> <span class="n">controller_cfg</span><span class="o">.</span><span class="n">frequency</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">controller_cfg</span><span class="o">.</span><span class="n">timeout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_force</span> <span class="o">=</span> <span class="n">controller_cfg</span><span class="o">.</span><span class="n">max_force</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_iterations</span> <span class="o">=</span> <span class="n">controller_cfg</span><span class="o">.</span><span class="n">max_iterations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span> <span class="o">=</span> <span class="n">controller_cfg</span><span class="o">.</span><span class="n">threshold</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_attempts</span> <span class="o">=</span> <span class="n">controller_cfg</span><span class="o">.</span><span class="n">max_attempts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_distance</span> <span class="o">=</span> <span class="n">controller_cfg</span><span class="o">.</span><span class="n">target_distance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distance_controller</span> <span class="o">=</span> <span class="n">PIDController</span><span class="p">(</span>
+            <span class="n">Kp</span><span class="o">=</span><span class="n">controller_cfg</span><span class="o">.</span><span class="n">Kp</span><span class="p">,</span> <span class="n">Ki</span><span class="o">=</span><span class="n">controller_cfg</span><span class="o">.</span><span class="n">Ki</span><span class="p">,</span> <span class="n">Kd</span><span class="o">=</span><span class="n">controller_cfg</span><span class="o">.</span><span class="n">Kd</span><span class="p">,</span> <span class="n">setpoint</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">target_distance</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rotated</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Init base</span>
+        <span class="n">robot_cfg</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">Robot</span>
+        <span class="n">init_pose</span> <span class="o">=</span> <span class="n">Pose</span><span class="p">(</span><span class="n">robot_cfg</span><span class="o">.</span><span class="n">init_pose</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span> <span class="n">robot_cfg</span><span class="o">.</span><span class="n">init_pose</span><span class="p">[</span><span class="mi">3</span><span class="p">:])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">load_object</span><span class="p">(</span>
+            <span class="n">obj_name</span><span class="o">=</span><span class="s1">&#39;base&#39;</span><span class="p">,</span>
+            <span class="n">model_path</span><span class="o">=</span><span class="n">robot_cfg</span><span class="o">.</span><span class="n">base_urdf_path</span><span class="p">,</span>
+            <span class="n">object_position</span><span class="o">=</span><span class="n">init_pose</span><span class="o">.</span><span class="n">position</span><span class="p">,</span>
+            <span class="n">object_orientation</span><span class="o">=</span><span class="n">init_pose</span><span class="o">.</span><span class="n">orientation</span><span class="p">,</span>
+            <span class="n">fixed_base</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="p">)</span>
+        
+        <span class="c1"># Init arm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">load_object</span><span class="p">(</span>
+            <span class="n">obj_name</span><span class="o">=</span><span class="s1">&#39;arm&#39;</span><span class="p">,</span>
+            <span class="n">model_path</span><span class="o">=</span><span class="n">robot_cfg</span><span class="o">.</span><span class="n">arm_urdf_path</span><span class="p">,</span>
+            <span class="n">object_position</span><span class="o">=</span><span class="n">init_pose</span><span class="o">.</span><span class="n">position</span><span class="p">,</span>
+            <span class="n">object_orientation</span><span class="o">=</span><span class="n">init_pose</span><span class="o">.</span><span class="n">orientation</span><span class="p">,</span>
+            <span class="n">fixed_base</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arm_joints_idx</span> <span class="o">=</span> <span class="n">robot_cfg</span><span class="o">.</span><span class="n">arm_joints_idx</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DOF</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_joints_idx</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arm_height</span> <span class="o">=</span> <span class="n">robot_cfg</span><span class="o">.</span><span class="n">arm_height</span>
+        
+        <span class="c1"># Add constraint between base and arm</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">createConstraint</span><span class="p">(</span>
+            <span class="n">parentBodyUniqueId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">base_id</span><span class="p">,</span>
+            <span class="n">parentLinkIndex</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">childBodyUniqueId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span>
+            <span class="n">childLinkIndex</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">jointType</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">JOINT_FIXED</span><span class="p">,</span>
+            <span class="n">jointAxis</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="n">parentFramePosition</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="n">childFramePosition</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
+        <span class="p">)</span>
+        
+        <span class="c1"># synchronize base and arm positions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_yaw</span> <span class="o">=</span> <span class="n">init_pose</span><span class="o">.</span><span class="n">yaw</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim_sync_base_arm_pose</span><span class="p">()</span>
+        
+        <span class="c1"># Init arm joint angle</span>
+        <span class="c1"># self.move_arm_to_joint_values(robot_cfg.init_joint)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim_set_arm_to_joint_values</span><span class="p">(</span><span class="n">robot_cfg</span><span class="o">.</span><span class="n">init_joint</span><span class="p">)</span>
+        
+        <span class="c1"># change robot color</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visualizer</span><span class="o">.</span><span class="n">change_robot_color</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        
+        <span class="c1"># Init camera</span>
+        <span class="n">Camera_cfg</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">Camera</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera</span> <span class="o">=</span> <span class="n">Camera</span><span class="p">(</span><span class="n">Camera_cfg</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_height</span><span class="p">)</span>
+        
+        <span class="c1"># update image</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">get_rgb_image</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">get_depth_image</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_effector_index</span> <span class="o">=</span> <span class="n">robot_cfg</span><span class="o">.</span><span class="n">end_effector_index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tcp_link</span> <span class="o">=</span> <span class="n">robot_cfg</span><span class="o">.</span><span class="n">tcp_link</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tcp_height</span> <span class="o">=</span> <span class="n">robot_cfg</span><span class="o">.</span><span class="n">tcp_height</span>
+        
+        <span class="c1"># global parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_pose</span> <span class="o">=</span> <span class="n">init_pose</span>   <span class="c1"># Used when resetting the robot position</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gripper_id</span> <span class="o">=</span> <span class="kc">None</span>       <span class="c1"># Used for grasp </span></div>
+
+    
+    <span class="c1"># ----------------------------------------------------------------</span>
+    <span class="c1"># functions for base</span>
+    <span class="c1"># ----------------------------------------------------------------</span>
+    
+<div class="viewcode-block" id="Bestman_sim.get_base_id"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.get_base_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_base_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the ID of the robot base.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The ID of the robot base.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_id</span></div>
+
+<div class="viewcode-block" id="Bestman_sim.get_current_base_pose"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.get_current_base_pose">[docs]</a>    <span class="k">def</span> <span class="nf">get_current_base_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the current position and orientation of the robot base.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Pose: A Pose object representing the current pose of the base.</span>
+<span class="sd">                  The pose contains the position as a list [x, y, z] and the orientation as a list [roll, pitch, yaw].</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">base_position</span><span class="p">,</span> <span class="n">base_orientation</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getBasePositionAndOrientation</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_id</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">Pose</span><span class="p">(</span><span class="n">base_position</span><span class="p">,</span> <span class="n">base_orientation</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Bestman_sim.stop_base"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.stop_base">[docs]</a>    <span class="k">def</span> <span class="nf">stop_base</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stops the movement of the robot base by setting its velocity to zero.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the base has been successfully stopped.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">zero_velocity</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">resetBaseVelocity</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_id</span><span class="p">,</span> <span class="n">zero_velocity</span><span class="p">,</span> <span class="n">zero_velocity</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+    
+<div class="viewcode-block" id="Bestman_sim.rotate_base"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.rotate_base">[docs]</a>    <span class="k">def</span> <span class="nf">rotate_base</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_yaw</span><span class="p">,</span> <span class="n">gradual</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">step_size</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">delay_time</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Rotate base to a specified yaw angle. Can be done gradually or at once.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            target_yaw (float): The target yaw angle (in radians) for the base.</span>
+<span class="sd">            gradual (bool): If True, the rotation is done gradually. Otherwise, it&#39;s instant.</span>
+<span class="sd">            step_size (float, optional): Angle increment for each step in radians. Only used if gradual=True.</span>
+<span class="sd">            delay_time (float, optional): Delay in seconds after each step. Only used if gradual=True.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">angle_to_quaternion</span><span class="p">(</span><span class="n">yaw</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">yaw</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">yaw</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)]</span>
+        
+        <span class="k">if</span> <span class="n">gradual</span><span class="p">:</span>
+            
+            <span class="k">while</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_yaw</span> <span class="o">-</span> <span class="n">target_yaw</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">step_size</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">target_yaw</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_yaw</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">current_yaw</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_yaw</span> <span class="o">+</span> <span class="n">step_size</span><span class="p">,</span> <span class="n">target_yaw</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">current_yaw</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_yaw</span> <span class="o">-</span> <span class="n">step_size</span><span class="p">,</span> <span class="n">target_yaw</span><span class="p">)</span>
+
+                <span class="n">orientation</span> <span class="o">=</span> <span class="n">angle_to_quaternion</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_yaw</span><span class="p">)</span>
+                <span class="n">position</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getBasePositionAndOrientation</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">base_id</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
+                <span class="p">)</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">resetBasePositionAndOrientation</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">base_id</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">orientation</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
+                <span class="p">)</span>
+                
+                <span class="bp">self</span><span class="o">.</span><span class="n">sim_sync_base_arm_pose</span><span class="p">()</span>
+
+            <span class="c1"># Ensure final orientation is set accurately</span>
+            <span class="n">orientation</span> <span class="o">=</span> <span class="n">angle_to_quaternion</span><span class="p">(</span><span class="n">target_yaw</span><span class="p">)</span>
+            <span class="n">position</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getBasePositionAndOrientation</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">base_id</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
+            <span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">resetBasePositionAndOrientation</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">base_id</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">orientation</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">orientation</span> <span class="o">=</span> <span class="n">angle_to_quaternion</span><span class="p">(</span><span class="n">target_yaw</span><span class="p">)</span>
+            <span class="n">position</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getBasePositionAndOrientation</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">base_id</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
+            <span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">resetBasePositionAndOrientation</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">base_id</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">orientation</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
+            <span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">sim_sync_base_arm_pose</span><span class="p">()</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">()</span></div>
+        
+        <span class="c1"># self.camera.update()</span>
+    
+<div class="viewcode-block" id="Bestman_sim.sim_action"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.sim_action">[docs]</a>    <span class="k">def</span> <span class="nf">sim_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Ajust base position using PID controller&#39;s output</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            output (float): The output of the PID controller, which is used to calculate the new position of the robot&#39;s base.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">position</span><span class="p">,</span> <span class="n">orientation</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getBasePositionAndOrientation</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_id</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
+        <span class="p">)</span>
+        <span class="n">euler_angles</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getEulerFromQuaternion</span><span class="p">(</span>
+            <span class="n">orientation</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
+        <span class="p">)</span>
+
+        <span class="n">delta_x</span> <span class="o">=</span> <span class="n">output</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">euler_angles</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">delta_y</span> <span class="o">=</span> <span class="n">output</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">euler_angles</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+        <span class="n">target_position</span> <span class="o">=</span> <span class="p">[</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">delta_y</span><span class="p">,</span> <span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span>
+        <span class="n">target_orientation</span> <span class="o">=</span> <span class="n">orientation</span>
+
+        <span class="n">p</span><span class="o">.</span><span class="n">resetBasePositionAndOrientation</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_id</span><span class="p">,</span>
+            <span class="n">target_position</span><span class="p">,</span>
+            <span class="n">target_orientation</span><span class="p">,</span>
+            <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
+        <span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim_sync_base_arm_pose</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="Bestman_sim.move_base_to_waypoint"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.move_base_to_waypoint">[docs]</a>    <span class="k">def</span> <span class="nf">move_base_to_waypoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">waypoint</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Move base to waypoint</span>
+<span class="sd">        The robot first rotates towards the target, and then moves towards it in a straight line.</span>
+<span class="sd">        The movement is controlled by a controller (assumed to be a PID controller) that adjusts the velocity of the robot based on the distance to the target.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            waypoint (Pose): The target pose (position and orientation) for the robot. This should be an instance of a Pose class, which is assumed to have &#39;x&#39; and &#39;y&#39; properties.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next_waypoint</span> <span class="o">=</span> <span class="n">waypoint</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_distance</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rotated</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">pose</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_base_pose</span><span class="p">()</span>
+            <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_waypoint</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">pose</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pose</span><span class="o">.</span><span class="n">y</span>
+
+            <span class="n">distance</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">target</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">yaw</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">y</span><span class="p">,</span> <span class="n">target</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">distance_controller</span><span class="o">.</span><span class="n">set_goal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target_distance</span><span class="p">)</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance_controller</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">distance</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotated</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rotate_base</span><span class="p">(</span><span class="n">yaw</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rotated</span> <span class="o">=</span> <span class="kc">True</span>
+            
+            <span class="n">THRESHOLD</span> <span class="o">=</span> <span class="mf">0.01</span>
+            <span class="k">if</span> <span class="n">distance</span> <span class="o">&lt;</span> <span class="n">THRESHOLD</span><span class="p">:</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="mf">0.0</span>
+                <span class="n">pose</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_base_pose</span><span class="p">()</span>
+                <span class="k">break</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">sim_action</span><span class="p">(</span><span class="o">-</span><span class="n">output</span><span class="p">)</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> </div>
+    
+<div class="viewcode-block" id="Bestman_sim.navigate_base"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.navigate_base">[docs]</a>    <span class="k">def</span> <span class="nf">navigate_base</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">goal_base_pose</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">enable_plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Navigate a robot from its current position to a specified goal position</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            goal_base_pose (Pose): The target pose (position and orientation) for the robot.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># for i, waypoint in enumerate(path, start=1):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)):</span>
+            
+            <span class="n">next_point</span> <span class="o">=</span> <span class="p">[</span><span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="c1"># move to each waypoint</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">move_base_to_waypoint</span><span class="p">(</span>
+                <span class="n">Pose</span><span class="p">([</span><span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">],</span> <span class="n">goal_base_pose</span><span class="o">.</span><span class="n">orientation</span><span class="p">)</span>
+            <span class="p">)</span>
+            
+            <span class="c1"># draw the trajectory</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">enable_plot</span><span class="p">:</span>
+                <span class="n">front_point</span> <span class="o">=</span> <span class="p">[</span><span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">]</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">addUserDebugLine</span><span class="p">(</span><span class="n">front_point</span><span class="p">,</span> <span class="n">next_point</span><span class="p">,</span> <span class="n">lineColorRGB</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">lineWidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
+
+            <span class="c1"># self.camera.update()</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">rotate_base</span><span class="p">(</span><span class="n">goal_base_pose</span><span class="o">.</span><span class="n">yaw</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+        <span class="c1"># self.camera.update()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;Navigation is done!&quot;</span><span class="p">)</span></div>
+    
+    
+    <span class="c1"># ----------------------------------------------------------------</span>
+    <span class="c1"># functions for arm</span>
+    <span class="c1"># ----------------------------------------------------------------</span>
+    
+<div class="viewcode-block" id="Bestman_sim.get_arm_id"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.get_arm_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_arm_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the ID of the robot arm.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The ID of the robot arm.</span>
+<span class="sd">        &quot;&quot;&quot;</span>  
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span></div>
+    
+<div class="viewcode-block" id="Bestman_sim.get_DOF"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.get_DOF">[docs]</a>    <span class="k">def</span> <span class="nf">get_DOF</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the degree of freedom (DOF) of the robot arm.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The degree of freedom of the robot arm.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">DOF</span></div>
+    
+<div class="viewcode-block" id="Bestman_sim.get_joint_idx"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.get_joint_idx">[docs]</a>    <span class="k">def</span> <span class="nf">get_joint_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the indices of the joints in the robot arm.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of indices for the joints in the robot arm.</span>
+<span class="sd">        &quot;&quot;&quot;</span>  
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_joints_idx</span></div>
+    
+<div class="viewcode-block" id="Bestman_sim.get_all_joint_idx"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.get_all_joint_idx">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_joint_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the indices of the joints in the robot arm.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of indices for the joints in the robot arm.</span>
+<span class="sd">        &quot;&quot;&quot;</span>  
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">getNumJoints</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)))</span></div>
+    
+<div class="viewcode-block" id="Bestman_sim.get_tcp_link"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.get_tcp_link">[docs]</a>    <span class="k">def</span> <span class="nf">get_tcp_link</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the TCP (Tool Center Point) link of the robot arm.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The TCP link of the robot arm.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tcp_link</span></div>
+    
+<div class="viewcode-block" id="Bestman_sim.get_tcp_link_height"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.get_tcp_link_height">[docs]</a>    <span class="k">def</span> <span class="nf">get_tcp_link_height</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the TCP (Tool Center Point) link height of the robot arm.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The TCP link of the robot arm.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tcp_height</span></div>
+    
+<div class="viewcode-block" id="Bestman_sim.get_end_effector_link"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.get_end_effector_link">[docs]</a>    <span class="k">def</span> <span class="nf">get_end_effector_link</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the end effector link id </span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The end effector link id of the robot arm.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_effector_index</span></div>
+
+<div class="viewcode-block" id="Bestman_sim.get_joint_bounds"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.get_joint_bounds">[docs]</a>    <span class="k">def</span> <span class="nf">get_joint_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the joint bounds of the robot arm.</span>
+<span class="sd">        </span>
+<span class="sd">        By default, this function reads the joint bounds from pybullet.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of tuples representing the joint bounds, where each tuple contains the minimum and maximum values for a joint.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">joint_bounds</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">getJointInfo</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span> <span class="n">joint_id</span><span class="p">)[</span><span class="mi">8</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span> <span class="k">for</span> <span class="n">joint_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_joints_idx</span><span class="p">]</span>    <span class="c1"># get joint lower and upper limit</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Joint bounds: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">joint_bounds</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">joint_bounds</span></div>
+
+<div class="viewcode-block" id="Bestman_sim.get_current_joint_values"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.get_current_joint_values">[docs]</a>    <span class="k">def</span> <span class="nf">get_current_joint_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve arm&#39;s joint angle</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+            
+        <span class="n">current_joint_values</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">getJointState</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_joints_idx</span>
+        <span class="p">]</span>
+        
+        <span class="k">return</span> <span class="n">current_joint_values</span></div>
+
+<div class="viewcode-block" id="Bestman_sim.get_current_end_effector_pose"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.get_current_end_effector_pose">[docs]</a>    <span class="k">def</span> <span class="nf">get_current_end_effector_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve arm&#39;s end effect information</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">end_effector_info</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getLinkState</span><span class="p">(</span>
+            <span class="n">bodyUniqueId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span>
+            <span class="n">linkIndex</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">end_effector_index</span><span class="p">,</span>
+            <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">Pose</span><span class="p">(</span><span class="n">end_effector_info</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">end_effector_info</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span></div>
+    
+<div class="viewcode-block" id="Bestman_sim.sim_adjust_arm_height"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.sim_adjust_arm_height">[docs]</a>    <span class="k">def</span> <span class="nf">sim_adjust_arm_height</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Dynamically adjusts the height of the robot arm.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            height (float): The new height to set for the robot arm.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arm_height</span> <span class="o">=</span> <span class="n">height</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;Arm height has changed into </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">height</span><span class="p">))</span></div>
+    
+<div class="viewcode-block" id="Bestman_sim.sim_set_arm_to_joint_values"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.sim_set_arm_to_joint_values">[docs]</a>    <span class="k">def</span> <span class="nf">sim_set_arm_to_joint_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_values</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set arm to move to a specific set of joint angles, witout considering physics</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            joint_values: A list of desired joint angles (in radians) for each joint of the arm.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">for</span> <span class="n">joint</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_joints_idx</span><span class="p">,</span> <span class="n">joint_values</span><span class="p">):</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">resetJointState</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span> <span class="n">joint</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">targetVelocity</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span></div>
+            
+<div class="viewcode-block" id="Bestman_sim.sim_debug_set_arm_to_joint_values"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.sim_debug_set_arm_to_joint_values">[docs]</a>    <span class="k">def</span> <span class="nf">sim_debug_set_arm_to_joint_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Manually set each joint value of the arm for debugging purposes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">joint_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_joint_values</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Current joint angles: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">joint_values</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_joints_idx</span><span class="p">:</span>
+            <span class="n">joint_value</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span>
+                <span class="s2">&quot;Enter value for joint </span><span class="si">{}</span><span class="s2"> (current value: </span><span class="si">{}</span><span class="s2">) or &#39;skip&#39; to keep current value: &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">i</span><span class="p">,</span> <span class="n">joint_values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">joint_value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;q&quot;</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Skipping joint </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                <span class="k">continue</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">joint_values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">joint_value</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Invalid input. Keeping current value for joint </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim_set_arm_to_joint_values</span><span class="p">(</span><span class="n">joint_values</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Updated joint angles: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">joint_values</span><span class="p">))</span></div>
+    
+<div class="viewcode-block" id="Bestman_sim.move_arm_to_joint_values"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.move_arm_to_joint_values">[docs]</a>    <span class="k">def</span> <span class="nf">move_arm_to_joint_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_values</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Move arm to move to a specific set of joint angles, with considering physics</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            joint_values: A list of desired joint angles (in radians) for each joint of the arm.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">p</span><span class="o">.</span><span class="n">setJointMotorControlArray</span><span class="p">(</span>
+            <span class="n">bodyIndex</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span>
+            <span class="n">jointIndices</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_joints_idx</span><span class="p">,</span>
+            <span class="n">controlMode</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">POSITION_CONTROL</span><span class="p">,</span>
+            <span class="n">targetPositions</span><span class="o">=</span><span class="n">joint_values</span><span class="p">,</span>
+            <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
+        <span class="p">)</span>
+        
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># avoid time anomaly</span>
+
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+            <span class="n">joint_states</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getJointStates</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_joints_idx</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
+            <span class="n">current_angles</span> <span class="o">=</span> <span class="p">[</span><span class="n">state</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">joint_states</span><span class="p">]</span>
+            <span class="n">diff_angles</span> <span class="o">=</span> <span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">joint_values</span><span class="p">,</span> <span class="n">current_angles</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">diff</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span> <span class="k">for</span> <span class="n">diff</span> <span class="ow">in</span> <span class="n">diff_angles</span><span class="p">):</span>
+                <span class="k">break</span>
+            
+            <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">:</span>  <span class="c1"># avoid time anomaly</span>
+                <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">getContactPoints</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">):</span>
+                    <span class="k">assert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;The arm collides with other objects!&quot;</span><span class="p">)</span>
+                <span class="c1"># print(&quot;-&quot; * 20 + &quot;\n&quot; + &quot;Timeout before reaching target joint position.&quot;)</span>
+                <span class="k">break</span></div>
+            
+<div class="viewcode-block" id="Bestman_sim.joints_to_cartesian"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.joints_to_cartesian">[docs]</a>    <span class="k">def</span> <span class="nf">joints_to_cartesian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_values</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms the robot arm&#39;s joint angles to its Cartesian coordinates.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            joint_values (list): A list of joint angles for the robot arm.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple: A tuple containing the Cartesian coordinates (position and orientation) of the robot arm.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">move_arm_to_joint_values</span><span class="p">(</span><span class="n">joint_values</span><span class="p">)</span>
+        
+        <span class="n">end_effector_info</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getLinkState</span><span class="p">(</span>
+            <span class="n">bodyUniqueId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span>
+            <span class="n">linkIndex</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">end_effector_index</span><span class="p">,</span>
+            <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">orientation</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getEulerFromQuaternion</span><span class="p">(</span>
+            <span class="n">end_effector_info</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
+        <span class="p">)</span>
+        <span class="n">position</span> <span class="o">=</span> <span class="n">end_effector_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">Pose</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">orientation</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Bestman_sim.cartesian_to_joints"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.cartesian_to_joints">[docs]</a>    <span class="k">def</span> <span class="nf">cartesian_to_joints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pose</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms the robot arm&#39;s Cartesian coordinates to its joint angles.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            position (list): The Cartesian position of the robot arm.</span>
+<span class="sd">            orientation (list): The Cartesian orientation of the robot arm.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of joint angles corresponding to the given Cartesian coordinates.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">joint_values</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">calculateInverseKinematics</span><span class="p">(</span>
+            <span class="n">bodyUniqueId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span>
+            <span class="n">endEffectorLinkIndex</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">end_effector_index</span><span class="p">,</span>
+            <span class="n">targetPosition</span><span class="o">=</span><span class="n">pose</span><span class="o">.</span><span class="n">position</span><span class="p">,</span>
+            <span class="n">targetOrientation</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">getQuaternionFromEuler</span><span class="p">(</span><span class="n">pose</span><span class="o">.</span><span class="n">orientation</span><span class="p">),</span>
+            <span class="n">maxNumIterations</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_iterations</span><span class="p">,</span>
+            <span class="n">residualThreshold</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">threshold</span><span class="p">,</span>
+            <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
+        <span class="p">)[:</span><span class="bp">self</span><span class="o">.</span><span class="n">DOF</span><span class="p">]</span>
+        
+        <span class="k">return</span> <span class="n">joint_values</span></div>
+    
+<div class="viewcode-block" id="Bestman_sim.rotate_end_effector"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.rotate_end_effector">[docs]</a>    <span class="k">def</span> <span class="nf">rotate_end_effector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Rotate the end effector of the robot arm by a specified angle.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            angle (float): The desired rotation angle in radians.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Change this to your actual joint indices</span>
+        <span class="n">joint_states</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getJointStates</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_joints_idx</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Create a new list of target joint angles</span>
+        <span class="n">target_joint_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">joint_state</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">joint_state</span> <span class="ow">in</span> <span class="n">joint_states</span><span class="p">]</span>
+
+        <span class="c1"># Add desired rotation to the last joint&#39;s current angle</span>
+        <span class="n">target_joint_values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">angle</span>
+
+        <span class="c1"># Set the target angles</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">move_arm_to_joint_values</span><span class="p">(</span><span class="n">target_joint_values</span><span class="p">)</span>
+
+        <span class="c1"># Step the simulation until the joints reach their target angles</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="c1"># Update the current joint states</span>
+            <span class="n">joint_states</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getJointStates</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_joints_idx</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
+            <span class="p">)</span>
+            <span class="n">current_joint_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">joint_state</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">joint_state</span> <span class="ow">in</span> <span class="n">joint_states</span><span class="p">]</span>
+
+            <span class="c1"># Check if all joints have reached their target angles</span>
+            <span class="k">if</span> <span class="nb">all</span><span class="p">(</span>
+                <span class="nb">abs</span><span class="p">(</span><span class="n">current_joint_values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">target_joint_values</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mf">0.01</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_joints_idx</span><span class="p">))</span>
+            <span class="p">):</span>
+                <span class="k">break</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;Rotation completed!&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Bestman_sim.move_end_effector_to_goal_pose"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.move_end_effector_to_goal_pose">[docs]</a>    <span class="k">def</span> <span class="nf">move_end_effector_to_goal_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">end_effector_goal_pose</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Move arm&#39;s end effector to a target position.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            end_effector_goal_pose (Pose): The desired pose of the end effector (includes both position and orientation).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">start_pose</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_end_effector_pose</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">steps</span><span class="p">):</span>
+            <span class="n">interpolated_position</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">start_pose</span><span class="o">.</span><span class="n">position</span><span class="p">)</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">end_effector_goal_pose</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+            <span class="n">interpolated_orientation</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getQuaternionSlerp</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">getQuaternionFromEuler</span><span class="p">(</span><span class="n">start_pose</span><span class="o">.</span><span class="n">orientation</span><span class="p">),</span> <span class="n">p</span><span class="o">.</span><span class="n">getQuaternionFromEuler</span><span class="p">(</span><span class="n">end_effector_goal_pose</span><span class="o">.</span><span class="n">orientation</span><span class="p">),</span> <span class="n">t</span><span class="p">)</span>
+            <span class="n">interpolated_pose</span> <span class="o">=</span> <span class="n">Pose</span><span class="p">(</span><span class="n">interpolated_position</span><span class="p">,</span> <span class="n">interpolated_orientation</span><span class="p">)</span>
+            <span class="n">joint_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cartesian_to_joints</span><span class="p">(</span><span class="n">interpolated_pose</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">move_arm_to_joint_values</span><span class="p">(</span><span class="n">joint_values</span><span class="p">)</span>
+        <span class="c1"># joint_values = self.cartesian_to_joints(end_effector_goal_pose)</span>
+        <span class="c1"># self.move_arm_to_joint_values(joint_values)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="Bestman_sim.execute_trajectory"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.execute_trajectory">[docs]</a>    <span class="k">def</span> <span class="nf">execute_trajectory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trajectory</span><span class="p">,</span> <span class="n">enable_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute the path planned by Planner</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            trajectory: List, each element is a list of angles, corresponding to a transformation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trajectory</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">move_arm_to_joint_values</span><span class="p">(</span><span class="n">trajectory</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            
+            <span class="c1"># if i % 3 == 0:</span>
+                <span class="c1"># self.visualizer.draw_link_pose(self.arm_id, self.end_effector_index)</span>
+            <span class="n">current_point</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_end_effector_pose</span><span class="p">()</span><span class="o">.</span><span class="n">position</span>
+            
+            <span class="c1"># draw the trajectory</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">enable_plot</span><span class="p">:</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">addUserDebugLine</span><span class="p">(</span><span class="n">front_point</span><span class="p">,</span> <span class="n">current_point</span><span class="p">,</span> <span class="n">lineColorRGB</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">lineWidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
+            
+            <span class="n">front_point</span> <span class="o">=</span> <span class="n">current_point</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;Excite trajectory finished!&quot;</span><span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="Bestman_sim.calculate_IK_error"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.calculate_IK_error">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_IK_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">goal_pose</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the inverse kinematics (IK) error for performing pick-and-place manipulation of an object using a robot arm.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            goal_position: The desired goal position for the target object.</span>
+<span class="sd">            goal_orientation: The desired goal orientation for the target object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">end_effector_pose</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getLinkState</span><span class="p">(</span>
+            <span class="n">bodyUniqueId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span>
+            <span class="n">linkIndex</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">end_effector_index</span><span class="p">,</span>
+            <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
+        <span class="p">)</span>
+        
+        <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">end_effector_pose</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">goal_pose</span><span class="o">.</span><span class="n">position</span><span class="p">))</span>
+        
+        <span class="k">return</span> <span class="n">distance</span></div>
+    
+    
+    <span class="c1"># ----------------------------------------------------------------</span>
+    <span class="c1"># functions between base and arms</span>
+    <span class="c1"># ----------------------------------------------------------------</span>
+    
+<div class="viewcode-block" id="Bestman_sim.get_robot_max_size"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.get_robot_max_size">[docs]</a>    <span class="k">def</span> <span class="nf">get_robot_max_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves the maximum size of the robot (arm and base) in meters.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: The maximum size of the robot in meters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="p">(</span>
+            <span class="n">min_x_base</span><span class="p">,</span>
+            <span class="n">min_y_base</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">,</span>
+            <span class="n">max_x_base</span><span class="p">,</span>
+            <span class="n">max_y_base</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_bounding_box</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_id</span><span class="p">)</span>
+        
+        <span class="p">(</span>
+            <span class="n">min_x_arm</span><span class="p">,</span>
+            <span class="n">min_y_arm</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">,</span>
+            <span class="n">max_x_arm</span><span class="p">,</span>
+            <span class="n">max_y_arm</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_bounding_box</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">)</span>
+        
+        <span class="n">robot_size</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+            <span class="n">max_x_base</span> <span class="o">-</span> <span class="n">min_x_base</span><span class="p">,</span>
+            <span class="n">max_y_base</span> <span class="o">-</span> <span class="n">min_y_base</span><span class="p">,</span>
+            <span class="n">max_x_arm</span> <span class="o">-</span> <span class="n">min_x_arm</span><span class="p">,</span>
+            <span class="n">max_y_arm</span> <span class="o">-</span> <span class="n">min_y_arm</span><span class="p">,</span>
+        <span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">robot_size</span></div>
+    
+<div class="viewcode-block" id="Bestman_sim.print_joint_link_info"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.print_joint_link_info">[docs]</a>    <span class="k">def</span> <span class="nf">print_joint_link_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        print base/arm joint and link info of robot</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            name(str): &#39;base&#39; or &#39;arm&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;base&quot;</span><span class="p">:</span>
+            <span class="nb">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_id</span>
+        <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;arm&quot;</span><span class="p">:</span>
+            <span class="nb">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;unknown name: </span><span class="si">{}</span><span class="s2">, please input base or arm!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+
+        <span class="n">num_joints</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getNumJoints</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;Robot </span><span class="si">{}</span><span class="s2"> has </span><span class="si">{}</span><span class="s2"> joints&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">num_joints</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_joints</span><span class="p">):</span>
+            <span class="n">joint_info</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getJointInfo</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
+            <span class="n">joint_name</span> <span class="o">=</span> <span class="n">joint_info</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">link_name</span> <span class="o">=</span> <span class="n">joint_info</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span>
+            <span class="n">joint_state</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getJointState</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
+            <span class="n">joint_angle</span> <span class="o">=</span> <span class="n">joint_state</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="s2">&quot;Joint index:</span><span class="si">{}</span><span class="s2">, name:</span><span class="si">{}</span><span class="s2">, angle:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">,</span> <span class="n">joint_angle</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Link index: </span><span class="si">{}</span><span class="s2">, name: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">link_name</span><span class="p">))</span></div>
+    
+<div class="viewcode-block" id="Bestman_sim.sim_sync_base_arm_pose"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.sim_sync_base_arm_pose">[docs]</a>    <span class="k">def</span> <span class="nf">sim_sync_base_arm_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Synchronizes the pose of the robot arm with the base.</span>
+<span class="sd">        </span>
+<span class="sd">        This function ensures that the positions of the robot arm and base are aligned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">position</span><span class="p">,</span> <span class="n">orientation</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getBasePositionAndOrientation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_id</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">resetBasePositionAndOrientation</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span> <span class="p">[</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_height</span><span class="p">]</span> <span class="p">,</span> <span class="n">orientation</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
+            <span class="p">)</span></div>
+        
+    
+    <span class="c1"># ----------------------------------------------------------------</span>
+    <span class="c1"># functions for gripper</span>
+    <span class="c1"># ----------------------------------------------------------------</span>
+    
+    <span class="c1"># @abstractmethod</span>
+    <span class="c1"># def sim_active_gripper(self, object, value):</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     Activate or deactivate the gripper.</span>
+        
+    <span class="c1">#     Args:</span>
+    <span class="c1">#         object_id (init): ID of the object related to gripper action.</span>
+    <span class="c1">#         value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     pass    </span>
+    
+    <span class="c1"># ----------------------------------------------------------------</span>
+    <span class="c1"># functions for camera</span>
+    <span class="c1"># ----------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="Bestman_sim.update_camera"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.update_camera">[docs]</a>    <span class="k">def</span> <span class="nf">update_camera</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">update</span><span class="p">()</span></div>
+        
+<div class="viewcode-block" id="Bestman_sim.get_camera_rgb_image"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.get_camera_rgb_image">[docs]</a>    <span class="k">def</span> <span class="nf">get_camera_rgb_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enable_show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">enable_save</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">get_rgb_image</span><span class="p">(</span><span class="n">enable_show</span><span class="p">,</span> <span class="n">enable_save</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="Bestman_sim.get_camera_depth_image"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.get_camera_depth_image">[docs]</a>    <span class="k">def</span> <span class="nf">get_camera_depth_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enable_show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">enable_save</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">get_depth_image</span><span class="p">(</span><span class="n">enable_show</span><span class="p">,</span> <span class="n">enable_save</span><span class="p">)</span></div>
+    
+    
+    <span class="c1"># ----------------------------------------------------------------</span>
+    <span class="c1"># functions for pick / place</span>
+    <span class="c1"># ----------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="Bestman_sim.pick_place_v1"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.pick_place_v1">[docs]</a>    <span class="k">def</span> <span class="nf">pick_place_v1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_id</span><span class="p">,</span> <span class="n">object_goal_pose</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform pick-and-place manipulation of an object using the robot arm.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            object_id: The ID of the target object to be manipulated.</span>
+<span class="sd">            object_goal_position: The goal position for the target object.</span>
+<span class="sd">            object_goal_orientation: The goal orientation for the target object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">object_goal_position</span><span class="p">,</span> <span class="n">object_goal_orientation</span> <span class="o">=</span> <span class="n">object_goal_pose</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="n">object_goal_pose</span><span class="o">.</span><span class="n">orientation</span>
+        
+        <span class="c1"># get target object position</span>
+        <span class="n">object_position_init</span><span class="p">,</span> <span class="n">orientation</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getBasePositionAndOrientation</span><span class="p">(</span>
+            <span class="n">object_id</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
+        <span class="p">)</span>
+        <span class="c1"># consider the object&#39;s height</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">min_z</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">max_z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_bounding_box</span><span class="p">(</span><span class="n">object_id</span><span class="p">)</span>
+
+        <span class="n">temp_height1</span><span class="p">,</span> <span class="n">temp_height2</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.01</span>
+        <span class="n">gripper_status</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;ungrasp&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;grasp&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">step</span> <span class="o">&lt;</span> <span class="mi">20</span><span class="p">:</span>  <span class="c1"># phase 1: move 20cm over object</span>
+                <span class="n">gripper_value</span> <span class="o">=</span> <span class="n">gripper_status</span><span class="p">[</span><span class="s2">&quot;ungrasp&quot;</span><span class="p">]</span>
+                <span class="n">target_position</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">object_position_init</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">object_position_init</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="n">object_position_init</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                    <span class="o">+</span> <span class="p">(</span><span class="n">max_z</span> <span class="o">-</span> <span class="n">min_z</span><span class="p">)</span>
+                    <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tcp_height</span>
+                    <span class="o">+</span> <span class="n">temp_height1</span><span class="p">,</span>
+                <span class="p">]</span>
+            <span class="k">elif</span> <span class="n">step</span> <span class="o">&gt;=</span> <span class="mi">20</span> <span class="ow">and</span> <span class="n">step</span> <span class="o">&lt;</span> <span class="mi">40</span><span class="p">:</span>  <span class="c1"># phase 2: grasp object</span>
+                <span class="n">gripper_value</span> <span class="o">=</span> <span class="n">gripper_status</span><span class="p">[</span><span class="s2">&quot;grasp&quot;</span><span class="p">]</span>
+                <span class="n">target_position</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">object_position_init</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">object_position_init</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="n">object_position_init</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                    <span class="o">+</span> <span class="p">(</span><span class="n">max_z</span> <span class="o">-</span> <span class="n">min_z</span><span class="p">)</span>
+                    <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tcp_height</span>
+                    <span class="o">+</span> <span class="n">temp_height2</span><span class="p">,</span>
+                <span class="p">]</span>
+            <span class="k">elif</span> <span class="n">step</span> <span class="o">&gt;=</span> <span class="mi">40</span> <span class="ow">and</span> <span class="n">step</span> <span class="o">&lt;</span> <span class="mi">60</span><span class="p">:</span>  <span class="c1"># phase 3: move 20cm over goal position</span>
+                <span class="n">gripper_value</span> <span class="o">=</span> <span class="n">gripper_status</span><span class="p">[</span><span class="s2">&quot;grasp&quot;</span><span class="p">]</span>
+                <span class="n">target_position</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">object_goal_position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">object_goal_position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="n">object_goal_position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                    <span class="o">+</span> <span class="p">(</span><span class="n">max_z</span> <span class="o">-</span> <span class="n">min_z</span><span class="p">)</span>
+                    <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tcp_height</span>
+                    <span class="o">+</span> <span class="n">temp_height1</span><span class="p">,</span>
+                <span class="p">]</span>
+            <span class="k">elif</span> <span class="n">step</span> <span class="o">&gt;=</span> <span class="mi">60</span> <span class="ow">and</span> <span class="n">step</span> <span class="o">&lt;</span> <span class="mi">80</span><span class="p">:</span>  <span class="c1"># phase 4: move 5cm over goal position</span>
+                <span class="n">gripper_value</span> <span class="o">=</span> <span class="n">gripper_status</span><span class="p">[</span><span class="s2">&quot;grasp&quot;</span><span class="p">]</span>
+                <span class="n">target_position</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">object_goal_position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">object_goal_position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="n">object_goal_position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                    <span class="o">+</span> <span class="p">(</span><span class="n">max_z</span> <span class="o">-</span> <span class="n">min_z</span><span class="p">)</span>
+                    <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tcp_height</span>
+                    <span class="o">+</span> <span class="n">temp_height2</span><span class="p">,</span>
+                <span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># phase 5: drop object</span>
+                <span class="n">gripper_value</span> <span class="o">=</span> <span class="n">gripper_status</span><span class="p">[</span><span class="s2">&quot;ungrasp&quot;</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">step</span> <span class="o">&lt;</span> <span class="mi">80</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">move_end_effector_to_goal_pose</span><span class="p">(</span>
+                    <span class="n">Pose</span><span class="p">(</span><span class="n">target_position</span><span class="p">,</span> <span class="n">object_goal_orientation</span><span class="p">)</span>
+                <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">gripper_value</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">gripper_id</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">removeConstraint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gripper_id</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">gripper_id</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+                <span class="c1"># for _ in range(self.frequency):</span>
+                <span class="c1">#     p.stepSimulation(physicsClientId=self.client_id)</span>
+
+            <span class="k">if</span> <span class="n">gripper_value</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">gripper_id</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">cube_orn</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getQuaternionFromEuler</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>  <span class="c1"># control rotation</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tcp_link</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">gripper_id</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">createConstraint</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">tcp_link</span><span class="p">,</span>
+                        <span class="n">object_id</span><span class="p">,</span>
+                        <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                        <span class="n">p</span><span class="o">.</span><span class="n">JOINT_FIXED</span><span class="p">,</span>
+                        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                        <span class="n">childFrameOrientation</span><span class="o">=</span><span class="n">cube_orn</span><span class="p">,</span>
+                        <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">gripper_id</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">createConstraint</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">end_effector_index</span><span class="p">,</span>
+                        <span class="n">object_id</span><span class="p">,</span>
+                        <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                        <span class="n">p</span><span class="o">.</span><span class="n">JOINT_FIXED</span><span class="p">,</span>
+                        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                        <span class="n">childFrameOrientation</span><span class="o">=</span><span class="n">cube_orn</span><span class="p">,</span>
+                        <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
+                    <span class="p">)</span>
+
+            <span class="c1"># p.stepSimulation(physicsClientId=self.client_id)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;manipulation is done!&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Bestman_sim.pick_place_v2"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.pick_place_v2">[docs]</a>    <span class="k">def</span> <span class="nf">pick_place_v2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_init_pose</span><span class="p">,</span> <span class="n">object_goal_pose</span><span class="p">):</span>
+        <span class="c1"># TODO</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Bestman_sim.pick_v1"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.pick_v1">[docs]</a>    <span class="k">def</span> <span class="nf">pick_v1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_id</span><span class="p">):</span>
+        <span class="c1"># TODO</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Bestman_sim.pick_v2"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.pick_v2">[docs]</a>    <span class="k">def</span> <span class="nf">pick_v2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_init_pose</span><span class="p">):</span>
+        <span class="c1"># TODO</span>
+        <span class="k">return</span> <span class="kc">None</span></div></div>
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By kui yang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, kui yang.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

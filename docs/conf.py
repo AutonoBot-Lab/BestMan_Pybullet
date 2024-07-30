@@ -10,6 +10,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.abspath('../'))
+sys.path.insert(0, os.path.abspath('../Perception/Grasp_Pose_Estimation/AnyGrasp'))
 
 project = 'BestMan_Pybullet'
 copyright = '2024, kui yang'
@@ -20,6 +21,9 @@ release = '1.0'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = ['myst_parser', 'sphinx.ext.autodoc', 'sphinx.ext.viewcode', 'sphinx.ext.napoleon']
+
+# Mock imports
+autodoc_mock_imports = ["gsnet", "lang_sam", "bpy", "bpy_extras"]
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']

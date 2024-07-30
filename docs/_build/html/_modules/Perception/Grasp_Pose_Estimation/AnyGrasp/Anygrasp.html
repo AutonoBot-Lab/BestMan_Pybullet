@@ -1,0 +1,554 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perception.Grasp_Pose_Estimation.AnyGrasp.Anygrasp &#8212; BestMan_Pybullet 1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/Perception/Grasp_Pose_Estimation/AnyGrasp/Anygrasp';</script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">BestMan_Pybullet 1.0 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for Perception.Grasp_Pose_Estimation.AnyGrasp.Anygrasp</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">gsnet</span> <span class="kn">import</span> <span class="n">AnyGrasp</span>
+<span class="kn">from</span> <span class="nn">graspnetAPI</span> <span class="kn">import</span> <span class="n">GraspGroup</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Bbox</span><span class="p">,</span>
+    <span class="n">get_3d_points</span><span class="p">,</span>
+    <span class="n">visualize_cloud_geometries</span><span class="p">,</span>
+    <span class="n">sample_points</span><span class="p">,</span>
+    <span class="n">draw_rectangle</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">RoboticsToolBox</span> <span class="kn">import</span> <span class="n">Pose</span>
+<span class="kn">from</span> <span class="nn">Visualization</span> <span class="kn">import</span> <span class="n">CameraParameters</span>
+<span class="kn">from</span> <span class="nn">Perception.Object_detection</span> <span class="kn">import</span> <span class="n">Lang_SAM</span>
+
+<div class="viewcode-block" id="Anygrasp"><a class="viewcode-back" href="../../../../references/Perception/Grasp_Pose_Estimation/AnyGrasp/Anygrasp.html#Perception.Grasp_Pose_Estimation.Anygrasp">[docs]</a><span class="k">class</span> <span class="nc">Anygrasp</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class for grasp pose estimation using AnyGrasp model.</span>
+<span class="sd">    </span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        cfgs: Configuration settings.</span>
+<span class="sd">        grasping_model: Instance of AnyGrasp model.</span>
+<span class="sd">        cam: Camera parameters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="Anygrasp.__init__"><a class="viewcode-back" href="../../../../references/Perception/Grasp_Pose_Estimation/AnyGrasp/Anygrasp.html#Perception.Grasp_Pose_Estimation.Anygrasp.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfgs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize Anygrasp class with configurations.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            cfgs: Configuration settings.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cfgs</span> <span class="o">=</span> <span class="n">cfgs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grasping_model</span> <span class="o">=</span> <span class="n">AnyGrasp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfgs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grasping_model</span><span class="o">.</span><span class="n">load_net</span><span class="p">()</span>   </div>
+    
+<div class="viewcode-block" id="Anygrasp.Grasp_Pose_Estimation"><a class="viewcode-back" href="../../../../references/Perception/Grasp_Pose_Estimation/AnyGrasp/Anygrasp.html#Perception.Grasp_Pose_Estimation.Anygrasp.Grasp_Pose_Estimation">[docs]</a>    <span class="k">def</span> <span class="nf">Grasp_Pose_Estimation</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">cam</span><span class="p">:</span> <span class="n">CameraParameters</span><span class="p">,</span>
+        <span class="n">points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">seg_mask</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">bbox</span><span class="p">:</span> <span class="n">Bbox</span><span class="p">,</span>
+        <span class="n">crop_flag</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the optimal grasping pose.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            cam (CameraParameters): Camera internal parameters.</span>
+<span class="sd">            points (np.ndarray): 3D point cloud data.</span>
+<span class="sd">            seg_mask (np.ndarray): Object Mask.</span>
+<span class="sd">            bbox (Bbox): Object bounding box.</span>
+<span class="sd">            crop_flag (bool, optional): Crop flag. Defaults to False.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple[bool, Pose]: Status and best grasp pose.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">cam</span> <span class="o">=</span> <span class="n">cam</span>
+        
+        <span class="c1"># extract x, y, z coordinates from 3D point cloud</span>
+        <span class="n">points_x</span><span class="p">,</span> <span class="n">points_y</span><span class="p">,</span> <span class="n">points_z</span> <span class="o">=</span> <span class="n">points</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">points</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
+
+        <span class="c1"># Filter the point cloud based on depth, keeping points within the specified depth range</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">points_z</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfgs</span><span class="o">.</span><span class="n">min_depth</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">points_z</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfgs</span><span class="o">.</span><span class="n">max_depth</span><span class="p">)</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">points_x</span><span class="p">,</span> <span class="o">-</span><span class="n">points_y</span><span class="p">,</span> <span class="n">points_z</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="n">colors_m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+        <span class="c1"># If the sampling rate is less than 1, the point cloud is downsampled</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfgs</span><span class="o">.</span><span class="n">sampling_rate</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">points</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="n">sample_points</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfgs</span><span class="o">.</span><span class="n">sampling_rate</span><span class="p">)</span>
+            <span class="n">colors_m</span> <span class="o">=</span> <span class="n">colors_m</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
+
+        <span class="c1"># gg is a list of grasps of type graspgroup in graspnetAPI</span>
+        <span class="n">xmin</span> <span class="o">=</span> <span class="n">points</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+        <span class="n">xmax</span> <span class="o">=</span> <span class="n">points</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="n">ymin</span> <span class="o">=</span> <span class="n">points</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+        <span class="n">ymax</span> <span class="o">=</span> <span class="n">points</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="n">zmin</span> <span class="o">=</span> <span class="n">points</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+        <span class="n">zmax</span> <span class="o">=</span> <span class="n">points</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="n">lims</span> <span class="o">=</span> <span class="p">[</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">,</span> <span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">]</span>
+        <span class="c1"># Grasp prediction, return grasp group and point cloud</span>
+        <span class="n">gg</span><span class="p">,</span> <span class="n">cloud</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grasping_model</span><span class="o">.</span><span class="n">get_grasp</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">colors_m</span><span class="p">,</span> <span class="n">lims</span><span class="p">,</span> <span class="n">apply_object_mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dense_grasp</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">collision_detection</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">gg</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[AnyGrasp] No Grasp detected after collision detection!&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
+
+        <span class="c1"># The grasped groups are subjected to non-maximum suppression (NMS) and sorted by scores.</span>
+        <span class="n">gg</span> <span class="o">=</span> <span class="n">gg</span><span class="o">.</span><span class="n">nms</span><span class="p">()</span><span class="o">.</span><span class="n">sort_by_score</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[AnyGrasp] Grasp point nums&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">gg</span><span class="p">))</span>
+
+        <span class="n">filter_gg</span> <span class="o">=</span> <span class="n">GraspGroup</span><span class="p">()</span>
+
+        <span class="c1"># Filtering the grasps by penalising the vertical grasps as they are not robust to calibration errors.</span>
+        <span class="n">W</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">size</span>
+
+        <span class="c1"># Reference direction vector, indicating the ideal grasping direction.</span>
+        <span class="n">ref_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">head_tilt</span><span class="p">),</span> <span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">head_tilt</span><span class="p">)]</span>
+        <span class="p">)</span>
+        <span class="n">min_score</span><span class="p">,</span> <span class="n">max_score</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">image</span><span class="p">)</span>
+        <span class="n">img_drw</span> <span class="o">=</span> <span class="n">draw_rectangle</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">bbox</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">gg</span><span class="p">:</span>
+
+            <span class="n">grasp_center</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">translation</span>
+            <span class="c1"># Convert the coordinates of a grasp center in three-dimensional space to two-dimensional coordinates on the image plane</span>
+            <span class="n">ix</span><span class="p">,</span> <span class="n">iy</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="nb">int</span><span class="p">(((</span><span class="n">grasp_center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">fx</span><span class="p">)</span> <span class="o">/</span> <span class="n">grasp_center</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">cx</span><span class="p">),</span>
+                <span class="nb">int</span><span class="p">(((</span><span class="o">-</span><span class="n">grasp_center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">fy</span><span class="p">)</span> <span class="o">/</span> <span class="n">grasp_center</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">cy</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">ix</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="n">ix</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">if</span> <span class="n">iy</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="n">iy</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">if</span> <span class="n">ix</span> <span class="o">&gt;=</span> <span class="n">W</span><span class="p">:</span> <span class="n">ix</span> <span class="o">=</span> <span class="n">W</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">iy</span> <span class="o">&gt;=</span> <span class="n">H</span><span class="p">:</span> <span class="n">iy</span> <span class="o">=</span> <span class="n">H</span> <span class="o">-</span> <span class="mi">1</span>
+            
+            <span class="c1"># 3 * 3 rotation matrix</span>
+            <span class="n">rotation_matrix</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">rotation_matrix</span>
+            <span class="c1"># x-axis direction, forward direction</span>
+            <span class="n">cur_vec</span> <span class="o">=</span> <span class="n">rotation_matrix</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="c1"># The angle between two vectors</span>
+            <span class="n">angle</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ref_vec</span><span class="p">,</span> <span class="n">cur_vec</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">cur_vec</span><span class="p">)))</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">crop_flag</span><span class="p">:</span>
+                <span class="n">score</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">score</span> <span class="o">-</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="p">(</span><span class="n">angle</span><span class="p">)</span> <span class="o">**</span> <span class="mi">4</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">score</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">score</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">crop_flag</span><span class="p">:</span>
+                <span class="c1"># Check if the grasp point is within the object area</span>
+                <span class="k">if</span> <span class="n">seg_mask</span><span class="p">[</span><span class="n">iy</span><span class="p">,</span> <span class="n">ix</span><span class="p">]:</span>
+                    <span class="n">img_drw</span><span class="o">.</span><span class="n">ellipse</span><span class="p">([(</span><span class="n">ix</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="n">iy</span> <span class="o">-</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">ix</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">iy</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)],</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">g</span><span class="o">.</span><span class="n">score</span> <span class="o">&gt;=</span> <span class="mf">0.095</span><span class="p">:</span>
+                        <span class="n">g</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">score</span>
+                    <span class="n">min_score</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">min_score</span><span class="p">,</span> <span class="n">g</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
+                    <span class="n">max_score</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_score</span><span class="p">,</span> <span class="n">g</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
+                    <span class="n">filter_gg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">img_drw</span><span class="o">.</span><span class="n">ellipse</span><span class="p">([(</span><span class="n">ix</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="n">iy</span> <span class="o">-</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">ix</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">iy</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)],</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">score</span>
+                <span class="n">filter_gg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">filter_gg</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="s2">&quot;[AnyGrasp] No grasp poses detected for this object try to move the object a little and try again&quot;</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
+
+        <span class="n">projections_file_name</span> <span class="o">=</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfgs</span><span class="o">.</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;grasp_projections.png&quot;</span><span class="p">))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        
+        <span class="n">image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">projections_file_name</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[AnyGrasp] Saved projections of grasps at </span><span class="si">{</span><span class="n">projections_file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">filter_gg</span> <span class="o">=</span> <span class="n">filter_gg</span><span class="o">.</span><span class="n">nms</span><span class="p">()</span><span class="o">.</span><span class="n">sort_by_score</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[AnyGrasp] Filter grasp point nums&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">filter_gg</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfgs</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+            <span class="n">trans_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+            <span class="p">)</span>
+            <span class="n">cloud</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">trans_mat</span><span class="p">)</span>
+            <span class="n">grippers</span> <span class="o">=</span> <span class="n">gg</span><span class="o">.</span><span class="n">to_open3d_geometry_list</span><span class="p">()</span>
+            <span class="n">filter_grippers</span> <span class="o">=</span> <span class="n">filter_gg</span><span class="o">.</span><span class="n">to_open3d_geometry_list</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">gripper</span> <span class="ow">in</span> <span class="n">grippers</span><span class="p">:</span>
+                <span class="n">gripper</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">trans_mat</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">gripper</span> <span class="ow">in</span> <span class="n">filter_grippers</span><span class="p">:</span>
+                <span class="n">gripper</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">trans_mat</span><span class="p">)</span>
+
+            <span class="n">visualize_cloud_geometries</span><span class="p">(</span>
+                <span class="n">cloud</span><span class="p">,</span>
+                <span class="n">grippers</span><span class="p">,</span>
+                <span class="n">visualize</span><span class="o">=</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfgs</span><span class="o">.</span><span class="n">headless</span><span class="p">,</span>
+                <span class="n">save_file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfgs</span><span class="o">.</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;poses.png&quot;</span><span class="p">),</span>
+            <span class="p">)</span>
+
+            <span class="n">visualize_cloud_geometries</span><span class="p">(</span>
+                <span class="n">cloud</span><span class="p">,</span>
+                <span class="p">[</span><span class="n">filter_grippers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">paint_uniform_color</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])],</span>
+                <span class="n">visualize</span><span class="o">=</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfgs</span><span class="o">.</span><span class="n">headless</span><span class="p">,</span>
+                <span class="n">save_file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfgs</span><span class="o">.</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;best_pose.png&quot;</span><span class="p">),</span>
+            <span class="p">)</span>
+        
+        <span class="c1"># grasp_result = [</span>
+        <span class="c1">#     filter_gg[0].translation,       # grasp position</span>
+        <span class="c1">#     filter_gg[0].rotation_matrix,   # grasp orientation</span>
+        <span class="c1"># ]</span>
+        <span class="n">grasp_pose</span> <span class="o">=</span> <span class="n">Pose</span><span class="p">(</span><span class="n">filter_gg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">translation</span><span class="p">,</span> <span class="n">filter_gg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rotation_matrix</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">grasp_pose</span></div></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="c1"># set work dir to AnyGrasp</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)))</span>
+
+    <span class="c1"># cfgs</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--checkpoint_path&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;./checkpoints/checkpoint_detection.tar&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Model checkpoint path&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--max_gripper_width&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Maximum gripper width (&lt;=0.1m)&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--gripper_height&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Gripper height&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--top_down_grasp&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output top-down grasps&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--debug&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Enable visualization&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--headless&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Enable headless mode, don&#39;t save visualization result&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--max_depth&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Maximum depth of point cloud&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--min_depth&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Maximum depth of point cloud&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--sampling_rate&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Sampling rate of points [&lt;= 1]&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--input_dir&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;./test_data/example2&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Input data dir&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--output_dir&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;./output/example2&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output data dir&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--fx&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">306</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Focal length in the x direction&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--fy&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">306</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Focal length in the y direction&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--cx&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">118</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Center of the optical axis in the x-direction&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--cy&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">211</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Center of the optical axis in the y-direction&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--scale&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Convert the original depth value in the depth image to the actual depth value&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--head_tilt&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=-</span><span class="mf">0.45</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Tilt angle for ideal gripping pose&quot;</span><span class="p">)</span>
+    <span class="n">cfgs</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="n">cfgs</span><span class="o">.</span><span class="n">max_gripper_width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">cfgs</span><span class="o">.</span><span class="n">max_gripper_width</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">cfgs</span><span class="o">.</span><span class="n">output_dir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">cfgs</span><span class="o">.</span><span class="n">output_dir</span><span class="p">)</span>
+    
+    <span class="c1"># camera parameters</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cfgs</span><span class="o">.</span><span class="n">input_dir</span><span class="p">,</span> <span class="s2">&quot;color.png&quot;</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="o">/</span> <span class="mf">255.0</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cfgs</span><span class="o">.</span><span class="n">input_dir</span><span class="p">,</span> <span class="s2">&quot;color.png&quot;</span><span class="p">))</span>
+    <span class="n">depths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cfgs</span><span class="o">.</span><span class="n">input_dir</span><span class="p">,</span> <span class="s2">&quot;depth.png&quot;</span><span class="p">)))</span> <span class="o">*</span> <span class="n">cfgs</span><span class="o">.</span><span class="n">scale</span>
+    <span class="n">cam</span> <span class="o">=</span> <span class="n">CameraParameters</span><span class="p">(</span><span class="n">cfgs</span><span class="o">.</span><span class="n">fx</span><span class="p">,</span> <span class="n">cfgs</span><span class="o">.</span><span class="n">fy</span><span class="p">,</span> <span class="n">cfgs</span><span class="o">.</span><span class="n">cx</span><span class="p">,</span> <span class="n">cfgs</span><span class="o">.</span><span class="n">cy</span><span class="p">,</span> <span class="n">cfgs</span><span class="o">.</span><span class="n">head_tilt</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">depths</span><span class="p">)</span>
+    
+    <span class="c1"># object detection</span>
+    <span class="n">lang_sam</span> <span class="o">=</span> <span class="n">Lang_SAM</span><span class="p">()</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cfgs</span><span class="o">.</span><span class="n">input_dir</span><span class="p">,</span> <span class="s2">&quot;color.png&quot;</span><span class="p">))</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter a Object name in the image: &quot;</span><span class="p">))</span>
+    <span class="n">seg_mask</span><span class="p">,</span> <span class="n">bbox</span> <span class="o">=</span> <span class="n">lang_sam</span><span class="o">.</span><span class="n">detect_obj</span><span class="p">(</span>
+        <span class="n">image</span><span class="p">,</span>
+        <span class="n">query</span><span class="p">,</span>
+        <span class="n">save_box</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">save_mask</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+
+    <span class="c1"># get 3d points</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">get_3d_points</span><span class="p">(</span><span class="n">cam</span><span class="p">)</span>
+
+    <span class="n">anygrasp</span> <span class="o">=</span> <span class="n">Anygrasp</span><span class="p">(</span><span class="n">cfgs</span><span class="p">)</span>
+    <span class="n">best_pose</span> <span class="o">=</span> <span class="n">anygrasp</span><span class="o">.</span><span class="n">Grasp_Pose_Estimation</span><span class="p">(</span><span class="n">cam</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">seg_mask</span><span class="p">,</span> <span class="n">bbox</span><span class="p">)</span>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By kui yang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, kui yang.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

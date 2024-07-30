@@ -24,11 +24,20 @@ class CameraParameters:
 
 
 class Camera:
-    """Robotic Camera
+    """Robotic Camera.
+    
+    This class handles the camera functionalities for a robotic system, including capturing RGB and depth images.
     """
     
     def __init__(self, cfg, base_id, arm_height):
-        
+        """
+        Initializes the Camera class with configuration, base ID, and arm height.
+
+        Args:
+            cfg (object): Configuration settings for the camera.
+            base_id (int): The base ID of the robot.
+            arm_height (float): The height of the robot arm.
+        """
         self.base_id = base_id
         self.arm_height = arm_height
         
@@ -50,7 +59,12 @@ class Camera:
 
     
     def update(self):
+        """
+        Updates the camera view and projection matrices, captures images, and returns the captured data.
         
+        Returns:
+            tuple: Width, height, RGB image, depth image, and segmentation mask.
+        """
         # get base pose
         position, orientation = p.getBasePositionAndOrientation(self.base_id)
         camera_position = np.array([position[0], position[1], self.arm_height + 0.3])
@@ -94,13 +108,14 @@ class Camera:
     
     def get_rgb_image(self, enable_show=False, enable_save=False):
         """
-        Capture a rgb image from the Camera.
+        Captures an RGB image from the camera.
+
         Args:
-            enable_show(Bool): whether show
-            enable_save(Bool): whether save
-        
+            enable_show (bool, optional): Whether to display the captured image. Defaults to False.
+            enable_save (bool, optional): Whether to save the captured image. Defaults to False.
+
         Returns:
-            rgb(np.array): rgbimage
+            np.ndarray: Captured RGB image.
         """
         
         # get base pose
@@ -157,13 +172,14 @@ class Camera:
     
     def get_depth_image(self, enable_show=False, enable_save=False):
         """
-        Capture a depth image from the Camera.
+        Captures a depth image from the camera.
+
         Args:
-            enable_show(Bool): whether show
-            enable_save(Bool): whether save
-        
+            enable_show (bool, optional): Whether to display the captured image. Defaults to False.
+            enable_save (bool, optional): Whether to save the captured image. Defaults to False.
+
         Returns:
-            depth(np.array): depth image
+            np.ndarray: Captured depth image.
         """
         
         # get base pose

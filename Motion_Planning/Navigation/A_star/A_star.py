@@ -4,7 +4,8 @@ import matplotlib.pyplot as plt
 from ..utils import AreaBounds, plot_rectangle
 
 class AStarPlanner:
-            
+    """AStar Navigation planner"""
+
     def __init__(self, 
         robot_size, 
         obstacles_bounds, 
@@ -26,8 +27,7 @@ class AStarPlanner:
         start_pose,
         goal_pose
     ):
-        """
-        Find a path from a specified initial position to a goal position in a 2D grid representation
+        """Find a path from a specified initial position to a goal position in a 2D grid representation
 
         Args:
             init_base_position (Pose): The initial position of the robot.

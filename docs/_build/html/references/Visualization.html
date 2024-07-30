@@ -1,0 +1,913 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Visualization &#8212; BestMan_Pybullet 1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'references/Visualization';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">BestMan_Pybullet 1.0 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/references/Visualization.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Visualization</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer"><code class="docutils literal notranslate"><span class="pre">Visualizer</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.client"><code class="docutils literal notranslate"><span class="pre">Visualizer.client</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.client_id"><code class="docutils literal notranslate"><span class="pre">Visualizer.client_id</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.set_camera_pose"><code class="docutils literal notranslate"><span class="pre">Visualizer.set_camera_pose()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.capture_screen"><code class="docutils literal notranslate"><span class="pre">Visualizer.capture_screen()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.draw_axes"><code class="docutils literal notranslate"><span class="pre">Visualizer.draw_axes()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.start_record"><code class="docutils literal notranslate"><span class="pre">Visualizer.start_record()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.end_record"><code class="docutils literal notranslate"><span class="pre">Visualizer.end_record()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.draw_line"><code class="docutils literal notranslate"><span class="pre">Visualizer.draw_line()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.remove_all_line"><code class="docutils literal notranslate"><span class="pre">Visualizer.remove_all_line()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.draw_aabb"><code class="docutils literal notranslate"><span class="pre">Visualizer.draw_aabb()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.draw_aabb_link"><code class="docutils literal notranslate"><span class="pre">Visualizer.draw_aabb_link()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.draw_pose"><code class="docutils literal notranslate"><span class="pre">Visualizer.draw_pose()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.draw_link_pose"><code class="docutils literal notranslate"><span class="pre">Visualizer.draw_link_pose()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.change_robot_color"><code class="docutils literal notranslate"><span class="pre">Visualizer.change_robot_color()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.set_object_color"><code class="docutils literal notranslate"><span class="pre">Visualizer.set_object_color()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.set_link_color"><code class="docutils literal notranslate"><span class="pre">Visualizer.set_link_color()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.set_links_color"><code class="docutils literal notranslate"><span class="pre">Visualizer.set_links_color()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.CameraParameters"><code class="docutils literal notranslate"><span class="pre">CameraParameters</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.CameraParameters.fx"><code class="docutils literal notranslate"><span class="pre">CameraParameters.fx</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.CameraParameters.fy"><code class="docutils literal notranslate"><span class="pre">CameraParameters.fy</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.CameraParameters.cx"><code class="docutils literal notranslate"><span class="pre">CameraParameters.cx</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.CameraParameters.cy"><code class="docutils literal notranslate"><span class="pre">CameraParameters.cy</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.CameraParameters.head_tilt"><code class="docutils literal notranslate"><span class="pre">CameraParameters.head_tilt</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.CameraParameters.image"><code class="docutils literal notranslate"><span class="pre">CameraParameters.image</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.CameraParameters.colors"><code class="docutils literal notranslate"><span class="pre">CameraParameters.colors</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.CameraParameters.depths"><code class="docutils literal notranslate"><span class="pre">CameraParameters.depths</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.Camera"><code class="docutils literal notranslate"><span class="pre">Camera</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.Camera.update"><code class="docutils literal notranslate"><span class="pre">Camera.update()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.Camera.get_rgb_image"><code class="docutils literal notranslate"><span class="pre">Camera.get_rgb_image()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.Camera.get_depth_image"><code class="docutils literal notranslate"><span class="pre">Camera.get_depth_image()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.LinkTracker"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.LinkTracker</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.LinkTracker.transform"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.LinkTracker.transform()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.LinkTracker.get_keyframe"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.LinkTracker.get_keyframe()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.register_object"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.register_object()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.add_keyframe"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.add_keyframe()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.prompt_save"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.prompt_save()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.reset"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.reset()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.get_formatted_output"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.get_formatted_output()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.save"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.save()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="module-Visualization.Visualizer">
+<span id="visualization"></span><h1>Visualization<a class="headerlink" href="#module-Visualization.Visualizer" title="Permalink to this heading">#</a></h1>
+<p>&#64;Description :   A few functions for visualization
+&#64;Author      :   Yan Ding
+&#64;Time        :   2023/08/30 22:48:04</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Visualization.Visualizer.Visualizer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Visualization.Visualizer.</span></span><span class="sig-name descname"><span class="pre">Visualizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visualizer_cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Visualizer.html#Visualizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Visualizer.Visualizer" title="Permalink to this definition">#</a></dt>
+<dd><p>A class for visualizing objects and scenes in PyBullet.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Visualization.Visualizer.Visualizer.client">
+<span class="sig-name descname"><span class="pre">client</span></span><a class="headerlink" href="#Visualization.Visualizer.Visualizer.client" title="Permalink to this definition">#</a></dt>
+<dd><p>The PyBullet client object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Visualization.Visualizer.Visualizer.client_id">
+<span class="sig-name descname"><span class="pre">client_id</span></span><a class="headerlink" href="#Visualization.Visualizer.Visualizer.client_id" title="Permalink to this definition">#</a></dt>
+<dd><p>The client id returned by the PyBullet client.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Visualizer.Visualizer.set_camera_pose">
+<span class="sig-name descname"><span class="pre">set_camera_pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">camera_cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Visualizer.html#Visualizer.set_camera_pose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Visualizer.Visualizer.set_camera_pose" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the debug visualizer camera pose.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>camera_cfg</strong> (<em>object</em>) – Configuration for the camera pose.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Visualizer.Visualizer.capture_screen">
+<span class="sig-name descname"><span class="pre">capture_screen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Visualizer.html#Visualizer.capture_screen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Visualizer.Visualizer.capture_screen" title="Permalink to this definition">#</a></dt>
+<dd><p>Continuously captures the screens of PyBullet GUI and saves the images to files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em><em>, </em><em>optional</em>) – The filename to save the captured image. Defaults to None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Visualizer.Visualizer.draw_axes">
+<span class="sig-name descname"><span class="pre">draw_axes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lineWidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">textSize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Visualizer.html#Visualizer.draw_axes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Visualizer.Visualizer.draw_axes" title="Permalink to this definition">#</a></dt>
+<dd><p>Draws the x, y, and z axes in the PyBullet environment with text labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>length</strong> (<em>float</em>) – Length of the axes.</p></li>
+<li><p><strong>lineWidth</strong> (<em>float</em>) – Width of the axes lines.</p></li>
+<li><p><strong>textSize</strong> (<em>float</em>) – Size of the text labels.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Visualizer.Visualizer.start_record">
+<span class="sig-name descname"><span class="pre">start_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fileName</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Visualizer.html#Visualizer.start_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Visualizer.Visualizer.start_record" title="Permalink to this definition">#</a></dt>
+<dd><p>Starts recording a video of the PyBullet simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fileName</strong> (<em>str</em>) – The filename for the video file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Visualizer.Visualizer.end_record">
+<span class="sig-name descname"><span class="pre">end_record</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Visualizer.html#Visualizer.end_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Visualizer.Visualizer.end_record" title="Permalink to this definition">#</a></dt>
+<dd><p>Stops recording the video.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Visualizer.Visualizer.draw_line">
+<span class="sig-name descname"><span class="pre">draw_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Visualizer.html#Visualizer.draw_line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Visualizer.Visualizer.draw_line" title="Permalink to this definition">#</a></dt>
+<dd><p>Draws a line on the screen from the specified start position to the target position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_pos</strong> (<em>tuple</em>) – The starting position of the line as a tuple of (x, y, z) coordinates.</p></li>
+<li><p><strong>target_pos</strong> (<em>tuple</em>) – The ending position of the line as a tuple of (x, y, z) coordinates.</p></li>
+<li><p><strong>color</strong> (<em>list</em><em>, </em><em>optional</em>) – A list representing the RGB values of the line’s color. Default is red [1, 0, 0].</p></li>
+<li><p><strong>width</strong> (<em>float</em><em>, </em><em>optional</em>) – The width of the line. Default is 3.0.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Visualizer.Visualizer.remove_all_line">
+<span class="sig-name descname"><span class="pre">remove_all_line</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Visualizer.html#Visualizer.remove_all_line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Visualizer.Visualizer.remove_all_line" title="Permalink to this definition">#</a></dt>
+<dd><p>Removes all user debug items (lines) from the PyBullet environment.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Visualizer.Visualizer.draw_aabb">
+<span class="sig-name descname"><span class="pre">draw_aabb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Visualizer.html#Visualizer.draw_aabb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Visualizer.Visualizer.draw_aabb" title="Permalink to this definition">#</a></dt>
+<dd><p>Draws an Axis-Aligned Bounding Box (AABB) around the specified object in the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>object</strong> (<em>Union</em><em>[</em><em>int</em><em>, </em><em>str</em><em>]</em>) – The unique identifier of the object or its name.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Visualizer.Visualizer.draw_aabb_link">
+<span class="sig-name descname"><span class="pre">draw_aabb_link</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Visualizer.html#Visualizer.draw_aabb_link"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Visualizer.Visualizer.draw_aabb_link" title="Permalink to this definition">#</a></dt>
+<dd><p>Draws an Axis-Aligned Bounding Box (AABB) around the specified link in the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>object</strong> (<em>Union</em><em>[</em><em>int</em><em>, </em><em>str</em><em>]</em>) – The unique identifier of the object or its name.</p></li>
+<li><p><strong>link_id</strong> (<em>int</em><em>, </em><em>optional</em>) – The index of the link for which the AABB is to be drawn. Defaults to -1, which means the entire object.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Visualizer.Visualizer.draw_pose">
+<span class="sig-name descname"><span class="pre">draw_pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lineWidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">textSize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Visualizer.html#Visualizer.draw_pose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Visualizer.Visualizer.draw_pose" title="Permalink to this definition">#</a></dt>
+<dd><p>Draws the pose of an object in the PyBullet environment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>object</strong> (<em>Union</em><em>[</em><em>int</em><em>, </em><em>str</em><em>]</em>) – The unique identifier of the object or its name.</p></li>
+<li><p><strong>length</strong> (<em>float</em><em>, </em><em>optional</em>) – The length of the pose axes. Default is 0.25.</p></li>
+<li><p><strong>lineWidth</strong> (<em>float</em><em>, </em><em>optional</em>) – The width of the pose axes lines. Default is 2.0.</p></li>
+<li><p><strong>textSize</strong> (<em>float</em><em>, </em><em>optional</em>) – The size of the text labels. Default is 1.0.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Visualizer.Visualizer.draw_link_pose">
+<span class="sig-name descname"><span class="pre">draw_link_pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lineWidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">textSize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Visualizer.html#Visualizer.draw_link_pose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Visualizer.Visualizer.draw_link_pose" title="Permalink to this definition">#</a></dt>
+<dd><p>Draws the pose of a specific link of an object in the PyBullet environment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>object</strong> (<em>Union</em><em>[</em><em>int</em><em>, </em><em>str</em><em>]</em>) – The unique identifier of the object or its name.</p></li>
+<li><p><strong>link_id</strong> (<em>int</em>) – The index of the link for which the pose is to be drawn.</p></li>
+<li><p><strong>length</strong> (<em>float</em><em>, </em><em>optional</em>) – The length of the pose axes. Default is 0.25.</p></li>
+<li><p><strong>lineWidth</strong> (<em>float</em><em>, </em><em>optional</em>) – The width of the pose axes lines. Default is 2.0.</p></li>
+<li><p><strong>textSize</strong> (<em>float</em><em>, </em><em>optional</em>) – The size of the text labels. Default is 1.0.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Visualizer.Visualizer.change_robot_color">
+<span class="sig-name descname"><span class="pre">change_robot_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arm_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">light_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Visualizer.html#Visualizer.change_robot_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Visualizer.Visualizer.change_robot_color" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the color of the robot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>base_id</strong> (<em>int</em>) – The unique identifier of the robot base.</p></li>
+<li><p><strong>arm_id</strong> (<em>int</em>) – The unique identifier of the robot arm.</p></li>
+<li><p><strong>light_color</strong> (<em>bool</em><em>, </em><em>optional</em>) – Flag to set the robot to light colors. Default is True.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Visualizer.Visualizer.set_object_color">
+<span class="sig-name descname"><span class="pre">set_object_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Visualizer.html#Visualizer.set_object_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Visualizer.Visualizer.set_object_color" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the color of an object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>object_id</strong> (<em>int</em>) – The unique identifier of the object.</p></li>
+<li><p><strong>color</strong> (<em>str</em>) – The color to set for the object.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Visualizer.Visualizer.set_link_color">
+<span class="sig-name descname"><span class="pre">set_link_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Visualizer.html#Visualizer.set_link_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Visualizer.Visualizer.set_link_color" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the color of a specific link of an object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>object_id</strong> (<em>int</em>) – The unique identifier of the object.</p></li>
+<li><p><strong>link_id</strong> (<em>int</em>) – The index of the link to change the color.</p></li>
+<li><p><strong>color</strong> (<em>str</em>) – The color to set for the link.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Visualizer.Visualizer.set_links_color">
+<span class="sig-name descname"><span class="pre">set_links_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Visualizer.html#Visualizer.set_links_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Visualizer.Visualizer.set_links_color" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the colors of multiple links of an object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>object_id</strong> (<em>int</em>) – The unique identifier of the object.</p></li>
+<li><p><strong>link_ids</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – A list of link indexes to change the colors.</p></li>
+<li><p><strong>colors</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – A list of colors to set for the links.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-Visualization.Camera"></span><dl class="py class">
+<dt class="sig sig-object py" id="Visualization.Camera.CameraParameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Visualization.Camera.</span></span><span class="sig-name descname"><span class="pre">CameraParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">head_tilt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Image</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depths</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Camera.html#CameraParameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Camera.CameraParameters" title="Permalink to this definition">#</a></dt>
+<dd><p>Used to store the camera’s intrinsic parameters, head tilt angle, image data, color data, and depth data.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Visualization.Camera.CameraParameters.fx">
+<span class="sig-name descname"><span class="pre">fx</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#Visualization.Camera.CameraParameters.fx" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Visualization.Camera.CameraParameters.fy">
+<span class="sig-name descname"><span class="pre">fy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#Visualization.Camera.CameraParameters.fy" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Visualization.Camera.CameraParameters.cx">
+<span class="sig-name descname"><span class="pre">cx</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#Visualization.Camera.CameraParameters.cx" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Visualization.Camera.CameraParameters.cy">
+<span class="sig-name descname"><span class="pre">cy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#Visualization.Camera.CameraParameters.cy" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Visualization.Camera.CameraParameters.head_tilt">
+<span class="sig-name descname"><span class="pre">head_tilt</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#Visualization.Camera.CameraParameters.head_tilt" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Visualization.Camera.CameraParameters.image">
+<span class="sig-name descname"><span class="pre">image</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Image</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#Visualization.Camera.CameraParameters.image" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Visualization.Camera.CameraParameters.colors">
+<span class="sig-name descname"><span class="pre">colors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#Visualization.Camera.CameraParameters.colors" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Visualization.Camera.CameraParameters.depths">
+<span class="sig-name descname"><span class="pre">depths</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#Visualization.Camera.CameraParameters.depths" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Visualization.Camera.Camera">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Visualization.Camera.</span></span><span class="sig-name descname"><span class="pre">Camera</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arm_height</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Camera.html#Camera"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Camera.Camera" title="Permalink to this definition">#</a></dt>
+<dd><p>Robotic Camera.</p>
+<p>This class handles the camera functionalities for a robotic system, including capturing RGB and depth images.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Camera.Camera.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Camera.html#Camera.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Camera.Camera.update" title="Permalink to this definition">#</a></dt>
+<dd><p>Updates the camera view and projection matrices, captures images, and returns the captured data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Width, height, RGB image, depth image, and segmentation mask.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Camera.Camera.get_rgb_image">
+<span class="sig-name descname"><span class="pre">get_rgb_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enable_show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Camera.html#Camera.get_rgb_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Camera.Camera.get_rgb_image" title="Permalink to this definition">#</a></dt>
+<dd><p>Captures an RGB image from the camera.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>enable_show</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to display the captured image. Defaults to False.</p></li>
+<li><p><strong>enable_save</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to save the captured image. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Captured RGB image.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Camera.Camera.get_depth_image">
+<span class="sig-name descname"><span class="pre">get_depth_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enable_show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Camera.html#Camera.get_depth_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Camera.Camera.get_depth_image" title="Permalink to this definition">#</a></dt>
+<dd><p>Captures a depth image from the camera.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>enable_show</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to display the captured image. Defaults to False.</p></li>
+<li><p><strong>enable_save</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to save the captured image. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Captured depth image.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-Visualization.pyBulletSimRecorder"></span><dl class="py class">
+<dt class="sig sig-object py" id="Visualization.pyBulletSimRecorder.PyBulletRecorder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Visualization.pyBulletSimRecorder.</span></span><span class="sig-name descname"><span class="pre">PyBulletRecorder</span></span><a class="reference internal" href="../_modules/Visualization/pyBulletSimRecorder.html#PyBulletRecorder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder" title="Permalink to this definition">#</a></dt>
+<dd><p>A class for recording PyBullet simulations.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Visualization.pyBulletSimRecorder.PyBulletRecorder.LinkTracker">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">LinkTracker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_origin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh_scale</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/pyBulletSimRecorder.html#PyBulletRecorder.LinkTracker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.LinkTracker" title="Permalink to this definition">#</a></dt>
+<dd><p>Tracks the state of a link in the simulation.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.pyBulletSimRecorder.PyBulletRecorder.LinkTracker.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/pyBulletSimRecorder.html#PyBulletRecorder.LinkTracker.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.LinkTracker.transform" title="Permalink to this definition">#</a></dt>
+<dd><p>Transforms a local pose to a global pose.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>position</strong> (<em>list</em>) – The position of the link.</p></li>
+<li><p><strong>orientation</strong> (<em>list</em>) – The orientation of the link.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The transformed position and orientation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.pyBulletSimRecorder.PyBulletRecorder.LinkTracker.get_keyframe">
+<span class="sig-name descname"><span class="pre">get_keyframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/pyBulletSimRecorder.html#PyBulletRecorder.LinkTracker.get_keyframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.LinkTracker.get_keyframe" title="Permalink to this definition">#</a></dt>
+<dd><p>Gets the global pose of the link.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The position and orientation of the link.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.pyBulletSimRecorder.PyBulletRecorder.register_object">
+<span class="sig-name descname"><span class="pre">register_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">body_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">urdf_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_scaling</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/pyBulletSimRecorder.html#PyBulletRecorder.register_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.register_object" title="Permalink to this definition">#</a></dt>
+<dd><p>Registers an object in the simulation for tracking.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>body_id</strong> (<em>int</em>) – The ID of the body to be registered.</p></li>
+<li><p><strong>urdf_path</strong> (<em>str</em>) – The path to the URDF file of the object.</p></li>
+<li><p><strong>global_scaling</strong> (<em>float</em>) – The global scaling factor for the object.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.pyBulletSimRecorder.PyBulletRecorder.add_keyframe">
+<span class="sig-name descname"><span class="pre">add_keyframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/pyBulletSimRecorder.html#PyBulletRecorder.add_keyframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.add_keyframe" title="Permalink to this definition">#</a></dt>
+<dd><p>Adds a keyframe of the current simulation state.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.pyBulletSimRecorder.PyBulletRecorder.prompt_save">
+<span class="sig-name descname"><span class="pre">prompt_save</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/pyBulletSimRecorder.html#PyBulletRecorder.prompt_save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.prompt_save" title="Permalink to this definition">#</a></dt>
+<dd><p>Prompts the user to save the recorded simulation states.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.pyBulletSimRecorder.PyBulletRecorder.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/pyBulletSimRecorder.html#PyBulletRecorder.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.reset" title="Permalink to this definition">#</a></dt>
+<dd><p>Resets the recorded simulation states.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.pyBulletSimRecorder.PyBulletRecorder.get_formatted_output">
+<span class="sig-name descname"><span class="pre">get_formatted_output</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/pyBulletSimRecorder.html#PyBulletRecorder.get_formatted_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.get_formatted_output" title="Permalink to this definition">#</a></dt>
+<dd><p>Gets the formatted output of the recorded simulation states.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Formatted output of the recorded simulation states.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.pyBulletSimRecorder.PyBulletRecorder.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/pyBulletSimRecorder.html#PyBulletRecorder.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.save" title="Permalink to this definition">#</a></dt>
+<dd><p>Saves the recorded simulation states to a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to save the recorded simulation states.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer"><code class="docutils literal notranslate"><span class="pre">Visualizer</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.client"><code class="docutils literal notranslate"><span class="pre">Visualizer.client</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.client_id"><code class="docutils literal notranslate"><span class="pre">Visualizer.client_id</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.set_camera_pose"><code class="docutils literal notranslate"><span class="pre">Visualizer.set_camera_pose()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.capture_screen"><code class="docutils literal notranslate"><span class="pre">Visualizer.capture_screen()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.draw_axes"><code class="docutils literal notranslate"><span class="pre">Visualizer.draw_axes()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.start_record"><code class="docutils literal notranslate"><span class="pre">Visualizer.start_record()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.end_record"><code class="docutils literal notranslate"><span class="pre">Visualizer.end_record()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.draw_line"><code class="docutils literal notranslate"><span class="pre">Visualizer.draw_line()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.remove_all_line"><code class="docutils literal notranslate"><span class="pre">Visualizer.remove_all_line()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.draw_aabb"><code class="docutils literal notranslate"><span class="pre">Visualizer.draw_aabb()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.draw_aabb_link"><code class="docutils literal notranslate"><span class="pre">Visualizer.draw_aabb_link()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.draw_pose"><code class="docutils literal notranslate"><span class="pre">Visualizer.draw_pose()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.draw_link_pose"><code class="docutils literal notranslate"><span class="pre">Visualizer.draw_link_pose()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.change_robot_color"><code class="docutils literal notranslate"><span class="pre">Visualizer.change_robot_color()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.set_object_color"><code class="docutils literal notranslate"><span class="pre">Visualizer.set_object_color()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.set_link_color"><code class="docutils literal notranslate"><span class="pre">Visualizer.set_link_color()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Visualizer.Visualizer.set_links_color"><code class="docutils literal notranslate"><span class="pre">Visualizer.set_links_color()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.CameraParameters"><code class="docutils literal notranslate"><span class="pre">CameraParameters</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.CameraParameters.fx"><code class="docutils literal notranslate"><span class="pre">CameraParameters.fx</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.CameraParameters.fy"><code class="docutils literal notranslate"><span class="pre">CameraParameters.fy</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.CameraParameters.cx"><code class="docutils literal notranslate"><span class="pre">CameraParameters.cx</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.CameraParameters.cy"><code class="docutils literal notranslate"><span class="pre">CameraParameters.cy</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.CameraParameters.head_tilt"><code class="docutils literal notranslate"><span class="pre">CameraParameters.head_tilt</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.CameraParameters.image"><code class="docutils literal notranslate"><span class="pre">CameraParameters.image</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.CameraParameters.colors"><code class="docutils literal notranslate"><span class="pre">CameraParameters.colors</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.CameraParameters.depths"><code class="docutils literal notranslate"><span class="pre">CameraParameters.depths</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.Camera"><code class="docutils literal notranslate"><span class="pre">Camera</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.Camera.update"><code class="docutils literal notranslate"><span class="pre">Camera.update()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.Camera.get_rgb_image"><code class="docutils literal notranslate"><span class="pre">Camera.get_rgb_image()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.Camera.Camera.get_depth_image"><code class="docutils literal notranslate"><span class="pre">Camera.get_depth_image()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.LinkTracker"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.LinkTracker</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.LinkTracker.transform"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.LinkTracker.transform()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.LinkTracker.get_keyframe"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.LinkTracker.get_keyframe()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.register_object"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.register_object()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.add_keyframe"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.add_keyframe()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.prompt_save"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.prompt_save()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.reset"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.reset()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.get_formatted_output"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.get_formatted_output()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualization.pyBulletSimRecorder.PyBulletRecorder.save"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.save()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By kui yang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, kui yang.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

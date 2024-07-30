@@ -7,7 +7,7 @@ from PIL import Image
 import matplotlib.pyplot as plt
 from gsnet import AnyGrasp
 from graspnetAPI import GraspGroup
-from utils import (
+from .utils import (
     Bbox,
     get_3d_points,
     visualize_cloud_geometries,
@@ -19,8 +19,20 @@ from Visualization import CameraParameters
 from Perception.Object_detection import Lang_SAM
 
 class Anygrasp:
+    """A class for grasp pose estimation using AnyGrasp model.
+    
+    Attributes:
+        cfgs: Configuration settings.
+        grasping_model: Instance of AnyGrasp model.
+        cam: Camera parameters.
+    """
     
     def __init__(self, cfgs):
+        """Initialize Anygrasp class with configurations.
+        
+        Args:
+            cfgs: Configuration settings.
+        """
         self.cfgs = cfgs
         self.grasping_model = AnyGrasp(self.cfgs)
         self.grasping_model.load_net()   
@@ -33,17 +45,17 @@ class Anygrasp:
         bbox: Bbox,
         crop_flag: bool = False
     ):
-        """Calculate the optimal grasping pose
-
+        """Calculate the optimal grasping pose.
+        
         Args:
-            cam (CameraParameters): Camera internal parameters
-            points (np.ndarray): 3D point cloud data
-            seg_mask (np.ndarray): Object Mask
-            bbox (Bbox): Object bbox
+            cam (CameraParameters): Camera internal parameters.
+            points (np.ndarray): 3D point cloud data.
+            seg_mask (np.ndarray): Object Mask.
+            bbox (Bbox): Object bounding box.
             crop_flag (bool, optional): Crop flag. Defaults to False.
-
+        
         Returns:
-            grasp_pose(Pose): best grasp pose
+            Tuple[bool, Pose]: Status and best grasp pose.
         """
         
         self.cam = cam

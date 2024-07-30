@@ -3,7 +3,17 @@ import matplotlib.pyplot as plt
 from .utils import *
 
 def simple_slam(client, robot, enable_plot=False):
+    """
+    Perform a simple SLAM (Simultaneous Localization and Mapping) operation.
 
+    Args:
+        client (pybullet): The pybullet client object.
+        robot (object): The robot object.
+        enable_plot (bool, optional): Flag to enable or disable plotting of the SLAM visualization. Defaults to False.
+
+    Returns:
+        list: A list of obstacle bounds in the format [x_min, y_min, x_max, y_max].
+    """
     nav_obstacles_bounds = []
     nav_obstacle_ids = list(range(p.getNumBodies()))
     nav_obstacle_ids.remove(0)                      # remove plane

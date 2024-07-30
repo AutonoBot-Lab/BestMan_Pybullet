@@ -1,0 +1,530 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visualization.pyBulletSimImporter &#8212; BestMan_Pybullet 1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/Visualization/pyBulletSimImporter';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">BestMan_Pybullet 1.0 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for Visualization.pyBulletSimImporter</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">bpy.types</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Operator</span><span class="p">,</span>
+    <span class="n">OperatorFileListElement</span><span class="p">,</span>
+    <span class="n">Panel</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">bpy.props</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">StringProperty</span><span class="p">,</span>
+    <span class="n">CollectionProperty</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">bpy_extras.io_utils</span> <span class="kn">import</span> <span class="n">ImportHelper</span>
+<span class="kn">import</span> <span class="nn">bpy</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">splitext</span><span class="p">,</span> <span class="n">join</span><span class="p">,</span> <span class="n">basename</span>
+
+<span class="n">bl_info</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;PyBulletSimImporter&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Huy Ha &lt;hqh2101@columbia.edu&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="s2">&quot;blender&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">92</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="s2">&quot;3D View &gt; Toolbox &gt; Animation tab &gt; PyBullet Simulation Importer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Imports PyBullet Simulation Results&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;warning&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Animation&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="ANIM_OT_import_pybullet_sim"><a class="viewcode-back" href="../../references/Visualization.html#Visualization.pyBulletSimImporter.ANIM_OT_import_pybullet_sim">[docs]</a><span class="k">class</span> <span class="nc">ANIM_OT_import_pybullet_sim</span><span class="p">(</span><span class="n">Operator</span><span class="p">,</span> <span class="n">ImportHelper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Operator for importing PyBullet simulation results.&quot;&quot;&quot;</span>
+    <span class="n">bl_label</span> <span class="o">=</span> <span class="s2">&quot;Import simulation&quot;</span>
+    <span class="n">bl_idname</span> <span class="o">=</span> <span class="s2">&quot;pybulletsim.import&quot;</span>
+    <span class="n">bl_description</span> <span class="o">=</span> <span class="s2">&quot;Imports a PyBullet Simulation&quot;</span>
+    <span class="n">bl_options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;REGISTER&#39;</span><span class="p">,</span> <span class="s1">&#39;UNDO&#39;</span><span class="p">}</span>
+    <span class="n">files</span><span class="p">:</span> <span class="n">CollectionProperty</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Simulation files&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="n">OperatorFileListElement</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">directory</span><span class="p">:</span> <span class="n">StringProperty</span><span class="p">(</span><span class="n">subtype</span><span class="o">=</span><span class="s1">&#39;DIR_PATH&#39;</span><span class="p">)</span>
+    <span class="n">filename_ext</span> <span class="o">=</span> <span class="s2">&quot;.pkl&quot;</span>
+    <span class="n">filter_glob</span><span class="p">:</span> <span class="n">StringProperty</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;*.pkl&#39;</span><span class="p">,</span>
+        <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;HIDDEN&#39;</span><span class="p">})</span>
+    <span class="n">skip_frames</span><span class="p">:</span>  <span class="n">bpy</span><span class="o">.</span><span class="n">props</span><span class="o">.</span><span class="n">IntProperty</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Skip Frames&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">max_frames</span><span class="p">:</span>  <span class="n">bpy</span><span class="o">.</span><span class="n">props</span><span class="o">.</span><span class="n">IntProperty</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Max Frames&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ANIM_OT_import_pybullet_sim.execute"><a class="viewcode-back" href="../../references/Visualization.html#Visualization.pyBulletSimImporter.ANIM_OT_import_pybullet_sim.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes the import operation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            context (bpy.types.Context): The context in which the operator is called.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary with the execution status.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">:</span>
+            <span class="n">filepath</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">directory</span><span class="p">,</span> <span class="n">file</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Processing </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pickle_file</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">pickle_file</span><span class="p">)</span>
+                <span class="n">collection_name</span> <span class="o">=</span> <span class="n">splitext</span><span class="p">(</span><span class="n">basename</span><span class="p">(</span><span class="n">filepath</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">collection</span> <span class="o">=</span> <span class="n">bpy</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">collections</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">collection_name</span><span class="p">)</span>
+                <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">collection</span><span class="p">)</span>
+                <span class="n">context</span><span class="o">.</span><span class="n">view_layer</span><span class="o">.</span><span class="n">active_layer_collection</span> <span class="o">=</span> \
+                    <span class="n">context</span><span class="o">.</span><span class="n">view_layer</span><span class="o">.</span><span class="n">layer_collection</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                
+                <span class="k">for</span> <span class="n">obj_key</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                    <span class="n">pybullet_obj</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">obj_key</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">pybullet_obj</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;mesh&#39;</span><span class="p">:</span>
+                        <span class="c1"># Load mesh of each link</span>
+                        <span class="n">extension</span> <span class="o">=</span> <span class="n">pybullet_obj</span><span class="p">[</span><span class="s1">&#39;mesh_path&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span>
+                            <span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                        <span class="c1"># Handle different mesh formats</span>
+                        <span class="k">if</span> <span class="s1">&#39;obj&#39;</span> <span class="ow">in</span> <span class="n">extension</span><span class="p">:</span>
+                            <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">import_scene</span><span class="o">.</span><span class="n">obj</span><span class="p">(</span>
+                                <span class="n">filepath</span><span class="o">=</span><span class="n">pybullet_obj</span><span class="p">[</span><span class="s1">&#39;mesh_path&#39;</span><span class="p">],</span>
+                                <span class="n">axis_forward</span><span class="o">=</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="n">axis_up</span><span class="o">=</span><span class="s1">&#39;Z&#39;</span><span class="p">)</span>
+                        <span class="k">elif</span> <span class="s1">&#39;dae&#39;</span> <span class="ow">in</span> <span class="n">extension</span><span class="p">:</span>
+                            <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">wm</span><span class="o">.</span><span class="n">collada_import</span><span class="p">(</span>
+                                <span class="n">filepath</span><span class="o">=</span><span class="n">pybullet_obj</span><span class="p">[</span><span class="s1">&#39;mesh_path&#39;</span><span class="p">])</span>
+                        <span class="k">elif</span> <span class="s1">&#39;stl&#39;</span> <span class="ow">in</span> <span class="n">extension</span><span class="p">:</span>
+                            <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">import_mesh</span><span class="o">.</span><span class="n">stl</span><span class="p">(</span>
+                                <span class="n">filepath</span><span class="o">=</span><span class="n">pybullet_obj</span><span class="p">[</span><span class="s1">&#39;mesh_path&#39;</span><span class="p">])</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Unsupported File Format:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">extension</span><span class="p">))</span>
+                            <span class="k">pass</span>
+                        
+                        <span class="c1"># Delete lights and camera</span>
+                        <span class="n">parts</span> <span class="o">=</span> <span class="mi">0</span>
+                        <span class="n">final_objs</span> <span class="o">=</span> <span class="p">[]</span>
+                        <span class="k">for</span> <span class="n">import_obj</span> <span class="ow">in</span> <span class="n">context</span><span class="o">.</span><span class="n">selected_objects</span><span class="p">:</span>
+                            <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">select_all</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;DESELECT&#39;</span><span class="p">)</span>
+                            <span class="n">import_obj</span><span class="o">.</span><span class="n">select_set</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="s1">&#39;Camera&#39;</span> <span class="ow">in</span> <span class="n">import_obj</span><span class="o">.</span><span class="n">name</span> \
+                                    <span class="ow">or</span> <span class="s1">&#39;Light&#39;</span> <span class="ow">in</span> <span class="n">import_obj</span><span class="o">.</span><span class="n">name</span>\
+                                    <span class="ow">or</span> <span class="s1">&#39;Lamp&#39;</span> <span class="ow">in</span> <span class="n">import_obj</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+                                <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">use_global</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">scale</span> <span class="o">=</span> <span class="n">pybullet_obj</span><span class="p">[</span><span class="s1">&#39;mesh_scale&#39;</span><span class="p">]</span>
+                                <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s1">&#39;dae&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">extension</span><span class="p">:</span>
+                                <span class="c1"># if scale is not None:</span>
+                                    <span class="n">import_obj</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">scale</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                                    <span class="n">import_obj</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">scale</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                                    <span class="n">import_obj</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">scale</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                                <span class="n">final_objs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">import_obj</span><span class="p">)</span>
+                                <span class="n">parts</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">select_all</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;DESELECT&#39;</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">final_objs</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;MESH&#39;</span><span class="p">:</span>
+                                <span class="n">obj</span><span class="o">.</span><span class="n">select_set</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">selected_objects</span><span class="p">):</span>
+                            <span class="n">context</span><span class="o">.</span><span class="n">view_layer</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">active</span> <span class="o">=</span>\
+                                <span class="n">context</span><span class="o">.</span><span class="n">selected_objects</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                            <span class="c1"># join them</span>
+                            <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+                        <span class="n">blender_obj</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">view_layer</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">active</span>
+                        <span class="n">blender_obj</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">obj_key</span>
+                        
+                    <span class="k">elif</span> <span class="n">pybullet_obj</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;box&#39;</span><span class="p">:</span>
+                        <span class="n">size</span> <span class="o">=</span> <span class="n">pybullet_obj</span><span class="p">[</span><span class="s1">&#39;mesh_scale&#39;</span><span class="p">]</span>  <span class="c1"># Assuming mesh_scale contains box dimensions</span>
+                        <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">primitive_cube_add</span><span class="p">(</span>
+                            <span class="n">size</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                            <span class="n">enter_editmode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                            <span class="n">align</span><span class="o">=</span><span class="s1">&#39;WORLD&#39;</span><span class="p">,</span>
+                            <span class="n">location</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                            <span class="n">scale</span><span class="o">=</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                        <span class="p">)</span>
+                        <span class="n">blender_obj</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">view_layer</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">active</span>
+                        <span class="n">blender_obj</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">obj_key</span>
+                        
+                    <span class="k">elif</span> <span class="n">pybullet_obj</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;cylinder&#39;</span><span class="p">:</span>
+                        <span class="n">length</span> <span class="o">=</span> <span class="n">pybullet_obj</span><span class="p">[</span><span class="s1">&#39;mesh_scale&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Assuming mesh_scale contains cylinder dimensions: [length, radius, radius]</span>
+                        <span class="n">radius</span> <span class="o">=</span> <span class="n">pybullet_obj</span><span class="p">[</span><span class="s1">&#39;mesh_scale&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">primitive_cylinder_add</span><span class="p">(</span>
+                            <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span>
+                            <span class="n">depth</span><span class="o">=</span><span class="n">length</span><span class="p">,</span>
+                            <span class="n">enter_editmode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                            <span class="n">align</span><span class="o">=</span><span class="s1">&#39;WORLD&#39;</span><span class="p">,</span>
+                            <span class="n">location</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                        <span class="p">)</span>
+                        <span class="n">blender_obj</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">view_layer</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">active</span>
+                        <span class="n">blender_obj</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">obj_key</span>
+
+                        <span class="c1"># 删除灯光和摄像机（在生成圆柱体后）</span>
+                        <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">select_all</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;DESELECT&#39;</span><span class="p">)</span>
+                        <span class="n">blender_obj</span><span class="o">.</span><span class="n">select_set</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">import_obj</span> <span class="ow">in</span> <span class="n">context</span><span class="o">.</span><span class="n">selected_objects</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="s1">&#39;Camera&#39;</span> <span class="ow">in</span> <span class="n">import_obj</span><span class="o">.</span><span class="n">name</span> <span class="ow">or</span> <span class="s1">&#39;Light&#39;</span> <span class="ow">in</span> <span class="n">import_obj</span><span class="o">.</span><span class="n">name</span> <span class="ow">or</span> <span class="s1">&#39;Lamp&#39;</span> <span class="ow">in</span> <span class="n">import_obj</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+                                <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">use_global</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    
+                    <span class="c1"># mat = bpy.data.materials.new(name=&quot;Material&quot;)</span>
+                    <span class="c1"># mat.use_nodes = True</span>
+                    <span class="c1"># bsdf = mat.node_tree.nodes[&quot;Principled BSDF&quot;]</span>
+                    <span class="c1"># bsdf.inputs[&#39;Base Color&#39;].default_value = pybullet_obj[&#39;rgba&#39;]</span>
+                    <span class="c1"># if len(blender_obj.data.materials):</span>
+                    <span class="c1">#     blender_obj.data.materials[0] = mat</span>
+                    <span class="c1"># else:</span>
+                    <span class="c1">#     blender_obj.data.materials.append(mat)</span>
+                        
+                    <span class="c1"># 确保对象的视口显示模式为材质预览或渲染</span>
+                    <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">ui_type</span> <span class="o">=</span> <span class="s1">&#39;VIEW_3D&#39;</span>
+                    <span class="k">for</span> <span class="n">area</span> <span class="ow">in</span> <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">areas</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">area</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;VIEW_3D&#39;</span><span class="p">:</span>
+                            <span class="k">for</span> <span class="n">space</span> <span class="ow">in</span> <span class="n">area</span><span class="o">.</span><span class="n">spaces</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="n">space</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;VIEW_3D&#39;</span><span class="p">:</span>
+                                    <span class="n">space</span><span class="o">.</span><span class="n">shading</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s1">&#39;MATERIAL&#39;</span>
+                    
+                    <span class="c1"># Keyframe motion of imported object</span>
+                    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">frame_data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pybullet_obj</span><span class="p">[</span><span class="s1">&#39;frames&#39;</span><span class="p">]):</span>
+                        
+                        <span class="n">frame_count</span> <span class="o">=</span> <span class="n">frame_data</span><span class="p">[</span><span class="s1">&#39;frame&#39;</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">frame_count</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip_frames</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="k">continue</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_frames</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">frame_count</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_frames</span><span class="p">:</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Exceed max frame count&#39;</span><span class="p">)</span>
+                            <span class="k">break</span>
+                        
+                        <span class="n">pos</span> <span class="o">=</span> <span class="n">frame_data</span><span class="p">[</span><span class="s1">&#39;position&#39;</span><span class="p">]</span>
+                        <span class="n">orn</span> <span class="o">=</span> <span class="n">frame_data</span><span class="p">[</span><span class="s1">&#39;orientation&#39;</span><span class="p">]</span>
+                        <span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">frame_set</span><span class="p">(</span><span class="n">frame_count</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip_frames</span><span class="p">)</span>
+                        
+                        <span class="c1"># Apply position and rotation</span>
+                        <span class="n">blender_obj</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">blender_obj</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="n">blender_obj</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                        <span class="n">blender_obj</span><span class="o">.</span><span class="n">rotation_mode</span> <span class="o">=</span> <span class="s1">&#39;QUATERNION&#39;</span>
+                        <span class="n">blender_obj</span><span class="o">.</span><span class="n">rotation_quaternion</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">orn</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">blender_obj</span><span class="o">.</span><span class="n">rotation_quaternion</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">orn</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="n">blender_obj</span><span class="o">.</span><span class="n">rotation_quaternion</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">orn</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                        <span class="n">blender_obj</span><span class="o">.</span><span class="n">rotation_quaternion</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">orn</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+                        
+                        <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">anim</span><span class="o">.</span><span class="n">keyframe_insert_menu</span><span class="p">(</span>
+                            <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;Rotation&#39;</span><span class="p">)</span>
+                        <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">anim</span><span class="o">.</span><span class="n">keyframe_insert_menu</span><span class="p">(</span>
+                            <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;Location&#39;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;FINISHED&#39;</span><span class="p">}</span></div></div>
+
+
+<div class="viewcode-block" id="VIEW3D_PT_pybullet_recorder"><a class="viewcode-back" href="../../references/Visualization.html#Visualization.pyBulletSimImporter.VIEW3D_PT_pybullet_recorder">[docs]</a><span class="k">class</span> <span class="nc">VIEW3D_PT_pybullet_recorder</span><span class="p">(</span><span class="n">Panel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Panel in the 3D View to import PyBullet simulations.&quot;&quot;&quot;</span>
+    <span class="n">bl_space_type</span> <span class="o">=</span> <span class="s1">&#39;VIEW_3D&#39;</span>
+    <span class="n">bl_region_type</span> <span class="o">=</span> <span class="s1">&#39;UI&#39;</span>
+    <span class="n">bl_category</span> <span class="o">=</span> <span class="s2">&quot;Animation&quot;</span>
+    <span class="n">bl_label</span> <span class="o">=</span> <span class="s1">&#39;PyBulletSimImporter&#39;</span>
+
+<div class="viewcode-block" id="VIEW3D_PT_pybullet_recorder.draw"><a class="viewcode-back" href="../../references/Visualization.html#Visualization.pyBulletSimImporter.VIEW3D_PT_pybullet_recorder.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="n">layout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layout</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="n">layout</span><span class="o">.</span><span class="n">row</span><span class="p">()</span>
+        <span class="n">row</span><span class="o">.</span><span class="n">operator</span><span class="p">(</span><span class="s2">&quot;pybulletsim.import&quot;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="register"><a class="viewcode-back" href="../../references/Visualization.html#Visualization.pyBulletSimImporter.register">[docs]</a><span class="k">def</span> <span class="nf">register</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Registers the classes with Blender.&quot;&quot;&quot;</span>
+    <span class="n">bpy</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">register_class</span><span class="p">(</span><span class="n">VIEW3D_PT_pybullet_recorder</span><span class="p">)</span>
+    <span class="n">bpy</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">register_class</span><span class="p">(</span><span class="n">ANIM_OT_import_pybullet_sim</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="unregister"><a class="viewcode-back" href="../../references/Visualization.html#Visualization.pyBulletSimImporter.unregister">[docs]</a><span class="k">def</span> <span class="nf">unregister</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Unregisters the classes from Blender.&quot;&quot;&quot;</span>
+    <span class="n">bpy</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">unregister_class</span><span class="p">(</span><span class="n">VIEW3D_PT_pybullet_recorder</span><span class="p">)</span>
+    <span class="n">bpy</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">unregister_class</span><span class="p">(</span><span class="n">ANIM_OT_import_pybullet_sim</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">register</span><span class="p">()</span>
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By kui yang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, kui yang.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

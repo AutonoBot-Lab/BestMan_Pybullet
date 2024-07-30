@@ -10,9 +10,11 @@ from utils import draw_rectangle
 
 
 class Lang_SAM():
-    
+    """Class for performing object detection using LangSAM model."""
+
     def __init__(self):
-        
+        """Initializes the Lang_SAM model."""
+
         self.model = LangSAM()
 
     def detect_obj(
@@ -26,18 +28,19 @@ class Lang_SAM():
         mask_filename: str = None,
     ) -> Tuple[np.ndarray, List[int]]:
         """
+        Detects an object in the provided image using the LangSAM model.
+        
         Args:
-            image: An image object on which object detection is performed.
-            text: Optional parameter for performing text-related object detection tasks, a object name in the scence, eg. "cup". Defaults to None.
-            bbox: Optional parameter specifying an initial bounding box. Defaults to None.
-            save_box: Optional parameter indicating whether to save bounding boxes. Defaults to False.
-            box_filename: Optional parameter specifying the filename to save the visualization of bounding boxes. Defaults to None.
-            save_mask: Optional parameter indicating whether to save masks. Defaults to False.
-            mask_filename: Optional parameter specifying the filename to save the visualization of masks. Defaults to None.
-            
+            image (Type[Image.Image]): An image object on which object detection is performed.
+            text (str, optional): Optional parameter for performing text-related object detection tasks. Defaults to None.
+            bbox (List[int], optional): Optional parameter specifying an initial bounding box. Defaults to None.
+            save_box (bool, optional): Optional parameter indicating whether to save bounding boxes. Defaults to False.
+            box_filename (str, optional): Optional parameter specifying the filename to save the visualization of bounding boxes. Defaults to None.
+            save_mask (bool, optional): Optional parameter indicating whether to save masks. Defaults to False.
+            mask_filename (str, optional): Optional parameter specifying the filename to save the visualization of masks. Defaults to None.
+        
         Returns:
-            seg_mask: the segmentation mask of the detected object in the input image.
-            bbox: the bounding box coordinates of the detected object in the input image
+            Tuple[np.ndarray, List[int]]: The segmentation mask and the bounding box coordinates of the detected object in the input image.
         """
         
         masks, boxes, phrases, logits = self.model.predict(image, text)
@@ -58,6 +61,14 @@ class Lang_SAM():
     def draw_bounding_box(
         self, image: Type[Image.Image], bbox: List[int], save_file: str = None
     ) -> None:
+        """
+        Draws a bounding box on the image.
+        
+        Args:
+            image (Type[Image.Image]): The image on which to draw the bounding box.
+            bbox (List[int]): The bounding box coordinates.
+            save_file (str, optional): The filename to save the image with the bounding box. Defaults to None.
+        """
         new_image = copy.deepcopy(image)
         draw_rectangle(new_image, bbox)
 
@@ -72,6 +83,16 @@ class Lang_SAM():
         max_box_ind: int = -1,
         save_file: str = None,
     ) -> None:
+        """
+        Draws multiple bounding boxes on the image.
+        
+        Args:
+            image (Type[Image.Image]): The image on which to draw the bounding boxes.
+            bboxes (List[int]): The bounding box coordinates.
+            scores (List[int]): The scores of the bounding boxes.
+            max_box_ind (int, optional): The index of the maximum score bounding box. Defaults to -1.
+            save_file (str, optional): The filename to save the image with the bounding boxes. Defaults to None.
+        """
         if max_box_ind != -1:
             max_score = np.max(scores.detach().numpy())
             max_ind = np.argmax(scores.detach().numpy())
@@ -101,6 +122,14 @@ class Lang_SAM():
     def draw_mask_on_image(
         self, image: Type[Image.Image], seg_mask: np.ndarray, save_file: str = None
     ) -> None:
+        """
+        Draws a segmentation mask on the image.
+        
+        Args:
+            image (Type[Image.Image]): The image on which to draw the segmentation mask.
+            seg_mask (np.ndarray): The segmentation mask.
+            save_file (str, optional): The filename to save the image with the segmentation mask. Defaults to None.
+        """
         image = np.array(image)
         image[seg_mask] = image[seg_mask] * 0.2
 
@@ -116,6 +145,7 @@ class Lang_SAM():
 
         cv2.imwrite(save_file, highlighted_image)
         print(f"Saved Segmentation Mask at {save_file}")
+
 
 if __name__=='__main__':
     

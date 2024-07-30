@@ -15,20 +15,19 @@ from ..Collision import Collision
 
 
 class OMPL_Planner:
+    """Class for OMPL planning."""
+
     def __init__(
         self,
         robot,
         Planner_cfg
     ):
         """
-        Initialize the OMPL.
+        Initialize the OMPL planner.
 
         Args:
-           arm_id: ID of the robot to use.
-           joint_idx: Index of the joints to use in planning.
-           obstacles: List of obstacles to consider in the motion planning.
-           planner: The name of the motion planner algorithm to use.
-           threshold: The threshold value ONLY for repalnning.
+            robot (Robot): The robot object.
+            Planner_cfg (Config): The configuration for the planner.
         """
         
         # arm info
@@ -72,10 +71,10 @@ class OMPL_Planner:
     
     def set_planner(self, planner_name):
         """
-        Set Planner to OMPL.
+        Set planner for OMPL.
 
         Args:
-            planner_name: The planner to set to OMPL.
+            planner_name (str): The name of the planner to use.
         """
         
         if planner_name == "PRM":
@@ -100,10 +99,13 @@ class OMPL_Planner:
     
     def set_target(self, target):
         """
-        Set the target to be used for the manipulation task.
+        Set the target object for the manipulation task.
 
         Args:
-            target: id / name of the target object.
+            target (Union[str, int]): The id or name of the target object.
+
+        Returns:
+            list: The goal state in joint space.
         """
               
         if isinstance(target, str):
@@ -127,11 +129,15 @@ class OMPL_Planner:
     
     def set_target_pose(self, target_pose):
         """
-        Set the target to be used for the manipulation task.
+        Set the target pose for the manipulation task.
 
         Args:
-            target_pose: pose of the target object.
+            target_pose (Pose): The pose of the target object.
+
+        Returns:
+            list: The goal state in joint space.
         """
+
         
         # get goal angle
         goal = self.robot.cartesian_to_joints(target_pose)
@@ -145,7 +151,6 @@ class OMPL_Planner:
     def set_obstacles(self):
         """
         Add obstacles to the scene.
-        This is done by iterating over all items in the scene and adding them to the list of obstacles.
         """
 
         num_items = p.getNumBodies()
@@ -162,7 +167,6 @@ class OMPL_Planner:
     def get_obstacles_info(self):
         """
         Check obstacles in the scene and print them to the console.
-        This is a debugging function.
         """
         
         if self.obstacles == []:
@@ -178,15 +182,15 @@ class OMPL_Planner:
     # ----------------------------------------------------------------
 
     def plan(self, start, goal):
-        """Plan grasp from start to goal.
-        This is a wrapper around OMPL grasp planning algorithm.
+        """
+        Plan grasp from start to goal using OMPL.
 
         Args:
-            start: state to start planning from.
-            goal: state to go to after planning has been completed.
+            start (list): The start state in joint space.
+            goal (list): The goal state in joint space.
 
         Returns:
-            path: a list of robot state.
+            list: The planned path as a list of states.
         """
         
         print("\n" + "-" * 20 + "\n" + "Start planning"+ "\n" + "-" * 20 + "\n")
@@ -216,4 +220,13 @@ class OMPL_Planner:
     # ----------------------------------------------------------------
     
     def state_to_list(self, state):
+        """
+        Convert state to list.
+        
+        Args:
+            state (ob.State): The state to convert.
+
+        Returns:
+            list: The state as a list of values.
+        """
         return [state[i] for i in range(self.DOF)]

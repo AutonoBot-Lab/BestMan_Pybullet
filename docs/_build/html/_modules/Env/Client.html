@@ -255,7 +255,7 @@ document.write(`
 <span class="sd">    Pybullet client, Provides some interfaces for interacting with simulation scenes</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="p">):</span>
+<div class="viewcode-block" id="Client.__init__"><a class="viewcode-back" href="../../references/Env.html#Env.Client.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a new PyBullet Client object.</span>
 
@@ -295,7 +295,7 @@ document.write(`
 
         <span class="c1"># Enable caching of graphic shapes when loading URDF files</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">enable_cache</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">URDF_ENABLE_CACHED_GRAPHICS_SHAPES</span>
-        <span class="n">planeId</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">loadURDF</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">plane_urdf_path</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">enable_cache</span><span class="p">)</span>
+        <span class="n">planeId</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">loadURDF</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">plane_urdf_path</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">enable_cache</span><span class="p">)</span></div>
         <span class="c1"># plane_path = os.path.join(pybullet_data.getDataPath(), cfg.plane_urdf_path)</span>
         <span class="c1"># planeId = self.load_object(</span>
         <span class="c1">#     obj_name=&#39;plane&#39;,</span>

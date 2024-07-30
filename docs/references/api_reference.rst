@@ -8,9 +8,8 @@ API References
    Controller
    Env
    RoboticsToolBox
-
-.. * :ref:`Motion_Planning`
-.. * :ref:`Perception`
-.. * :ref:`SLAM`
-.. * :ref:`User_Interface`
-.. * :ref:`Visualization`
+   Perception/Perception
+   SLAM
+   Visualization
+   User_Interface
+   Motion_Planning/Motion_Planning

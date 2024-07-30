@@ -1,0 +1,651 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Motion_Planning.Navigation.RRT.rrt &#8212; BestMan_Pybullet 1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/Motion_Planning/Navigation/RRT/rrt';</script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">BestMan_Pybullet 1.0 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for Motion_Planning.Navigation.RRT.rrt</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">Path planning Sample Code with Randomized Rapidly-Exploring Random Trees (RRT)</span>
+
+<span class="sd">author: AtsushiSakai(@Atsushi_twi)</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">rtree</span> <span class="kn">import</span> <span class="n">index</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="c1"># from ..utils import AreaBounds, plot_rectangle</span>
+<span class="kn">from</span> <span class="nn">Motion_Planning.Navigation.utils</span> <span class="kn">import</span> <span class="o">*</span>  <span class="c1"># test in this script</span>
+<span class="kn">from</span> <span class="nn">RoboticsToolBox</span> <span class="kn">import</span> <span class="n">Pose</span>
+
+
+<div class="viewcode-block" id="RRTPlanner"><a class="viewcode-back" href="../../../../references/Motion_Planning/Navigation/Navigation.html#Motion_Planning.Navigation.RRTPlanner">[docs]</a><span class="k">class</span> <span class="nc">RRTPlanner</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for RRT planning&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="RRTPlanner.Node"><a class="viewcode-back" href="../../../../references/Motion_Planning/Navigation/Navigation.html#Motion_Planning.Navigation.RRTPlanner.Node">[docs]</a>    <span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;RRT Node&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="RRTPlanner.Node.__init__"><a class="viewcode-back" href="../../../../references/Motion_Planning/Navigation/Navigation.html#Motion_Planning.Navigation.RRTPlanner.Node.__init__">[docs]</a>        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Initializes the RRT node.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                x (float): X-coordinate of the node.</span>
+<span class="sd">                y (float): Y-coordinate of the node.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">path_x</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">path_y</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span></div></div>
+
+<div class="viewcode-block" id="RRTPlanner.__init__"><a class="viewcode-back" href="../../../../references/Motion_Planning/Navigation/Navigation.html#Motion_Planning.Navigation.RRTPlanner.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">robot_size</span><span class="p">,</span>
+                 <span class="n">obstacles_bounds</span><span class="p">,</span>
+                 
+                 <span class="n">expand_dis</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+                 <span class="n">path_resolution</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+                 <span class="n">goal_sample_rate</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                 <span class="n">max_iter</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+                 <span class="n">enable_plot</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the RRT planner.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            robot_size (float): The size of the robot.</span>
+<span class="sd">            obstacles_bounds (list): List of obstacle boundaries.</span>
+<span class="sd">            expand_dis (float, optional): The distance to expand the tree. Defaults to 0.2.</span>
+<span class="sd">            path_resolution (float, optional): The resolution of the path. Defaults to 0.05.</span>
+<span class="sd">            goal_sample_rate (int, optional): The goal sampling rate. Defaults to 5.</span>
+<span class="sd">            max_iter (int, optional): The maximum number of iterations. Defaults to 500.</span>
+<span class="sd">            enable_plot (bool, optional): Flag to enable or disable plotting. Defaults to True.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obstacles_bounds</span> <span class="o">=</span> <span class="n">obstacles_bounds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idx</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">Index</span><span class="p">()</span>
+        <span class="k">for</span> <span class="nb">id</span><span class="p">,</span> <span class="n">obstacle_bounds</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obstacles_bounds</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">idx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">obstacle_bounds</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">robot_radius</span> <span class="o">=</span> <span class="n">robot_size</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">play_area</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expand_dis</span> <span class="o">=</span> <span class="n">expand_dis</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path_resolution</span> <span class="o">=</span> <span class="n">path_resolution</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">goal_sample_rate</span> <span class="o">=</span> <span class="n">goal_sample_rate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_iter</span> <span class="o">=</span> <span class="n">max_iter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">node_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enable_plot</span> <span class="o">=</span> <span class="n">enable_plot</span></div>
+
+<div class="viewcode-block" id="RRTPlanner.plan"><a class="viewcode-back" href="../../../../references/Motion_Planning/Navigation/Navigation.html#Motion_Planning.Navigation.RRTPlanner.plan">[docs]</a>    <span class="k">def</span> <span class="nf">plan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_pose</span><span class="p">,</span> <span class="n">goal_pose</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        RRT path planning.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            start_pose (Pose): The starting pose of the robot.</span>
+<span class="sd">            goal_pose (Pose): The goal pose of the robot.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: The planned path as a list of points.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># only care about x, y</span>
+        <span class="n">start_position</span> <span class="o">=</span> <span class="n">start_pose</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">goal_position</span> <span class="o">=</span> <span class="n">goal_pose</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">area</span> <span class="o">=</span> <span class="n">AreaBounds</span><span class="p">(</span><span class="n">start_position</span><span class="p">,</span> <span class="n">goal_position</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">obstacles_bounds</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">start_position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">start_position</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">goal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">goal_position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">goal_position</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">node_list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_iter</span><span class="p">):</span>
+            <span class="n">rnd_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_random_node</span><span class="p">()</span>
+            <span class="n">nearest_ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_nearest_node_index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_list</span><span class="p">,</span> <span class="n">rnd_node</span><span class="p">)</span>
+            <span class="n">nearest_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_list</span><span class="p">[</span><span class="n">nearest_ind</span><span class="p">]</span>
+
+            <span class="n">new_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">steer</span><span class="p">(</span><span class="n">nearest_node</span><span class="p">,</span> <span class="n">rnd_node</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">expand_dis</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_if_outside_play_area</span><span class="p">(</span><span class="n">new_node</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">play_area</span><span class="p">)</span> <span class="ow">and</span> \
+               <span class="bp">self</span><span class="o">.</span><span class="n">check_collision</span><span class="p">(</span>
+                   <span class="n">new_node</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">node_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_node</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">calc_dist_to_goal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+                                      <span class="bp">self</span><span class="o">.</span><span class="n">node_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">expand_dis</span><span class="p">:</span>
+                <span class="n">final_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">steer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">goal</span><span class="p">,</span>
+                                        <span class="bp">self</span><span class="o">.</span><span class="n">expand_dis</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_collision</span><span class="p">(</span>
+                        <span class="n">final_node</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_final_course</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_list</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="k">break</span>
+                
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cannot find path&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;found path!!&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Draw final path</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable_plot</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">visual</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span>  <span class="c1"># cannot find path</span></div>
+
+
+<div class="viewcode-block" id="RRTPlanner.visual"><a class="viewcode-back" href="../../../../references/Motion_Planning/Navigation/Navigation.html#Motion_Planning.Navigation.RRTPlanner.visual">[docs]</a>    <span class="k">def</span> <span class="nf">visual</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Visualization of routes generated by RTT navigation algorithm.&quot;&quot;&quot;</span>
+        
+        <span class="c1"># clear current figure</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">y_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">y_max</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">obstacles_bounds</span><span class="p">:</span>
+            <span class="n">plot_rectangle</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">y_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">y_max</span><span class="p">)</span>
+        
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="s2">&quot;og&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">goal</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">goal</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="s2">&quot;xr&quot;</span><span class="p">)</span>
+        
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">],</span> <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">],</span> <span class="s1">&#39;-r&#39;</span><span class="p">)</span>
+        
+        <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">x_min</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">x_max</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">y_min</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">y_max</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
+        <span class="c1"># plt.grid(True)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Navigation Visualization&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pause</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+        
+        
+<div class="viewcode-block" id="RRTPlanner.steer"><a class="viewcode-back" href="../../../../references/Motion_Planning/Navigation/Navigation.html#Motion_Planning.Navigation.RRTPlanner.steer">[docs]</a>    <span class="k">def</span> <span class="nf">steer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_node</span><span class="p">,</span> <span class="n">to_node</span><span class="p">,</span> <span class="n">extend_length</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Steers from one node towards another node.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            from_node (Node): The starting node.</span>
+<span class="sd">            to_node (Node): The target node.</span>
+<span class="sd">            extend_length (float, optional): The distance to extend towards the target node. Defaults to infinity.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Node: The new node after steering.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">from_node</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">from_node</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">d</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calc_distance_and_angle</span><span class="p">(</span><span class="n">new_node</span><span class="p">,</span> <span class="n">to_node</span><span class="p">)</span>
+
+        <span class="n">new_node</span><span class="o">.</span><span class="n">path_x</span> <span class="o">=</span> <span class="p">[</span><span class="n">new_node</span><span class="o">.</span><span class="n">x</span><span class="p">]</span>
+        <span class="n">new_node</span><span class="o">.</span><span class="n">path_y</span> <span class="o">=</span> <span class="p">[</span><span class="n">new_node</span><span class="o">.</span><span class="n">y</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">extend_length</span> <span class="o">&gt;</span> <span class="n">d</span><span class="p">:</span>
+            <span class="n">extend_length</span> <span class="o">=</span> <span class="n">d</span>
+
+        <span class="n">n_expand</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">extend_length</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">path_resolution</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_expand</span><span class="p">):</span>
+            <span class="n">new_node</span><span class="o">.</span><span class="n">x</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path_resolution</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+            <span class="n">new_node</span><span class="o">.</span><span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path_resolution</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+            <span class="n">new_node</span><span class="o">.</span><span class="n">path_x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_node</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">new_node</span><span class="o">.</span><span class="n">path_y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_node</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+
+        <span class="n">d</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calc_distance_and_angle</span><span class="p">(</span><span class="n">new_node</span><span class="p">,</span> <span class="n">to_node</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">d</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path_resolution</span><span class="p">:</span>
+            <span class="n">new_node</span><span class="o">.</span><span class="n">path_x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">to_node</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">new_node</span><span class="o">.</span><span class="n">path_y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">to_node</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+            <span class="n">new_node</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">to_node</span><span class="o">.</span><span class="n">x</span>
+            <span class="n">new_node</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">to_node</span><span class="o">.</span><span class="n">y</span>
+
+        <span class="n">new_node</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">from_node</span>
+
+        <span class="k">return</span> <span class="n">new_node</span></div>
+
+<div class="viewcode-block" id="RRTPlanner.generate_final_course"><a class="viewcode-back" href="../../../../references/Motion_Planning/Navigation/Navigation.html#Motion_Planning.Navigation.RRTPlanner.generate_final_course">[docs]</a>    <span class="k">def</span> <span class="nf">generate_final_course</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">goal_ind</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates the final course from start to goal.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            goal_ind (int): The index of the goal node.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: The final path as a list of points.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">goal</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">goal</span><span class="o">.</span><span class="n">y</span><span class="p">]]</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_list</span><span class="p">[</span><span class="n">goal_ind</span><span class="p">]</span>
+        <span class="k">while</span> <span class="n">node</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">node</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">y</span><span class="p">])</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">parent</span>
+        <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">node</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">y</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">path</span></div>
+
+<div class="viewcode-block" id="RRTPlanner.calc_dist_to_goal"><a class="viewcode-back" href="../../../../references/Motion_Planning/Navigation/Navigation.html#Motion_Planning.Navigation.RRTPlanner.calc_dist_to_goal">[docs]</a>    <span class="k">def</span> <span class="nf">calc_dist_to_goal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the distance to the goal.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x (float): The x-coordinate.</span>
+<span class="sd">            y (float): The y-coordinate.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: The distance to the goal.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">goal</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">dy</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">goal</span><span class="o">.</span><span class="n">y</span>
+        <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RRTPlanner.get_random_node"><a class="viewcode-back" href="../../../../references/Motion_Planning/Navigation/Navigation.html#Motion_Planning.Navigation.RRTPlanner.get_random_node">[docs]</a>    <span class="k">def</span> <span class="nf">get_random_node</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets a random node.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Node: The random node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">goal_sample_rate</span><span class="p">:</span>
+            <span class="n">rnd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
+                <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">x_min</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">x_max</span><span class="p">),</span>
+                <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">y_min</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">y_max</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># goal point sampling</span>
+            <span class="n">rnd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">goal</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">goal</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rnd</span></div>
+    
+<div class="viewcode-block" id="RRTPlanner.get_nearest_node_index"><a class="viewcode-back" href="../../../../references/Motion_Planning/Navigation/Navigation.html#Motion_Planning.Navigation.RRTPlanner.get_nearest_node_index">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_nearest_node_index</span><span class="p">(</span><span class="n">node_list</span><span class="p">,</span> <span class="n">rnd_node</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the index of the nearest node.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            node_list (list): The list of nodes.</span>
+<span class="sd">            rnd_node (Node): The random node.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The index of the nearest node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dlist</span> <span class="o">=</span> <span class="p">[(</span><span class="n">node</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">rnd_node</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">rnd_node</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+                 <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">node_list</span><span class="p">]</span>
+        <span class="n">minind</span> <span class="o">=</span> <span class="n">dlist</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">dlist</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">minind</span></div>
+
+<div class="viewcode-block" id="RRTPlanner.check_if_outside_play_area"><a class="viewcode-back" href="../../../../references/Motion_Planning/Navigation/Navigation.html#Motion_Planning.Navigation.RRTPlanner.check_if_outside_play_area">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">check_if_outside_play_area</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">play_area</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if a node is outside the play area.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            node (Node): The node to check.</span>
+<span class="sd">            play_area (AreaBounds): The play area.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the node is inside the play area, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">play_area</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># no play_area was defined, every pos should be ok</span>
+
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">play_area</span><span class="o">.</span><span class="n">xmin</span> <span class="ow">or</span> <span class="n">node</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">play_area</span><span class="o">.</span><span class="n">xmax</span> <span class="ow">or</span> \
+           <span class="n">node</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">play_area</span><span class="o">.</span><span class="n">ymin</span> <span class="ow">or</span> <span class="n">node</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">play_area</span><span class="o">.</span><span class="n">ymax</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># outside - bad</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># inside - ok</span></div>
+
+
+<div class="viewcode-block" id="RRTPlanner.check_collision"><a class="viewcode-back" href="../../../../references/Motion_Planning/Navigation/Navigation.html#Motion_Planning.Navigation.RRTPlanner.check_collision">[docs]</a>    <span class="k">def</span> <span class="nf">check_collision</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if a node is in collision.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            node (Node): The node to check.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the node is not in collision, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">path_x</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">path_y</span><span class="p">):</span>
+            <span class="n">query_area</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">robot_radius</span><span class="p">,</span> <span class="n">y</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">robot_radius</span><span class="p">,</span> <span class="n">x</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">robot_radius</span><span class="p">,</span> <span class="n">y</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">robot_radius</span><span class="p">]</span>
+            <span class="n">intersected_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idx</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">query_area</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">intersected_ids</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># safe</span></div>
+
+<div class="viewcode-block" id="RRTPlanner.calc_distance_and_angle"><a class="viewcode-back" href="../../../../references/Motion_Planning/Navigation/Navigation.html#Motion_Planning.Navigation.RRTPlanner.calc_distance_and_angle">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">calc_distance_and_angle</span><span class="p">(</span><span class="n">from_node</span><span class="p">,</span> <span class="n">to_node</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the distance and angle between two nodes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            from_node (Node): The starting node.</span>
+<span class="sd">            to_node (Node): The target node.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple: The distance and angle between the nodes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dx</span> <span class="o">=</span> <span class="n">to_node</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">from_node</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">dy</span> <span class="o">=</span> <span class="n">to_node</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">from_node</span><span class="o">.</span><span class="n">y</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">dy</span><span class="p">,</span> <span class="n">dx</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">d</span><span class="p">,</span> <span class="n">theta</span></div></div>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;start &quot;</span> <span class="o">+</span> <span class="vm">__file__</span><span class="p">)</span>
+
+    <span class="n">obstacles_bounds</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">12</span><span class="p">],[</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">7</span><span class="p">],[</span><span class="mi">7</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">7</span><span class="p">],[</span><span class="mi">7</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">11</span><span class="p">],[</span><span class="mi">7</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">11</span><span class="p">]]</span>
+    <span class="n">robot_size</span> <span class="o">=</span> <span class="mf">1.2</span>
+    
+    <span class="c1"># Set Initial parameters</span>
+    <span class="n">rrt</span> <span class="o">=</span> <span class="n">RRTPlanner</span><span class="p">(</span>
+        <span class="n">robot_size</span><span class="o">=</span><span class="n">robot_size</span><span class="p">,</span>
+        <span class="n">obstacles_bounds</span> <span class="o">=</span> <span class="n">obstacles_bounds</span><span class="p">,</span>
+        <span class="n">expand_dis</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">enable_plot</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    
+    <span class="c1"># route plan</span>
+    <span class="n">start_pose</span> <span class="o">=</span> <span class="n">Pose</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+    <span class="n">goal_pose</span> <span class="o">=</span> <span class="n">Pose</span><span class="p">([</span><span class="mf">6.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">rrt</span><span class="o">.</span><span class="n">plan</span><span class="p">(</span><span class="n">start_pose</span><span class="p">,</span> <span class="n">goal_pose</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;start:&#39;</span><span class="p">,</span> <span class="n">start_pose</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;goal:&#39;</span><span class="p">,</span> <span class="n">goal_pose</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;path:&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By kui yang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, kui yang.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,535 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Motion_Planning.Manipulation.OMPL_Planner.OMPL_Planner &#8212; BestMan_Pybullet 1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/Motion_Planning/Manipulation/OMPL_Planner/OMPL_Planner';</script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">BestMan_Pybullet 1.0 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for Motion_Planning.Manipulation.OMPL_Planner.OMPL_Planner</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">@Description :   A few functions for planning</span>
+<span class="sd">@Author      :   Yan Ding </span>
+<span class="sd">@Time        :   2023/08/30 22:52:39</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">pybullet</span> <span class="k">as</span> <span class="nn">p</span>
+<span class="kn">from</span> <span class="nn">ompl</span> <span class="kn">import</span> <span class="n">base</span> <span class="k">as</span> <span class="n">ob</span>
+<span class="kn">from</span> <span class="nn">ompl</span> <span class="kn">import</span> <span class="n">geometric</span> <span class="k">as</span> <span class="n">og</span>
+
+<span class="kn">from</span> <span class="nn">RoboticsToolBox</span> <span class="kn">import</span> <span class="n">Pose</span>
+<span class="kn">from</span> <span class="nn">..Collision</span> <span class="kn">import</span> <span class="n">Collision</span>
+
+
+<div class="viewcode-block" id="OMPL_Planner"><a class="viewcode-back" href="../../../../references/Motion_Planning/Manipulation/OMPL_Planning/OMPL_Planning.html#Motion_Planning.Manipulation.OMPL_Planner">[docs]</a><span class="k">class</span> <span class="nc">OMPL_Planner</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for OMPL planning.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="OMPL_Planner.__init__"><a class="viewcode-back" href="../../../../references/Motion_Planning/Manipulation/OMPL_Planning/OMPL_Planning.html#Motion_Planning.Manipulation.OMPL_Planner.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">robot</span><span class="p">,</span>
+        <span class="n">Planner_cfg</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the OMPL planner.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            robot (Robot): The robot object.</span>
+<span class="sd">            Planner_cfg (Config): The configuration for the planner.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># arm info</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">robot</span> <span class="o">=</span> <span class="n">robot</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">get_arm_id</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">joint_idx</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">get_joint_idx</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tcp_link</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">get_tcp_link</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DOF</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">get_DOF</span><span class="p">()</span>
+        
+        <span class="c1"># client info</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_client_id</span><span class="p">()</span>
+        
+        <span class="c1"># obstacles</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obstacles</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collision</span> <span class="o">=</span> <span class="n">Collision</span><span class="p">(</span><span class="n">robot</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">obstacles</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_obstacles</span><span class="p">()</span>
+        
+        <span class="c1"># preparation for OMPL planning</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">space</span> <span class="o">=</span> <span class="n">ob</span><span class="o">.</span><span class="n">RealVectorStateSpace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DOF</span><span class="p">)</span>      <span class="c1"># construct the state space</span>
+        <span class="n">bounds</span> <span class="o">=</span> <span class="n">ob</span><span class="o">.</span><span class="n">RealVectorBounds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DOF</span><span class="p">)</span>              <span class="c1"># creating Boundary</span>
+        <span class="n">joint_bounds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">get_joint_bounds</span><span class="p">()</span>        <span class="c1"># get joint boundaries</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">bound</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">joint_bounds</span><span class="p">):</span>
+            <span class="n">bounds</span><span class="o">.</span><span class="n">setLow</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">bound</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">bounds</span><span class="o">.</span><span class="n">setHigh</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">bound</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">space</span><span class="o">.</span><span class="n">setBounds</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span>                        <span class="c1"># set bounds</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">ss</span> <span class="o">=</span> <span class="n">og</span><span class="o">.</span><span class="n">SimpleSetup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">space</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ss</span><span class="o">.</span><span class="n">setStateValidityChecker</span><span class="p">(</span><span class="n">ob</span><span class="o">.</span><span class="n">StateValidityCheckerFn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">collision</span><span class="o">.</span><span class="n">is_state_valid</span><span class="p">))</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">si</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ss</span><span class="o">.</span><span class="n">getSpaceInformation</span><span class="p">()</span>
+        
+        <span class="c1"># planner cfgs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_planner</span><span class="p">(</span><span class="n">Planner_cfg</span><span class="o">.</span><span class="n">planner</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">planning_time</span> <span class="o">=</span> <span class="n">Planner_cfg</span><span class="o">.</span><span class="n">planning_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interpolate_num</span> <span class="o">=</span> <span class="n">Planner_cfg</span><span class="o">.</span><span class="n">interpolate_num</span></div>
+
+    <span class="c1"># ----------------------------------------------------------------</span>
+    <span class="c1"># set planner / goal</span>
+    <span class="c1"># ----------------------------------------------------------------</span>
+    
+<div class="viewcode-block" id="OMPL_Planner.set_planner"><a class="viewcode-back" href="../../../../references/Motion_Planning/Manipulation/OMPL_Planning/OMPL_Planning.html#Motion_Planning.Manipulation.OMPL_Planner.set_planner">[docs]</a>    <span class="k">def</span> <span class="nf">set_planner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">planner_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set planner for OMPL.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            planner_name (str): The name of the planner to use.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">if</span> <span class="n">planner_name</span> <span class="o">==</span> <span class="s2">&quot;PRM&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">planner</span> <span class="o">=</span> <span class="n">og</span><span class="o">.</span><span class="n">PRM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ss</span><span class="o">.</span><span class="n">getSpaceInformation</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="n">planner_name</span> <span class="o">==</span> <span class="s2">&quot;RRT&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">planner</span> <span class="o">=</span> <span class="n">og</span><span class="o">.</span><span class="n">RRT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ss</span><span class="o">.</span><span class="n">getSpaceInformation</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="n">planner_name</span> <span class="o">==</span> <span class="s2">&quot;RRTConnect&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">planner</span> <span class="o">=</span> <span class="n">og</span><span class="o">.</span><span class="n">RRTConnect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ss</span><span class="o">.</span><span class="n">getSpaceInformation</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="n">planner_name</span> <span class="o">==</span> <span class="s2">&quot;RRTstar&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">planner</span> <span class="o">=</span> <span class="n">og</span><span class="o">.</span><span class="n">RRTstar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ss</span><span class="o">.</span><span class="n">getSpaceInformation</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="n">planner_name</span> <span class="o">==</span> <span class="s2">&quot;EST&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">planner</span> <span class="o">=</span> <span class="n">og</span><span class="o">.</span><span class="n">EST</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ss</span><span class="o">.</span><span class="n">getSpaceInformation</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="n">planner_name</span> <span class="o">==</span> <span class="s2">&quot;FMT&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">planner</span> <span class="o">=</span> <span class="n">og</span><span class="o">.</span><span class="n">FMT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ss</span><span class="o">.</span><span class="n">getSpaceInformation</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="n">planner_name</span> <span class="o">==</span> <span class="s2">&quot;BITstar&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">planner</span> <span class="o">=</span> <span class="n">og</span><span class="o">.</span><span class="n">BITstar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ss</span><span class="o">.</span><span class="n">getSpaceInformation</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> not recognized, please add it first&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">planner_name</span><span class="p">))</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ss</span><span class="o">.</span><span class="n">setPlanner</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">planner</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="OMPL_Planner.set_target"><a class="viewcode-back" href="../../../../references/Motion_Planning/Manipulation/OMPL_Planning/OMPL_Planning.html#Motion_Planning.Manipulation.OMPL_Planner.set_target">[docs]</a>    <span class="k">def</span> <span class="nf">set_target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the target object for the manipulation task.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            target (Union[str, int]): The id or name of the target object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: The goal state in joint space.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+              
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+                <span class="n">target_id</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;scene has not </span><span class="si">{</span><span class="nb">object</span><span class="si">}</span><span class="s2"> object!&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">target_id</span> <span class="o">=</span> <span class="n">target</span>
+        
+        <span class="c1"># get target object bounds</span>
+        <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">max_z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_bounding_box</span><span class="p">(</span><span class="n">target_id</span><span class="p">)</span>
+        
+        <span class="c1"># set target object Pose</span>
+        <span class="n">goal_pose</span> <span class="o">=</span> <span class="n">Pose</span><span class="p">([(</span><span class="n">min_x</span> <span class="o">+</span> <span class="n">max_x</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">min_y</span> <span class="o">+</span> <span class="n">max_y</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">max_z</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">tcp_height</span> <span class="o">+</span> <span class="mf">0.05</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+        
+        <span class="c1"># get goal angle</span>
+        <span class="n">goal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">cartesian_to_joints</span><span class="p">(</span><span class="n">goal_pose</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">goal</span></div>
+    
+<div class="viewcode-block" id="OMPL_Planner.set_target_pose"><a class="viewcode-back" href="../../../../references/Motion_Planning/Manipulation/OMPL_Planning/OMPL_Planning.html#Motion_Planning.Manipulation.OMPL_Planner.set_target_pose">[docs]</a>    <span class="k">def</span> <span class="nf">set_target_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_pose</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the target pose for the manipulation task.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            target_pose (Pose): The pose of the target object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: The goal state in joint space.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        
+        <span class="c1"># get goal angle</span>
+        <span class="n">goal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">cartesian_to_joints</span><span class="p">(</span><span class="n">target_pose</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">goal</span></div>
+    
+    <span class="c1"># ----------------------------------------------------------------</span>
+    <span class="c1"># obstacles</span>
+    <span class="c1"># ----------------------------------------------------------------</span>
+    
+<div class="viewcode-block" id="OMPL_Planner.set_obstacles"><a class="viewcode-back" href="../../../../references/Motion_Planning/Manipulation/OMPL_Planning/OMPL_Planning.html#Motion_Planning.Manipulation.OMPL_Planner.set_obstacles">[docs]</a>    <span class="k">def</span> <span class="nf">set_obstacles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add obstacles to the scene.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">num_items</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getNumBodies</span><span class="p">()</span>
+
+        <span class="c1"># add object in scene, skip arm</span>
+        <span class="k">for</span> <span class="n">item_id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_items</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">item_id</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obstacles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item_id</span><span class="p">)</span>
+        
+        <span class="c1"># init collision info</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collision</span><span class="o">.</span><span class="n">setup_collision_detection</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="OMPL_Planner.get_obstacles_info"><a class="viewcode-back" href="../../../../references/Motion_Planning/Manipulation/OMPL_Planning/OMPL_Planning.html#Motion_Planning.Manipulation.OMPL_Planner.get_obstacles_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_obstacles_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check obstacles in the scene and print them to the console.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">obstacles</span> <span class="o">==</span> <span class="p">[]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;Obstacle list is empty&quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">obstacle_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">obstacles</span><span class="p">:</span>
+                <span class="n">item_info</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getBodyInfo</span><span class="p">(</span><span class="n">obstacle_id</span><span class="p">)</span>
+                <span class="n">item_name</span> <span class="o">=</span> <span class="n">item_info</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Obstacle Name: </span><span class="si">{</span><span class="n">item_name</span><span class="si">}</span><span class="s2">, ID: </span><span class="si">{</span><span class="n">obstacle_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+    
+    <span class="c1"># ----------------------------------------------------------------</span>
+    <span class="c1"># functions for plan </span>
+    <span class="c1"># ----------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="OMPL_Planner.plan"><a class="viewcode-back" href="../../../../references/Motion_Planning/Manipulation/OMPL_Planning/OMPL_Planning.html#Motion_Planning.Manipulation.OMPL_Planner.plan">[docs]</a>    <span class="k">def</span> <span class="nf">plan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">goal</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plan grasp from start to goal using OMPL.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            start (list): The start state in joint space.</span>
+<span class="sd">            goal (list): The goal state in joint space.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: The planned path as a list of states.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;Start planning&quot;</span><span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># set the start and goal states</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">ob</span><span class="o">.</span><span class="n">State</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">space</span><span class="p">)</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">ob</span><span class="o">.</span><span class="n">State</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">space</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">start</span><span class="p">)):</span>
+            <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">start</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">g</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">goal</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ss</span><span class="o">.</span><span class="n">setStartAndGoalStates</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+
+        <span class="c1"># attempt to solve the problem within allowed planning time</span>
+        <span class="n">solved</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ss</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">planning_time</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">solved</span><span class="p">:</span>
+            <span class="n">sol_path_geometric</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ss</span><span class="o">.</span><span class="n">getSolutionPath</span><span class="p">()</span>
+            <span class="n">sol_path_geometric</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">interpolate_num</span><span class="p">)</span>     <span class="c1"># Linear interpolation, Generate more intermediate states to make the path smoother and more refined</span>
+            <span class="n">sol_path_states</span> <span class="o">=</span> <span class="n">sol_path_geometric</span><span class="o">.</span><span class="n">getStates</span><span class="p">()</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">state_to_list</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">sol_path_states</span><span class="p">]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;End planning&quot;</span><span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">path</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;No solution found!&quot;</span><span class="p">)</span></div>
+    
+    <span class="c1"># ----------------------------------------------------------------</span>
+    <span class="c1"># Utils</span>
+    <span class="c1"># ----------------------------------------------------------------</span>
+    
+<div class="viewcode-block" id="OMPL_Planner.state_to_list"><a class="viewcode-back" href="../../../../references/Motion_Planning/Manipulation/OMPL_Planning/OMPL_Planning.html#Motion_Planning.Manipulation.OMPL_Planner.state_to_list">[docs]</a>    <span class="k">def</span> <span class="nf">state_to_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert state to list.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            state (ob.State): The state to convert.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: The state as a list of values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">state</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DOF</span><span class="p">)]</span></div></div>
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By kui yang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, kui yang.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

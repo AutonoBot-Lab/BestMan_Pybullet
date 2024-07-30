@@ -7,15 +7,14 @@ from Visualization import CameraParameters
 Bbox = Tuple[int, int, int, int]
 
 def get_3d_points(cam: CameraParameters):
-    """Convert depth image to 3D point cloud
-
+    """Convert depth image to 3D point cloud.
+    
     Args:
-        cam (CameraParameters): Camera internal parameters
+        cam (CameraParameters): Camera internal parameters.
     
     Returns:
-        points(np.array): 3D point cloud
+        np.ndarray: 3D point cloud.
     """
-    
     xmap, ymap = np.arange(cam.depths.shape[1]), np.arange(cam.depths.shape[0])
     xmap, ymap = np.meshgrid(xmap, ymap)
     points_z = cam.depths
@@ -25,7 +24,14 @@ def get_3d_points(cam: CameraParameters):
     return points
 
 def sample_points(points, sampling_rate=1):
-    """Randomly sample some points from a given set of points at a specified sampling rate
+    """Randomly sample some points from a given set of points at a specified sampling rate.
+    
+    Args:
+        points (np.ndarray): Array of points to sample from.
+        sampling_rate (float, optional): Rate at which to sample points. Defaults to 1.
+    
+    Returns:
+        Tuple[np.ndarray, np.ndarray]: Sampled points and their indices.
     """
     N = len(points)
     num_samples = int(N*sampling_rate)
@@ -35,7 +41,15 @@ def sample_points(points, sampling_rate=1):
 
 
 def draw_rectangle(image, bbox, width=5):
-    """Draw a green rectangle on the given image
+    """Draw a green rectangle on the given image.
+    
+    Args:
+        image (ImageDraw): Image on which to draw the rectangle.
+        bbox (Bbox): Bounding box coordinates as a tuple (x1, y1, x2, y2).
+        width (int, optional): Width of the rectangle outline. Defaults to 5.
+    
+    Returns:
+        ImageDraw: Image with the rectangle drawn.
     """
     img_drw = ImageDraw.Draw(image)
     x1, y1, x2, y2 = bbox[0], bbox[1], bbox[2], bbox[3]
@@ -53,13 +67,16 @@ def draw_rectangle(image, bbox, width=5):
 
 
 def visualize_cloud_geometries(cloud, geometries, translation = None, rotation = None, visualize = True, save_file = None):
+    """Visualize point cloud with additional geometries.
+    
+    Args:
+        cloud (o3d.geometry.PointCloud): Point cloud of points.
+        geometries (list): List of geometries to visualize with the point cloud.
+        translation (np.ndarray, optional): Translation vector. Defaults to None.
+        rotation (np.ndarray, optional): Rotation matrix. Defaults to None.
+        visualize (bool, optional): Flag to show the visualization window. Defaults to True.
+        save_file (str, optional): File name to save the visualization. Defaults to None.
     """
-        cloud       : Point cloud of points
-        grippers    : list of grippers of form graspnetAPI grasps
-        visualise   : To show windows
-        save_file   : Visualisation file name
-    """
-
     coordinate_frame = o3d.geometry.TriangleMesh.create_coordinate_frame(size=0.2, origin=[0, 0, 0])
     if translation is not None:
         coordinate_frame1 = o3d.geometry.TriangleMesh.create_coordinate_frame(size=0.2, origin=[0, 0, 0])

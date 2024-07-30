@@ -16,8 +16,9 @@ from Controller import PIDController
 
 
 class Bestman_sim:
-    """
-        Attributes:
+    """A basic class for BestMan robot
+        
+    Attributes:
         client (object): The pybullet client object.
         client_id (int): The client id returned by the pybullet client.
         
@@ -43,6 +44,7 @@ class Bestman_sim:
         visualizer (object): The visualizer object.
         gripper_id (None): The gripper id. Initialized to None.
     """
+    
     def __init__(self, client, visualizer,  cfg):
         """
         Initialize a new robot.
@@ -57,7 +59,7 @@ class Bestman_sim:
         self.client_id = self.client.get_client_id()
         
         self.visualizer = visualizer
-        # self.enable_cache = p.URDF_ENABLE_CACHED_GRAPHICS_SHAPES   # Enable caching of graphic shapes when loading URDF files
+        self.enable_cache = p.URDF_ENABLE_CACHED_GRAPHICS_SHAPES   # Enable caching of graphic shapes when loading URDF files
         
         # Init PID controller
         controller_cfg = cfg.Controller

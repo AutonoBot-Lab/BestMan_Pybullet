@@ -25,6 +25,7 @@ bl_info = {
 
 
 class ANIM_OT_import_pybullet_sim(Operator, ImportHelper):
+    """Operator for importing PyBullet simulation results."""
     bl_label = "Import simulation"
     bl_idname = "pybulletsim.import"
     bl_description = "Imports a PyBullet Simulation"
@@ -44,6 +45,15 @@ class ANIM_OT_import_pybullet_sim(Operator, ImportHelper):
         name="Max Frames", default=-1, min=-1, max=10000)
 
     def execute(self, context):
+        """
+        Executes the import operation.
+
+        Args:
+            context (bpy.types.Context): The context in which the operator is called.
+
+        Returns:
+            dict: A dictionary with the execution status.
+        """
         for file in self.files:
             filepath = join(self.directory, file.name)
             print(f'Processing {filepath}')
@@ -189,6 +199,7 @@ class ANIM_OT_import_pybullet_sim(Operator, ImportHelper):
 
 
 class VIEW3D_PT_pybullet_recorder(Panel):
+    """Creates a Panel in the 3D View to import PyBullet simulations."""
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_category = "Animation"
@@ -201,11 +212,13 @@ class VIEW3D_PT_pybullet_recorder(Panel):
 
 
 def register():
+    """Registers the classes with Blender."""
     bpy.utils.register_class(VIEW3D_PT_pybullet_recorder)
     bpy.utils.register_class(ANIM_OT_import_pybullet_sim)
 
 
 def unregister():
+    """Unregisters the classes from Blender."""
     bpy.utils.unregister_class(VIEW3D_PT_pybullet_recorder)
     bpy.utils.unregister_class(ANIM_OT_import_pybullet_sim)
 

@@ -10,10 +10,6 @@ import numpy as np
 from PIL import Image
 from datetime import datetime
 
-"""
-Visualization class
-"""
-
 # color list
 colors = {
     "light_white": [1, 1, 1, 1],
@@ -34,12 +30,25 @@ colors = {
 
 
 class Visualizer:
+    """
+    A class for visualizing objects and scenes in PyBullet.
+    
+    Attributes:
+        client (object): The PyBullet client object.
+        client_id (int): The client id returned by the PyBullet client.
+    """
+
     def __init__(self, client, visualizer_cfg):
+        """
+        Initializes the Visualizer class with a PyBullet client and visualizer configuration.
+        
+        Args:
+            client (object): The PyBullet client object.
+            visualizer_cfg (object): Configuration for the visualizer.
+        """
         self.client = client
         self.client_id = client.get_client_id()
-        
-        # Init camera pose
-        self.set_camera_pose(visualizer_cfg.Camera)
+        self.set_camera_pose(visualizer_cfg.Camera)     # Init camera pose
 
     # ----------------------------------------------------------------
     # Scene camera
@@ -47,13 +56,10 @@ class Visualizer:
     
     def set_camera_pose(self, camera_cfg):
         """
-        Set the debug visualizer camera pose 
-
+        Sets the debug visualizer camera pose.
+        
         Args:
-            dist (float): The distance of the camera from the target point.
-            position (list): A list of three floats representing the target position in 3D space.
-            yaw (float, optional): The yaw component of the camera orientation. Defaults to 0.
-            pitch (float, optional): The pitch component of the camera orientation. Defaults to -89.9.
+            camera_cfg (object): Configuration for the camera pose.
         """
         
         p.resetDebugVisualizerCamera(
@@ -67,12 +73,10 @@ class Visualizer:
     
     def capture_screen(self, filename=None):
         """
-            Continuously capture the screens of pybullet GUI and save the images to files.
-            The file names will be based on the camera target position, distance, and yaw.
-
-        Parameters:
-            width (int): The width of the captured image.
-            height (int): The height of the captured image.
+        Continuously captures the screens of PyBullet GUI and saves the images to files.
+        
+        Args:
+            filename (str, optional): The filename to save the captured image. Defaults to None.
         """
         
         # Get GUI information
@@ -118,12 +122,12 @@ class Visualizer:
     
     def draw_axes(self, length=1.0, lineWidth=2.0, textSize=1.0):
         """
-        Draws the x and y axes in the PyBullet environment with text labels.
+        Draws the x, y, and z axes in the PyBullet environment with text labels.
         
-        Parameters:
-        - length (float): Length of the axes.
-        - lineWidth (float): Width of the axes lines.
-        - textSize (float): Size of the text labels.
+        Args:
+            length (float): Length of the axes.
+            lineWidth (float): Width of the axes lines.
+            textSize (float): Size of the text labels.
         """
         origin = [0, 0, 0]  # The start point of the axes
 
@@ -185,9 +189,11 @@ class Visualizer:
 
     def start_record(self, fileName):
         """
-        Enable and disable recording
-        """
+        Starts recording a video of the PyBullet simulation.
         
+        Args:
+            fileName (str): The filename for the video file.
+        """
         self.logId = p.startStateLogging(
             p.STATE_LOGGING_VIDEO_MP4,
             "../Examples/log/" + fileName + ".mp4",
@@ -206,22 +212,23 @@ class Visualizer:
         # return logId
 
     def end_record(self):
+        """Stops recording the video."""
         p.stopStateLogging(self.logId, physicsClientId=self.client_id)
-        
-        
+    
+    
     # ----------------------------------------------------------------
     # line / aabb / pose
     # ----------------------------------------------------------------
 
     def draw_line(self, start_pos, target_pos, color=[1, 0, 0], width=3.0):
         """
-        Draw a line on the screen from the specified start position to the target position.
+        Draws a line on the screen from the specified start position to the target position.
 
         Args:
-            start_pos: The starting position of the line as a tuple of (x, y, z) coordinates.
-            target_pos: The ending position of the line as a tuple of (x, y, z) coordinates.
-            color: A list representing the RGB values of the line's color. Default is red [1, 0, 0].
-            width: The width of the line. Default is 3.0.
+            start_pos (tuple): The starting position of the line as a tuple of (x, y, z) coordinates.
+            target_pos (tuple): The ending position of the line as a tuple of (x, y, z) coordinates.
+            color (list, optional): A list representing the RGB values of the line's color. Default is red [1, 0, 0].
+            width (float, optional): The width of the line. Default is 3.0.
         """
 
         self.line_visual = p.addUserDebugLine(
@@ -233,14 +240,15 @@ class Visualizer:
         )
         
     def remove_all_line(self):
+        """Removes all user debug items (lines) from the PyBullet environment."""
         p.removeAllUserDebugItems()
 
     def draw_aabb(self, object):
         """
-        Draw an Axis-Aligned Bounding Box (AABB) around the specified table object in the simulation. The AABB is a box that covers the entire object based on its maximum and minimum coordinates along each axis. It can be useful for various purposes, such as collision detection, spatial partitioning, and bounding volume hierarchies.
+        Draws an Axis-Aligned Bounding Box (AABB) around the specified object in the simulation.
 
         Args:
-            table_id: The unique identifier of the table object in the simulation for which the AABB is to be drawn.
+            object (Union[int, str]): The unique identifier of the object or its name.
         """
         
         if isinstance(object, (int)):
@@ -295,17 +303,12 @@ class Visualizer:
 
     def draw_aabb_link(self, object, link_id=-1):
         """
-        Draw an Axis-Aligned Bounding Box (AABB) around the specified object or link in the simulation. The AABB is a box that covers the entire object based on its maximum and minimum coordinates along each axis. It can be useful for various purposes, such as collision detection, spatial partitioning, and bounding volume hierarchies.
+        Draws an Axis-Aligned Bounding Box (AABB) around the specified link in the simulation.
 
         Args:
-            object_id: The unique identifier of the object in the simulation for which the AABB is to be drawn.
-            link_id: The index of the link for which the AABB is to be drawn. Default is -1, which means the entire object.
+            object (Union[int, str]): The unique identifier of the object or its name.
+            link_id (int, optional): The index of the link for which the AABB is to be drawn. Defaults to -1, which means the entire object.
         """
-        
-        # if isinstance(object, (int)):
-        #     object_id = object
-        # elif isinstance(object, (str)):
-        #     object_id = self.client.get_object_id(object)
         object_id = self.client.resolve_object_id(object)
         
         aabb = p.getAABB(object_id, link_id, physicsClientId=self.client_id)
@@ -346,9 +349,15 @@ class Visualizer:
             )
             
     def draw_pose(self, object, length=0.25, lineWidth=2.0, textSize=1.0):
-        """draw object pose
         """
-        
+        Draws the pose of an object in the PyBullet environment.
+
+        Args:
+            object (Union[int, str]): The unique identifier of the object or its name.
+            length (float, optional): The length of the pose axes. Default is 0.25.
+            lineWidth (float, optional): The width of the pose axes lines. Default is 2.0.
+            textSize (float, optional): The size of the text labels. Default is 1.0.
+        """
         object_id = self.client.resolve_object_id(object)
         position, orientation = p.getBasePositionAndOrientation(object_id)
 
@@ -367,9 +376,16 @@ class Visualizer:
         p.addUserDebugText(text="Z", textPosition=text_position[:, 2], textColorRGB=[0, 0, 1], textSize=textSize)
         
     def draw_link_pose(self, object, link_id, length=0.25, lineWidth=2.0, textSize=1.0):
-        """draw object pose
         """
-        
+        Draws the pose of a specific link of an object in the PyBullet environment.
+
+        Args:
+            object (Union[int, str]): The unique identifier of the object or its name.
+            link_id (int): The index of the link for which the pose is to be drawn.
+            length (float, optional): The length of the pose axes. Default is 0.25.
+            lineWidth (float, optional): The width of the pose axes lines. Default is 2.0.
+            textSize (float, optional): The size of the text labels. Default is 1.0.
+        """
         object_id = self.client.resolve_object_id(object)
         
         # position, orientation = p.getBasePositionAndOrientation(object_id)
@@ -398,7 +414,12 @@ class Visualizer:
     
     def change_robot_color(self, base_id, arm_id, light_color=True):
         """
-        Set the color of robot
+        Sets the color of the robot.
+
+        Args:
+            base_id (int): The unique identifier of the robot base.
+            arm_id (int): The unique identifier of the robot arm.
+            light_color (bool, optional): Flag to set the robot to light colors. Default is True.
         """
 
         # set the color of base
@@ -439,9 +460,12 @@ class Visualizer:
 
     def set_object_color(self, object_id, color):
         """
-        Set the object color of object in the kitchen.
+        Sets the color of an object.
+
+        Args:
+            object_id (int): The unique identifier of the object.
+            color (str): The color to set for the object.
         """
-        
         p.changeVisualShape(
             objectUniqueId=object_id,
             linkIndex=-1,
@@ -451,9 +475,13 @@ class Visualizer:
         
     def set_link_color(self, object_id, link_id, color):
         """
-        Set the link color of object in the kitchen.
+        Sets the color of a specific link of an object.
+
+        Args:
+            object_id (int): The unique identifier of the object.
+            link_id (int): The index of the link to change the color.
+            color (str): The color to set for the link.
         """
-        
         p.changeVisualShape(
             objectUniqueId=object_id,
             linkIndex=link_id,
@@ -463,9 +491,13 @@ class Visualizer:
     
     def set_links_color(self, object_id, link_ids, colors):
         """
-        Set the links color of object in the kitchen.
-        """
+        Sets the colors of multiple links of an object.
         
+        Args:
+            object_id (int): The unique identifier of the object.
+            link_ids (list[int]): A list of link indexes to change the colors.
+            colors (list[str]): A list of colors to set for the links.
+        """
         for i, color in zip(link_ids, colors):
             p.changeVisualShape(
                 objectUniqueId=object_id,
