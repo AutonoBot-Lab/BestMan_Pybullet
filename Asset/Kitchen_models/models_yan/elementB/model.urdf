@@ -17,6 +17,9 @@
       <geometry>
         <mesh filename="countertop.obj" scale="1 1 1"/>
       </geometry>
+      <material name="white">
+        <color rgba="1 1 1 1"/>
+      </material>
     </visual>
     <collision>
       <geometry>
