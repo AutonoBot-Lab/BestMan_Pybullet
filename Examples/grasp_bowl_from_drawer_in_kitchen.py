@@ -41,7 +41,7 @@ def main(filename):
     visualizer.draw_aabb_link("elementA", 36)
     
     # Simple SLAM
-    nav_obstacles_bounds = simple_slam(client, bestman, False)
+    nav_obstacles_bounds = simple_slam(client, bestman, True)
     
     # Navigate to standing position
     standing_pose = Pose([2.85, 2.4, 0], [0.0, 0.0, 0.0])

@@ -76,14 +76,6 @@ class Bestman_sim:
         # Init base
         robot_cfg = cfg.Robot
         init_pose = Pose(robot_cfg.init_pose[:3], robot_cfg.init_pose[3:])
-        # self.base_id = p.loadURDF(
-        #     fileName=robot_cfg.base_urdf_path,
-        #     basePosition=init_pose.position,
-        #     baseOrientation=p.getQuaternionFromEuler(init_pose.orientation),
-        #     useFixedBase=True,
-        #     physicsClientId=self.client_id,
-        #     flags=self.enable_cache
-        # )
         self.base_id = self.client.load_object(
             obj_name='base',
             model_path=robot_cfg.base_urdf_path,
@@ -91,18 +83,8 @@ class Bestman_sim:
             object_orientation=init_pose.orientation,
             fixed_base = True
         )
-        # setattr(self.client, 'base', self.base_id)
-        # if self.client.blender: self.client.register_object(self.base_id, robot_cfg.base_urdf_path)
         
         # Init arm
-        # self.arm_id = p.loadURDF(
-        #     fileName=robot_cfg.arm_urdf_path,
-        #     basePosition=init_pose.position,
-        #     baseOrientation=p.getQuaternionFromEuler(init_pose.orientation),
-        #     useFixedBase=True,
-        #     physicsClientId=self.client_id,
-        #     flags=self.enable_cache
-        # )
         self.arm_id = self.client.load_object(
             obj_name='arm',
             model_path=robot_cfg.arm_urdf_path,
@@ -110,10 +92,6 @@ class Bestman_sim:
             object_orientation=init_pose.orientation,
             fixed_base = True
         )
-        
-        
-        # setattr(self.client, 'arm', self.arm_id)
-        # if self.client.blender: self.client.register_object(self.arm_id, robot_cfg.arm_urdf_path)
         self.arm_joints_idx = robot_cfg.arm_joints_idx
         self.DOF = len(self.arm_joints_idx)
         self.arm_height = robot_cfg.arm_height
@@ -143,30 +121,13 @@ class Bestman_sim:
         self.visualizer.change_robot_color(self.base_id, self.arm_id, False)
         
         # Init camera
-        # Camera_cfg = cfg.Camera
-        # self.camera = Camera(Camera_cfg, self.base_id, self.arm_height)
+        Camera_cfg = cfg.Camera
+        self.camera = Camera(Camera_cfg, self.base_id, self.arm_height)
         
         # update image
-        # self.camera.update()
-        # self.camera.get_rgb_image(True, True)
-        # self.camera.get_depth_image(True, True)
-        
-        # get tcp link
-        # if filename.endswith("ur5e.urdf"):
-        #     self.tcp_link = -1
-        #     self.tcp_height = 0
-        # elif filename.endswith("ur5e_vacuum.urdf"):
-        #     self.tcp_link = 8
-        #     self.tcp_height = 0.065
-        # elif filename.endswith("ur5e_vacuum_long.urdf"):
-        #     self.tcp_link = 11
-        #     self.tcp_height = 0.11
-        # elif filename.endswith("ur5_robotiq_85.urdf"):
-        #     self.tcp_link = 18
-        #     self.tcp_height = 0  # TODO
-        # else:
-        #     print("Unknown tcp link: {}")
-        #     sys.exit()
+        self.camera.update()
+        self.camera.get_rgb_image(True, True)
+        self.camera.get_depth_image(True, True)
         
         self.end_effector_index = robot_cfg.end_effector_index
         self.tcp_link = robot_cfg.tcp_link
@@ -203,7 +164,6 @@ class Bestman_sim:
         )
         return Pose(base_position, base_orientation)
 
-    # TODO: 为什么需要这个函数,而且也没有判断是否停下来了
     def stop_base(self):
         """
         Stops the movement of the robot base by setting its velocity to zero.
