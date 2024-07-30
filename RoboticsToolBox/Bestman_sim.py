@@ -111,6 +111,11 @@ class Bestman_sim:
             physicsClientId=self.client_id,
         )
         
+        # global parameters
+        self.init_pose = init_pose      # Used when resetting the robot position
+        self.gripper_id = None          # Used for grasp, constraint id
+        self.gripper_object_id = None   # Used for grasp, grasp object id
+
         # synchronize base and arm positions
         self.current_yaw = init_pose.yaw
         self.sim_sync_base_arm_pose()
@@ -134,10 +139,6 @@ class Bestman_sim:
         self.end_effector_index = robot_cfg.end_effector_index
         self.tcp_link = robot_cfg.tcp_link
         self.tcp_height = robot_cfg.tcp_height
-        
-        # global parameters
-        self.init_pose = init_pose   # Used when resetting the robot position
-        self.gripper_id = None       # Used for grasp 
 
     
     # ----------------------------------------------------------------
@@ -243,27 +244,16 @@ class Bestman_sim:
         Args:
             output (float): The output of the PID controller, which is used to calculate the new position of the robot's base.
         """
-        position, orientation = p.getBasePositionAndOrientation(
-            self.base_id, physicsClientId=self.client_id
-        )
-        euler_angles = p.getEulerFromQuaternion(
-            orientation, physicsClientId=self.client_id
-        )
-
-        delta_x = output * math.cos(euler_angles[2])
-        delta_y = output * math.sin(euler_angles[2])
-
-        target_position = [position[0] + delta_x, position[1] + delta_y, position[2]]
-        target_orientation = orientation
-
+        position, orientation = p.getBasePositionAndOrientation(self.base_id, physicsClientId=self.client_id)
+        euler_angles = p.getEulerFromQuaternion(orientation, physicsClientId=self.client_id)
         p.resetBasePositionAndOrientation(
             self.base_id,
-            target_position,
-            target_orientation,
+            [position[0] + output * math.cos(euler_angles[2]), position[1] + output * math.sin(euler_angles[2]), position[2]],
+            orientation,
             physicsClientId=self.client_id,
         )
-        
         self.sim_sync_base_arm_pose()
+
     
     def move_base_to_waypoint(self, waypoint):
         """
@@ -277,7 +267,7 @@ class Bestman_sim:
         self.next_waypoint = waypoint
         self.target_distance = 0.0
         self.rotated = False
-
+        
         while True:
             pose = self.get_current_base_pose()
             target = self.next_waypoint
@@ -301,7 +291,7 @@ class Bestman_sim:
             
             self.sim_action(-output)
             
-        self.client.run(10) 
+        self.client.run(5) 
     
     def navigate_base(self, goal_base_pose, path, enable_plot = False):
         """
@@ -745,7 +735,7 @@ class Bestman_sim:
             p.resetBasePositionAndOrientation(
                 self.arm_id, [position[0], position[1], self.arm_height] , orientation, physicsClientId=self.client_id
             )
-        
+    
     
     # ----------------------------------------------------------------
     # functions for gripper

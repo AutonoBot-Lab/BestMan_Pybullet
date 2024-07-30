@@ -43,6 +43,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
         if value == 0 and self.gripper_id is not None:
             p.removeConstraint(self.gripper_id, physicsClientId=self.client_id)
             self.gripper_id = None
+            self.gripper_object_id = None
             print("-" * 20 + "\n" + "Gripper has been deactivated!")
         
         if value == 1 and self.gripper_id is None:
@@ -73,7 +74,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
                     childFrameOrientation=cube_orn,
                     physicsClientId=self.client_id,
                 )
-            self.object_id = object_id
+            self.gripper_object_id = object_id
             print("-" * 20 + "\n" + "Gripper has been activated!")
         
         self.client.run(10)
