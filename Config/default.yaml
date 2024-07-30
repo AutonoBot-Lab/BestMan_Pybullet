@@ -10,7 +10,7 @@ Client:
   plane_urdf_path: 'plane.urdf'   # plane urdf
   frequency: 480                  # simulation frequency
   timeout : 100.0                 # maximum time for planning
-  blender: False
+  blender: True
 
 # Visualizer params
 Visualizer:
