@@ -319,11 +319,10 @@ class Bestman_sim:
         self.rotate_base(goal_base_pose.yaw)
         self.client.run(10)
         # self.camera.update()
-        current_pose = self.get_current_base_pose()
-        if np.linalg.norm(np.array(current_pose.position) - np.array(goal_base_pose.position)) >= threshold:
+        if self.calculate_IK_error(goal_base_pose) >= threshold:
             print("[BestMan_Sim] The robot base don't reach the specified position!")
         print("[BestMan_Sim] Navigation is done!")
-    
+        
     
     # ----------------------------------------------------------------
     # functions for arm
@@ -428,7 +427,7 @@ class Bestman_sim:
             linkIndex=self.end_effector_index,
             physicsClientId=self.client_id,
         )
-        return Pose(end_effector_info[4], end_effector_info[5])
+        return Pose(end_effector_info[0], end_effector_info[1])
     
     def sim_adjust_arm_height(self, height):
         """
@@ -614,8 +613,7 @@ class Bestman_sim:
             joint_values = self.cartesian_to_joints(interpolated_pose)
             self.move_arm_to_joint_values(joint_values)
         self.client.run(40)
-        current_pose = self.get_current_end_effector_pose()
-        if np.linalg.norm(np.array(current_pose.position) - np.array(end_effector_goal_pose.position)) >= threshold:
+        if self.calculate_IK_error(end_effector_goal_pose) >= threshold:
             print("[BestMan_Sim] The robot arm don't reach the specified position!")
 
 
@@ -656,14 +654,8 @@ class Bestman_sim:
             goal_orientation: The desired goal orientation for the target object.
         """
         
-        end_effector_pose = p.getLinkState(
-            bodyUniqueId=self.arm_id,
-            linkIndex=self.end_effector_index,
-            physicsClientId=self.client_id
-        )
-        
+        end_effector_pose = self.get_current_end_effector_pose()
         distance = np.linalg.norm(np.array(end_effector_pose[0]) - np.array(goal_pose.position))
-        
         return distance
     
     
