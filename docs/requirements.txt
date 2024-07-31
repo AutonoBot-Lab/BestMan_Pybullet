@@ -191,8 +191,6 @@ ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.3
     # via stack-data
-pyasn1==0.6.0
-    # via rsa
 pybullet==3.2.6
     # via -r requirements.in
 pycollada==0.6
@@ -221,8 +219,6 @@ pyquaternion==0.9.9
     # via open3d
 pyrender==0.1.45
     # via urdfpy
-pysimplegui==5.0.6
-    # via -r requirements.in
 python-dateutil==2.9.0.post0
     # via
     #   matplotlib
@@ -250,8 +246,6 @@ rpds-py==0.19.1
     # via
     #   jsonschema
     #   referencing
-rsa==4.9
-    # via pysimplegui
 rtree==1.2.0
     # via -r requirements.in
 scikit-learn==1.3.2

@@ -319,7 +319,7 @@ class Bestman_sim:
         self.rotate_base(goal_base_pose.yaw)
         self.client.run(10)
         # self.camera.update()
-        print("-" * 20 + "\n" + "Navigation is done!")
+        print("[BestMan_Sim] Navigation is done!")
     
     
     # ----------------------------------------------------------------
@@ -400,7 +400,7 @@ class Bestman_sim:
         """
         
         joint_bounds = [p.getJointInfo(self.arm_id, joint_id)[8:10] for joint_id in self.arm_joints_idx]    # get joint lower and upper limit
-        print("Joint bounds: {}".format(joint_bounds))
+        print("[BestMan_Sim] Joint bounds: {}".format(joint_bounds))
         return joint_bounds
 
     def get_current_joint_values(self):
@@ -436,7 +436,7 @@ class Bestman_sim:
         """
         self.arm_height = height
         self.client.run(10)
-        print("-" * 20 + "\n" + "Arm height has changed into {}".format(height))
+        print("[BestMan_Sim] Arm height has changed into {}".format(height))
     
     def sim_set_arm_to_joint_values(self, joint_values):
         """
@@ -456,7 +456,7 @@ class Bestman_sim:
         """
         
         joint_values = self.get_current_joint_values()
-        print("Current joint angles: {}".format(joint_values))
+        print("[BestMan_Sim] Current joint angles: {}".format(joint_values))
 
         for i in self.arm_joints_idx:
             joint_value = input(
@@ -465,15 +465,15 @@ class Bestman_sim:
                 )
             )
             if joint_value.lower() == "q":
-                print("Skipping joint {}".format(i))
+                print("[BestMan_Sim] Skipping joint {}".format(i))
                 continue
             try:
                 joint_values[i] = float(joint_value)
             except ValueError:
-                print("Invalid input. Keeping current value for joint {}.".format(i))
+                print("[BestMan_Sim] Invalid input. Keeping current value for joint {}.".format(i))
 
         self.sim_set_arm_to_joint_values(joint_values)
-        print("Updated joint angles: {}".format(joint_values))
+        print("[BestMan_Sim] Updated joint angles: {}".format(joint_values))
     
     def move_arm_to_joint_values(self, joint_values):
         """
@@ -503,7 +503,7 @@ class Bestman_sim:
             
             if time.time() - start_time > self.timeout:  # avoid time anomaly
                 if p.getContactPoints(self.arm_id):
-                    assert(0, "-" * 20 + "\n" + "The arm collides with other objects!")
+                    assert(0, "[BestMan_Sim] The arm collides with other objects!")
                 # print("-" * 20 + "\n" + "Timeout before reaching target joint position.")
                 break
             
@@ -593,7 +593,7 @@ class Bestman_sim:
             
             self.client.run()
 
-        print("-" * 20 + "\n" + "Rotation completed!")
+        print("[BestMan_Sim] Rotation completed!")
 
     def move_end_effector_to_goal_pose(self, end_effector_goal_pose, steps=10):
         """
@@ -611,7 +611,11 @@ class Bestman_sim:
             joint_values = self.cartesian_to_joints(interpolated_pose)
             self.move_arm_to_joint_values(joint_values)
         self.client.run(40)
-    
+        current_pose = self.get_current_end_effector_pose()
+        if np.linalg.norm(np.array(current_pose.position) - np.array(end_effector_goal_pose.position)) >= self.threshold:
+            print("[BestMan_Sim] The robot arm don't reach the specified position!")
+
+
     def execute_trajectory(self, trajectory, enable_plot=False):
         """Execute the path planned by Planner
 
@@ -632,8 +636,11 @@ class Bestman_sim:
             
             front_point = current_point
         
-        self.client.run(10)
-        print("\n" + "-" * 20 + "\n" + "Excite trajectory finished!"+ "\n" + "-" * 20 + "\n")
+        self.client.run(40)
+
+        self.get_current_joint_values()
+
+        print("[BestMan_Sim] Excite trajectory finished!")
     
     def calculate_IK_error(self, goal_pose):
         """Calculate the inverse kinematics (IK) error for performing pick-and-place manipulation of an object using a robot arm.
@@ -705,10 +712,10 @@ class Bestman_sim:
         elif name == "arm":
             id = self.arm_id
         else:
-            print("unknown name: {}, please input base or arm!".format(name))
+            print("[BestMan_Sim] unknown name: {}, please input base or arm!".format(name))
 
         num_joints = p.getNumJoints(id, physicsClientId=self.client_id)
-        print("\n" + "-" * 20 + "\n" + "Robot {} has {} joints".format(id, num_joints) + "\n" + "-" * 20 + "\n")
+        print("[BestMan_Sim] Robot {} has {} joints:\n".format(id, num_joints))
         for i in range(num_joints):
             joint_info = p.getJointInfo(id, i, physicsClientId=self.client_id)
             joint_name = joint_info[1]
@@ -716,9 +723,9 @@ class Bestman_sim:
             joint_state = p.getJointState(id, i, physicsClientId=self.client_id)
             joint_angle = joint_state[0]
             print(
-                "Joint index:{}, name:{}, angle:{}".format(i, joint_name, joint_angle)
+                "[BestMan_Sim] Joint index:{}, name:{}, angle:{}".format(i, joint_name, joint_angle)
             )
-            print("Link index: {}, name: {}".format(i, link_name))
+            print("[BestMan_Sim] Link index: {}, name: {}".format(i, link_name))
     
     def sim_sync_base_arm_pose(self):
         """

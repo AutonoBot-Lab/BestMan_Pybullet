@@ -242,7 +242,6 @@ document.write(`
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pybullet</span> <span class="k">as</span> <span class="nn">p</span>
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
 
 <span class="kn">from</span> <span class="nn">.Pose</span> <span class="kn">import</span> <span class="n">Pose</span>
 <span class="kn">from</span> <span class="nn">Visualization</span> <span class="kn">import</span> <span class="n">Camera</span>
@@ -554,7 +553,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">rotate_base</span><span class="p">(</span><span class="n">goal_base_pose</span><span class="o">.</span><span class="n">yaw</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
         <span class="c1"># self.camera.update()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;Navigation is done!&quot;</span><span class="p">)</span></div>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[BestMan_Sim] Navigation is done!&quot;</span><span class="p">)</span></div>
     
     
     <span class="c1"># ----------------------------------------------------------------</span>
@@ -635,7 +634,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="n">joint_bounds</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">getJointInfo</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span> <span class="n">joint_id</span><span class="p">)[</span><span class="mi">8</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span> <span class="k">for</span> <span class="n">joint_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_joints_idx</span><span class="p">]</span>    <span class="c1"># get joint lower and upper limit</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Joint bounds: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">joint_bounds</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[BestMan_Sim] Joint bounds: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">joint_bounds</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">joint_bounds</span></div>
 
 <div class="viewcode-block" id="Bestman_sim.get_current_joint_values"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.get_current_joint_values">[docs]</a>    <span class="k">def</span> <span class="nf">get_current_joint_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -671,7 +670,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">arm_height</span> <span class="o">=</span> <span class="n">height</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;Arm height has changed into </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">height</span><span class="p">))</span></div>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[BestMan_Sim] Arm height has changed into </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">height</span><span class="p">))</span></div>
     
 <div class="viewcode-block" id="Bestman_sim.sim_set_arm_to_joint_values"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.sim_set_arm_to_joint_values">[docs]</a>    <span class="k">def</span> <span class="nf">sim_set_arm_to_joint_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_values</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -691,7 +690,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="n">joint_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_joint_values</span><span class="p">()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Current joint angles: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">joint_values</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[BestMan_Sim] Current joint angles: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">joint_values</span><span class="p">))</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_joints_idx</span><span class="p">:</span>
             <span class="n">joint_value</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span>
@@ -700,15 +699,15 @@ document.write(`
                 <span class="p">)</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">joint_value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;q&quot;</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Skipping joint </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[BestMan_Sim] Skipping joint </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
                 <span class="k">continue</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">joint_values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">joint_value</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Invalid input. Keeping current value for joint </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[BestMan_Sim] Invalid input. Keeping current value for joint </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">sim_set_arm_to_joint_values</span><span class="p">(</span><span class="n">joint_values</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Updated joint angles: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">joint_values</span><span class="p">))</span></div>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[BestMan_Sim] Updated joint angles: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">joint_values</span><span class="p">))</span></div>
     
 <div class="viewcode-block" id="Bestman_sim.move_arm_to_joint_values"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.move_arm_to_joint_values">[docs]</a>    <span class="k">def</span> <span class="nf">move_arm_to_joint_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_values</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -738,7 +737,7 @@ document.write(`
             
             <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">:</span>  <span class="c1"># avoid time anomaly</span>
                 <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">getContactPoints</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">):</span>
-                    <span class="k">assert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;The arm collides with other objects!&quot;</span><span class="p">)</span>
+                    <span class="k">assert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;[BestMan_Sim] The arm collides with other objects!&quot;</span><span class="p">)</span>
                 <span class="c1"># print(&quot;-&quot; * 20 + &quot;\n&quot; + &quot;Timeout before reaching target joint position.&quot;)</span>
                 <span class="k">break</span></div>
             
@@ -828,7 +827,7 @@ document.write(`
             
             <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;Rotation completed!&quot;</span><span class="p">)</span></div>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[BestMan_Sim] Rotation completed!&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bestman_sim.move_end_effector_to_goal_pose"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.move_end_effector_to_goal_pose">[docs]</a>    <span class="k">def</span> <span class="nf">move_end_effector_to_goal_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">end_effector_goal_pose</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -845,8 +844,12 @@ document.write(`
             <span class="n">interpolated_pose</span> <span class="o">=</span> <span class="n">Pose</span><span class="p">(</span><span class="n">interpolated_position</span><span class="p">,</span> <span class="n">interpolated_orientation</span><span class="p">)</span>
             <span class="n">joint_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cartesian_to_joints</span><span class="p">(</span><span class="n">interpolated_pose</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">move_arm_to_joint_values</span><span class="p">(</span><span class="n">joint_values</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span></div>
-    
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span>
+        <span class="n">current_pose</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_end_effector_pose</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">current_pose</span><span class="o">.</span><span class="n">position</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">end_effector_goal_pose</span><span class="o">.</span><span class="n">position</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[BestMan_Sim] The robot arm don&#39;t reach the specified position!&quot;</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="Bestman_sim.execute_trajectory"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.execute_trajectory">[docs]</a>    <span class="k">def</span> <span class="nf">execute_trajectory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trajectory</span><span class="p">,</span> <span class="n">enable_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute the path planned by Planner</span>
 
@@ -867,8 +870,11 @@ document.write(`
             
             <span class="n">front_point</span> <span class="o">=</span> <span class="n">current_point</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;Excite trajectory finished!&quot;</span><span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span>
+
+        
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[BestMan_Sim] Excite trajectory finished!&quot;</span><span class="p">)</span></div>
     
 <div class="viewcode-block" id="Bestman_sim.calculate_IK_error"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.calculate_IK_error">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_IK_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">goal_pose</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the inverse kinematics (IK) error for performing pick-and-place manipulation of an object using a robot arm.</span>
@@ -940,10 +946,10 @@ document.write(`
         <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;arm&quot;</span><span class="p">:</span>
             <span class="nb">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;unknown name: </span><span class="si">{}</span><span class="s2">, please input base or arm!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[BestMan_Sim] unknown name: </span><span class="si">{}</span><span class="s2">, please input base or arm!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
 
         <span class="n">num_joints</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getNumJoints</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;Robot </span><span class="si">{}</span><span class="s2"> has </span><span class="si">{}</span><span class="s2"> joints&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">num_joints</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[BestMan_Sim] Robot </span><span class="si">{}</span><span class="s2"> has </span><span class="si">{}</span><span class="s2"> joints:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">num_joints</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_joints</span><span class="p">):</span>
             <span class="n">joint_info</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getJointInfo</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
             <span class="n">joint_name</span> <span class="o">=</span> <span class="n">joint_info</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -951,9 +957,9 @@ document.write(`
             <span class="n">joint_state</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getJointState</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
             <span class="n">joint_angle</span> <span class="o">=</span> <span class="n">joint_state</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="nb">print</span><span class="p">(</span>
-                <span class="s2">&quot;Joint index:</span><span class="si">{}</span><span class="s2">, name:</span><span class="si">{}</span><span class="s2">, angle:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">,</span> <span class="n">joint_angle</span><span class="p">)</span>
+                <span class="s2">&quot;[BestMan_Sim] Joint index:</span><span class="si">{}</span><span class="s2">, name:</span><span class="si">{}</span><span class="s2">, angle:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">,</span> <span class="n">joint_angle</span><span class="p">)</span>
             <span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Link index: </span><span class="si">{}</span><span class="s2">, name: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">link_name</span><span class="p">))</span></div>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[BestMan_Sim] Link index: </span><span class="si">{}</span><span class="s2">, name: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">link_name</span><span class="p">))</span></div>
     
 <div class="viewcode-block" id="Bestman_sim.sim_sync_base_arm_pose"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.sim_sync_base_arm_pose">[docs]</a>    <span class="k">def</span> <span class="nf">sim_sync_base_arm_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -966,23 +972,7 @@ document.write(`
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">p</span><span class="o">.</span><span class="n">resetBasePositionAndOrientation</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span> <span class="p">[</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_height</span><span class="p">]</span> <span class="p">,</span> <span class="n">orientation</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
-            <span class="p">)</span></div>
-    
-    
-    <span class="c1"># ----------------------------------------------------------------</span>
-    <span class="c1"># functions for gripper</span>
-    <span class="c1"># ----------------------------------------------------------------</span>
-    
-    <span class="c1"># @abstractmethod</span>
-    <span class="c1"># def sim_active_gripper(self, object, value):</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     Activate or deactivate the gripper.</span>
-        
-    <span class="c1">#     Args:</span>
-    <span class="c1">#         object_id (init): ID of the object related to gripper action.</span>
-    <span class="c1">#         value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     pass    </span>
+            <span class="p">)</span> </div>
     
     <span class="c1"># ----------------------------------------------------------------</span>
     <span class="c1"># functions for camera</span>
@@ -995,135 +985,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">get_rgb_image</span><span class="p">(</span><span class="n">enable_show</span><span class="p">,</span> <span class="n">enable_save</span><span class="p">)</span></div>
     
 <div class="viewcode-block" id="Bestman_sim.get_camera_depth_image"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.get_camera_depth_image">[docs]</a>    <span class="k">def</span> <span class="nf">get_camera_depth_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enable_show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">enable_save</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">get_depth_image</span><span class="p">(</span><span class="n">enable_show</span><span class="p">,</span> <span class="n">enable_save</span><span class="p">)</span></div>
-    
-    
-    <span class="c1"># ----------------------------------------------------------------</span>
-    <span class="c1"># functions for pick / place</span>
-    <span class="c1"># ----------------------------------------------------------------</span>
-
-<div class="viewcode-block" id="Bestman_sim.pick_place_v1"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.pick_place_v1">[docs]</a>    <span class="k">def</span> <span class="nf">pick_place_v1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_id</span><span class="p">,</span> <span class="n">object_goal_pose</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Perform pick-and-place manipulation of an object using the robot arm.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            object_id: The ID of the target object to be manipulated.</span>
-<span class="sd">            object_goal_position: The goal position for the target object.</span>
-<span class="sd">            object_goal_orientation: The goal orientation for the target object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">object_goal_position</span><span class="p">,</span> <span class="n">object_goal_orientation</span> <span class="o">=</span> <span class="n">object_goal_pose</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="n">object_goal_pose</span><span class="o">.</span><span class="n">orientation</span>
-        
-        <span class="c1"># get target object position</span>
-        <span class="n">object_position_init</span><span class="p">,</span> <span class="n">orientation</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getBasePositionAndOrientation</span><span class="p">(</span>
-            <span class="n">object_id</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
-        <span class="p">)</span>
-        <span class="c1"># consider the object&#39;s height</span>
-        <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">min_z</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">max_z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_bounding_box</span><span class="p">(</span><span class="n">object_id</span><span class="p">)</span>
-
-        <span class="n">temp_height1</span><span class="p">,</span> <span class="n">temp_height2</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.01</span>
-        <span class="n">gripper_status</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;ungrasp&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;grasp&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
-        <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">step</span> <span class="o">&lt;</span> <span class="mi">20</span><span class="p">:</span>  <span class="c1"># phase 1: move 20cm over object</span>
-                <span class="n">gripper_value</span> <span class="o">=</span> <span class="n">gripper_status</span><span class="p">[</span><span class="s2">&quot;ungrasp&quot;</span><span class="p">]</span>
-                <span class="n">target_position</span> <span class="o">=</span> <span class="p">[</span>
-                    <span class="n">object_position_init</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                    <span class="n">object_position_init</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                    <span class="n">object_position_init</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-                    <span class="o">+</span> <span class="p">(</span><span class="n">max_z</span> <span class="o">-</span> <span class="n">min_z</span><span class="p">)</span>
-                    <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tcp_height</span>
-                    <span class="o">+</span> <span class="n">temp_height1</span><span class="p">,</span>
-                <span class="p">]</span>
-            <span class="k">elif</span> <span class="n">step</span> <span class="o">&gt;=</span> <span class="mi">20</span> <span class="ow">and</span> <span class="n">step</span> <span class="o">&lt;</span> <span class="mi">40</span><span class="p">:</span>  <span class="c1"># phase 2: grasp object</span>
-                <span class="n">gripper_value</span> <span class="o">=</span> <span class="n">gripper_status</span><span class="p">[</span><span class="s2">&quot;grasp&quot;</span><span class="p">]</span>
-                <span class="n">target_position</span> <span class="o">=</span> <span class="p">[</span>
-                    <span class="n">object_position_init</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                    <span class="n">object_position_init</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                    <span class="n">object_position_init</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-                    <span class="o">+</span> <span class="p">(</span><span class="n">max_z</span> <span class="o">-</span> <span class="n">min_z</span><span class="p">)</span>
-                    <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tcp_height</span>
-                    <span class="o">+</span> <span class="n">temp_height2</span><span class="p">,</span>
-                <span class="p">]</span>
-            <span class="k">elif</span> <span class="n">step</span> <span class="o">&gt;=</span> <span class="mi">40</span> <span class="ow">and</span> <span class="n">step</span> <span class="o">&lt;</span> <span class="mi">60</span><span class="p">:</span>  <span class="c1"># phase 3: move 20cm over goal position</span>
-                <span class="n">gripper_value</span> <span class="o">=</span> <span class="n">gripper_status</span><span class="p">[</span><span class="s2">&quot;grasp&quot;</span><span class="p">]</span>
-                <span class="n">target_position</span> <span class="o">=</span> <span class="p">[</span>
-                    <span class="n">object_goal_position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                    <span class="n">object_goal_position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                    <span class="n">object_goal_position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-                    <span class="o">+</span> <span class="p">(</span><span class="n">max_z</span> <span class="o">-</span> <span class="n">min_z</span><span class="p">)</span>
-                    <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tcp_height</span>
-                    <span class="o">+</span> <span class="n">temp_height1</span><span class="p">,</span>
-                <span class="p">]</span>
-            <span class="k">elif</span> <span class="n">step</span> <span class="o">&gt;=</span> <span class="mi">60</span> <span class="ow">and</span> <span class="n">step</span> <span class="o">&lt;</span> <span class="mi">80</span><span class="p">:</span>  <span class="c1"># phase 4: move 5cm over goal position</span>
-                <span class="n">gripper_value</span> <span class="o">=</span> <span class="n">gripper_status</span><span class="p">[</span><span class="s2">&quot;grasp&quot;</span><span class="p">]</span>
-                <span class="n">target_position</span> <span class="o">=</span> <span class="p">[</span>
-                    <span class="n">object_goal_position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                    <span class="n">object_goal_position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                    <span class="n">object_goal_position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-                    <span class="o">+</span> <span class="p">(</span><span class="n">max_z</span> <span class="o">-</span> <span class="n">min_z</span><span class="p">)</span>
-                    <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tcp_height</span>
-                    <span class="o">+</span> <span class="n">temp_height2</span><span class="p">,</span>
-                <span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>  <span class="c1"># phase 5: drop object</span>
-                <span class="n">gripper_value</span> <span class="o">=</span> <span class="n">gripper_status</span><span class="p">[</span><span class="s2">&quot;ungrasp&quot;</span><span class="p">]</span>
-
-            <span class="k">if</span> <span class="n">step</span> <span class="o">&lt;</span> <span class="mi">80</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">move_end_effector_to_goal_pose</span><span class="p">(</span>
-                    <span class="n">Pose</span><span class="p">(</span><span class="n">target_position</span><span class="p">,</span> <span class="n">object_goal_orientation</span><span class="p">)</span>
-                <span class="p">)</span>
-
-            <span class="k">if</span> <span class="n">gripper_value</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">gripper_id</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">p</span><span class="o">.</span><span class="n">removeConstraint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gripper_id</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">gripper_id</span> <span class="o">=</span> <span class="kc">None</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-                <span class="c1"># for _ in range(self.frequency):</span>
-                <span class="c1">#     p.stepSimulation(physicsClientId=self.client_id)</span>
-
-            <span class="k">if</span> <span class="n">gripper_value</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">gripper_id</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">cube_orn</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getQuaternionFromEuler</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>  <span class="c1"># control rotation</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tcp_link</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">gripper_id</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">createConstraint</span><span class="p">(</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">tcp_link</span><span class="p">,</span>
-                        <span class="n">object_id</span><span class="p">,</span>
-                        <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-                        <span class="n">p</span><span class="o">.</span><span class="n">JOINT_FIXED</span><span class="p">,</span>
-                        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                        <span class="n">childFrameOrientation</span><span class="o">=</span><span class="n">cube_orn</span><span class="p">,</span>
-                        <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
-                    <span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">gripper_id</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">createConstraint</span><span class="p">(</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">end_effector_index</span><span class="p">,</span>
-                        <span class="n">object_id</span><span class="p">,</span>
-                        <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-                        <span class="n">p</span><span class="o">.</span><span class="n">JOINT_FIXED</span><span class="p">,</span>
-                        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                        <span class="n">childFrameOrientation</span><span class="o">=</span><span class="n">cube_orn</span><span class="p">,</span>
-                        <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
-                    <span class="p">)</span>
-
-            <span class="c1"># p.stepSimulation(physicsClientId=self.client_id)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-    
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;manipulation is done!&quot;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Bestman_sim.pick_place_v2"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.pick_place_v2">[docs]</a>    <span class="k">def</span> <span class="nf">pick_place_v2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_init_pose</span><span class="p">,</span> <span class="n">object_goal_pose</span><span class="p">):</span>
-        <span class="c1"># TODO</span>
-        <span class="k">return</span> <span class="kc">None</span></div>
-
-<div class="viewcode-block" id="Bestman_sim.pick_v1"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.pick_v1">[docs]</a>    <span class="k">def</span> <span class="nf">pick_v1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_id</span><span class="p">):</span>
-        <span class="c1"># TODO</span>
-        <span class="k">return</span> <span class="kc">None</span></div>
-
-<div class="viewcode-block" id="Bestman_sim.pick_v2"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.pick_v2">[docs]</a>    <span class="k">def</span> <span class="nf">pick_v2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_init_pose</span><span class="p">):</span>
-        <span class="c1"># TODO</span>
-        <span class="k">return</span> <span class="kc">None</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">get_depth_image</span><span class="p">(</span><span class="n">enable_show</span><span class="p">,</span> <span class="n">enable_save</span><span class="p">)</span></div></div>
 </pre></div>
 
                 </article>

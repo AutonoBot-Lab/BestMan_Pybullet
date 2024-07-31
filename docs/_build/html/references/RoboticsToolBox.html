@@ -352,10 +352,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#RoboticsToolBox.Bestman_sim.update_camera"><code class="docutils literal notranslate"><span class="pre">Bestman_sim.update_camera()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#RoboticsToolBox.Bestman_sim.get_camera_rgb_image"><code class="docutils literal notranslate"><span class="pre">Bestman_sim.get_camera_rgb_image()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#RoboticsToolBox.Bestman_sim.get_camera_depth_image"><code class="docutils literal notranslate"><span class="pre">Bestman_sim.get_camera_depth_image()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#RoboticsToolBox.Bestman_sim.pick_place_v1"><code class="docutils literal notranslate"><span class="pre">Bestman_sim.pick_place_v1()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#RoboticsToolBox.Bestman_sim.pick_place_v2"><code class="docutils literal notranslate"><span class="pre">Bestman_sim.pick_place_v2()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#RoboticsToolBox.Bestman_sim.pick_v1"><code class="docutils literal notranslate"><span class="pre">Bestman_sim.pick_v1()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#RoboticsToolBox.Bestman_sim.pick_v2"><code class="docutils literal notranslate"><span class="pre">Bestman_sim.pick_v2()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#RoboticsToolBox.Pose"><code class="docutils literal notranslate"><span class="pre">Pose</span></code></a><ul class="nav section-nav flex-column">
@@ -1188,36 +1184,6 @@ The movement is controlled by a controller (assumed to be a PID controller) that
 <span class="sig-name descname"><span class="pre">get_camera_depth_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enable_show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/RoboticsToolBox/Bestman_sim.html#Bestman_sim.get_camera_depth_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RoboticsToolBox.Bestman_sim.get_camera_depth_image" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="RoboticsToolBox.Bestman_sim.pick_place_v1">
-<span class="sig-name descname"><span class="pre">pick_place_v1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_goal_pose</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/RoboticsToolBox/Bestman_sim.html#Bestman_sim.pick_place_v1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RoboticsToolBox.Bestman_sim.pick_place_v1" title="Permalink to this definition">#</a></dt>
-<dd><p>Perform pick-and-place manipulation of an object using the robot arm.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>object_id</strong> – The ID of the target object to be manipulated.</p></li>
-<li><p><strong>object_goal_position</strong> – The goal position for the target object.</p></li>
-<li><p><strong>object_goal_orientation</strong> – The goal orientation for the target object.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="RoboticsToolBox.Bestman_sim.pick_place_v2">
-<span class="sig-name descname"><span class="pre">pick_place_v2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_init_pose</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_goal_pose</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/RoboticsToolBox/Bestman_sim.html#Bestman_sim.pick_place_v2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RoboticsToolBox.Bestman_sim.pick_place_v2" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="RoboticsToolBox.Bestman_sim.pick_v1">
-<span class="sig-name descname"><span class="pre">pick_v1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/RoboticsToolBox/Bestman_sim.html#Bestman_sim.pick_v1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RoboticsToolBox.Bestman_sim.pick_v1" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="RoboticsToolBox.Bestman_sim.pick_v2">
-<span class="sig-name descname"><span class="pre">pick_v2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_init_pose</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/RoboticsToolBox/Bestman_sim.html#Bestman_sim.pick_v2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RoboticsToolBox.Bestman_sim.pick_v2" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
@@ -1343,10 +1309,6 @@ It can be either Euler angles (3 elements), a quaternion (4 elements), or a 3x3 
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#RoboticsToolBox.Bestman_sim.update_camera"><code class="docutils literal notranslate"><span class="pre">Bestman_sim.update_camera()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#RoboticsToolBox.Bestman_sim.get_camera_rgb_image"><code class="docutils literal notranslate"><span class="pre">Bestman_sim.get_camera_rgb_image()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#RoboticsToolBox.Bestman_sim.get_camera_depth_image"><code class="docutils literal notranslate"><span class="pre">Bestman_sim.get_camera_depth_image()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#RoboticsToolBox.Bestman_sim.pick_place_v1"><code class="docutils literal notranslate"><span class="pre">Bestman_sim.pick_place_v1()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#RoboticsToolBox.Bestman_sim.pick_place_v2"><code class="docutils literal notranslate"><span class="pre">Bestman_sim.pick_place_v2()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#RoboticsToolBox.Bestman_sim.pick_v1"><code class="docutils literal notranslate"><span class="pre">Bestman_sim.pick_v1()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#RoboticsToolBox.Bestman_sim.pick_v2"><code class="docutils literal notranslate"><span class="pre">Bestman_sim.pick_v2()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#RoboticsToolBox.Pose"><code class="docutils literal notranslate"><span class="pre">Pose</span></code></a><ul class="nav section-nav flex-column">
