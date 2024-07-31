@@ -173,7 +173,7 @@ networkx==2.2
     #   pyrender
     #   scikit-image
     #   urdfpy
-numpy==1.23.5
+numpy==1.20.3
     # via
     #   -r requirements.in
     #   autolab-core
