@@ -322,7 +322,7 @@ class Bestman_sim:
         if self.calculate_IK_error(goal_base_pose) >= threshold:
             print("[BestMan_Sim] The robot base don't reach the specified position!")
         print("[BestMan_Sim] Navigation is done!")
-        
+
     
     # ----------------------------------------------------------------
     # functions for arm
@@ -655,7 +655,7 @@ class Bestman_sim:
         """
         
         end_effector_pose = self.get_current_end_effector_pose()
-        distance = np.linalg.norm(np.array(end_effector_pose[0]) - np.array(goal_pose.position))
+        distance = np.linalg.norm(np.array(end_effector_pose.position) - np.array(goal_pose.position))
         return distance
     
     
