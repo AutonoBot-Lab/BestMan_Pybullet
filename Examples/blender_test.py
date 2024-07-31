@@ -5,12 +5,8 @@
 """
 
 import os
-import math
-import pybullet as p
 from Env import Client
 from Utils import load_config
-from Visualization import Visualizer
-from RoboticsToolBox import Bestman_sim_panda
 
 def main(filename):
     
