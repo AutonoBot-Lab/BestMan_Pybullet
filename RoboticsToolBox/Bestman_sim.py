@@ -642,7 +642,7 @@ class Bestman_sim:
         self.client.run(40)
         
         current_joint_values = self.get_current_joint_values()
-        diff_angles = [abs(a - b) for a, b in zip(current_joint_values, trajectory[:-1])]
+        diff_angles = [abs(a - b) for a, b in zip(current_joint_values, trajectory[-1])]
         if not all(diff < threshold for diff in diff_angles):
             print("[BestMan_Sim] The robot arm don't reach the specified position!")
         
