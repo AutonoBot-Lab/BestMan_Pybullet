@@ -23,7 +23,7 @@ release = '1.0'
 extensions = ['myst_parser', 'sphinx.ext.autodoc', 'sphinx.ext.viewcode', 'sphinx.ext.napoleon']
 
 # Mock imports
-autodoc_mock_imports = ["gsnet", "lang_sam", "bpy", "bpy_extras"]
+autodoc_mock_imports = ["gsnet", "graspnetAPI", "lang_sam", "bpy", "bpy_extras"]
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
