@@ -56,7 +56,7 @@ numpy==1.23.5
     #   -r requirements.in
     #   opencv-python
     #   scipy
-ompl @ file:///home/yk/GitHub_Code/BestMan_Pybullet/Install/third_party/ompl-1.6.0-cp38-cp38-manylinux_2_28_x86_64.whl
+ompl @ file://../Install/third_party/ompl-1.6.0-cp38-cp38-manylinux_2_28_x86_64.whl
     # via -r requirements.in
 opencv-python==4.10.0.84
     # via -r requirements.in
