@@ -8,7 +8,6 @@ import math
 import time
 import numpy as np
 import pybullet as p
-from abc import abstractmethod
 
 from .Pose import Pose
 from Visualization import Camera
@@ -732,23 +731,7 @@ class Bestman_sim:
         if self.arm_id is not None:
             p.resetBasePositionAndOrientation(
                 self.arm_id, [position[0], position[1], self.arm_height] , orientation, physicsClientId=self.client_id
-            )
-    
-    
-    # ----------------------------------------------------------------
-    # functions for gripper
-    # ----------------------------------------------------------------
-    
-    # @abstractmethod
-    # def sim_active_gripper(self, object, value):
-    #     """
-    #     Activate or deactivate the gripper.
-        
-    #     Args:
-    #         object_id (init): ID of the object related to gripper action.
-    #         value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).
-    #     """
-    #     pass    
+            ) 
     
     # ----------------------------------------------------------------
     # functions for camera
@@ -762,131 +745,3 @@ class Bestman_sim:
     
     def get_camera_depth_image(self, enable_show=False, enable_save=False):
         self.camera.get_depth_image(enable_show, enable_save)
-    
-    
-    # ----------------------------------------------------------------
-    # functions for pick / place
-    # ----------------------------------------------------------------
-
-    def pick_place_v1(self, object_id, object_goal_pose):
-        """
-        Perform pick-and-place manipulation of an object using the robot arm.
-
-        Args:
-            object_id: The ID of the target object to be manipulated.
-            object_goal_position: The goal position for the target object.
-            object_goal_orientation: The goal orientation for the target object.
-        """
-
-        object_goal_position, object_goal_orientation = object_goal_pose.position, object_goal_pose.orientation
-        
-        # get target object position
-        object_position_init, orientation = p.getBasePositionAndOrientation(
-            object_id, physicsClientId=self.client_id
-        )
-        # consider the object's height
-        _, _, min_z, _, _, max_z = self.client.get_bounding_box(object_id)
-
-        temp_height1, temp_height2 = 0.05, 0.01
-        gripper_status = {"ungrasp": 0, "grasp": 1}
-        for step in range(100):
-            if step < 20:  # phase 1: move 20cm over object
-                gripper_value = gripper_status["ungrasp"]
-                target_position = [
-                    object_position_init[0],
-                    object_position_init[1],
-                    object_position_init[2]
-                    + (max_z - min_z)
-                    + self.tcp_height
-                    + temp_height1,
-                ]
-            elif step >= 20 and step < 40:  # phase 2: grasp object
-                gripper_value = gripper_status["grasp"]
-                target_position = [
-                    object_position_init[0],
-                    object_position_init[1],
-                    object_position_init[2]
-                    + (max_z - min_z)
-                    + self.tcp_height
-                    + temp_height2,
-                ]
-            elif step >= 40 and step < 60:  # phase 3: move 20cm over goal position
-                gripper_value = gripper_status["grasp"]
-                target_position = [
-                    object_goal_position[0],
-                    object_goal_position[1],
-                    object_goal_position[2]
-                    + (max_z - min_z)
-                    + self.tcp_height
-                    + temp_height1,
-                ]
-            elif step >= 60 and step < 80:  # phase 4: move 5cm over goal position
-                gripper_value = gripper_status["grasp"]
-                target_position = [
-                    object_goal_position[0],
-                    object_goal_position[1],
-                    object_goal_position[2]
-                    + (max_z - min_z)
-                    + self.tcp_height
-                    + temp_height2,
-                ]
-            else:  # phase 5: drop object
-                gripper_value = gripper_status["ungrasp"]
-
-            if step < 80:
-                self.move_end_effector_to_goal_pose(
-                    Pose(target_position, object_goal_orientation)
-                )
-
-            if gripper_value == 0 and self.gripper_id != None:
-                p.removeConstraint(self.gripper_id, physicsClientId=self.client_id)
-                self.gripper_id = None
-                self.client.run(10)
-                # for _ in range(self.frequency):
-                #     p.stepSimulation(physicsClientId=self.client_id)
-
-            if gripper_value == 1 and self.gripper_id == None:
-                cube_orn = p.getQuaternionFromEuler([0, math.pi, 0])  # control rotation
-                if self.tcp_link != -1:
-                    self.gripper_id = p.createConstraint(
-                        self.arm_id,
-                        self.tcp_link,
-                        object_id,
-                        -1,
-                        p.JOINT_FIXED,
-                        [0, 0, 0],
-                        [0, 0, 0],
-                        [0, 0, 0],
-                        childFrameOrientation=cube_orn,
-                        physicsClientId=self.client_id,
-                    )
-                else:
-                    self.gripper_id = p.createConstraint(
-                        self.arm_id,
-                        self.end_effector_index,
-                        object_id,
-                        -1,
-                        p.JOINT_FIXED,
-                        [0, 0, 0],
-                        [0, 0, 0],
-                        [0, 0, 0],
-                        childFrameOrientation=cube_orn,
-                        physicsClientId=self.client_id,
-                    )
-
-            # p.stepSimulation(physicsClientId=self.client_id)
-            self.client.run(10)
-    
-        print("-" * 20 + "\n" + "manipulation is done!")
-
-    def pick_place_v2(self, object_init_pose, object_goal_pose):
-        # TODO
-        return None
-
-    def pick_v1(self, object_id):
-        # TODO
-        return None
-
-    def pick_v2(self, object_init_pose):
-        # TODO
-        return None

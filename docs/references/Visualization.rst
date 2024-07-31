@@ -9,6 +9,6 @@ Visualization
    :members:
    :undoc-members:
 
-.. automodule:: Visualization.pyBulletSimRecorder
+.. automodule:: Visualization.blender_render.pyBulletSimRecorder
    :members:
    :undoc-members:

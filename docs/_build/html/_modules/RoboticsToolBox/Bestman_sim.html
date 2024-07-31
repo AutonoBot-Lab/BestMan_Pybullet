@@ -845,8 +845,6 @@ document.write(`
             <span class="n">interpolated_pose</span> <span class="o">=</span> <span class="n">Pose</span><span class="p">(</span><span class="n">interpolated_position</span><span class="p">,</span> <span class="n">interpolated_orientation</span><span class="p">)</span>
             <span class="n">joint_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cartesian_to_joints</span><span class="p">(</span><span class="n">interpolated_pose</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">move_arm_to_joint_values</span><span class="p">(</span><span class="n">joint_values</span><span class="p">)</span>
-        <span class="c1"># joint_values = self.cartesian_to_joints(end_effector_goal_pose)</span>
-        <span class="c1"># self.move_arm_to_joint_values(joint_values)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span></div>
     
 <div class="viewcode-block" id="Bestman_sim.execute_trajectory"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.execute_trajectory">[docs]</a>    <span class="k">def</span> <span class="nf">execute_trajectory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trajectory</span><span class="p">,</span> <span class="n">enable_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
