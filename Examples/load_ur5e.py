@@ -22,14 +22,14 @@ def main(filename):
     visualizer = Visualizer(client, cfg.Visualizer)
 
     # Start record
-    # visualizer.start_record(filename)
+    visualizer.start_record(filename)
     
     # Init robot
     ur5e = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
     visualizer.change_robot_color(ur5e.get_base_id(), ur5e.get_arm_id(), False)
     
     # End record
-    # visualizer.end_record()
+    visualizer.end_record()
     
     # disconnect pybullet
     client.wait(5)

@@ -292,7 +292,7 @@ class Bestman_sim:
             
         self.client.run(5) 
     
-    def navigate_base(self, goal_base_pose, path, enable_plot = False):
+    def navigate_base(self, goal_base_pose, path, threshold=0.1, enable_plot = False):
         """
         Navigate a robot from its current position to a specified goal position
 
@@ -319,6 +319,9 @@ class Bestman_sim:
         self.rotate_base(goal_base_pose.yaw)
         self.client.run(10)
         # self.camera.update()
+        current_pose = self.get_current_base_pose()
+        if np.linalg.norm(np.array(current_pose.position) - np.array(goal_base_pose.position)) >= threshold:
+            print("[BestMan_Sim] The robot base don't reach the specified position!")
         print("[BestMan_Sim] Navigation is done!")
     
     
@@ -595,7 +598,7 @@ class Bestman_sim:
 
         print("[BestMan_Sim] Rotation completed!")
 
-    def move_end_effector_to_goal_pose(self, end_effector_goal_pose, steps=10):
+    def move_end_effector_to_goal_pose(self, end_effector_goal_pose, threshold=0.1, steps=10):
         """
         Move arm's end effector to a target position.
 
@@ -612,11 +615,11 @@ class Bestman_sim:
             self.move_arm_to_joint_values(joint_values)
         self.client.run(40)
         current_pose = self.get_current_end_effector_pose()
-        if np.linalg.norm(np.array(current_pose.position) - np.array(end_effector_goal_pose.position)) >= self.threshold:
+        if np.linalg.norm(np.array(current_pose.position) - np.array(end_effector_goal_pose.position)) >= threshold:
             print("[BestMan_Sim] The robot arm don't reach the specified position!")
 
 
-    def execute_trajectory(self, trajectory, enable_plot=False):
+    def execute_trajectory(self, trajectory, threshold=0.1, enable_plot=False):
         """Execute the path planned by Planner
 
         Args:
@@ -637,9 +640,12 @@ class Bestman_sim:
             front_point = current_point
         
         self.client.run(40)
-
-        self.get_current_joint_values()
-
+        
+        current_joint_values = self.get_current_joint_values()
+        diff_angles = [abs(a - b) for a, b in zip(current_joint_values, trajectory[:-1])]
+        if not all(diff < threshold for diff in diff_angles):
+            print("[BestMan_Sim] The robot arm don't reach the specified position!")
+        
         print("[BestMan_Sim] Excite trajectory finished!")
     
     def calculate_IK_error(self, goal_pose):

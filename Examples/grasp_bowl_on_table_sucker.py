@@ -25,7 +25,7 @@ def main(filename):
     visualizer.draw_axes()
     
     # Start record
-    # visualizer.start_record(filename)
+    visualizer.start_record(filename)
     
     # Init robot
     bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
@@ -54,7 +54,7 @@ def main(filename):
     bestman.pick_place("bowl", object_goal_pose)
     
     # End record
-    # visualizer.end_record()
+    visualizer.end_record()
 
     # disconnect from server
     client.wait(5)

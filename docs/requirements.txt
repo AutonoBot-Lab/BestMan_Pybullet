@@ -303,6 +303,8 @@ traitlets==5.14.3
     #   jupyter-core
     #   matplotlib-inline
     #   nbformat
+transforms3d==0.3.1
+    # via -r requirements.in
 trimesh==4.4.3
     # via
     #   pyrender

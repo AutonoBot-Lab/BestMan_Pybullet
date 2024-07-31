@@ -83,7 +83,7 @@ def main(filename):
     path = ompl_planner.plan(start, goal)
     
     # Robot execute
-    bestman.execute_trajectory(path)
+    bestman.execute_trajectory(goal, path)
     
     # grasp target object
     bestman.sim_active_gripper_fixed(bowl_id, 1)
