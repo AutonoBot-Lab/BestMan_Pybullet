@@ -14,7 +14,7 @@ import pybullet as p
 import pybullet_data
 
 from RoboticsToolBox import Pose
-from Visualization import PyBulletRecorder
+from Visualization.blender_render import PyBulletRecorder
 
 class Client:
     """

@@ -611,8 +611,6 @@ class Bestman_sim:
             interpolated_pose = Pose(interpolated_position, interpolated_orientation)
             joint_values = self.cartesian_to_joints(interpolated_pose)
             self.move_arm_to_joint_values(joint_values)
-        # joint_values = self.cartesian_to_joints(end_effector_goal_pose)
-        # self.move_arm_to_joint_values(joint_values)
         self.client.run(40)
     
     def execute_trajectory(self, trajectory, enable_plot=False):
