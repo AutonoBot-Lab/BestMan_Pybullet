@@ -1,3 +1,6 @@
-sphinx== 6.2.1
+pybullet==3.2.6
+numpy==1.23.5
+opencv-python==4.10.0.84
+sphinx==6.2.1
 myst-parser==3.0.1
 sphinx-book-theme==1.0.1

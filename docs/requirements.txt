@@ -47,10 +47,18 @@ mdurl==0.1.2
     # via markdown-it-py
 myst-parser==3.0.1
     # via -r requirements.in
+numpy==1.23.5
+    # via
+    #   -r requirements.in
+    #   opencv-python
+opencv-python==4.10.0.84
+    # via -r requirements.in
 packaging==24.1
     # via
     #   pydata-sphinx-theme
     #   sphinx
+pybullet==3.2.6
+    # via -r requirements.in
 pydata-sphinx-theme==0.14.4
     # via sphinx-book-theme
 pygments==2.18.0
