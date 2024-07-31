@@ -20,6 +20,8 @@ certifi==2024.7.4
     # via requests
 charset-normalizer==3.3.2
     # via requests
+decorator==5.1.1
+    # via networkx
 docutils==0.19
     # via
     #   myst-parser
@@ -47,16 +49,23 @@ mdurl==0.1.2
     # via markdown-it-py
 myst-parser==3.0.1
     # via -r requirements.in
+networkx==2.2
+    # via -r requirements.in
 numpy==1.23.5
     # via
     #   -r requirements.in
     #   opencv-python
+    #   scipy
+ompl @ file:///home/yk/GitHub_Code/BestMan_Pybullet/Install/third_party/ompl-1.6.0-cp38-cp38-manylinux_2_28_x86_64.whl
+    # via -r requirements.in
 opencv-python==4.10.0.84
     # via -r requirements.in
 packaging==24.1
     # via
     #   pydata-sphinx-theme
     #   sphinx
+pillow==10.4.0
+    # via -r requirements.in
 pybullet==3.2.6
     # via -r requirements.in
 pydata-sphinx-theme==0.14.4
@@ -72,6 +81,8 @@ pyyaml==6.0.1
     # via myst-parser
 requests==2.32.3
     # via sphinx
+scipy==1.10.1
+    # via -r requirements.in
 snowballstemmer==2.2.0
     # via sphinx
 soupsieve==2.5
