@@ -2,9 +2,13 @@ pybullet==3.2.6
 numpy==1.23.5
 scipy==1.10.1
 pillow==10.4.0
+matplotlib==3.3.2
 opencv-python==4.10.0.84
 sphinx==6.2.1
+open3d==0.18.0
 networkx==2.2
 myst-parser==3.0.1
 sphinx-book-theme==1.0.1
+urdfpy==0.0.22
+rtree==1.2.0
 ../Install/third_party/ompl-1.6.0-cp38-cp38-manylinux_2_28_x86_64.whl

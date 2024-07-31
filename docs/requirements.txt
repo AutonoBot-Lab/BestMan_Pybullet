@@ -8,81 +8,255 @@
 
 accessible-pygments==0.0.4
     # via pydata-sphinx-theme
+addict==2.4.0
+    # via open3d
 alabaster==0.7.13
     # via sphinx
+asttokens==2.4.1
+    # via stack-data
+attrs==23.2.0
+    # via
+    #   jsonschema
+    #   referencing
 babel==2.15.0
     # via
     #   pydata-sphinx-theme
     #   sphinx
+backcall==0.2.0
+    # via ipython
 beautifulsoup4==4.12.3
     # via pydata-sphinx-theme
+blinker==1.8.2
+    # via flask
 certifi==2024.7.4
-    # via requests
+    # via
+    #   matplotlib
+    #   requests
 charset-normalizer==3.3.2
     # via requests
+click==8.1.7
+    # via flask
+comm==0.2.2
+    # via ipywidgets
+configargparse==1.7
+    # via open3d
+cycler==0.12.1
+    # via matplotlib
+dash==2.17.1
+    # via open3d
+dash-core-components==2.0.0
+    # via dash
+dash-html-components==2.0.0
+    # via dash
+dash-table==5.0.0
+    # via dash
 decorator==5.1.1
-    # via networkx
+    # via
+    #   ipython
+    #   networkx
 docutils==0.19
     # via
     #   myst-parser
     #   pydata-sphinx-theme
     #   sphinx
+executing==2.0.1
+    # via stack-data
+fastjsonschema==2.20.0
+    # via nbformat
+flask==3.0.3
+    # via dash
+freetype-py==2.4.0
+    # via pyrender
 idna==3.7
     # via requests
+imageio==2.34.2
+    # via pyrender
 imagesize==1.4.1
     # via sphinx
 importlib-metadata==8.2.0
-    # via sphinx
+    # via
+    #   dash
+    #   flask
+    #   sphinx
+importlib-resources==6.4.0
+    # via
+    #   jsonschema
+    #   jsonschema-specifications
+ipython==8.12.3
+    # via ipywidgets
+ipywidgets==8.1.3
+    # via open3d
+itsdangerous==2.2.0
+    # via flask
+jedi==0.19.1
+    # via ipython
 jinja2==3.1.4
     # via
+    #   flask
     #   myst-parser
     #   sphinx
+joblib==1.4.2
+    # via scikit-learn
+jsonschema==4.23.0
+    # via nbformat
+jsonschema-specifications==2023.12.1
+    # via jsonschema
+jupyter-core==5.7.2
+    # via nbformat
+jupyterlab-widgets==3.0.11
+    # via ipywidgets
+kiwisolver==1.4.5
+    # via matplotlib
+lxml==5.2.2
+    # via urdfpy
 markdown-it-py==3.0.0
     # via
     #   mdit-py-plugins
     #   myst-parser
 markupsafe==2.1.5
-    # via jinja2
+    # via
+    #   jinja2
+    #   werkzeug
+matplotlib==3.3.2
+    # via
+    #   -r requirements.in
+    #   open3d
+matplotlib-inline==0.1.7
+    # via ipython
 mdit-py-plugins==0.4.1
     # via myst-parser
 mdurl==0.1.2
     # via markdown-it-py
 myst-parser==3.0.1
     # via -r requirements.in
+nbformat==5.10.4
+    # via open3d
+nest-asyncio==1.6.0
+    # via dash
 networkx==2.2
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   pyrender
+    #   urdfpy
 numpy==1.23.5
     # via
     #   -r requirements.in
+    #   imageio
+    #   matplotlib
+    #   open3d
     #   opencv-python
+    #   pandas
+    #   pyquaternion
+    #   pyrender
+    #   scikit-learn
     #   scipy
-ompl @ file://../Install/third_party/ompl-1.6.0-cp38-cp38-manylinux_2_28_x86_64.whl
+    #   trimesh
+    #   urdfpy
+ompl @ file:///home/yk/GitHub_Code/BestMan_Pybullet/Install/third_party/ompl-1.6.0-cp38-cp38-manylinux_2_28_x86_64.whl
+    # via -r requirements.in
+open3d==0.18.0
     # via -r requirements.in
 opencv-python==4.10.0.84
     # via -r requirements.in
 packaging==24.1
     # via
+    #   plotly
     #   pydata-sphinx-theme
     #   sphinx
+pandas==2.0.3
+    # via open3d
+parso==0.8.4
+    # via jedi
+pexpect==4.9.0
+    # via ipython
+pickleshare==0.7.5
+    # via ipython
 pillow==10.4.0
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   imageio
+    #   matplotlib
+    #   open3d
+    #   pyrender
+    #   urdfpy
+pkgutil-resolve-name==1.3.10
+    # via jsonschema
+platformdirs==4.2.2
+    # via jupyter-core
+plotly==5.23.0
+    # via dash
+prompt-toolkit==3.0.47
+    # via ipython
+ptyprocess==0.7.0
+    # via pexpect
+pure-eval==0.2.3
+    # via stack-data
 pybullet==3.2.6
     # via -r requirements.in
+pycollada==0.6
+    # via urdfpy
 pydata-sphinx-theme==0.14.4
     # via sphinx-book-theme
+pyglet==2.0.16
+    # via pyrender
 pygments==2.18.0
     # via
     #   accessible-pygments
+    #   ipython
     #   pydata-sphinx-theme
     #   sphinx
+pyopengl==3.1.0
+    # via pyrender
+pyparsing==3.1.2
+    # via matplotlib
+pyquaternion==0.9.9
+    # via open3d
+pyrender==0.1.45
+    # via urdfpy
+python-dateutil==2.9.0.post0
+    # via
+    #   matplotlib
+    #   pandas
+    #   pycollada
 pytz==2024.1
-    # via babel
+    # via
+    #   babel
+    #   pandas
 pyyaml==6.0.1
-    # via myst-parser
+    # via
+    #   myst-parser
+    #   open3d
+referencing==0.35.1
+    # via
+    #   jsonschema
+    #   jsonschema-specifications
 requests==2.32.3
-    # via sphinx
-scipy==1.10.1
+    # via
+    #   dash
+    #   sphinx
+retrying==1.3.4
+    # via dash
+rpds-py==0.19.1
+    # via
+    #   jsonschema
+    #   referencing
+rtree==1.2.0
     # via -r requirements.in
+scikit-learn==1.3.2
+    # via open3d
+scipy==1.10.1
+    # via
+    #   -r requirements.in
+    #   pyrender
+    #   scikit-learn
+    #   urdfpy
+six==1.16.0
+    # via
+    #   asttokens
+    #   pyrender
+    #   python-dateutil
+    #   retrying
+    #   urdfpy
 snowballstemmer==2.2.0
     # via sphinx
 soupsieve==2.5
@@ -107,9 +281,50 @@ sphinxcontrib-qthelp==1.0.3
     # via sphinx
 sphinxcontrib-serializinghtml==1.1.5
     # via sphinx
+stack-data==0.6.3
+    # via ipython
+tenacity==9.0.0
+    # via plotly
+threadpoolctl==3.5.0
+    # via scikit-learn
+tqdm==4.66.4
+    # via open3d
+traitlets==5.14.3
+    # via
+    #   comm
+    #   ipython
+    #   ipywidgets
+    #   jupyter-core
+    #   matplotlib-inline
+    #   nbformat
+trimesh==4.4.3
+    # via
+    #   pyrender
+    #   urdfpy
 typing-extensions==4.12.2
-    # via pydata-sphinx-theme
+    # via
+    #   dash
+    #   ipython
+    #   pydata-sphinx-theme
+tzdata==2024.1
+    # via pandas
+urdfpy==0.0.22
+    # via -r requirements.in
 urllib3==2.2.2
     # via requests
+wcwidth==0.2.13
+    # via prompt-toolkit
+werkzeug==3.0.3
+    # via
+    #   dash
+    #   flask
+    #   open3d
+widgetsnbextension==4.0.11
+    # via ipywidgets
 zipp==3.19.2
-    # via importlib-metadata
+    # via
+    #   importlib-metadata
+    #   importlib-resources
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools
