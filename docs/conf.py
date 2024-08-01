@@ -61,6 +61,6 @@ html_context = {
 html_static_path = ['_static']
 
 # 自定义徽标、和网站图标
-html_logo = "./_static/BestMan_logo_AL.png"
+html_logo = "./_static/BestMan_logo_AL.svg"
 html_favicon = "./_static/AL_logo.png"
 

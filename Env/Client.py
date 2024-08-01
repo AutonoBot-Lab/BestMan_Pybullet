@@ -44,6 +44,9 @@ class Client:
         
         if not cfg.enable_Debug:
             p.configureDebugVisualizer(p.COV_ENABLE_GUI, 0)
+
+        if cfg.shadows:
+            p.configureDebugVisualizer(p.COV_ENABLE_SHADOWS, 1)
         
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
         p.setGravity(cfg.Gravity[0], cfg.Gravity[1], cfg.Gravity[2])
