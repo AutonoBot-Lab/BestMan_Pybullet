@@ -82,6 +82,10 @@ pip install graspnetAPI
 cd third_party/pointnet2
 python setup.py install
 ```
+
+- AnyGrasp License 
+
+  You need to get anygrasp [license and checkpoint](./Perception/Grasp_Pose_Estimation/AnyGrasp/README.md) to use it.
 <br/>
 
 
