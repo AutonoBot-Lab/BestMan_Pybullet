@@ -115,11 +115,10 @@ export DISPLAY=host.docker.internal:0
 <br/>
 
 
-## 🔎 Project Structure
+## 🔎 Project Structure & API References
 
-```
-cat Asset/project_structure.txt
-```
+- [Project Structure](docs/project_structure.txt)
+- [API References](https://bestman-pybullet.readthedocs.io)
 <br/>
 
 
