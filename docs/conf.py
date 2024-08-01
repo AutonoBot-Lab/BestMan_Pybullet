@@ -34,6 +34,33 @@ autodoc_member_order = 'bysource'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 # html_theme = 'alabaster'
-html_theme = 'sphinx_book_theme'
+html_theme = 'sphinx_rtd_theme'
+html_theme_options = {
+    'analytics_id': 'G-XXXXXXXXXX',  #  Provided by Google in your dashboard
+    'analytics_anonymize_ip': False,
+    'logo_only': True,
+    'display_version': True,
+    'prev_next_buttons_location': 'bottom',
+    'style_external_links': True,
+    'style_nav_header_background': 'white',
+    # Toc options
+    'collapse_navigation': True,
+    'sticky_navigation': True,
+    'navigation_depth': 4,
+    'includehidden': True,
+    'titles_only': False
+}
+
+html_context = {
+  'display_github': True,
+  'github_user': 'AutonoBot-Lab',
+  'github_repo': 'BestMan_Pybullet',
+  'github_version': 'grasp/docs/',
+}
+
 html_static_path = ['_static']
+
+# 自定义徽标、和网站图标
+html_logo = "./_static/BestMan_logo_AL.png"
+html_favicon = "./_static/AL_logo.png"
 

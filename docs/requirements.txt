@@ -6,8 +6,6 @@
 #
 --index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
-accessible-pygments==0.0.4
-    # via pydata-sphinx-theme
 addict==2.4.0
     # via open3d
 alabaster==0.7.13
@@ -19,13 +17,9 @@ attrs==23.2.0
     #   jsonschema
     #   referencing
 babel==2.15.0
-    # via
-    #   pydata-sphinx-theme
-    #   sphinx
+    # via sphinx
 backcall==0.2.0
     # via ipython
-beautifulsoup4==4.12.3
-    # via pydata-sphinx-theme
 blinker==1.8.2
     # via flask
 certifi==2024.7.4
@@ -57,8 +51,8 @@ decorator==5.1.1
 docutils==0.19
     # via
     #   myst-parser
-    #   pydata-sphinx-theme
     #   sphinx
+    #   sphinx-rtd-theme
 executing==2.0.1
     # via stack-data
 fastjsonschema==2.20.0
@@ -161,7 +155,6 @@ opencv-python==4.10.0.84
 packaging==24.1
     # via
     #   plotly
-    #   pydata-sphinx-theme
     #   sphinx
 pandas==2.0.3
     # via open3d
@@ -195,15 +188,11 @@ pybullet==3.2.6
     # via -r requirements.in
 pycollada==0.6
     # via urdfpy
-pydata-sphinx-theme==0.14.4
-    # via sphinx-book-theme
 pyglet==2.0.16
     # via pyrender
 pygments==2.18.0
     # via
-    #   accessible-pygments
     #   ipython
-    #   pydata-sphinx-theme
     #   sphinx
 pyopengl==3.1.0
     # via pyrender
@@ -265,15 +254,13 @@ six==1.16.0
     #   urdfpy
 snowballstemmer==2.2.0
     # via sphinx
-soupsieve==2.5
-    # via beautifulsoup4
 sphinx==6.2.1
     # via
     #   -r requirements.in
     #   myst-parser
-    #   pydata-sphinx-theme
-    #   sphinx-book-theme
-sphinx-book-theme==1.0.1
+    #   sphinx-rtd-theme
+    #   sphinxcontrib-jquery
+sphinx-rtd-theme==2.0.0
     # via -r requirements.in
 sphinxcontrib-applehelp==1.0.4
     # via sphinx
@@ -281,6 +268,8 @@ sphinxcontrib-devhelp==1.0.2
     # via sphinx
 sphinxcontrib-htmlhelp==2.0.1
     # via sphinx
+sphinxcontrib-jquery==4.1
+    # via sphinx-rtd-theme
 sphinxcontrib-jsmath==1.0.1
     # via sphinx
 sphinxcontrib-qthelp==1.0.3
@@ -313,7 +302,6 @@ typing-extensions==4.12.2
     # via
     #   dash
     #   ipython
-    #   pydata-sphinx-theme
 tzdata==2024.1
     # via pandas
 urdfpy==0.0.22

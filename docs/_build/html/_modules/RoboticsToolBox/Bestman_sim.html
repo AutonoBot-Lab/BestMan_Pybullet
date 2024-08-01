@@ -128,6 +128,21 @@
     <p class="title logo__title">BestMan_Pybullet 1.0 documentation</p>
   
 </a></div>
+        <div class="sidebar-primary-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/AutonoBot-Lab/BestMan_Pybullet" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
         <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -526,7 +541,7 @@ document.write(`
             
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> </div>
     
-<div class="viewcode-block" id="Bestman_sim.navigate_base"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.navigate_base">[docs]</a>    <span class="k">def</span> <span class="nf">navigate_base</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">goal_base_pose</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">enable_plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Bestman_sim.navigate_base"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.navigate_base">[docs]</a>    <span class="k">def</span> <span class="nf">navigate_base</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">goal_base_pose</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">enable_plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Navigate a robot from its current position to a specified goal position</span>
 
@@ -553,8 +568,10 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">rotate_base</span><span class="p">(</span><span class="n">goal_base_pose</span><span class="o">.</span><span class="n">yaw</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
         <span class="c1"># self.camera.update()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_IK_error</span><span class="p">(</span><span class="n">goal_base_pose</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[BestMan_Sim] The robot base don&#39;t reach the specified position!&quot;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[BestMan_Sim] Navigation is done!&quot;</span><span class="p">)</span></div>
-    
+
     
     <span class="c1"># ----------------------------------------------------------------</span>
     <span class="c1"># functions for arm</span>
@@ -659,7 +676,7 @@ document.write(`
             <span class="n">linkIndex</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">end_effector_index</span><span class="p">,</span>
             <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">Pose</span><span class="p">(</span><span class="n">end_effector_info</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">end_effector_info</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span></div>
+        <span class="k">return</span> <span class="n">Pose</span><span class="p">(</span><span class="n">end_effector_info</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">end_effector_info</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
     
 <div class="viewcode-block" id="Bestman_sim.sim_adjust_arm_height"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.sim_adjust_arm_height">[docs]</a>    <span class="k">def</span> <span class="nf">sim_adjust_arm_height</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -829,7 +846,7 @@ document.write(`
 
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[BestMan_Sim] Rotation completed!&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Bestman_sim.move_end_effector_to_goal_pose"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.move_end_effector_to_goal_pose">[docs]</a>    <span class="k">def</span> <span class="nf">move_end_effector_to_goal_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">end_effector_goal_pose</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<div class="viewcode-block" id="Bestman_sim.move_end_effector_to_goal_pose"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.move_end_effector_to_goal_pose">[docs]</a>    <span class="k">def</span> <span class="nf">move_end_effector_to_goal_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">end_effector_goal_pose</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Move arm&#39;s end effector to a target position.</span>
 
@@ -845,12 +862,11 @@ document.write(`
             <span class="n">joint_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cartesian_to_joints</span><span class="p">(</span><span class="n">interpolated_pose</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">move_arm_to_joint_values</span><span class="p">(</span><span class="n">joint_values</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span>
-        <span class="n">current_pose</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_end_effector_pose</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">current_pose</span><span class="o">.</span><span class="n">position</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">end_effector_goal_pose</span><span class="o">.</span><span class="n">position</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_IK_error</span><span class="p">(</span><span class="n">end_effector_goal_pose</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[BestMan_Sim] The robot arm don&#39;t reach the specified position!&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Bestman_sim.execute_trajectory"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.execute_trajectory">[docs]</a>    <span class="k">def</span> <span class="nf">execute_trajectory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trajectory</span><span class="p">,</span> <span class="n">enable_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Bestman_sim.execute_trajectory"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.execute_trajectory">[docs]</a>    <span class="k">def</span> <span class="nf">execute_trajectory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trajectory</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">enable_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute the path planned by Planner</span>
 
 <span class="sd">        Args:</span>
@@ -871,9 +887,12 @@ document.write(`
             <span class="n">front_point</span> <span class="o">=</span> <span class="n">current_point</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span>
-
         
-
+        <span class="n">current_joint_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_joint_values</span><span class="p">()</span>
+        <span class="n">diff_angles</span> <span class="o">=</span> <span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">current_joint_values</span><span class="p">,</span> <span class="n">trajectory</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">diff</span> <span class="o">&lt;</span> <span class="n">threshold</span> <span class="k">for</span> <span class="n">diff</span> <span class="ow">in</span> <span class="n">diff_angles</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[BestMan_Sim] The robot arm don&#39;t reach the specified position!&quot;</span><span class="p">)</span>
+        
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[BestMan_Sim] Excite trajectory finished!&quot;</span><span class="p">)</span></div>
     
 <div class="viewcode-block" id="Bestman_sim.calculate_IK_error"><a class="viewcode-back" href="../../references/RoboticsToolBox.html#RoboticsToolBox.Bestman_sim.calculate_IK_error">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_IK_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">goal_pose</span><span class="p">):</span>
@@ -884,14 +903,8 @@ document.write(`
 <span class="sd">            goal_orientation: The desired goal orientation for the target object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
-        <span class="n">end_effector_pose</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getLinkState</span><span class="p">(</span>
-            <span class="n">bodyUniqueId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_id</span><span class="p">,</span>
-            <span class="n">linkIndex</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">end_effector_index</span><span class="p">,</span>
-            <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
-        <span class="p">)</span>
-        
-        <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">end_effector_pose</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">goal_pose</span><span class="o">.</span><span class="n">position</span><span class="p">))</span>
-        
+        <span class="n">end_effector_pose</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_end_effector_pose</span><span class="p">()</span>
+        <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">end_effector_pose</span><span class="o">.</span><span class="n">position</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">goal_pose</span><span class="o">.</span><span class="n">position</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">distance</span></div>
     
     

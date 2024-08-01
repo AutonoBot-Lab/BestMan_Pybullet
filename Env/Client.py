@@ -50,6 +50,7 @@ class Client:
         p.setPhysicsEngineParameter(
             numSolverIterations=cfg.numSolverIterations
         )
+        # p.setRealTimeSimulation(1)  # 开启实时模拟
         
         # pybullet recorder for blender show
         self.blender = cfg.blender

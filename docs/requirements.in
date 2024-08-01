@@ -8,7 +8,7 @@ sphinx==6.2.1
 open3d==0.18.0
 networkx==2.2
 myst-parser==3.0.1
-sphinx-book-theme==1.0.1
+sphinx-rtd-theme==2.0.0
 urdfpy==0.0.22
 rtree==1.2.0
 PyQt5==5.15.11
