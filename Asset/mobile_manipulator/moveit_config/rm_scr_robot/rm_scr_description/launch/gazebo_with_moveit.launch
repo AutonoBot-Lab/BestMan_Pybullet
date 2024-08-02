@@ -1,0 +1,42 @@
+<!-- Description: Launch file for robot spawn in gazebo -->
+<!-- Author: Herman Ye @Realman Robotics-->
+<!-- Date: 2021-06-16 -->
+<!-- Version: 1.0 -->
+
+<launch>
+  <!-- INITIALIZE THE WORLD -->
+  <!-- You can append the following arguments to the launch files to change the behavior of Gazebo -->
+  <arg name="paused" default="false"/>
+  <!-- Start Gazebo in a paused state (default false) -->
+  <arg name="use_sim_time" default="true"/>
+  <!-- Tells ROS nodes asking for time to get the Gazebo-published simulation time, published over the ROS topic /clock (default true) -->
+  <arg name="gui" default="true"/>
+  <!-- Launch the user interface window of Gazebo (default true) -->
+  <arg name="recording" default="false"/>
+  <!-- Enable gazebo state log recording services (default false) -->
+  <arg name="debug" default="false"/>
+  <!-- Start gzserver (Gazebo Server) in debug mode using gdb (default false) -->
+  <!-- <arg name="verbose" default="false"/> -->
+  <!-- Increase the level of messages that are printed (default false) -->
+  <!-- Run gzserver and gzclient with verbose, printing errors and warnings to the terminal (default false) -->
+  <!-- <arg name="server_required" default="false"/> -->
+  <!-- Terminate launch script when gzserver (Gazebo Server) exits (default false) -->
+  <!-- <arg name= "gui_required" default="false"/> -->
+  <!-- Terminate launch script when gzclient (user interface window) exits (default false) -->
+
+  <!-- Launch the empty_world.launch file from gazebo_ros package -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="recording" value="$(arg recording)"/>
+    <arg name="debug" value="$(arg debug)"/>
+  </include>
+
+  <!-- LOAD THE ROBOT -->
+  <!-- Convert an xacro and put on parameter server -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find rm_scr_description)/urdf/rm_scr_description.urdf.xacro'" />
+  <!-- Spawn a robot into Gazebo -->
+  <node name="model_spawner" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model rm_scr" />
+
+</launch>

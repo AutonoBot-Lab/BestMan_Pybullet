@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="dh_robotics_ag95_base_link" params="prefix">
+    <link name="${prefix}dh_robotics_ag95_base_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0.22652" />
+        <inertia ixx="0.00020005" ixy="-4.2442E-10" ixz="-2.9069E-10" iyy="0.00017832" iyz="-3.4402E-08" izz="0.00013478" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://dh_robotics_ag95_model/meshes/base_link.STL" scale="1 1 1"/>
+        </geometry>
+        <material name="">
+          <color rgba="0.1 0.1 0.1 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+           <mesh filename="package://dh_robotics_ag95_model/meshes/base_link.STL" />
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="finger_joints" params="prefix fingerprefix reflect">
+    <xacro:rod_joint prefix="${prefix}" fingerprefix="${fingerprefix}"/>
+    <xacro:proximal_phalanx_joint prefix="${prefix}" fingerprefix="${fingerprefix}" reflect="${reflect}"/>
+    <xacro:distal_phalanx_joint prefix="${prefix}" fingerprefix="${fingerprefix}"/>
+  </xacro:macro>
+
+  <xacro:macro name="finger_links" params="prefix fingerprefix stroke">
+    <xacro:crank prefix="${prefix}" fingerprefix="${fingerprefix}" stroke="${stroke}"/>
+    <xacro:rod prefix="${prefix}" fingerprefix="${fingerprefix}" stroke="${stroke}"/>
+    <xacro:distal_phalanx prefix="${prefix}" fingerprefix="${fingerprefix}" stroke="${stroke}"/>
+    <xacro:proximal_phalanx prefix="${prefix}" fingerprefix="${fingerprefix}" stroke="${stroke}"/>
+  </xacro:macro>
+</robot>

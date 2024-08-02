@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<robot name="dh_robotics_ag95_model" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find dh_robotics_ag95_model)/urdf/dh_robotics_ag95_model_macro.xacro" />
+  <xacro:dh_robotics_ag95_model prefix=""/>
+</robot>

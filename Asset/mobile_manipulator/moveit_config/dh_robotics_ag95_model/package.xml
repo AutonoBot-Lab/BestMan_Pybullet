@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>dh_robotics_ag95_model</name>
+  <version>1.0.0</version>
+  <description>DH-Robotics 2-Finger Adaptive Gripper AG95 description package</description>
+  <license>BSD</license>
+  <url type="website">http://www.dh-robotics.com/</url>
+  <author email="renjie.ding@dh-robotics.com">Renjie Ding</author>
+  <maintainer email="renjie.ding@dh-robotics.com">Renjie Ding</maintainer>
+  <maintainer email="renjie.ding@dh-robotics.com">Renjie Ding</maintainer>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <exec_depend>urdf</exec_depend>
+
+</package>

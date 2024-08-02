@@ -1,0 +1,33 @@
+# This file contains the configuration for the fake_gazebo_display_controller to solve the problem of pid.
+arm:
+  gazebo_ros_control:
+    pid_gains:
+      joint_arm_rotary:
+        p: 1000
+        i: 0.0
+        d: 0.1
+      joint1:
+        p: 1000
+        i: 0.0
+        d: 0.1
+      joint2:
+        p: 1000
+        i: 0.0
+        d: 0.1
+      joint3:
+        p: 1000
+        i: 0.0
+        d: 0.1
+      joint4:
+        p: 1000
+        i: 0.0
+        d: 0.1
+      joint5:
+        p: 1000
+        i: 0.0
+        d: 0.1
+      joint6:
+        p: 1000
+        i: 0.0
+        d: 0.1
+

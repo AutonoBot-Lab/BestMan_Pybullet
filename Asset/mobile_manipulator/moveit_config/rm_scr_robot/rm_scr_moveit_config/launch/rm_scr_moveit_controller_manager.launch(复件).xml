@@ -1,0 +1,7 @@
+<launch>
+  <!-- Define the controller manager plugin to use for trajectory execution -->
+  <param name="moveit_controller_manager" value="moveit_simple_controller_manager/MoveItSimpleControllerManager" />
+
+  <!-- loads controller list to the param server -->
+  <rosparam file="$(find rm_scr_moveit_config)/config/ros_controllers.yaml"/>
+</launch>

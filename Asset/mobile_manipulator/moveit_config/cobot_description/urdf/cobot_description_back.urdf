@@ -1,0 +1,948 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="cobot_description">
+  <link
+    name="base_footprint">
+    <inertial>
+      <origin
+        xyz="0.007766 5.8979E-06 0.18238"
+        rpy="0 0 0" />
+      <mass
+        value="17.629" />
+      <inertia
+        ixx="0.15019"
+        ixy="2.3019E-07"
+        ixz="-0.0001315"
+        iyy="0.31758"
+        iyz="-9.9463E-08"
+        izz="0.45265" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/base_footprint.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.77647 0.77647 0.81961 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/base_footprint.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-0.18605 0.0010457 0.13419"
+        rpy="0 0 0" />
+      <mass
+        value="35.137" />
+      <inertia
+        ixx="0.52213"
+        ixy="0.00028039"
+        ixz="-0.0048629"
+        iyy="1.0698"
+        iyz="-0.0011677"
+        izz="1.4095" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.77647 0.77647 0.81961 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="base_link"
+    type="fixed">
+    <origin
+      xyz="0.201 0 0.072"
+      rpy="0 0 0" />
+    <parent
+      link="base_footprint" />
+    <child
+      link="base_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="fr_wheel">
+    <inertial>
+      <origin
+        xyz="-1.4155E-15 -1.1102E-16 -0.00027897"
+        rpy="0 0 0" />
+      <mass
+        value="1.1349" />
+      <inertia
+        ixx="0.0020665"
+        ixy="1.4611E-19"
+        ixz="6.3436E-18"
+        iyy="0.0020665"
+        iyz="-2.0749E-19"
+        izz="0.0035433" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/fr_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/fr_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fr_wheel_joint"
+    type="continuous">
+    <origin
+      xyz="0 -0.2 0.011"
+      rpy="1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="fr_wheel" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="fl_wheel">
+    <inertial>
+      <origin
+        xyz="1.4155E-15 -9.7145E-17 -0.00027897"
+        rpy="0 0 0" />
+      <mass
+        value="1.1349" />
+      <inertia
+        ixx="0.0020665"
+        ixy="-1.9153E-20"
+        ixz="-8.9965E-18"
+        iyy="0.0020665"
+        iyz="3.0668E-20"
+        izz="0.0035433" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/fl_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/fl_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fl_wheel_joint"
+    type="continuous">
+    <origin
+      xyz="0 0.2 0.011"
+      rpy="1.5708 0 3.1416" />
+    <parent
+      link="base_link" />
+    <child
+      link="fl_wheel" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="br_wheel">
+    <inertial>
+      <origin
+        xyz="0.00023168 -0.0094468 -0.051255"
+        rpy="0 0 0" />
+      <mass
+        value="2.4675" />
+      <inertia
+        ixx="0.0014416"
+        ixy="-1.0824E-06"
+        ixz="-6.1151E-07"
+        iyy="0.0013614"
+        iyz="4.2013E-05"
+        izz="0.0015992" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/br_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.41176 0.41176 0.41176 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/br_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="br_wheel_joint"
+    type="continuous">
+    <origin
+      xyz="-0.402 -0.173 0.0405"
+      rpy="0 0 -1.5708" />
+    <parent
+      link="base_link" />
+    <child
+      link="br_wheel" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="bl_wheel">
+    <inertial>
+      <origin
+        xyz="-6.5897E-05 0.0094494 -0.051255"
+        rpy="0 0 0" />
+      <mass
+        value="2.4675" />
+      <inertia
+        ixx="0.0014415"
+        ixy="-2.4885E-06"
+        ixz="-1.2571E-07"
+        iyy="0.0013615"
+        iyz="-4.2017E-05"
+        izz="0.0015992" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/bl_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.41176 0.41176 0.41176 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/bl_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="bl_wheel_joint"
+    type="continuous">
+    <origin
+      xyz="-0.402 0.173 0.0405"
+      rpy="0 0 1.5708" />
+    <parent
+      link="base_link" />
+    <child
+      link="bl_wheel" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="front_lidar">
+    <inertial>
+      <origin
+        xyz="-0.00016986 -2.2612E-10 0.018642"
+        rpy="0 0 0" />
+      <mass
+        value="0.15478" />
+      <inertia
+        ixx="6.9567E-05"
+        ixy="-1.7298E-12"
+        ixz="-4.6381E-07"
+        iyy="7.1065E-05"
+        iyz="-5.4415E-13"
+        izz="9.8843E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/front_lidar.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/front_lidar.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_lidar_joint"
+    type="fixed">
+    <origin
+      xyz="0.083559 0 0.314"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="front_lidar" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="arm_base">
+    <inertial>
+      <origin
+        xyz="-0.024179 0.0061525 0.44341"
+        rpy="0 0 0" />
+      <mass
+        value="8.0743" />
+      <inertia
+        ixx="0.080601"
+        ixy="4.9995E-05"
+        ixz="0.00052048"
+        iyy="0.077325"
+        iyz="-2.0984E-05"
+        izz="0.024026" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/arm_base.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.69804 0.69804 0.69804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/arm_base.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="arm_base"
+    type="fixed">
+    <origin
+      xyz="-0.101 0 0.273"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="arm_base" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="Link1">
+    <inertial>
+      <origin
+        xyz="-0.016412 0.00026497 -0.060445"
+        rpy="0 0 0" />
+      <mass
+        value="0.53096" />
+      <inertia
+        ixx="0.00096525"
+        ixy="1.49E-05"
+        ixz="-1.7049E-05"
+        iyy="0.0018872"
+        iyz="1.0632E-06"
+        izz="0.0018331" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/Link1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/Link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint1"
+    type="continuous">
+    <origin
+      xyz="0 0 0.4878"
+      rpy="3.1416 0 -2.8131" />
+    <parent
+      link="arm_base" />
+    <child
+      link="Link1" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="Link2">
+    <inertial>
+      <origin
+        xyz="-0.013925 -0.0036303 -0.24133"
+        rpy="0 0 0" />
+      <mass
+        value="2.467" />
+      <inertia
+        ixx="0.0043154"
+        ixy="-0.00036299"
+        ixz="-0.00050966"
+        iyy="0.0045892"
+        iyz="-0.00056301"
+        izz="0.0029702" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/Link2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/Link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint2"
+    type="continuous">
+    <origin
+      xyz="-0.1157 0 -0.059"
+      rpy="-1.5708 0 -1.5708" />
+    <parent
+      link="Link1" />
+    <child
+      link="Link2" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="tool_link">
+    <inertial>
+      <origin
+        xyz="-1.1793E-13 -4.4409E-16 0.0086479"
+        rpy="0 0 0" />
+      <mass
+        value="0.88542" />
+      <inertia
+        ixx="0.00049603"
+        ixy="-1.3553E-20"
+        ixz="1.6941E-19"
+        iyy="0.00049603"
+        iyz="-2.7105E-20"
+        izz="0.00097955" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/tool_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.77647 0.77647 0.81961 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/tool_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="tool_joint"
+    type="continuous">
+    <origin
+      xyz="0.10244 -0.029816 -0.44053"
+      rpy="-2.2334 -0.037381 -3.1416" />
+    <parent
+      link="Link2" />
+    <child
+      link="tool_link" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="hand_link">
+    <inertial>
+      <origin
+        xyz="0.00013949 -1.7025E-05 0.10111"
+        rpy="0 0 0" />
+      <mass
+        value="0.12419" />
+      <inertia
+        ixx="2.4474E-05"
+        ixy="4.2497E-13"
+        ixz="2.3537E-07"
+        iyy="3.8707E-05"
+        iyz="-3.3879E-09"
+        izz="4.7571E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/hand_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/hand_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="hand_joint"
+    type="fixed">
+    <origin
+      xyz="0 0 0.018"
+      rpy="0 0 -2.3363" />
+    <parent
+      link="tool_link" />
+    <child
+      link="hand_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="hand_camera">
+    <inertial>
+      <origin
+        xyz="0.0009804 0.025556 -0.036977"
+        rpy="0 0 0" />
+      <mass
+        value="0.067926" />
+      <inertia
+        ixx="3.7811E-05"
+        ixy="2.2861E-18"
+        ixz="2.2446E-19"
+        iyy="9.4061E-05"
+        iyz="6.1172E-06"
+        izz="0.00012345" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/hand_camera.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/hand_camera.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="hand_camera_joint"
+    type="fixed">
+    <origin
+      xyz="-0.049074 0.048515 0.06645"
+      rpy="0.066568 0 -2.3363" />
+    <parent
+      link="tool_link" />
+    <child
+      link="hand_camera" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="neck_lidar">
+    <inertial>
+      <origin
+        xyz="7.4985E-05 4.6845E-07 4.6452E-05"
+        rpy="0 0 0" />
+      <mass
+        value="1555.5" />
+      <inertia
+        ixx="305.18"
+        ixy="-1.6368E-07"
+        ixz="-1.1909E-05"
+        iyy="305.18"
+        iyz="-5.2042E-08"
+        izz="583.7" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/neck_lidar.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.24706 0.96471 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/neck_lidar.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="neck_lidar_joint"
+    type="fixed">
+    <origin
+      xyz="0.041909 0 1.1614"
+      rpy="0 0.5236 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="neck_lidar" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="front_camera">
+    <inertial>
+      <origin
+        xyz="0.024537 -0.036831 -0.26799"
+        rpy="0 0 0" />
+      <mass
+        value="91.96" />
+      <inertia
+        ixx="16.389"
+        ixy="0.55033"
+        ixz="0.32339"
+        iyy="6.87"
+        iyz="2.1896"
+        izz="13.855" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/front_camera.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/front_camera.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_camera_joint"
+    type="fixed">
+    <origin
+      xyz="0.12851 0.0009804 0.288"
+      rpy="-1.5708 0 -1.5708" />
+    <parent
+      link="base_link" />
+    <child
+      link="front_camera" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="head_Link">
+    <inertial>
+      <origin
+        xyz="-0.013341 -0.0030001 0.14378"
+        rpy="0 0 0" />
+      <mass
+        value="0.10888" />
+      <inertia
+        ixx="0.00015548"
+        ixy="5.612E-11"
+        ixz="7.7393E-06"
+        iyy="6.2021E-05"
+        iyz="-3.4676E-10"
+        izz="0.00016861" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/head_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/head_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="head_joint"
+    type="fixed">
+    <origin
+      xyz="-0.10013 0 1.2758"
+      rpy="0 0 3.1416" />
+    <parent
+      link="base_link" />
+    <child
+      link="head_Link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="head_camera">
+    <inertial>
+      <origin
+        xyz="0.027537 -0.14823 -1.1256"
+        rpy="0 0 0" />
+      <mass
+        value="91.96" />
+      <inertia
+        ixx="16.389"
+        ixy="0.28606"
+        ixz="-0.57062"
+        iyy="13.534"
+        iyz="-2.6339"
+        izz="7.1915" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/head_camera.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/head_camera.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="head_camera_joint"
+    type="fixed">
+    <origin
+      xyz="-0.033687 -0.0039804 0.18195"
+      rpy="0.066568 0 1.5708" />
+    <parent
+      link="head_Link" />
+    <child
+      link="head_camera" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="basket_Link">
+    <inertial>
+      <origin
+        xyz="-4.1633E-16 -4.4913E-14 0.021251"
+        rpy="0 0 0" />
+      <mass
+        value="0.39699" />
+      <inertia
+        ixx="0.0056399"
+        ixy="-2.6074E-10"
+        ixz="5.7967E-18"
+        iyy="0.0033409"
+        iyz="1.9651E-17"
+        izz="0.0081811" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/basket_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.69804 0.69804 0.69804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cobot_description/meshes/basket_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="basket_joint"
+    type="fixed">
+    <origin
+      xyz="-0.3885 0 0.2745"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="basket_Link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+</robot>

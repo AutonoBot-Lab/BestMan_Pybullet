@@ -1,0 +1,15 @@
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  2393  100  2393    0     0  13005      0 --:--:-- --:--:-- --:--:-- 13005
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+debconf: delaying package configuration, since apt-utils is not installed
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+debconf: delaying package configuration, since apt-utils is not installed
+Cloning into 'moveit_tutorials'...

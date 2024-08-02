@@ -1,0 +1,6 @@
+<launch>
+    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard">
+        <remap from="/cmd_vel" to="/agv_control/agv_move_twist" />
+        <param name="foreground" value="true" />
+    </node>
+</launch>

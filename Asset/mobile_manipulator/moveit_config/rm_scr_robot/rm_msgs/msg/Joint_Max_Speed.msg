@@ -1,0 +1,2 @@
+uint8 joint_num
+float32 joint_max_speed

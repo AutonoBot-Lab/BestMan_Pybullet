@@ -1,0 +1,22 @@
+<launch>
+<arg name="execution_type" default="FollowJointTrajectory" />
+<!-- loads moveit_controller_manager on the parameter server which is taken as argument
+if no argument is passed, moveit_simple_controller_manager will be set -->
+<arg name="moveit_controller_manager" 
+default="moveit_simple_controller_manager/MoveItSimpleControllerManager" />
+<param name="moveit_controller_manager" value="$(arg moveit_controller_manager)"/>
+<!-- load controller_list -->
+<arg name="use_controller_manager" default="true" />
+<param name="use_controller_manager" value="$(arg use_controller_manager)" />
+<!-- loads ros_controllers to the param server -->
+
+<!-- For Real robot -->
+<!-- uncomment the line if you are using Gazebo Simulation -->
+<!-- <rosparam file="$(find rm_scr_moveit_config)/config/controllers.yaml"/> -->
+<rosparam file="$(find rm_scr_moveit_config)/config/controllers.yaml"/>
+
+<!-- For Gazebo simulation -->
+<!-- uncomment the line if you are using Real Robot Control -->
+
+<!-- <rosparam file="$(find rm_scr_moveit_config)/config/controllers_gazebo.yaml"/> -->
+</launch>

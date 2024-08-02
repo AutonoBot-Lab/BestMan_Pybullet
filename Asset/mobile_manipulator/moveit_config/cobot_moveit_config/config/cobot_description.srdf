@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="cobot_description">
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <group name="cobot_arm">
+        <joint name="joint7"/>
+        <joint name="joint1"/>
+        <joint name="joint2"/>
+        <joint name="joint3"/>
+        <joint name="joint4"/>
+        <joint name="joint5"/>
+        <joint name="joint6"/>
+        <joint name="tool_joint"/>
+    </group>
+    <!-- <group name="cobot_gripper">
+        <joint name="hand_joint"/>
+        <joint name="finger_joint"/>
+        <joint name="left_rod_joint"/>
+        <joint name="left_distal_phalanx_joint"/>
+        <joint name="left_proximal_phalanx_joint"/>
+        <joint name="right_crank_joint"/>
+        <joint name="right_rod_joint"/>
+        <joint name="right_distal_phalanx_joint"/>
+        <joint name="right_proximal_phalanx_joint"/>
+    </group> -->
+    <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+    <group_state name="home" group="cobot_arm">
+        <joint name="joint1" value="1.57"/>
+        <joint name="joint2" value="-1.57"/>
+        <joint name="joint3" value="2.27"/>
+        <joint name="joint4" value="0.0"/>
+        <joint name="joint5" value="1.0"/>
+        <joint name="joint6" value="0.26"/>
+        <joint name="joint7" value="-1.57"/><!---1.57-->
+    </group_state>
+    <group_state name="zero" group="cobot_arm">
+        <joint name="joint1" value="0"/>
+        <joint name="joint2" value="0"/>
+        <joint name="joint3" value="0"/>
+        <joint name="joint4" value="0"/>
+        <joint name="joint5" value="0"/>
+        <joint name="joint6" value="0"/>
+        <joint name="joint7" value="0"/>
+    </group_state>
+    <!-- 1.600670985031128, -1.375670734024048, 1.1598492000579834, 0.016123800432682037, 1.3643456478118896, 0.2615057010650635, 1.5142412170410156 -->
+    <group_state name="initial" group="cobot_arm">
+        <joint name="joint1" value="1.57"/>
+        <joint name="joint2" value="-1.5"/>
+        <joint name="joint3" value="1.0"/>
+        <joint name="joint4" value="0.0"/>
+        <joint name="joint5" value="1.4"/>
+        <joint name="joint6" value="0.26"/>
+        <joint name="joint7" value="1.57"/><!--1.57-->
+    </group_state>
+    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
+    <!-- <end_effector name="dh_gripper" parent_link="tool_link" group="cobot_gripper"/> -->
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="Link1" link2="Link2" reason="Adjacent"/>
+    <disable_collisions link1="Link1" link2="Link3" reason="Never"/>
+    <disable_collisions link1="Link1" link2="Link4" reason="Never"/>
+    <disable_collisions link1="Link1" link2="Link7" reason="Adjacent"/>
+    <disable_collisions link1="Link1" link2="arm_base" reason="Never"/>
+    <disable_collisions link1="Link1" link2="base_link" reason="Never"/>
+    <disable_collisions link1="Link1" link2="basket_Link" reason="Never"/>
+    <disable_collisions link1="Link1" link2="bl_wheel" reason="Never"/>
+    <disable_collisions link1="Link1" link2="br_wheel" reason="Never"/>
+    <disable_collisions link1="Link1" link2="fl_wheel" reason="Never"/>
+    <disable_collisions link1="Link1" link2="fr_wheel" reason="Never"/>
+    <disable_collisions link1="Link1" link2="front_camera" reason="Never"/>
+    <disable_collisions link1="Link1" link2="front_lidar" reason="Never"/>
+    <disable_collisions link1="Link1" link2="head_Link" reason="Never"/>
+    <disable_collisions link1="Link1" link2="head_camera" reason="Never"/>
+    <disable_collisions link1="Link1" link2="neck_lidar" reason="Never"/>
+    <disable_collisions link1="Link2" link2="Link3" reason="Adjacent"/>
+    <disable_collisions link1="Link2" link2="Link4" reason="Never"/>
+    <disable_collisions link1="Link2" link2="Link7" reason="Never"/>
+    <disable_collisions link1="Link2" link2="base_link" reason="Never"/>
+    <disable_collisions link1="Link2" link2="basket_Link" reason="Never"/>
+    <disable_collisions link1="Link2" link2="bl_wheel" reason="Never"/>
+    <disable_collisions link1="Link2" link2="br_wheel" reason="Never"/>
+    <disable_collisions link1="Link2" link2="fl_wheel" reason="Never"/>
+    <disable_collisions link1="Link2" link2="fr_wheel" reason="Never"/>
+    <disable_collisions link1="Link2" link2="front_camera" reason="Never"/>
+    <disable_collisions link1="Link2" link2="front_lidar" reason="Never"/>
+    <disable_collisions link1="Link2" link2="head_Link" reason="Never"/>
+    <disable_collisions link1="Link2" link2="head_camera" reason="Never"/>
+    <disable_collisions link1="Link3" link2="Link4" reason="Adjacent"/>
+    <disable_collisions link1="Link3" link2="Link5" reason="Never"/>
+    <disable_collisions link1="Link3" link2="Link6" reason="Never"/>
+    <disable_collisions link1="Link3" link2="basket_Link" reason="Never"/>
+    <disable_collisions link1="Link3" link2="bl_wheel" reason="Never"/>
+    <disable_collisions link1="Link3" link2="br_wheel" reason="Never"/>
+    <disable_collisions link1="Link3" link2="dh_robotics_ag95_base_link" reason="Never"/>
+    <disable_collisions link1="Link3" link2="fl_wheel" reason="Never"/>
+    <disable_collisions link1="Link3" link2="fr_wheel" reason="Never"/>
+    <disable_collisions link1="Link3" link2="front_camera" reason="Never"/>
+    <disable_collisions link1="Link3" link2="front_lidar" reason="Never"/>
+    <disable_collisions link1="Link3" link2="hand_camera" reason="Never"/>
+    <disable_collisions link1="Link3" link2="head_Link" reason="Never"/>
+    <disable_collisions link1="Link3" link2="head_camera" reason="Never"/>
+    <disable_collisions link1="Link3" link2="left_crank" reason="Never"/>
+    <disable_collisions link1="Link3" link2="left_distal_phalanx" reason="Never"/>
+    <disable_collisions link1="Link3" link2="left_proximal_phalanx" reason="Never"/>
+    <disable_collisions link1="Link3" link2="left_rod" reason="Never"/>
+    <disable_collisions link1="Link3" link2="right_crank" reason="Never"/>
+    <disable_collisions link1="Link3" link2="right_distal_phalanx" reason="Never"/>
+    <disable_collisions link1="Link3" link2="right_proximal_phalanx" reason="Never"/>
+    <disable_collisions link1="Link3" link2="right_rod" reason="Never"/>
+    <disable_collisions link1="Link3" link2="tool_link" reason="Never"/>
+    <disable_collisions link1="Link4" link2="Link5" reason="Adjacent"/>
+    <disable_collisions link1="Link4" link2="Link6" reason="Never"/>
+    <disable_collisions link1="Link4" link2="bl_wheel" reason="Never"/>
+    <disable_collisions link1="Link4" link2="br_wheel" reason="Never"/>
+    <disable_collisions link1="Link4" link2="dh_robotics_ag95_base_link" reason="Never"/>
+    <disable_collisions link1="Link4" link2="fl_wheel" reason="Never"/>
+    <disable_collisions link1="Link4" link2="fr_wheel" reason="Never"/>
+    <disable_collisions link1="Link4" link2="front_camera" reason="Never"/>
+    <disable_collisions link1="Link4" link2="hand_camera" reason="Never"/>
+    <disable_collisions link1="Link4" link2="head_Link" reason="Never"/>
+    <disable_collisions link1="Link4" link2="head_camera" reason="Never"/>
+    <disable_collisions link1="Link4" link2="left_crank" reason="Never"/>
+    <disable_collisions link1="Link4" link2="left_distal_phalanx" reason="Never"/>
+    <disable_collisions link1="Link4" link2="left_proximal_phalanx" reason="Never"/>
+    <disable_collisions link1="Link4" link2="left_rod" reason="Never"/>
+    <disable_collisions link1="Link4" link2="right_crank" reason="Never"/>
+    <disable_collisions link1="Link4" link2="right_distal_phalanx" reason="Never"/>
+    <disable_collisions link1="Link4" link2="right_proximal_phalanx" reason="Never"/>
+    <disable_collisions link1="Link4" link2="right_rod" reason="Never"/>
+    <disable_collisions link1="Link4" link2="tool_link" reason="Never"/>
+    <disable_collisions link1="Link5" link2="Link6" reason="Adjacent"/>
+    <disable_collisions link1="Link5" link2="bl_wheel" reason="Never"/>
+    <disable_collisions link1="Link5" link2="br_wheel" reason="Never"/>
+    <disable_collisions link1="Link5" link2="dh_robotics_ag95_base_link" reason="Never"/>
+    <disable_collisions link1="Link5" link2="fl_wheel" reason="Never"/>
+    <disable_collisions link1="Link5" link2="fr_wheel" reason="Never"/>
+    <disable_collisions link1="Link5" link2="hand_camera" reason="Never"/>
+    <disable_collisions link1="Link5" link2="head_camera" reason="Never"/>
+    <disable_collisions link1="Link5" link2="left_crank" reason="Never"/>
+    <disable_collisions link1="Link5" link2="left_distal_phalanx" reason="Never"/>
+    <disable_collisions link1="Link5" link2="left_proximal_phalanx" reason="Never"/>
+    <disable_collisions link1="Link5" link2="left_rod" reason="Never"/>
+    <disable_collisions link1="Link5" link2="right_crank" reason="Never"/>
+    <disable_collisions link1="Link5" link2="right_distal_phalanx" reason="Never"/>
+    <disable_collisions link1="Link5" link2="right_proximal_phalanx" reason="Never"/>
+    <disable_collisions link1="Link5" link2="right_rod" reason="Never"/>
+    <disable_collisions link1="Link5" link2="tool_link" reason="Never"/>
+    <disable_collisions link1="Link6" link2="bl_wheel" reason="Never"/>
+    <disable_collisions link1="Link6" link2="br_wheel" reason="Never"/>
+    <disable_collisions link1="Link6" link2="dh_robotics_ag95_base_link" reason="Never"/>
+    <disable_collisions link1="Link6" link2="fl_wheel" reason="Never"/>
+    <disable_collisions link1="Link6" link2="fr_wheel" reason="Never"/>
+    <disable_collisions link1="Link6" link2="hand_camera" reason="Never"/>
+    <disable_collisions link1="Link6" link2="head_camera" reason="Never"/>
+    <disable_collisions link1="Link6" link2="left_crank" reason="Never"/>
+    <disable_collisions link1="Link6" link2="left_distal_phalanx" reason="Never"/>
+    <disable_collisions link1="Link6" link2="left_proximal_phalanx" reason="Never"/>
+    <disable_collisions link1="Link6" link2="left_rod" reason="Never"/>
+    <disable_collisions link1="Link6" link2="right_crank" reason="Never"/>
+    <disable_collisions link1="Link6" link2="right_distal_phalanx" reason="Never"/>
+    <disable_collisions link1="Link6" link2="right_proximal_phalanx" reason="Never"/>
+    <disable_collisions link1="Link6" link2="right_rod" reason="Never"/>
+    <disable_collisions link1="Link6" link2="tool_link" reason="Adjacent"/>
+    <disable_collisions link1="Link7" link2="arm_base" reason="Adjacent"/>
+    <disable_collisions link1="Link7" link2="base_link" reason="Never"/>
+    <disable_collisions link1="Link7" link2="basket_Link" reason="Never"/>
+    <disable_collisions link1="Link7" link2="bl_wheel" reason="Never"/>
+    <disable_collisions link1="Link7" link2="br_wheel" reason="Never"/>
+    <disable_collisions link1="Link7" link2="fl_wheel" reason="Never"/>
+    <disable_collisions link1="Link7" link2="fr_wheel" reason="Never"/>
+    <disable_collisions link1="Link7" link2="front_camera" reason="Never"/>
+    <disable_collisions link1="Link7" link2="front_lidar" reason="Never"/>
+    <disable_collisions link1="Link7" link2="head_Link" reason="Never"/>
+    <disable_collisions link1="Link7" link2="head_camera" reason="Never"/>
+    <disable_collisions link1="Link7" link2="neck_lidar" reason="Never"/>
+    <disable_collisions link1="arm_base" link2="base_link" reason="Adjacent"/>
+    <disable_collisions link1="arm_base" link2="basket_Link" reason="Never"/>
+    <disable_collisions link1="arm_base" link2="bl_wheel" reason="Never"/>
+    <disable_collisions link1="arm_base" link2="br_wheel" reason="Never"/>
+    <disable_collisions link1="arm_base" link2="fl_wheel" reason="Never"/>
+    <disable_collisions link1="arm_base" link2="fr_wheel" reason="Never"/>
+    <disable_collisions link1="arm_base" link2="front_camera" reason="Never"/>
+    <disable_collisions link1="arm_base" link2="front_lidar" reason="Never"/>
+    <disable_collisions link1="arm_base" link2="head_Link" reason="Never"/>
+    <disable_collisions link1="arm_base" link2="head_camera" reason="Never"/>
+    <disable_collisions link1="arm_base" link2="neck_lidar" reason="Default"/>
+    <disable_collisions link1="arm_base" link2="display_Link" reason="Default"/>
+    <disable_collisions link1="base_link" link2="basket_Link" reason="Adjacent"/>
+    <disable_collisions link1="base_link" link2="bl_wheel" reason="Adjacent"/>
+    <disable_collisions link1="base_link" link2="br_wheel" reason="Adjacent"/>
+    <disable_collisions link1="base_link" link2="fl_wheel" reason="Adjacent"/>
+    <disable_collisions link1="base_link" link2="fr_wheel" reason="Adjacent"/>
+    <disable_collisions link1="base_link" link2="front_camera" reason="Adjacent"/>
+    <disable_collisions link1="base_link" link2="front_lidar" reason="Adjacent"/>
+    <disable_collisions link1="base_link" link2="head_Link" reason="Adjacent"/>
+    <disable_collisions link1="base_link" link2="head_camera" reason="Never"/>
+    <disable_collisions link1="base_link" link2="neck_lidar" reason="Adjacent"/>
+    <disable_collisions link1="basket_Link" link2="bl_wheel" reason="Never"/>
+    <disable_collisions link1="basket_Link" link2="br_wheel" reason="Never"/>
+    <disable_collisions link1="basket_Link" link2="fl_wheel" reason="Never"/>
+    <disable_collisions link1="basket_Link" link2="fr_wheel" reason="Never"/>
+    <disable_collisions link1="basket_Link" link2="front_camera" reason="Never"/>
+    <disable_collisions link1="basket_Link" link2="front_lidar" reason="Never"/>
+    <disable_collisions link1="basket_Link" link2="head_Link" reason="Never"/>
+    <disable_collisions link1="basket_Link" link2="head_camera" reason="Never"/>
+    <disable_collisions link1="basket_Link" link2="neck_lidar" reason="Never"/>
+    <disable_collisions link1="bl_wheel" link2="br_wheel" reason="Never"/>
+    <disable_collisions link1="bl_wheel" link2="dh_robotics_ag95_base_link" reason="Never"/>
+    <disable_collisions link1="bl_wheel" link2="fl_wheel" reason="Never"/>
+    <disable_collisions link1="bl_wheel" link2="fr_wheel" reason="Never"/>
+    <disable_collisions link1="bl_wheel" link2="front_camera" reason="Never"/>
+    <disable_collisions link1="bl_wheel" link2="front_lidar" reason="Never"/>
+    <disable_collisions link1="bl_wheel" link2="hand_camera" reason="Never"/>
+    <disable_collisions link1="bl_wheel" link2="head_Link" reason="Never"/>
+    <disable_collisions link1="bl_wheel" link2="head_camera" reason="Never"/>
+    <disable_collisions link1="bl_wheel" link2="left_crank" reason="Never"/>
+    <disable_collisions link1="bl_wheel" link2="left_distal_phalanx" reason="Never"/>
+    <disable_collisions link1="bl_wheel" link2="left_proximal_phalanx" reason="Never"/>
+    <disable_collisions link1="bl_wheel" link2="left_rod" reason="Never"/>
+    <disable_collisions link1="bl_wheel" link2="neck_lidar" reason="Never"/>
+    <disable_collisions link1="bl_wheel" link2="right_crank" reason="Never"/>
+    <disable_collisions link1="bl_wheel" link2="right_distal_phalanx" reason="Never"/>
+    <disable_collisions link1="bl_wheel" link2="right_proximal_phalanx" reason="Never"/>
+    <disable_collisions link1="bl_wheel" link2="right_rod" reason="Never"/>
+    <disable_collisions link1="bl_wheel" link2="tool_link" reason="Never"/>
+    <disable_collisions link1="br_wheel" link2="dh_robotics_ag95_base_link" reason="Never"/>
+    <disable_collisions link1="br_wheel" link2="fl_wheel" reason="Never"/>
+    <disable_collisions link1="br_wheel" link2="fr_wheel" reason="Never"/>
+    <disable_collisions link1="br_wheel" link2="front_camera" reason="Never"/>
+    <disable_collisions link1="br_wheel" link2="front_lidar" reason="Never"/>
+    <disable_collisions link1="br_wheel" link2="hand_camera" reason="Never"/>
+    <disable_collisions link1="br_wheel" link2="head_Link" reason="Never"/>
+    <disable_collisions link1="br_wheel" link2="head_camera" reason="Never"/>
+    <disable_collisions link1="br_wheel" link2="left_crank" reason="Never"/>
+    <disable_collisions link1="br_wheel" link2="left_distal_phalanx" reason="Never"/>
+    <disable_collisions link1="br_wheel" link2="left_proximal_phalanx" reason="Never"/>
+    <disable_collisions link1="br_wheel" link2="left_rod" reason="Never"/>
+    <disable_collisions link1="br_wheel" link2="neck_lidar" reason="Never"/>
+    <disable_collisions link1="br_wheel" link2="right_crank" reason="Never"/>
+    <disable_collisions link1="br_wheel" link2="right_distal_phalanx" reason="Never"/>
+    <disable_collisions link1="br_wheel" link2="right_proximal_phalanx" reason="Never"/>
+    <disable_collisions link1="br_wheel" link2="right_rod" reason="Never"/>
+    <disable_collisions link1="br_wheel" link2="tool_link" reason="Never"/>
+    <disable_collisions link1="dh_robotics_ag95_base_link" link2="fl_wheel" reason="Never"/>
+    <disable_collisions link1="dh_robotics_ag95_base_link" link2="fr_wheel" reason="Never"/>
+    <disable_collisions link1="dh_robotics_ag95_base_link" link2="hand_camera" reason="Never"/>
+    <disable_collisions link1="dh_robotics_ag95_base_link" link2="left_crank" reason="Adjacent"/>
+    <disable_collisions link1="dh_robotics_ag95_base_link" link2="left_distal_phalanx" reason="Never"/>
+    <disable_collisions link1="dh_robotics_ag95_base_link" link2="left_proximal_phalanx" reason="Adjacent"/>
+    <disable_collisions link1="dh_robotics_ag95_base_link" link2="left_rod" reason="Never"/>
+    <disable_collisions link1="dh_robotics_ag95_base_link" link2="right_crank" reason="Adjacent"/>
+    <disable_collisions link1="dh_robotics_ag95_base_link" link2="right_distal_phalanx" reason="Never"/>
+    <disable_collisions link1="dh_robotics_ag95_base_link" link2="right_proximal_phalanx" reason="Adjacent"/>
+    <disable_collisions link1="dh_robotics_ag95_base_link" link2="right_rod" reason="Never"/>
+    <disable_collisions link1="dh_robotics_ag95_base_link" link2="tool_link" reason="Adjacent"/>
+    <disable_collisions link1="fl_wheel" link2="fr_wheel" reason="Never"/>
+    <disable_collisions link1="fl_wheel" link2="front_camera" reason="Never"/>
+    <disable_collisions link1="fl_wheel" link2="front_lidar" reason="Never"/>
+    <disable_collisions link1="fl_wheel" link2="hand_camera" reason="Never"/>
+    <disable_collisions link1="fl_wheel" link2="head_Link" reason="Never"/>
+    <disable_collisions link1="fl_wheel" link2="head_camera" reason="Never"/>
+    <disable_collisions link1="fl_wheel" link2="left_crank" reason="Never"/>
+    <disable_collisions link1="fl_wheel" link2="left_proximal_phalanx" reason="Never"/>
+    <disable_collisions link1="fl_wheel" link2="left_rod" reason="Never"/>
+    <disable_collisions link1="fl_wheel" link2="neck_lidar" reason="Never"/>
+    <disable_collisions link1="fl_wheel" link2="right_crank" reason="Never"/>
+    <disable_collisions link1="fl_wheel" link2="right_distal_phalanx" reason="Never"/>
+    <disable_collisions link1="fl_wheel" link2="right_proximal_phalanx" reason="Never"/>
+    <disable_collisions link1="fl_wheel" link2="right_rod" reason="Never"/>
+    <disable_collisions link1="fl_wheel" link2="tool_link" reason="Never"/>
+    <disable_collisions link1="fr_wheel" link2="front_camera" reason="Never"/>
+    <disable_collisions link1="fr_wheel" link2="front_lidar" reason="Never"/>
+    <disable_collisions link1="fr_wheel" link2="hand_camera" reason="Never"/>
+    <disable_collisions link1="fr_wheel" link2="head_Link" reason="Never"/>
+    <disable_collisions link1="fr_wheel" link2="head_camera" reason="Never"/>
+    <disable_collisions link1="fr_wheel" link2="left_crank" reason="Never"/>
+    <disable_collisions link1="fr_wheel" link2="neck_lidar" reason="Never"/>
+    <disable_collisions link1="fr_wheel" link2="right_crank" reason="Never"/>
+    <disable_collisions link1="fr_wheel" link2="tool_link" reason="Never"/>
+    <disable_collisions link1="front_camera" link2="front_lidar" reason="Never"/>
+    <disable_collisions link1="front_camera" link2="head_Link" reason="Never"/>
+    <disable_collisions link1="front_camera" link2="head_camera" reason="Never"/>
+    <disable_collisions link1="front_camera" link2="left_crank" reason="Never"/>
+    <disable_collisions link1="front_camera" link2="left_rod" reason="Never"/>
+    <disable_collisions link1="front_camera" link2="neck_lidar" reason="Never"/>
+    <disable_collisions link1="front_lidar" link2="head_Link" reason="Never"/>
+    <disable_collisions link1="front_lidar" link2="head_camera" reason="Never"/>
+    <disable_collisions link1="front_lidar" link2="left_rod" reason="Never"/>
+    <disable_collisions link1="front_lidar" link2="neck_lidar" reason="Never"/>
+    <disable_collisions link1="hand_camera" link2="left_crank" reason="Never"/>
+    <disable_collisions link1="hand_camera" link2="left_distal_phalanx" reason="Never"/>
+    <disable_collisions link1="hand_camera" link2="left_proximal_phalanx" reason="Never"/>
+    <disable_collisions link1="hand_camera" link2="left_rod" reason="Never"/>
+    <disable_collisions link1="hand_camera" link2="right_crank" reason="Never"/>
+    <disable_collisions link1="hand_camera" link2="right_distal_phalanx" reason="Never"/>
+    <disable_collisions link1="hand_camera" link2="right_proximal_phalanx" reason="Never"/>
+    <disable_collisions link1="hand_camera" link2="right_rod" reason="Never"/>
+    <disable_collisions link1="hand_camera" link2="tool_link" reason="Adjacent"/>
+    <disable_collisions link1="head_Link" link2="head_camera" reason="Adjacent"/>
+    <disable_collisions link1="head_Link" link2="neck_lidar" reason="Never"/>
+    <disable_collisions link1="head_camera" link2="left_crank" reason="Never"/>
+    <disable_collisions link1="head_camera" link2="left_distal_phalanx" reason="Never"/>
+    <disable_collisions link1="head_camera" link2="left_rod" reason="Never"/>
+    <disable_collisions link1="head_camera" link2="neck_lidar" reason="Never"/>
+    <disable_collisions link1="head_camera" link2="tool_link" reason="Never"/>
+    <disable_collisions link1="left_crank" link2="left_distal_phalanx" reason="Never"/>
+    <disable_collisions link1="left_crank" link2="left_proximal_phalanx" reason="Default"/>
+    <disable_collisions link1="left_crank" link2="left_rod" reason="Adjacent"/>
+    <disable_collisions link1="left_crank" link2="right_crank" reason="Never"/>
+    <disable_collisions link1="left_crank" link2="right_distal_phalanx" reason="Never"/>
+    <disable_collisions link1="left_crank" link2="right_proximal_phalanx" reason="Never"/>
+    <disable_collisions link1="left_crank" link2="right_rod" reason="Never"/>
+    <disable_collisions link1="left_crank" link2="tool_link" reason="Never"/>
+    <disable_collisions link1="left_distal_phalanx" link2="left_proximal_phalanx" reason="Default"/>
+    <disable_collisions link1="left_distal_phalanx" link2="left_rod" reason="Adjacent"/>
+    <disable_collisions link1="left_distal_phalanx" link2="right_crank" reason="Never"/>
+    <disable_collisions link1="left_distal_phalanx" link2="right_proximal_phalanx" reason="Never"/>
+    <disable_collisions link1="left_distal_phalanx" link2="right_rod" reason="Never"/>
+    <disable_collisions link1="left_distal_phalanx" link2="tool_link" reason="Never"/>
+    <disable_collisions link1="left_proximal_phalanx" link2="left_rod" reason="Adjacent"/>
+    <disable_collisions link1="left_proximal_phalanx" link2="right_crank" reason="Never"/>
+    <disable_collisions link1="left_proximal_phalanx" link2="right_distal_phalanx" reason="Never"/>
+    <disable_collisions link1="left_proximal_phalanx" link2="right_proximal_phalanx" reason="Never"/>
+    <disable_collisions link1="left_proximal_phalanx" link2="right_rod" reason="Never"/>
+    <disable_collisions link1="left_proximal_phalanx" link2="tool_link" reason="Never"/>
+    <disable_collisions link1="left_rod" link2="right_crank" reason="Never"/>
+    <disable_collisions link1="left_rod" link2="right_distal_phalanx" reason="Never"/>
+    <disable_collisions link1="left_rod" link2="right_proximal_phalanx" reason="Never"/>
+    <disable_collisions link1="left_rod" link2="right_rod" reason="Never"/>
+    <disable_collisions link1="left_rod" link2="tool_link" reason="Never"/>
+    <disable_collisions link1="right_crank" link2="right_distal_phalanx" reason="Never"/>
+    <disable_collisions link1="right_crank" link2="right_proximal_phalanx" reason="Default"/>
+    <disable_collisions link1="right_crank" link2="right_rod" reason="Adjacent"/>
+    <disable_collisions link1="right_crank" link2="tool_link" reason="Never"/>
+    <disable_collisions link1="right_distal_phalanx" link2="right_proximal_phalanx" reason="Default"/>
+    <disable_collisions link1="right_distal_phalanx" link2="right_rod" reason="Adjacent"/>
+    <disable_collisions link1="right_distal_phalanx" link2="tool_link" reason="Never"/>
+    <disable_collisions link1="right_proximal_phalanx" link2="right_rod" reason="Adjacent"/>
+    <disable_collisions link1="right_proximal_phalanx" link2="tool_link" reason="Never"/>
+    <disable_collisions link1="right_rod" link2="tool_link" reason="Never"/>
+</robot>

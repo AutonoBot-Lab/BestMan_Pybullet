@@ -1,0 +1,6 @@
+<launch>
+
+	<node pkg="rm_control" name="rm_control" type="rm_control" output="screen"> <!--launch-prefix="xterm−e"-->
+	</node>
+
+</launch>

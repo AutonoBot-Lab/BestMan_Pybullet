@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="rm_scr">
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <group name="arm">
+        <link name="link_arm_connector"/>
+        <joint name="joint1"/>
+        <joint name="joint2"/>
+        <joint name="joint3"/>
+        <joint name="joint4"/>
+        <joint name="joint5"/>
+        <joint name="joint6"/>
+        <joint name="joint_arm_rotary"/>
+        <chain base_link="link_arm_connector" tip_link="arm_link6"/>
+    </group>
+    <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+    <group_state name="zero" group="arm">
+        <joint name="joint1" value="0"/>
+        <joint name="joint2" value="0"/>
+        <joint name="joint3" value="0"/>
+        <joint name="joint4" value="0"/>
+        <joint name="joint5" value="0"/>
+        <joint name="joint6" value="0"/>
+    </group_state>
+    <group_state name="hi" group="arm">
+        <joint name="joint1" value="0"/>
+        <joint name="joint2" value="0.6393"/>
+        <joint name="joint3" value="0.82"/>
+        <joint name="joint4" value="0"/>
+        <joint name="joint5" value="0.4814"/>
+        <joint name="joint6" value="0"/>
+    </group_state>
+    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
+    <end_effector name="arm_link_hand" parent_link="arm_link6" group="arm"/>
+    <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
+    <virtual_joint name="virtual_joint_name" type="fixed" parent_frame="world" child_link="base_link_agv"/>
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="arm_link1" link2="arm_link2" reason="Adjacent"/>
+    <disable_collisions link1="arm_link1" link2="arm_link3" reason="Never"/>
+    <disable_collisions link1="arm_link1" link2="arm_link4" reason="Never"/>
+    <disable_collisions link1="arm_link1" link2="base_link_agv" reason="Never"/>
+    <disable_collisions link1="arm_link1" link2="baselink_body" reason="Never"/>
+    <disable_collisions link1="arm_link1" link2="head_pitch_link" reason="Never"/>
+    <disable_collisions link1="arm_link1" link2="head_yaw_link" reason="Never"/>
+    <disable_collisions link1="arm_link1" link2="link_arm_connector" reason="Adjacent"/>
+    <disable_collisions link1="arm_link1" link2="link_arm_rotary" reason="Never"/>
+    <disable_collisions link1="arm_link2" link2="arm_link3" reason="Adjacent"/>
+    <disable_collisions link1="arm_link2" link2="arm_link4" reason="Never"/>
+    <disable_collisions link1="arm_link2" link2="base_link_agv" reason="Never"/>
+    <disable_collisions link1="arm_link2" link2="head_pitch_link" reason="Never"/>
+    <disable_collisions link1="arm_link2" link2="head_yaw_link" reason="Never"/>
+    <disable_collisions link1="arm_link2" link2="link_arm_connector" reason="Never"/>
+    <disable_collisions link1="arm_link2" link2="link_arm_rotary" reason="Never"/>
+    <disable_collisions link1="arm_link3" link2="arm_link4" reason="Adjacent"/>
+    <disable_collisions link1="arm_link3" link2="arm_link5" reason="Never"/>
+    <disable_collisions link1="arm_link3" link2="arm_link6" reason="Never"/>
+    <disable_collisions link1="arm_link3" link2="arm_link_hand" reason="Never"/>
+    <disable_collisions link1="arm_link3" link2="base_link_agv" reason="Never"/>
+    <disable_collisions link1="arm_link3" link2="head_pitch_link" reason="Never"/>
+    <disable_collisions link1="arm_link3" link2="head_yaw_link" reason="Never"/>
+    <disable_collisions link1="arm_link4" link2="arm_link5" reason="Adjacent"/>
+    <disable_collisions link1="arm_link4" link2="arm_link6" reason="Never"/>
+    <disable_collisions link1="arm_link4" link2="arm_link_hand" reason="Never"/>
+    <disable_collisions link1="arm_link4" link2="base_link_agv" reason="Never"/>
+    <disable_collisions link1="arm_link5" link2="arm_link6" reason="Adjacent"/>
+    <disable_collisions link1="arm_link5" link2="arm_link_hand" reason="Never"/>
+    <disable_collisions link1="arm_link6" link2="arm_link_hand" reason="Adjacent"/>
+    <disable_collisions link1="base_link_agv" link2="baselink_body" reason="Adjacent"/>
+    <disable_collisions link1="base_link_agv" link2="head_pitch_link" reason="Never"/>
+    <disable_collisions link1="base_link_agv" link2="head_yaw_link" reason="Never"/>
+    <disable_collisions link1="base_link_agv" link2="link_arm_connector" reason="Never"/>
+    <disable_collisions link1="base_link_agv" link2="link_arm_rotary" reason="Never"/>
+    <disable_collisions link1="baselink_body" link2="head_pitch_link" reason="Never"/>
+    <disable_collisions link1="baselink_body" link2="head_yaw_link" reason="Adjacent"/>
+    <disable_collisions link1="baselink_body" link2="link_arm_connector" reason="Never"/>
+    <disable_collisions link1="baselink_body" link2="link_arm_rotary" reason="Adjacent"/>
+    <disable_collisions link1="head_pitch_link" link2="head_yaw_link" reason="Adjacent"/>
+    <disable_collisions link1="head_pitch_link" link2="link_arm_connector" reason="Never"/>
+    <disable_collisions link1="head_pitch_link" link2="link_arm_rotary" reason="Never"/>
+    <disable_collisions link1="head_yaw_link" link2="link_arm_connector" reason="Never"/>
+    <disable_collisions link1="head_yaw_link" link2="link_arm_rotary" reason="Never"/>
+    <disable_collisions link1="link_arm_connector" link2="link_arm_rotary" reason="Adjacent"/>
+</robot>
