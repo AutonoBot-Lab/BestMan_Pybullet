@@ -25,7 +25,7 @@ Visualizer:
 # PIDController params
 Controller:
   frequency : 240
-  timeout : 0.05                # 
+  timeout : 0.05
   max_force : 500
   max_iterations : 10000
   threshold : 0.015

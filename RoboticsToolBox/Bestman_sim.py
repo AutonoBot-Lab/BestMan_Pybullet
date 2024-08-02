@@ -136,8 +136,8 @@ class Bestman_sim:
         
         # update image
         self.camera.update()
-        self.camera.get_rgb_image(True, True)
-        self.camera.get_depth_image(True, True)
+        self.camera.get_rgb_image(False, True)
+        self.camera.get_depth_image(False, True)
         
         self.end_effector_index = robot_cfg.end_effector_index
         self.tcp_link = robot_cfg.tcp_link
@@ -183,7 +183,7 @@ class Bestman_sim:
         )
         return True
     
-    def rotate_base(self, target_yaw, gradual=False, step_size=0.05, delay_time=0.05):
+    def rotate_base(self, target_yaw, gradual=True, step_size=0.02, delay_time=0.05):
         """
         Rotate base to a specified yaw angle. Can be done gradually or at once.
 
@@ -193,50 +193,47 @@ class Bestman_sim:
             step_size (float, optional): Angle increment for each step in radians. Only used if gradual=True.
             delay_time (float, optional): Delay in seconds after each step. Only used if gradual=True.
         """
-
+        
         def angle_to_quaternion(yaw):
             return [0, 0, math.sin(yaw / 2.0), math.cos(yaw / 2.0)]
         
+        def shortest_angular_distance(from_angle, to_angle):
+            return (to_angle - from_angle + math.pi) % (2 * math.pi) - math.pi
+
         if gradual:
             
-            while abs(self.current_yaw - target_yaw) > step_size:
-                if target_yaw > self.current_yaw:
-                    self.current_yaw = min(self.current_yaw + step_size, target_yaw)
-                else:
-                    self.current_yaw = max(self.current_yaw - step_size, target_yaw)
+            angle_diff = shortest_angular_distance(self.current_yaw, target_yaw)
 
-                orientation = angle_to_quaternion(self.current_yaw)
-                position, _ = p.getBasePositionAndOrientation(
-                    self.base_id, physicsClientId=self.client_id
-                )
-                p.resetBasePositionAndOrientation(
-                    self.base_id, position, orientation, physicsClientId=self.client_id
-                )
+            while abs(angle_diff) > step_size:
                 
+                if angle_diff > 0:
+                    self.current_yaw += step_size
+                else:
+                    self.current_yaw -= step_size
+                
+                self.current_yaw = (self.current_yaw + math.pi) % (2 * math.pi) - math.pi
+                angle_diff = shortest_angular_distance(self.current_yaw, target_yaw)
+                orientation = angle_to_quaternion(self.current_yaw)
+                position, _ = p.getBasePositionAndOrientation(self.base_id, physicsClientId=self.client_id)
+                p.resetBasePositionAndOrientation(self.base_id, position, orientation, physicsClientId=self.client_id)
                 self.sim_sync_base_arm_pose()
+                self.client.run()
 
             # Ensure final orientation is set accurately
             orientation = angle_to_quaternion(target_yaw)
-            position, _ = p.getBasePositionAndOrientation(
-                self.base_id, physicsClientId=self.client_id
-            )
-            p.resetBasePositionAndOrientation(
-                self.base_id, position, orientation, physicsClientId=self.client_id
-            )
+            position, _ = p.getBasePositionAndOrientation(self.base_id, physicsClientId=self.client_id)
+            p.resetBasePositionAndOrientation(self.base_id, position, orientation, physicsClientId=self.client_id)
+            self.sim_sync_base_arm_pose()
+            self.current_yaw = target_yaw
             self.client.run()
 
         else:
             orientation = angle_to_quaternion(target_yaw)
-            position, _ = p.getBasePositionAndOrientation(
-                self.base_id, physicsClientId=self.client_id
-            )
-            p.resetBasePositionAndOrientation(
-                self.base_id, position, orientation, physicsClientId=self.client_id
-            )
-            
+            position, _ = p.getBasePositionAndOrientation(self.base_id, physicsClientId=self.client_id)
+            p.resetBasePositionAndOrientation(self.base_id, position, orientation, physicsClientId=self.client_id)
             self.sim_sync_base_arm_pose()
             
-            self.client.run()
+            self.client.run(5)
         
         # self.camera.update()
     
@@ -258,7 +255,7 @@ class Bestman_sim:
         self.sim_sync_base_arm_pose()
 
     
-    def move_base_to_waypoint(self, waypoint):
+    def move_base_to_waypoint(self, waypoint, threshold=0.01):
         """
         Move base to waypoint
         The robot first rotates towards the target, and then moves towards it in a straight line.
@@ -270,6 +267,7 @@ class Bestman_sim:
         self.next_waypoint = waypoint
         self.target_distance = 0.0
         self.rotated = False
+        cnt = 1
         
         while True:
             pose = self.get_current_base_pose()
@@ -277,24 +275,25 @@ class Bestman_sim:
             x, y = pose.x, pose.y
 
             distance = math.sqrt((target.y - y) ** 2 + (target.x - x) ** 2)
-            yaw = math.atan2(target.y - y, target.x - x)
+            if distance < threshold:
+                break
 
             self.distance_controller.set_goal(self.target_distance)
             output = self.distance_controller.calculate(distance)
+            
+            yaw = math.atan2(target.y - y, target.x - x)
             
             if not self.rotated:
                 self.rotate_base(yaw)
                 self.rotated = True
             
-            THRESHOLD = 0.01
-            if distance < THRESHOLD:
-                output = 0.0
-                pose = self.get_current_base_pose()
-                break
-            
             self.sim_action(-output)
             
-        self.client.run(5) 
+            if cnt % 20 == 0: self.client.run()
+            
+            cnt += 1
+            
+        self.client.run() 
     
     def navigate_base(self, goal_base_pose, path, threshold=0.1, enable_plot = False):
         """
@@ -741,6 +740,11 @@ class Bestman_sim:
             p.resetBasePositionAndOrientation(
                 self.arm_id, [position[0], position[1], self.arm_height] , orientation, physicsClientId=self.client_id
             ) 
+            # if self.gripper_id is not None:
+            #     object_position, object_orientation = p.getBasePositionAndOrientation(self.gripper_object_id, physicsClientId=self.client_id)
+            #     p.resetBasePositionAndOrientation(
+            #         self.gripper_object_id, [position[0], position[1], object_position[2]] , object_orientation, physicsClientId=self.client_id
+            #     )
     
     # ----------------------------------------------------------------
     # functions for camera
