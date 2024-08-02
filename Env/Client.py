@@ -324,7 +324,24 @@ class Client:
         object_id = self.resolve_object_id(object)
         link_state = p.getLinkState(object_id, link_id)
         # return Pose(link_state[0], link_state[1])
-        return Pose(link_state[4], link_state[5])
+        return Pose(link_state[0], link_state[1])
+    
+    def get_link_bounding_box(self, object, link_id):
+        """
+        Retrieve the bounding box of a specific link of an object in the PyBullet simulation environment.
+
+        Args:
+            object (int / str): The ID or name of the object.
+            link_id (int): The ID of the link.
+
+        Returns:
+            list: The minimum and maximum x, y, z coordinates of the bounding box.
+        """
+        
+        object_id = self.resolve_object_id(object)
+        
+        (min_x, min_y, min_z), (max_x, max_y, max_z) = p.getAABB(object_id, link_id, physicsClientId=self.client_id)
+        return [min_x, min_y, min_z, max_x, max_y, max_z]
     
     def get_bounding_box(self, object):
         """
@@ -353,22 +370,28 @@ class Client:
 
         return [min_x, min_y, min_z, max_x, max_y, max_z]
     
-    def get_link_bounding_box(self, object, link_id):
+    def get_all_link_bounding_box(self, object):
         """
-        Retrieve the bounding box of a specific link of an object in the PyBullet simulation environment.
+        Retrieve all bounding box of a given object in the PyBullet simulation environment.
 
-        Args:
+        Args:   
             object (int / str): The ID or name of the object.
-            link_id (int): The ID of the link.
 
         Returns:
-            list: The minimum and maximum x, y, z coordinates of the bounding box.
+            list: The minimum and maximum x, y, z coordinates of the bounding box for all object link.
         """
         
         object_id = self.resolve_object_id(object)
         
-        (min_x, min_y, min_z), (max_x, max_y, max_z) = p.getAABB(object_id, link_id, physicsClientId=self.client_id)
-        return [min_x, min_y, min_z, max_x, max_y, max_z]
+        link_ids = [i for i in range(-1, p.getNumJoints(object_id, physicsClientId=self.client_id))]
+        
+        aabb_bounds = [
+            p.getAABB(object_id, link_id, physicsClientId=self.client_id)
+            for link_id in link_ids
+        ]
+
+        return aabb_bounds
+    
     
     # ----------------------------------------------------------------
     # For blender

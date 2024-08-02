@@ -31,8 +31,9 @@ def simple_slam(client, robot, enable_plot=False):
     nav_obstacle_ids.remove(robot.get_arm_id())     # remove arm
 
     for object_id in nav_obstacle_ids:
-        object_bounds = client.get_bounding_box(object_id)
-        nav_obstacles_bounds.append([object_bounds[0], object_bounds[1], object_bounds[3], object_bounds[4]])
+        object_link_bounds = client.get_all_link_bounding_box(object_id)
+        for link_bounds in object_link_bounds:
+            nav_obstacles_bounds.append([link_bounds[0][0], link_bounds[0][1], link_bounds[1][0], link_bounds[1][1]])
         
     if enable_plot:
         plt.clf()
