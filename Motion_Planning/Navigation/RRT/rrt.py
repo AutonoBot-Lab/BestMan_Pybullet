@@ -117,9 +117,9 @@ class RRTPlanner:
                     break
                 
         if self.path is None:
-            print("Cannot find path")
+            print("[RRT Planner] Cannot find path")
         else:
-            print("found path!!")
+            print("[RRT Planner] found path!")
 
             # Draw final path
             if self.enable_plot:

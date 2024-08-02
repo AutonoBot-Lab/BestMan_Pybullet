@@ -324,8 +324,8 @@ class Bestman_sim:
         self.client.run(10)
         # self.camera.update()
         if self.calculate_IK_error(goal_base_pose) >= threshold:
-            print("[BestMan_Sim] The robot base don't reach the specified position!")
-        print("[BestMan_Sim] Navigation is done!")
+            print("[BestMan_Sim][Base] The robot base don't reach the specified position!")
+        print("[BestMan_Sim][Base] Navigation is done!")
 
     
     # ----------------------------------------------------------------
@@ -406,7 +406,7 @@ class Bestman_sim:
         """
         
         joint_bounds = [p.getJointInfo(self.arm_id, joint_id)[8:10] for joint_id in self.arm_joints_idx]    # get joint lower and upper limit
-        print("[BestMan_Sim] Joint bounds: {}".format(joint_bounds))
+        print("[BestMan_Sim][Arm] Joint bounds: {}".format(joint_bounds))
         return joint_bounds
 
     def get_current_joint_values(self):
@@ -442,7 +442,7 @@ class Bestman_sim:
         """
         self.arm_height = height
         self.client.run(10)
-        print("[BestMan_Sim] Arm height has changed into {}".format(height))
+        print("[BestMan_Sim][Arm] Arm height has changed into {}".format(height))
     
     def sim_set_arm_to_joint_values(self, joint_values):
         """
@@ -462,7 +462,7 @@ class Bestman_sim:
         """
         
         joint_values = self.get_current_joint_values()
-        print("[BestMan_Sim] Current joint angles: {}".format(joint_values))
+        print("[BestMan_Sim][Arm] Current joint angles: {}".format(joint_values))
 
         for i in self.arm_joints_idx:
             joint_value = input(
@@ -471,15 +471,15 @@ class Bestman_sim:
                 )
             )
             if joint_value.lower() == "q":
-                print("[BestMan_Sim] Skipping joint {}".format(i))
+                print("[BestMan_Sim][Arm] Skipping joint {}".format(i))
                 continue
             try:
                 joint_values[i] = float(joint_value)
             except ValueError:
-                print("[BestMan_Sim] Invalid input. Keeping current value for joint {}.".format(i))
+                print("[BestMan_Sim][Arm] Invalid input. Keeping current value for joint {}.".format(i))
 
         self.sim_set_arm_to_joint_values(joint_values)
-        print("[BestMan_Sim] Updated joint angles: {}".format(joint_values))
+        print("[BestMan_Sim][Arm] Updated joint angles: {}".format(joint_values))
     
     def move_arm_to_joint_values(self, joint_values):
         """
@@ -509,7 +509,7 @@ class Bestman_sim:
             
             if time.time() - start_time > self.timeout:  # avoid time anomaly
                 if p.getContactPoints(self.arm_id):
-                    assert(0, "[BestMan_Sim] The arm collides with other objects!")
+                    assert(0, "[BestMan_Sim][Arm] The arm collides with other objects!")
                 # print("-" * 20 + "\n" + "Timeout before reaching target joint position.")
                 break
             
@@ -599,7 +599,7 @@ class Bestman_sim:
             
             self.client.run()
 
-        print("[BestMan_Sim] Rotation completed!")
+        print("[BestMan_Sim][Arm] Rotation completed!")
 
     def move_end_effector_to_goal_pose(self, end_effector_goal_pose, threshold=0.1, steps=10):
         """
@@ -618,7 +618,7 @@ class Bestman_sim:
             self.move_arm_to_joint_values(joint_values)
         self.client.run(40)
         if self.calculate_IK_error(end_effector_goal_pose) >= threshold:
-            print("[BestMan_Sim] The robot arm don't reach the specified position!")
+            print("[BestMan_Sim][Arm] The robot arm don't reach the specified position!")
 
 
     def execute_trajectory(self, trajectory, threshold=0.1, enable_plot=False):
@@ -646,9 +646,9 @@ class Bestman_sim:
         current_joint_values = self.get_current_joint_values()
         diff_angles = [abs(a - b) for a, b in zip(current_joint_values, trajectory[-1])]
         if not all(diff < threshold for diff in diff_angles):
-            print("[BestMan_Sim] The robot arm don't reach the specified position!")
+            print("[BestMan_Sim][Arm] The robot arm don't reach the specified position!")
         
-        print("[BestMan_Sim] Excite trajectory finished!")
+        print("[BestMan_Sim][Arm] Excite trajectory finished!")
     
     def calculate_IK_error(self, goal_pose):
         """Calculate the inverse kinematics (IK) error for performing pick-and-place manipulation of an object using a robot arm.

@@ -52,7 +52,7 @@ class Bestman_sim_panda(Bestman_sim):
     # functions for gripper
     # ----------------------------------------------------------------
     
-    def sim_active_gripper(self, value):
+    def sim_active_gripper_fixed(self, value):
         """
         Activate or deactivate the gripper.
 
@@ -63,11 +63,13 @@ class Bestman_sim_panda(Bestman_sim):
         if value == 1:
             for i in [9, 10]:
                 p.setJointMotorControl2(self.arm_id, i, p.POSITION_CONTROL, 0.04, force=10)
+                print("[BestMan_Sim][Gripper] Gripper has been deactivated!")
         elif value == 0:
             for i in [9, 10]:
                 p.setJointMotorControl2(self.arm_id, i, p.POSITION_CONTROL, 0.001, force=10)
+                print("[BestMan_Sim][Gripper] Gripper has been activated!")
         else:
-            raise(ValueError("gripper value must be 0 / 1 !"))
+            raise(ValueError("[BestMan_Sim][Gripper] gripper value must be 0 / 1 !"))
         
         self.client.run(30)
         
@@ -87,7 +89,7 @@ class Bestman_sim_panda(Bestman_sim):
         if value == 0 and self.gripper_id != None:
             p.removeConstraint(self.gripper_id, physicsClientId=self.client_id)
             self.gripper_id = None
-            print("-" * 20 + "\n" + "Gripper has been deactivated!")
+            print("[BestMan_Sim][Gripper] Gripper has been deactivated!")
         
         # grasp
         if value == 1 and self.gripper_id == None:

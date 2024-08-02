@@ -209,7 +209,7 @@ class Client:
                 object['fixed_base']
             )
         
-        print(f'success load scene from {json_path}')
+        print(f'[Client] success load scene from {json_path}!')
     
     
     # ----------------------------------------------------------------
@@ -301,13 +301,13 @@ class Client:
         object_id = self.resolve_object_id(object)
         
         num_joints = p.getNumJoints(object_id, physicsClientId=self.client_id)
-        print("-" * 20 + "\n" + "The object {} has {} joints".format(object_id, num_joints))
+        print("[Client] The object {} has {} joints".format(object_id, num_joints))
         for i in range(num_joints):
             joint_info = p.getJointInfo(object_id, i, physicsClientId=self.client_id)
             joint_name = joint_info[1]
             joint_state = p.getJointState(object_id, i, physicsClientId=self.client_id)
             joint_angle = joint_state[0]
-            print("Joint index:{}, name:{}, angle:{}".format(i, joint_name, joint_angle))
+            print("[Client] Joint index:{}, name:{}, angle:{}".format(i, joint_name, joint_angle))
     
     def get_object_link_pose(self, object, link_id):
         """

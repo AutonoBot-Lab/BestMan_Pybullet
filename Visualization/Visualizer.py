@@ -117,7 +117,7 @@ class Visualizer:
         rgbImg = cv2.cvtColor(rgb, cv2.COLOR_BGR2RGB)
         cv2.imwrite(rgb_path, rgbImg)
         
-        print("-" * 20 + "capture_screen is done!" + "-" * 20)
+        print("[Visualizer] capture_screen is done!")
             
             
     # ----------------------------------------------------------------
@@ -204,16 +204,7 @@ class Visualizer:
             physicsClientId=self.client_id
         )
         
-        print(
-            "-" * 20
-            + "\n"
-            + "The video can be found in "
-            + "Examples/log/"
-            + fileName
-            + ".mp4"
-        )
-        
-        # return logId
+        print(f"[Visualizer] The video can be found in Examples/log/{fileName}.mp4")
 
     def end_record(self):
         """Stops recording the video."""
@@ -266,7 +257,6 @@ class Visualizer:
                 -1, p.getNumJoints(object_id, physicsClientId=self.client_id)
             )
         ]
-        print(f"test: {link_ids}")
         for link_id in link_ids:
             aabb = p.getAABB(object_id, link_id)
             aabb_min = aabb[0]

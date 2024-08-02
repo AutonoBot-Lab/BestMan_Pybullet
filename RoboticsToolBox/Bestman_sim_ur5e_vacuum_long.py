@@ -47,7 +47,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
             p.removeConstraint(self.gripper_id, physicsClientId=self.client_id)
             self.gripper_id = None
             self.gripper_object_id = None
-            print("-" * 20 + "\n" + "Gripper has been deactivated!")
+            print("[BestMan_Sim][Sucker] Sucker has been deactivated!")
         
         if value == 1 and self.gripper_id is None:
             cube_orn = p.getQuaternionFromEuler([0, math.pi, 0])
@@ -78,7 +78,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
                     physicsClientId=self.client_id,
                 )
             self.gripper_object_id = object_id
-            print("-" * 20 + "\n" + "Gripper has been activated!")
+            print("[BestMan_Sim][Sucker] Sucker has been activated!")
         
         self.client.run(10)
         
@@ -96,7 +96,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
         if value == 0 and self.gripper_id is not None:
             p.removeConstraint(self.gripper_id, physicsClientId=self.client_id)
             self.gripper_id = None
-            print("-" * 20 + "\n" + "Gripper has been deactivated!")
+            print("[BestMan_Sim][Sucker] Gripper has been deactivated!")
         
         if value == 1 and self.gripper_id is None:
             link_state = p.getLinkState(object_id, link_id)

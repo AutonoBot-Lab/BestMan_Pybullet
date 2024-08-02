@@ -217,7 +217,7 @@ class PRMPlanner:
 
         while True:
             if not open_set:
-                print("Cannot find path")
+                print("[PRM Planner] Cannot find path")
                 path_found = False
                 break
 
@@ -225,7 +225,7 @@ class PRMPlanner:
             current = open_set[c_id]
 
             if c_id == (len(road_map) - 1):
-                print("goal is found!")
+                print("[PRM Planner] goal is found!")
                 goal_node.parent_index = current.parent_index
                 goal_node.cost = current.cost
                 break

@@ -12,7 +12,7 @@ from .utils import *
 
 class Collision:
     """A class for handling collision detection."""
-
+    
     def __init__(self, robot, obstacles):
         """
         Initializes the Collision class.

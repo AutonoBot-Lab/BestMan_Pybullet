@@ -163,7 +163,7 @@ class AStarPlanner:
         
         plt.plot([x for (x, _) in self.path], [y for (_, y) in self.path], '-r')
         
-        print([self.area.x_min, self.area.x_max, self.area.y_min, self.area.y_max])
+        # print([self.area.x_min, self.area.x_max, self.area.y_min, self.area.y_max])
         plt.axis([self.area.x_min, self.area.x_max, self.area.y_min, self.area.y_max])
         plt.axis("equal")
         # plt.grid(True)    # grid line 

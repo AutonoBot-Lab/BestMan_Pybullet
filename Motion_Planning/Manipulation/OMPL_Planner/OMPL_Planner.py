@@ -96,7 +96,7 @@ class OMPL_Planner:
         elif planner_name == "BITstar":
             self.planner = og.BITstar(self.ss.getSpaceInformation())
         else:
-            print("{} not recognized, please add it first".format(planner_name))
+            print("[OMPL Planner] {} not recognized, please add it first".format(planner_name))
             return
 
         self.ss.setPlanner(self.planner)
@@ -174,12 +174,12 @@ class OMPL_Planner:
         """
         
         if self.obstacles == []:
-            print("\n" + "-" * 20 + "\n" + "Obstacle list is empty" + "\n" + "-" * 20 + "\n")
+            print("[OMPL Planner] Obstacle list is empty")
         else:
             for obstacle_id in self.obstacles:
                 item_info = p.getBodyInfo(obstacle_id)
                 item_name = item_info[1].decode("utf-8")
-                print(f"Obstacle Name: {item_name}, ID: {obstacle_id}")
+                print(f"[OMPL Planner] Obstacle Name: {item_name}, ID: {obstacle_id}")
     
     # ----------------------------------------------------------------
     # functions for plan 
@@ -197,7 +197,7 @@ class OMPL_Planner:
             list: The planned path as a list of states.
         """
         
-        print("\n" + "-" * 20 + "\n" + "Start planning"+ "\n" + "-" * 20 + "\n")
+        print("[OMPL Planner] Start planning...")
 
         # set the start and goal states
         s = ob.State(self.space)
@@ -214,10 +214,10 @@ class OMPL_Planner:
             sol_path_geometric.interpolate(self.interpolate_num)     # Linear interpolation, Generate more intermediate states to make the path smoother and more refined
             sol_path_states = sol_path_geometric.getStates()
             path = [self.state_to_list(state) for state in sol_path_states]
-            print("\n" + "-" * 20 + "\n" + "End planning"+ "\n" + "-" * 20 + "\n")
+            print("[OMPL Planner] End planning!")
             return path
         else:
-            raise RuntimeError("No solution found!")
+            raise RuntimeError("[OMPL Planner] No solution found!")
     
     # ----------------------------------------------------------------
     # Utils
