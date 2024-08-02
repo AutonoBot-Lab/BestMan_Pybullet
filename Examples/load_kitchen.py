@@ -1,7 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
-@Description :   This script shows how to grasp a bowl from a fridge
-@Author      :   Yan Ding 
-@Time        :   2023/09/01 07:47:46
+# @FileName      : load_kitchen
+# @Time          : 2024-08-01 20:17:20
+# @Author        : kui yang
+# @Email         : yangkui1127@gmail.com
+# @description   : A example to load kitchen
 """
 
 import os

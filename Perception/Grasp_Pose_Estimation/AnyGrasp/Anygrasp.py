@@ -1,3 +1,14 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+# @FileName      : Anygrasp
+# @Time          : 2024-08-01 20:50:34
+# @Author        : kui yang
+# @Email         : yangkui1127@gmail.com
+# @description   : Grasp pose estimation algorithm
+"""
+
+
 import os
 import argparse
 import copy

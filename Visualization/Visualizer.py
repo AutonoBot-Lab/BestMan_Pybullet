@@ -1,7 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
-@Description :   A few functions for visualization
-@Author      :   Yan Ding 
-@Time        :   2023/08/30 22:48:04
+# @FileName      : Visualizer
+# @Time          : 2024-08-01 20:58:39
+# @Author        : kui yang
+# @Email         : yangkui1127@gmail.com
+# @description   : Visualizer for pybullet 
 """
 
 import cv2

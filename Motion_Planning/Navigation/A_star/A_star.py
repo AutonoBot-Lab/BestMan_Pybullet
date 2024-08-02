@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+# @FileName      : A_star
+# @Time          : 2024-08-01 20:49:04
+# @Author        : kui yang
+# @Email         : yangkui1127@gmail.com
+# @description   : A star Navigation algorithm
+"""
+
 import numpy as np
 import networkx as nwx
 import matplotlib.pyplot as plt

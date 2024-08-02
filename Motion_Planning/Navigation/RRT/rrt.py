@@ -1,9 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
-
-Path planning Sample Code with Randomized Rapidly-Exploring Random Trees (RRT)
-
-author: AtsushiSakai(@Atsushi_twi)
-
+# @FileName      : rrt
+# @Time          : 2024-08-01 20:49:58
+# @Author        : kui yang
+# @Email         : yangkui1127@gmail.com
+# @description   : RTT navigation algorithm
 """
 
 import math

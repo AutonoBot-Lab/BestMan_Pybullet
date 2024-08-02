@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+# @FileName      : Lang_SAM
+# @Time          : 2024-08-01 20:52:08
+# @Author        : kui yang
+# @Email         : yangkui1127@gmail.com
+# @description   : Language Segment-Anything algorithm
+"""
+
 import os
 os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
 import cv2

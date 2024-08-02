@@ -1,9 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
-
-Probabilistic Road Map (PRM) Planner
-
-author: Atsushi Sakai (@Atsushi_twi)
-
+# @FileName      : probabilistic_road_map
+# @Time          : 2024-08-01 20:49:34
+# @Author        : kui yang
+# @Email         : yangkui1127@gmail.com
+# @description   : PRM navigation algorithm
 """
 
 import math

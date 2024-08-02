@@ -1,7 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
-@Description :   A few functions for planning
-@Author      :   Yan Ding 
-@Time        :   2023/08/30 22:52:39
+# @FileName      : OMPL_Planner
+# @Time          : 2024-08-01 20:29:06
+# @Author        : kui yang
+# @Email         : yangkui1127@gmail.com
+# @description   : OMPL planner
 """
 
 

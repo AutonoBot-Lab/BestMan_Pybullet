@@ -1,7 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
-@Description :   This script shows how to grasp a bowl from a drawer, consider collision detection
-@Author      :   Yan Ding 
-@Time        :   2023/09/01 07:47:46
+# @FileName      : grasp_bowl_from_drawer_in_kitchen
+# @Time          : 2024-08-01 20:06:11
+# @Author        : kui yang
+# @Email         : yangkui1127@gmail.com
+# @description   : A example to grasp bowl from drawer in kitchen
 """
 
 import os

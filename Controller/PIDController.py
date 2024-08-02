@@ -1,7 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
-@Description :   A few functions used in PID control
-@Author      :   Yan Ding 
-@Time        :   2023/08/31 02:50:31
+# @FileName      : PIDController
+# @Time          : 2024-08-01 20:26:50
+# @Author        : kui yang
+# @Email         : yangkui1127@gmail.com
+# @description   : PID Controller
 """
 
 class PIDController:

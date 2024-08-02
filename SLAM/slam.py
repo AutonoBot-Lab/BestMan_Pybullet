@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+# @FileName      : slam
+# @Time          : 2024-08-01 20:54:59
+# @Author        : kui yang
+# @Email         : yangkui1127@gmail.com
+# @description   : A simple slam method in pybullet sim
+"""
+
 import pybullet as p
 import matplotlib.pyplot as plt
 from .utils import *

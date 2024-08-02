@@ -1,8 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
-@Description :   A simulation class for the Bestman robot with a UR5e arm and vacuum gripper.
-                  Includes functionalities for gripper activation, picking, and placing objects.
-@Author      :   Yan Ding 
-@Time        :   2023/08/30 20:43:44
+# @FileName      : Bestman_sim_ur5e_vacuum_long
+# @Time          : 2024-08-01 20:54:33
+# @Author        : kui yang
+# @Email         : yangkui1127@gmail.com
+# @description   : Ur5e robot
 """
 
 import math
@@ -18,7 +21,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
     def __init__(self, client, visualizer, cfg):
         """
         Initialize the Bestman_sim_ur5e_vacuum_long with the given parameters.
-
+        
         Args:
             client (int): The PyBullet client ID.
             visualizer (bool): Flag indicating whether visualization is enabled.

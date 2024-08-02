@@ -1,7 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
-@Description :   This script shows how to manipulate the arm to grasp object, not consider collision detection
-@Author      :   Yan Ding 
-@Time        :   2023/08/31 03:01:50
+# @FileName      : grasp_bowl_on_table_sucker
+# @Time          : 2024-08-01 20:07:27
+# @Author        : kui yang
+# @Email         : yangkui1127@gmail.com
+# @description   : A example to grasp bowl on table use sucker
 """
 
 import os 

@@ -1,7 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
-@Description :   load a kitchen scenario
-@Author      :   Yan Ding 
-@Time        :   2023/08/30 20:43:44
+# @FileName      : draw_fridge_door_link
+# @Time          : 2024-08-01 20:05:07
+# @Author        : kui yang
+# @Email         : yangkui1127@gmail.com
+# @description   : A example to draw fridge door link
 """
 
 import os

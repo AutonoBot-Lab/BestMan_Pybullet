@@ -1,7 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
-@Description :   This script shows how to grasp a bowl from a drawer, consider collision detection
-@Author      :   Yan Ding 
-@Time        :   2023/09/01 07:47:46
+# @FileName      : move_bowl_from_drawer_to_table
+# @Time          : 2024-08-01 20:19:04
+# @Author        : kui yang
+# @Email         : yangkui1127@gmail.com
+# @description   : A example to move bowl from drawer to table 
 """
 
 import os
@@ -25,7 +29,7 @@ def main(filename):
     # Init client and visualizer    
     client = Client(cfg.Client)
     visualizer = Visualizer(client, cfg.Visualizer)
-
+    
     # Load scene
     scene_path = '../Asset/Scene/Kitchen_1.json'
     client.create_scene(scene_path)

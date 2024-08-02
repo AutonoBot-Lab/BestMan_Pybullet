@@ -1,7 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
-@Description :   A few functions used in communication with client
-@Author      :   Yan Ding 
-@Time        :   2023/08/30 22:22:14
+# @FileName      : Client
+# @Time          : 2024-08-01 20:27:33
+# @Author        : kui yang
+# @Email         : yangkui1127@gmail.com
+# @description   : pybullet client 
 """
 
 import math

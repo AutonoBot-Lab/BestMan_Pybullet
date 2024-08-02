@@ -1,7 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
-@Description :   load a kitchen scenario
-@Author      :   Yan Ding 
-@Time        :   2023/08/30 20:43:44
+# @FileName      : open_microwave
+# @Time          : 2024-08-01 20:23:00
+# @Author        : kui yang
+# @Email         : yangkui1127@gmail.com
+# @description   : A example to open microwave use ur5e robot
 """
 
 import os

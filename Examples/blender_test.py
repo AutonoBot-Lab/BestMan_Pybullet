@@ -1,7 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
-@Description :   This script shows how to grasp a bowl from a fridge
-@Author      :   Yan Ding 
-@Time        :   2023/09/01 07:47:46
+# @FileName      : blender_test
+# @Time          : 2024-08-01 20:03:49
+# @Author        : kui yang
+# @Email         : yangkui1127@gmail.com
+# @description   : A example to record pybullet scene and render in blender
 """
 
 import os

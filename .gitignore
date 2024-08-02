@@ -2,10 +2,7 @@
 **/__pycache__
 **/*.pyc
 Examples/log/
-Install/third_party/pointnet2
-Motion_Planning/Manipulation/Grasp/Grasp_Pose_Estimation/AnyGrasp/license_registration/
 Motion_Planning/Manipulation/Grasp/.TimeRecord
-Motion_Planning/Manipulation/Grasp/Grasp_Pose_Estimation/AnyGrasp/license/
 .TimeRecord
 Test
 Examples/image/rgb*
@@ -15,4 +12,4 @@ Examples/record/*
 Examples/blender/
 Asset/mobile_manipulator/arm/moveit_config
 Perception/Grasp_Pose_Estimation/AnyGrasp/license
-Perception/Grasp_Pose_Estimation/AnyGrasp/checkpoint/checkpoint_detection.tar
+Perception/Grasp_Pose_Estimation/AnyGrasp/checkpoints/checkpoint_detection.tar

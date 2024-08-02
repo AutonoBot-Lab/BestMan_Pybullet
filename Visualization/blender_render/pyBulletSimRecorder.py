@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+# @FileName      : pyBulletSimRecorder
+# @Time          : 2024-08-01 20:57:26
+# @Author        : kui yang
+# @Email         : yangkui1127@gmail.com
+# @description   : A recorder in pybullet sim and the result can be import into blender scene
+"""
+
 import pybullet as p
 import PySimpleGUI as sg
 import pickle

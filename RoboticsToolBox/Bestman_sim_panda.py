@@ -1,7 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
-@Description :   A few functions used in bestman robot, where the robot has a base and an arm.
-@Author      :   Yan Ding 
-@Time        :   2023/08/30 20:43:44
+# @FileName      : Bestman_sim_panda
+# @Time          : 2024-08-01 20:54:18
+# @Author        : kui yang
+# @Email         : yangkui1127@gmail.com
+# @description   : Panda robot
 """
 
 import math

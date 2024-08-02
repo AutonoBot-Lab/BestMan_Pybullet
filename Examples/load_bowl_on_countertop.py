@@ -1,7 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
-@Description :   This script shows how to navigate to a goal position
-@Author      :   Yan Ding 
-@Time        :   2023/08/31 03:01:50
+# @FileName      : load_bowl_on_countertop
+# @Time          : 2024-08-01 20:16:59
+# @Author        : kui yang
+# @Email         : yangkui1127@gmail.com
+# @description   : A example to load bowl on countertop
 """
 
 
