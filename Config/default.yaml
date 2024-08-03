@@ -8,7 +8,7 @@ Client:
   shadows: True                   # If True, scene shadows will be enabled.
   Gravity: [0, 0, -9.8]           # Simulation environment gravity coefficient
   numSolverIterations: 1000       # Set the number of constraint solver iterations; Higher values increase precision but also increase computation time
-  plane_urdf_path: 'plane.urdf'   # plane urdf
+  plane_urdf_path: '../Asset/Kitchen_models/plane/greyPlane/plane.urdf'   # plane urdf
   frequency: 240                  # simulation frequency
   timeout : 100.0                 # maximum time for planning
   blender: True
