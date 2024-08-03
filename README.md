@@ -18,46 +18,75 @@ Welcome to the official repository of BestMan, a mobile manipulator simulator (w
 - Pull the repository and update the submodule
 
 ```
-git clone https://github.com/AutonoBot-Lab/BestMan_Pybullet.git --branch master
+git clone https://github.com/AutonoBot-Lab/BestMan_Pybullet.git -b refactor
 cd BestMan_Pybullet
 git submodule init
 git submodule update
 ```
 
-
 ### :shamrock: Conda
 
-First install [Anaconda / minconda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html) on linux system and then perform the following steps：
+First install `Anaconda` or `minconda` on linux system and then perform the following steps：
 
 - Run the following script to add the project to the PYTHON search path
 ```
 cd Install
-sudo bash pythonpath.sh
+chmod 777 pythonpath.sh
+bash pythonpath.sh
 source ~/.bashrc
 ```
 
-- Install shared file (If it already exists, skip this step.)
+- Configure related libraries and links to support OpenGL rendering (If it already exists, skip this step.)
 ```
 sudo apt update && sudo apt install -y libgl1-mesa-glx libglib2.0-0
 sudo mkdir /usr/lib/dri
 sudo ln -s /lib/x86_64-linux-gnu/dri/swrast_dri.so /usr/lib/dri/swrast_dri.so
 ```
 
-- Optional: Configure mamba to speed up the conda environment construction
+- Install gcc/g++ 9 (If it already exists, skip this step.)
 ```
-# Install conda-libmamba-solver
-conda install -n base conda-libmamba-solver
-conda config --set solver libmamba
+sudo apt install -y build-essential gcc-9 g++-9
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9
+sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 9
+sudo update-alternatives --config gcc  # choice gcc-9
+sudo update-alternatives --config g++  # choice g++-9
 
-# Install mamba
+# Make sure gcc and g++ versions are consistent
+gcc -v
+g++ -v
+```
+
+- Configure mamba to speed up the conda environment construction (Optional, skip if installation is slow or fails)
+```
 conda install mamba -n base -c conda-forge
 ```
 
-- Create conda environment (If mamba is configured, the command uses mamba, otherwise conda)
+- Create basic conda environment
 ```
-mamba(conda) env create -f basic_environment.yaml
-mamba(conda) activate BestMan
+conda(mamba) env create -f basic_environment.yaml
+conda(mamba) activate BestMan
+
+# Install torch
+conda(mamba) env update -f cuda116.yaml
+
+# Install lang-segment-anything
+pip install -U git+https://github.com/luca-medeiros/lang-segment-anything.git
+
+# Install MinkowskiEngine
+pip install -U git+https://github.com/NVIDIA/MinkowskiEngine -v --no-deps --global-option="--blas_include_dirs=${CONDA_PREFIX}/include" --global-option="--blas=openblas"
+
+# Install graspnetAPI
+pip install graspnetAPI
+
+# Install pointnet2
+cd third_party/pointnet2
+python setup.py install
 ```
+
+- AnyGrasp License 
+
+  You need to get anygrasp [license and checkpoint](./Perception/Grasp_Pose_Estimation/AnyGrasp/README.md) to use it.
+<br/>
 
 
 ### :shamrock: Docker
@@ -87,90 +116,106 @@ export DISPLAY=host.docker.internal:0
 
 ##### Linux
 - TBD
-
-
-## 🔎 Project Structure
-
-```
-cat Asset/project_structure.txt
-```
+<br/>
 
 
 ## 👨‍💻 Basic Demos
 
-:shamrock: **Load Kitchens**
+&emsp;&emsp;We have supplemented and improved the [pybullet-blender-recorder](https://github.com/huy-ha/pybullet-blender-recorder) code base, importing the images in the pybullet scene into blender for rendering, which improves the rendering effect. For simple scenes and tasks, the import can be completed within 2 minutes, and for complex scenes and tasks, the import can be completed within half an hour.
+
+<br/>
+First, Enter directory Examples:
 
 ```
-python Examples/load_kitchen.py
+cd Examples
 ```
+
+Below are some examples and their rendering in Blender
+
 
 :shamrock: **Navigation**
 
 ```
-python Examples/navigation_basic.py
+python navigation_basic.py
 ```
 
-<table>
-  <tr>
-    <td>
-      <a href="https://www.youtube.com/watch?v=HW6oQhs_e5U">
-          <img src="https://img.youtube.com/vi/HW6oQhs_e5U/0.jpg" alt="navigation" width="250" height="200">
-      </a>
-    </td>
-    <td>
-      <a href="https://www.youtube.com/watch?v=_tVbxgiM-5Q">
-          <img src="https://img.youtube.com/vi/_tVbxgiM-5Q/0.jpg" alt="navigation" width="250" height="200">
-      </a>
-    </td>
-  </tr>
-</table>
+https://github.com/user-attachments/assets/b62e8a39-ae3f-4e55-8035-e0592fdec6ac 
+
+https://github.com/user-attachments/assets/64b1334a-4ad3-4e4f-aaab-e3e7c9afed6a
+
+<br/>
 
 
 :shamrock: **Manipulation**
 
-```
-python Examples/grasp_bowl_in_kitchen.py
-```
+- Open Fridge
 
 ```
-python Examples/grasp_bowl_from_drawer_in_kitchen.py
+python open_fridge.py
 ```
 
-<table>
-  <tr>
-    <td>
-      <a href="https://www.youtube.com/watch?v=XnmEqOgxNM4">
-        <img src="https://img.youtube.com/vi/XnmEqOgxNM4/0.jpg" alt="manipulation" width="250" height="200">
-      </a>
-    </td>
-    <td>
-      <a href="https://www.youtube.com/watch?v=f25d4N_Lv9w">
-        <img src="https://img.youtube.com/vi/f25d4N_Lv9w/0.jpg" alt="Video 1" width="250" height="200">
-      </a>
-    </td>
-    <td>
-      <a href="https://www.youtube.com/watch?v=7gbh2OGFkCk">
-        <img src="https://img.youtube.com/vi/7gbh2OGFkCk/0.jpg" alt="Video 2" width="250" height="200">
-      </a>
-    </td>
-  </tr>
-</table>
+https://github.com/user-attachments/assets/ffdb8468-5125-4d72-aa5b-4c237ac58a57 
+
+https://github.com/user-attachments/assets/ed07b856-74ce-4299-9ba5-9de012b9eef5 
+<br/>
 
 
+- Open microwave
 
-<!-- <a href="https://www.youtube.com/watch?v=f25d4N_Lv9w">
-    <img src="https://img.youtube.com/vi/f25d4N_Lv9w/0.jpg" alt="OMPL" width="300" height="200">
-</a>
+```
+python open_microwave.py
+```
 
-<a href="https://www.youtube.com/watch?v=7gbh2OGFkCk">
-    <img src="https://img.youtube.com/vi/7gbh2OGFkCk/0.jpg" alt="OMPL" width="300" height="200">
-</a> -->
+https://github.com/user-attachments/assets/df0dbfea-a91a-43bd-8204-c61745aa40d9 
+
+https://github.com/user-attachments/assets/77530f8d-30fb-471c-8e6d-40f8dddfd56a  
+<br/>
 
 
+- Grasp bowl on table use sucker
 
-##  📘 Documents
+```
+python grasp_bowl_on_table_sucker.py
+```
 
-:shamrock: **APIs_in_utils.txt**: A detailed list of common functions used in the utility scripts
+https://github.com/user-attachments/assets/55e9f3ec-6c42-4f90-a5b1-b38d2c90e6b9 
+
+https://github.com/user-attachments/assets/76909a22-e268-44b5-9415-4ef42f528f14 
+
+<br/>
+
+
+- Grasp lego on table use gripper
+
+```
+python grasp_lego_on_table_gripper.py
+```
+
+https://github.com/user-attachments/assets/2260d167-6b13-4281-99fe-a6fcf42cf3d8  
+
+https://github.com/user-attachments/assets/beb7d70c-fa83-4229-a0dc-82eb95da92ff  
+
+<br/>
+
+
+- Move bowl from drawer to table
+
+```
+python move_bowl_from_drawer_to_table.py
+```
+
+https://github.com/user-attachments/assets/d48ea499-eac4-4810-88fe-306f71504216 
+
+https://github.com/user-attachments/assets/580e658a-fd33-49d5-ad1c-ae513974a807 
+
+<br/>
+
+
+## 🔎 Project Structure & API References
+
+- [Project Structure](docs/project_structure.txt)
+- [API References](https://bestman-pybullet.readthedocs.io)
+<br/>
 
 
 
