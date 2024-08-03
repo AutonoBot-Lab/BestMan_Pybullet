@@ -310,10 +310,22 @@ class Bestman_sim:
         self.rotate_base(goal_base_pose.yaw)
         self.client.run(10)
         # self.camera.update()
-        ik_error = self.calculate_IK_error(goal_base_pose)
+        ik_error = self.calculate_nav_error(goal_base_pose)
         if ik_error >= threshold:
             print(f"[BestMan_Sim][Base] \033[33mwarning\033[0m: The robot base don't reach the specified position! IK error: {ik_error}")
         print("[BestMan_Sim][Base] \033[34mInfo\033[0m: Navigation is done!")
+    
+    def calculate_nav_error(self, goal_pose):
+        """Calculate the navigation error for performing pick-and-place manipulation of an object using a robot arm.
+
+        Args:
+            goal_position: The desired goal position for the target object.
+            goal_orientation: The desired goal orientation for the target object.
+        """
+        
+        current_base_pose = self.get_current_base_pose()
+        distance = np.linalg.norm(np.array(current_base_pose.position) - np.array(goal_pose.position))
+        return distance
 
     
     # ----------------------------------------------------------------
