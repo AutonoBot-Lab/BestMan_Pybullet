@@ -1,12 +1,13 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
 """
-# @FileName      : load_ur5e
-# @Time          : 2024-08-01 20:18:49
-# @Author        : kui yang
-# @Email         : yangkui1127@gmail.com
-# @description   : A example to load ur5e robot
+# @FileName       : load_ur5e.py
+# @Time           : 2024-08-03 15:04:49
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : A example to load ur5e robot
 """
+
 
 import os
 from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long

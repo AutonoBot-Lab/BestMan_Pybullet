@@ -1,11 +1,11 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
 """
-# @FileName      : Collision
-# @Time          : 2024-08-01 20:28:47
-# @Author        : kui yang
-# @Email         : yangkui1127@gmail.com
-# @description   : Collision detection module
+# @FileName       : Collision.py
+# @Time           : 2024-08-03 15:06:10
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : Collision detection module
 """
 
 from .utils import *

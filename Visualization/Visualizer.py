@@ -1,37 +1,18 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
 """
-# @FileName      : Visualizer
-# @Time          : 2024-08-01 20:58:39
-# @Author        : kui yang
-# @Email         : yangkui1127@gmail.com
-# @description   : Visualizer for pybullet 
+# @FileName       : Visualizer.py
+# @Time           : 2024-08-03 15:09:53
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : Visualizer for pybullet 
 """
 
 import cv2
 import pybullet as p
 import numpy as np
-from PIL import Image
 from datetime import datetime
-
-# color list
-colors = {
-    "light_white": [1, 1, 1, 1],
-    "wood_light": [0.87, 0.72, 0.53, 1],
-    "wood_heavy": [0.4, 0.26, 0.13, 1],
-    "stainless_steel": [0.59, 0.59, 0.59, 1],
-    "wood_dark": [0.4, 0.26, 0.13, 1],
-    "cream": [1, 0.99, 0.82, 1],
-    "light_grey": [0.9, 0.9, 0.9, 1],
-    "grey": [0.56, 0.56, 0.56, 1],
-    "dark_grey": [0.13, 0.13, 0.13, 1],
-    "blue": [0.53, 0.81, 0.92, 1.0],
-    "light_blue": [0.9, 0.9, 1, 1],
-    "light_white": [0.98, 0.98, 0.98, 1.0],
-    "white": [1, 1, 1, 1.0],
-    "black": [0, 0, 0, 1],
-}
-
+from .utils import colors
 
 class Visualizer:
     """
@@ -117,7 +98,7 @@ class Visualizer:
         rgbImg = cv2.cvtColor(rgb, cv2.COLOR_BGR2RGB)
         cv2.imwrite(rgb_path, rgbImg)
         
-        print("[Visualizer] capture_screen is done!")
+        print("[Visualizer] \033[34mInfo\033[0m: capture_screen is done!")
             
             
     # ----------------------------------------------------------------
@@ -204,8 +185,8 @@ class Visualizer:
             physicsClientId=self.client_id
         )
         
-        print(f"[Visualizer] The video can be found in Examples/log/{fileName}.mp4")
-
+        print(f"[Visualizer] \033[34mInfo\033[0m: The video can be found in Examples/log/{fileName}.mp4")
+    
     def end_record(self):
         """Stops recording the video."""
         p.stopStateLogging(self.logId, physicsClientId=self.client_id)

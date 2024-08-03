@@ -1,12 +1,13 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
 """
-# @FileName      : load_panda
-# @Time          : 2024-08-01 20:17:43
-# @Author        : kui yang
-# @Email         : yangkui1127@gmail.com
-# @description   : A example load panda robot
+# @FileName       : load_panda.py
+# @Time           : 2024-08-03 15:04:37
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : A example load panda robot
 """
+
 
 import os
 from RoboticsToolBox.Bestman_sim_panda import Bestman_sim_panda

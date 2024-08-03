@@ -1,3 +1,14 @@
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
+"""
+# @FileName       : Pose.py
+# @Time           : 2024-08-03 15:08:38
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : POse
+"""
+
+
 import numpy as np
 from scipy.spatial.transform import Rotation as R
 

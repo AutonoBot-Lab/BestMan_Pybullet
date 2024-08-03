@@ -1,11 +1,11 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
 """
-# @FileName      : pyBulletSimRecorder
-# @Time          : 2024-08-01 20:57:26
-# @Author        : kui yang
-# @Email         : yangkui1127@gmail.com
-# @description   : A recorder in pybullet sim and the result can be import into blender scene
+# @FileName       : pyBulletSimRecorder.py
+# @Time           : 2024-08-03 15:09:24
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : A recorder in pybullet sim and the result can be import into blender scene
 """
 
 import pybullet as p
@@ -248,7 +248,7 @@ class PyBulletRecorder:
                 'mesh_scale': link.mesh_scale,
                 'frames': [state[link.name] for state in self.states if link.name in state]
             }
-        print("[Recorder] Frames num {}".format(len(self.states)))
+        print("[Recorder] \033[34mInfo\033[0m: Frames num {}".format(len(self.states)))
         return retval
     
     def save(self, path):
@@ -259,7 +259,7 @@ class PyBulletRecorder:
             path (str): The path to save the recorded simulation states.
         """
         if path is None:
-            print("[Recorder] Path is None.. not saving")
+            print("[Recorder] \033[33mwarning\033[0m: Path is None.. not saving")
         else:
-            print("[Recorder] Saving state to {}".format(path))
+            print("[Recorder] \033[34mInfo\033[0m: Saving state to {}".format(path))
             pickle.dump(self.get_formatted_output(), open(path, 'wb'))

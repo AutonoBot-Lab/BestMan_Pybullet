@@ -1,12 +1,13 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
 """
-# @FileName      : Client
-# @Time          : 2024-08-01 20:27:33
-# @Author        : kui yang
-# @Email         : yangkui1127@gmail.com
-# @description   : pybullet client 
+# @FileName       : Client.py
+# @Time           : 2024-08-03 15:02:08
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : pybullet client 
 """
+
 
 import math
 import json
@@ -209,7 +210,7 @@ class Client:
                 object['fixed_base']
             )
         
-        print(f'[Client] success load scene from {json_path}!')
+        print(f'[Client] \033[34mInfo\033[0m: success load scene from {json_path}!')
     
     
     # ----------------------------------------------------------------
@@ -301,13 +302,13 @@ class Client:
         object_id = self.resolve_object_id(object)
         
         num_joints = p.getNumJoints(object_id, physicsClientId=self.client_id)
-        print("[Client] The object {} has {} joints".format(object_id, num_joints))
+        print("[Client] \033[34mInfo\033[0m: The object {} has {} joints".format(object_id, num_joints))
         for i in range(num_joints):
             joint_info = p.getJointInfo(object_id, i, physicsClientId=self.client_id)
             joint_name = joint_info[1]
             joint_state = p.getJointState(object_id, i, physicsClientId=self.client_id)
             joint_angle = joint_state[0]
-            print("[Client] Joint index:{}, name:{}, angle:{}".format(i, joint_name, joint_angle))
+            print("[Client] \033[34mInfo\033[0m: Joint index:{}, name:{}, angle:{}".format(i, joint_name, joint_angle))
     
     def get_object_link_pose(self, object, link_id):
         """

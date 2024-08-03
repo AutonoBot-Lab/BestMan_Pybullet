@@ -1,12 +1,13 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
 """
-# @FileName      : blender_test
-# @Time          : 2024-08-01 20:03:49
-# @Author        : kui yang
-# @Email         : yangkui1127@gmail.com
-# @description   : A example to record pybullet scene and render in blender
+# @FileName       : blender_test.py
+# @Time           : 2024-08-03 15:02:38
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : A example to record pybullet scene and render in blender
 """
+
 
 import os
 from Env import Client

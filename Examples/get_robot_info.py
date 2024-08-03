@@ -1,12 +1,13 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
 """
-# @FileName      : get_robot_info
-# @Time          : 2024-08-01 20:05:44
-# @Author        : kui yang
-# @Email         : yangkui1127@gmail.com
-# @description   : A example to get robot joint info
+# @FileName       : get_robot_info.py
+# @Time           : 2024-08-03 15:03:21
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : A example to get robot joint info
 """
+
 
 import os 
 from Env import Client

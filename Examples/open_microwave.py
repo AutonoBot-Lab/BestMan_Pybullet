@@ -1,12 +1,13 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
 """
-# @FileName      : open_microwave
-# @Time          : 2024-08-01 20:23:00
-# @Author        : kui yang
-# @Email         : yangkui1127@gmail.com
-# @description   : A example to open microwave use ur5e robot
+# @FileName       : open_microwave.py
+# @Time           : 2024-08-03 15:05:58
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : A example to open microwave use ur5e robot
 """
+
 
 import os
 import math

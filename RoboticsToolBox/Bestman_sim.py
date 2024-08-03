@@ -1,11 +1,11 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
 """
-# @FileName      : Bestman_sim
-# @Time          : 2024-08-01 20:03:14
-# @Author        : kui yang
-# @Email         : 1280868105@qq.com
-# @description   : A basic class for BestMan robot
+# @FileName       : Bestman_sim.py
+# @Time           : 2024-08-03 14:44:09
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : A basic class for BestMan robot
 """
 
 import math
@@ -283,7 +283,7 @@ class Bestman_sim:
             
         self.client.run() 
     
-    def navigate_base(self, goal_base_pose, path, threshold=0.1, enable_plot = False):
+    def navigate_base(self, goal_base_pose, path, threshold=0.05, enable_plot = False):
         """
         Navigate a robot from its current position to a specified goal position
 
@@ -310,9 +310,10 @@ class Bestman_sim:
         self.rotate_base(goal_base_pose.yaw)
         self.client.run(10)
         # self.camera.update()
-        if self.calculate_IK_error(goal_base_pose) >= threshold:
-            print("[BestMan_Sim][Base] The robot base don't reach the specified position!")
-        print("[BestMan_Sim][Base] Navigation is done!")
+        ik_error = self.calculate_IK_error(goal_base_pose)
+        if ik_error >= threshold:
+            print(f"[BestMan_Sim][Base] \033[33mwarning\033[0m: The robot base don't reach the specified position! IK error: {ik_error}")
+        print("[BestMan_Sim][Base] \033[34mInfo\033[0m: Navigation is done!")
 
     
     # ----------------------------------------------------------------
@@ -393,7 +394,7 @@ class Bestman_sim:
         """
         
         joint_bounds = [p.getJointInfo(self.arm_id, joint_id)[8:10] for joint_id in self.arm_joints_idx]    # get joint lower and upper limit
-        print("[BestMan_Sim][Arm] Joint bounds: {}".format(joint_bounds))
+        print("[BestMan_Sim][Arm] \033[34mInfo\033[0m: Joint bounds: {}".format(joint_bounds))
         return joint_bounds
 
     def get_current_joint_values(self):
@@ -429,7 +430,7 @@ class Bestman_sim:
         """
         self.arm_height = height
         self.client.run(10)
-        print("[BestMan_Sim][Arm] Arm height has changed into {}".format(height))
+        print("[BestMan_Sim][Arm] \033[34mInfo\033[0m: Arm height has changed into {}".format(height))
     
     def sim_set_arm_to_joint_values(self, joint_values):
         """
@@ -449,7 +450,7 @@ class Bestman_sim:
         """
         
         joint_values = self.get_current_joint_values()
-        print("[BestMan_Sim][Arm] Current joint angles: {}".format(joint_values))
+        print("[BestMan_Sim][Arm] \033[34mInfo\033[0m: Current joint angles: {}".format(joint_values))
 
         for i in self.arm_joints_idx:
             joint_value = input(
@@ -458,15 +459,15 @@ class Bestman_sim:
                 )
             )
             if joint_value.lower() == "q":
-                print("[BestMan_Sim][Arm] Skipping joint {}".format(i))
+                print("[BestMan_Sim][Arm] \033[34mInfo\033[0m: Skipping joint {}".format(i))
                 continue
             try:
                 joint_values[i] = float(joint_value)
             except ValueError:
-                print("[BestMan_Sim][Arm] Invalid input. Keeping current value for joint {}.".format(i))
+                print("[BestMan_Sim][Arm] \033[31merror\033[0m: Invalid input. Keeping current value for joint {}.".format(i))
 
         self.sim_set_arm_to_joint_values(joint_values)
-        print("[BestMan_Sim][Arm] Updated joint angles: {}".format(joint_values))
+        print("[BestMan_Sim][Arm] \033[34mInfo\033[0m: Updated joint angles: {}".format(joint_values))
     
     def move_arm_to_joint_values(self, joint_values, threshold=0.015, timeout=0.05):
         """
@@ -496,7 +497,7 @@ class Bestman_sim:
             
             if time.time() - start_time > timeout:  # avoid time anomaly
                 if p.getContactPoints(self.arm_id):
-                    assert(0, "[BestMan_Sim][Arm] The arm collides with other objects!")
+                    assert(0, "[BestMan_Sim][Arm] \033[31merror\033[0m: The arm collides with other objects!")
                 # print("-" * 20 + "\n" + "Timeout before reaching target joint position.")
                 break
             
@@ -586,7 +587,7 @@ class Bestman_sim:
             
             self.client.run()
 
-        print("[BestMan_Sim][Arm] Rotation completed!")
+        print("[BestMan_Sim][Arm] \033[34mInfo\033[0m: Rotation completed!")
 
     def move_end_effector_to_goal_pose(self, end_effector_goal_pose, threshold=0.1, steps=10):
         """
@@ -604,8 +605,9 @@ class Bestman_sim:
             joint_values = self.cartesian_to_joints(interpolated_pose)
             self.move_arm_to_joint_values(joint_values)
         self.client.run(40)
-        if self.calculate_IK_error(end_effector_goal_pose) >= threshold:
-            print("[BestMan_Sim][Arm] The robot arm don't reach the specified position!")
+        ik_error = self.calculate_IK_error(end_effector_goal_pose)
+        if ik_error >= threshold:
+            print(f"[BestMan_Sim][Arm] \033[33mwarning\033[0m: The robot arm don't reach the specified position! IK error: {ik_error}")
 
 
     def execute_trajectory(self, trajectory, threshold=0.1, enable_plot=False):
@@ -632,10 +634,12 @@ class Bestman_sim:
         
         current_joint_values = self.get_current_joint_values()
         diff_angles = [abs(a - b) for a, b in zip(current_joint_values, trajectory[-1])]
-        if not all(diff < threshold for diff in diff_angles):
-            print("[BestMan_Sim][Arm] The robot arm don't reach the specified position!")
+        greater_than_threshold = [diff for diff in diff_angles if diff > threshold]
+        greater_num = len(greater_than_threshold)
+        if greater_num > 0:
+            print(f"[BestMan_Sim][Arm] \033[33mwarning\033[0m: The robot arm({greater_num} joints) don't reach the specified position!")
         
-        print("[BestMan_Sim][Arm] Excite trajectory finished!")
+        print("[BestMan_Sim][Arm] \033[34mInfo\033[0m: Excite trajectory finished!")
     
     def calculate_IK_error(self, goal_pose):
         """Calculate the inverse kinematics (IK) error for performing pick-and-place manipulation of an object using a robot arm.
@@ -701,20 +705,19 @@ class Bestman_sim:
         elif name == "arm":
             id = self.arm_id
         else:
-            print("[BestMan_Sim] unknown name: {}, please input base or arm!".format(name))
+            print("[BestMan_Sim] \033[33mwarning\033[0m: unknown name: {}, please input base or arm!".format(name))
+            return
 
         num_joints = p.getNumJoints(id, physicsClientId=self.client_id)
-        print("[BestMan_Sim] Robot {} has {} joints:\n".format(id, num_joints))
+        print("[BestMan_Sim] \033[34mInfo\033[0m: Robot {} has {} joints:\n".format(id, num_joints))
         for i in range(num_joints):
             joint_info = p.getJointInfo(id, i, physicsClientId=self.client_id)
             joint_name = joint_info[1]
             link_name = joint_info[12].decode("UTF-8")
             joint_state = p.getJointState(id, i, physicsClientId=self.client_id)
             joint_angle = joint_state[0]
-            print(
-                "[BestMan_Sim] Joint index:{}, name:{}, angle:{}".format(i, joint_name, joint_angle)
-            )
-            print("[BestMan_Sim] Link index: {}, name: {}".format(i, link_name))
+            print("[BestMan_Sim] \033[34mInfo\033[0m: Joint index:{}, name:{}, angle:{}".format(i, joint_name, joint_angle))
+            print("[BestMan_Sim] \033[34mInfo\033[0m: Link index: {}, name: {}".format(i, link_name))
     
     def sim_sync_base_arm_pose(self):
         """
@@ -728,11 +731,6 @@ class Bestman_sim:
             p.resetBasePositionAndOrientation(
                 self.arm_id, [position[0], position[1], self.arm_height] , orientation, physicsClientId=self.client_id
             ) 
-            # if self.gripper_id is not None:
-            #     object_position, object_orientation = p.getBasePositionAndOrientation(self.gripper_object_id, physicsClientId=self.client_id)
-            #     p.resetBasePositionAndOrientation(
-            #         self.gripper_object_id, [position[0], position[1], object_position[2]] , object_orientation, physicsClientId=self.client_id
-            #     )
     
     # ----------------------------------------------------------------
     # functions for camera

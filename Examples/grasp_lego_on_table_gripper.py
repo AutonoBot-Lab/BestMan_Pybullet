@@ -1,12 +1,13 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
 """
-# @FileName      : grasp_lego_on_table_gripper
-# @Time          : 2024-08-01 20:16:34
-# @Author        : kui yang
-# @Email         : yangkui1127@gmail.com
-# @description   : A example to grasp lego on table use gripper
+# @FileName       : grasp_lego_on_table_gripper.py
+# @Time           : 2024-08-03 15:04:03
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : A example to grasp lego on table use gripper
 """
+
 
 import os 
 import math

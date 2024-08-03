@@ -1,12 +1,13 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
 """
-# @FileName      : grasp_bowl_from_drawer_in_kitchen
-# @Time          : 2024-08-01 20:06:11
-# @Author        : kui yang
-# @Email         : yangkui1127@gmail.com
-# @description   : A example to grasp bowl from drawer in kitchen
+# @FileName       : grasp_bowl_from_drawer_in_kitchen.py
+# @Time           : 2024-08-03 15:03:31
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : A example to grasp bowl from drawer in kitchen
 """
+
 
 import os
 from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long, Pose

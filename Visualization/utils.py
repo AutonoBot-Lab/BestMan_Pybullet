@@ -1,6 +1,24 @@
 import cv2
 import numpy as np
 
+# color list
+colors = {
+    "light_white": [1, 1, 1, 1],
+    "wood_light": [0.87, 0.72, 0.53, 1],
+    "wood_heavy": [0.4, 0.26, 0.13, 1],
+    "stainless_steel": [0.59, 0.59, 0.59, 1],
+    "wood_dark": [0.4, 0.26, 0.13, 1],
+    "cream": [1, 0.99, 0.82, 1],
+    "light_grey": [0.9, 0.9, 0.9, 1],
+    "grey": [0.56, 0.56, 0.56, 1],
+    "dark_grey": [0.13, 0.13, 0.13, 1],
+    "blue": [0.53, 0.81, 0.92, 1.0],
+    "light_blue": [0.9, 0.9, 1, 1],
+    "light_white": [0.98, 0.98, 0.98, 1.0],
+    "white": [1, 1, 1, 1.0],
+    "black": [0, 0, 0, 1],
+}
+
 def crop_image(self, image, center, size):
     """
     Crop a given image around a specified center point and returns the cropped portion. The resulting cropped image will be a square with the provided size. If the cropping dimensions exceed the original image boundaries, the function ensures it stays within the original image's dimensions to prevent out-of-bounds access.

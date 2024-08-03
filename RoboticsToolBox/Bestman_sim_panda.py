@@ -1,11 +1,11 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
 """
-# @FileName      : Bestman_sim_panda
-# @Time          : 2024-08-01 20:54:18
-# @Author        : kui yang
-# @Email         : yangkui1127@gmail.com
-# @description   : Panda robot
+# @FileName       : Bestman_sim_panda.py
+# @Time           : 2024-08-03 15:08:13
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : Panda robot
 """
 
 import math
@@ -63,13 +63,13 @@ class Bestman_sim_panda(Bestman_sim):
         if value == 1:
             for i in [9, 10]:
                 p.setJointMotorControl2(self.arm_id, i, p.POSITION_CONTROL, 0.04, force=10)
-                print("[BestMan_Sim][Gripper] Gripper has been deactivated!")
+                print("[BestMan_Sim][Gripper] \033[34mInfo\033[0m: Gripper has been deactivated!")
         elif value == 0:
             for i in [9, 10]:
                 p.setJointMotorControl2(self.arm_id, i, p.POSITION_CONTROL, 0.001, force=10)
-                print("[BestMan_Sim][Gripper] Gripper has been activated!")
+                print("[BestMan_Sim][Gripper] \033[34mInfo\033[0m: Gripper has been activated!")
         else:
-            raise(ValueError("[BestMan_Sim][Gripper] gripper value must be 0 / 1 !"))
+            raise(ValueError("[BestMan_Sim][Gripper] \033[31merror\033[0m: gripper value must be 0 / 1 !"))
         
         self.client.run(30)
         

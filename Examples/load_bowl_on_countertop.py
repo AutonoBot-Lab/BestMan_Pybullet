@@ -1,11 +1,11 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
 """
-# @FileName      : load_bowl_on_countertop
-# @Time          : 2024-08-01 20:16:59
-# @Author        : kui yang
-# @Email         : yangkui1127@gmail.com
-# @description   : A example to load bowl on countertop
+# @FileName       : load_bowl_on_countertop.py
+# @Time           : 2024-08-03 15:04:15
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : A example to load bowl on countertop
 """
 
 

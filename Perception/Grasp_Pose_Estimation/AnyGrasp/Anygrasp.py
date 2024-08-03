@@ -1,11 +1,11 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
 """
-# @FileName      : Anygrasp
-# @Time          : 2024-08-01 20:50:34
-# @Author        : kui yang
-# @Email         : yangkui1127@gmail.com
-# @description   : Grasp pose estimation algorithm
+# @FileName       : Anygrasp.py
+# @Time           : 2024-08-03 15:07:35
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : AnyGrasp: Grasp pose estimation algorithm
 """
 
 
@@ -97,12 +97,12 @@ class Anygrasp:
         gg, cloud = self.grasping_model.get_grasp(points, colors_m, lims, apply_object_mask=True, dense_grasp=False, collision_detection=True)
 
         if len(gg) == 0:
-            print("[AnyGrasp] No Grasp detected after collision detection!")
+            print("[AnyGrasp] \033[33mwarning\033[0m: No Grasp detected after collision detection!")
             return False, None
 
         # The grasped groups are subjected to non-maximum suppression (NMS) and sorted by scores.
         gg = gg.nms().sort_by_score()
-        print("[AnyGrasp] Grasp point nums", len(gg))
+        print("[AnyGrasp] \033[34mInfo\033[0m: Grasp point nums", len(gg))
 
         filter_gg = GraspGroup()
 
@@ -157,9 +157,7 @@ class Anygrasp:
                 filter_gg.add(g)
 
         if len(filter_gg) == 0:
-            print(
-                "[AnyGrasp] No grasp poses detected for this object try to move the object a little and try again"
-            )
+            print("[AnyGrasp] \033[33mwarning\033[0m: No grasp poses detected for this object try to move the object a little and try again")
             return False, None
 
         projections_file_name = (os.path.join(self.cfgs.output_dir, "grasp_projections.png"))
@@ -168,10 +166,10 @@ class Anygrasp:
         plt.show()
         
         image.save(projections_file_name)
-        print(f"[AnyGrasp] Saved projections of grasps at {projections_file_name}")
+        print(f"[AnyGrasp] \033[34mInfo\033[0m: Saved projections of grasps at {projections_file_name}")
 
         filter_gg = filter_gg.nms().sort_by_score()
-        print("[AnyGrasp] Filter grasp point nums", len(filter_gg))
+        print("[AnyGrasp] \033[34mInfo\033[0m: Filter grasp point nums", len(filter_gg))
 
         if self.cfgs.debug:
             trans_mat = np.array(

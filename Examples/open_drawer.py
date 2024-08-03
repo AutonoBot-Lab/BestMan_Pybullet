@@ -1,12 +1,13 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
 """
-# @FileName      : open_drawer
-# @Time          : 2024-08-01 20:20:03
-# @Author        : kui yang
-# @Email         : yangkui1127@gmail.com
-# @description   : A example to open drawer in kitchen
+# @FileName       : open_drawer.py
+# @Time           : 2024-08-03 15:05:17
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : A example to open drawer in kitchen
 """
+
 
 import os
 import math

@@ -1,12 +1,13 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
 """
-# @FileName      : Bestman_sim_ur5e_vacuum_long
-# @Time          : 2024-08-01 20:54:33
-# @Author        : kui yang
-# @Email         : yangkui1127@gmail.com
-# @description   : Ur5e robot
+# @FileName       : Bestman_sim_ur5e_vacuum_long.py
+# @Time           : 2024-08-03 15:08:23
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : Ur5e robot
 """
+
 
 import math
 import pybullet as p
@@ -47,7 +48,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
             p.removeConstraint(self.gripper_id, physicsClientId=self.client_id)
             self.gripper_id = None
             self.gripper_object_id = None
-            print("[BestMan_Sim][Sucker] Sucker has been deactivated!")
+            print("[BestMan_Sim][Sucker] \033[34mInfo\033[0m: Sucker has been deactivated!")
         
         if value == 1 and self.gripper_id is None:
             cube_orn = p.getQuaternionFromEuler([0, math.pi, 0])
@@ -78,7 +79,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
                     physicsClientId=self.client_id,
                 )
             self.gripper_object_id = object_id
-            print("[BestMan_Sim][Sucker] Sucker has been activated!")
+            print("[BestMan_Sim][Sucker] \033[34mInfo\033[0m: Sucker has been activated!")
         
         self.client.run(10)
         
@@ -96,7 +97,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
         if value == 0 and self.gripper_id is not None:
             p.removeConstraint(self.gripper_id, physicsClientId=self.client_id)
             self.gripper_id = None
-            print("[BestMan_Sim][Sucker] Gripper has been deactivated!")
+            print("[BestMan_Sim][Sucker] \033[34mInfo\033[0m: Gripper has been deactivated!")
         
         if value == 1 and self.gripper_id is None:
             link_state = p.getLinkState(object_id, link_id)
@@ -115,6 +116,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
                 childFramePosition=[0, 0, 0]
             )
             p.changeConstraint(self.gripper_id, maxForce=2000)
+            print("[BestMan_Sim][Sucker] \033[34mInfo\033[0m: Sucker has been activated!")
 
     # ----------------------------------------------------------------
     # Functions for pick and place actions

@@ -1,11 +1,11 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
 """
-# @FileName      : rrt
-# @Time          : 2024-08-01 20:49:58
-# @Author        : kui yang
-# @Email         : yangkui1127@gmail.com
-# @description   : RTT navigation algorithm
+# @FileName       : rrt.py
+# @Time           : 2024-08-03 15:07:17
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : RTT navigation algorithm
 """
 
 import math
@@ -117,9 +117,9 @@ class RRTPlanner:
                     break
                 
         if self.path is None:
-            print("[RRT Planner] Cannot find path")
+            print("[RRT Planner] \033[31merror\033[0m: Cannot find path")
         else:
-            print("[RRT Planner] found path!")
+            print("[RRT Planner] \033[34mInfo\033[0m: found path!")
 
             # Draw final path
             if self.enable_plot:

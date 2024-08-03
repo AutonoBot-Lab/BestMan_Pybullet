@@ -1,13 +1,12 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
 """
-# @FileName      : OMPL_Planner
-# @Time          : 2024-08-01 20:29:06
-# @Author        : kui yang
-# @Email         : yangkui1127@gmail.com
-# @description   : OMPL planner
+# @FileName       : OMPL_Planner.py
+# @Time           : 2024-08-03 15:06:26
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : OMPL planner
 """
-
 
 import math
 import pybullet as p
@@ -96,7 +95,7 @@ class OMPL_Planner:
         elif planner_name == "BITstar":
             self.planner = og.BITstar(self.ss.getSpaceInformation())
         else:
-            print("[OMPL Planner] {} not recognized, please add it first".format(planner_name))
+            print("[OMPL Planner] \033[33mwarning\033[0m: {} not recognized, please add it first".format(planner_name))
             return
 
         self.ss.setPlanner(self.planner)
@@ -174,12 +173,12 @@ class OMPL_Planner:
         """
         
         if self.obstacles == []:
-            print("[OMPL Planner] Obstacle list is empty")
+            print("[OMPL Planner] \033[33mwarning\033[0m: Obstacle list is empty")
         else:
             for obstacle_id in self.obstacles:
                 item_info = p.getBodyInfo(obstacle_id)
                 item_name = item_info[1].decode("utf-8")
-                print(f"[OMPL Planner] Obstacle Name: {item_name}, ID: {obstacle_id}")
+                print(f"[OMPL Planner] \033[34mInfo\033[0m: Obstacle Name: {item_name}, ID: {obstacle_id}")
     
     # ----------------------------------------------------------------
     # functions for plan 
@@ -197,7 +196,7 @@ class OMPL_Planner:
             list: The planned path as a list of states.
         """
         
-        print("[OMPL Planner] Start planning...")
+        print("[OMPL Planner] \033[34mInfo\033[0m: Start planning...")
 
         # set the start and goal states
         s = ob.State(self.space)
@@ -214,10 +213,10 @@ class OMPL_Planner:
             sol_path_geometric.interpolate(self.interpolate_num)     # Linear interpolation, Generate more intermediate states to make the path smoother and more refined
             sol_path_states = sol_path_geometric.getStates()
             path = [self.state_to_list(state) for state in sol_path_states]
-            print("[OMPL Planner] End planning!")
+            print("[OMPL Planner] \033[34mInfo\033[0m: End planning!")
             return path
         else:
-            raise RuntimeError("[OMPL Planner] No solution found!")
+            raise RuntimeError("[OMPL Planner] \033[31merror\033[0m: No solution found!")
     
     # ----------------------------------------------------------------
     # Utils

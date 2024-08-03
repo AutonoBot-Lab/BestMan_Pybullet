@@ -1,11 +1,11 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
 """
-# @FileName      : probabilistic_road_map
-# @Time          : 2024-08-01 20:49:34
-# @Author        : kui yang
-# @Email         : yangkui1127@gmail.com
-# @description   : PRM navigation algorithm
+# @FileName       : probabilistic_road_map.py
+# @Time           : 2024-08-03 15:07:02
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : PRM navigation algorithm
 """
 
 import math
@@ -217,7 +217,7 @@ class PRMPlanner:
 
         while True:
             if not open_set:
-                print("[PRM Planner] Cannot find path")
+                print("[PRM Planner] \033[31merror\033[0m: Cannot find path")
                 path_found = False
                 break
 
@@ -225,7 +225,7 @@ class PRMPlanner:
             current = open_set[c_id]
 
             if c_id == (len(road_map) - 1):
-                print("[PRM Planner] goal is found!")
+                print("[PRM Planner] \033[34mInfo\033[0m: goal is found!")
                 goal_node.parent_index = current.parent_index
                 goal_node.cost = current.cost
                 break

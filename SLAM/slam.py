@@ -1,11 +1,11 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
 """
-# @FileName      : slam
-# @Time          : 2024-08-01 20:54:59
-# @Author        : kui yang
-# @Email         : yangkui1127@gmail.com
-# @description   : A simple slam method in pybullet sim
+# @FileName       : slam.py
+# @Time           : 2024-08-03 15:08:53
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : A simple slam method in pybullet sim
 """
 
 import pybullet as p

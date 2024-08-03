@@ -1,12 +1,13 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
 """
-# @FileName      : open_fridge_panda
-# @Time          : 2024-08-01 20:20:27
-# @Author        : kui yang
-# @Email         : yangkui1127@gmail.com
-# @description   : A example to open fridge use panda robot
+# @FileName       : open_fridge_panda.py
+# @Time           : 2024-08-03 15:05:43
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : A example to open fridge use panda robot
 """
+
 
 import os
 import math
@@ -80,6 +81,7 @@ def main(filename):
     
     # Init robot
     panda = Bestman_sim_panda(client, visualizer, cfg)
+    panda.sim_active_gripper_fixed(1)
     
     client.load_object(
         "fridge",
@@ -100,30 +102,12 @@ def main(filename):
     )
     
     # Get goal joint values
-    # init_pose = panda.get_current_end_effector_pose()
-    panda.sim_active_gripper(1)
     min_x, min_y, min_z, max_x, max_y, max_z = client.get_link_bounding_box('fridge', 2)
     tmp_pose = Pose([(min_x + max_x) / 2, (min_y + max_y) / 2 + 0.02, (min_z + max_z) / 2], [0.0, math.pi/2, math.pi/4])
     panda.move_end_effector_to_goal_pose(tmp_pose, 100)
-    # goal_pose = Pose([(min_x + max_x) / 2 - 0.05, (min_y + max_y) / 2 + 0.02, (min_z + max_z) / 2], [0.0, math.pi/2, math.pi/4])
-    # panda.move_end_effector_to_goal_pose(goal_pose)
-    # panda.sim_active_gripper(0)
     panda.sim_active_gripper_movable("fridge", 1, 1)
-    # panda.move_end_effector_to_goal_pose(init_pose, 100)
     
-    # goal = ompl_planner.set_target_pose(goal_pose)
-    
-    # # Plan / Execute / Suctate fridge handle
-    # start = panda.get_current_joint_values()
-    # path = ompl_planner.plan(start, goal)
-    # panda.execute_trajectory(path, True)
-    # bestman.sim_active_gripper_movable('fridge', 1, 1)
-    
-    # panda.move_end_effector_to_goal_pose(goal_pose)
-
-    # visualizer.remove_all_line()
-    
-    # # The end effector Move along the specified trajectory get effector to open the door
+    # The end effector Move along the specified trajectory get effector to open the door
     init_pose = panda.get_current_end_effector_pose()
     rotate_axis = p.getLinkState(client.get_object_id("fridge"), 1)[4]
     angles = 15

@@ -1,11 +1,11 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- encoding: utf-8 -*-
 """
-# @FileName      : Camera
-# @Time          : 2024-08-01 20:58:26
-# @Author        : kui yang
-# @Email         : yangkui1127@gmail.com
-# @description   : Camera
+# @FileName       : Camera.py
+# @Time           : 2024-08-03 15:09:34
+# @Author         : yk
+# @Email          : yangkui1127@gmail.com
+# @Description:   : Camera
 """
 
 import cv2
