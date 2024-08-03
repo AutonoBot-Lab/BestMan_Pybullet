@@ -25,12 +25,6 @@ class Bestman_sim:
         client (object): The pybullet client object.
         client_id (int): The client id returned by the pybullet client.
         
-        frequency (int): The frequency of the PID controller.
-        timeout (float): The timeout value for the PID controller.
-        max_force (int): The maximum force for the PID controller.
-        max_iterations (int): The maximum number of iterations for the PID controller.
-        threshold (float): The threshold value for the PID controller.
-        max_attempts (int): The maximum number of attempts for the PID controller.
         target_distance (float): The target distance for the PID controller.
         controller (object): The PID controller object.
         rotated (bool): A flag indicating whether the object has been rotated.
@@ -66,12 +60,6 @@ class Bestman_sim:
         
         # Init PID controller
         controller_cfg = cfg.Controller
-        self.frequency = controller_cfg.frequency
-        self.timeout = controller_cfg.timeout
-        self.max_force = controller_cfg.max_force
-        self.max_iterations = controller_cfg.max_iterations
-        self.threshold = controller_cfg.threshold
-        self.max_attempts = controller_cfg.max_attempts
         self.target_distance = controller_cfg.target_distance
         self.distance_controller = PIDController(
             Kp=controller_cfg.Kp, Ki=controller_cfg.Ki, Kd=controller_cfg.Kd, setpoint=self.target_distance
@@ -480,7 +468,7 @@ class Bestman_sim:
         self.sim_set_arm_to_joint_values(joint_values)
         print("[BestMan_Sim][Arm] Updated joint angles: {}".format(joint_values))
     
-    def move_arm_to_joint_values(self, joint_values):
+    def move_arm_to_joint_values(self, joint_values, threshold=0.015, timeout=0.05):
         """
         Move arm to move to a specific set of joint angles, with considering physics
 
@@ -503,10 +491,10 @@ class Bestman_sim:
             joint_states = p.getJointStates(self.arm_id, self.arm_joints_idx, physicsClientId=self.client_id)
             current_angles = [state[0] for state in joint_states]
             diff_angles = [abs(a - b) for a, b in zip(joint_values, current_angles)]
-            if all(diff < self.threshold for diff in diff_angles):
+            if all(diff < threshold for diff in diff_angles):
                 break
             
-            if time.time() - start_time > self.timeout:  # avoid time anomaly
+            if time.time() - start_time > timeout:  # avoid time anomaly
                 if p.getContactPoints(self.arm_id):
                     assert(0, "[BestMan_Sim][Arm] The arm collides with other objects!")
                 # print("-" * 20 + "\n" + "Timeout before reaching target joint position.")
@@ -536,7 +524,7 @@ class Bestman_sim:
         position = end_effector_info[0]
         return Pose(position, orientation)
 
-    def cartesian_to_joints(self, pose):
+    def cartesian_to_joints(self, pose, threshold=0.015, max_iterations=10000):
         """
         Transforms the robot arm's Cartesian coordinates to its joint angles.
         
@@ -552,8 +540,8 @@ class Bestman_sim:
             endEffectorLinkIndex=self.end_effector_index,
             targetPosition=pose.position,
             targetOrientation=p.getQuaternionFromEuler(pose.orientation),
-            maxNumIterations=self.max_iterations,
-            residualThreshold=self.threshold,
+            maxNumIterations=max_iterations,
+            residualThreshold=threshold,
             physicsClientId=self.client_id,
         )[:self.DOF]
         

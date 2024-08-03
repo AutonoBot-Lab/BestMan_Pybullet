@@ -16,24 +16,18 @@ Client:
 # Visualizer params
 Visualizer:
   Camera: 
-      dist: 1.0
-      position: [1.7, 3.68, 1.95]
-      yaw: -86.4
-      pitch: -52.3
+      dist: 1.0                      # The distance from the camera to the observation target
+      position: [1.7, 3.68, 1.95]    # The observation target position
+      yaw: -86.4                     # Control the direction of camera horizontal rotation, 
+      pitch: -52.3                   # Control the direction of camera vertical rotation
 
 
-# PIDController params
+# Controller params
 Controller:
-  frequency : 240
-  timeout : 0.05
-  max_force : 500
-  max_iterations : 10000
-  threshold : 0.015
-  max_attempts : 500
-  target_distance : 0.0
-  Kp : 0.01
-  Ki : 0.0
-  Kd : 0.0
+  target_distance : 0.0             # PIDController: The target value
+  Kp : 0.01                         # PIDController: Proportional Gain
+  Ki : 0.0                          # PIDController: Integral Gain
+  Kd : 0.0                          # PIDController: Derivative Gain
 
 
 # Robot params
@@ -41,7 +35,7 @@ Robot:
   init_pose: [1, 0, 0, 0.0, 0.0, "math.pi / 2"]                                         # The initial pose of base
   init_joint: [0, -1.57, 1.5, -1.57, -1.57, 0]                                          # The initial angle of arm joint
   base_urdf_path: "../Asset/mobile_manipulator/base/segbot/segbot.urdf"                 # base urdf
-  arm_urdf_path: "../Asset/mobile_manipulator/arm/ur5e/urdf/ur5e_vacuum_long.urdf"           # arm urdf
+  arm_urdf_path: "../Asset/mobile_manipulator/arm/ur5e/urdf/ur5e_vacuum_long.urdf"      # arm urdf
   # arm_urdf_path: "../Asset/mobile_manipulator/arm/ur5e_old/ur5e_vacuum_long.urdf"
   arm_joints_idx: [0, 1, 2, 3, 4, 5]                                                    # arm joint index of 6 DOF
   arm_height: 1.02                                                                      # arm place height (Slightly higher than the base)
