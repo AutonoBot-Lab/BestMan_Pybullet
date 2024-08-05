@@ -9,6 +9,7 @@
 """
 
 import os
+
 os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
 import cv2
 import copy
@@ -19,7 +20,7 @@ from lang_sam import LangSAM
 from utils import draw_rectangle
 
 
-class Lang_SAM():
+class Lang_SAM:
     """Class for performing object detection using LangSAM model."""
 
     def __init__(self):
@@ -39,7 +40,7 @@ class Lang_SAM():
     ) -> Tuple[np.ndarray, List[int]]:
         """
         Detects an object in the provided image using the LangSAM model.
-        
+
         Args:
             image (Type[Image.Image]): An image object on which object detection is performed.
             text (str, optional): Optional parameter for performing text-related object detection tasks. Defaults to None.
@@ -48,11 +49,11 @@ class Lang_SAM():
             box_filename (str, optional): Optional parameter specifying the filename to save the visualization of bounding boxes. Defaults to None.
             save_mask (bool, optional): Optional parameter indicating whether to save masks. Defaults to False.
             mask_filename (str, optional): Optional parameter specifying the filename to save the visualization of masks. Defaults to None.
-        
+
         Returns:
             Tuple[np.ndarray, List[int]]: The segmentation mask and the bounding box coordinates of the detected object in the input image.
         """
-        
+
         masks, boxes, phrases, logits = self.model.predict(image, text)
         if len(masks) == 0:
             return masks, None
@@ -67,13 +68,13 @@ class Lang_SAM():
             self.draw_mask_on_image(image, seg_mask, mask_filename)
 
         return seg_mask, bbox
-    
+
     def draw_bounding_box(
         self, image: Type[Image.Image], bbox: List[int], save_file: str = None
     ) -> None:
         """
         Draws a bounding box on the image.
-        
+
         Args:
             image (Type[Image.Image]): The image on which to draw the bounding box.
             bbox (List[int]): The bounding box coordinates.
@@ -84,7 +85,7 @@ class Lang_SAM():
 
         if save_file is not None:
             new_image.save(save_file)
-    
+
     def draw_bounding_boxes(
         self,
         image: Type[Image.Image],
@@ -95,7 +96,7 @@ class Lang_SAM():
     ) -> None:
         """
         Draws multiple bounding boxes on the image.
-        
+
         Args:
             image (Type[Image.Image]): The image on which to draw the bounding boxes.
             bboxes (List[int]): The bounding box coordinates.
@@ -134,7 +135,7 @@ class Lang_SAM():
     ) -> None:
         """
         Draws a segmentation mask on the image.
-        
+
         Args:
             image (Type[Image.Image]): The image on which to draw the segmentation mask.
             seg_mask (np.ndarray): The segmentation mask.
@@ -157,18 +158,18 @@ class Lang_SAM():
         print(f"[Lang_SAM] \033[34mInfo\033[0m: Saved Segmentation Mask at {save_file}")
 
 
-if __name__=='__main__':
-    
+if __name__ == "__main__":
+
     # set work dir to Lang-SAM
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
     lang_sam = Lang_SAM()
-    
+
     image = Image.open(f"./test_image/test_rgb.jpg")
     query = str(input("Enter a Object name in the image: "))
     box_filename = f"./output/object_box.jpg"
     mask_filename = f"./output/object_mask.jpg"
-    
+
     # Object Segmentaion Mask
     seg_mask, bbox = lang_sam.detect_obj(
         image,
@@ -176,5 +177,5 @@ if __name__=='__main__':
         save_box=True,
         save_mask=True,
         box_filename=box_filename,
-        mask_filename=mask_filename
+        mask_filename=mask_filename,
     )

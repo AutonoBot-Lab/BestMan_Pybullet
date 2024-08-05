@@ -6,7 +6,7 @@
 
 import sys
 
-sys.path.append('/BestMan_Pybullet/refactor')
+sys.path.append("/BestMan_Pybullet/refactor")
 
 from RoboticsToolBox.Bestman import Bestman
 from refactor.Env.Client import PbClient
@@ -24,7 +24,7 @@ else:
     assert False, "index should be 0 or 1"
 
 # load config
-config_path = '/BestMan_Pybullet/refactor/config/test_gripper.yaml'
+config_path = "/BestMan_Pybullet/refactor/config/test_gripper.yaml"
 cfg = load_config(config_path)
 print(cfg)
 
@@ -52,14 +52,11 @@ bowl_id = pb_client.load_object(
     [0.0, 0.0, 0.0],
     1.0,
     "bowl",
-    fixed_base=False
+    fixed_base=False,
 )
 
 # load OMPL planner
-planner = OMPL_Planner(
-    demo, 
-    cfg.Planner
-)
+planner = OMPL_Planner(demo, cfg.Planner)
 
 # add obstacles
 planner.add_scene_obstacles()
@@ -80,9 +77,7 @@ planner.set_target(bowl_id)
 
 # reach target object
 pb_visualizer.change_arm_color(demo.arm_id, light_color=True)
-res, trajectory = planner.plan_and_excute(
-    start=demo.get_arm_joints_angle()
-)
+res, trajectory = planner.plan_and_excute(start=demo.get_arm_joints_angle())
 
 pb_client.run(100)
 # print('trajectory:{}'.format(trajectory))

@@ -11,7 +11,8 @@ from itertools import product, combinations, count
 
 BASE_LINK = -1
 MAX_DISTANCE = 0.0
-    
+
+
 def pairwise_link_collision(
     body1, link1, body2, link2=BASE_LINK, max_distance=MAX_DISTANCE
 ):  # 10000

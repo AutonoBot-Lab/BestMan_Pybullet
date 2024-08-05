@@ -9,7 +9,7 @@
 """
 
 
-import os 
+import os
 import math
 from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long, Pose
 from Env.Client import Client
@@ -18,10 +18,11 @@ from Motion_Planning.Navigation import *
 from SLAM import simple_slam
 from Utils import load_config
 
+
 def main(filename):
-    
+
     # Load config
-    config_path = '../Config/navigation_basic.yaml'
+    config_path = "../Config/navigation_basic.yaml"
     cfg = load_config(config_path)
     print(cfg)
 
@@ -31,11 +32,11 @@ def main(filename):
 
     # Start record
     visualizer.start_record(filename)
-    
+
     # Load scene
-    scene_path = '../Asset/Scene/Kitchen.json'
+    scene_path = "../Asset/Scene/Kitchen.json"
     client.create_scene(scene_path)
-    
+
     # Init robot
     bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
 
@@ -46,7 +47,7 @@ def main(filename):
         [1.0, 1.0, 0.0],
         [0.0, 0.0, 0.0],
         1.0,
-        True
+        True,
     )
 
     bowl_id = client.load_object(
@@ -54,7 +55,7 @@ def main(filename):
         "../Asset/URDF_models/utensil_bowl_blue/model.urdf",
         [0.6, 0.6, 0.85],
         [0.0, 0.0, 0.0],
-        1.0
+        1.0,
     )
 
     chair_id = client.load_object(
@@ -63,9 +64,9 @@ def main(filename):
         [-0.3, 0.8, 0.0],
         [0.0, 0.0, 0.0],
         1.5,
-        True
+        True,
     )
-    
+
     # Get bounding box of objects
     aabb_table = client.get_bounding_box(table_id)
     visualizer.draw_aabb(table_id)
@@ -74,45 +75,48 @@ def main(filename):
     # Simple SLAM
     # nav_obstacles_bounds = simple_slam(client, bestman, True)
     nav_obstacles_bounds = simple_slam(client, bestman, False)
-    
+
     # navigate algorithm
     goal_base_pose = Pose([1, 0, 0], [0.0, 0.0, math.pi / 2.0])
     nav_planner = AStarPlanner(
-        robot_size = bestman.get_robot_max_size(), 
-        obstacles_bounds = nav_obstacles_bounds, 
-        resolution = 0.05, 
-        enable_plot = False
+        robot_size=bestman.get_robot_max_size(),
+        obstacles_bounds=nav_obstacles_bounds,
+        resolution=0.05,
+        enable_plot=False,
     )
-    
+
     # nav_planner = RRTPlanner(
-    #     robot_size = bestman.get_robot_max_size(), 
+    #     robot_size = bestman.get_robot_max_size(),
     #     obstacles_bounds = client.get_Nav_obstacles_bounds(),
     #     enable_plot = True
     # )
-    
+
     # nav_planner = PRMPlanner(
-    #     robot_size = bestman.get_robot_max_size(), 
-    #     obstacles_bounds = client.get_Nav_obstacles_bounds(), 
+    #     robot_size = bestman.get_robot_max_size(),
+    #     obstacles_bounds = client.get_Nav_obstacles_bounds(),
     #     enable_plot = True
     # )
-    
-    path = nav_planner.plan(start_pose = bestman.get_current_base_pose(), goal_pose = goal_base_pose)
-    
+
+    path = nav_planner.plan(
+        start_pose=bestman.get_current_base_pose(), goal_pose=goal_base_pose
+    )
+
     # navigate segbot
     bestman.navigate_base(goal_base_pose, path)
-    
+
     # End record
     visualizer.end_record()
-    
+
     client.wait(5)
     client.disconnect()
-    
-if __name__=='__main__':
-    
+
+
+if __name__ == "__main__":
+
     # set work dir to Examples
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    
+
     # get current file name
     file_name = os.path.splitext(os.path.basename(__file__))[0]
-    
+
     main(file_name)

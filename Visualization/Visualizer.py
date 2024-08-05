@@ -14,10 +14,11 @@ import numpy as np
 from datetime import datetime
 from .utils import colors
 
+
 class Visualizer:
     """
     A class for visualizing objects and scenes in PyBullet.
-    
+
     Attributes:
         client (object): The PyBullet client object.
         client_id (int): The client id returned by the PyBullet client.
@@ -26,27 +27,27 @@ class Visualizer:
     def __init__(self, client, visualizer_cfg):
         """
         Initializes the Visualizer class with a PyBullet client and visualizer configuration.
-        
+
         Args:
             client (object): The PyBullet client object.
             visualizer_cfg (object): Configuration for the visualizer.
         """
         self.client = client
         self.client_id = client.get_client_id()
-        self.set_camera_pose(visualizer_cfg.Camera)     # Init camera pose
+        self.set_camera_pose(visualizer_cfg.Camera)  # Init camera pose
 
     # ----------------------------------------------------------------
     # Scene camera
     # ----------------------------------------------------------------
-    
+
     def set_camera_pose(self, camera_cfg):
         """
         Sets the debug visualizer camera pose.
-        
+
         Args:
             camera_cfg (object): Configuration for the camera pose.
         """
-        
+
         p.resetDebugVisualizerCamera(
             cameraDistance=camera_cfg.dist,
             cameraYaw=camera_cfg.yaw,
@@ -54,16 +55,15 @@ class Visualizer:
             cameraTargetPosition=camera_cfg.position,
             physicsClientId=self.client_id,
         )
-    
-    
+
     def capture_screen(self, filename=None):
         """
         Continuously captures the screens of PyBullet GUI and saves the images to files.
-        
+
         Args:
             filename (str, optional): The filename to save the captured image. Defaults to None.
         """
-        
+
         # Get GUI information
         (
             width,
@@ -82,33 +82,32 @@ class Visualizer:
 
         # Capture the screen
         _, _, rgb, _, _ = p.getCameraImage(
-                                width=width,
-                                height=height,
-                                viewMatrix=viewMatrix,
-                                projectionMatrix=projectionMatrix,
-                                renderer=p.ER_BULLET_HARDWARE_OPENGL
-                            )
+            width=width,
+            height=height,
+            viewMatrix=viewMatrix,
+            projectionMatrix=projectionMatrix,
+            renderer=p.ER_BULLET_HARDWARE_OPENGL,
+        )
 
         # Save the image to the file
         if filename == None:
-            current_time = datetime.now().strftime('%Y%m%d_%H%M%S')
+            current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
             rgb_path = f"../Examples/image/{current_time}.png"
         else:
             rgb_path = f"../Examples/image/{filename}.png"
         rgbImg = cv2.cvtColor(rgb, cv2.COLOR_BGR2RGB)
         cv2.imwrite(rgb_path, rgbImg)
-        
+
         print("[Visualizer] \033[34mInfo\033[0m: capture_screen is done!")
-            
-            
+
     # ----------------------------------------------------------------
     # Axes
     # ----------------------------------------------------------------
-    
+
     def draw_axes(self, length=1.0, lineWidth=2.0, textSize=1.0):
         """
         Draws the x, y, and z axes in the PyBullet environment with text labels.
-        
+
         Args:
             length (float): Length of the axes.
             lineWidth (float): Width of the axes lines.
@@ -117,7 +116,8 @@ class Visualizer:
         origin = [0, 0, 0]  # The start point of the axes
 
         # Drawing the X-axis (in red)
-        p.addUserDebugLine(lineFromXYZ=origin,
+        p.addUserDebugLine(
+            lineFromXYZ=origin,
             lineToXYZ=[length, 0, 0],
             lineColorRGB=[1, 0, 0],
             lineWidth=lineWidth,
@@ -132,7 +132,7 @@ class Visualizer:
             lineWidth=lineWidth,
             physicsClientId=self.client_id,
         )
-        
+
         # Drawing the Z-axis (in blue)
         p.addUserDebugLine(
             lineFromXYZ=origin,
@@ -150,7 +150,7 @@ class Visualizer:
             textSize=textSize,
             physicsClientId=self.client_id,
         )
-        
+
         p.addUserDebugText(
             text="Y",
             textPosition=[0, length + 0.1, 0],
@@ -158,7 +158,7 @@ class Visualizer:
             textSize=textSize,
             physicsClientId=self.client_id,
         )
-        
+
         p.addUserDebugText(
             text="Z",
             textPosition=[0, 0, length + 0.1],
@@ -166,8 +166,7 @@ class Visualizer:
             textSize=textSize,
             physicsClientId=self.client_id,
         )
-    
-    
+
     # ----------------------------------------------------------------
     # Video
     # ----------------------------------------------------------------
@@ -175,23 +174,24 @@ class Visualizer:
     def start_record(self, fileName):
         """
         Starts recording a video of the PyBullet simulation.
-        
+
         Args:
             fileName (str): The filename for the video file.
         """
         self.logId = p.startStateLogging(
             p.STATE_LOGGING_VIDEO_MP4,
             "../Examples/log/" + fileName + ".mp4",
-            physicsClientId=self.client_id
+            physicsClientId=self.client_id,
         )
-        
-        print(f"[Visualizer] \033[34mInfo\033[0m: The video can be found in Examples/log/{fileName}.mp4")
-    
+
+        print(
+            f"[Visualizer] \033[34mInfo\033[0m: The video can be found in Examples/log/{fileName}.mp4"
+        )
+
     def end_record(self):
         """Stops recording the video."""
         p.stopStateLogging(self.logId, physicsClientId=self.client_id)
-    
-    
+
     # ----------------------------------------------------------------
     # line / aabb / pose
     # ----------------------------------------------------------------
@@ -214,7 +214,7 @@ class Visualizer:
             lineWidth=width,
             physicsClientId=self.client_id,
         )
-        
+
     def remove_all_line(self):
         """Removes all user debug items (lines) from the PyBullet environment."""
         p.removeAllUserDebugItems()
@@ -226,12 +226,12 @@ class Visualizer:
         Args:
             object (Union[int, str]): The unique identifier of the object or its name.
         """
-        
+
         if isinstance(object, (int)):
             object_id = object
         elif isinstance(object, (str)):
             object_id = self.client.get_object_id(object)
-        
+
         link_ids = [
             i
             for i in range(
@@ -285,7 +285,7 @@ class Visualizer:
             link_id (int, optional): The index of the link for which the AABB is to be drawn. Defaults to -1, which means the entire object.
         """
         object_id = self.client.resolve_object_id(object)
-        
+
         aabb = p.getAABB(object_id, link_id, physicsClientId=self.client_id)
         aabb_min = aabb[0]
         aabb_max = aabb[1]
@@ -322,7 +322,7 @@ class Visualizer:
                 lineWidth=2,
                 physicsClientId=self.client_id,
             )
-            
+
     def draw_pose(self, object, length=0.25, lineWidth=2.0, textSize=1.0):
         """
         Draws the pose of an object in the PyBullet environment.
@@ -336,20 +336,39 @@ class Visualizer:
         object_id = self.client.resolve_object_id(object)
         position, orientation = p.getBasePositionAndOrientation(object_id)
 
-        orientation_matrix = np.array(p.getMatrixFromQuaternion(orientation)).reshape(3, 3)
+        orientation_matrix = np.array(p.getMatrixFromQuaternion(orientation)).reshape(
+            3, 3
+        )
         axes_position = np.array(position)[:, np.newaxis] + length * orientation_matrix
-        text_position = np.array(position)[:, np.newaxis] + (length + 0.1) * orientation_matrix
-        
+        text_position = (
+            np.array(position)[:, np.newaxis] + (length + 0.1) * orientation_matrix
+        )
+
         # draw pose
         p.addUserDebugLine(position, axes_position[:, 0], [1, 0, 0], lineWidth, 0)
         p.addUserDebugLine(position, axes_position[:, 1], [0, 1, 0], lineWidth, 0)
         p.addUserDebugLine(position, axes_position[:, 2], [0, 0, 1], lineWidth, 0)
-        
+
         # Adding text labels
-        p.addUserDebugText(text="X", textPosition=text_position[:, 0], textColorRGB=[1, 0, 0], textSize=textSize)
-        p.addUserDebugText(text="Y", textPosition=text_position[:, 1], textColorRGB=[0, 1, 0], textSize=textSize)
-        p.addUserDebugText(text="Z", textPosition=text_position[:, 2], textColorRGB=[0, 0, 1], textSize=textSize)
-        
+        p.addUserDebugText(
+            text="X",
+            textPosition=text_position[:, 0],
+            textColorRGB=[1, 0, 0],
+            textSize=textSize,
+        )
+        p.addUserDebugText(
+            text="Y",
+            textPosition=text_position[:, 1],
+            textColorRGB=[0, 1, 0],
+            textSize=textSize,
+        )
+        p.addUserDebugText(
+            text="Z",
+            textPosition=text_position[:, 2],
+            textColorRGB=[0, 0, 1],
+            textSize=textSize,
+        )
+
     def draw_link_pose(self, object, link_id, length=0.25, lineWidth=2.0, textSize=1.0):
         """
         Draws the pose of a specific link of an object in the PyBullet environment.
@@ -362,31 +381,49 @@ class Visualizer:
             textSize (float, optional): The size of the text labels. Default is 1.0.
         """
         object_id = self.client.resolve_object_id(object)
-        
+
         # position, orientation = p.getBasePositionAndOrientation(object_id)
         link_state = p.getLinkState(object_id, link_id, computeLinkVelocity=0)
         # position, orientation = link_state[0], link_state[1]
         position, orientation = link_state[4], link_state[5]
-        
-        orientation_matrix = np.array(p.getMatrixFromQuaternion(orientation)).reshape(3, 3)
+
+        orientation_matrix = np.array(p.getMatrixFromQuaternion(orientation)).reshape(
+            3, 3
+        )
         axes_position = np.array(position)[:, np.newaxis] + length * orientation_matrix
-        text_position = np.array(position)[:, np.newaxis] + (length + 0.1) * orientation_matrix
-        
+        text_position = (
+            np.array(position)[:, np.newaxis] + (length + 0.1) * orientation_matrix
+        )
+
         # draw pose
         p.addUserDebugLine(position, axes_position[:, 0], [1, 0, 0], lineWidth, 0)
         p.addUserDebugLine(position, axes_position[:, 1], [0, 1, 0], lineWidth, 0)
         p.addUserDebugLine(position, axes_position[:, 2], [0, 0, 1], lineWidth, 0)
-        
-        # Adding text labels
-        p.addUserDebugText(text="X", textPosition=text_position[:, 0], textColorRGB=[1, 0, 0], textSize=textSize)
-        p.addUserDebugText(text="Y", textPosition=text_position[:, 1], textColorRGB=[0, 1, 0], textSize=textSize)
-        p.addUserDebugText(text="Z", textPosition=text_position[:, 2], textColorRGB=[0, 0, 1], textSize=textSize)
 
+        # Adding text labels
+        p.addUserDebugText(
+            text="X",
+            textPosition=text_position[:, 0],
+            textColorRGB=[1, 0, 0],
+            textSize=textSize,
+        )
+        p.addUserDebugText(
+            text="Y",
+            textPosition=text_position[:, 1],
+            textColorRGB=[0, 1, 0],
+            textSize=textSize,
+        )
+        p.addUserDebugText(
+            text="Z",
+            textPosition=text_position[:, 2],
+            textColorRGB=[0, 0, 1],
+            textSize=textSize,
+        )
 
     # ----------------------------------------------------------------
     # change color
     # ----------------------------------------------------------------
-    
+
     def change_robot_color(self, base_id, arm_id, light_color=True):
         """
         Sets the color of the robot.
@@ -406,7 +443,7 @@ class Visualizer:
                 rgbaColor=colors["white"],
                 physicsClientId=self.client_id,
             )
-        
+
         # set the color of arm
         arm_num_joints = p.getNumJoints(arm_id, physicsClientId=self.client_id)
         for i in range(arm_num_joints):
@@ -416,21 +453,21 @@ class Visualizer:
                         objectUniqueId=arm_id,
                         linkIndex=i,
                         rgbaColor=colors["light_blue"],
-                        physicsClientId=self.client_id
+                        physicsClientId=self.client_id,
                     )
                 else:
                     p.changeVisualShape(
                         objectUniqueId=arm_id,
                         linkIndex=i,
                         rgbaColor=colors["blue"],
-                        physicsClientId=self.client_id
+                        physicsClientId=self.client_id,
                     )
             else:
                 p.changeVisualShape(
-                    objectUniqueId=arm_id, 
-                    linkIndex=i, 
-                    rgbaColor=colors["light_white"], 
-                    physicsClientId=self.client_id
+                    objectUniqueId=arm_id,
+                    linkIndex=i,
+                    rgbaColor=colors["light_white"],
+                    physicsClientId=self.client_id,
                 )
 
     def set_object_color(self, object_id, color):
@@ -445,9 +482,9 @@ class Visualizer:
             objectUniqueId=object_id,
             linkIndex=-1,
             rgbaColor=colors[color],
-            physicsClientId=self.client_id
+            physicsClientId=self.client_id,
         )
-        
+
     def set_link_color(self, object_id, link_id, color):
         """
         Sets the color of a specific link of an object.
@@ -461,13 +498,13 @@ class Visualizer:
             objectUniqueId=object_id,
             linkIndex=link_id,
             rgbaColor=colors[color],
-            physicsClientId=self.client_id
+            physicsClientId=self.client_id,
         )
-    
+
     def set_links_color(self, object_id, link_ids, colors):
         """
         Sets the colors of multiple links of an object.
-        
+
         Args:
             object_id (int): The unique identifier of the object.
             link_ids (list[int]): A list of link indexes to change the colors.
@@ -478,5 +515,5 @@ class Visualizer:
                 objectUniqueId=object_id,
                 linkIndex=i,
                 rgbaColor=colors[color],
-                physicsClientId=self.client_id
+                physicsClientId=self.client_id,
             )

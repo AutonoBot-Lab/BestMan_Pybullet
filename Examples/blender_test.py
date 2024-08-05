@@ -13,16 +13,17 @@ import os
 from Env import Client
 from Utils import load_config
 
+
 def main(filename):
-    
+
     # Load config
-    config_path = '../Config/blender_test.yaml'
+    config_path = "../Config/blender_test.yaml"
     cfg = load_config(config_path)
     print(cfg)
 
     # Init client and visualizer
     client = Client(cfg.Client)
-    
+
     # Load table, bowl, and chair
     table_id = client.load_object(
         "table",
@@ -30,7 +31,7 @@ def main(filename):
         [1.0, 1.0, 0.0],
         [0.0, 0.0, 0.0],
         1.0,
-        True
+        True,
     )
 
     chair_id = client.load_object(
@@ -39,28 +40,28 @@ def main(filename):
         [-0.3, 0.8, 0.0],
         [0.0, 0.0, 0.0],
         1.5,
-        True
+        True,
     )
-    
+
     bowl_id = client.load_object(
         "bowl",
         "../Asset/URDF_models/utensil_bowl_blue/model.urdf",
         [0.6, 0.6, 0.85],
         [0.0, 0.0, 0.0],
-        1.0
+        1.0,
     )
-    
+
     # Disconnect pybullet
     client.wait(5)
     client.disconnect()
 
 
-if __name__=='__main__':
-    
+if __name__ == "__main__":
+
     # set work dir to Examples
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    
-   # get current file name
+
+    # get current file name
     filename = os.path.splitext(os.path.basename(__file__))[0]
 
     main(filename)

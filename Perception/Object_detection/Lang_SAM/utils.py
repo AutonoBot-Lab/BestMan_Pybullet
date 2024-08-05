@@ -1,14 +1,15 @@
 from PIL import ImageDraw
 
+
 def draw_rectangle(image, bbox, width=5):
     """
     Draw a bounding box on an image.
-    
+
     Args:
         image (Image.Image): The image on which to draw the bounding box.
         bbox (list[int]): The bounding box coordinates in the format [x1, y1, x2, y2].
         width (int, optional): The width of the bounding box outline. Defaults to 5.
-    
+
     Returns:
         ImageDraw.Draw: The ImageDraw object with the bounding box drawn.
     """
@@ -23,5 +24,5 @@ def draw_rectangle(image, bbox, width=5):
         y1 -= 1
         x2 += 1
         y2 += 1
-    
+
     return img_drw

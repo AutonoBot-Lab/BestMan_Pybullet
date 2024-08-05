@@ -6,12 +6,13 @@ from Visualization import CameraParameters
 
 Bbox = Tuple[int, int, int, int]
 
+
 def get_3d_points(cam: CameraParameters):
     """Convert depth image to 3D point cloud.
-    
+
     Args:
         cam (CameraParameters): Camera internal parameters.
-    
+
     Returns:
         np.ndarray: 3D point cloud.
     """
@@ -23,18 +24,19 @@ def get_3d_points(cam: CameraParameters):
     points = np.stack((points_x, points_y, points_z), axis=2)
     return points
 
+
 def sample_points(points, sampling_rate=1):
     """Randomly sample some points from a given set of points at a specified sampling rate.
-    
+
     Args:
         points (np.ndarray): Array of points to sample from.
         sampling_rate (float, optional): Rate at which to sample points. Defaults to 1.
-    
+
     Returns:
         Tuple[np.ndarray, np.ndarray]: Sampled points and their indices.
     """
     N = len(points)
-    num_samples = int(N*sampling_rate)
+    num_samples = int(N * sampling_rate)
     indices = np.random.choice(N, num_samples, replace=False)
     sampled_points = points[indices]
     return sampled_points, indices
@@ -42,12 +44,12 @@ def sample_points(points, sampling_rate=1):
 
 def draw_rectangle(image, bbox, width=5):
     """Draw a green rectangle on the given image.
-    
+
     Args:
         image (ImageDraw): Image on which to draw the rectangle.
         bbox (Bbox): Bounding box coordinates as a tuple (x1, y1, x2, y2).
         width (int, optional): Width of the rectangle outline. Defaults to 5.
-    
+
     Returns:
         ImageDraw: Image with the rectangle drawn.
     """
@@ -62,13 +64,15 @@ def draw_rectangle(image, bbox, width=5):
         y1 -= 1
         x2 += 1
         y2 += 1
-    
+
     return img_drw
 
 
-def visualize_cloud_geometries(cloud, geometries, translation = None, rotation = None, visualize = True, save_file = None):
+def visualize_cloud_geometries(
+    cloud, geometries, translation=None, rotation=None, visualize=True, save_file=None
+):
     """Visualize point cloud with additional geometries.
-    
+
     Args:
         cloud (o3d.geometry.PointCloud): Point cloud of points.
         geometries (list): List of geometries to visualize with the point cloud.
@@ -77,9 +81,13 @@ def visualize_cloud_geometries(cloud, geometries, translation = None, rotation =
         visualize (bool, optional): Flag to show the visualization window. Defaults to True.
         save_file (str, optional): File name to save the visualization. Defaults to None.
     """
-    coordinate_frame = o3d.geometry.TriangleMesh.create_coordinate_frame(size=0.2, origin=[0, 0, 0])
+    coordinate_frame = o3d.geometry.TriangleMesh.create_coordinate_frame(
+        size=0.2, origin=[0, 0, 0]
+    )
     if translation is not None:
-        coordinate_frame1 = o3d.geometry.TriangleMesh.create_coordinate_frame(size=0.2, origin=[0, 0, 0])
+        coordinate_frame1 = o3d.geometry.TriangleMesh.create_coordinate_frame(
+            size=0.2, origin=[0, 0, 0]
+        )
         translation[2] = -translation[2]
         coordinate_frame1.translate(translation)
         coordinate_frame1.rotate(rotation)
@@ -97,14 +105,14 @@ def visualize_cloud_geometries(cloud, geometries, translation = None, rotation =
     if save_file is not None:
         ## Controlling the zoom
         view_control = visualizer.get_view_control()
-        zoom_scale_factor = 1.4  
+        zoom_scale_factor = 1.4
         view_control.scale(zoom_scale_factor)
 
-        visualizer.capture_screen_image(save_file, do_render = True)
+        visualizer.capture_screen_image(save_file, do_render=True)
         print(f"[AnyGrasp] Saved screen shot visualization at {save_file}")
 
     if visualize:
         # visualizer.add_geometry(coordinate_frame)
         visualizer.run()
     else:
-        visualizer.destroy_window()    
+        visualizer.destroy_window()

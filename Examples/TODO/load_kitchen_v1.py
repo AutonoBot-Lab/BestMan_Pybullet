@@ -9,7 +9,7 @@ import sys
 from yacs.config import CfgNode as CN
 import os
 
-sys.path.append('/BestMan_Pybullet/refactor')
+sys.path.append("/BestMan_Pybullet/refactor")
 
 from RoboticsToolBox.Bestman import Bestman
 from RoboticsToolBox.Pose import Pose
@@ -28,7 +28,7 @@ else:
 
 
 # load config parameters
-with open('/BestMan_Pybullet/refactor/config/default.yaml', 'r') as file:
+with open("/BestMan_Pybullet/refactor/config/default.yaml", "r") as file:
     cfg = CN.load_cfg(file)
 
 # create client
