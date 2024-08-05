@@ -60,13 +60,13 @@ class Bestman_sim_panda(Bestman_sim):
             value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).
         """
 
-        if value == 1:
+        if value == 0:
             for i in [9, 10]:
-                p.setJointMotorControl2(self.arm_id, i, p.POSITION_CONTROL, 0.04, force=10)
+                p.setJointMotorControl2(self.arm_id, i, p.POSITION_CONTROL, 0.04, force=50)
                 print("[BestMan_Sim][Gripper] \033[34mInfo\033[0m: Gripper has been deactivated!")
-        elif value == 0:
+        elif value == 1:
             for i in [9, 10]:
-                p.setJointMotorControl2(self.arm_id, i, p.POSITION_CONTROL, 0.001, force=10)
+                p.setJointMotorControl2(self.arm_id, i, p.POSITION_CONTROL, 0.001, force=50)
                 print("[BestMan_Sim][Gripper] \033[34mInfo\033[0m: Gripper has been activated!")
         else:
             raise(ValueError("[BestMan_Sim][Gripper] \033[31merror\033[0m: gripper value must be 0 / 1 !"))
@@ -143,7 +143,7 @@ class Bestman_sim_panda(Bestman_sim):
         self.move_end_effector_to_goal_pose(goal_pose, 50)
         goal_pose = Pose([position[0], position[1], position[2]-0.005], [0, math.pi, 0])
         self.move_end_effector_to_goal_pose(goal_pose, 50)
-        self.sim_active_gripper(0)
+        self.sim_active_gripper_fixed(1)
     
     def place(self, goal_pose):
         """
@@ -158,7 +158,7 @@ class Bestman_sim_panda(Bestman_sim):
         tmp_pose = Pose([init_pos[0], init_pos[1], goal_pos[2]], goal_orn)
         self.move_end_effector_to_goal_pose(tmp_pose, 50)
         self.move_end_effector_to_goal_pose(goal_pose, 50)
-        self.sim_active_gripper(1)
+        self.sim_active_gripper_fixed(0)
     
     def pick_place(self, object, goal_pose):
         """

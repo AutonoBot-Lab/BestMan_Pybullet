@@ -54,7 +54,7 @@ def main(filename):
     )
     
     # grasp target object
-    bestman.sim_active_gripper(1)
+    bestman.sim_active_gripper_fixed(0)
     visualizer.draw_pose("lego")
     object_goal_pose = Pose([1.2, 0.85, 0.88], [0, math.pi, 0])
     bestman.pick_place("lego", object_goal_pose)

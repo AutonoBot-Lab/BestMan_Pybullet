@@ -34,9 +34,9 @@ def main(filename):
     visualizer.change_robot_color(panda.get_base_id(), panda.get_arm_id(), False)
     
     for _ in range(5):
-        panda.sim_active_gripper(0)
+        panda.sim_active_gripper_fixed(0)
         client.wait(2)
-        panda.sim_active_gripper(1)
+        panda.sim_active_gripper_fixed(1)
         client.wait(2)
     
     # End record
