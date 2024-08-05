@@ -3,7 +3,7 @@
 <!-- # BestMan - A Pybullet-based Mobile Manipulator Simulator -->
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/facebookresearch/home-robot/blob/main/LICENSE)
-[![Ubuntu 20.04](https://img.shields.io/badge/Ubuntu-20.04-orange.svg)](https://releases.ubuntu.com/20.04/)
+[![Ubuntu 22.04](https://img.shields.io/badge/Ubuntu-22.04-orange.svg)](https://releases.ubuntu.com/22.04/)
 [![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/downloads/release/python-370/)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
@@ -18,7 +18,7 @@ Welcome to the official repository of BestMan, a mobile manipulator simulator (w
 - Pull the repository and update the submodule
 
 ```
-git clone https://github.com/AutonoBot-Lab/BestMan_Pybullet.git -b refactor
+git clone https://github.com/AutonoBot-Lab/BestMan_Pybullet.git
 cd BestMan_Pybullet
 git submodule init
 git submodule update
@@ -51,7 +51,7 @@ sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 9
 sudo update-alternatives --config gcc  # choice gcc-9
 sudo update-alternatives --config g++  # choice g++-9
 
-# Make sure gcc and g++ versions are consistent
+# Make sure gcc and g++ versions are consistent (conda enviroment don't install gcc to prevent problems caused by inconsistent versions)
 gcc -v
 g++ -v
 ```
