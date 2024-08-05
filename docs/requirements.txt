@@ -146,7 +146,7 @@ numpy==1.23.5
     #   scipy
     #   trimesh
     #   urdfpy
-ompl @ file://../Install/third_party/ompl-1.6.0-cp38-cp38-manylinux_2_28_x86_64.whl
+ompl @ file://../Install/third_party/ompl/ompl-1.6.0-cp38-cp38-manylinux_2_28_x86_64.whl
     # via -r requirements.in
 open3d==0.18.0
     # via -r requirements.in

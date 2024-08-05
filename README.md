@@ -119,6 +119,13 @@ export DISPLAY=host.docker.internal:0
 <br/>
 
 
+## 🔎 Project Structure & API References
+
+- [Project Structure](docs/project_structure.txt)
+- [API References](https://bestman-pybullet.readthedocs.io)
+<br/>
+
+
 ## 👨‍💻 Basic Demos
 
 &emsp;&emsp;We have supplemented and improved the [pybullet-blender-recorder](https://github.com/huy-ha/pybullet-blender-recorder) code base, importing the images in the pybullet scene into blender for rendering, which improves the rendering effect. For simple scenes and tasks, the import can be completed within 2 minutes, and for complex scenes and tasks, the import can be completed within half an hour.
@@ -209,14 +216,6 @@ https://github.com/user-attachments/assets/d48ea499-eac4-4810-88fe-306f71504216
 https://github.com/user-attachments/assets/580e658a-fd33-49d5-ad1c-ae513974a807 
 
 <br/>
-
-
-## 🔎 Project Structure & API References
-
-- [Project Structure](docs/project_structure.txt)
-- [API References](https://bestman-pybullet.readthedocs.io)
-<br/>
-
 
 
 ##  :handshake: Reference
