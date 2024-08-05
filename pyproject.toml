@@ -6,3 +6,7 @@ exclude = '''
   | Install
 )/
 '''
+
+[tool.isort]
+profile = "black"
+skip = ["Asset", "Config", "Install"]
