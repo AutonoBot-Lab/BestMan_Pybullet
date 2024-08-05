@@ -42,8 +42,6 @@ def main(filename):
     
     # Open the drawer
     client.change_object_joint_angle("elementA", 36, 0.4)
-
-    visualizer.draw_aabb_link("elementA", 36)
     
     # Simple SLAM
     nav_obstacles_bounds = simple_slam(client, bestman, True)

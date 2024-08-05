@@ -9,9 +9,8 @@
 """
 
 import pybullet as p
-import PySimpleGUI as sg
+# import PySimpleGUI as sg
 import pickle
-# from os import getcwd
 import os
 from urdfpy import URDF
 from os.path import abspath, dirname, basename, splitext
@@ -205,29 +204,29 @@ class PyBulletRecorder:
         self.states.append(current_state)
         self.frame_cnt += 1
 
-    def prompt_save(self):
-        """Prompts the user to save the recorded simulation states."""
-        layout = [[sg.Text('Do you want to save previous episode?')],
-                  [sg.Button('Yes'), sg.Button('No')]]
-        window = sg.Window('PyBullet Recorder', layout)
-        save = False
-        while True:
-            event, values = window.read()
-            if event in (None, 'No'):
-                break
-            elif event == 'Yes':
-                save = True
-                break
-        window.close()
-        if save:
-            layout = [[sg.Text('Where do you want to save it?')],
-                      [sg.Text('Path'), sg.InputText(os.getcwd())],
-                      [sg.Button('OK')]]
-            window = sg.Window('PyBullet Recorder', layout)
-            event, values = window.read()
-            window.close()
-            self.save(values[0])
-        self.reset()
+    # def prompt_save(self):
+    #     """Prompts the user to save the recorded simulation states."""
+    #     layout = [[sg.Text('Do you want to save previous episode?')],
+    #               [sg.Button('Yes'), sg.Button('No')]]
+    #     window = sg.Window('PyBullet Recorder', layout)
+    #     save = False
+    #     while True:
+    #         event, values = window.read()
+    #         if event in (None, 'No'):
+    #             break
+    #         elif event == 'Yes':
+    #             save = True
+    #             break
+    #     window.close()
+    #     if save:
+    #         layout = [[sg.Text('Where do you want to save it?')],
+    #                   [sg.Text('Path'), sg.InputText(os.getcwd())],
+    #                   [sg.Button('OK')]]
+    #         window = sg.Window('PyBullet Recorder', layout)
+    #         event, values = window.read()
+    #         window.close()
+    #         self.save(values[0])
+    #     self.reset()
 
     def reset(self):
         """Resets the recorded simulation states."""

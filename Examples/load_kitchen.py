@@ -28,7 +28,7 @@ def main():
     client.create_scene(scene_path)
 
     # disconnect pybullet
-    client.wait(10)
+    client.wait(20)
     client.disconnect()
     
 

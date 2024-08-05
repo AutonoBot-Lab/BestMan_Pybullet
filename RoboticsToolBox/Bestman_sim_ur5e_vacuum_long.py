@@ -146,7 +146,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
         """
         init_pose = self.get_current_end_effector_pose()
         self.move_end_effector_to_goal_pose(goal_pose)
-        self.sim_active_gripper_fixed(self.object_id, 0)
+        self.sim_active_gripper_fixed(self.gripper_object_id, 0)
         self.move_end_effector_to_goal_pose(init_pose)
         
     def pick_place(self, object, goal_pose):
