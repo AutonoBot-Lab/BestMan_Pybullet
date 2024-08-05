@@ -5,9 +5,10 @@ https://github.com/StanfordVL/iGibson/blob/master/igibson/external/pybullet_tool
 
 from __future__ import print_function
 
-import pybullet as p
 from collections import defaultdict, deque, namedtuple
-from itertools import product, combinations, count
+from itertools import combinations, count, product
+
+import pybullet as p
 
 BASE_LINK = -1
 MAX_DISTANCE = 0.0

@@ -1,6 +1,6 @@
-import numpy as np
 import cvxpy as cp
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 def minimum_snap_trajectory_2d(waypoints, times):

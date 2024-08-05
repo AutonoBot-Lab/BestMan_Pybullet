@@ -1,7 +1,9 @@
+from typing import Tuple
+
 import numpy as np
 import open3d as o3d
 from PIL import ImageDraw
-from typing import Tuple
+
 from Visualization import CameraParameters
 
 Bbox = Tuple[int, int, int, int]

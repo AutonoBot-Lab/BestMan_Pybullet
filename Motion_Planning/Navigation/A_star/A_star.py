@@ -9,9 +9,10 @@
 """
 
 
-import numpy as np
-import networkx as nwx
 import matplotlib.pyplot as plt
+import networkx as nwx
+import numpy as np
+
 from ..utils import AreaBounds, plot_rectangle
 
 

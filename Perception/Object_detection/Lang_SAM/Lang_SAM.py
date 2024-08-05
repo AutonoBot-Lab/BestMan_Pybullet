@@ -11,12 +11,13 @@
 import os
 
 os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
-import cv2
 import copy
+from typing import List, Tuple, Type
+
+import cv2
 import numpy as np
-from PIL import Image, ImageDraw
-from typing import List, Type, Tuple
 from lang_sam import LangSAM
+from PIL import Image, ImageDraw
 from utils import draw_rectangle
 
 

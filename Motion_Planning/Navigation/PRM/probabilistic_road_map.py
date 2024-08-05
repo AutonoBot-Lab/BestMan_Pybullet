@@ -9,10 +9,12 @@
 """
 
 import math
-import numpy as np
+
 import matplotlib.pyplot as plt
+import numpy as np
 from rtree import index
 from scipy.spatial import KDTree
+
 from Motion_Planning.Navigation.utils import *
 from RoboticsToolBox import Pose
 

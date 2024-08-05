@@ -8,16 +8,17 @@
 # @Description:   : A recorder in pybullet sim and the result can be import into blender scene
 """
 
-import pybullet as p
+import os
 
 # import PySimpleGUI as sg
 import pickle
-import os
-from urdfpy import URDF
-from os.path import abspath, dirname, basename, splitext
+from os.path import abspath, basename, dirname, splitext
+
+import numpy as np
+import pybullet as p
 from transforms3d.affines import decompose
 from transforms3d.quaternions import mat2quat
-import numpy as np
+from urdfpy import URDF
 
 
 class PyBulletRecorder:

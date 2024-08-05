@@ -8,8 +8,9 @@
 # @Description:   : A simple slam method in pybullet sim
 """
 
-import pybullet as p
 import matplotlib.pyplot as plt
+import pybullet as p
+
 from .utils import *
 
 

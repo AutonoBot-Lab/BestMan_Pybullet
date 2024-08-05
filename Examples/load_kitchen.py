@@ -9,9 +9,10 @@
 """
 
 import os
+
 from Env import Client
-from Visualization import Visualizer
 from Utils import load_config
+from Visualization import Visualizer
 
 
 def main():

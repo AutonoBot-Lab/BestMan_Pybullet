@@ -9,13 +9,14 @@
 """
 
 
-import os
 import math
-from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long
+import os
+
 from Env import Client
-from Visualization import Visualizer
 from Motion_Planning.Navigation import *
+from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long
 from Utils import load_config
+from Visualization import Visualizer
 
 
 def main(filename):

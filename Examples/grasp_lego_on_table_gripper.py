@@ -9,13 +9,14 @@
 """
 
 
-import os
 import math
-from RoboticsToolBox import Bestman_sim_panda, Pose
+import os
+
 from Env import Client
-from Visualization import Visualizer
 from Motion_Planning.Navigation import *
+from RoboticsToolBox import Bestman_sim_panda, Pose
 from Utils import load_config
+from Visualization import Visualizer
 
 
 def main(filename):

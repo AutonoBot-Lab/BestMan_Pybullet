@@ -9,11 +9,13 @@
 """
 
 import math
+
 import pybullet as p
 from ompl import base as ob
 from ompl import geometric as og
 
 from RoboticsToolBox import Pose
+
 from ..Collision import Collision
 
 

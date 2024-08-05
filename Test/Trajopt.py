@@ -1,7 +1,8 @@
+import json
+
+import matplotlib.pyplot as plt
 import numpy as np
 import trajoptpy
-import json
-import matplotlib.pyplot as plt
 
 
 def optimize_trajectory_2d(waypoints):

@@ -1,5 +1,6 @@
-from yacs.config import CfgNode as CN
 import math
+
+from yacs.config import CfgNode as CN
 
 
 def parse_list(yaml_list):

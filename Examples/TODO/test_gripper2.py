@@ -5,8 +5,9 @@
 """
 
 import math
-import sys
 import os
+import sys
+
 import pybullet as p
 
 """
@@ -20,8 +21,8 @@ if os.path.basename(utils_path) != "utils":
 sys.path.append(utils_path)
 from utils_Bestman import Bestman, Pose
 from utils_PbClient import PbClient
-from utils_PbVisualizer import PbVisualizer
 from utils_PbOMPL import PbOMPL
+from utils_PbVisualizer import PbVisualizer
 
 # load kitchen from three scenarios
 index = 1

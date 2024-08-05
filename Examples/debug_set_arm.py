@@ -10,10 +10,11 @@
 
 
 import os
+
 from Env import Client
+from RoboticsToolBox import Bestman_sim_panda
 from Utils import load_config
 from Visualization import Visualizer
-from RoboticsToolBox import Bestman_sim_panda
 
 
 def main(filename):

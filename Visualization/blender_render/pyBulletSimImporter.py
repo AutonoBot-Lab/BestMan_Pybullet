@@ -1,9 +1,10 @@
-from bpy.types import Operator, OperatorFileListElement, Panel
-from bpy.props import StringProperty, CollectionProperty
-from bpy_extras.io_utils import ImportHelper
-import bpy
 import pickle
-from os.path import splitext, join, basename
+from os.path import basename, join, splitext
+
+import bpy
+from bpy.props import CollectionProperty, StringProperty
+from bpy.types import Operator, OperatorFileListElement, Panel
+from bpy_extras.io_utils import ImportHelper
 
 bl_info = {
     "name": "PyBulletSimImporter",

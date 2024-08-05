@@ -5,17 +5,19 @@
 """
 
 import math
-import sys
-from yacs.config import CfgNode as CN
 import os
+import sys
+
+from yacs.config import CfgNode as CN
 
 sys.path.append("/BestMan_Pybullet/refactor")
 
-from RoboticsToolBox.Bestman import Bestman
-from RoboticsToolBox.Pose import Pose
 from refactor.Env.Client import PbClient
 from refactor.Visualization.Visualizer import PbVisualizer
 from utils_PbOMPL import PbOMPL
+
+from RoboticsToolBox.Bestman import Bestman
+from RoboticsToolBox.Pose import Pose
 
 # load kitchen from three scenarios
 index = 1

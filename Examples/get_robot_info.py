@@ -10,10 +10,11 @@
 
 
 import os
+
 from Env import Client
+from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long
 from Utils import load_config
 from Visualization import Visualizer
-from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long
 
 
 def main(filename):

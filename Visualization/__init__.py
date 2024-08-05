@@ -1,2 +1,2 @@
-from .Visualizer import Visualizer
 from .Camera import Camera, CameraParameters
+from .Visualizer import Visualizer

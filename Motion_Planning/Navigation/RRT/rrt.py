@@ -10,8 +10,9 @@
 
 import math
 import random
-from rtree import index
+
 import matplotlib.pyplot as plt
+from rtree import index
 
 # from ..utils import AreaBounds, plot_rectangle
 from Motion_Planning.Navigation.utils import *  # test in this script

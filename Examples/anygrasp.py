@@ -10,9 +10,10 @@
 
 
 import os
+
 from Env import Client
-from Utils import load_config
 from Perception.Grasp_Pose_Estimation import Anygrasp
+from Utils import load_config
 
 
 def main(filename):
