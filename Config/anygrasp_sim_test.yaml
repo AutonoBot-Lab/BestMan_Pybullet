@@ -1,0 +1,9 @@
+Visualizer:
+  Camera: 
+      dist: 1.2
+      position: [4.23, 5.21, 0.72]
+      yaw: -89.5
+      pitch: 307.4
+
+Robot:
+  init_joint: [0, -1.57, 2.0, -1.57, -1.57, 0]

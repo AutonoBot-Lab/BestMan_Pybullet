@@ -179,7 +179,7 @@ class Client:
 
         setattr(self, obj_name, object_id)
 
-        self.run(10)
+        self.run(40)
 
         return object_id
 

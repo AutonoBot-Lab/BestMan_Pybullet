@@ -1,0 +1,102 @@
+[
+    {
+        "model_path": "../Asset/Kitchen_models/models_yan/elementB/model.urdf",
+        "object_position": [4.1, 4.55, 0.55],
+        "object_orientation": [0, 0, "math.pi / 2 * 3"],
+        "scale": 1.0,
+        "obj_name": "elementB1",
+        "fixed_base": true
+    },
+
+    {
+        "model_path": "../Asset/Kitchen_models/models_yan/elementB/model.urdf",
+        "object_position": [4.1, 5.19, 0.55],
+        "object_orientation": [0, 0, "math.pi / 2 * 3"],
+        "scale": 1.0,
+        "obj_name": "elementB2",
+        "fixed_base": true
+    },
+
+    {
+        "model_path": "../Asset/Kitchen_models/models_yan/elementB/model.urdf",
+        "object_position": [4.1, 5.83, 0.55],
+        "object_orientation": [0, 0, "math.pi / 2 * 3"],
+        "scale": 1.0,
+        "obj_name": "elementB3",
+        "fixed_base": true
+    },
+
+    {
+        "model_path": "../Asset/Kitchen_models/models_yan/elementB/model.urdf",
+        "object_position": [4.1, 6.46, 0.55],
+        "object_orientation": [0, 0, "math.pi / 2 * 3"],
+        "scale": 1.0,
+        "obj_name": "elementB4",
+        "fixed_base": true
+    },
+
+    {
+        "model_path": "../Asset/URDF_models/book_5/model.urdf",
+        "object_position": [4.1, 5.0, 1.0],
+        "object_orientation": ["math.pi/2", 0, "math.pi/2"],
+        "scale": 1.0,
+        "obj_name": "book1",
+        "fixed_base": false
+    },
+
+    {
+        "model_path": "../Asset/URDF_models/book_3/model.urdf",
+        "object_position": [4.1, 5.4, 1.0],
+        "object_orientation": ["math.pi/2", 0, "math.pi/6"],
+        "scale": 1.0,
+        "obj_name": "book2",
+        "fixed_base": false
+    },
+
+    {
+        "model_path": "../Asset/URDF_models/food_banana/model.urdf",
+        "object_position": [4.1, 4.5, 0.9],
+        "object_orientation": [0, 0, "-math.pi/3"],
+        "scale": 1.0,
+        "obj_name": "banana",
+        "fixed_base": false
+    },
+
+    {
+        "model_path": "../Asset/URDF_models/blue_plate/model.urdf",
+        "object_position": [3.9, 4.8, 0.9],
+        "object_orientation": [0, 0, "-math.pi/3"],
+        "scale": 1.0,
+        "obj_name": "blue_plate",
+        "fixed_base": false
+    },
+
+    {
+        "model_path": "../Asset/URDF_models/food_lemon/model.urdf",
+        "object_position": [3.9, 4.8, 0.9],
+        "object_orientation": [0, 0, 0],
+        "scale": 1.0,
+        "obj_name": "food_lemon",
+        "fixed_base": false
+    },
+
+    {
+        "model_path": "../Asset/URDF_models/blue_plate/model.urdf",
+        "object_position": [3.9, 4.8, 0.9],
+        "object_orientation": [0, 0, "-math.pi/3"],
+        "scale": 1.0,
+        "obj_name": "blue_plate",
+        "fixed_base": false
+    },
+
+    {
+        "model_path": "../Asset/URDF_models/blue_plate/model.urdf",
+        "object_position": [3.9, 4.8, 0.9],
+        "object_orientation": [0, 0, "-math.pi/3"],
+        "scale": 1.0,
+        "obj_name": "blue_plate",
+        "fixed_base": false
+    }
+
+
+]
