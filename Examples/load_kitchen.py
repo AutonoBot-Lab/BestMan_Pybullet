@@ -10,6 +10,7 @@
 
 import os
 from Env import Client
+from Visualization import Visualizer
 from Utils import load_config
 
 
@@ -19,9 +20,10 @@ def main():
     config_path = '../Config/load_kitchen.yaml'
     cfg = load_config(config_path)
     print(cfg)
-
+    
     # Init client and visualizer
     client = Client(cfg.Client)
+    visualizer = Visualizer(client, cfg.Visualizer)
     
     # Load scene
     scene_path = '../Asset/Scene/Kitchen.json'
