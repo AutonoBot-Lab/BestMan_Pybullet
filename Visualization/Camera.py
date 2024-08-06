@@ -201,6 +201,15 @@ class Camera:
     # ----------------------------------------------------------------
 
     def rotate_around_y(self, vector, angle):
+        """vector rotate around y axis
+
+        Args:
+            vector (np.array): vector
+            angle (): rotate angle
+
+        Returns:
+            rotated vector
+        """
         rotation_matrix = np.array(
             [
                 [np.cos(angle), 0, np.sin(angle)],
@@ -211,6 +220,7 @@ class Camera:
         return np.dot(rotation_matrix, vector)
 
     def visualize_3d_points(self):
+        """visualize 3D point cloud."""
         color_image = o3d.geometry.Image(np.array(self.colors[:, :, ::-1]))
         depth_image = o3d.geometry.Image(self.depths)
         rgbd_image = o3d.geometry.RGBDImage.create_from_color_and_depth(
