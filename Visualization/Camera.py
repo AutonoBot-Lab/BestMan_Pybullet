@@ -117,6 +117,9 @@ class Camera:
             shadow=0,  # Disable Shadows
         )
 
+        rgb = np.array(rgb, dtype=np.uint8).reshape(h, w, 4)
+        depth = np.array(depth).reshape(h, w)
+        
         self.image = Image.fromarray(rgb)
         self.colors = np.array(rgb[:, :, 2::-1])  # BGR to RGB
 

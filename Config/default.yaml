@@ -2,8 +2,8 @@
 Client:
   enable_GUI: True                # If True, the GUI will be enabled.
   enable_capture: True            # If True, custom image size
-  width: 1980                     # W
-  height: 1080                     # H
+  width: 1920                     # W
+  height: 1080                    # H
   enable_Debug: True              # If False, the debug visualizer will be disabled.
   shadows: True                   # If True, scene shadows will be enabled.
   Gravity: [0, 0, -9.8]           # Simulation environment gravity coefficient
