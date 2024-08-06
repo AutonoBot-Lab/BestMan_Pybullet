@@ -73,7 +73,7 @@
 
     {
         "model_path": "../Asset/URDF_models/food_lemon/model.urdf",
-        "object_position": [3.9, 4.8, 0.9],
+        "object_position": [3.9, 4.75, 0.9],
         "object_orientation": [0, 0, 0],
         "scale": 1.0,
         "obj_name": "food_lemon",
@@ -81,20 +81,47 @@
     },
 
     {
-        "model_path": "../Asset/URDF_models/blue_plate/model.urdf",
-        "object_position": [3.9, 4.8, 0.9],
-        "object_orientation": [0, 0, "-math.pi/3"],
+        "model_path": "../Asset/URDF_models/food_pear/model.urdf",
+        "object_position": [3.95, 4.85, 0.9],
+        "object_orientation": [0, 0, 0],
         "scale": 1.0,
-        "obj_name": "blue_plate",
+        "obj_name": "food_pear",
         "fixed_base": false
     },
 
     {
-        "model_path": "../Asset/URDF_models/blue_plate/model.urdf",
-        "object_position": [3.9, 4.8, 0.9],
-        "object_orientation": [0, 0, "-math.pi/3"],
+        "model_path": "../Asset/URDF_models/green_cup/model.urdf",
+        "object_position": [4.1, 4.8, 0.9],
+        "object_orientation": [0, 0, "math.pi"],
         "scale": 1.0,
-        "obj_name": "blue_plate",
+        "obj_name": "green_cup",
+        "fixed_base": false
+    },
+
+    {
+        "model_path": "../Asset/URDF_models/sugar_box/model.urdf",
+        "object_position": [4.1, 5.15, 0.9],
+        "object_orientation": [0, 0, 0],
+        "scale": 1.0,
+        "obj_name": "sugar_box",
+        "fixed_base": false
+    },
+
+    {
+        "model_path": "../Asset/URDF_models/orange_cup/model.urdf",
+        "object_position": [3.85, 5.15, 0.9],
+        "object_orientation": [0, 0, "math.pi/2*3"],
+        "scale": 1.0,
+        "obj_name": "orange_cup",
+        "fixed_base": false
+    },
+
+    {
+        "model_path": "../Asset/URDF_models/bleach_cleanser/model.urdf",
+        "object_position": [3.85, 5.0, 1.0],
+        "object_orientation": [0, 0, "math.pi/2"],
+        "scale": 1.0,
+        "obj_name": "bleach_cleanser",
         "fixed_base": false
     }
 

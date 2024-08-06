@@ -179,7 +179,7 @@ class Client:
 
         setattr(self, obj_name, object_id)
 
-        self.run(40)
+        # self.run(240)
 
         return object_id
 
@@ -210,6 +210,7 @@ class Client:
                 object["fixed_base"],
             )
 
+        self.run(480)
         print(f"[Client] \033[34mInfo\033[0m: success load scene from {json_path}!")
 
     # ----------------------------------------------------------------
