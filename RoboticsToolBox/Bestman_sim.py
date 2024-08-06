@@ -127,12 +127,7 @@ class Bestman_sim:
 
         # Init camera
         Camera_cfg = cfg.Camera
-        self.camera = Camera(Camera_cfg, self.base_id, self.arm_height)
-
-        # update image
-        self.camera.update()
-        self.camera.get_rgb_image(False, True)
-        self.camera.get_depth_image(False, True)
+        self.camera = Camera(Camera_cfg, self.base_id, self.arm_height, self.visualizer)
 
         self.end_effector_index = robot_cfg.end_effector_index
         self.tcp_link = robot_cfg.tcp_link
@@ -859,8 +854,16 @@ class Bestman_sim:
     def update_camera(self):
         self.camera.update()
 
-    def get_camera_rgb_image(self, enable_show=False, enable_save=False):
-        self.camera.get_rgb_image(enable_show, enable_save)
+    def get_camera_rgb_image(self, enable_show=False, enable_save=False, filename=None):
+        self.camera.get_rgb_image(enable_show, enable_save, filename)
 
-    def get_camera_depth_image(self, enable_show=False, enable_save=False):
-        self.camera.get_depth_image(enable_show, enable_save)
+    def get_camera_depth_image(
+        self, enable_show=False, enable_save=False, filename=None
+    ):
+        self.camera.get_depth_image(enable_show, enable_save, filename)
+
+    def get_camera_3d_points(self, enable_show=False):
+        self.camera.get_3d_points(enable_show)
+
+    def visualize_3d_points(self):
+        self.camera.visualize_3d_points()

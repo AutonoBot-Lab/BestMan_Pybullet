@@ -4,27 +4,7 @@ import numpy as np
 import open3d as o3d
 from PIL import ImageDraw
 
-from Visualization import CameraParameters
-
 Bbox = Tuple[int, int, int, int]
-
-
-def get_3d_points(cam: CameraParameters):
-    """Convert depth image to 3D point cloud.
-
-    Args:
-        cam (CameraParameters): Camera internal parameters.
-
-    Returns:
-        np.ndarray: 3D point cloud.
-    """
-    xmap, ymap = np.arange(cam.depths.shape[1]), np.arange(cam.depths.shape[0])
-    xmap, ymap = np.meshgrid(xmap, ymap)
-    points_z = cam.depths
-    points_x = (xmap - cam.cx) / cam.fx * points_z
-    points_y = (ymap - cam.cy) / cam.fy * points_z
-    points = np.stack((points_x, points_y, points_z), axis=2)
-    return points
 
 
 def sample_points(points, sampling_rate=1):

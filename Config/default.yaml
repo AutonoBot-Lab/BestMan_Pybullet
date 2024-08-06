@@ -46,11 +46,12 @@ Robot:
 
 # Camera params
 Camera:
-  width: 224          # W
-  height: 224         # H
+  fov: 60             # Field of View
+  width: 1920          # width
+  height: 1080         # height
   nearVal: 0.01       # Camera near viewing distance
   farVal: 20          # Camera far viewing distance
-
+  head_tilt: -0.45
 
 # Ompl planner params
 Planner:

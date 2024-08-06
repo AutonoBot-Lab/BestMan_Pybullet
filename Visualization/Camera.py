@@ -8,36 +8,15 @@
 # @Description:   : Camera
 """
 
-from dataclasses import dataclass
 from datetime import datetime
-from typing import Tuple, Type
 
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
+import open3d as o3d
 import pybullet as p
 from matplotlib.colors import LinearSegmentedColormap
 from PIL import Image
-
-
-@dataclass
-class CameraParameters:
-    """Used to store the camera's intrinsic parameters, head tilt angle, image data, color data, and depth data."""
-
-    fx: float  # The focal length scaling factor in the x direction. It is typically the focal length in pixel units and is used to describe the camera's intrinsic parameters.
-    fy: float  # The focal length scaling factor in the y direction. Similar to fx, but for the y direction.
-    cx: float  # The x-coordinate of the camera's principal point (optical center). It represents the position of the optical axis's intersection on the image plane in the x direction, usually near the center of the image.
-    cy: float  # The y-coordinate of the camera's principal point (optical center). Similar to cx, but for the y direction.
-    head_tilt: float  # The tilt angle of the camera head, describing the camera's rotation or inclination.
-    image: Type[
-        Image.Image
-    ]  # An image object from the PIL library, representing the captured image data.
-    colors: (
-        np.ndarray
-    )  # A NumPy array containing color data of the image, typically used for processing color information within the image.
-    depths: (
-        np.ndarray
-    )  # A NumPy array containing depth data of the image, representing the distance of each pixel point from the camera.
 
 
 class Camera:
@@ -46,7 +25,7 @@ class Camera:
     This class handles the camera functionalities for a robotic system, including capturing RGB and depth images.
     """
 
-    def __init__(self, cfg, base_id, arm_height):
+    def __init__(self, cfg, base_id, arm_height, visualizer):
         """
         Initializes the Camera class with configuration, base ID, and arm height.
 
@@ -57,22 +36,35 @@ class Camera:
         """
         self.base_id = base_id
         self.arm_height = arm_height
+        self.visualizer = visualizer
 
+        # projection setting
+        self.fov = cfg.fov  # fov
         self.width = cfg.width  # W
         self.height = cfg.height  # H
-        self.nearVal = cfg.nearVal
-        self.farVal = cfg.farVal
-        # self.fx = self.fx,
-        # self.fy = cfg.fy,
-        # self.cx = cfg.cx,
-        # self.cy = cfg.cy,
-        # self.head_tilt = cfg.head_tilt,
+        self.nearVal = cfg.nearVal  # nearVal
+        self.farVal = cfg.farVal  # farVal
 
-        # get rgb and depth image
-        _, _, rgb, depth, _ = self.update()
-        self.image = Image.fromarray(rgb)
-        self.colors = np.array(rgb)
-        self.depths = np.array(depth)
+        # cameara intrinsic parameters
+        self.get_focal_length()
+        self.cx = self.width / 2
+        self.cy = self.height / 2
+
+        # for grasp pose
+        self.head_tilt = cfg.head_tilt
+
+        # camera rgb and depth image
+        self.update()
+
+    def get_focal_length(self):
+        proj_mat = p.computeProjectionMatrixFOV(
+            fov=self.fov,  # Camera's sight angle
+            aspect=self.width / self.height,  # Aspect ratio of the image
+            nearVal=self.nearVal,  # Camera viewing distance min
+            farVal=self.farVal,  # Camera viewing distance max
+        )
+        self.fx = proj_mat[0] * self.width / 2
+        self.fy = proj_mat[5] * self.height / 2
 
     def update(self):
         """
@@ -81,38 +73,39 @@ class Camera:
         Returns:
             tuple: Width, height, RGB image, depth image, and segmentation mask.
         """
+
         # get base pose
         position, orientation = p.getBasePositionAndOrientation(self.base_id)
         camera_position = np.array([position[0], position[1], self.arm_height + 0.3])
 
         # The three direction vectors of the camera in the world coordinate system
         r_mat = p.getMatrixFromQuaternion(orientation)
-        tx_vec = np.array(
-            [r_mat[0], r_mat[3], r_mat[6]]
+        rotation_angle = np.radians(30)
+        tx_vec = self.rotate_around_y(
+            np.array([r_mat[0], r_mat[3], r_mat[6]]), rotation_angle
         )  # x direction vector, the right side of the camera is facing
-        ty_vec = np.array(
-            [r_mat[1], r_mat[4], r_mat[7]]
-        )  # y direction vector, the camera's forward direction
-        tz_vec = np.array(
-            [r_mat[2], r_mat[5], r_mat[8]]
+        tz_vec = self.rotate_around_y(
+            np.array([r_mat[2], r_mat[5], r_mat[8]]), rotation_angle
         )  # z direction vector, the vertical direction of the camera
 
-        # set camera looking forward
-        # target_position = camera_position - 1 * tx_vec
+        # set the camera orientation
         target_position = camera_position + 1 * tx_vec
+        self.visualizer.draw_line(camera_position, target_position)
 
         view_mat = p.computeViewMatrix(
             cameraEyePosition=camera_position,
             cameraTargetPosition=target_position,
             cameraUpVector=tz_vec,
         )
+        up_position = camera_position + 1 * tz_vec
+        self.visualizer.draw_line(camera_position, up_position)
 
         # A projection matrix based on the field of view (FOV) to simulate the camera's perspective
         proj_mat = p.computeProjectionMatrixFOV(
-            fov=60,  # 摄像头的视线夹角
-            aspect=self.width / self.height,  # 图像的宽高比
-            nearVal=self.nearVal,  # 摄像头视距min
-            farVal=self.farVal,  # 摄像头视距max
+            fov=self.fov,  # Camera's sight angle
+            aspect=self.width / self.height,  # Aspect ratio of the image
+            nearVal=self.nearVal,  # Camera viewing distance min
+            farVal=self.farVal,  # Camera viewing distance max
         )
 
         # width, height, rgb, image, seg
@@ -122,12 +115,24 @@ class Camera:
             viewMatrix=view_mat,
             projectionMatrix=proj_mat,
             shadow=0,  # Disable Shadows
-            renderer=p.ER_TINY_RENDERER,
         )
 
-        return w, h, rgb, depth, seg
+        self.image = Image.fromarray(rgb)
+        self.colors = np.array(rgb[:, :, 2::-1])  # BGR to RGB
 
-    def get_rgb_image(self, enable_show=False, enable_save=False):
+        # Convert normalized depth values ​​to actual depth values
+        self.depths = (
+            (
+                self.farVal
+                * self.nearVal
+                / (self.farVal - (self.farVal - self.nearVal) * depth)
+            )
+            * 1000
+        ).astype(np.uint16)
+
+        return w, h, self.colors, self.depths, seg
+
+    def get_rgb_image(self, enable_show=False, enable_save=False, filename=None):
         """
         Captures an RGB image from the camera.
 
@@ -139,48 +144,7 @@ class Camera:
             np.ndarray: Captured RGB image.
         """
 
-        # get base pose
-        position, orientation = p.getBasePositionAndOrientation(self.base_id)
-        camera_position = np.array([position[0], position[1], self.arm_height + 0.3])
-
-        # The three direction vectors of the camera in the world coordinate system
-        r_mat = p.getMatrixFromQuaternion(orientation)
-        tx_vec = np.array(
-            [r_mat[0], r_mat[3], r_mat[6]]
-        )  # x direction vector, the right side of the camera is facing
-        ty_vec = np.array(
-            [r_mat[1], r_mat[4], r_mat[7]]
-        )  # y direction vector, the camera's forward direction
-        tz_vec = np.array(
-            [r_mat[2], r_mat[5], r_mat[8]]
-        )  # z direction vector, the vertical direction of the camera
-
-        # set camera looking forward
-        # target_position = camera_position - 1 * tx_vec
-        target_position = camera_position + 1 * tx_vec
-
-        view_mat = p.computeViewMatrix(
-            cameraEyePosition=camera_position,
-            cameraTargetPosition=target_position,
-            cameraUpVector=tz_vec,
-        )
-
-        # A projection matrix based on the field of view (FOV) to simulate the camera's perspective
-        proj_mat = p.computeProjectionMatrixFOV(
-            fov=60,  # 摄像头的视线夹角
-            aspect=self.width / self.height,  # 图像的宽高比
-            nearVal=self.nearVal,  # 摄像头视距min
-            farVal=self.farVal,  # 摄像头视距max
-        )
-
-        # width, height, rgb, image, seg
-        _, _, rgb, _, _ = p.getCameraImage(
-            width=self.width,
-            height=self.height,
-            viewMatrix=view_mat,
-            projectionMatrix=proj_mat,
-            shadow=0,  # Disable Shadows
-        )
+        _, _, rgb, _, _ = self.update()
 
         if enable_show:
             plt.imshow(rgb)
@@ -189,15 +153,14 @@ class Camera:
             plt.show()
 
         if enable_save:
-            current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
-            rgb_path = f"../Examples/image/rgb_{current_time}.png"
-            rgbImg = cv2.cvtColor(rgb, cv2.COLOR_BGR2RGB)
-            cv2.imwrite(rgb_path, rgbImg)
-            # Image.fromarray(rgb).save(rgb_path)
+            if filename is None:
+                filename = "rgb_" + datetime.now().strftime("%Y%m%d_%H%M%S")
+            rgb_path = f"../Examples/image/{filename}.png"
+            cv2.imwrite(rgb_path, self.colors)
 
         return rgb
 
-    def get_depth_image(self, enable_show=False, enable_save=False):
+    def get_depth_image(self, enable_show=False, enable_save=False, filename=None):
         """
         Captures a depth image from the camera.
 
@@ -209,59 +172,7 @@ class Camera:
             np.ndarray: Captured depth image.
         """
 
-        # get base pose
-        position, orientation = p.getBasePositionAndOrientation(self.base_id)
-        camera_position = np.array([position[0], position[1], self.arm_height + 0.3])
-
-        # The three direction vectors of the camera in the world coordinate system
-        r_mat = p.getMatrixFromQuaternion(orientation)
-        tx_vec = np.array(
-            [r_mat[0], r_mat[3], r_mat[6]]
-        )  # x direction vector, the right side of the camera is facing
-        ty_vec = np.array(
-            [r_mat[1], r_mat[4], r_mat[7]]
-        )  # y direction vector, the camera's forward direction
-        tz_vec = np.array(
-            [r_mat[2], r_mat[5], r_mat[8]]
-        )  # z direction vector, the vertical direction of the camera
-
-        # set camera looking forward
-        # target_position = camera_position - 1 * tx_vec
-        target_position = camera_position + 1 * tx_vec
-
-        view_mat = p.computeViewMatrix(
-            cameraEyePosition=camera_position,
-            cameraTargetPosition=target_position,
-            cameraUpVector=tz_vec,
-        )
-
-        # A projection matrix based on the field of view (FOV) to simulate the camera's perspective
-        proj_mat = p.computeProjectionMatrixFOV(
-            fov=60,  # 摄像头的视线夹角
-            aspect=self.width / self.height,  # 图像的宽高比
-            nearVal=self.nearVal,  # 摄像头视距min
-            farVal=self.farVal,  # 摄像头视距max
-        )
-
-        # width, height, rgb, image, seg
-        _, _, _, depth, _ = p.getCameraImage(
-            width=self.width,
-            height=self.height,
-            viewMatrix=view_mat,
-            projectionMatrix=proj_mat,
-            shadow=0,  # Disable Shadows
-        )
-
-        # Convert normalized depth values ​​to actual depth values
-        depth = (
-            self.farVal
-            * self.nearVal
-            / (self.farVal - (self.farVal - self.nearVal) * depth)
-        )
-
-        # image_point = [320, 240]
-        # crop_size = 200
-        # depth_image = self.crop_image(depth, image_point, crop_size)
+        _, _, _, depth, _ = self.update()
 
         if enable_show:
             # Linear color mapping from black (the color when the depth value is 0) to white (the color when the depth value is 1)
@@ -277,10 +188,63 @@ class Camera:
             plt.show()
 
         if enable_save:
-            current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
-            depth_path = f"../Examples/image/depth_{current_time}.png"
-            # plt.imsave(depth_path, depth, cmap=custom_cmap)
-            depth_img = (depth * 1000).astype(np.uint16)
-            Image.fromarray(depth_img).save(depth_path)
+            if filename is None:
+                filename = "depth_" + datetime.now().strftime("%Y%m%d_%H%M%S")
+            depth_path = f"../Examples/image/{filename}.png"
+
+            Image.fromarray(self.depths).save(depth_path)
 
         return depth
+
+    # ----------------------------------------------------------------
+    # functions for utils
+    # ----------------------------------------------------------------
+
+    def rotate_around_y(self, vector, angle):
+        rotation_matrix = np.array(
+            [
+                [np.cos(angle), 0, np.sin(angle)],
+                [0, 1, 0],
+                [-np.sin(angle), 0, np.cos(angle)],
+            ]
+        )
+        return np.dot(rotation_matrix, vector)
+
+    def visualize_3d_points(self):
+        color_image = o3d.geometry.Image(np.array(self.colors[:, :, ::-1]))
+        depth_image = o3d.geometry.Image(self.depths)
+        rgbd_image = o3d.geometry.RGBDImage.create_from_color_and_depth(
+            color_image, depth_image, convert_rgb_to_intensity=False
+        )
+        intrinsic = o3d.camera.PinholeCameraIntrinsic(
+            o3d.camera.PinholeCameraIntrinsicParameters.Kinect2DepthCameraDefault
+        )
+        intrinsic.set_intrinsics(
+            width=self.width,
+            height=self.height,
+            fx=self.fx,
+            fy=self.fy,
+            cx=self.cx,
+            cy=self.cy,
+        )
+        point_cloud = o3d.geometry.PointCloud.create_from_rgbd_image(
+            rgbd_image, intrinsic
+        )
+        o3d.visualization.draw_geometries([point_cloud])
+
+    def get_3d_points(self):
+        """Convert depth image to 3D point cloud.
+
+        Args:
+            cam (CameraParameters): Camera internal parameters.
+
+        Returns:
+            np.ndarray: 3D point cloud.
+        """
+        xmap, ymap = np.arange(self.depths.shape[1]), np.arange(self.depths.shape[0])
+        xmap, ymap = np.meshgrid(xmap, ymap)
+        points_z = self.depths
+        points_x = (xmap - self.cx) / self.fx * points_z
+        points_y = (ymap - self.cy) / self.fy * points_z
+        points = np.stack((points_x, points_y, points_z), axis=2)
+        return points
