@@ -22,16 +22,9 @@ from PIL import Image
 
 from Perception.Object_detection import Lang_SAM
 from RoboticsToolBox import Pose
-# from Visualization import CameraParameters
-
-from .utils import (
-    Bbox,
-    draw_rectangle,
-    sample_points,
-    visualize_cloud_geometries,
-)
-
 from Visualization import Camera
+
+from .utils import Bbox, draw_rectangle, sample_points, visualize_cloud_geometries
 
 
 class Anygrasp:
@@ -73,16 +66,15 @@ class Anygrasp:
             Tuple[bool, Pose]: Status and best grasp pose.
         """
 
-        # self.cam = cam
-
-        # extract x, y, z coordinates from 3D point cloud
+        # get 3d points
+        points = camera.get_3d_points() * self.cfgs.scale
         points_x, points_y, points_z = points[:, :, 0], points[:, :, 1], points[:, :, 2]
 
         # Filter the point cloud based on depth, keeping points within the specified depth range
         mask = (points_z > self.cfgs.min_depth) & (points_z < self.cfgs.max_depth)
         points = np.stack([points_x, -points_y, points_z], axis=-1)
         points = points[mask].astype(np.float32)
-        colors_m = self.cam.colors[mask].astype(np.float32)
+        colors_m = (camera.colors / 255.0)[mask].astype(np.float32)
 
         # If the sampling rate is less than 1, the point cloud is downsampled
         if self.cfgs.sampling_rate < 1:
@@ -120,14 +112,12 @@ class Anygrasp:
         filter_gg = GraspGroup()
 
         # Filtering the grasps by penalising the vertical grasps as they are not robust to calibration errors.
-        W, H = self.cam.image.size
+        W, H = camera.image.size
 
         # Reference direction vector, indicating the ideal grasping direction.
-        ref_vec = np.array(
-            [0, math.cos(self.cam.head_tilt), -math.sin(self.cam.head_tilt)]
-        )
+        ref_vec = np.array([0, math.cos(camera.head_tilt), -math.sin(camera.head_tilt)])
         min_score, max_score = 1, -10
-        image = copy.deepcopy(self.cam.image)
+        image = copy.deepcopy(camera.image)
         img_drw = draw_rectangle(image, bbox)
 
         for g in gg:
@@ -135,8 +125,8 @@ class Anygrasp:
             grasp_center = g.translation
             # Convert the coordinates of a grasp center in three-dimensional space to two-dimensional coordinates on the image plane
             ix, iy = (
-                int(((grasp_center[0] * self.cam.fx) / grasp_center[2]) + self.cam.cx),
-                int(((-grasp_center[1] * self.cam.fy) / grasp_center[2]) + self.cam.cy),
+                int(((grasp_center[0] * camera.fx) / grasp_center[2]) + camera.cx),
+                int(((-grasp_center[1] * camera.fy) / grasp_center[2]) + camera.cy),
             )
             if ix < 0:
                 ix = 0
@@ -177,7 +167,7 @@ class Anygrasp:
             print(
                 "[AnyGrasp] \033[33mwarning\033[0m: No grasp poses detected for this object try to move the object a little and try again"
             )
-            return False, None
+            return False, None.astype(np.float32)
 
         projections_file_name = os.path.join(
             self.cfgs.output_dir, "grasp_projections.png"
@@ -209,14 +199,12 @@ class Anygrasp:
             visualize_cloud_geometries(
                 cloud,
                 grippers,
-                visualize=not self.cfgs.headless,
                 save_file=os.path.join(self.cfgs.output_dir, "poses.png"),
             )
 
             visualize_cloud_geometries(
                 cloud,
                 [filter_grippers[0].paint_uniform_color([1.0, 0.0, 0.0])],
-                visualize=not self.cfgs.headless,
                 save_file=os.path.join(self.cfgs.output_dir, "best_pose.png"),
             )
 
@@ -249,20 +237,15 @@ if __name__ == "__main__":
     parser.add_argument(
         "--gripper_height", type=float, default=0.03, help="Gripper height"
     )
-    parser.add_argument(
-        "--top_down_grasp", action="store_true", help="Output top-down grasps"
-    )
+    # parser.add_argument(
+    #     "--top_down_grasp", action="store_true", help="Output top-down grasps"
+    # )
     parser.add_argument("--debug", action="store_true", help="Enable visualization")
-    parser.add_argument(
-        "--headless",
-        action="store_true",
-        help="Enable headless mode, don't save visualization result",
-    )
     parser.add_argument(
         "--max_depth", type=float, default=1.0, help="Maximum depth of point cloud"
     )
     parser.add_argument(
-        "--min_depth", type=float, default=0, help="Maximum depth of point cloud"
+        "--min_depth", type=float, default=0.0, help="Maximum depth of point cloud"
     )
     parser.add_argument(
         "--sampling_rate",
@@ -313,16 +296,9 @@ if __name__ == "__main__":
         os.mkdir(cfgs.output_dir)
 
     # camera parameters
-    colors = (
-        np.array(
-            Image.open(os.path.join(cfgs.input_dir, "color.png")), dtype=np.float32
-        )
-        / 255.0
-    )
+    colors = np.array(Image.open(os.path.join(cfgs.input_dir, "color.png")))
     image = Image.open(os.path.join(cfgs.input_dir, "color.png"))
-    depths = (
-        np.array(Image.open(os.path.join(cfgs.input_dir, "depth.png"))) * cfgs.scale
-    )
+    depths = np.array(Image.open(os.path.join(cfgs.input_dir, "depth.png")))
     # cam = CameraParameters(
     #     cfgs.fx, cfgs.fy, cfgs.cx, cfgs.cy, cfgs.head_tilt, image, colors, depths
     # )
@@ -333,9 +309,6 @@ if __name__ == "__main__":
     image = Image.open(os.path.join(cfgs.input_dir, "color.png"))
     query = str(input("Enter a Object name in the image: "))
     seg_mask, bbox = lang_sam.detect_obj(image, query, save_box=False, save_mask=False)
-
-    # get 3d points
-    points = get_3d_points(cam)
 
     anygrasp = Anygrasp(cfgs)
     best_pose = anygrasp.Grasp_Pose_Estimation(cam, points, seg_mask, bbox)

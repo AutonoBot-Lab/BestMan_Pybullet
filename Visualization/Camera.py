@@ -119,20 +119,19 @@ class Camera:
         # make sure the array has the correct shape
         rgb = np.array(rgb, dtype=np.uint8).reshape(h, w, 4)
         depth = np.array(depth).reshape(h, w)
-        
+
         self.image = Image.fromarray(rgb)
         self.colors = np.array(rgb[:, :, 2::-1])  # BGR to RGB
 
-        # Convert normalized depth values ​​to actual depth values, 
-        # self.depths = (
-        #     (
-        #         self.farVal
-        #         * self.nearVal
-        #         / (self.farVal - (self.farVal - self.nearVal) * depth)
-        #     )
-        #     * 1000
-        # ).astype(np.uint16)
-        self.depths = (depth * 1000).astype(np.uint16)
+        # pybullet return normalized depth values, convert ​​to actual depth values, unit：mm
+        self.depths = (
+            (
+                self.farVal
+                * self.nearVal
+                / (self.farVal - (self.farVal - self.nearVal) * depth)
+            )
+            * 1000
+        ).astype(np.uint16)
 
         return w, h, self.colors, self.depths, seg
 
@@ -147,7 +146,7 @@ class Camera:
         Returns:
             np.ndarray: Captured RGB image.
         """
-        
+
         _, _, rgb, _, _ = self.update()
 
         if enable_show:
@@ -224,7 +223,9 @@ class Camera:
         return np.dot(rotation_matrix, vector)
 
     def visualize_3d_points(self):
-        """visualize 3D point cloud."""
+        """
+        visualize 3D point cloud.
+        """
         color_image = o3d.geometry.Image(np.array(self.colors[:, :, ::-1]))
         depth_image = o3d.geometry.Image(self.depths)
         rgbd_image = o3d.geometry.RGBDImage.create_from_color_and_depth(
@@ -247,10 +248,8 @@ class Camera:
         o3d.visualization.draw_geometries([point_cloud])
 
     def get_3d_points(self):
-        """Convert depth image to 3D point cloud.
-
-        Args:
-            cam (CameraParameters): Camera internal parameters.
+        """
+        Convert depth image to 3D point cloud.
 
         Returns:
             np.ndarray: 3D point cloud.
@@ -261,11 +260,4 @@ class Camera:
         points_x = (xmap - self.cx) / self.fx * points_z
         points_y = (ymap - self.cy) / self.fy * points_z
         points = np.stack((points_x, points_y, points_z), axis=2)
-        # extract x, y, z coordinates from 3D point cloud
-        points_x, points_y, points_z = points[:, :, 0], points[:, :, 1], points[:, :, 2]
-
-        # Filter the point cloud based on depth, keeping points within the specified depth range
-        mask = (points_z > self.cfgs.min_depth) & (points_z < self.cfgs.max_depth)
-        points = np.stack([points_x, -points_y, points_z], axis=-1)
-        points = points[mask].astype(np.float32)
         return points
