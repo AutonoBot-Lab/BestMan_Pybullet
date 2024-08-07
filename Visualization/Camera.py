@@ -147,7 +147,7 @@ class Camera:
         Returns:
             np.ndarray: Captured RGB image.
         """
-
+        
         _, _, rgb, _, _ = self.update()
 
         if enable_show:
@@ -261,4 +261,11 @@ class Camera:
         points_x = (xmap - self.cx) / self.fx * points_z
         points_y = (ymap - self.cy) / self.fy * points_z
         points = np.stack((points_x, points_y, points_z), axis=2)
+        # extract x, y, z coordinates from 3D point cloud
+        points_x, points_y, points_z = points[:, :, 0], points[:, :, 1], points[:, :, 2]
+
+        # Filter the point cloud based on depth, keeping points within the specified depth range
+        mask = (points_z > self.cfgs.min_depth) & (points_z < self.cfgs.max_depth)
+        points = np.stack([points_x, -points_y, points_z], axis=-1)
+        points = points[mask].astype(np.float32)
         return points

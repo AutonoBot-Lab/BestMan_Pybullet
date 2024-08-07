@@ -37,9 +37,7 @@ def draw_rectangle(image, bbox, width=5):
     """
     img_drw = ImageDraw.Draw(image)
     x1, y1, x2, y2 = bbox[0], bbox[1], bbox[2], bbox[3]
-
-    width_increase = 5
-    for _ in range(width_increase):
+    for _ in range(width):
         img_drw.rectangle([(x1, y1), (x2, y2)], outline="green")
 
         x1 -= 1

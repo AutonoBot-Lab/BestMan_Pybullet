@@ -22,15 +22,16 @@ from PIL import Image
 
 from Perception.Object_detection import Lang_SAM
 from RoboticsToolBox import Pose
-from Visualization import CameraParameters
+# from Visualization import CameraParameters
 
 from .utils import (
     Bbox,
     draw_rectangle,
-    get_3d_points,
     sample_points,
     visualize_cloud_geometries,
 )
+
+from Visualization import Camera
 
 
 class Anygrasp:
@@ -54,8 +55,7 @@ class Anygrasp:
 
     def Grasp_Pose_Estimation(
         self,
-        cam: CameraParameters,
-        points: np.ndarray,
+        camera: Camera,
         seg_mask: np.ndarray,
         bbox: Bbox,
         crop_flag: bool = False,
@@ -73,7 +73,7 @@ class Anygrasp:
             Tuple[bool, Pose]: Status and best grasp pose.
         """
 
-        self.cam = cam
+        # self.cam = cam
 
         # extract x, y, z coordinates from 3D point cloud
         points_x, points_y, points_z = points[:, :, 0], points[:, :, 1], points[:, :, 2]
@@ -323,9 +323,10 @@ if __name__ == "__main__":
     depths = (
         np.array(Image.open(os.path.join(cfgs.input_dir, "depth.png"))) * cfgs.scale
     )
-    cam = CameraParameters(
-        cfgs.fx, cfgs.fy, cfgs.cx, cfgs.cy, cfgs.head_tilt, image, colors, depths
-    )
+    # cam = CameraParameters(
+    #     cfgs.fx, cfgs.fy, cfgs.cx, cfgs.cy, cfgs.head_tilt, image, colors, depths
+    # )
+    Camera()
 
     # object detection
     lang_sam = Lang_SAM()
