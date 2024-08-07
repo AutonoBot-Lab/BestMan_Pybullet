@@ -25,7 +25,7 @@ class Camera:
     This class handles the camera functionalities for a robotic system, including capturing RGB and depth images.
     """
 
-    def __init__(self, cfg, base_id, arm_height, visualizer):
+    def __init__(self, cfg, base_id, arm_height):
         """
         Initializes the Camera class with configuration, base ID, and arm height.
 
@@ -36,7 +36,6 @@ class Camera:
         """
         self.base_id = base_id
         self.arm_height = arm_height
-        self.visualizer = visualizer
 
         # projection setting
         self.fov = cfg.fov  # fov
@@ -57,6 +56,9 @@ class Camera:
         self.update()
 
     def get_focal_length(self):
+        """
+        get camera focal length
+        """
         proj_mat = p.computeProjectionMatrixFOV(
             fov=self.fov,  # Camera's sight angle
             aspect=self.width / self.height,  # Aspect ratio of the image
@@ -90,15 +92,12 @@ class Camera:
 
         # set the camera orientation
         target_position = camera_position + 1 * tx_vec
-        self.visualizer.draw_line(camera_position, target_position)
 
         view_mat = p.computeViewMatrix(
             cameraEyePosition=camera_position,
             cameraTargetPosition=target_position,
             cameraUpVector=tz_vec,
         )
-        up_position = camera_position + 1 * tz_vec
-        self.visualizer.draw_line(camera_position, up_position)
 
         # A projection matrix based on the field of view (FOV) to simulate the camera's perspective
         proj_mat = p.computeProjectionMatrixFOV(
@@ -117,21 +116,23 @@ class Camera:
             shadow=0,  # Disable Shadows
         )
 
+        # make sure the array has the correct shape
         rgb = np.array(rgb, dtype=np.uint8).reshape(h, w, 4)
         depth = np.array(depth).reshape(h, w)
         
         self.image = Image.fromarray(rgb)
         self.colors = np.array(rgb[:, :, 2::-1])  # BGR to RGB
 
-        # Convert normalized depth values ​​to actual depth values
-        self.depths = (
-            (
-                self.farVal
-                * self.nearVal
-                / (self.farVal - (self.farVal - self.nearVal) * depth)
-            )
-            * 1000
-        ).astype(np.uint16)
+        # Convert normalized depth values ​​to actual depth values, 
+        # self.depths = (
+        #     (
+        #         self.farVal
+        #         * self.nearVal
+        #         / (self.farVal - (self.farVal - self.nearVal) * depth)
+        #     )
+        #     * 1000
+        # ).astype(np.uint16)
+        self.depths = (depth * 1000).astype(np.uint16)
 
         return w, h, self.colors, self.depths, seg
 

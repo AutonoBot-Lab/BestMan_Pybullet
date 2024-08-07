@@ -127,7 +127,7 @@ class Bestman_sim:
 
         # Init camera
         Camera_cfg = cfg.Camera
-        self.camera = Camera(Camera_cfg, self.base_id, self.arm_height, self.visualizer)
+        self.camera = Camera(Camera_cfg, self.base_id, self.arm_height)
 
         self.end_effector_index = robot_cfg.end_effector_index
         self.tcp_link = robot_cfg.tcp_link
