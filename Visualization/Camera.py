@@ -117,11 +117,11 @@ class Camera:
         )
 
         # make sure the array has the correct shape
-        rgb = np.array(rgb, dtype=np.uint8).reshape(h, w, 4)
+        rgb = np.array(rgb, dtype=np.uint8).reshape(h, w, 4)[:, :, 2::-1]
         depth = np.array(depth).reshape(h, w)
 
         self.image = Image.fromarray(rgb)
-        self.colors = np.array(rgb[:, :, 2::-1])  # BGR to RGB
+        self.colors = np.array(rgb)  # BGR to RGB
 
         # pybullet return normalized depth values, convert ​​to actual depth values, unit：mm
         self.depths = (

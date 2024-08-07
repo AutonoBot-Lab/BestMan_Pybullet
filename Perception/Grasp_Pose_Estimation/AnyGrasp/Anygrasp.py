@@ -8,11 +8,13 @@
 # @Description:   : AnyGrasp: Grasp pose estimation algorithm
 """
 
+import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import argparse
 import copy
 import math
-import os
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -23,6 +25,7 @@ from PIL import Image
 from Perception.Object_detection import Lang_SAM
 from RoboticsToolBox import Pose
 from Visualization import Camera
+import cv2
 
 from .utils import Bbox, draw_rectangle, sample_points, visualize_cloud_geometries
 
@@ -43,6 +46,8 @@ class Anygrasp:
             cfgs: Configuration settings.
         """
         self.cfgs = cfgs
+        self.cfgs.output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.cfgs.output_dir)
+        self.cfgs.checkpoint_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.cfgs.checkpoint_path)
         self.grasping_model = AnyGrasp(self.cfgs)
         self.grasping_model.load_net()
 
@@ -67,7 +72,7 @@ class Anygrasp:
         """
 
         # get 3d points
-        points = camera.get_3d_points() * self.cfgs.scale
+        points = camera.get_3d_points() * 0.001 # unit: m
         points_x, points_y, points_z = points[:, :, 0], points[:, :, 1], points[:, :, 2]
 
         # Filter the point cloud based on depth, keeping points within the specified depth range
@@ -112,7 +117,7 @@ class Anygrasp:
         filter_gg = GraspGroup()
 
         # Filtering the grasps by penalising the vertical grasps as they are not robust to calibration errors.
-        W, H = camera.image.size
+        # W, H = camera.image.size
 
         # Reference direction vector, indicating the ideal grasping direction.
         ref_vec = np.array([0, math.cos(camera.head_tilt), -math.sin(camera.head_tilt)])
@@ -132,10 +137,10 @@ class Anygrasp:
                 ix = 0
             if iy < 0:
                 iy = 0
-            if ix >= W:
-                ix = W - 1
-            if iy >= H:
-                iy = H - 1
+            if ix >= camera.width:
+                ix = camera.width - 1
+            if iy >= camera.height:
+                iy = camera.height - 1
 
             # 3 * 3 rotation matrix
             rotation_matrix = g.rotation_matrix
@@ -176,7 +181,8 @@ class Anygrasp:
         plt.axis("off")
         plt.show()
 
-        image.save(projections_file_name)
+        # image.save(projections_file_name)
+        cv2.imwrite(projections_file_name, np.array(image))
         print(
             f"[AnyGrasp] \033[34mInfo\033[0m: Saved projections of grasps at {projections_file_name}"
         )

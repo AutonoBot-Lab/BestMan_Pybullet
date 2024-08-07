@@ -42,19 +42,18 @@ def main():
     # Debug, look for rgb and depth
     bestman.get_camera_rgb_image(False, True, "rgb_test")
     bestman.get_camera_depth_image(False, True, "depth_test")
-    bestman.visualize_3d_points()
+    # bestman.visualize_3d_points()
 
     # Init Lang_SAM and segment
     lang_sam = Lang_SAM()
-    query = str(input("Enter a Object name in the image: "))
+    query = str(input("\033[34mInfo: Enter a Object name in the image: \033[0m"))
     seg_mask, bbox = lang_sam.detect_obj(
-        bestman.camera.image, query, save_box=False, save_mask=False
+        bestman.camera.image, query, save_box=True, box_filename="./output/sim_test/box.png", save_mask=True, mask_filename="./output/sim_test/mask.png"
     )
-
+    
     # Init AnyGrasp
     anygrasp = Anygrasp(cfg.Grasp_Pose_Estimation.AnyGrasp)
     best_pose = anygrasp.Grasp_Pose_Estimation(bestman.camera, seg_mask, bbox)
-
     print(best_pose)
 
     # disconnect pybullet
