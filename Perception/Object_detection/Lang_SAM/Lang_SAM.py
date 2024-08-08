@@ -18,6 +18,7 @@ import cv2
 import numpy as np
 from lang_sam import LangSAM
 from PIL import Image, ImageDraw
+
 from .utils import draw_rectangle
 
 
@@ -86,11 +87,15 @@ class Lang_SAM:
 
         if save_file is not None:
             new_image = np.array(new_image)
-            save_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), save_file)
+            save_file = os.path.join(
+                os.path.dirname(os.path.abspath(__file__)), save_file
+            )
+            new_image = cv2.cvtColor(new_image, cv2.COLOR_BGR2RGB)
             cv2.imwrite(save_file, new_image)
-            # new_image.save(save_file)
-            
-            print(f"[Lang_SAM] \033[34mInfo\033[0m: Saved Detection boxes at {save_file}")
+
+            print(
+                f"[Lang_SAM] \033[34mInfo\033[0m: Saved Detection boxes at {save_file}"
+            )
 
     def draw_bounding_boxes(
         self,
@@ -158,8 +163,8 @@ class Lang_SAM:
         # placing mask over image
         alpha = 0.6
         highlighted_image = cv2.addWeighted(overlay_mask, alpha, image, 1, 0)
-        # highlighted_image = cv2.cvtColor(highlighted_image, cv2.COLOR_RGB2BGR)
         save_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), save_file)
+        highlighted_image = cv2.cvtColor(highlighted_image, cv2.COLOR_BGR2RGB)
         cv2.imwrite(save_file, highlighted_image)
         print(f"[Lang_SAM] \033[34mInfo\033[0m: Saved Segmentation Mask at {save_file}")
 

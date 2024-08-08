@@ -10,12 +10,14 @@
 
 import os
 import sys
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import argparse
 import copy
 import math
 
+import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 from graspnetAPI import GraspGroup
@@ -25,7 +27,6 @@ from PIL import Image
 from Perception.Object_detection import Lang_SAM
 from RoboticsToolBox import Pose
 from Visualization import Camera
-import cv2
 
 from .utils import Bbox, draw_rectangle, sample_points, visualize_cloud_geometries
 
@@ -46,8 +47,12 @@ class Anygrasp:
             cfgs: Configuration settings.
         """
         self.cfgs = cfgs
-        self.cfgs.output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.cfgs.output_dir)
-        self.cfgs.checkpoint_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.cfgs.checkpoint_path)
+        self.cfgs.output_dir = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), self.cfgs.output_dir
+        )
+        self.cfgs.checkpoint_path = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), self.cfgs.checkpoint_path
+        )
         self.grasping_model = AnyGrasp(self.cfgs)
         self.grasping_model.load_net()
 
@@ -72,7 +77,7 @@ class Anygrasp:
         """
 
         # get 3d points
-        points = camera.get_3d_points() * 0.001 # unit: m
+        points = camera.get_3d_points() * 0.001  # unit: m
         points_x, points_y, points_z = points[:, :, 0], points[:, :, 1], points[:, :, 2]
 
         # Filter the point cloud based on depth, keeping points within the specified depth range
@@ -116,15 +121,13 @@ class Anygrasp:
 
         filter_gg = GraspGroup()
 
-        # Filtering the grasps by penalising the vertical grasps as they are not robust to calibration errors.
-        # W, H = camera.image.size
-
         # Reference direction vector, indicating the ideal grasping direction.
         ref_vec = np.array([0, math.cos(camera.head_tilt), -math.sin(camera.head_tilt)])
         min_score, max_score = 1, -10
         image = copy.deepcopy(camera.image)
         img_drw = draw_rectangle(image, bbox)
 
+        # Filtering the grasps by penalising the vertical grasps as they are not robust to calibration errors.
         for g in gg:
 
             grasp_center = g.translation
@@ -174,15 +177,16 @@ class Anygrasp:
             )
             return False, None.astype(np.float32)
 
+        # show and save grasp projections result
         projections_file_name = os.path.join(
             self.cfgs.output_dir, "grasp_projections.png"
         )
         plt.imshow(image)
+        plt.title("visualize grasp projections")
         plt.axis("off")
         plt.show()
-
-        # image.save(projections_file_name)
-        cv2.imwrite(projections_file_name, np.array(image))
+        image = cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
+        cv2.imwrite(projections_file_name, image)
         print(
             f"[AnyGrasp] \033[34mInfo\033[0m: Saved projections of grasps at {projections_file_name}"
         )

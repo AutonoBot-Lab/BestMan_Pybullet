@@ -6,7 +6,7 @@ Visualizer:
       pitch: 307.4
 
 Robot:
-  init_pose: [3.42, 5.0, 0.0, 0.0, 0.0, 0.0]
+  init_pose: [3.4, 5.0, 0.0, 0.0, 0.0, 0.0]
   init_joint: [0.98, 0.458, 0.31, -2.24, -0.30, 2.66, 2.32]
   arm_urdf_path: "../Asset/mobile_manipulator/arm/panda/panda.urdf"
   arm_joints_idx: [0, 1, 2, 3, 4, 5]

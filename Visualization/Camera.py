@@ -117,7 +117,7 @@ class Camera:
         )
 
         # make sure the array has the correct shape
-        rgb = np.array(rgb, dtype=np.uint8).reshape(h, w, 4)[:, :, 2::-1]
+        rgb = np.array(rgb, dtype=np.uint8).reshape(h, w, 4)[:, :, :3]
         depth = np.array(depth).reshape(h, w)
 
         self.image = Image.fromarray(rgb)
@@ -159,7 +159,8 @@ class Camera:
             if filename is None:
                 filename = "rgb_" + datetime.now().strftime("%Y%m%d_%H%M%S")
             rgb_path = f"../Examples/image/{filename}.png"
-            cv2.imwrite(rgb_path, self.colors)
+            new_image = cv2.cvtColor(self.colors, cv2.COLOR_BGR2RGB)
+            cv2.imwrite(rgb_path, new_image)
 
         return rgb
 
@@ -194,7 +195,6 @@ class Camera:
             if filename is None:
                 filename = "depth_" + datetime.now().strftime("%Y%m%d_%H%M%S")
             depth_path = f"../Examples/image/{filename}.png"
-
             Image.fromarray(self.depths).save(depth_path)
 
         return depth
@@ -226,7 +226,7 @@ class Camera:
         """
         visualize 3D point cloud.
         """
-        color_image = o3d.geometry.Image(np.array(self.colors[:, :, ::-1]))
+        color_image = o3d.geometry.Image(np.array(self.colors))
         depth_image = o3d.geometry.Image(self.depths)
         rgbd_image = o3d.geometry.RGBDImage.create_from_color_and_depth(
             color_image, depth_image, convert_rgb_to_intensity=False
@@ -245,7 +245,11 @@ class Camera:
         point_cloud = o3d.geometry.PointCloud.create_from_rgbd_image(
             rgbd_image, intrinsic
         )
-        o3d.visualization.draw_geometries([point_cloud])
+        vis = o3d.visualization.Visualizer()
+        vis.create_window(window_name="visualize camera 3d points")
+        vis.add_geometry(point_cloud)
+        vis.run()
+        vis.destroy_window()
 
     def get_3d_points(self):
         """

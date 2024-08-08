@@ -865,5 +865,5 @@ class Bestman_sim:
     def get_camera_3d_points(self, enable_show=False):
         self.camera.get_3d_points(enable_show)
 
-    def visualize_3d_points(self):
+    def visualize_camera_3d_points(self):
         self.camera.visualize_3d_points()
