@@ -854,16 +854,22 @@ class Bestman_sim:
     def update_camera(self):
         self.camera.update()
 
+    def get_camera_pose(self):
+        return self.camera.get_camera_pose()
+        
     def get_camera_rgb_image(self, enable_show=False, enable_save=False, filename=None):
-        self.camera.get_rgb_image(enable_show, enable_save, filename)
+        return self.camera.get_rgb_image(enable_show, enable_save, filename)
 
     def get_camera_depth_image(
         self, enable_show=False, enable_save=False, filename=None
     ):
-        self.camera.get_depth_image(enable_show, enable_save, filename)
+        return self.camera.get_depth_image(enable_show, enable_save, filename)
 
     def get_camera_3d_points(self, enable_show=False):
-        self.camera.get_3d_points(enable_show)
+        return self.camera.get_3d_points(enable_show)
 
     def visualize_camera_3d_points(self):
         self.camera.visualize_3d_points()
+        
+    def trans_camera_to_world(self, pose):
+        return self.camera.trans_to_world(pose)

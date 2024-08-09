@@ -10,9 +10,6 @@
 
 import os
 
-import numpy as np
-import open3d as o3d
-
 from Env import Client
 from Perception.Grasp_Pose_Estimation import Anygrasp
 from Perception.Object_detection import Lang_SAM
@@ -40,10 +37,12 @@ def main():
     bestman = Bestman_sim_panda(client, visualizer, cfg)
 
     # Debug, look for rgb and depth
-    bestman.get_camera_rgb_image(False, True, "rgb_test")
-    bestman.get_camera_depth_image(False, True, "depth_test")
-    bestman.visualize_camera_3d_points()
-
+    # bestman.get_camera_rgb_image(False, True, "rgb_test")
+    # bestman.get_camera_depth_image(False, True, "depth_test")
+    camera_pose = bestman.get_camera_pose()
+    visualizer.draw_pose(camera_pose)
+    # bestman.visualize_camera_3d_points()
+    
     # Init Lang_SAM and segment
     lang_sam = Lang_SAM()
     query = str(input("\033[34mInfo: Enter a Object name in the image: \033[0m"))
@@ -58,9 +57,13 @@ def main():
 
     # Init AnyGrasp
     anygrasp = Anygrasp(cfg.Grasp_Pose_Estimation.AnyGrasp)
-    result, best_pose = anygrasp.Grasp_Pose_Estimation(bestman.camera, seg_mask, bbox)
-    print(best_pose.position, best_pose.orientation)
-
+    best_pose = anygrasp.Grasp_Pose_Estimation(bestman.camera, seg_mask, bbox)
+    
+    # transform from camera to world system
+    best_pose = bestman.trans_camera_to_world(best_pose)
+    print("best_pose: ", best_pose.position, best_pose.orientation)
+    visualizer.draw_pose(best_pose)
+    
     # disconnect pybullet
     client.wait(30)
     client.disconnect()

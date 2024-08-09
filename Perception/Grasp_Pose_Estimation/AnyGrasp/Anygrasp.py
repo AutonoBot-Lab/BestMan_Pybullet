@@ -77,19 +77,12 @@ class Anygrasp:
         """
 
         # get 3d points
-        points = camera.get_3d_points() * 0.001  # unit: m
-        points_x, points_y, points_z = points[:, :, 0], points[:, :, 1], points[:, :, 2]
-
-        # Filter the point cloud based on depth, keeping points within the specified depth range
-        mask = (points_z > self.cfgs.min_depth) & (points_z < self.cfgs.max_depth)
-        points = np.stack([points_x, -points_y, points_z], axis=-1)
-        points = points[mask].astype(np.float32)
-        colors_m = (camera.colors / 255.0)[mask].astype(np.float32)
+        points, colors = camera.get_3d_points()
 
         # If the sampling rate is less than 1, the point cloud is downsampled
         if self.cfgs.sampling_rate < 1:
             points, indices = sample_points(points, self.cfgs.sampling_rate)
-            colors_m = colors_m[indices]
+            colors = colors[indices]
 
         # gg is a list of grasps of type graspgroup in graspnetAPI
         xmin = points[:, 0].min()
@@ -99,21 +92,22 @@ class Anygrasp:
         zmin = points[:, 2].min()
         zmax = points[:, 2].max()
         lims = [xmin, xmax, ymin, ymax, zmin, zmax]
+        
         # Grasp prediction, return grasp group and point cloud
         gg, cloud = self.grasping_model.get_grasp(
             points,
-            colors_m,
+            colors,
             lims,
             apply_object_mask=True,
             dense_grasp=False,
             collision_detection=True,
         )
-
+        
         if len(gg) == 0:
             print(
                 "[AnyGrasp] \033[33mwarning\033[0m: No Grasp detected after collision detection!"
             )
-            return False, None
+            return None
 
         # The grasped groups are subjected to non-maximum suppression (NMS) and sorted by scores.
         gg = gg.nms().sort_by_score()
@@ -134,7 +128,7 @@ class Anygrasp:
             # Convert the coordinates of a grasp center in three-dimensional space to two-dimensional coordinates on the image plane
             ix, iy = (
                 int(((grasp_center[0] * camera.fx) / grasp_center[2]) + camera.cx),
-                int(((-grasp_center[1] * camera.fy) / grasp_center[2]) + camera.cy),
+                int(((grasp_center[1] * camera.fy) / grasp_center[2]) + camera.cy),
             )
             if ix < 0:
                 ix = 0
@@ -159,6 +153,9 @@ class Anygrasp:
             if not crop_flag:
                 # Check if the grasp point is within the object area
                 if seg_mask[iy, ix]:
+                    
+                    print("[AnyGrasp] \033[34mInfo\033[0m: grasp pose:", g.translation)
+                    print(g.rotation_matrix)
                     img_drw.ellipse([(ix - 2, iy - 2), (ix + 2, iy + 2)], fill="green")
                     if g.score >= 0.095:
                         g.score = score
@@ -175,7 +172,7 @@ class Anygrasp:
             print(
                 "[AnyGrasp] \033[33mwarning\033[0m: No grasp poses detected for this object try to move the object a little and try again"
             )
-            return False, None.astype(np.float32)
+            return None
 
         # show and save grasp projections result
         projections_file_name = os.path.join(
@@ -196,7 +193,7 @@ class Anygrasp:
 
         if self.cfgs.debug:
             trans_mat = np.array(
-                [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]]
+                [[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]]
             )
             cloud.transform(trans_mat)
             grippers = gg.to_open3d_geometry_list()
@@ -218,12 +215,11 @@ class Anygrasp:
                 save_file=os.path.join(self.cfgs.output_dir, "best_pose.png"),
             )
 
-        # grasp_result = [
-        #     filter_gg[0].translation,       # grasp position
-        #     filter_gg[0].rotation_matrix,   # grasp orientation
-        # ]
-        grasp_pose = Pose(filter_gg[0].translation, filter_gg[0].rotation_matrix)
-        return True, grasp_pose
+        best_pose = [
+            filter_gg[0].translation,       # grasp position
+            filter_gg[0].rotation_matrix,   # grasp orientation
+        ]
+        return best_pose
 
 
 if __name__ == "__main__":

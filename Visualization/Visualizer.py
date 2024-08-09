@@ -325,7 +325,7 @@ class Visualizer:
                 physicsClientId=self.client_id,
             )
 
-    def draw_pose(self, object, length=0.25, lineWidth=2.0, textSize=1.0):
+    def draw_object_pose(self, object, length=0.25, lineWidth=2.0, textSize=1.0):
         """
         Draws the pose of an object in the PyBullet environment.
 
@@ -370,6 +370,49 @@ class Visualizer:
             textColorRGB=[0, 0, 1],
             textSize=textSize,
         )
+        
+    
+    def draw_pose(self, pose, length=0.25, lineWidth=2.0, textSize=1.0):
+        """
+        Draws the pose of an object in the PyBullet environment.
+
+        Args:
+            object (Union[int, str]): The unique identifier of the object or its name.
+            length (float, optional): The length of the pose axes. Default is 0.25.
+            lineWidth (float, optional): The width of the pose axes lines. Default is 2.0.
+            textSize (float, optional): The size of the text labels. Default is 1.0.
+        """
+        position = pose.position
+        orientation_matrix = np.array(pose.get_orientation("rotation_matrix"))
+        axes_position = np.array(position)[:, np.newaxis] + length * orientation_matrix
+        text_position = (
+            np.array(position)[:, np.newaxis] + (length + 0.1) * orientation_matrix
+        )
+        
+        # draw pose
+        p.addUserDebugLine(position, axes_position[:, 0], [1, 0, 0], lineWidth, 0)
+        p.addUserDebugLine(position, axes_position[:, 1], [0, 1, 0], lineWidth, 0)
+        p.addUserDebugLine(position, axes_position[:, 2], [0, 0, 1], lineWidth, 0)
+
+        # Adding text labels
+        p.addUserDebugText(
+            text="X",
+            textPosition=text_position[:, 0],
+            textColorRGB=[1, 0, 0],
+            textSize=textSize,
+        )
+        p.addUserDebugText(
+            text="Y",
+            textPosition=text_position[:, 1],
+            textColorRGB=[0, 1, 0],
+            textSize=textSize,
+        )
+        p.addUserDebugText(
+            text="Z",
+            textPosition=text_position[:, 2],
+            textColorRGB=[0, 0, 1],
+            textSize=textSize,
+        )
 
     def draw_link_pose(self, object, link_id, length=0.25, lineWidth=2.0, textSize=1.0):
         """
@@ -386,8 +429,8 @@ class Visualizer:
 
         # position, orientation = p.getBasePositionAndOrientation(object_id)
         link_state = p.getLinkState(object_id, link_id, computeLinkVelocity=0)
-        # position, orientation = link_state[0], link_state[1]
-        position, orientation = link_state[4], link_state[5]
+        position, orientation = link_state[0], link_state[1]
+        # position, orientation = link_state[4], link_state[5]
 
         orientation_matrix = np.array(p.getMatrixFromQuaternion(orientation)).reshape(
             3, 3

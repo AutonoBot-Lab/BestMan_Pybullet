@@ -52,3 +52,30 @@ class Pose:
             )
 
         self.roll, self.pitch, self.yaw = self.orientation
+        
+    def get_position(self):
+        """
+        get position
+        
+        Returns:
+            list: position
+        """
+        return self.position
+        
+    def get_orientation(self, type="euler"):
+        """
+        get orientation
+        
+        Returns:
+            list: orientation
+        """
+        if type=="euler":
+            return self.orientation
+        elif type=="quaternion":
+            return R.from_euler('xyz', self.orientation).as_quat()
+        elif type=="rotation_matrix":
+            return R.from_euler('xyz', self.orientation).as_matrix()
+        else:
+            raise ValueError(
+                "Orientation input must be Rotation matrix / Quaternion / Euler angles"
+            )

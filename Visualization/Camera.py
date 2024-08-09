@@ -17,6 +17,7 @@ import open3d as o3d
 import pybullet as p
 from matplotlib.colors import LinearSegmentedColormap
 from PIL import Image
+from RoboticsToolBox.Pose import Pose
 
 
 class Camera:
@@ -44,30 +45,32 @@ class Camera:
         self.nearVal = cfg.nearVal  # nearVal
         self.farVal = cfg.farVal  # farVal
 
-        # cameara intrinsic parameters
-        self.get_focal_length()
-        self.cx = self.width / 2
-        self.cy = self.height / 2
-
         # for grasp pose
         self.head_tilt = cfg.head_tilt
 
         # camera rgb and depth image
         self.update()
+        
+        # cameara intrinsic parameters
+        self.get_focal_length()
+        self.cx = self.width / 2
+        self.cy = self.height / 2
 
     def get_focal_length(self):
         """
         get camera focal length
         """
-        proj_mat = p.computeProjectionMatrixFOV(
-            fov=self.fov,  # Camera's sight angle
-            aspect=self.width / self.height,  # Aspect ratio of the image
-            nearVal=self.nearVal,  # Camera viewing distance min
-            farVal=self.farVal,  # Camera viewing distance max
-        )
-        self.fx = proj_mat[0] * self.width / 2
-        self.fy = proj_mat[5] * self.height / 2
+        self.fx = self.proj_mat[0] * self.width / 2
+        self.fy = self.proj_mat[5] * self.height / 2
 
+    def get_camera_pose(self):
+        """
+        get camera pose
+        """
+        view_mat = np.array(self.trans_camera_to_world).reshape([4, 4], order="F")
+        pose = Pose(view_mat[:3, -1], view_mat[:3, :3])
+        return pose
+        
     def update(self):
         """
         Updates the camera view and projection matrices, captures images, and returns the captured data.
@@ -93,14 +96,19 @@ class Camera:
         # set the camera orientation
         target_position = camera_position + 1 * tx_vec
 
-        view_mat = p.computeViewMatrix(
+        self.view_mat = p.computeViewMatrix(
             cameraEyePosition=camera_position,
             cameraTargetPosition=target_position,
             cameraUpVector=tz_vec,
         )
+        
+        print("camera position: ", camera_position)
+        
+        # update trans camera to world mat
+        self.trans_camera_to_world = np.linalg.inv(np.array(self.view_mat).reshape([4, 4], order="F"))
 
         # A projection matrix based on the field of view (FOV) to simulate the camera's perspective
-        proj_mat = p.computeProjectionMatrixFOV(
+        self.proj_mat = p.computeProjectionMatrixFOV(
             fov=self.fov,  # Camera's sight angle
             aspect=self.width / self.height,  # Aspect ratio of the image
             nearVal=self.nearVal,  # Camera viewing distance min
@@ -108,12 +116,11 @@ class Camera:
         )
 
         # width, height, rgb, image, seg
-        w, h, rgb, depth, seg = p.getCameraImage(
+        w, h, rgb, depth, _ = p.getCameraImage(
             width=self.width,
             height=self.height,
-            viewMatrix=view_mat,
-            projectionMatrix=proj_mat,
-            shadow=0,  # Disable Shadows
+            viewMatrix=self.view_mat,
+            projectionMatrix=self.proj_mat
         )
 
         # make sure the array has the correct shape
@@ -123,17 +130,9 @@ class Camera:
         self.image = Image.fromarray(rgb)
         self.colors = np.array(rgb)  # BGR to RGB
 
-        # pybullet return normalized depth values, convert ​​to actual depth values, unit：mm
-        self.depths = (
-            (
-                self.farVal
-                * self.nearVal
-                / (self.farVal - (self.farVal - self.nearVal) * depth)
-            )
-            * 1000
-        ).astype(np.uint16)
+        # pybullet return normalized depth values, convert ​​to actual depth values, unit：m
+        self.depths = self.farVal * self.nearVal / (self.farVal - (self.farVal - self.nearVal) * depth)
 
-        return w, h, self.colors, self.depths, seg
 
     def get_rgb_image(self, enable_show=False, enable_save=False, filename=None):
         """
@@ -147,10 +146,8 @@ class Camera:
             np.ndarray: Captured RGB image.
         """
 
-        _, _, rgb, _, _ = self.update()
-
         if enable_show:
-            plt.imshow(rgb)
+            plt.imshow(self.colors)
             plt.axis("off")
             plt.title("rgb image")
             plt.show()
@@ -162,7 +159,7 @@ class Camera:
             new_image = cv2.cvtColor(self.colors, cv2.COLOR_BGR2RGB)
             cv2.imwrite(rgb_path, new_image)
 
-        return rgb
+        return self.colors
 
     def get_depth_image(self, enable_show=False, enable_save=False, filename=None):
         """
@@ -176,8 +173,6 @@ class Camera:
             np.ndarray: Captured depth image.
         """
 
-        _, _, _, depth, _ = self.update()
-
         if enable_show:
             # Linear color mapping from black (the color when the depth value is 0) to white (the color when the depth value is 1)
             cdict = {
@@ -186,7 +181,7 @@ class Camera:
                 "blue": [[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]],
             }
             custom_cmap = LinearSegmentedColormap("custom_cmap", cdict)
-            plt.imshow(depth, cmap=custom_cmap)
+            plt.imshow(self.depths, cmap=custom_cmap)
             plt.colorbar()
             plt.title("depth image")
             plt.show()
@@ -195,9 +190,10 @@ class Camera:
             if filename is None:
                 filename = "depth_" + datetime.now().strftime("%Y%m%d_%H%M%S")
             depth_path = f"../Examples/image/{filename}.png"
-            Image.fromarray(self.depths).save(depth_path)
-
-        return depth
+            depths = (self.depths * 1000).astype(np.uint16)
+            Image.fromarray(depths).save(depth_path)
+        
+        return self.depths
 
     # ----------------------------------------------------------------
     # functions for utils
@@ -227,7 +223,7 @@ class Camera:
         visualize 3D point cloud.
         """
         color_image = o3d.geometry.Image(np.array(self.colors))
-        depth_image = o3d.geometry.Image(self.depths)
+        depth_image = o3d.geometry.Image((self.depths * 1000).astype(np.uint16))
         rgbd_image = o3d.geometry.RGBDImage.create_from_color_and_depth(
             color_image, depth_image, convert_rgb_to_intensity=False
         )
@@ -245,13 +241,19 @@ class Camera:
         point_cloud = o3d.geometry.PointCloud.create_from_rgbd_image(
             rgbd_image, intrinsic
         )
+        trans_mat = np.array(
+                [[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]]
+            )
+        point_cloud.transform(trans_mat)
+        coordinate_frame = o3d.geometry.TriangleMesh.create_coordinate_frame(size=0.1, origin=[0, 0, 0])
         vis = o3d.visualization.Visualizer()
         vis.create_window(window_name="visualize camera 3d points")
         vis.add_geometry(point_cloud)
+        vis.add_geometry(coordinate_frame)
         vis.run()
         vis.destroy_window()
 
-    def get_3d_points(self):
+    def get_3d_points(self, filter_dist=[0, 1]):
         """
         Convert depth image to 3D point cloud.
 
@@ -263,5 +265,28 @@ class Camera:
         points_z = self.depths
         points_x = (xmap - self.cx) / self.fx * points_z
         points_y = (ymap - self.cy) / self.fy * points_z
-        points = np.stack((points_x, points_y, points_z), axis=2)
-        return points
+        mask = (points_z > filter_dist[0]) & (points_z < filter_dist[1])
+        points = np.stack([points_x, points_y, points_z], axis=-1)
+        points = points[mask].astype(np.float32)
+        colors = (self.colors / 255.0)[mask].astype(np.float32)
+        return points, colors
+    
+    def trans_to_world(self, pose):
+        """
+        Convert grasp pose from camera to world coord system 
+
+        Args:
+            pose (Pose): pose in camera coord system
+        
+        Returns:
+            Pose: pose in world system
+        """
+        pose_mat = np.eye(4)
+        pose_mat[:3, -1] = pose[0]
+        pose_mat[:3, :3] = pose[1]
+        trans_mat = np.array(
+            [[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]]
+        )
+        world_pose = self.trans_camera_to_world.dot(trans_mat.dot(pose_mat))
+        world_pose = Pose(world_pose[:3, -1], world_pose[:3, :3])
+        return world_pose
