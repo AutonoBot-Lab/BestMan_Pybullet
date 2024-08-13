@@ -33,12 +33,12 @@ def main(filename):
 
     # Init robot
     panda = Bestman_sim_panda(client, visualizer, cfg)
-    visualizer.change_robot_color(panda.get_base_id(), panda.get_arm_id(), False)
+    visualizer.change_robot_color(panda.sim_get_base_id(), panda.sim_get_arm_id(), False)
 
     for _ in range(5):
-        panda.sim_active_gripper_fixed(0)
+        panda.sim_open_gripper()
         client.wait(2)
-        panda.sim_active_gripper_fixed(1)
+        panda.sim_close_gripper()
         client.wait(2)
 
     # End record

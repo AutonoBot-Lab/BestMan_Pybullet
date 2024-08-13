@@ -42,7 +42,7 @@ def main(filename):
 
     # Init robot
     bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
-    visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
+    visualizer.change_robot_color(bestman.sim_get_base_id(), bestman.sim_get_arm_id(), False)
 
     # Open fridge
     client.change_object_joint_angle("microwave", 1, math.pi / 2.0)
@@ -53,13 +53,13 @@ def main(filename):
     # Navigation
     standing_pose = Pose([2.9, 2.55, 0], [0.0, 0.0, 0.0])
     nav_planner = AStarPlanner(
-        robot_size=bestman.get_robot_max_size(),
+        robot_size=bestman.sim_get_robot_size(),
         obstacles_bounds=nav_obstacles_bounds,
         resolution=0.05,
         enable_plot=False,
     )
-    path = nav_planner.plan(bestman.get_current_base_pose(), standing_pose)
-    bestman.navigate_base(standing_pose, path)
+    path = nav_planner.plan(bestman.sim_get_current_base_pose(), standing_pose)
+    bestman.sim_navigate_base(standing_pose, path)
 
     # load bowl
     bowl_id = client.load_object(
@@ -70,7 +70,7 @@ def main(filename):
         1.0,
     )
 
-    visualizer.draw_pose("bowl")
+    visualizer.draw_object_pose("bowl")
 
     # get rgb image
     # bestman.update_camera()
@@ -82,14 +82,14 @@ def main(filename):
 
     # Planning
     goal = ompl_planner.set_target("bowl")
-    start = bestman.get_current_joint_values()
+    start = bestman.sim_get_current_joint_values()
     path = ompl_planner.plan(start, goal)
 
     # Robot execute
-    bestman.execute_trajectory(path)
+    bestman.sim_execute_trajectory(path)
 
     # grasp target object
-    bestman.sim_active_gripper_fixed(bowl_id, 1)
+    bestman.sim_create_fixed_constraint(bowl_id)
 
     # # End record
     visualizer.end_record()

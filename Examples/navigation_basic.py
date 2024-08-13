@@ -80,7 +80,7 @@ def main(filename):
     # navigate algorithm
     goal_base_pose = Pose([1, 0, 0], [0.0, 0.0, math.pi / 2.0])
     nav_planner = AStarPlanner(
-        robot_size=bestman.get_robot_max_size(),
+        robot_size=bestman.sim_get_robot_size(),
         obstacles_bounds=nav_obstacles_bounds,
         resolution=0.05,
         enable_plot=False,
@@ -99,11 +99,11 @@ def main(filename):
     # )
 
     path = nav_planner.plan(
-        start_pose=bestman.get_current_base_pose(), goal_pose=goal_base_pose
+        start_pose=bestman.sim_get_current_base_pose(), goal_pose=goal_base_pose
     )
 
     # navigate segbot
-    bestman.navigate_base(goal_base_pose, path)
+    bestman.sim_navigate_base(goal_base_pose, path)
 
     # End record
     visualizer.end_record()

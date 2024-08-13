@@ -88,7 +88,7 @@ def main(filename):
 
     # Init robot
     panda = Bestman_sim_panda(client, visualizer, cfg)
-    panda.sim_active_gripper_fixed(1)
+    panda.sim_open_gripper()
 
     client.load_object(
         "fridge",
@@ -111,22 +111,22 @@ def main(filename):
         [(min_x + max_x) / 2, (min_y + max_y) / 2 + 0.02, (min_z + max_z) / 2],
         [0.0, math.pi / 2, math.pi / 4],
     )
-    panda.move_end_effector_to_goal_pose(tmp_pose, 100)
-    panda.sim_active_gripper_movable("fridge", 1, 1)
+    panda.sim_move_end_effector_to_goal_pose(tmp_pose, 100)
+    panda.sim_create_gripper_constraint("fridge", 1)
 
     # The end effector Move along the specified trajectory get effector to open the door
-    init_pose = panda.get_current_end_effector_pose()
+    init_pose = panda.sim_get_current_end_effector_pose()
     rotate_axis = p.getLinkState(client.get_object_id("fridge"), 1)[4]
     angles = 15
     heta_values = [math.radians(deg) for deg in range(0, angles + 1)]
     rotated_joints = [
-        panda.cartesian_to_joints(
+        panda.sim_cartesian_to_joints(
             rotate_point_3d_around_axis(init_pose, rotate_axis, theta, False)
         )
         for theta in heta_values
     ]
-    panda.execute_trajectory(rotated_joints, True)
-
+    panda.sim_execute_trajectory(rotated_joints, True)
+    
     # Wait
     client.wait(50)
 

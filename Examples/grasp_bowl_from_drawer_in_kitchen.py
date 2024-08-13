@@ -43,14 +43,14 @@ def main(filename):
 
     # Open the drawer
     client.change_object_joint_angle("elementA", 36, 0.4)
-
+    
     # Simple SLAM
     nav_obstacles_bounds = simple_slam(client, bestman, True)
 
     # Navigate to standing position
     standing_pose = Pose([2.85, 2.4, 0], [0.0, 0.0, 0.0])
     nav_planner = AStarPlanner(
-        robot_size=bestman.get_robot_max_size(),
+        robot_size=bestman.sim_get_robot_size(),
         obstacles_bounds=nav_obstacles_bounds,
         resolution=0.05,
         enable_plot=False,
@@ -60,8 +60,8 @@ def main(filename):
     #     obstacles_bounds = client.get_Nav_obstacles_bounds(),
     #     enable_plot=False
     # )
-    path = nav_planner.plan(bestman.get_current_base_pose(), standing_pose)
-    bestman.navigate_base(standing_pose, path, enable_plot=True)
+    path = nav_planner.plan(bestman.sim_get_current_base_pose(), standing_pose)
+    bestman.sim_navigate_base(standing_pose, path, enable_plot=True)
 
     # Load bowl
     bowl_id = client.load_object(
@@ -85,15 +85,15 @@ def main(filename):
 
     # Planning
     goal = ompl_planner.set_target("bowl")
-    start = bestman.get_current_joint_values()
+    start = bestman.sim_get_current_joint_values()
     path = ompl_planner.plan(start, goal)
 
     # Robot execute
-    bestman.execute_trajectory(path, enable_plot=True)
+    bestman.sim_execute_trajectory(path, enable_plot=True)
 
     # grasp target object
-    bestman.sim_active_gripper_fixed("bowl", 1)
-
+    bestman.sim_create_fixed_constraint("bowl")
+    
     # End record
     visualizer.end_record()
 

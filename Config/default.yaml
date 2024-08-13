@@ -32,13 +32,13 @@ Controller:
 
 # Robot params
 Robot:
-  init_pose: [1, 0, 0, 0.0, 0.0, "math.pi / 2"]                                         # The initial pose of base
-  init_joint: [0, -1.57, 1.5, -1.57, -1.57, 0]                                          # The initial angle of arm joint
-  base_urdf_path: "../Asset/mobile_manipulator/base/segbot/segbot.urdf"                 # base urdf
-  arm_urdf_path: "../Asset/mobile_manipulator/arm/ur5e/urdf/ur5e_vacuum_long.urdf"      # arm urdf
-  # arm_urdf_path: "../Asset/mobile_manipulator/arm/ur5e_old/ur5e_vacuum_long.urdf"
+  init_pose: [1, 0, 0, 0.0, 0.0, "math.pi / 2"]                                         # The initial pose of base and arm
+  base_height: 1                                                                        # base height (arm place height slightly higher than the base)
+  base_urdf_path: "../Asset/mobile_manipulator/base/segbot/segbot.urdf"                 # base urdf path
+  arm_urdf_path: "../Asset/mobile_manipulator/arm/ur5e/urdf/ur5e_vacuum_long.urdf"      # arm urdf path
   arm_joints_idx: [0, 1, 2, 3, 4, 5]                                                    # arm joint index of 6 DOF
-  arm_height: 1.02                                                                      # arm place height (Slightly higher than the base)
+  arm_init_jointValues: [0, -1.57, 1.5, -1.57, -1.57, 0]                                # The initial angle of arm joint
+  arm_reset_jointValues: [0, -1.57, 1.5, -1.57, -1.57, 0]                               # The reset angle of arm joint
   end_effector_index: 6                                                                 # The index of the end effector
   tcp_link: 11                                                                          # The index of the tcp link
   tcp_height: 0.11                                                                      # The height of the tcp link

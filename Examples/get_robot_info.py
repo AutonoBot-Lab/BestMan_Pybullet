@@ -38,7 +38,10 @@ def main(filename):
     # Init robot
     bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
 
-    bestman.print_joint_link_info("arm")
+    # Get info about arm
+    jointInfo = bestman.sim_get_arm_all_jointInfo()
+    for info in jointInfo:
+        print(info)
 
     # End record
     visualizer.end_record()

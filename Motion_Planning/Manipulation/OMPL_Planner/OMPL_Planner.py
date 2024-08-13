@@ -33,24 +33,23 @@ class OMPL_Planner:
 
         # arm info
         self.robot = robot
-        self.arm_id = robot.get_arm_id()
-        self.joint_idx = robot.get_joint_idx()
-        self.tcp_link = robot.get_tcp_link()
-        self.DOF = robot.get_DOF()
+        self.arm_id = robot.sim_get_arm_id()
+        self.joint_idx = robot.sim_get_arm_joint_idx()
+        self.tcp_link = robot.sim_get_tcp_link()
+        self.DOF = robot.sim_get_DOF()
 
         # client info
         self.client = robot.client
         self.client_id = self.client.get_client_id()
 
         # obstacles
-        self.obstacles = []
-        self.collision = Collision(robot, self.obstacles)
-        self.set_obstacles()
+        self.target_id = None
+        self.collision = Collision(robot)
 
         # preparation for OMPL planning
         self.space = ob.RealVectorStateSpace(self.DOF)  # construct the state space
         bounds = ob.RealVectorBounds(self.DOF)  # creating Boundary
-        joint_bounds = self.robot.get_joint_bounds()  # get joint boundaries
+        joint_bounds = self.robot.sim_get_joint_bounds()  # get joint boundaries
         for i, bound in enumerate(joint_bounds):
             bounds.setLow(i, bound[0])
             bounds.setHigh(i, bound[1])
@@ -114,17 +113,10 @@ class OMPL_Planner:
         Returns:
             list: The goal state in joint space.
         """
-
-        if isinstance(target, str):
-            if hasattr(self.client, target):
-                target_id = getattr(self.client, target)
-            else:
-                raise AttributeError(f"scene has not {object} object!")
-        else:
-            target_id = target
+        self.target_id = self.client.resolve_object_id(target)
 
         # get target object bounds
-        min_x, min_y, _, max_x, max_y, max_z = self.client.get_bounding_box(target_id)
+        min_x, min_y, _, max_x, max_y, max_z = self.client.get_bounding_box(self.target_id)
 
         # set target object Pose
         goal_pose = Pose(
@@ -137,7 +129,7 @@ class OMPL_Planner:
         )
 
         # get goal angle
-        goal = self.robot.cartesian_to_joints(goal_pose)
+        goal = self.robot.sim_cartesian_to_joints(goal_pose)
 
         return goal
 
@@ -145,16 +137,17 @@ class OMPL_Planner:
         """
         Set the target pose for the manipulation task.
 
-        Args:
+        Args:        # init collision info
+        self.collision.setup_collision_detection()
             target_pose (Pose): The pose of the target object.
 
         Returns:
             list: The goal state in joint space.
         """
-
-        # get goal angle
-        goal = self.robot.cartesian_to_joints(target_pose)
-
+        # target_position = target_pose.position
+        # target_orientation = target_pose.orientation
+        # target_pose = Pose([target_position[0], target_position[1], target_position[2] + 0.2], target_orientation)
+        goal = self.robot.sim_cartesian_to_joints(target_pose)
         return goal
 
     # ----------------------------------------------------------------
@@ -165,32 +158,33 @@ class OMPL_Planner:
         """
         Add obstacles to the scene.
         """
+        self.collision.set_obstacles()
 
-        num_items = p.getNumBodies()
+    def add_obstacle(self, obstacle):
+        """
+        Add obstacle to the list of obstacles.
+        This is useful for adding a specific obstacle to the list.
 
-        # add object in scene, skip arm
-        for item_id in range(num_items):
-            if item_id == self.arm_id:
-                continue
-            self.obstacles.append(item_id)
+        Args:
+            obstacle_id: id of the obstacle to add.
+        """
+        self.collision.add_obstacle(obstacle)
+            
+    def remove_obstacle(self, obstacle):
+        """
+        Remove obstacle from the list of obstacles.
+        This is useful for removing a specific obstacle from the list.
 
-        # init collision info
-        self.collision.setup_collision_detection()
-
+        Args:
+            obstacle_id: id of the obstacle to remove.
+        """
+        self.collision.remove_obstacle(obstacle)
+            
     def get_obstacles_info(self):
         """
         Check obstacles in the scene and print them to the console.
         """
-
-        if self.obstacles == []:
-            print("[OMPL Planner] \033[33mwarning\033[0m: Obstacle list is empty")
-        else:
-            for obstacle_id in self.obstacles:
-                item_info = p.getBodyInfo(obstacle_id)
-                item_name = item_info[1].decode("utf-8")
-                print(
-                    f"[OMPL Planner] \033[34mInfo\033[0m: Obstacle Name: {item_name}, ID: {obstacle_id}"
-                )
+        self.collision.get_obstacles_info()
 
     # ----------------------------------------------------------------
     # functions for plan
@@ -210,6 +204,9 @@ class OMPL_Planner:
 
         print("[OMPL Planner] \033[34mInfo\033[0m: Start planning...")
 
+        # remove target object
+        self.remove_obstacle(self.target_id)
+
         # set the start and goal states
         s = ob.State(self.space)
         g = ob.State(self.space)
@@ -219,18 +216,19 @@ class OMPL_Planner:
         self.ss.setStartAndGoalStates(s, g)
 
         # attempt to solve the problem within allowed planning time
-        solved = self.ss.solve(self.planning_time)
-        if solved:
+        try:
+            self.ss.solve(self.planning_time)
             sol_path_geometric = self.ss.getSolutionPath()
             sol_path_geometric.interpolate(
                 self.interpolate_num
             )  # Linear interpolation, Generate more intermediate states to make the path smoother and more refined
             sol_path_states = sol_path_geometric.getStates()
             path = [self.state_to_list(state) for state in sol_path_states]
+            self.add_obstacle(self.target_id)
             print("[OMPL Planner] \033[34mInfo\033[0m: End planning!")
             return path
-        else:
-            raise RuntimeError(
+        except RuntimeError as _:
+            print(
                 "[OMPL Planner] \033[31merror\033[0m: No solution found!"
             )
 

@@ -94,7 +94,7 @@ def main(filename):
     bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
 
     # Init visualizer
-    visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
+    visualizer.change_robot_color(bestman.sim_get_base_id(), bestman.sim_get_arm_id(), False)
 
     # Draw microwave door
     visualizer.draw_aabb_link("microwave", 1)
@@ -112,36 +112,36 @@ def main(filename):
     )
     goal_pose = Pose(
         [
-            min_x - bestman.get_tcp_link_height() - 0.05,
+            min_x - bestman.sim_get_tcp_link_height() - 0.1,
             (min_y + max_y) / 2,
-            (min_z + max_z) / 2,
+            (min_z + max_z) / 2
         ],
-        [0.0, 0.0, 0.0],
+        [0.0, 0.0, 0.0]
     )
     goal = ompl_planner.set_target_pose(goal_pose)
 
     # Plan / Execute / Suctate microwave door
-    start = bestman.get_current_joint_values()
+    start = bestman.sim_get_current_joint_values()
     path = ompl_planner.plan(start, goal)
-    bestman.execute_trajectory(path, True)
-    bestman.sim_active_gripper_movable("microwave", 1, 1)
+    bestman.sim_execute_trajectory(path, True)
+    bestman.sim_create_movable_constraint("microwave", 1)
 
     visualizer.remove_all_line()
 
     # The end effector Move along the specified trajectory get effector to open the door
-    init_pose = bestman.get_current_end_effector_pose()
+    init_pose = bestman.sim_get_current_end_effector_pose()
 
     microwave_id = client.get_object_id("microwave")
     rotate_axis = p.getLinkState(microwave_id, 1)[4]
     angles = 30
     heta_values = [math.radians(deg) for deg in range(0, angles + 1)]
     rotated_joints = [
-        bestman.cartesian_to_joints(
+        bestman.sim_cartesian_to_joints(
             rotate_point_3d_around_axis(init_pose, rotate_axis, theta, True)
         )
         for theta in heta_values
     ]
-    bestman.execute_trajectory(rotated_joints, True)
+    bestman.sim_execute_trajectory(rotated_joints, True)
 
     # Wait
     client.wait(10)

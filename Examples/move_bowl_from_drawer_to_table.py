@@ -51,7 +51,7 @@ def main(filename):
 
     # Navigate to standing position
     nav_planner = AStarPlanner(
-        robot_size=bestman.get_robot_max_size(),
+        robot_size=bestman.sim_get_robot_size(),
         obstacles_bounds=nav_obstacles_bounds,
         resolution=0.05,
         enable_plot=False,
@@ -62,8 +62,8 @@ def main(filename):
     #     enable_plot=False
     # )
     standing_pose1 = Pose([2.85, 2.4, 0], [0.0, 0.0, 0.0])
-    path = nav_planner.plan(bestman.get_current_base_pose(), standing_pose1)
-    bestman.navigate_base(standing_pose1, path, enable_plot=True)
+    path = nav_planner.plan(bestman.sim_get_current_base_pose(), standing_pose1)
+    bestman.sim_navigate_base(standing_pose1, path, enable_plot=True)
 
     # Load bowl
     bowl_id = client.load_object(
@@ -87,34 +87,34 @@ def main(filename):
 
     # Planning
     goal = ompl_planner.set_target("bowl")
-    start = bestman.get_current_joint_values()
+    start = bestman.sim_get_current_joint_values()
     path = ompl_planner.plan(start, goal)
 
     # Robot execute, Reach object
-    bestman.execute_trajectory(path, enable_plot=True)
+    bestman.sim_execute_trajectory(path, enable_plot=True)
 
     # grasp target object
-    bestman.sim_active_gripper_fixed("bowl", 1)
+    bestman.sim_create_fixed_constraint("bowl")
 
     # Come back to grasp init pose
-    bestman.execute_trajectory(path[::-1], enable_plot=True)
+    bestman.sim_execute_trajectory(path[::-1], enable_plot=True)
 
     # Navigation to next pose
     standing_pose2 = Pose([1.0, 2, 0], [0.0, 0.0, -math.pi / 2])
-    path = nav_planner.plan(bestman.get_current_base_pose(), standing_pose2)
-    bestman.navigate_base(standing_pose2, path, enable_plot=True)
+    path = nav_planner.plan(bestman.sim_get_current_base_pose(), standing_pose2)
+    bestman.sim_navigate_base(standing_pose2, path, enable_plot=True)
 
     # Move arm to table
     place_pose = Pose([1.0, 1.0, 1.0], [0.0, math.pi / 2.0, 0.0])
-    bestman.move_end_effector_to_goal_pose(place_pose)
+    bestman.sim_move_end_effector_to_goal_pose(place_pose)
 
     # place the bowl
-    bestman.sim_active_gripper_fixed("bowl", 0)
+    bestman.sim_remove_fixed_constraint()
 
     # Up arm
     place_pose = Pose([1.0, 1.0, 1.5], [0.0, math.pi / 2.0, 0.0])
-    bestman.move_end_effector_to_goal_pose(place_pose)
-
+    bestman.sim_move_end_effector_to_goal_pose(place_pose)
+    
     # End record
     visualizer.end_record()
 

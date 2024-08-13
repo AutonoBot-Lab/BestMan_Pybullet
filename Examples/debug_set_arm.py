@@ -33,11 +33,8 @@ def main(filename):
 
     # Init robot
     bestman = Bestman_sim_panda(client, visualizer, cfg)
-    visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
-
-    # Get info about arm
-    bestman.print_joint_link_info("arm")
-
+    visualizer.change_robot_color(bestman.sim_get_base_id(), bestman.sim_get_arm_id(), False)
+    
     # Debug set arm joints
     bestman.sim_debug_set_arm_to_joint_values()
 

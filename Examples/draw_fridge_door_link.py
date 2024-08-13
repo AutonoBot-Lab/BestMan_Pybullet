@@ -40,7 +40,7 @@ def main(filename):
     bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
 
     # Init visualizer
-    visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
+    visualizer.change_robot_color(bestman.sim_get_base_id(), bestman.sim_get_arm_id(), False)
 
     # Open fridge joint between handle and door
     client.change_object_joint_angle("fridge", 1, math.pi / 2)
@@ -58,7 +58,7 @@ def main(filename):
 
 
 if __name__ == "__main__":
-
+    
     # set work dir to Examples
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
 

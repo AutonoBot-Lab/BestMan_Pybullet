@@ -35,7 +35,7 @@ def main(filename):
 
     # Init robot
     bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
-    visualizer.change_robot_color(bestman.get_base_id(), bestman.get_arm_id(), False)
+    visualizer.change_robot_color(bestman.sim_get_base_id(), bestman.sim_get_arm_id(), False)
 
     # load table, bowl, and chair
     countertop_id = client.load_object(

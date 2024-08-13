@@ -70,14 +70,14 @@ class Anygrasp:
             points (np.ndarray): 3D point cloud data.
             seg_mask (np.ndarray): Object Mask.
             bbox (Bbox): Object bounding box.
-            crop_flag (bool, optional): Crop flag. Defaults to False.
+            crop_flag (bool, optional): If point cloud has been crop by seg mask. Defaults to False.
 
         Returns:
             Tuple[bool, Pose]: Status and best grasp pose.
         """
 
         # get 3d points
-        points, colors = camera.get_3d_points()
+        points, colors = camera.sim_get_3d_points()
 
         # If the sampling rate is less than 1, the point cloud is downsampled
         if self.cfgs.sampling_rate < 1:
@@ -102,71 +102,71 @@ class Anygrasp:
             dense_grasp=False,
             collision_detection=True,
         )
+        trans_mat = np.array(
+            [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]]
+        )
+        cloud.transform(trans_mat)
         
         if len(gg) == 0:
             print(
                 "[AnyGrasp] \033[33mwarning\033[0m: No Grasp detected after collision detection!"
             )
             return None
-
+            
         # The grasped groups are subjected to non-maximum suppression (NMS) and sorted by scores.
         gg = gg.nms().sort_by_score()
-        print("[AnyGrasp] \033[34mInfo\033[0m: Grasp point nums", len(gg))
+        print("[AnyGrasp] \033[34mInfo\033[0m: Grasp point number of all objects:", len(gg))
 
+        if self.cfgs.debug:
+            grippers = gg.to_open3d_geometry_list()
+            for gripper in grippers:
+                gripper.transform(trans_mat)
+            visualize_cloud_geometries(
+                cloud,
+                grippers,
+                save_file=os.path.join(self.cfgs.output_dir, "poses.png"),
+            )
+        
         filter_gg = GraspGroup()
 
         # Reference direction vector, indicating the ideal grasping direction.
-        ref_vec = np.array([0, math.cos(camera.head_tilt), -math.sin(camera.head_tilt)])
-        min_score, max_score = 1, -10
+        # ref_vec = np.array([0, math.cos(camera.head_tilt), -math.sin(camera.head_tilt)])
+        ref_vec = np.array([0, 0, 1])
+
+        # visualize the grip points associated with the given object
         image = copy.deepcopy(camera.image)
         img_drw = draw_rectangle(image, bbox)
-
+        
         # Filtering the grasps by penalising the vertical grasps as they are not robust to calibration errors.
         for g in gg:
 
             grasp_center = g.translation
+            
             # Convert the coordinates of a grasp center in three-dimensional space to two-dimensional coordinates on the image plane
-            ix, iy = (
-                int(((grasp_center[0] * camera.fx) / grasp_center[2]) + camera.cx),
-                int(((grasp_center[1] * camera.fy) / grasp_center[2]) + camera.cy),
-            )
-            if ix < 0:
-                ix = 0
-            if iy < 0:
-                iy = 0
-            if ix >= camera.width:
-                ix = camera.width - 1
-            if iy >= camera.height:
-                iy = camera.height - 1
-
-            # 3 * 3 rotation matrix
-            rotation_matrix = g.rotation_matrix
-            # x-axis direction, forward direction
-            cur_vec = rotation_matrix[:, 0]
-            # The angle between two vectors
-            angle = math.acos(np.dot(ref_vec, cur_vec) / (np.linalg.norm(cur_vec)))
-            if not crop_flag:
-                score = g.score - 0.1 * (angle) ** 4
+            ix = max(0, min(camera.width - 1, int(((grasp_center[0] * camera.fx) / grasp_center[2]) + camera.cx)))
+            iy = max(0, min(camera.height - 1, int(((-grasp_center[1] * camera.fy) / grasp_center[2]) + camera.cy)))
+            
+            if crop_flag:
+                filter_gg.add(g)
             else:
-                score = g.score
-
-            if not crop_flag:
-                # Check if the grasp point is within the object area
-                if seg_mask[iy, ix]:
-                    
-                    print("[AnyGrasp] \033[34mInfo\033[0m: grasp pose:", g.translation)
-                    print(g.rotation_matrix)
+                if seg_mask[iy, ix]:    # Check if the grasp point is within the grasp object area
                     img_drw.ellipse([(ix - 2, iy - 2), (ix + 2, iy + 2)], fill="green")
-                    if g.score >= 0.095:
-                        g.score = score
-                    min_score = min(min_score, g.score)
-                    max_score = max(max_score, g.score)
+                    
+                    # # 3 * 3 rotation matrix
+                    # rotation_matrix = g.rotation_matrix
+                    
+                    # # The angle between ref vec and grasp z-axis direction
+                    # cur_vec = rotation_matrix[:, 2]
+                    # angle = math.acos(np.dot(ref_vec, cur_vec) / (np.linalg.norm(cur_vec)))
+
+                    # score = g.score - 0.1 * (angle) ** 4
+
+                    # if g.score >= 0.095:
+                    #     g.score = score
+
                     filter_gg.add(g)
                 else:
                     img_drw.ellipse([(ix - 2, iy - 2), (ix + 2, iy + 2)], fill="red")
-            else:
-                g.score = score
-                filter_gg.add(g)
 
         if len(filter_gg) == 0:
             print(
@@ -189,37 +189,37 @@ class Anygrasp:
         )
 
         filter_gg = filter_gg.nms().sort_by_score()
-        print("[AnyGrasp] \033[34mInfo\033[0m: Filter grasp point nums", len(filter_gg))
+        print("[AnyGrasp] \033[34mInfo\033[0m: Filter grasp point number of grasp object:", len(filter_gg))
+        
+        self.print_filter_gg(filter_gg)
 
         if self.cfgs.debug:
-            trans_mat = np.array(
-                [[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]]
-            )
-            cloud.transform(trans_mat)
-            grippers = gg.to_open3d_geometry_list()
             filter_grippers = filter_gg.to_open3d_geometry_list()
-            for gripper in grippers:
-                gripper.transform(trans_mat)
             for gripper in filter_grippers:
                 gripper.transform(trans_mat)
-
-            visualize_cloud_geometries(
-                cloud,
-                grippers,
-                save_file=os.path.join(self.cfgs.output_dir, "poses.png"),
-            )
-
             visualize_cloud_geometries(
                 cloud,
                 [filter_grippers[0].paint_uniform_color([1.0, 0.0, 0.0])],
                 save_file=os.path.join(self.cfgs.output_dir, "best_pose.png"),
             )
 
-        best_pose = [
-            filter_gg[0].translation,       # grasp position
-            filter_gg[0].rotation_matrix,   # grasp orientation
-        ]
+        # best_pose = [
+        #     filter_gg[0].translation,       # grasp position
+        #     filter_gg[0].rotation_matrix,   # grasp orientation
+        # ]
+        best_pose = Pose(filter_gg[0].translation, filter_gg[0].rotation_matrix)
         return best_pose
+    
+    def print_filter_gg(self, filter_gg):
+        """print grasp pose and score, Descending.
+
+        Args:
+            filter_gg (): anygrasp grasp pose info
+        """
+        print(f"[AnyGrasp] \033[34mInfo\033[0m: AnyGrasp output pose about object:")
+        for g in filter_gg:
+            print(f"[AnyGrasp] \033[34mInfo\033[0m: translation: {g.translation}, z_vec: {g.rotation_matrix[:, 2]}, score: {g.score}")
+        
 
 
 if __name__ == "__main__":
@@ -308,7 +308,6 @@ if __name__ == "__main__":
     # cam = CameraParameters(
     #     cfgs.fx, cfgs.fy, cfgs.cx, cfgs.cy, cfgs.head_tilt, image, colors, depths
     # )
-    Camera()
 
     # object detection
     lang_sam = Lang_SAM()
@@ -317,4 +316,4 @@ if __name__ == "__main__":
     seg_mask, bbox = lang_sam.detect_obj(image, query, save_box=False, save_mask=False)
 
     anygrasp = Anygrasp(cfgs)
-    best_pose = anygrasp.Grasp_Pose_Estimation(cam, points, seg_mask, bbox)
+    # best_pose = anygrasp.Grasp_Pose_Estimation(cam, points, seg_mask, bbox)

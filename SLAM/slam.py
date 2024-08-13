@@ -29,8 +29,8 @@ def simple_slam(client, robot, enable_plot=False):
     nav_obstacles_bounds = []
     nav_obstacle_ids = list(range(p.getNumBodies()))
     nav_obstacle_ids.remove(0)  # remove plane
-    nav_obstacle_ids.remove(robot.get_base_id())  # remove base
-    nav_obstacle_ids.remove(robot.get_arm_id())  # remove arm
+    nav_obstacle_ids.remove(robot.sim_get_base_id())  # remove base
+    nav_obstacle_ids.remove(robot.sim_get_arm_id())  # remove arm
 
     for object_id in nav_obstacle_ids:
         object_link_bounds = client.get_all_link_bounding_box(object_id)

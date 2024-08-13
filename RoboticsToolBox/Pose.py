@@ -48,7 +48,7 @@ class Pose:
             self.orientation = list(orientation)
         else:
             raise ValueError(
-                "Orientation input must be Rotation matrix / Quaternion / Euler angles"
+                "[Pose] \033[31merror\033[0m: Orientation input must be Rotation matrix / Quaternion / Euler angles"
             )
 
         self.roll, self.pitch, self.yaw = self.orientation
@@ -77,5 +77,11 @@ class Pose:
             return R.from_euler('xyz', self.orientation).as_matrix()
         else:
             raise ValueError(
-                "Orientation input must be Rotation matrix / Quaternion / Euler angles"
+                "[Pose] \033[31merror\033[0m: Orientation input must be Rotation matrix / Quaternion / Euler angles"
             )
+            
+    def print(self, pose_description=""):
+        """
+        print pose
+        """
+        print(f"[Pose] \033[34mInfo\033[0m: {pose_description} position: [{self.position[0]:.3f}, {self.position[1]:.3f}, {self.position[2]:.3f}], orientation: [{self.orientation[0]:.3f}, {self.orientation[1]:.3f}, {self.orientation[2]:.3f}]")

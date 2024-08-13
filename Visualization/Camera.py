@@ -49,29 +49,29 @@ class Camera:
         self.head_tilt = cfg.head_tilt
 
         # camera rgb and depth image
-        self.update()
+        self.sim_update()
         
         # cameara intrinsic parameters
-        self.get_focal_length()
+        self.sim_get_focal_length()
         self.cx = self.width / 2
         self.cy = self.height / 2
 
-    def get_focal_length(self):
+    def sim_get_focal_length(self):
         """
         get camera focal length
         """
         self.fx = self.proj_mat[0] * self.width / 2
         self.fy = self.proj_mat[5] * self.height / 2
 
-    def get_camera_pose(self):
+    def sim_get_camera_pose(self):
         """
         get camera pose
         """
         view_mat = np.array(self.trans_camera_to_world).reshape([4, 4], order="F")
         pose = Pose(view_mat[:3, -1], view_mat[:3, :3])
         return pose
-        
-    def update(self):
+    
+    def sim_update(self):
         """
         Updates the camera view and projection matrices, captures images, and returns the captured data.
 
@@ -81,15 +81,15 @@ class Camera:
 
         # get base pose
         position, orientation = p.getBasePositionAndOrientation(self.base_id)
-        camera_position = np.array([position[0], position[1], self.arm_height + 0.3])
+        camera_position = np.array([position[0] + 0.5, position[1], self.arm_height + 0.3])
 
         # The three direction vectors of the camera in the world coordinate system
         r_mat = p.getMatrixFromQuaternion(orientation)
-        rotation_angle = np.radians(30)
-        tx_vec = self.rotate_around_y(
+        rotation_angle = np.radians(90)
+        tx_vec = self.sim_rotate_around_y(
             np.array([r_mat[0], r_mat[3], r_mat[6]]), rotation_angle
         )  # x direction vector, the right side of the camera is facing
-        tz_vec = self.rotate_around_y(
+        tz_vec = self.sim_rotate_around_y(
             np.array([r_mat[2], r_mat[5], r_mat[8]]), rotation_angle
         )  # z direction vector, the vertical direction of the camera
 
@@ -101,8 +101,6 @@ class Camera:
             cameraTargetPosition=target_position,
             cameraUpVector=tz_vec,
         )
-        
-        print("camera position: ", camera_position)
         
         # update trans camera to world mat
         self.trans_camera_to_world = np.linalg.inv(np.array(self.view_mat).reshape([4, 4], order="F"))
@@ -134,7 +132,7 @@ class Camera:
         self.depths = self.farVal * self.nearVal / (self.farVal - (self.farVal - self.nearVal) * depth)
 
 
-    def get_rgb_image(self, enable_show=False, enable_save=False, filename=None):
+    def sim_get_rgb_image(self, enable_show=False, enable_save=False, filename=None):
         """
         Captures an RGB image from the camera.
 
@@ -161,7 +159,7 @@ class Camera:
 
         return self.colors
 
-    def get_depth_image(self, enable_show=False, enable_save=False, filename=None):
+    def sim_get_depth_image(self, enable_show=False, enable_save=False, filename=None):
         """
         Captures a depth image from the camera.
 
@@ -199,7 +197,7 @@ class Camera:
     # functions for utils
     # ----------------------------------------------------------------
 
-    def rotate_around_y(self, vector, angle):
+    def sim_rotate_around_y(self, vector, angle):
         """vector rotate around y axis
 
         Args:
@@ -218,7 +216,7 @@ class Camera:
         )
         return np.dot(rotation_matrix, vector)
 
-    def visualize_3d_points(self):
+    def sim_visualize_3d_points(self):
         """
         visualize 3D point cloud.
         """
@@ -253,7 +251,7 @@ class Camera:
         vis.run()
         vis.destroy_window()
 
-    def get_3d_points(self, filter_dist=[0, 1]):
+    def sim_get_3d_points(self, filter_dist=[0, 1]):
         """
         Convert depth image to 3D point cloud.
 
@@ -266,12 +264,12 @@ class Camera:
         points_x = (xmap - self.cx) / self.fx * points_z
         points_y = (ymap - self.cy) / self.fy * points_z
         mask = (points_z > filter_dist[0]) & (points_z < filter_dist[1])
-        points = np.stack([points_x, points_y, points_z], axis=-1)
+        points = np.stack([points_x, -points_y, points_z], axis=-1)
         points = points[mask].astype(np.float32)
         colors = (self.colors / 255.0)[mask].astype(np.float32)
         return points, colors
     
-    def trans_to_world(self, pose):
+    def sim_trans_to_world(self, pose):
         """
         Convert grasp pose from camera to world coord system 
 
@@ -282,11 +280,13 @@ class Camera:
             Pose: pose in world system
         """
         pose_mat = np.eye(4)
-        pose_mat[:3, -1] = pose[0]
-        pose_mat[:3, :3] = pose[1]
+        # pose_mat[:3, -1] = pose[0]
+        # pose_mat[:3, :3] = pose[1]
+        pose_mat[:3, -1] = pose.get_position()
+        pose_mat[:3, :3] = pose.get_orientation("rotation_matrix")
         trans_mat = np.array(
-            [[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]]
+            [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]]
         )
-        world_pose = self.trans_camera_to_world.dot(trans_mat.dot(pose_mat))
+        world_pose = self.trans_camera_to_world @ (trans_mat @ pose_mat)
         world_pose = Pose(world_pose[:3, -1], world_pose[:3, :3])
         return world_pose

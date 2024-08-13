@@ -114,15 +114,6 @@
         "scale": 1.0,
         "obj_name": "orange_cup",
         "fixed_base": false
-    },
-
-    {
-        "model_path": "../Asset/URDF_models/bleach_cleanser/model.urdf",
-        "object_position": [3.85, 5.0, 1.0],
-        "object_orientation": [0, 0, "math.pi/2"],
-        "scale": 1.0,
-        "obj_name": "bleach_cleanser",
-        "fixed_base": false
     }
 
 

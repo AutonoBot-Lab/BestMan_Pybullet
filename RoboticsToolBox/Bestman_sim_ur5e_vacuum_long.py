@@ -34,31 +34,25 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
         super().__init__(client, visualizer, cfg)
 
     # ----------------------------------------------------------------
-    # Functions for gripper control
+    # Functions for gripper
     # ----------------------------------------------------------------
-
-    def sim_active_gripper_fixed(self, object, value):
+    
+    def sim_create_fixed_constraint(self, object):
         """
-        Activate or deactivate the gripper using a fixed constraint.
+        Activate or deactivate the gripper for a movable object.
 
         Args:
             object (str): The name or ID of the object related to gripper action.
+            link_id (int): The ID of the link on the object to be grasped.
             value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).
         """
         object_id = self.client.resolve_object_id(object)
-
-        if value == 0 and self.gripper_id is not None:
-            p.removeConstraint(self.gripper_id, physicsClientId=self.client_id)
-            self.gripper_id = None
-            self.gripper_object_id = None
-            print(
-                "[BestMan_Sim][Sucker] \033[34mInfo\033[0m: Sucker has been deactivated!"
-            )
-
-        if value == 1 and self.gripper_id is None:
+        
+        # cretae constraint
+        if self.constraint_id is None:
             cube_orn = p.getQuaternionFromEuler([0, math.pi, 0])
             if self.tcp_link != -1:
-                self.gripper_id = p.createConstraint(
+                self.constraint_id = p.createConstraint(
                     self.arm_id,
                     self.tcp_link,
                     object_id,
@@ -83,32 +77,31 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
                     childFrameOrientation=cube_orn,
                     physicsClientId=self.client_id,
                 )
-            self.gripper_object_id = object_id
+            self.client.run(40)
             print(
-                "[BestMan_Sim][Sucker] \033[34mInfo\033[0m: Sucker has been activated!"
+                "[BestMan_Sim][Sucker] \033[34mInfo\033[0m: Sucker fixed constraint has been created!"
+            )
+            
+    def sim_remove_fixed_constraint(self): 
+        """remove fixed constraint
+        """
+        if self.constraint_id != None:
+            p.removeConstraint(self.constraint_id, physicsClientId=self.client_id)
+            self.client.run(40)
+            self.constraint_id = None
+            print(
+                "[BestMan_Sim][Sucker] \033[34mInfo\033[0m: Sucker fixed constraint has been removed!"
             )
 
-        self.client.run(10)
-
-    def sim_active_gripper_movable(self, object, link_id, value):
-        """
-        Activate or deactivate the gripper for a movable object.
+    def sim_create_movable_constraint(self, object, link_id):
+        """create constraint between end effector and joint
 
         Args:
             object (str): The name or ID of the object related to gripper action.
-            link_id (int): The ID of the link on the object to be grasped.
-            value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).
+            link_id (int): The ID of the link on the object to create constraint.
         """
         object_id = self.client.resolve_object_id(object)
-
-        if value == 0 and self.gripper_id is not None:
-            p.removeConstraint(self.gripper_id, physicsClientId=self.client_id)
-            self.gripper_id = None
-            print(
-                "[BestMan_Sim][Sucker] \033[34mInfo\033[0m: Gripper has been deactivated!"
-            )
-
-        if value == 1 and self.gripper_id is None:
+        if self.constraint_id is None:
             link_state = p.getLinkState(object_id, link_id)
             vec_inv, quat_inv = p.invertTransform(link_state[0], link_state[1])
             current_pose = self.client.get_object_link_pose(self.arm_id, self.tcp_link)
@@ -118,7 +111,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
                 current_pose.position,
                 p.getQuaternionFromEuler(current_pose.orientation),
             )
-            self.gripper_id = p.createConstraint(
+            self.constraint_id = p.createConstraint(
                 parentBodyUniqueId=object_id,
                 parentLinkIndex=link_id,
                 childBodyUniqueId=self.arm_id,
@@ -129,10 +122,21 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
                 parentFrameOrientation=transform_start_to_link[1],
                 childFramePosition=[0, 0, 0],
             )
-            p.changeConstraint(self.gripper_id, maxForce=2000)
+            p.changeConstraint(self.constraint_id, maxForce=2000)
             print(
-                "[BestMan_Sim][Sucker] \033[34mInfo\033[0m: Sucker has been activated!"
+                "[BestMan_Sim][Sucker] \033[34mInfo\033[0m: Sucker movable constraint has been created!"
             )
+            
+    def sim_remove_movable_constraint(self):
+        """remove constraint between end effector and joint
+        """
+        if self.constraint_id is not None:
+                p.removeConstraint(self.constraint_id, physicsClientId=self.client_id)
+                self.client.run(40)
+                self.constraint_id = None
+                print(
+                    "[BestMan_Sim][Sucker] \033[34mInfo\033[0m: Sucker movable constraint has been removed!"
+                )
 
     # ----------------------------------------------------------------
     # Functions for pick and place actions
@@ -145,16 +149,16 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
         Args:
             object (str): The name or ID of the object to be picked up.
         """
-        init_pose = self.get_current_end_effector_pose()
+        init_pose = self.sim_get_current_end_effector_pose()
         object_id = self.client.resolve_object_id(object)
         min_x, min_y, _, max_x, max_y, max_z = self.client.get_bounding_box(object_id)
         goal_pose = Pose(
             [(min_x + max_x) / 2, (min_y + max_y) / 2, max_z + self.tcp_height],
             [0.0, math.pi / 2.0, 0.0],
         )
-        self.move_end_effector_to_goal_pose(goal_pose)
-        self.sim_active_gripper_fixed(object_id, 1)
-        self.move_end_effector_to_goal_pose(init_pose)
+        self.sim_move_end_effector_to_goal_pose(goal_pose)
+        self.sim_create_fixed_constraint(object_id)
+        self.sim_move_end_effector_to_goal_pose(init_pose)
 
     def place(self, goal_pose):
         """
@@ -163,10 +167,10 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
         Args:
             goal_pose (Pose): The pose where the object will be placed.
         """
-        init_pose = self.get_current_end_effector_pose()
-        self.move_end_effector_to_goal_pose(goal_pose)
-        self.sim_active_gripper_fixed(self.gripper_object_id, 0)
-        self.move_end_effector_to_goal_pose(init_pose)
+        init_pose = self.sim_get_current_end_effector_pose()
+        self.sim_move_end_effector_to_goal_pose(goal_pose)
+        self.sim_remove_fixed_constraint()
+        self.sim_move_end_effector_to_goal_pose(init_pose)
 
     def pick_place(self, object, goal_pose):
         """

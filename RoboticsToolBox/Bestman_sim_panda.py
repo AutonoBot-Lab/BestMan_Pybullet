@@ -14,7 +14,8 @@ import pybullet as p
 
 from .Bestman_sim import Bestman_sim
 from .Pose import Pose
-
+import numpy as np
+from scipy.spatial.transform import Rotation as R
 
 class Bestman_sim_panda(Bestman_sim):
     """
@@ -46,47 +47,47 @@ class Bestman_sim_panda(Bestman_sim):
             childFramePosition=[0, 0, 0],
         )
 
-        # Constraint parameters
+        # Modify constraint parameters
         p.changeConstraint(c, gearRatio=-1, erp=0.1, maxForce=50)
+        
+        # gripper range
+        self.gripper_range = [0, 0.04]
+        
+        # close gripper
+        self.sim_close_gripper()
 
     # ----------------------------------------------------------------
-    # functions for gripper
+    # Functions for gripper
     # ----------------------------------------------------------------
-
-    def sim_active_gripper_fixed(self, value):
+    
+    def sim_open_gripper(self):
+        """open gripper
         """
-        Activate or deactivate the gripper.
-
-        Args:
-            value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).
-        """
-
-        if value == 0:
-            for i in [9, 10]:
-                p.setJointMotorControl2(
-                    self.arm_id, i, p.POSITION_CONTROL, 0.04, force=50
-                )
-                print(
-                    "[BestMan_Sim][Gripper] \033[34mInfo\033[0m: Gripper has been deactivated!"
-                )
-        elif value == 1:
-            for i in [9, 10]:
-                p.setJointMotorControl2(
-                    self.arm_id, i, p.POSITION_CONTROL, 0.001, force=50
-                )
-                print(
-                    "[BestMan_Sim][Gripper] \033[34mInfo\033[0m: Gripper has been activated!"
-                )
-        else:
-            raise (
-                ValueError(
-                    "[BestMan_Sim][Gripper] \033[31merror\033[0m: gripper value must be 0 / 1 !"
-                )
+        self.sim_move_gripper(self.gripper_range[1])
+        print(
+                "[BestMan_Sim][Gripper] \033[34mInfo\033[0m: Gripper open!"
             )
 
+    def sim_close_gripper(self):
+        """close gripper
+        """
+        self.sim_move_gripper(self.gripper_range[0])
+        print(
+                "[BestMan_Sim][Gripper] \033[34mInfo\033[0m: Gripper close!"
+            )
+
+    def sim_move_gripper(self, open_width):
+        """move gripper to special width
+
+        Args:
+            open_width (float): gripper open width
+        """
+        assert self.gripper_range[0] <= open_width <= self.gripper_range[1]
+        for i in [9, 10]:
+            p.setJointMotorControl2(self.arm_id, i, p.POSITION_CONTROL, open_width, force=100)
         self.client.run(30)
 
-    def sim_active_gripper_movable(self, object, link_id, value):
+    def sim_create_gripper_constraint(self, object, link_id):
         """
         Activate or deactivate the gripper for a movable object.
 
@@ -95,17 +96,10 @@ class Bestman_sim_panda(Bestman_sim):
             link_id (int): The ID of the link on the object to be grasped.
             value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).
         """
-
         object_id = self.client.resolve_object_id(object)
-
-        # ungrasp
-        if value == 0 and self.gripper_id != None:
-            p.removeConstraint(self.gripper_id, physicsClientId=self.client_id)
-            self.gripper_id = None
-            print("[BestMan_Sim][Gripper] Gripper has been deactivated!")
-
-        # grasp
-        if value == 1 and self.gripper_id == None:
+        
+        # cretae constraint
+        if self.constraint_id == None:
             link_state = p.getLinkState(object_id, link_id)
             vec_inv, quat_inv = p.invertTransform(link_state[0], link_state[1])
             if self.tcp_link != -1:
@@ -118,7 +112,7 @@ class Bestman_sim_panda(Bestman_sim):
                     current_pose.position,
                     p.getQuaternionFromEuler(current_pose.orientation),
                 )
-                self.gripper_id = p.createConstraint(
+                self.constraint_id = p.createConstraint(
                     parentBodyUniqueId=object_id,
                     parentLinkIndex=link_id,
                     childBodyUniqueId=self.arm_id,
@@ -139,7 +133,7 @@ class Bestman_sim_panda(Bestman_sim):
                     current_pose.position,
                     p.getQuaternionFromEuler(current_pose.orientation),
                 )
-                self.gripper_id = p.createConstraint(
+                self.constraint_id = p.createConstraint(
                     parentBodyUniqueId=object_id,
                     parentLinkIndex=link_id,
                     childBodyUniqueId=self.arm_id,
@@ -151,9 +145,20 @@ class Bestman_sim_panda(Bestman_sim):
                     childFramePosition=[0, 0, 0],
                 )
             p.changeConstraint(self.gripper_id, maxForce=2000)
+            self.client.run(40)
+            print("[BestMan_Sim][Gripper] Gripper constraint has been created!")
+            
+    def sim_remove_gripper_constraint(self): 
+        """remove constraint
+        """
+        if self.constraint_id != None:
+            p.removeConstraint(self.constraint_id, physicsClientId=self.client_id)
+            self.client.run(40)
+            self.constraint_id = None
+            print("[BestMan_Sim][Gripper] Gripper constraint has been removed!")
 
     # ----------------------------------------------------------------
-    # functions for pick and place
+    # Functions for pick and place
     # ----------------------------------------------------------------
 
     def pick(self, object):
@@ -168,12 +173,13 @@ class Bestman_sim_panda(Bestman_sim):
         goal_pose = Pose(
             [position[0], position[1], position[2] + 0.015], [0, math.pi, 0]
         )
-        self.move_end_effector_to_goal_pose(goal_pose, 50)
+        self.sim_move_end_effector_to_goal_pose(goal_pose, 50)
+        self.sim_open_gripper()
         goal_pose = Pose(
             [position[0], position[1], position[2] - 0.005], [0, math.pi, 0]
         )
-        self.move_end_effector_to_goal_pose(goal_pose, 50)
-        self.sim_active_gripper_fixed(1)
+        self.sim_move_end_effector_to_goal_pose(goal_pose, 50)
+        self.sim_close_gripper()
 
     def place(self, goal_pose):
         """
@@ -182,13 +188,13 @@ class Bestman_sim_panda(Bestman_sim):
         Args:
             goal_pose (Pose): The pose where the object will be placed.
         """
-        init_pose = self.get_current_end_effector_pose()
+        init_pose = self.sim_get_current_end_effector_pose()
         init_pos, _ = init_pose.position, init_pose.orientation
         goal_pos, goal_orn = goal_pose.position, goal_pose.orientation
         tmp_pose = Pose([init_pos[0], init_pos[1], goal_pos[2]], goal_orn)
-        self.move_end_effector_to_goal_pose(tmp_pose, 50)
-        self.move_end_effector_to_goal_pose(goal_pose, 50)
-        self.sim_active_gripper_fixed(0)
+        self.sim_move_end_effector_to_goal_pose(tmp_pose, 50)
+        self.sim_move_end_effector_to_goal_pose(goal_pose, 50)
+        self.sim_open_gripper()
 
     def pick_place(self, object, goal_pose):
         """
@@ -200,3 +206,35 @@ class Bestman_sim_panda(Bestman_sim):
         """
         self.pick(object)
         self.place(goal_pose)
+        
+    # ----------------------------------------------------------------
+    # functions for transform
+    # ----------------------------------------------------------------
+    
+    def align_grasp_pose_to_tcp(self, z_init, target_pose):
+        """
+        Computes the homogeneous transformation matrix that aligns the z-axis of the target pose to the z-axis of the initial pose.
+
+        Args:
+            R_init (np.ndarray): 4x4 homogeneous matrix representing the initial rotation and translation of the end of the robot.
+            R_target (np.ndarray): 4x4 homogeneous matrix representing the rotation and translation of the target grasp.
+
+        Returns:
+            np.ndarray: 4x4 homogeneous transformation matrix that aligns the z-axis of the target to the z-axis of the initial pose.
+        """
+        R_target_rot = target_pose.get_orientation("rotation_matrix")[:3, :3]
+        z_target = R_target_rot[:, 2]
+
+        v = np.cross(z_target, z_init)
+        v_norm = np.linalg.norm(v)
+
+        if v_norm == 0:
+            R_align = np.eye(3)
+        else:
+            v = v / v_norm
+            theta = np.arccos(np.dot(z_target, z_init))
+            R_align = R.from_rotvec(theta * v).as_matrix()
+
+        R_final_rot = R_align @ R_target_rot
+        target_pose = Pose(target_pose.get_position(), R_final_rot)
+        return target_pose

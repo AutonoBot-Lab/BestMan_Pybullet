@@ -13,10 +13,11 @@ import os
 from Env import Client
 from Perception.Grasp_Pose_Estimation import Anygrasp
 from Perception.Object_detection import Lang_SAM
-from RoboticsToolBox import Bestman_sim_panda
+from RoboticsToolBox import Bestman_sim_panda, Pose
 from Utils import load_config
 from Visualization import Visualizer
-
+from Motion_Planning.Manipulation import OMPL_Planner
+import math
 
 def main():
 
@@ -35,13 +36,18 @@ def main():
 
     # Init robot
     bestman = Bestman_sim_panda(client, visualizer, cfg)
-
+    end_effector_pose = bestman.sim_get_current_end_effector_pose()
+    end_effector_pose.print("init end effector pose")
+    visualizer.draw_pose(end_effector_pose)
+    
     # Debug, look for rgb and depth
-    # bestman.get_camera_rgb_image(False, True, "rgb_test")
-    # bestman.get_camera_depth_image(False, True, "depth_test")
-    camera_pose = bestman.get_camera_pose()
-    visualizer.draw_pose(camera_pose)
-    # bestman.visualize_camera_3d_points()
+    # bestman.sim_get_camera_rgb_image(False, True, "rgb_test")
+    # bestman.sim_get_camera_depth_image(False, True, "depth_test")
+    # bestman.sim_visualize_camera_3d_points()
+    
+    # debug, look for camera pose
+    # camera_pose = bestman.sim_get_camera_pose()
+    # visualizer.draw_pose(camera_pose)
     
     # Init Lang_SAM and segment
     lang_sam = Lang_SAM()
@@ -58,14 +64,27 @@ def main():
     # Init AnyGrasp
     anygrasp = Anygrasp(cfg.Grasp_Pose_Estimation.AnyGrasp)
     best_pose = anygrasp.Grasp_Pose_Estimation(bestman.camera, seg_mask, bbox)
-    
-    # transform from camera to world system
-    best_pose = bestman.trans_camera_to_world(best_pose)
-    print("best_pose: ", best_pose.position, best_pose.orientation)
+    best_pose = bestman.sim_trans_camera_to_world(best_pose)
+    best_pose = bestman.align_grasp_pose_to_tcp([0, 0, -1], best_pose)
     visualizer.draw_pose(best_pose)
     
+    # Init ompl
+    # ompl_planner = OMPL_Planner(bestman, cfg.Planner)
+    # goal = ompl_planner.set_target_pose(best_pose)
+    # ompl_planner.remove_obstacle("banana")
+    # start = bestman.get_current_joint_values()
+    # path = ompl_planner.plan(start, goal)
+    # bestman.execute_trajectory(path, enable_plot=True)
+    
+    bestman.sim_open_gripper()
+    bestman.sim_move_end_effector_to_goal_pose(best_pose, 50)
+    visualizer.draw_link_pose(bestman.sim_get_arm_id(), bestman.sim_get_end_effector_link())
+    
+    # client.wait(5)
+    bestman.sim_close_gripper()
+    
     # disconnect pybullet
-    client.wait(30)
+    client.wait(100)
     client.disconnect()
 
 
