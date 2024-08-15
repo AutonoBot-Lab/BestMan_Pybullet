@@ -25,11 +25,10 @@ from Visualization import Visualizer
 
 
 def pull_out(init_pose, i, distance):
-    init_quaternion = p.getQuaternionFromEuler(init_pose.orientation)
-    rotation_matrix = np.array(p.getMatrixFromQuaternion(init_quaternion)).reshape(3, 3)
+    rotation_matrix = init_pose.get_orientation("rotation_matrix")
     front_direction = rotation_matrix[:, 0]
-    new_position = np.array(init_pose.position) - front_direction * i * distance
-    return Pose(new_position, init_pose.orientation)
+    new_position = np.array(init_pose.get_position()) - front_direction * i * distance
+    return Pose(new_position, init_pose.get_orientation())
 
 
 def main(filename):

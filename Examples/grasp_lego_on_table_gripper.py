@@ -57,8 +57,13 @@ def main(filename):
 
     # grasp target object
     visualizer.draw_object_pose("lego")
-    object_goal_pose = Pose([1.2, 0.85, 0.88], [0, math.pi, 0])
-    bestman.pick_place("lego", object_goal_pose)
+    min_x, min_y, _, max_x, max_y, max_z = client.get_bounding_box("lego")
+    pick_pose = Pose(
+        [(min_x + max_x) / 2, (min_y + max_y) / 2, max_z],
+        [0, math.pi, 0]
+    )
+    place_pose = Pose([1.2, 0.85, 0.84], [0, math.pi, 0])
+    bestman.pick_place(pick_pose, place_pose)
 
     # End record
     visualizer.end_record()

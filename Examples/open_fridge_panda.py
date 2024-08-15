@@ -34,7 +34,7 @@ def rotate_point_3d_around_axis(init_pose, rotate_axis, theta, clockwise=True):
         Pose -- the pose of the rotated point (including position and Euler angle pose)
     """
 
-    init_position = np.array(init_pose.position)
+    init_position = np.array(init_pose.get_position())
     rotate_axis = np.array(rotate_axis)
 
     translated_position = init_position - rotate_axis
@@ -51,7 +51,7 @@ def rotate_point_3d_around_axis(init_pose, rotate_axis, theta, clockwise=True):
             [0, 0, 0],
             rotated_quaternion,
             [0, 0, 0],
-            p.getQuaternionFromEuler(init_pose.orientation),
+            init_pose.get_orientation(),
         )[1]
     else:
         rotation_matrix = np.array(
@@ -62,7 +62,7 @@ def rotate_point_3d_around_axis(init_pose, rotate_axis, theta, clockwise=True):
             [0, 0, 0],
             rotated_quaternion,
             [0, 0, 0],
-            p.getQuaternionFromEuler(init_pose.orientation),
+            init_pose.get_orientation(),
         )[1]
 
     rotated_position = np.dot(rotation_matrix, translated_position)

@@ -82,19 +82,19 @@ class Bestman_sim:
         self.base_id = self.client.load_object(
             obj_name="base",
             model_path=robot_cfg.base_urdf_path,
-            object_position=init_pose.position,
-            object_orientation=init_pose.orientation,
+            object_position=init_pose.get_position(),
+            object_orientation=init_pose.get_orientation(),
             fixed_base=True,
         )
         self.base_rotated = False
-        self.current_base_yaw = init_pose.yaw
+        self.current_base_yaw = init_pose.get_orientation("euler")[2]
 
         # Init arm
         self.arm_id = self.client.load_object(
             obj_name="arm",
             model_path=robot_cfg.arm_urdf_path,
-            object_position=init_pose.position,
-            object_orientation=init_pose.orientation,
+            object_position=init_pose.get_position(),
+            object_orientation=init_pose.get_orientation(),
             fixed_base=True,
         )
         self.arm_joints_idx = robot_cfg.arm_joints_idx
@@ -322,7 +322,7 @@ class Bestman_sim:
             next_point = [path[i][0], path[i][1], 0]
             # move to each waypoint
             self.sim_move_base_to_waypoint(
-                Pose([path[i][0], path[i][1], 0], goal_base_pose.orientation)
+                Pose([path[i][0], path[i][1], 0], goal_base_pose.get_orientation())
             )
 
             # draw the trajectory
@@ -336,7 +336,7 @@ class Bestman_sim:
                     physicsClientId=self.client_id,
                 )
 
-        self.sim_rotate_base(goal_base_pose.yaw)
+        self.sim_rotate_base(goal_base_pose.get_orientation("euler")[2])
         self.client.run(10)
         ik_error = self.sim_calculate_nav_error(goal_base_pose)
         if ik_error >= threshold:
@@ -354,7 +354,7 @@ class Bestman_sim:
         """
         current_base_pose = self.sim_get_current_base_pose()
         distance = np.linalg.norm(
-            np.array(current_base_pose.position) - np.array(goal_pose.position)
+            np.array(current_base_pose.get_position()) - np.array(goal_pose.get_position())
         )
         return distance
 
@@ -552,26 +552,28 @@ class Bestman_sim:
             physicsClientId=self.client_id,
         )
 
-        start_time = time.time()  # avoid time anomaly
+        # start_time = time.time()  # avoid time anomaly
 
-        while True:
-            self.client.run()
-            joint_states = p.getJointStates(
-                self.arm_id, self.arm_joints_idx, physicsClientId=self.client_id
-            )
-            current_angles = [state[0] for state in joint_states]
-            diff_angles = [abs(a - b) for a, b in zip(joint_values, current_angles)]
-            if all(diff < threshold for diff in diff_angles):
-                break
+        # while True:
+        #     self.client.run()
+        #     joint_states = p.getJointStates(
+        #         self.arm_id, self.arm_joints_idx, physicsClientId=self.client_id
+        #     )
+        #     current_angles = [state[0] for state in joint_states]
+        #     diff_angles = [abs(a - b) for a, b in zip(joint_values, current_angles)]
+        #     if all(diff < threshold for diff in diff_angles):
+        #         break
 
-            if time.time() - start_time > timeout:  # avoid time anomaly
-                if p.getContactPoints(self.arm_id):
-                    assert (
-                        0,
-                        "[BestMan_Sim][Arm] \033[31merror\033[0m: The arm collides with other objects!",
-                    )
-                # print("-" * 20 + "\n" + "Timeout before reaching target joint position.")
-                break
+        #     if time.time() - start_time > timeout:  # avoid time anomaly
+        #         if p.getContactPoints(self.arm_id):
+        #             assert (
+        #                 0,
+        #                 "[BestMan_Sim][Arm] \033[31merror\033[0m: The arm collides with other objects!",
+        #             )
+        #         # print("-" * 20 + "\n" + "Timeout before reaching target joint position.")
+        #         break
+        
+        self.client.run(40)
 
     def sim_joints_to_cartesian(self, joint_values):
         """
@@ -611,8 +613,8 @@ class Bestman_sim:
         joint_values = p.calculateInverseKinematics(
             bodyUniqueId=self.arm_id,
             endEffectorLinkIndex=self.end_effector_index,
-            targetPosition=pose.position,
-            targetOrientation=p.getQuaternionFromEuler(pose.orientation),
+            targetPosition=pose.get_position(),
+            targetOrientation=pose.get_orientation(),
             lowerLimits=self.arm_lower_limits,
             upperLimits=self.arm_upper_limits,
             jointRanges=self.arm_joint_ranges,
@@ -676,23 +678,21 @@ class Bestman_sim:
         start_pose = self.sim_get_current_end_effector_pose()
         for t in np.linspace(0, 1, steps):
             interpolated_position = (1 - t) * np.array(
-                start_pose.position
-            ) + t * np.array(end_effector_goal_pose.position)
+                start_pose.get_position()
+            ) + t * np.array(end_effector_goal_pose.get_position())
             interpolated_orientation = p.getQuaternionSlerp(
-                p.getQuaternionFromEuler(start_pose.orientation),
-                p.getQuaternionFromEuler(end_effector_goal_pose.orientation),
-                t,
+                start_pose.get_orientation(),
+                end_effector_goal_pose.get_orientation(),
+                t
             )
             interpolated_pose = Pose(interpolated_position, interpolated_orientation)
             joint_values = self.sim_cartesian_to_joints(interpolated_pose)
             self.sim_move_arm_to_joint_values(joint_values)
-            self.client.run(40)
             # if len(p.getContactPoints(self.arm_id)) > 0:
             #     print(
             #         "[BestMan_Sim][Arm] \033[31merror\033[0m: The arm collides with other objects!"
             #     )
             #     return
-        # self.client.run(40)
         ik_error = self.sim_calculate_IK_error(end_effector_goal_pose)
         if ik_error >= threshold:
             print(
@@ -713,7 +713,7 @@ class Bestman_sim:
 
             # if i % 3 == 0:
             # self.visualizer.draw_link_pose(self.arm_id, self.end_effector_index)
-            current_point = self.sim_get_current_end_effector_pose().position
+            current_point = self.sim_get_current_end_effector_pose().get_position()
 
             # draw the trajectory
             if i != 0 and enable_plot:
@@ -750,7 +750,7 @@ class Bestman_sim:
 
         end_effector_pose = self.sim_get_current_end_effector_pose()
         distance = np.linalg.norm(
-            np.array(end_effector_pose.position) - np.array(goal_pose.position)
+            np.array(end_effector_pose.get_position()) - np.array(goal_pose.get_position())
         )
         return distance
 

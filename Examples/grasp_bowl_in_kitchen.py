@@ -60,7 +60,7 @@ def main(filename):
     )
     path = nav_planner.plan(bestman.sim_get_current_base_pose(), standing_pose)
     bestman.sim_navigate_base(standing_pose, path)
-
+    
     # load bowl
     bowl_id = client.load_object(
         "bowl",

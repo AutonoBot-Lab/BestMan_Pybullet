@@ -26,7 +26,7 @@ class Camera:
     This class handles the camera functionalities for a robotic system, including capturing RGB and depth images.
     """
 
-    def __init__(self, cfg, base_id, arm_height):
+    def __init__(self, cfg, base_id, arm_place_height):
         """
         Initializes the Camera class with configuration, base ID, and arm height.
 
@@ -36,7 +36,7 @@ class Camera:
             arm_height (float): The height of the robot arm.
         """
         self.base_id = base_id
-        self.arm_height = arm_height
+        self.arm_place_height = arm_place_height
 
         # projection setting
         self.fov = cfg.fov  # fov
@@ -81,25 +81,26 @@ class Camera:
 
         # get base pose
         position, orientation = p.getBasePositionAndOrientation(self.base_id)
-        camera_position = np.array([position[0] + 0.5, position[1], self.arm_height + 0.3])
+        camera_position = np.array([position[0] + 0.5, position[1], self.arm_place_height + 0.3])
 
         # The three direction vectors of the camera in the world coordinate system
-        r_mat = p.getMatrixFromQuaternion(orientation)
-        rotation_angle = np.radians(90)
-        tx_vec = self.sim_rotate_around_y(
-            np.array([r_mat[0], r_mat[3], r_mat[6]]), rotation_angle
-        )  # x direction vector, the right side of the camera is facing
-        tz_vec = self.sim_rotate_around_y(
-            np.array([r_mat[2], r_mat[5], r_mat[8]]), rotation_angle
-        )  # z direction vector, the vertical direction of the camera
+        # r_mat = p.getMatrixFromQuaternion(orientation)
+        # rotation_angle = np.radians(90)
+        # tx_vec = self.sim_rotate_around_y(
+        #     np.array([r_mat[0], r_mat[3], r_mat[6]]), rotation_angle
+        # )  # x direction vector, the right side of the camera is facing
+        # tz_vec = self.sim_rotate_around_y(
+        #     np.array([r_mat[2], r_mat[5], r_mat[8]]), rotation_angle
+        # )  # z direction vector, the vertical direction of the camera
+        
 
         # set the camera orientation
-        target_position = camera_position + 1 * tx_vec
+        target_position = camera_position +  [0, 0, -1]
 
         self.view_mat = p.computeViewMatrix(
             cameraEyePosition=camera_position,
             cameraTargetPosition=target_position,
-            cameraUpVector=tz_vec,
+            cameraUpVector=[1, 0, 0]
         )
         
         # update trans camera to world mat
@@ -288,5 +289,6 @@ class Camera:
             [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]]
         )
         world_pose = self.trans_camera_to_world @ (trans_mat @ pose_mat)
+        world_pose[2, 3] -= 0.03
         world_pose = Pose(world_pose[:3, -1], world_pose[:3, :3])
         return world_pose

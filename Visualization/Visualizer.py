@@ -382,7 +382,7 @@ class Visualizer:
             lineWidth (float, optional): The width of the pose axes lines. Default is 2.0.
             textSize (float, optional): The size of the text labels. Default is 1.0.
         """
-        position = pose.position
+        position = pose.get_position()
         orientation_matrix = np.array(pose.get_orientation("rotation_matrix"))
         axes_position = np.array(position)[:, np.newaxis] + length * orientation_matrix
         text_position = (

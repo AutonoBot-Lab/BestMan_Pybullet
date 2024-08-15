@@ -83,23 +83,23 @@ class PRMPlanner:
         Returns:
             list: The planned path as a list of points.
         """
-        start_position = start_pose.position[0:2]
-        goal_position = goal_pose.position[0:2]
+        start_position = start_pose.get_position()[0:2]
+        goal_position = goal_pose.get_position()[0:2]
         self.start_position = start_position
         self.goal_position = goal_position
         self.area = AreaBounds(
             self.start_position, self.goal_position, self.obstacles_bounds
         )
         sample_x, sample_y = self.sample_points(
-            start_pose.position[0],
-            start_pose.position[1],
+            start_pose.get_position()[0],
+            start_pose.get_position()[1],
             goal_position[0],
             goal_position[1],
         )
         road_map = self.generate_road_map(sample_x, sample_y)
         self.rx, self.ry = self.dijkstra_planning(
-            start_pose.position[0],
-            start_pose.position[1],
+            start_pose.get_position()[0],
+            start_pose.get_position()[1],
             goal_position[0],
             goal_position[1],
             road_map,

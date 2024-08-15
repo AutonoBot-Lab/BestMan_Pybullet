@@ -160,9 +160,10 @@ class Client:
             int: The ID of the loaded object in the PyBullet simulation.
         """
 
-        object_orientation = p.getQuaternionFromEuler(
-            object_orientation, physicsClientId=self.client_id
-        )
+        if isinstance(object_orientation, (tuple, list, np.ndarray)) and len(object_orientation) == 3:
+            object_orientation = p.getQuaternionFromEuler(
+                object_orientation, physicsClientId=self.client_id
+            )
 
         object_id = p.loadURDF(
             fileName=model_path,
@@ -318,6 +319,21 @@ class Client:
                 )
             )
 
+    def get_object_pose(self, object):
+        """
+        Retrieve the pose of a object.
+
+        Args:
+            object (int / str): The ID or name of the object.
+
+        Returns:
+            Pose: The pose of the object.
+        """
+
+        object_id = self.resolve_object_id(object)
+        position, orientation = p.getBasePositionAndOrientation(object_id)
+        return Pose(position, orientation)
+    
     def get_object_link_pose(self, object, link_id):
         """
         Retrieve the pose of a given link of an object.
@@ -332,7 +348,6 @@ class Client:
 
         object_id = self.resolve_object_id(object)
         link_state = p.getLinkState(object_id, link_id)
-        # return Pose(link_state[0], link_state[1])
         return Pose(link_state[0], link_state[1])
 
     def get_link_bounding_box(self, object, link_id):

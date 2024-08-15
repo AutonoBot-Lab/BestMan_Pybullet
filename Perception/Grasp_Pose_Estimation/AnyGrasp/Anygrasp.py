@@ -223,7 +223,7 @@ class Anygrasp:
 
 
 if __name__ == "__main__":
-
+    
     # set work dir to AnyGrasp
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
 

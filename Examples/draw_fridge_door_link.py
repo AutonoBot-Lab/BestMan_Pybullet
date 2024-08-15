@@ -51,7 +51,7 @@ def main(filename):
 
     # End record
     visualizer.end_record()
-
+    
     # Disconnect pybullet
     client.wait(10)
     client.disconnect()

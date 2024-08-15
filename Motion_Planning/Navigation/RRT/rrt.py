@@ -87,8 +87,8 @@ class RRTPlanner:
         """
 
         # only care about x, y
-        start_position = start_pose.position[0:2]
-        goal_position = goal_pose.position[0:2]
+        start_position = start_pose.get_position()[0:2]
+        goal_position = goal_pose.get_position()[0:2]
 
         self.area = AreaBounds(start_position, goal_position, self.obstacles_bounds)
 
@@ -359,8 +359,8 @@ def main():
     start_pose = Pose([0.0, 0.0, 0.0], [0.0, 0.0, 0.0])
     goal_pose = Pose([6.0, 10.0, 0.0], [0.0, 0.0, 0.0])
     path = rrt.plan(start_pose, goal_pose)
-    print("start:", start_pose.position[0:2])
-    print("goal:", goal_pose.position[0:2])
+    print("start:", start_pose.get_position()[0:2])
+    print("goal:", goal_pose.get_position()[0:2])
     print("path:", path)
 
 

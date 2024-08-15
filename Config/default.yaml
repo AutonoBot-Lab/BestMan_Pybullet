@@ -57,7 +57,7 @@ Camera:
 Grasp_Pose_Estimation:
   AnyGrasp:
     checkpoint_path: "./checkpoints/checkpoint_detection.tar" # Model checkpoint path
-    max_gripper_width: 0.1  # Maximum gripper width
+    max_gripper_width: 0.08  # Maximum gripper width
     gripper_height: 0.03   # Gripper height
     debug: True # Enable visualization
     min_depth: 0.0  # Minimum depth of point cloud

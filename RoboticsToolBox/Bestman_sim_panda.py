@@ -109,8 +109,8 @@ class Bestman_sim_panda(Bestman_sim):
                 transform_start_to_link = p.multiplyTransforms(
                     vec_inv,
                     quat_inv,
-                    current_pose.position,
-                    p.getQuaternionFromEuler(current_pose.orientation),
+                    current_pose.get_position(),
+                    current_pose.get_orientation(),
                 )
                 self.constraint_id = p.createConstraint(
                     parentBodyUniqueId=object_id,
@@ -130,8 +130,8 @@ class Bestman_sim_panda(Bestman_sim):
                 transform_start_to_link = p.multiplyTransforms(
                     vec_inv,
                     quat_inv,
-                    current_pose.position,
-                    p.getQuaternionFromEuler(current_pose.orientation),
+                    current_pose.get_position(),
+                    current_pose.get_orientation(),
                 )
                 self.constraint_id = p.createConstraint(
                     parentBodyUniqueId=object_id,
@@ -161,39 +161,42 @@ class Bestman_sim_panda(Bestman_sim):
     # Functions for pick and place
     # ----------------------------------------------------------------
 
-    def pick(self, object):
+    def pick(self, pick_pose):
         """
         Pick up the specified object without collision.
 
         Args:
-            object (str): The name or ID of the object to be picked up.
+            pick_pose (Pose): pick pose
         """
-        object_id = self.client.resolve_object_id(object)
-        position, _ = p.getBasePositionAndOrientation(object_id)
-        goal_pose = Pose(
-            [position[0], position[1], position[2] + 0.015], [0, math.pi, 0]
+        pick_position, pick_orientation = pick_pose.get_position(), pick_pose.get_orientation()
+        tmp_pose1 = Pose(
+            [pick_position[0], pick_position[1], pick_position[2] + 0.06], pick_orientation
         )
-        self.sim_move_end_effector_to_goal_pose(goal_pose, 50)
+        tmp_pose2 = Pose(
+            [pick_position[0], pick_position[1], pick_position[2] - 0.03], pick_orientation
+        )
+        tmp_pose3 = Pose(
+            [pick_position[0], pick_position[1], pick_position[2] + 0.5], pick_orientation
+        )
+        self.sim_move_end_effector_to_goal_pose(tmp_pose1, 100)
         self.sim_open_gripper()
-        goal_pose = Pose(
-            [position[0], position[1], position[2] - 0.005], [0, math.pi, 0]
-        )
-        self.sim_move_end_effector_to_goal_pose(goal_pose, 50)
+        self.sim_move_end_effector_to_goal_pose(tmp_pose2, 100)
         self.sim_close_gripper()
-
-    def place(self, goal_pose):
+        self.sim_move_end_effector_to_goal_pose(tmp_pose3, 100)
+        
+    def place(self, place_pose):
         """
         Place an object at the specified goal pose without collision.
 
         Args:
-            goal_pose (Pose): The pose where the object will be placed.
+            place_pose (Pose): The pose where the object will be placed.
         """
-        init_pose = self.sim_get_current_end_effector_pose()
-        init_pos, _ = init_pose.position, init_pose.orientation
-        goal_pos, goal_orn = goal_pose.position, goal_pose.orientation
-        tmp_pose = Pose([init_pos[0], init_pos[1], goal_pos[2]], goal_orn)
-        self.sim_move_end_effector_to_goal_pose(tmp_pose, 50)
-        self.sim_move_end_effector_to_goal_pose(goal_pose, 50)
+        place_position, place_orientation = place_pose.get_position(), place_pose.get_orientation()
+        tmp_pose1 = Pose(
+            [place_position[0], place_position[1], place_position[2] + 0.06], place_orientation
+        )
+        self.sim_move_end_effector_to_goal_pose(tmp_pose1, 100)
+        self.sim_move_end_effector_to_goal_pose(place_pose, 100)
         self.sim_open_gripper()
 
     def pick_place(self, object, goal_pose):

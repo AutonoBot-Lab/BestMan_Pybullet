@@ -144,9 +144,6 @@ class OMPL_Planner:
         Returns:
             list: The goal state in joint space.
         """
-        # target_position = target_pose.position
-        # target_orientation = target_pose.orientation
-        # target_pose = Pose([target_position[0], target_position[1], target_position[2] + 0.2], target_orientation)
         goal = self.robot.sim_cartesian_to_joints(target_pose)
         return goal
 

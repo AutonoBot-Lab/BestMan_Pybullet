@@ -46,8 +46,8 @@ def main():
     # bestman.sim_visualize_camera_3d_points()
     
     # debug, look for camera pose
-    # camera_pose = bestman.sim_get_camera_pose()
-    # visualizer.draw_pose(camera_pose)
+    camera_pose = bestman.sim_get_camera_pose()
+    visualizer.draw_pose(camera_pose)
     
     # Init Lang_SAM and segment
     lang_sam = Lang_SAM()
@@ -76,12 +76,16 @@ def main():
     # path = ompl_planner.plan(start, goal)
     # bestman.execute_trajectory(path, enable_plot=True)
     
-    bestman.sim_open_gripper()
-    bestman.sim_move_end_effector_to_goal_pose(best_pose, 50)
-    visualizer.draw_link_pose(bestman.sim_get_arm_id(), bestman.sim_get_end_effector_link())
+    # bestman.sim_open_gripper()
+    # bestman.sim_move_end_effector_to_goal_pose(best_pose, 50)
+    # visualizer.draw_link_pose(bestman.sim_get_arm_id(), bestman.sim_get_end_effector_link())
+    bestman.pick(best_pose)
+    tmp_position = best_pose.get_position()
+    tmp_pose = Pose([tmp_position[0], tmp_position[1], tmp_position[2]+0.4], best_pose.get_orientation())
+    bestman.sim_move_end_effector_to_goal_pose(tmp_pose, 50)
     
     # client.wait(5)
-    bestman.sim_close_gripper()
+    # bestman.sim_close_gripper()
     
     # disconnect pybullet
     client.wait(100)
