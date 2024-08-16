@@ -1,4 +1,4 @@
-![](docs/BestMan_logo.png)
+![](docs/_static/BestMan_logo.png)
 
 <!-- # BestMan - A Pybullet-based Mobile Manipulator Simulator -->
 
