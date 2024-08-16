@@ -1,215 +1,0 @@
-Reading package lists...
-Building dependency tree...
-Reading state information...
-curl is already the newest version (7.68.0-1ubuntu2.18).
-The following packages were automatically installed and are no longer required:
-  apt-clone archdetect-deb bogl-bterm busybox-static cryptsetup-bin
-  dctrl-tools dpkg-repack gir1.2-goa-1.0 gir1.2-timezonemap-1.0 gir1.2-xkl-1.0
-  grub-common libavresample-dev libavresample4 libdc1394-22-dev
-  libdebian-installer4 libexif-dev libfwupdplugin1 libgdcm-dev libgphoto2-dev
-  libilmbase-dev libopencv4.2-java libopencv4.2-jni libopenexr-dev
-  libpython2-dev libpython2.7-dev libraw1394-dev libtimezonemap-data
-  libtimezonemap1 libxmlb1 os-prober python2-dev python2.7-dev python3-icu
-  python3-pam rdate tasksel tasksel-data
-Use 'sudo apt autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-GitHub520 Host added to host file
-Refreshed network settings, sleep 5 seconds
-Reading package lists...
-Building dependency tree...
-Reading state information...
-ros-noetic-catkin is already the newest version (0.8.10-1focal.20210423.222123).
-ros-noetic-catkin set to manually installed.
-The following packages were automatically installed and are no longer required:
-  apt-clone archdetect-deb bogl-bterm busybox-static cryptsetup-bin
-  dctrl-tools dpkg-repack gir1.2-goa-1.0 gir1.2-timezonemap-1.0 gir1.2-xkl-1.0
-  grub-common libavresample-dev libavresample4 libdc1394-22-dev
-  libdebian-installer4 libexif-dev libfwupdplugin1 libgdcm-dev libgphoto2-dev
-  libilmbase-dev libopencv4.2-java libopencv4.2-jni libopenexr-dev
-  libpython2-dev libpython2.7-dev libraw1394-dev libtimezonemap-data
-  libtimezonemap1 libxmlb1 os-prober python2-dev python2.7-dev python3-icu
-  python3-pam rdate tasksel tasksel-data
-Use 'sudo apt autoremove' to remove them.
-The following additional packages will be installed:
-  python3-importlib-metadata python3-more-itertools python3-zipp
-The following NEW packages will be installed:
-  python3-catkin-tools python3-importlib-metadata python3-more-itertools
-  python3-osrf-pycommon python3-zipp
-0 upgraded, 5 newly installed, 0 to remove and 0 not upgraded.
-Need to get 236 kB of archives.
-After this operation, 1,006 kB of additional disk space will be used.
-Get:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports focal/main arm64 python3-more-itertools all 4.2.0-1build1 [39.4 kB]
-Get:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports focal/main arm64 python3-zipp all 1.0.0-1 [5,312 B]
-Get:3 https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports focal/main arm64 python3-importlib-metadata all 1.5.0-1 [9,992 B]
-Get:4 http://packages.ros.org/ros/ubuntu focal/main arm64 python3-osrf-pycommon all 2.0.2-1 [23.3 kB]
-Get:5 http://packages.ros.org/ros/ubuntu focal/main arm64 python3-catkin-tools all 0.9.2-1 [158 kB]
-Fetched 236 kB in 14s (16.9 kB/s)
-Selecting previously unselected package python3-more-itertools.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 231699 files and directories currently installed.)
-Preparing to unpack .../python3-more-itertools_4.2.0-1build1_all.deb ...
-Unpacking python3-more-itertools (4.2.0-1build1) ...
-Selecting previously unselected package python3-zipp.
-Preparing to unpack .../python3-zipp_1.0.0-1_all.deb ...
-Unpacking python3-zipp (1.0.0-1) ...
-Selecting previously unselected package python3-importlib-metadata.
-Preparing to unpack .../python3-importlib-metadata_1.5.0-1_all.deb ...
-Unpacking python3-importlib-metadata (1.5.0-1) ...
-Selecting previously unselected package python3-osrf-pycommon.
-Preparing to unpack .../python3-osrf-pycommon_2.0.2-1_all.deb ...
-Unpacking python3-osrf-pycommon (2.0.2-1) ...
-Selecting previously unselected package python3-catkin-tools.
-Preparing to unpack .../python3-catkin-tools_0.9.2-1_all.deb ...
-Unpacking python3-catkin-tools (0.9.2-1) ...
-Setting up python3-more-itertools (4.2.0-1build1) ...
-Setting up python3-zipp (1.0.0-1) ...
-Setting up python3-importlib-metadata (1.5.0-1) ...
-Setting up python3-osrf-pycommon (2.0.2-1) ...
-Setting up python3-catkin-tools (0.9.2-1) ...
-Reading package lists...
-Building dependency tree...
-Reading state information...
-python3-wstool is already the newest version (0.1.18-2).
-The following packages were automatically installed and are no longer required:
-  apt-clone archdetect-deb bogl-bterm busybox-static cryptsetup-bin
-  dctrl-tools dpkg-repack gir1.2-goa-1.0 gir1.2-timezonemap-1.0 gir1.2-xkl-1.0
-  grub-common libavresample-dev libavresample4 libdc1394-22-dev
-  libdebian-installer4 libexif-dev libfwupdplugin1 libgdcm-dev libgphoto2-dev
-  libilmbase-dev libopencv4.2-java libopencv4.2-jni libopenexr-dev
-  libpython2-dev libpython2.7-dev libraw1394-dev libtimezonemap-data
-  libtimezonemap1 libxmlb1 os-prober python2-dev python2.7-dev python3-icu
-  python3-pam rdate tasksel tasksel-data
-Use 'sudo apt autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-ros-noetic-moveit is already the newest version (1.1.12-1focal.20230524.175455).
-The following packages were automatically installed and are no longer required:
-  apt-clone archdetect-deb bogl-bterm busybox-static cryptsetup-bin
-  dctrl-tools dpkg-repack gir1.2-goa-1.0 gir1.2-timezonemap-1.0 gir1.2-xkl-1.0
-  grub-common libavresample-dev libavresample4 libdc1394-22-dev
-  libdebian-installer4 libexif-dev libfwupdplugin1 libgdcm-dev libgphoto2-dev
-  libilmbase-dev libopencv4.2-java libopencv4.2-jni libopenexr-dev
-  libpython2-dev libpython2.7-dev libraw1394-dev libtimezonemap-data
-  libtimezonemap1 libxmlb1 os-prober python2-dev python2.7-dev python3-icu
-  python3-pam rdate tasksel tasksel-data
-Use 'sudo apt autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-ros-noetic-moveit-visual-tools is already the newest version (3.6.1-1focal.20230524.163839).
-The following packages were automatically installed and are no longer required:
-  apt-clone archdetect-deb bogl-bterm busybox-static cryptsetup-bin
-  dctrl-tools dpkg-repack gir1.2-goa-1.0 gir1.2-timezonemap-1.0 gir1.2-xkl-1.0
-  grub-common libavresample-dev libavresample4 libdc1394-22-dev
-  libdebian-installer4 libexif-dev libfwupdplugin1 libgdcm-dev libgphoto2-dev
-  libilmbase-dev libopencv4.2-java libopencv4.2-jni libopenexr-dev
-  libpython2-dev libpython2.7-dev libraw1394-dev libtimezonemap-data
-  libtimezonemap1 libxmlb1 os-prober python2-dev python2.7-dev python3-icu
-  python3-pam rdate tasksel tasksel-data
-Use 'sudo apt autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-The following packages were automatically installed and are no longer required:
-  apt-clone archdetect-deb bogl-bterm busybox-static cryptsetup-bin
-  dctrl-tools dpkg-repack gir1.2-goa-1.0 gir1.2-timezonemap-1.0 gir1.2-xkl-1.0
-  grub-common libavresample-dev libavresample4 libdc1394-22-dev
-  libdebian-installer4 libexif-dev libfwupdplugin1 libgdcm-dev libgphoto2-dev
-  libilmbase-dev libopencv4.2-java libopencv4.2-jni libopenexr-dev
-  libpython2-dev libpython2.7-dev libraw1394-dev libtimezonemap-data
-  libtimezonemap1 libxmlb1 os-prober python2-dev python2.7-dev python3-icu
-  python3-pam rdate tasksel tasksel-data
-Use 'sudo apt autoremove' to remove them.
-The following additional packages will be installed:
-  ros-noetic-ackermann-steering-controller ros-noetic-combined-robot-hw
-  ros-noetic-effort-controllers ros-noetic-force-torque-sensor-controller
-  ros-noetic-gripper-action-controller ros-noetic-imu-sensor-controller
-  ros-noetic-joint-trajectory-controller ros-noetic-velocity-controllers
-The following NEW packages will be installed:
-  ros-noetic-ackermann-steering-controller ros-noetic-combined-robot-hw
-  ros-noetic-effort-controllers ros-noetic-force-torque-sensor-controller
-  ros-noetic-gripper-action-controller ros-noetic-imu-sensor-controller
-  ros-noetic-joint-trajectory-controller ros-noetic-ros-control
-  ros-noetic-ros-controllers ros-noetic-velocity-controllers
-0 upgraded, 10 newly installed, 0 to remove and 0 not upgraded.
-Need to get 700 kB of archives.
-After this operation, 3,355 kB of additional disk space will be used.
-Get:1 http://packages.ros.org/ros/ubuntu focal/main arm64 ros-noetic-ackermann-steering-controller arm64 0.21.1-1focal.20230524.151923 [75.1 kB]
-Get:2 http://packages.ros.org/ros/ubuntu focal/main arm64 ros-noetic-combined-robot-hw arm64 0.19.6-1focal.20230215.211842 [72.8 kB]
-Get:3 http://packages.ros.org/ros/ubuntu focal/main arm64 ros-noetic-effort-controllers arm64 0.21.1-1focal.20230524.153030 [77.7 kB]
-Get:4 http://packages.ros.org/ros/ubuntu focal/main arm64 ros-noetic-force-torque-sensor-controller arm64 0.21.1-1focal.20230216.021721 [41.7 kB]
-Get:5 http://packages.ros.org/ros/ubuntu focal/main arm64 ros-noetic-gripper-action-controller arm64 0.21.1-1focal.20230216.024709 [102 kB]
-Get:6 http://packages.ros.org/ros/ubuntu focal/main arm64 ros-noetic-imu-sensor-controller arm64 0.21.1-1focal.20230216.023958 [42.4 kB]
-Get:7 http://packages.ros.org/ros/ubuntu focal/main arm64 ros-noetic-joint-trajectory-controller arm64 0.21.1-1focal.20230524.152854 [215 kB]
-Get:8 http://packages.ros.org/ros/ubuntu focal/main arm64 ros-noetic-ros-control arm64 0.19.6-1focal.20230216.025950 [3,036 B]
-Get:9 http://packages.ros.org/ros/ubuntu focal/main arm64 ros-noetic-velocity-controllers arm64 0.21.1-1focal.20230216.024743 [66.4 kB]
-Get:10 http://packages.ros.org/ros/ubuntu focal/main arm64 ros-noetic-ros-controllers arm64 0.21.1-1focal.20230524.154320 [3,248 B]
-Fetched 700 kB in 5s (136 kB/s)
-Selecting previously unselected package ros-noetic-ackermann-steering-controller.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 231867 files and directories currently installed.)
-Preparing to unpack .../0-ros-noetic-ackermann-steering-controller_0.21.1-1focal.20230524.151923_arm64.deb ...
-Unpacking ros-noetic-ackermann-steering-controller (0.21.1-1focal.20230524.151923) ...
-Selecting previously unselected package ros-noetic-combined-robot-hw.
-Preparing to unpack .../1-ros-noetic-combined-robot-hw_0.19.6-1focal.20230215.211842_arm64.deb ...
-Unpacking ros-noetic-combined-robot-hw (0.19.6-1focal.20230215.211842) ...
-Selecting previously unselected package ros-noetic-effort-controllers.
-Preparing to unpack .../2-ros-noetic-effort-controllers_0.21.1-1focal.20230524.153030_arm64.deb ...
-Unpacking ros-noetic-effort-controllers (0.21.1-1focal.20230524.153030) ...
-Selecting previously unselected package ros-noetic-force-torque-sensor-controller.
-Preparing to unpack .../3-ros-noetic-force-torque-sensor-controller_0.21.1-1focal.20230216.021721_arm64.deb ...
-Unpacking ros-noetic-force-torque-sensor-controller (0.21.1-1focal.20230216.021721) ...
-Selecting previously unselected package ros-noetic-gripper-action-controller.
-Preparing to unpack .../4-ros-noetic-gripper-action-controller_0.21.1-1focal.20230216.024709_arm64.deb ...
-Unpacking ros-noetic-gripper-action-controller (0.21.1-1focal.20230216.024709) ...
-Selecting previously unselected package ros-noetic-imu-sensor-controller.
-Preparing to unpack .../5-ros-noetic-imu-sensor-controller_0.21.1-1focal.20230216.023958_arm64.deb ...
-Unpacking ros-noetic-imu-sensor-controller (0.21.1-1focal.20230216.023958) ...
-Selecting previously unselected package ros-noetic-joint-trajectory-controller.
-Preparing to unpack .../6-ros-noetic-joint-trajectory-controller_0.21.1-1focal.20230524.152854_arm64.deb ...
-Unpacking ros-noetic-joint-trajectory-controller (0.21.1-1focal.20230524.152854) ...
-Selecting previously unselected package ros-noetic-ros-control.
-Preparing to unpack .../7-ros-noetic-ros-control_0.19.6-1focal.20230216.025950_arm64.deb ...
-Unpacking ros-noetic-ros-control (0.19.6-1focal.20230216.025950) ...
-Selecting previously unselected package ros-noetic-velocity-controllers.
-Preparing to unpack .../8-ros-noetic-velocity-controllers_0.21.1-1focal.20230216.024743_arm64.deb ...
-Unpacking ros-noetic-velocity-controllers (0.21.1-1focal.20230216.024743) ...
-Selecting previously unselected package ros-noetic-ros-controllers.
-Preparing to unpack .../9-ros-noetic-ros-controllers_0.21.1-1focal.20230524.154320_arm64.deb ...
-Unpacking ros-noetic-ros-controllers (0.21.1-1focal.20230524.154320) ...
-Setting up ros-noetic-force-torque-sensor-controller (0.21.1-1focal.20230216.021721) ...
-Setting up ros-noetic-gripper-action-controller (0.21.1-1focal.20230216.024709) ...
-Setting up ros-noetic-velocity-controllers (0.21.1-1focal.20230216.024743) ...
-Setting up ros-noetic-combined-robot-hw (0.19.6-1focal.20230215.211842) ...
-Setting up ros-noetic-ackermann-steering-controller (0.21.1-1focal.20230524.151923) ...
-Setting up ros-noetic-joint-trajectory-controller (0.21.1-1focal.20230524.152854) ...
-Setting up ros-noetic-imu-sensor-controller (0.21.1-1focal.20230216.023958) ...
-Setting up ros-noetic-effort-controllers (0.21.1-1focal.20230524.153030) ...
-Setting up ros-noetic-ros-control (0.19.6-1focal.20230216.025950) ...
-Setting up ros-noetic-ros-controllers (0.21.1-1focal.20230524.154320) ...
-Reading package lists...
-Building dependency tree...
-Reading state information...
-ros-noetic-controller-interface is already the newest version (0.19.6-1focal.20230215.211856).
-ros-noetic-controller-interface set to manually installed.
-ros-noetic-controller-manager is already the newest version (0.19.6-1focal.20230216.021017).
-ros-noetic-controller-manager set to manually installed.
-ros-noetic-controller-manager-msgs is already the newest version (0.19.6-1focal.20230216.020837).
-ros-noetic-controller-manager-msgs set to manually installed.
-The following packages were automatically installed and are no longer required:
-  apt-clone archdetect-deb bogl-bterm busybox-static cryptsetup-bin
-  dctrl-tools dpkg-repack gir1.2-goa-1.0 gir1.2-timezonemap-1.0 gir1.2-xkl-1.0
-  grub-common libavresample-dev libavresample4 libdc1394-22-dev
-  libdebian-installer4 libexif-dev libfwupdplugin1 libgdcm-dev libgphoto2-dev
-  libilmbase-dev libopencv4.2-java libopencv4.2-jni libopenexr-dev
-  libpython2-dev libpython2.7-dev libraw1394-dev libtimezonemap-data
-  libtimezonemap1 libxmlb1 os-prober python2-dev python2.7-dev python3-icu
-  python3-pam rdate tasksel tasksel-data
-Use 'sudo apt autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-
-Connecting to GitHub, please wait...
-If the download stuck here for a long time
-please check your network connection and rerun this script

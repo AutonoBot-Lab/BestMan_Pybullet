@@ -11,7 +11,6 @@
 
 import json
 import math
-import random
 import time
 from datetime import datetime
 
@@ -38,7 +37,6 @@ class Client:
 
         if cfg.enable_GUI:
             if cfg.enable_capture:
-                # width, height = 1920, 1080
                 width, height = cfg.width, cfg.height
                 self.client_id = p.connect(
                     p.GUI, options=f"--width={width} --height={height}"
@@ -51,14 +49,16 @@ class Client:
 
         if not cfg.enable_Debug:
             p.configureDebugVisualizer(p.COV_ENABLE_GUI, 0)
-
+        
         if cfg.shadows:
-            p.configureDebugVisualizer(p.COV_ENABLE_SHADOWS, 1)
-
+            p.configureDebugVisualizer(p.COV_ENABLE_SHADOWS, 1) # enable shadows
+            p.configureDebugVisualizer(p.COV_ENABLE_SEGMENTATION_MARK_PREVIEW, 0)   # close segment mark preview
+            # p.configureDebugVisualizer(p.COV_ENABLE_PLANAR_REFLECTION, 1)   # enable planar reflection
+        
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
         p.setGravity(cfg.Gravity[0], cfg.Gravity[1], cfg.Gravity[2])
         p.setPhysicsEngineParameter(numSolverIterations=cfg.numSolverIterations)
-        # p.setRealTimeSimulation(1)  # 开启实时模拟
+        # p.setRealTimeSimulation(1)  # set up real-time simulation
 
         # pybullet recorder for blender show
         self.blender = cfg.blender
