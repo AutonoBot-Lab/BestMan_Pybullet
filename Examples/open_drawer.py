@@ -20,7 +20,7 @@ from Motion_Planning.Manipulation import OMPL_Planner
 from Motion_Planning.Navigation import AStarPlanner
 from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long, Pose
 from SLAM import simple_slam
-from Utils import load_config
+from config import load_config
 from Visualization import Visualizer
 
 

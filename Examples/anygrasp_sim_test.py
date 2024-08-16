@@ -14,7 +14,7 @@ from Env import Client
 from Perception.Grasp_Pose_Estimation import Anygrasp
 from Perception.Object_detection import Lang_SAM
 from RoboticsToolBox import Bestman_sim_panda, Pose
-from Utils import load_config
+from config import load_config
 from Visualization import Visualizer
 from Motion_Planning.Manipulation import OMPL_Planner
 import math

@@ -12,7 +12,7 @@
 import os
 
 from Env import Client
-from Utils import load_config
+from config import load_config
 
 
 def main(filename):
