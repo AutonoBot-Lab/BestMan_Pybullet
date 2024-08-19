@@ -12,10 +12,10 @@
 import math
 import os
 
+from Config import load_config
 from Env import Client
 from Motion_Planning.Navigation import *
 from RoboticsToolBox import Bestman_sim_panda, Pose
-from Config import load_config
 from Visualization import Visualizer
 
 
@@ -58,10 +58,7 @@ def main(filename):
     # grasp target object
     visualizer.draw_object_pose("lego")
     min_x, min_y, _, max_x, max_y, max_z = client.get_bounding_box("lego")
-    pick_pose = Pose(
-        [(min_x + max_x) / 2, (min_y + max_y) / 2, max_z],
-        [0, math.pi, 0]
-    )
+    pick_pose = Pose([(min_x + max_x) / 2, (min_y + max_y) / 2, max_z], [0, math.pi, 0])
     place_pose = Pose([1.2, 0.85, 0.84], [0, math.pi, 0])
     bestman.pick_place(pick_pose, place_pose)
 

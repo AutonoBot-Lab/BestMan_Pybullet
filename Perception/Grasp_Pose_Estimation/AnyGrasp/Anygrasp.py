@@ -92,7 +92,7 @@ class Anygrasp:
         zmin = points[:, 2].min()
         zmax = points[:, 2].max()
         lims = [xmin, xmax, ymin, ymax, zmin, zmax]
-        
+
         # Grasp prediction, return grasp group and point cloud
         gg, cloud = self.grasping_model.get_grasp(
             points,
@@ -102,20 +102,21 @@ class Anygrasp:
             dense_grasp=False,
             collision_detection=True,
         )
-        trans_mat = np.array(
-            [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]]
-        )
+        trans_mat = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]])
         cloud.transform(trans_mat)
-        
+
         if len(gg) == 0:
             print(
                 "[AnyGrasp] \033[33mwarning\033[0m: No Grasp detected after collision detection!"
             )
             return None
-            
+
         # The grasped groups are subjected to non-maximum suppression (NMS) and sorted by scores.
         gg = gg.nms().sort_by_score()
-        print("[AnyGrasp] \033[34mInfo\033[0m: Grasp point number of all objects:", len(gg))
+        print(
+            "[AnyGrasp] \033[34mInfo\033[0m: Grasp point number of all objects:",
+            len(gg),
+        )
 
         if self.cfgs.debug:
             grippers = gg.to_open3d_geometry_list()
@@ -126,7 +127,7 @@ class Anygrasp:
                 grippers,
                 save_file=os.path.join(self.cfgs.output_dir, "poses.png"),
             )
-        
+
         filter_gg = GraspGroup()
 
         # Reference direction vector, indicating the ideal grasping direction.
@@ -136,25 +137,39 @@ class Anygrasp:
         # visualize the grip points associated with the given object
         image = copy.deepcopy(camera.image)
         img_drw = draw_rectangle(image, bbox)
-        
+
         # Filtering the grasps by penalising the vertical grasps as they are not robust to calibration errors.
         for g in gg:
 
             grasp_center = g.translation
-            
+
             # Convert the coordinates of a grasp center in three-dimensional space to two-dimensional coordinates on the image plane
-            ix = max(0, min(camera.width - 1, int(((grasp_center[0] * camera.fx) / grasp_center[2]) + camera.cx)))
-            iy = max(0, min(camera.height - 1, int(((-grasp_center[1] * camera.fy) / grasp_center[2]) + camera.cy)))
-            
+            ix = max(
+                0,
+                min(
+                    camera.width - 1,
+                    int(((grasp_center[0] * camera.fx) / grasp_center[2]) + camera.cx),
+                ),
+            )
+            iy = max(
+                0,
+                min(
+                    camera.height - 1,
+                    int(((-grasp_center[1] * camera.fy) / grasp_center[2]) + camera.cy),
+                ),
+            )
+
             if crop_flag:
                 filter_gg.add(g)
             else:
-                if seg_mask[iy, ix]:    # Check if the grasp point is within the grasp object area
+                if seg_mask[
+                    iy, ix
+                ]:  # Check if the grasp point is within the grasp object area
                     img_drw.ellipse([(ix - 2, iy - 2), (ix + 2, iy + 2)], fill="green")
-                    
+
                     # # 3 * 3 rotation matrix
                     # rotation_matrix = g.rotation_matrix
-                    
+
                     # # The angle between ref vec and grasp z-axis direction
                     # cur_vec = rotation_matrix[:, 2]
                     # angle = math.acos(np.dot(ref_vec, cur_vec) / (np.linalg.norm(cur_vec)))
@@ -189,8 +204,11 @@ class Anygrasp:
         )
 
         filter_gg = filter_gg.nms().sort_by_score()
-        print("[AnyGrasp] \033[34mInfo\033[0m: Filter grasp point number of grasp object:", len(filter_gg))
-        
+        print(
+            "[AnyGrasp] \033[34mInfo\033[0m: Filter grasp point number of grasp object:",
+            len(filter_gg),
+        )
+
         self.print_filter_gg(filter_gg)
 
         if self.cfgs.debug:
@@ -209,7 +227,7 @@ class Anygrasp:
         # ]
         best_pose = Pose(filter_gg[0].translation, filter_gg[0].rotation_matrix)
         return best_pose
-    
+
     def print_filter_gg(self, filter_gg):
         """print grasp pose and score, Descending.
 
@@ -218,12 +236,13 @@ class Anygrasp:
         """
         print(f"[AnyGrasp] \033[34mInfo\033[0m: AnyGrasp output pose about object:")
         for g in filter_gg:
-            print(f"[AnyGrasp] \033[34mInfo\033[0m: translation: {g.translation}, z_vec: {g.rotation_matrix[:, 2]}, score: {g.score}")
-        
+            print(
+                f"[AnyGrasp] \033[34mInfo\033[0m: translation: {g.translation}, z_vec: {g.rotation_matrix[:, 2]}, score: {g.score}"
+            )
 
 
 if __name__ == "__main__":
-    
+
     # set work dir to AnyGrasp
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
 

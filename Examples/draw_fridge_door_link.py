@@ -12,9 +12,9 @@
 import math
 import os
 
+from Config import load_config
 from Env import Client
 from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long
-from Config import load_config
 from Visualization import Visualizer
 
 
@@ -40,7 +40,9 @@ def main(filename):
     bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
 
     # Init visualizer
-    visualizer.change_robot_color(bestman.sim_get_base_id(), bestman.sim_get_arm_id(), False)
+    visualizer.change_robot_color(
+        bestman.sim_get_base_id(), bestman.sim_get_arm_id(), False
+    )
 
     # Open fridge joint between handle and door
     client.change_object_joint_angle("fridge", 1, math.pi / 2)
@@ -51,14 +53,14 @@ def main(filename):
 
     # End record
     visualizer.end_record()
-    
+
     # Disconnect pybullet
     client.wait(10)
     client.disconnect()
 
 
 if __name__ == "__main__":
-    
+
     # set work dir to Examples
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
 

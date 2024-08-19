@@ -116,7 +116,9 @@ class OMPL_Planner:
         self.target_id = self.client.resolve_object_id(target)
 
         # get target object bounds
-        min_x, min_y, _, max_x, max_y, max_z = self.client.get_bounding_box(self.target_id)
+        min_x, min_y, _, max_x, max_y, max_z = self.client.get_bounding_box(
+            self.target_id
+        )
 
         # set target object Pose
         goal_pose = Pose(
@@ -166,7 +168,7 @@ class OMPL_Planner:
             obstacle_id: id of the obstacle to add.
         """
         self.collision.add_obstacle(obstacle)
-            
+
     def remove_obstacle(self, obstacle):
         """
         Remove obstacle from the list of obstacles.
@@ -176,7 +178,7 @@ class OMPL_Planner:
             obstacle_id: id of the obstacle to remove.
         """
         self.collision.remove_obstacle(obstacle)
-            
+
     def get_obstacles_info(self):
         """
         Check obstacles in the scene and print them to the console.
@@ -225,9 +227,7 @@ class OMPL_Planner:
             print("[OMPL Planner] \033[34mInfo\033[0m: End planning!")
             return path
         except RuntimeError as _:
-            print(
-                "[OMPL Planner] \033[31merror\033[0m: No solution found!"
-            )
+            print("[OMPL Planner] \033[31merror\033[0m: No solution found!")
 
     # ----------------------------------------------------------------
     # Utils

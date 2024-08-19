@@ -370,8 +370,7 @@ class Visualizer:
             textColorRGB=[0, 0, 1],
             textSize=textSize,
         )
-        
-    
+
     def draw_pose(self, pose, length=0.25, lineWidth=2.0, textSize=1.0):
         """
         Draws the pose of an object in the PyBullet environment.
@@ -388,7 +387,7 @@ class Visualizer:
         text_position = (
             np.array(position)[:, np.newaxis] + (length + 0.1) * orientation_matrix
         )
-        
+
         # draw pose
         p.addUserDebugLine(position, axes_position[:, 0], [1, 0, 0], lineWidth, 0)
         p.addUserDebugLine(position, axes_position[:, 1], [0, 1, 0], lineWidth, 0)

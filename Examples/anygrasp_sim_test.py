@@ -8,16 +8,17 @@
 # @Description:   : A example to load kitchen
 """
 
+import math
 import os
 
+from Config import load_config
 from Env import Client
+from Motion_Planning.Manipulation.OMPL_Planner import OMPL_Planner
 from Perception.Grasp_Pose_Estimation import Anygrasp
 from Perception.Object_detection import Lang_SAM
 from RoboticsToolBox import Bestman_sim_panda, Pose
-from Config import load_config
 from Visualization import Visualizer
-from Motion_Planning.Manipulation.OMPL_Planner import OMPL_Planner
-import math
+
 
 def main():
 
@@ -39,16 +40,16 @@ def main():
     end_effector_pose = bestman.sim_get_current_end_effector_pose()
     end_effector_pose.print("init end effector pose")
     visualizer.draw_pose(end_effector_pose)
-    
+
     # Debug, look for rgb and depth
     # bestman.sim_get_camera_rgb_image(False, True, "rgb_test")
     # bestman.sim_get_camera_depth_image(False, True, "depth_test")
     # bestman.sim_visualize_camera_3d_points()
-    
+
     # debug, look for camera pose
     camera_pose = bestman.sim_get_camera_pose()
     visualizer.draw_pose(camera_pose)
-    
+
     # Init Lang_SAM and segment
     lang_sam = Lang_SAM()
     query = str(input("\033[34mInfo: Enter a Object name in the image: \033[0m"))
@@ -67,7 +68,7 @@ def main():
     best_pose = bestman.sim_trans_camera_to_world(best_pose)
     best_pose = bestman.align_grasp_pose_to_tcp([0, 0, -1], best_pose)
     visualizer.draw_pose(best_pose)
-    
+
     # Init ompl
     # ompl_planner = OMPL_Planner(bestman, cfg.Planner)
     # goal = ompl_planner.set_target_pose(best_pose)
@@ -75,18 +76,21 @@ def main():
     # start = bestman.get_current_joint_values()
     # path = ompl_planner.plan(start, goal)
     # bestman.execute_trajectory(path, enable_plot=True)
-    
+
     # bestman.sim_open_gripper()
     # bestman.sim_move_end_effector_to_goal_pose(best_pose, 50)
     # visualizer.draw_link_pose(bestman.sim_get_arm_id(), bestman.sim_get_end_effector_link())
     bestman.pick(best_pose)
     tmp_position = best_pose.get_position()
-    tmp_pose = Pose([tmp_position[0], tmp_position[1], tmp_position[2]+0.4], best_pose.get_orientation())
+    tmp_pose = Pose(
+        [tmp_position[0], tmp_position[1], tmp_position[2] + 0.4],
+        best_pose.get_orientation(),
+    )
     bestman.sim_move_end_effector_to_goal_pose(tmp_pose, 50)
-    
+
     # client.wait(5)
     # bestman.sim_close_gripper()
-    
+
     # disconnect pybullet
     client.wait(100)
     client.disconnect()

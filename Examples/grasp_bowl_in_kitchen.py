@@ -12,12 +12,12 @@
 import math
 import os
 
+from Config import load_config
 from Env import Client
 from Motion_Planning.Manipulation.OMPL_Planner import OMPL_Planner
 from Motion_Planning.Navigation import *
 from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long, Pose
 from SLAM import simple_slam
-from Config import load_config
 from Visualization import Visualizer
 
 
@@ -42,7 +42,9 @@ def main(filename):
 
     # Init robot
     bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
-    visualizer.change_robot_color(bestman.sim_get_base_id(), bestman.sim_get_arm_id(), False)
+    visualizer.change_robot_color(
+        bestman.sim_get_base_id(), bestman.sim_get_arm_id(), False
+    )
 
     # Open fridge
     client.change_object_joint_angle("microwave", 1, math.pi / 2.0)
@@ -60,7 +62,7 @@ def main(filename):
     )
     path = nav_planner.plan(bestman.sim_get_current_base_pose(), standing_pose)
     bestman.sim_navigate_base(standing_pose, path)
-    
+
     # load bowl
     bowl_id = client.load_object(
         "bowl",

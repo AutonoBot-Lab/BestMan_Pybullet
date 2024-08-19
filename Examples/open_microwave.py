@@ -15,10 +15,10 @@ import os
 import numpy as np
 import pybullet as p
 
+from Config import load_config
 from Env import Client
 from Motion_Planning.Manipulation.OMPL_Planner import OMPL_Planner
 from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long, Pose
-from Config import load_config
 from Visualization import Visualizer
 
 
@@ -94,7 +94,9 @@ def main(filename):
     bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
 
     # Init visualizer
-    visualizer.change_robot_color(bestman.sim_get_base_id(), bestman.sim_get_arm_id(), False)
+    visualizer.change_robot_color(
+        bestman.sim_get_base_id(), bestman.sim_get_arm_id(), False
+    )
 
     # Draw microwave door
     visualizer.draw_aabb_link("microwave", 1)
@@ -114,9 +116,9 @@ def main(filename):
         [
             min_x - bestman.sim_get_tcp_link_height() - 0.1,
             (min_y + max_y) / 2,
-            (min_z + max_z) / 2
+            (min_z + max_z) / 2,
         ],
-        [0.0, 0.0, 0.0]
+        [0.0, 0.0, 0.0],
     )
     goal = ompl_planner.set_target_pose(goal_pose)
 

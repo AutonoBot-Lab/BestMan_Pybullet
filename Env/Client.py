@@ -49,12 +49,14 @@ class Client:
 
         if not cfg.enable_Debug:
             p.configureDebugVisualizer(p.COV_ENABLE_GUI, 0)
-        
+
         if cfg.shadows:
-            p.configureDebugVisualizer(p.COV_ENABLE_SHADOWS, 1) # enable shadows
-            p.configureDebugVisualizer(p.COV_ENABLE_SEGMENTATION_MARK_PREVIEW, 0)   # close segment mark preview
+            p.configureDebugVisualizer(p.COV_ENABLE_SHADOWS, 1)  # enable shadows
+            p.configureDebugVisualizer(
+                p.COV_ENABLE_SEGMENTATION_MARK_PREVIEW, 0
+            )  # close segment mark preview
             # p.configureDebugVisualizer(p.COV_ENABLE_PLANAR_REFLECTION, 1)   # enable planar reflection
-        
+
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
         p.setGravity(cfg.Gravity[0], cfg.Gravity[1], cfg.Gravity[2])
         p.setPhysicsEngineParameter(numSolverIterations=cfg.numSolverIterations)
@@ -160,7 +162,10 @@ class Client:
             int: The ID of the loaded object in the PyBullet simulation.
         """
 
-        if isinstance(object_orientation, (tuple, list, np.ndarray)) and len(object_orientation) == 3:
+        if (
+            isinstance(object_orientation, (tuple, list, np.ndarray))
+            and len(object_orientation) == 3
+        ):
             object_orientation = p.getQuaternionFromEuler(
                 object_orientation, physicsClientId=self.client_id
             )
@@ -333,7 +338,7 @@ class Client:
         object_id = self.resolve_object_id(object)
         position, orientation = p.getBasePositionAndOrientation(object_id)
         return Pose(position, orientation)
-    
+
     def get_object_link_pose(self, object, link_id):
         """
         Retrieve the pose of a given link of an object.

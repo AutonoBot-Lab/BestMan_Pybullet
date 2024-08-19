@@ -15,12 +15,12 @@ import os
 import numpy as np
 import pybullet as p
 
+from Config import load_config
 from Env import Client
 from Motion_Planning.Manipulation.OMPL_Planner import OMPL_Planner
 from Motion_Planning.Navigation import AStarPlanner
 from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long, Pose
 from SLAM import simple_slam
-from Config import load_config
 from Visualization import Visualizer
 
 
@@ -60,7 +60,9 @@ def main(filename):
     bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
 
     # Init visualizer
-    visualizer.change_robot_color(bestman.sim_get_base_id(), bestman.sim_get_arm_id(), False)
+    visualizer.change_robot_color(
+        bestman.sim_get_base_id(), bestman.sim_get_arm_id(), False
+    )
 
     # Draw drawer link
     visualizer.draw_aabb_link("elementA", 36)
@@ -88,7 +90,8 @@ def main(filename):
     # The end effector Move along the specified trajectory get effector to open the drawer
     init_pose = bestman.sim_get_current_end_effector_pose()
     pull_joints = [
-        bestman.sim_cartesian_to_joints(pull_out(init_pose, i, 0.004)) for i in range(0, 50)
+        bestman.sim_cartesian_to_joints(pull_out(init_pose, i, 0.004))
+        for i in range(0, 50)
     ]
     bestman.sim_execute_trajectory(pull_joints, True)
 

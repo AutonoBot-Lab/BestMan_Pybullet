@@ -11,6 +11,7 @@
 import math
 import time
 from collections import namedtuple
+
 import numpy as np
 import pybullet as p
 
@@ -74,10 +75,10 @@ class Bestman_sim:
 
         # robot cfg
         robot_cfg = cfg.Robot
-        
+
         # init pose for base and arm
         init_pose = Pose(robot_cfg.init_pose[:3], robot_cfg.init_pose[3:])
-        
+
         # Init base
         self.base_id = self.client.load_object(
             obj_name="base",
@@ -103,11 +104,15 @@ class Bestman_sim:
         self.end_effector_index = robot_cfg.end_effector_index
         self.tcp_link = robot_cfg.tcp_link
         self.tcp_height = robot_cfg.tcp_height
-        self.arm_reset_jointValues = robot_cfg.arm_reset_jointValues  # arm reset joint values
+        self.arm_reset_jointValues = (
+            robot_cfg.arm_reset_jointValues
+        )  # arm reset joint values
         self.arm_jointInfo = self.sim_get_arm_all_jointInfo()
         self.arm_lower_limits = [info.lowerLimit for info in self.arm_jointInfo]
         self.arm_upper_limits = [info.upperLimit for info in self.arm_jointInfo]
-        self.arm_joint_ranges = [info.upperLimit - info.lowerLimit for info in self.arm_jointInfo]
+        self.arm_joint_ranges = [
+            info.upperLimit - info.lowerLimit for info in self.arm_jointInfo
+        ]
 
         # Add constraint between base and arm
         p.createConstraint(
@@ -124,17 +129,17 @@ class Bestman_sim:
 
         # synchronize base and arm positions
         self.sim_sync_base_arm_pose()
-        
+
         # Init arm joint angle
         self.sim_set_arm_to_joint_values(robot_cfg.arm_init_jointValues)
-        
+
         # change robot color
         self.visualizer.change_robot_color(self.base_id, self.arm_id, False)
 
         # Init camera
         Camera_cfg = cfg.Camera
         self.camera = Camera(Camera_cfg, self.base_id, self.arm_place_height)
-        
+
         # global parameters
         self.constraint_id = None  # grasp constraint id
 
@@ -177,7 +182,9 @@ class Bestman_sim:
         )
         return True
 
-    def sim_rotate_base(self, target_yaw, gradual=True, step_size=0.02, delay_time=0.05):
+    def sim_rotate_base(
+        self, target_yaw, gradual=True, step_size=0.02, delay_time=0.05
+    ):
         """
         Rotate base to a specified yaw angle. Can be done gradually or at once.
 
@@ -208,7 +215,9 @@ class Bestman_sim:
                 self.current_base_yaw = (self.current_base_yaw + math.pi) % (
                     2 * math.pi
                 ) - math.pi
-                angle_diff = shortest_angular_distance(self.current_base_yaw, target_yaw)
+                angle_diff = shortest_angular_distance(
+                    self.current_base_yaw, target_yaw
+                )
                 orientation = angle_to_quaternion(self.current_base_yaw)
                 position, _ = p.getBasePositionAndOrientation(
                     self.base_id, physicsClientId=self.client_id
@@ -309,7 +318,9 @@ class Bestman_sim:
 
         self.client.run()
 
-    def sim_navigate_base(self, goal_base_pose, path, threshold=0.05, enable_plot=False):
+    def sim_navigate_base(
+        self, goal_base_pose, path, threshold=0.05, enable_plot=False
+    ):
         """
         Navigate a robot from its current position to a specified goal position
 
@@ -354,7 +365,8 @@ class Bestman_sim:
         """
         current_base_pose = self.sim_get_current_base_pose()
         distance = np.linalg.norm(
-            np.array(current_base_pose.get_position()) - np.array(goal_pose.get_position())
+            np.array(current_base_pose.get_position())
+            - np.array(goal_pose.get_position())
         )
         return distance
 
@@ -424,33 +436,56 @@ class Bestman_sim:
             str: The end effector link id of the robot arm.
         """
         return self.end_effector_index
-    
+
     def sim_get_arm_all_jointInfo(self):
         """
         get all arm joints info
-        
+
         Returns:
             list: joint info list of all arm active joint
         """
-        jointInfo = namedtuple('jointInfo', 
-            ['id','name','type','damping','friction','lowerLimit','upperLimit','maxForce','maxVelocity'])
+        jointInfo = namedtuple(
+            "jointInfo",
+            [
+                "id",
+                "name",
+                "type",
+                "damping",
+                "friction",
+                "lowerLimit",
+                "upperLimit",
+                "maxForce",
+                "maxVelocity",
+            ],
+        )
         arm_jointInfo = []
         for i in self.arm_joints_idx:
             info = p.getJointInfo(self.arm_id, i)
             jointID = info[0]
             jointName = info[1].decode("utf-8")
-            jointType = info[2]  # JOINT_REVOLUTE, JOINT_PRISMATIC, JOINT_SPHERICAL, JOINT_PLANAR, JOINT_FIXED
+            jointType = info[
+                2
+            ]  # JOINT_REVOLUTE, JOINT_PRISMATIC, JOINT_SPHERICAL, JOINT_PLANAR, JOINT_FIXED
             jointDamping = info[6]
             jointFriction = info[7]
             jointLowerLimit = info[8]
             jointUpperLimit = info[9]
             jointMaxForce = info[10]
             jointMaxVelocity = info[11]
-            info = jointInfo(jointID,jointName,jointType,jointDamping,jointFriction,jointLowerLimit,
-                            jointUpperLimit,jointMaxForce,jointMaxVelocity)
+            info = jointInfo(
+                jointID,
+                jointName,
+                jointType,
+                jointDamping,
+                jointFriction,
+                jointLowerLimit,
+                jointUpperLimit,
+                jointMaxForce,
+                jointMaxVelocity,
+            )
             arm_jointInfo.append(info)
         return arm_jointInfo
-    
+
     def sim_get_joint_bounds(self):
         """
         Retrieves the joint bounds of the robot arm.
@@ -460,7 +495,9 @@ class Bestman_sim:
         Returns:
             list: A list of tuples representing the joint bounds, where each tuple contains the minimum and maximum values for a joint.
         """
-        joint_bounds = [[info.lowerLimit, info.upperLimit] for info in self.arm_jointInfo]
+        joint_bounds = [
+            [info.lowerLimit, info.upperLimit] for info in self.arm_jointInfo
+        ]
         return joint_bounds
 
     def sim_get_current_joint_values(self):
@@ -572,7 +609,7 @@ class Bestman_sim:
         #             )
         #         # print("-" * 20 + "\n" + "Timeout before reaching target joint position.")
         #         break
-        
+
         self.client.run(40)
 
     def sim_joints_to_cartesian(self, joint_values):
@@ -620,7 +657,7 @@ class Bestman_sim:
             jointRanges=self.arm_joint_ranges,
             restPoses=self.arm_reset_jointValues,
             maxNumIterations=max_iterations,
-            residualThreshold=threshold
+            residualThreshold=threshold,
         )[: self.DOF]
         return joint_values
 
@@ -670,7 +707,7 @@ class Bestman_sim:
     ):
         """
         Move arm's end effector to a target position.
-        
+
         Args:
             end_effector_goal_pose (Pose): The desired pose of the end effector (includes both position and orientation).
         """
@@ -683,7 +720,7 @@ class Bestman_sim:
             interpolated_orientation = p.getQuaternionSlerp(
                 start_pose.get_orientation(),
                 end_effector_goal_pose.get_orientation(),
-                t
+                t,
             )
             interpolated_pose = Pose(interpolated_position, interpolated_orientation)
             joint_values = self.sim_cartesian_to_joints(interpolated_pose)
@@ -698,8 +735,10 @@ class Bestman_sim:
             print(
                 f"[BestMan_Sim][Arm] \033[33mwarning\033[0m: The robot arm don't reach the specified position! IK error: {ik_error}"
             )
-            
-        print("[BestMan_Sim][Arm] \033[34mInfo\033[0m: Move end effector to goal pose finished!")
+
+        print(
+            "[BestMan_Sim][Arm] \033[34mInfo\033[0m: Move end effector to goal pose finished!"
+        )
 
     def sim_execute_trajectory(self, trajectory, threshold=0.1, enable_plot=False):
         """Execute the path planned by Planner
@@ -750,7 +789,8 @@ class Bestman_sim:
 
         end_effector_pose = self.sim_get_current_end_effector_pose()
         distance = np.linalg.norm(
-            np.array(end_effector_pose.get_position()) - np.array(goal_pose.get_position())
+            np.array(end_effector_pose.get_position())
+            - np.array(goal_pose.get_position())
         )
         return distance
 
@@ -818,8 +858,10 @@ class Bestman_sim:
 
     def sim_get_camera_pose(self):
         return self.camera.sim_get_camera_pose()
-        
-    def sim_get_camera_rgb_image(self, enable_show=False, enable_save=False, filename=None):
+
+    def sim_get_camera_rgb_image(
+        self, enable_show=False, enable_save=False, filename=None
+    ):
         return self.camera.sim_get_rgb_image(enable_show, enable_save, filename)
 
     def sim_get_camera_depth_image(
@@ -832,6 +874,6 @@ class Bestman_sim:
 
     def sim_visualize_camera_3d_points(self):
         self.camera.sim_visualize_3d_points()
-    
+
     def sim_trans_camera_to_world(self, pose):
         return self.camera.sim_trans_to_world(pose)

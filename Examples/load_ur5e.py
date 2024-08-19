@@ -11,9 +11,10 @@
 
 import os
 
+from config.load_config import load_config
+
 from Env.Client import Client
 from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long
-from config.load_config import load_config
 from Visualization.Visualizer import Visualizer
 
 

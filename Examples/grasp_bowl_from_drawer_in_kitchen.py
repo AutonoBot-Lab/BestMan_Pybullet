@@ -11,17 +11,17 @@
 
 import os
 
+from Config import load_config
 from Env import Client
 from Motion_Planning.Manipulation.OMPL_Planner import OMPL_Planner
 from Motion_Planning.Navigation import *
 from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long, Pose
 from SLAM import simple_slam
-from Config import load_config
 from Visualization import Visualizer
 
 
 def main(filename):
-    
+
     # Load config
     config_path = "../Config/grasp_bowl_from_drawer_in_kitchen.yaml"
     cfg = load_config(config_path)
@@ -43,7 +43,7 @@ def main(filename):
 
     # Open the drawer
     client.change_object_joint_angle("elementA", 36, 0.4)
-    
+
     # Simple SLAM
     nav_obstacles_bounds = simple_slam(client, bestman, True)
 
@@ -93,7 +93,7 @@ def main(filename):
 
     # grasp target object
     bestman.sim_create_fixed_constraint("bowl")
-    
+
     # End record
     visualizer.end_record()
 

@@ -17,6 +17,7 @@ import open3d as o3d
 import pybullet as p
 from matplotlib.colors import LinearSegmentedColormap
 from PIL import Image
+
 from RoboticsToolBox.Pose import Pose
 
 
@@ -50,7 +51,7 @@ class Camera:
 
         # camera rgb and depth image
         self.sim_update()
-        
+
         # cameara intrinsic parameters
         self.sim_get_focal_length()
         self.cx = self.width / 2
@@ -70,7 +71,7 @@ class Camera:
         view_mat = np.array(self.trans_camera_to_world).reshape([4, 4], order="F")
         pose = Pose(view_mat[:3, -1], view_mat[:3, :3])
         return pose
-    
+
     def sim_update(self):
         """
         Updates the camera view and projection matrices, captures images, and returns the captured data.
@@ -81,7 +82,9 @@ class Camera:
 
         # get base pose
         position, orientation = p.getBasePositionAndOrientation(self.base_id)
-        camera_position = np.array([position[0] + 0.5, position[1], self.arm_place_height + 0.3])
+        camera_position = np.array(
+            [position[0] + 0.5, position[1], self.arm_place_height + 0.3]
+        )
 
         # The three direction vectors of the camera in the world coordinate system
         # r_mat = p.getMatrixFromQuaternion(orientation)
@@ -92,19 +95,20 @@ class Camera:
         # tz_vec = self.sim_rotate_around_y(
         #     np.array([r_mat[2], r_mat[5], r_mat[8]]), rotation_angle
         # )  # z direction vector, the vertical direction of the camera
-        
 
         # set the camera orientation
-        target_position = camera_position +  [0, 0, -1]
+        target_position = camera_position + [0, 0, -1]
 
         self.view_mat = p.computeViewMatrix(
             cameraEyePosition=camera_position,
             cameraTargetPosition=target_position,
-            cameraUpVector=[1, 0, 0]
+            cameraUpVector=[1, 0, 0],
         )
-        
+
         # update trans camera to world mat
-        self.trans_camera_to_world = np.linalg.inv(np.array(self.view_mat).reshape([4, 4], order="F"))
+        self.trans_camera_to_world = np.linalg.inv(
+            np.array(self.view_mat).reshape([4, 4], order="F")
+        )
 
         # A projection matrix based on the field of view (FOV) to simulate the camera's perspective
         self.proj_mat = p.computeProjectionMatrixFOV(
@@ -119,7 +123,7 @@ class Camera:
             width=self.width,
             height=self.height,
             viewMatrix=self.view_mat,
-            projectionMatrix=self.proj_mat
+            projectionMatrix=self.proj_mat,
         )
 
         # make sure the array has the correct shape
@@ -130,8 +134,11 @@ class Camera:
         self.colors = np.array(rgb)  # BGR to RGB
 
         # pybullet return normalized depth values, convert ​​to actual depth values, unit：m
-        self.depths = self.farVal * self.nearVal / (self.farVal - (self.farVal - self.nearVal) * depth)
-
+        self.depths = (
+            self.farVal
+            * self.nearVal
+            / (self.farVal - (self.farVal - self.nearVal) * depth)
+        )
 
     def sim_get_rgb_image(self, enable_show=False, enable_save=False, filename=None):
         """
@@ -191,7 +198,7 @@ class Camera:
             depth_path = f"../Examples/image/{filename}.png"
             depths = (self.depths * 1000).astype(np.uint16)
             Image.fromarray(depths).save(depth_path)
-        
+
         return self.depths
 
     # ----------------------------------------------------------------
@@ -240,11 +247,11 @@ class Camera:
         point_cloud = o3d.geometry.PointCloud.create_from_rgbd_image(
             rgbd_image, intrinsic
         )
-        trans_mat = np.array(
-                [[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]]
-            )
+        trans_mat = np.array([[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]])
         point_cloud.transform(trans_mat)
-        coordinate_frame = o3d.geometry.TriangleMesh.create_coordinate_frame(size=0.1, origin=[0, 0, 0])
+        coordinate_frame = o3d.geometry.TriangleMesh.create_coordinate_frame(
+            size=0.1, origin=[0, 0, 0]
+        )
         vis = o3d.visualization.Visualizer()
         vis.create_window(window_name="visualize camera 3d points")
         vis.add_geometry(point_cloud)
@@ -269,14 +276,14 @@ class Camera:
         points = points[mask].astype(np.float32)
         colors = (self.colors / 255.0)[mask].astype(np.float32)
         return points, colors
-    
+
     def sim_trans_to_world(self, pose):
         """
-        Convert grasp pose from camera to world coord system 
+        Convert grasp pose from camera to world coord system
 
         Args:
             pose (Pose): pose in camera coord system
-        
+
         Returns:
             Pose: pose in world system
         """
@@ -285,9 +292,7 @@ class Camera:
         # pose_mat[:3, :3] = pose[1]
         pose_mat[:3, -1] = pose.get_position()
         pose_mat[:3, :3] = pose.get_orientation("rotation_matrix")
-        trans_mat = np.array(
-            [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]]
-        )
+        trans_mat = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]])
         world_pose = self.trans_camera_to_world @ (trans_mat @ pose_mat)
         world_pose[2, 3] -= 0.03
         world_pose = Pose(world_pose[:3, -1], world_pose[:3, :3])

@@ -58,7 +58,7 @@ class AStarPlanner:
         # only care about x, y
         self.start_position = start_pose.get_position()[0:2]
         self.goal_position = goal_pose.get_position()[0:2]
-        
+
         self.area = AreaBounds(
             self.start_position, self.goal_position, self.obstacles_bounds
         )

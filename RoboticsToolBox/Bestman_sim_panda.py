@@ -10,12 +10,13 @@
 
 import math
 
+import numpy as np
 import pybullet as p
+from scipy.spatial.transform import Rotation as R
 
 from .Bestman_sim import Bestman_sim
 from .Pose import Pose
-import numpy as np
-from scipy.spatial.transform import Rotation as R
+
 
 class Bestman_sim_panda(Bestman_sim):
     """
@@ -49,32 +50,26 @@ class Bestman_sim_panda(Bestman_sim):
 
         # Modify constraint parameters
         p.changeConstraint(c, gearRatio=-1, erp=0.1, maxForce=50)
-        
+
         # gripper range
         self.gripper_range = [0, 0.04]
-        
+
         # close gripper
         self.sim_close_gripper()
 
     # ----------------------------------------------------------------
     # Functions for gripper
     # ----------------------------------------------------------------
-    
+
     def sim_open_gripper(self):
-        """open gripper
-        """
+        """open gripper"""
         self.sim_move_gripper(self.gripper_range[1])
-        print(
-                "[BestMan_Sim][Gripper] \033[34mInfo\033[0m: Gripper open!"
-            )
+        print("[BestMan_Sim][Gripper] \033[34mInfo\033[0m: Gripper open!")
 
     def sim_close_gripper(self):
-        """close gripper
-        """
+        """close gripper"""
         self.sim_move_gripper(self.gripper_range[0])
-        print(
-                "[BestMan_Sim][Gripper] \033[34mInfo\033[0m: Gripper close!"
-            )
+        print("[BestMan_Sim][Gripper] \033[34mInfo\033[0m: Gripper close!")
 
     def sim_move_gripper(self, open_width):
         """move gripper to special width
@@ -84,7 +79,9 @@ class Bestman_sim_panda(Bestman_sim):
         """
         assert self.gripper_range[0] <= open_width <= self.gripper_range[1]
         for i in [9, 10]:
-            p.setJointMotorControl2(self.arm_id, i, p.POSITION_CONTROL, open_width, force=100)
+            p.setJointMotorControl2(
+                self.arm_id, i, p.POSITION_CONTROL, open_width, force=100
+            )
         self.client.run(30)
 
     def sim_create_gripper_constraint(self, object, link_id):
@@ -97,7 +94,7 @@ class Bestman_sim_panda(Bestman_sim):
             value (int): 0 or 1, where 0 means deactivate (ungrasp) and 1 means activate (grasp).
         """
         object_id = self.client.resolve_object_id(object)
-        
+
         # cretae constraint
         if self.constraint_id == None:
             link_state = p.getLinkState(object_id, link_id)
@@ -147,10 +144,9 @@ class Bestman_sim_panda(Bestman_sim):
             p.changeConstraint(self.gripper_id, maxForce=2000)
             self.client.run(40)
             print("[BestMan_Sim][Gripper] Gripper constraint has been created!")
-            
-    def sim_remove_gripper_constraint(self): 
-        """remove constraint
-        """
+
+    def sim_remove_gripper_constraint(self):
+        """remove constraint"""
         if self.constraint_id != None:
             p.removeConstraint(self.constraint_id, physicsClientId=self.client_id)
             self.client.run(40)
@@ -168,22 +164,28 @@ class Bestman_sim_panda(Bestman_sim):
         Args:
             pick_pose (Pose): pick pose
         """
-        pick_position, pick_orientation = pick_pose.get_position(), pick_pose.get_orientation()
+        pick_position, pick_orientation = (
+            pick_pose.get_position(),
+            pick_pose.get_orientation(),
+        )
         tmp_pose1 = Pose(
-            [pick_position[0], pick_position[1], pick_position[2] + 0.06], pick_orientation
+            [pick_position[0], pick_position[1], pick_position[2] + 0.06],
+            pick_orientation,
         )
         tmp_pose2 = Pose(
-            [pick_position[0], pick_position[1], pick_position[2] - 0.03], pick_orientation
+            [pick_position[0], pick_position[1], pick_position[2] - 0.03],
+            pick_orientation,
         )
         tmp_pose3 = Pose(
-            [pick_position[0], pick_position[1], pick_position[2] + 0.5], pick_orientation
+            [pick_position[0], pick_position[1], pick_position[2] + 0.5],
+            pick_orientation,
         )
         self.sim_move_end_effector_to_goal_pose(tmp_pose1, 100)
         self.sim_open_gripper()
         self.sim_move_end_effector_to_goal_pose(tmp_pose2, 100)
         self.sim_close_gripper()
         self.sim_move_end_effector_to_goal_pose(tmp_pose3, 100)
-        
+
     def place(self, place_pose):
         """
         Place an object at the specified goal pose without collision.
@@ -191,9 +193,13 @@ class Bestman_sim_panda(Bestman_sim):
         Args:
             place_pose (Pose): The pose where the object will be placed.
         """
-        place_position, place_orientation = place_pose.get_position(), place_pose.get_orientation()
+        place_position, place_orientation = (
+            place_pose.get_position(),
+            place_pose.get_orientation(),
+        )
         tmp_pose1 = Pose(
-            [place_position[0], place_position[1], place_position[2] + 0.06], place_orientation
+            [place_position[0], place_position[1], place_position[2] + 0.06],
+            place_orientation,
         )
         self.sim_move_end_effector_to_goal_pose(tmp_pose1, 100)
         self.sim_move_end_effector_to_goal_pose(place_pose, 100)
@@ -209,11 +215,11 @@ class Bestman_sim_panda(Bestman_sim):
         """
         self.pick(object)
         self.place(goal_pose)
-        
+
     # ----------------------------------------------------------------
     # functions for transform
     # ----------------------------------------------------------------
-    
+
     def align_grasp_pose_to_tcp(self, z_init, target_pose):
         """
         Computes the homogeneous transformation matrix that aligns the z-axis of the target pose to the z-axis of the initial pose.

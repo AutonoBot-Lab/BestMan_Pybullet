@@ -39,7 +39,7 @@ class Collision:
             if item_id == self.arm_id:
                 continue
             self.obstacles.append(item_id)
-            
+
         # update collision detect pair
         self.setup_collision_detection()
 
@@ -55,7 +55,7 @@ class Collision:
             obstacle_id = self.client.resolve_object_id(obstacle)
             self.obstacles.append(obstacle_id)
             self.setup_collision_detection()
-            
+
     def remove_obstacle(self, obstacle):
         """
         Remove obstacle from the list of obstacles.
@@ -69,7 +69,7 @@ class Collision:
             if obstacle_id in self.obstacles:
                 self.obstacles.remove(obstacle_id)
                 self.setup_collision_detection(self.obstacles)
-            
+
     def get_obstacles_info(self):
         """
         Check obstacles in the scene and print them to the console.
@@ -84,7 +84,7 @@ class Collision:
                 print(
                     f"[OMPL Planner] \033[34mInfo\033[0m: Obstacle Name: {item_name}, ID: {obstacle_id}"
                 )
-                
+
     def setup_collision_detection(self, self_collisions=True, allow_collision_links=[]):
         """
         Sets up collision detection.
@@ -124,7 +124,7 @@ class Collision:
         # for link1, link2 in self.check_link_pairs:
         #     if pairwise_link_collision(self.arm_id, link1, self.arm_id, link2):
         #         return False
-        
+
         # check collision against environment
         for body1, body2 in self.check_body_pairs:
             if pairwise_collision(body1, body2):

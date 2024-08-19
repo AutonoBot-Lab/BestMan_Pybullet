@@ -12,10 +12,10 @@
 import math
 import os
 
+from Config import load_config
 from Env import Client
 from Motion_Planning.Navigation import *
 from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long
-from Config import load_config
 from Visualization import Visualizer
 
 
@@ -35,7 +35,9 @@ def main(filename):
 
     # Init robot
     bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
-    visualizer.change_robot_color(bestman.sim_get_base_id(), bestman.sim_get_arm_id(), False)
+    visualizer.change_robot_color(
+        bestman.sim_get_base_id(), bestman.sim_get_arm_id(), False
+    )
 
     # load table, bowl, and chair
     countertop_id = client.load_object(

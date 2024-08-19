@@ -27,7 +27,7 @@ class Pose:
             orientation (list, tuple, np.ndarray): A list, tuple, or array representing the orientation in 3D space.
                 It can be either Euler angles (3 elements), a quaternion (4 elements), or a 3x3 rotation matrix.
         """
-        
+
         self.position = list(position)
         self.x, self.y, self.z = position
 
@@ -50,45 +50,51 @@ class Pose:
             raise ValueError(
                 "[Pose] \033[31merror\033[0m: Orientation input must be Rotation matrix / Quaternion / Euler angles"
             )
-        
+
     def get_position(self):
         """
         get position
-        
+
         Returns:
             list: position
         """
         return self.position
-      
+
     def get_orientation(self, type="quaternion"):
         """
         get orientation
-        
+
         Returns:
             list: orientation
-        """ 
+        """
         if type == "quaternion":
             return self.orientation
         elif type == "euler":
-            return R.from_quat(self.orientation).as_euler('xyz', degrees=False)
+            return R.from_quat(self.orientation).as_euler("xyz", degrees=False)
         elif type == "rotation_matrix":
             return R.from_quat(self.orientation).as_matrix()
         else:
             raise ValueError(
                 "[Pose] \033[31merror\033[0m: Orientation type must be 'quaternion', 'euler', or 'rotation_matrix'"
             )
-    
+
     def print(self, pose_description="", type="quaternion"):
         """
         print pose
         """
         if type == "quaternion":
-            print(f"[Pose] \033[34mInfo\033[0m: {pose_description} position: [{self.position[0]:.3f}, {self.position[1]:.3f}, {self.position[2]:.3f}], orientation: [{', '.join([f'{x:.3f}' for x in self.get_orientation('quaternion')])}]")
+            print(
+                f"[Pose] \033[34mInfo\033[0m: {pose_description} position: [{self.position[0]:.3f}, {self.position[1]:.3f}, {self.position[2]:.3f}], orientation: [{', '.join([f'{x:.3f}' for x in self.get_orientation('quaternion')])}]"
+            )
         elif type == "euler":
-            print(f"[Pose] \033[34mInfo\033[0m: {pose_description} position: [{self.position[0]:.3f}, {self.position[1]:.3f}, {self.position[2]:.3f}], orientation: [{', '.join([f'{x:.3f}' for x in self.get_orientation('euler')])}]")
+            print(
+                f"[Pose] \033[34mInfo\033[0m: {pose_description} position: [{self.position[0]:.3f}, {self.position[1]:.3f}, {self.position[2]:.3f}], orientation: [{', '.join([f'{x:.3f}' for x in self.get_orientation('euler')])}]"
+            )
         elif type == "rotation_matrix":
             np.set_printoptions(precision=3, suppress=True)
-            print(f"[Pose] \033[34mInfo\033[0m: {pose_description} position: [{self.position[0]:.3f}, {self.position[1]:.3f}, {self.position[2]:.3f}], orientation: {np.array2string(self.get_orientation('rotation_matrix'), formatter={'float_kind':lambda x: f'{x:.3f}'})}")
+            print(
+                f"[Pose] \033[34mInfo\033[0m: {pose_description} position: [{self.position[0]:.3f}, {self.position[1]:.3f}, {self.position[2]:.3f}], orientation: {np.array2string(self.get_orientation('rotation_matrix'), formatter={'float_kind':lambda x: f'{x:.3f}'})}"
+            )
         else:
             raise ValueError(
                 "[Pose] \033[31merror\033[0m: Orientation type must be 'quaternion', 'euler', or 'rotation_matrix'"

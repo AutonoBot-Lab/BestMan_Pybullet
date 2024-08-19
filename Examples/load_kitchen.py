@@ -10,8 +10,8 @@
 
 import os
 
-from Env import Client
 from Config import load_config
+from Env import Client
 from Visualization import Visualizer
 
 

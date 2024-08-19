@@ -11,9 +11,9 @@ sys.path.append("/BestMan_Pybullet/refactor")
 from Motion_Planning.manipulation.OMPL_Planner import OMPL_Planner
 from refactor.Env.Client import PbClient
 from refactor.Visualization.Visualizer import PbVisualizer
+from Utils.load_config import load_config
 
 from RoboticsToolBox.Bestman import Bestman
-from Utils.load_config import load_config
 
 # load kitchen from three scenarios
 index = 0

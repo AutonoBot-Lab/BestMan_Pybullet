@@ -11,8 +11,8 @@
 
 import os
 
-from Env import Client
 from Config import load_config
+from Env import Client
 
 
 def main(filename):

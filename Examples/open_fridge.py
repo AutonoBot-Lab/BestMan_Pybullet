@@ -15,10 +15,10 @@ import os
 import numpy as np
 import pybullet as p
 
+from Config import load_config
 from Env import Client
 from Motion_Planning.Manipulation.OMPL_Planner import OMPL_Planner
 from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long, Pose
-from Config import load_config
 from Visualization import Visualizer
 
 
@@ -94,7 +94,9 @@ def main(filename):
     bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
 
     # Init visualizer
-    visualizer.change_robot_color(bestman.sim_get_base_id(), bestman.sim_get_arm_id(), False)
+    visualizer.change_robot_color(
+        bestman.sim_get_base_id(), bestman.sim_get_arm_id(), False
+    )
 
     # Draw fridge door handle
     visualizer.draw_aabb_link("fridge", 2)
@@ -121,7 +123,7 @@ def main(filename):
     bestman.sim_create_movable_constraint("fridge", 1)
 
     visualizer.remove_all_line()
-    
+
     # The end effector Move along the specified trajectory get effector to open the door
     init_pose = bestman.sim_get_current_end_effector_pose()
     rotate_axis = p.getLinkState(client.get_object_id("fridge"), 1)[4]

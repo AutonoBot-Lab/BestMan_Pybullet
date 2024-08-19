@@ -15,10 +15,10 @@ import os
 import numpy as np
 import pybullet as p
 
+from Config import load_config
 from Env import Client
 from Motion_Planning.Manipulation.OMPL_Planner import OMPL_Planner
 from RoboticsToolBox import Bestman_sim_panda, Pose
-from Config import load_config
 from Visualization import Visualizer
 
 
@@ -126,7 +126,7 @@ def main(filename):
         for theta in heta_values
     ]
     panda.sim_execute_trajectory(rotated_joints, True)
-    
+
     # Wait
     client.wait(50)
 

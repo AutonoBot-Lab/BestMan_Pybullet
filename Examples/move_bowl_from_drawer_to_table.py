@@ -12,12 +12,12 @@
 import math
 import os
 
+from Config import load_config
 from Env import Client
 from Motion_Planning.Manipulation.OMPL_Planner import OMPL_Planner
 from Motion_Planning.Navigation import *
 from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long, Pose
 from SLAM import simple_slam
-from Config import load_config
 from Visualization import Visualizer
 
 
@@ -114,7 +114,7 @@ def main(filename):
     # Up arm
     place_pose = Pose([1.0, 1.0, 1.5], [0.0, math.pi / 2.0, 0.0])
     bestman.sim_move_end_effector_to_goal_pose(place_pose)
-    
+
     # End record
     visualizer.end_record()
 

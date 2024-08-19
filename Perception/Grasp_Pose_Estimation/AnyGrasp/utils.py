@@ -92,7 +92,7 @@ def visualize_cloud_geometries(
         print(
             f"[AnyGrasp] \033[34mInfo\033[0m Saved screen shot visualization at {save_file}"
         )
-    
+
     if visualize:
         visualizer.add_geometry(coordinate_frame)
         visualizer.run()
