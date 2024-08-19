@@ -146,19 +146,9 @@ Below are some examples and their rendering in Blender
 python navigation_basic.py
 ```
 
-<div style="display: flex; justify-content: space-between;">
-  <div style="flex: 1; margin-right: 10px;">
-    <!-- 使用 <img> 标签嵌入图片 -->
-    <img src="https://github.com/user-attachments/assets/63fe074e-ba27-4de8-8095-99289552b17a" alt="Image Description" width="100%" />
-  </div>
-  <div style="flex: 1; margin-left: 10px;">
-    <!-- 使用 <video> 标签嵌入视频 -->
-    <video controls width="100%">
-      <source src="https://github.com/user-attachments/assets/4e87e324-6621-4e47-810d-31c51582fb05" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-  </div>
-</div>
+<video src="https://github.com/user-attachments/assets/63fe074e-ba27-4de8-8095-99289552b17a"></video>
+
+<video src="https://github.com/user-attachments/assets/4e87e324-6621-4e47-810d-31c51582fb05"></video>
 
 <br/>
 
@@ -171,9 +161,10 @@ python navigation_basic.py
 python open_fridge.py
 ```
 
-https://github.com/user-attachments/assets/ffdb8468-5125-4d72-aa5b-4c237ac58a57 
+<video src="https://github.com/user-attachments/assets/9aab5ca2-fb09-4b9f-a989-54ef5c1d2884"></video>
 
-https://github.com/user-attachments/assets/ed07b856-74ce-4299-9ba5-9de012b9eef5 
+<video src="https://github.com/user-attachments/assets/16d8c3b6-d5a7-44b9-bd8a-c2182de20e52"></video>
+
 <br/>
 
 
@@ -183,9 +174,13 @@ https://github.com/user-attachments/assets/ed07b856-74ce-4299-9ba5-9de012b9eef5
 python open_microwave.py
 ```
 
-https://github.com/user-attachments/assets/df0dbfea-a91a-43bd-8204-c61745aa40d9 
 
-https://github.com/user-attachments/assets/77530f8d-30fb-471c-8e6d-40f8dddfd56a  
+<video src="https://github.com/user-attachments/assets/d0d97b08-423b-4af5-a418-f36872541f99"></video>
+
+<video src="https://github.com/user-attachments/assets/fb8ef3ea-d045-4bbf-a28f-0bec56930aae"></video>
+
+
+
 <br/>
 
 
@@ -195,9 +190,13 @@ https://github.com/user-attachments/assets/77530f8d-30fb-471c-8e6d-40f8dddfd56a
 python grasp_bowl_on_table_sucker.py
 ```
 
-https://github.com/user-attachments/assets/55e9f3ec-6c42-4f90-a5b1-b38d2c90e6b9 
 
-https://github.com/user-attachments/assets/76909a22-e268-44b5-9415-4ef42f528f14 
+<video src="https://github.com/user-attachments/assets/0eb05120-8016-425b-a46a-b711e5290691"></video>
+
+<video src="https://github.com/user-attachments/assets/9d67e5d1-a4bc-47a3-b03b-21641a365037"></video>
+
+
+
 
 <br/>
 
@@ -208,9 +207,12 @@ https://github.com/user-attachments/assets/76909a22-e268-44b5-9415-4ef42f528f14
 python grasp_lego_on_table_gripper.py
 ```
 
-https://github.com/user-attachments/assets/2260d167-6b13-4281-99fe-a6fcf42cf3d8  
 
-https://github.com/user-attachments/assets/beb7d70c-fa83-4229-a0dc-82eb95da92ff  
+<video src="https://github.com/user-attachments/assets/3bf15b13-3113-4a72-950c-7e9c1367ed9e"></video>
+
+<video src="https://github.com/user-attachments/assets/0ef18785-26b9-4855-b19d-87e25014421f"></video>
+
+
 
 <br/>
 
@@ -221,9 +223,10 @@ https://github.com/user-attachments/assets/beb7d70c-fa83-4229-a0dc-82eb95da92ff
 python move_bowl_from_drawer_to_table.py
 ```
 
-https://github.com/user-attachments/assets/d48ea499-eac4-4810-88fe-306f71504216 
 
-https://github.com/user-attachments/assets/580e658a-fd33-49d5-ad1c-ae513974a807 
+<video src="https://github.com/user-attachments/assets/db4c7ec3-c136-4c6a-8323-2bef6bc09c84"></video>
+
+<video src="https://github.com/user-attachments/assets/0a82fd20-c533-4881-8672-2f15b83b2166"></video>
 
 <br/>
 
