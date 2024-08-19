@@ -20,7 +20,7 @@ Stephen Brawner (brawner@gmail.com)
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename="./meshes/RML63_6F/Link1.STL" />
+                <mesh filename="../meshes/RML63_6F/Link1.STL" />
             </geometry>
             <material name="">
                 <color rgba="1 1 1 1" />
@@ -29,7 +29,7 @@ Stephen Brawner (brawner@gmail.com)
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename="./meshes/RML63_6F/Link1.STL" />
+                <mesh filename="../meshes/RML63_6F/Link1.STL" />
             </geometry>
         </collision>
     </link>
@@ -63,7 +63,7 @@ Stephen Brawner (brawner@gmail.com)
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename="./meshes/RML63_6F/Link2.STL" />
+                <mesh filename="../meshes/RML63_6F/Link2.STL" />
             </geometry>
             <material name="">
                 <color rgba="1 1 1 1" />
@@ -72,7 +72,7 @@ Stephen Brawner (brawner@gmail.com)
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename="./meshes/RML63_6F/Link2.STL" />
+                <mesh filename="../meshes/RML63_6F/Link2.STL" />
             </geometry>
         </collision>
     </link>
@@ -106,7 +106,7 @@ Stephen Brawner (brawner@gmail.com)
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename="./meshes/RML63_6F/Link3.STL" />
+                <mesh filename="../meshes/RML63_6F/Link3.STL" />
             </geometry>
             <material name="">
                 <color rgba="1 1 1 1" />
@@ -115,7 +115,7 @@ Stephen Brawner (brawner@gmail.com)
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename="./meshes/RML63_6F/Link3.STL" />
+                <mesh filename="../meshes/RML63_6F/Link3.STL" />
             </geometry>
         </collision>
     </link>
@@ -149,7 +149,7 @@ Stephen Brawner (brawner@gmail.com)
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename="./meshes/RML63_6F/Link4.STL" />
+                <mesh filename="../meshes/RML63_6F/Link4.STL" />
             </geometry>
             <material name="">
                 <color rgba="1 1 1 1" />
@@ -158,7 +158,7 @@ Stephen Brawner (brawner@gmail.com)
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename="./meshes/RML63_6F/Link4.STL" />
+                <mesh filename="../meshes/RML63_6F/Link4.STL" />
             </geometry>
         </collision>
     </link>
@@ -192,7 +192,7 @@ Stephen Brawner (brawner@gmail.com)
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename="./meshes/RML63_6F/Link5.STL" />
+                <mesh filename="../meshes/RML63_6F/Link5.STL" />
             </geometry>
             <material name="">
                 <color rgba="1 1 1 1" />
@@ -201,7 +201,7 @@ Stephen Brawner (brawner@gmail.com)
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename="./meshes/RML63_6F/Link5.STL" />
+                <mesh filename="../meshes/RML63_6F/Link5.STL" />
             </geometry>
         </collision>
     </link>
@@ -235,7 +235,7 @@ Stephen Brawner (brawner@gmail.com)
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename="./meshes/RML63_6F/Link6.STL" />
+                <mesh filename="../meshes/RML63_6F/Link6.STL" />
             </geometry>
             <material name="">
                 <color rgba="1 1 1 1" />
@@ -244,7 +244,7 @@ Stephen Brawner (brawner@gmail.com)
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename="./meshes/RML63_6F/Link6.STL" />
+                <mesh filename="../meshes/RML63_6F/Link6.STL" />
             </geometry>
         </collision>
     </link>
