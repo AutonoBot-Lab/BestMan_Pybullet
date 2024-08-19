@@ -146,9 +146,19 @@ Below are some examples and their rendering in Blender
 python navigation_basic.py
 ```
 
-https://github.com/user-attachments/assets/b62e8a39-ae3f-4e55-8035-e0592fdec6ac 
-
-https://github.com/user-attachments/assets/64b1334a-4ad3-4e4f-aaab-e3e7c9afed6a
+<div style="display: flex; justify-content: space-between;">
+  <div style="flex: 1; margin-right: 10px;">
+    <!-- 使用 <img> 标签嵌入图片 -->
+    <img src="https://github.com/user-attachments/assets/63fe074e-ba27-4de8-8095-99289552b17a" alt="Image Description" width="100%" />
+  </div>
+  <div style="flex: 1; margin-left: 10px;">
+    <!-- 使用 <video> 标签嵌入视频 -->
+    <video controls width="100%">
+      <source src="https://github.com/user-attachments/assets/4e87e324-6621-4e47-810d-31c51582fb05" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
 
 <br/>
 
