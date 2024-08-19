@@ -16,9 +16,9 @@ import numpy as np
 import pybullet as p
 
 from Env import Client
-from Motion_Planning.Manipulation import OMPL_Planner
+from Motion_Planning.Manipulation.OMPL_Planner import OMPL_Planner
 from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long, Pose
-from config import load_config
+from Config import load_config
 from Visualization import Visualizer
 
 

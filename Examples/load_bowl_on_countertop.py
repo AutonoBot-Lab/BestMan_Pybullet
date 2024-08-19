@@ -15,7 +15,7 @@ import os
 from Env import Client
 from Motion_Planning.Navigation import *
 from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long
-from config import load_config
+from Config import load_config
 from Visualization import Visualizer
 
 

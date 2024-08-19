@@ -12,16 +12,16 @@
 import os
 
 from Env import Client
-from Motion_Planning.Manipulation import OMPL_Planner
+from Motion_Planning.Manipulation.OMPL_Planner import OMPL_Planner
 from Motion_Planning.Navigation import *
 from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long, Pose
 from SLAM import simple_slam
-from config import load_config
+from Config import load_config
 from Visualization import Visualizer
 
 
 def main(filename):
-
+    
     # Load config
     config_path = "../Config/grasp_bowl_from_drawer_in_kitchen.yaml"
     cfg = load_config(config_path)

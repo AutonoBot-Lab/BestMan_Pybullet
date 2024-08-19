@@ -13,7 +13,7 @@ import os
 
 from Env import Client
 from RoboticsToolBox import Bestman_sim_panda
-from config import load_config
+from Config import load_config
 from Visualization import Visualizer
 
 
