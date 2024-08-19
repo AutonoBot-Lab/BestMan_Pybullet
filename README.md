@@ -36,6 +36,11 @@ bash pythonpath.sh
 source ~/.bashrc
 ```
 
+- Install ffmpeg to enable video record
+```
+sudo apt update && sudo apt install ffmpeg
+```
+
 - Configure related libraries and links to support OpenGL rendering (If it already exists, skip this step.)
 ```
 sudo apt update && sudo apt install -y libgl1-mesa-glx libglib2.0-0
