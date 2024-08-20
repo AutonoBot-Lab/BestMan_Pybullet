@@ -8,11 +8,11 @@ Visualizer:
 
 # Robot params
 Robot:
-  init_pose: [1, 0, 0, 0.0, 0.0, "math.pi / 3"]
+  init_pose: [1, 0, 0.0, 0.0, 0.0, "math.pi / 3"]
   base_urdf_path: "../Asset/mobile_manipulator/base/ranger_mini3/urdf/ranger_mini3.urdf"                 # base urdf path
   arm_urdf_path: "../Asset/mobile_manipulator/arm/realman/urdf/rm63_6f_ag95.urdf"      # arm urdf path
   arm_joints_idx: [0, 1, 2, 3, 4, 5]                                                    # arm joint index of 6 DOF
-  arm_init_jointValues: [0, 0, 0, 0, 0, 0]                                # The initial angle of arm joint
+  arm_init_jointValues: [1.5, 0.2, 0, 0.2, 0, 0]                                # The initial angle of arm joint
   arm_reset_jointValues: [0, 0, 0, 0, 0, 0]                               # The reset angle of arm joint
   arm_place_height: 0.75
   end_effector_index: 5                                                                 # The index of the end effector

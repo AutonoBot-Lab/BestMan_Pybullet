@@ -68,7 +68,7 @@ def main(filename):
     # disconnect from server
     client.wait(5)
     client.disconnect()
-    
+
 
 if __name__ == "__main__":
 

@@ -12,7 +12,6 @@
 import os
 
 from Config import load_config
-
 from Env.Client import Client
 from RoboticsToolBox.Bestman_sim_panda import Bestman_sim_panda
 from Visualization.Visualizer import Visualizer

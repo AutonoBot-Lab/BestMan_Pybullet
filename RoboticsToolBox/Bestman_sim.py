@@ -9,14 +9,12 @@
 """
 
 import math
-import time
 from collections import namedtuple
 
 import numpy as np
 import pybullet as p
 
 from Controller import PIDController
-from Visualization import Camera
 
 from .Pose import Pose
 
@@ -75,7 +73,9 @@ class Bestman_sim:
 
         # robot basic info
         self.robot_cfg = cfg.Robot
-        self.init_pose = Pose(self.robot_cfg.init_pose[:3], self.robot_cfg.init_pose[3:])
+        self.init_pose = Pose(
+            self.robot_cfg.init_pose[:3], self.robot_cfg.init_pose[3:]
+        )
         self.arm_joints_idx = self.robot_cfg.arm_joints_idx
         self.DOF = len(self.arm_joints_idx)
         self.arm_place_height = self.robot_cfg.arm_place_height

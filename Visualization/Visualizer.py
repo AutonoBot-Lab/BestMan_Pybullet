@@ -484,7 +484,7 @@ class Visualizer:
             p.changeVisualShape(
                 objectUniqueId=base_id,
                 linkIndex=i,
-                rgbaColor=colors["white"],
+                rgbaColor=colors["light_white"],
                 physicsClientId=self.client_id,
             )
 

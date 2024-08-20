@@ -13,8 +13,9 @@ import math
 
 import pybullet as p
 
-from .Bestman_sim import Bestman_sim
 from Visualization import Camera
+
+from .Bestman_sim import Bestman_sim
 from .Pose import Pose
 
 
@@ -59,7 +60,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
         self.arm_joint_ranges = [
             info.upperLimit - info.lowerLimit for info in self.arm_jointInfo
         ]
-        
+
         # Add constraint between base and arm
         p.createConstraint(
             parentBodyUniqueId=self.base_id,
@@ -81,11 +82,11 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
 
         # change robot color
         self.visualizer.change_robot_color(self.base_id, self.arm_id, False)
-        
+
         # Init camera
         self.Camera_cfg = cfg.Camera
         self.camera = Camera(self.Camera_cfg, self.base_id, self.arm_place_height)
-        
+
     # ----------------------------------------------------------------
     # Functions for vacuum gripper
     # ----------------------------------------------------------------

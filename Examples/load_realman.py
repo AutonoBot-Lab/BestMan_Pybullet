@@ -9,12 +9,14 @@
 """
 
 
+import math
 import os
 
 from Config import load_config
-
 from Env.Client import Client
-from RoboticsToolBox import Bestman_sim_realman
+from Motion_Planning.Navigation import *
+from RoboticsToolBox import Bestman_sim_realman, Pose
+from SLAM import simple_slam
 from Visualization.Visualizer import Visualizer
 
 
@@ -31,12 +33,30 @@ def main(filename):
 
     # Start record
     visualizer.start_record(filename)
-    
+
     # Init robot
     realman = Bestman_sim_realman(client, visualizer, cfg)
 
     visualizer.draw_object_pose(realman.sim_get_arm_id())
-    
+
+    nav_obstacles_bounds = simple_slam(client, realman, False)
+
+    # navigate algorithm
+    goal_base_pose = Pose([5, 0, 0], [0.0, 0.0, math.pi / 2.0])
+    nav_planner = AStarPlanner(
+        robot_size=realman.sim_get_robot_size(),
+        obstacles_bounds=nav_obstacles_bounds,
+        resolution=0.05,
+        enable_plot=False,
+    )
+
+    path = nav_planner.plan(
+        start_pose=realman.sim_get_current_base_pose(), goal_pose=goal_base_pose
+    )
+
+    # navigate segbot
+    realman.sim_navigate_base(goal_base_pose, path)
+
     # End record
     visualizer.end_record()
 
