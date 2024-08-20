@@ -64,83 +64,27 @@ class Bestman_sim:
         )  # Enable caching of graphic shapes when loading URDF files
 
         # Init PID controller
-        controller_cfg = cfg.Controller
-        self.target_distance = controller_cfg.target_distance
+        self.controller_cfg = cfg.Controller
+        self.target_distance = self.controller_cfg.target_distance
         self.distance_controller = PIDController(
-            Kp=controller_cfg.Kp,
-            Ki=controller_cfg.Ki,
-            Kd=controller_cfg.Kd,
+            Kp=self.controller_cfg.Kp,
+            Ki=self.controller_cfg.Ki,
+            Kd=self.controller_cfg.Kd,
             setpoint=self.target_distance,
         )
 
-        # robot cfg
-        robot_cfg = cfg.Robot
-
-        # init pose for base and arm
-        init_pose = Pose(robot_cfg.init_pose[:3], robot_cfg.init_pose[3:])
-
-        # Init base
-        self.base_id = self.client.load_object(
-            obj_name="base",
-            model_path=robot_cfg.base_urdf_path,
-            object_position=init_pose.get_position(),
-            object_orientation=init_pose.get_orientation(),
-            fixed_base=True,
-        )
-        self.base_rotated = False
-        self.current_base_yaw = init_pose.get_orientation("euler")[2]
-
-        # Init arm
-        self.arm_id = self.client.load_object(
-            obj_name="arm",
-            model_path=robot_cfg.arm_urdf_path,
-            object_position=init_pose.get_position(),
-            object_orientation=init_pose.get_orientation(),
-            fixed_base=True,
-        )
-        self.arm_joints_idx = robot_cfg.arm_joints_idx
+        # robot basic info
+        self.robot_cfg = cfg.Robot
+        self.init_pose = Pose(self.robot_cfg.init_pose[:3], self.robot_cfg.init_pose[3:])
+        self.arm_joints_idx = self.robot_cfg.arm_joints_idx
         self.DOF = len(self.arm_joints_idx)
-        self.arm_place_height = robot_cfg.base_height + 0.02
-        self.end_effector_index = robot_cfg.end_effector_index
-        self.tcp_link = robot_cfg.tcp_link
-        self.tcp_height = robot_cfg.tcp_height
-        self.arm_reset_jointValues = (
-            robot_cfg.arm_reset_jointValues
-        )  # arm reset joint values
-        self.arm_jointInfo = self.sim_get_arm_all_jointInfo()
-        self.arm_lower_limits = [info.lowerLimit for info in self.arm_jointInfo]
-        self.arm_upper_limits = [info.upperLimit for info in self.arm_jointInfo]
-        self.arm_joint_ranges = [
-            info.upperLimit - info.lowerLimit for info in self.arm_jointInfo
-        ]
+        self.arm_place_height = self.robot_cfg.arm_place_height
+        self.end_effector_index = self.robot_cfg.end_effector_index
+        self.tcp_link = self.robot_cfg.tcp_link
+        self.tcp_height = self.robot_cfg.tcp_height
+        self.arm_reset_jointValues = self.robot_cfg.arm_reset_jointValues
 
-        # Add constraint between base and arm
-        p.createConstraint(
-            parentBodyUniqueId=self.base_id,
-            parentLinkIndex=-1,
-            childBodyUniqueId=self.arm_id,
-            childLinkIndex=-1,
-            jointType=p.JOINT_FIXED,
-            jointAxis=[0, 0, 0],
-            parentFramePosition=[0, 0, 0],
-            childFramePosition=[0, 0, 0],
-            physicsClientId=self.client_id,
-        )
-
-        # synchronize base and arm positions
-        self.sim_sync_base_arm_pose()
-
-        # Init arm joint angle
-        self.sim_set_arm_to_joint_values(robot_cfg.arm_init_jointValues)
-
-        # change robot color
-        self.visualizer.change_robot_color(self.base_id, self.arm_id, False)
-
-        # Init camera
-        Camera_cfg = cfg.Camera
-        self.camera = Camera(Camera_cfg, self.base_id, self.arm_place_height)
-
-        # global parameters
+        # Grasp constraint
         self.constraint_id = None  # grasp constraint id
 
     # ----------------------------------------------------------------
@@ -837,17 +781,13 @@ class Bestman_sim:
 
         This function ensures that the positions of the robot arm and base are aligned.
         """
-
-        position, orientation = p.getBasePositionAndOrientation(
-            self.base_id, physicsClientId=self.client_id
+        base_pose = self.sim_get_current_base_pose()
+        p.resetBasePositionAndOrientation(
+            self.arm_id,
+            [*base_pose.get_position()[:2], self.arm_place_height],
+            base_pose.get_orientation(),
+            physicsClientId=self.client_id,
         )
-        if self.arm_id is not None:
-            p.resetBasePositionAndOrientation(
-                self.arm_id,
-                [position[0], position[1], self.arm_place_height],
-                orientation,
-                physicsClientId=self.client_id,
-            )
 
     # ----------------------------------------------------------------
     # functions for camera

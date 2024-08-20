@@ -33,12 +33,12 @@ Controller:
 # Robot params
 Robot:
   init_pose: [1, 0, 0, 0.0, 0.0, "math.pi / 2"]                                         # The initial pose of base and arm
-  base_height: 1                                                                        # base height (arm place height slightly higher than the base)
-  base_urdf_path: "../Asset/mobile_manipulator/base/segbot/urdf/segbot.urdf"                 # base urdf path
+  base_urdf_path: "../Asset/mobile_manipulator/base/segbot/urdf/segbot.urdf"            # base urdf path
   arm_urdf_path: "../Asset/mobile_manipulator/arm/ur5e/urdf/ur5e_vacuum_long.urdf"      # arm urdf path
   arm_joints_idx: [0, 1, 2, 3, 4, 5]                                                    # arm joint index of 6 DOF
   arm_init_jointValues: [0, -1.57, 1.5, -1.57, -1.57, 0]                                # The initial angle of arm joint
   arm_reset_jointValues: [0, -1.57, 1.5, -1.57, -1.57, 0]                               # The reset angle of arm joint
+  arm_place_height: 1.02                                                                # base height (arm place height slightly higher than the base)
   end_effector_index: 6                                                                 # The index of the end effector
   tcp_link: 11                                                                          # The index of the tcp link
   tcp_height: 0.11                                                                      # The height of the tcp link
@@ -47,8 +47,8 @@ Robot:
 # Camera params
 Camera:
   fov: 60             # Field of View
-  width: 1920          # width
-  height: 1080         # height
+  width: 1920         # width
+  height: 1080        # height
   nearVal: 0.01       # Camera near viewing distance
   farVal: 20          # Camera far viewing distance
   head_tilt: -0.45

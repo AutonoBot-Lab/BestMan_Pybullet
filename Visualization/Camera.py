@@ -86,16 +86,6 @@ class Camera:
             [position[0] + 0.5, position[1], self.arm_place_height + 0.3]
         )
 
-        # The three direction vectors of the camera in the world coordinate system
-        # r_mat = p.getMatrixFromQuaternion(orientation)
-        # rotation_angle = np.radians(90)
-        # tx_vec = self.sim_rotate_around_y(
-        #     np.array([r_mat[0], r_mat[3], r_mat[6]]), rotation_angle
-        # )  # x direction vector, the right side of the camera is facing
-        # tz_vec = self.sim_rotate_around_y(
-        #     np.array([r_mat[2], r_mat[5], r_mat[8]]), rotation_angle
-        # )  # z direction vector, the vertical direction of the camera
-
         # set the camera orientation
         target_position = camera_position + [0, 0, -1]
 

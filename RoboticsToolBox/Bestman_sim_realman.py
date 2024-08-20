@@ -15,6 +15,7 @@ import pybullet as p
 from scipy.spatial.transform import Rotation as R
 
 from .Bestman_sim import Bestman_sim
+from Visualization import Camera
 from .Pose import Pose
 
 
@@ -36,27 +37,108 @@ class Bestman_sim_realman(Bestman_sim):
         # Init parent class: BestMan_sim
         super().__init__(client, visualizer, cfg)
 
-        # Create a gear constraint to keep the fingers symmetrically centered
-        c = p.createConstraint(
-            self.arm_id,
-            9,
-            self.arm_id,
-            10,
-            jointType=p.JOINT_GEAR,
-            jointAxis=[1, 0, 0],
+        # Init base
+        self.base_id = self.client.load_object(
+            obj_name="base",
+            model_path=self.robot_cfg.base_urdf_path,
+            object_position=self.init_pose.get_position(),
+            object_orientation=self.init_pose.get_orientation(),
+            fixed_base=True,
+        )
+        self.base_rotated = False
+        self.current_base_yaw = self.init_pose.get_orientation("euler")[2]
+
+        # Init arm
+        self.arm_id = self.client.load_object(
+            obj_name="arm",
+            model_path=self.robot_cfg.arm_urdf_path,
+            object_position=self.init_pose.get_position(),
+            object_orientation=self.init_pose.get_orientation(),
+            fixed_base=True,
+        )
+        self.arm_jointInfo = self.sim_get_arm_all_jointInfo()
+        self.arm_lower_limits = [info.lowerLimit for info in self.arm_jointInfo]
+        self.arm_upper_limits = [info.upperLimit for info in self.arm_jointInfo]
+        self.arm_joint_ranges = [
+            info.upperLimit - info.lowerLimit for info in self.arm_jointInfo
+        ]
+        
+        # Add constraint between base and arm
+        p.createConstraint(
+            parentBodyUniqueId=self.base_id,
+            parentLinkIndex=-1,
+            childBodyUniqueId=self.arm_id,
+            childLinkIndex=-1,
+            jointType=p.JOINT_FIXED,
+            jointAxis=[0, 0, 0],
             parentFramePosition=[0, 0, 0],
             childFramePosition=[0, 0, 0],
+            physicsClientId=self.client_id,
         )
 
-        # Modify constraint parameters
-        p.changeConstraint(c, gearRatio=-1, erp=0.1, maxForce=50)
+        # synchronize base and arm positions
+        self.sim_sync_base_arm_pose()
+
+        # Init arm joint angle
+        self.sim_set_arm_to_joint_values(self.robot_cfg.arm_init_jointValues)
+
+        # change robot color
+        self.visualizer.change_robot_color(self.base_id, self.arm_id, False)
+
+        # Init camera
+        self.Camera_cfg = cfg.Camera
+        self.camera = Camera(self.Camera_cfg, self.base_id, self.arm_place_height)
+        
+        # # Create a gear constraint to keep the fingers symmetrically centered
+        # c = p.createConstraint(
+        #     self.arm_id,
+        #     9,
+        #     self.arm_id,
+        #     10,
+        #     jointType=p.JOINT_GEAR,
+        #     jointAxis=[1, 0, 0],
+        #     parentFramePosition=[0, 0, 0],
+        #     childFramePosition=[0, 0, 0],
+        # )
+
+        # # Modify constraint parameters
+        # p.changeConstraint(c, gearRatio=-1, erp=0.1, maxForce=50)
 
         # gripper range
-        self.gripper_range = [0, 0.04]
-
+        # self.gripper_range = [0, 0.04]
+        
         # close gripper
-        self.sim_close_gripper()
+        # self.sim_close_gripper()
 
+    # ----------------------------------------------------------------
+    # Functions between base and arms
+    # ----------------------------------------------------------------
+    
+    def sim_sync_base_arm_pose(self):
+        """
+        Synchronizes the pose of the robot arm with the base.
+
+        This function ensures that the positions of the robot arm and base are aligned.
+        """
+        base_pose = self.sim_get_current_base_pose()
+        base_position = base_pose.get_position()
+        base_orientation = base_pose.get_orientation("rotation_matrix")
+        
+        arm_position = base_position + 0.45 * base_orientation[:, 0]
+        arm_position[2] = self.arm_place_height
+        arm_rotate_matrix =  base_orientation @ np.array([
+            [0, 0, 1],
+            [0, 1, 0],
+            [-1, 0, 0]
+        ])
+        arm_pose = Pose(arm_position, arm_rotate_matrix)
+        p.resetBasePositionAndOrientation(
+            self.arm_id,
+            arm_pose.get_position(),
+            arm_pose.get_orientation(),
+            physicsClientId=self.client_id,
+        )
+    
     # ----------------------------------------------------------------
     # Functions for gripper
     # ----------------------------------------------------------------

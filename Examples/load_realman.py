@@ -14,14 +14,14 @@ import os
 from Config import load_config
 
 from Env.Client import Client
-from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long
+from RoboticsToolBox import Bestman_sim_realman
 from Visualization.Visualizer import Visualizer
 
 
 def main(filename):
 
     # load config
-    config_path = "../Config/load_ur5e.yaml"
+    config_path = "../Config/load_realman.yaml"
     cfg = load_config(config_path)
     print(cfg)
 
@@ -31,15 +31,17 @@ def main(filename):
 
     # Start record
     visualizer.start_record(filename)
-
+    
     # Init robot
-    ur5e = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
+    realman = Bestman_sim_realman(client, visualizer, cfg)
 
+    visualizer.draw_object_pose(realman.sim_get_arm_id())
+    
     # End record
     visualizer.end_record()
 
     # disconnect pybullet
-    client.wait(5)
+    client.wait(20)
     client.disconnect()
 
 

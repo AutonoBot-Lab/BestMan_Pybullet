@@ -11,7 +11,7 @@
 
 import os
 
-from config.load_config import load_config
+from Config import load_config
 
 from Env.Client import Client
 from RoboticsToolBox.Bestman_sim_panda import Bestman_sim_panda
@@ -34,9 +34,6 @@ def main(filename):
 
     # Init robot
     panda = Bestman_sim_panda(client, visualizer, cfg)
-    visualizer.change_robot_color(
-        panda.sim_get_base_id(), panda.sim_get_arm_id(), False
-    )
 
     for _ in range(5):
         panda.sim_open_gripper()
