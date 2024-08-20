@@ -68,16 +68,27 @@ conda install mamba -n base -c conda-forge
 
 - Create basic conda environment
 ```
-conda(mamba) env create -f basic_environment.yaml
+conda(mamba) env create -f basic_env.yaml
 conda(mamba) activate BestMan
+```
 
-# Install torch
+- Install torch
+```
 conda(mamba) env update -f cuda116.yaml
+```
 
-# Install lang-segment-anything
+- Install lang-segment-anything
+```
 pip install -U git+https://github.com/luca-medeiros/lang-segment-anything.git
+```
 
+- Install AnyGrasp
+
+**Note**: you need export `MAX_JOBS=2`; before pip install if you are running on an laptop due to [this issue](https://github.com/NVIDIA/MinkowskiEngine/issues/228).
+```
 # Install MinkowskiEngine
+pip uninstall torch
+conda install pytorch==1.13.1 -c pytorch
 pip install -U git+https://github.com/NVIDIA/MinkowskiEngine -v --no-deps --global-option="--blas_include_dirs=${CONDA_PREFIX}/include" --global-option="--blas=openblas"
 
 # Install graspnetAPI
@@ -86,6 +97,9 @@ pip install graspnetAPI
 # Install pointnet2
 cd third_party/pointnet2
 python setup.py install
+
+# Force reinstall to ensure version
+pip install --force-reinstall opencv-python==4.1.2.30 numpy==1.23.5
 ```
 
 - AnyGrasp License 
