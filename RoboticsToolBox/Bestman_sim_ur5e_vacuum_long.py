@@ -34,10 +34,10 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
         super().__init__(client, visualizer, cfg)
 
     # ----------------------------------------------------------------
-    # Functions for gripper
+    # Functions for vacuum gripper
     # ----------------------------------------------------------------
 
-    def sim_create_fixed_constraint(self, object):
+    def sim_open_vacuum_gripper(self, object):
         """
         Activate or deactivate the gripper for a movable object.
 
@@ -79,17 +79,17 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
                 )
             self.client.run(40)
             print(
-                "[BestMan_Sim][Sucker] \033[34mInfo\033[0m: Sucker fixed constraint has been created!"
+                "[BestMan_Sim][vacuum_gripper] \033[34mInfo\033[0m: vacuum_gripper fixed constraint has been created!"
             )
 
-    def sim_remove_fixed_constraint(self):
+    def sim_close_vacuum_gripper(self):
         """remove fixed constraint"""
         if self.constraint_id != None:
             p.removeConstraint(self.constraint_id, physicsClientId=self.client_id)
             self.client.run(40)
             self.constraint_id = None
             print(
-                "[BestMan_Sim][Sucker] \033[34mInfo\033[0m: Sucker fixed constraint has been removed!"
+                "[BestMan_Sim][vacuum_gripper] \033[34mInfo\033[0m: vacuum_gripper fixed constraint has been removed!"
             )
 
     def sim_create_movable_constraint(self, object, link_id):
@@ -123,7 +123,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
             )
             p.changeConstraint(self.constraint_id, maxForce=2000)
             print(
-                "[BestMan_Sim][Sucker] \033[34mInfo\033[0m: Sucker movable constraint has been created!"
+                "[BestMan_Sim][vacuum_gripper] \033[34mInfo\033[0m: vacuum_gripper movable constraint has been created!"
             )
 
     def sim_remove_movable_constraint(self):
@@ -133,7 +133,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
             self.client.run(40)
             self.constraint_id = None
             print(
-                "[BestMan_Sim][Sucker] \033[34mInfo\033[0m: Sucker movable constraint has been removed!"
+                "[BestMan_Sim][vacuum_gripper] \033[34mInfo\033[0m: vacuum_gripper movable constraint has been removed!"
             )
 
     # ----------------------------------------------------------------
@@ -154,7 +154,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
             [0.0, math.pi / 2.0, 0.0],
         )
         self.sim_move_end_effector_to_goal_pose(pick_pose)
-        self.sim_create_fixed_constraint(object)
+        self.sim_open_vacuum_gripper(object)
         self.sim_move_end_effector_to_goal_pose(init_pose)
 
     def place(self, place_pose):
@@ -166,7 +166,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
         """
         init_pose = self.sim_get_current_end_effector_pose()
         self.sim_move_end_effector_to_goal_pose(place_pose)
-        self.sim_remove_fixed_constraint()
+        self.sim_close_vacuum_gripper()
         self.sim_move_end_effector_to_goal_pose(init_pose)
 
     def pick_place(self, object, place_pose):

@@ -1,300 +1,329 @@
-<robot name="ur5e" version="1.0">
-  <joint name="ee_fixed_joint" type="fixed">
-    <origin rpy="0.00000 -0.00000 1.57080" xyz="-0.00000 0.10000 0.00000"/>
-    <parent link="wrist_3_link"/>
-    <child link="ee_link"/>
-  </joint>
-  <joint name="ee_link_gripper_base_joint" type="fixed">
-    <origin rpy="1.57080 1.57080 1.57080" xyz="0.00000 0.00000 0.00000"/>
-    <parent link="ee_link"/>
-    <child link="lite_vacuum_gripper_link"/>
-  </joint>
-  <joint name="elbow_joint" type="revolute">
-    <limit lower="-3.14159" upper="3.14159" effort="150.00000" velocity="3.14000"/>
-    <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 -0.13100 0.42500"/>
-    <parent link="upper_arm_link"/>
-    <child link="forearm_link"/>
-    <axis xyz="0.00000 1.00000 0.00000"/>
-  </joint>
-  <joint name="lite_vacuum_gripper_link-midLink" type="fixed">
-    <origin rpy="-0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 0.02500"/>
-    <parent link="lite_vacuum_gripper_link"/>
-    <child link="midLink"/>
-  </joint>
-  <joint name="midLink-headLink" type="fixed">
-    <origin rpy="-0.00000 0.00000 -0.00000" xyz="0.00000 -0.00000 0.08000"/>
-    <parent link="midLink"/>
-    <child link="headLink"/>
-  </joint>
-  <joint name="shoulder_lift_joint" type="revolute">
-    <limit lower="-6.28319" upper="6.28319" effort="150.00000" velocity="3.14000"/>
-    <origin rpy="-0.00000 1.57080 0.00000" xyz="0.00000 0.13800 0.00000"/>
-    <parent link="shoulder_link"/>
-    <child link="upper_arm_link"/>
-    <axis xyz="0.00000 1.00000 0.00000"/>
-  </joint>
-  <joint name="shoulder_pan_joint" type="revolute">
-    <limit lower="-6.28319" upper="6.28319" effort="150.00000" velocity="3.14000"/>
-    <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.16300"/>
-    <parent link="base_link"/>
-    <child link="shoulder_link"/>
-    <axis xyz="0.00000 0.00000 1.00000"/>
-  </joint>
-  <joint name="tipJoint" type="fixed">
-    <origin rpy="-0.00000 0.00000 -0.00000" xyz="0.00000 -0.00000 0.02900"/>
-    <parent link="headLink"/>
-    <child link="tipLink"/>
-  </joint>
-  <joint name="tool_center_point" type="fixed">
-    <origin rpy="0.00000 0.00000 -0.00000" xyz="0.00000 0.00000 -0.00000"/>
-    <parent link="tipLink"/>
-    <child link="link_tcp"/>
-  </joint>
-  <joint name="wrist_1_joint" type="revolute">
-    <limit lower="-6.28319" upper="6.28319" effort="28.00000" velocity="6.28000"/>
-    <origin rpy="-0.00000 1.57080 0.00000" xyz="-0.00000 0.00000 0.39200"/>
-    <parent link="forearm_link"/>
-    <child link="wrist_1_link"/>
-    <axis xyz="0.00000 1.00000 0.00000"/>
-  </joint>
-  <joint name="wrist_2_joint" type="revolute">
-    <limit lower="-6.28319" upper="6.28319" effort="28.00000" velocity="6.28000"/>
-    <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.12700 0.00000"/>
-    <parent link="wrist_1_link"/>
-    <child link="wrist_2_link"/>
-    <axis xyz="0.00000 0.00000 1.00000"/>
-  </joint>
-  <joint name="wrist_3_joint" type="revolute">
-    <limit lower="-6.28319" upper="6.28319" effort="28.00000" velocity="6.28000"/>
-    <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.10000"/>
-    <parent link="wrist_2_link"/>
-    <child link="wrist_3_link"/>
-    <axis xyz="0.00000 1.00000 0.00000"/>
-  </joint>
+<robot name="ur5e_vacuum_long" version="1.0">
+  <!-- ur5e -->
   <link name="base_link">
     <collision name="base_link_collision">
-      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000" />
       <geometry>
-        <mesh filename="../meshes/stl/base.stl" scale="1.00000 1.00000 1.00000"/>
+        <mesh filename="../meshes/stl/base.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </collision>
     <inertial>
-      <inertia ixx="0.00443" ixy="0.00000" ixz="0.00000" iyy="0.00443" iyz="0.00000" izz="0.00720"/>
-      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
-      <mass value="4.00000"/>
+      <inertia ixx="0.00443" ixy="0.00000" ixz="0.00000" iyy="0.00443" iyz="0.00000" izz="0.00720" />
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000" />
+      <mass value="4.00000" />
     </inertial>
     <visual name="base_link_visual">
-      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
-      <material name="LightGrey"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000" />
+      <material name="LightGrey" />
       <geometry>
-        <mesh filename="../meshes/stl/base.stl" scale="1.00000 1.00000 1.00000"/>
+        <mesh filename="../meshes/stl/base.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </visual>
   </link>
-  <link name="ee_link">
-    <collision name="ee_link_collision">
-      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.01000 0.00000 0.00000"/>
-      <geometry>
-        <box size="0.01000 0.01000 0.01000"/>
-      </geometry>
-    </collision>
-  </link>
-  <link name="forearm_link">
-    <collision name="forearm_link_collision">
-      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
-      <geometry>
-        <mesh filename="../meshes/stl/forearm.stl" scale="1.00000 1.00000 1.00000"/>
-      </geometry>
-    </collision>
-    <inertial>
-      <inertia ixx="0.03118" ixy="0.00000" ixz="0.00000" iyy="0.03118" iyz="0.00000" izz="0.00409"/>
-      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.19600"/>
-      <mass value="2.27500"/>
-    </inertial>
-    <visual name="forearm_link_visual">
-      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
-      <material name="LightGrey"/>
-      <geometry>
-        <mesh filename="../meshes/stl/forearm.stl" scale="1.00000 1.00000 1.00000"/>
-      </geometry>
-    </visual>
-  </link>
-  <link name="headLink">
-    <collision name="headLink_collision">
-      <origin rpy="-0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 0.00000"/>
-      <geometry>
-        <mesh filename="../meshes/stl/head.stl" scale="0.00100 0.00100 0.00100"/>
-      </geometry>
-    </collision>
-    <inertial>
-      <inertia ixx="1.00000" ixy="0.00000" ixz="0.00000" iyy="1.00000" iyz="0.00000" izz="1.00000"/>
-      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
-      <mass value="0.10000"/>
-    </inertial>
-    <visual name="headLink_visual">
-      <origin rpy="-0.00000 0.00000 0.00000" xyz="0.00101 -0.00097 -0.03464"/>
-      <material name="darkgrey"/>
-      <geometry>
-        <mesh filename="../meshes/stl/head.stl" scale="0.00100 0.00100 0.00100"/>
-      </geometry>
-    </visual>
-  </link>
-  <link name="link_tcp"/>
-  <link name="lite_vacuum_gripper_link">
-    <inertial>
-      <inertia ixx="1.00000" ixy="0.00000" ixz="0.00000" iyy="1.00000" iyz="0.00000" izz="1.00000"/>
-      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
-      <mass value="0.10000"/>
-    </inertial>
-    <visual name="lite_vacuum_gripper_link_visual">
-      <origin rpy="-0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 0.00000"/>
-      <material name="LightGrey"/>
-      <geometry>
-        <mesh filename="../meshes/stl/base.stl" scale="0.00100 0.00100 0.00100"/>
-      </geometry>
-    </visual>
-  </link>
-  <link name="midLink">
-    <inertial>
-      <inertia ixx="1.00000" ixy="0.00000" ixz="0.00000" iyy="1.00000" iyz="0.00000" izz="1.00000"/>
-      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00296 0.00111 0.02973"/>
-      <mass value="0.10000"/>
-    </inertial>
-    <visual name="midLink_visual">
-      <origin rpy="-0.00000 0.00000 0.00000" xyz="0.00101 -0.00097 -0.03464"/>
-      <material name="color_40919"/>
-      <geometry>
-        <mesh filename="../meshes/stl/mid.stl" scale="0.00100 0.00100 0.00100"/>
-      </geometry>
-    </visual>
-  </link>
+
+  <joint name="shoulder_pan_joint" type="revolute">
+    <limit lower="-6.28319" upper="6.28319" effort="150.00000" velocity="3.14000" />
+    <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.16300" />
+    <parent link="base_link" />
+    <child link="shoulder_link" />
+    <axis xyz="0.00000 0.00000 1.00000" />
+  </joint>
+
   <link name="shoulder_link">
     <collision name="shoulder_link_collision">
-      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000" />
       <geometry>
-        <mesh filename="../meshes/stl/shoulder.stl" scale="1.00000 1.00000 1.00000"/>
+        <mesh filename="../meshes/stl/shoulder.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </collision>
     <inertial>
-      <inertia ixx="0.01027" ixy="0.00000" ixz="0.00000" iyy="0.01027" iyz="0.00000" izz="0.00666"/>
-      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
-      <mass value="3.70000"/>
+      <inertia ixx="0.01027" ixy="0.00000" ixz="0.00000" iyy="0.01027" iyz="0.00000" izz="0.00666" />
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000" />
+      <mass value="3.70000" />
     </inertial>
     <visual name="shoulder_link_visual">
-      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
-      <material name="LightGrey"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000" />
+      <material name="LightGrey" />
       <geometry>
-        <mesh filename="../meshes/stl/shoulder.stl" scale="1.00000 1.00000 1.00000"/>
+        <mesh filename="../meshes/stl/shoulder.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </visual>
   </link>
-  <link name="tipLink">
-    <collision name="tipLink_collision">
-      <origin rpy="-0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 0.00000"/>
-      <geometry>
-        <cylinder radius="0.00100" length="0.02800"/>
-      </geometry>
-    </collision>
-    <inertial>
-      <inertia ixx="1.00000" ixy="-0.00000" ixz="0.00000" iyy="1.00000" iyz="0.00000" izz="1.00000"/>
-      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 -0.00000"/>
-      <mass value="0.10000"/>
-    </inertial>
-    <visual name="tipLink_visual">
-      <origin rpy="-0.00000 0.00000 0.00000" xyz="0.00101 -0.00097 -0.03464"/>
-      <material name="LightGrey"/>
-      <geometry>
-        <mesh filename="../meshes/stl/tip.stl" scale="0.00100 0.00100 0.00100"/>
-      </geometry>
-    </visual>
-  </link>
+
+  <joint name="shoulder_lift_joint" type="revolute">
+    <limit lower="-6.28319" upper="6.28319" effort="150.00000" velocity="3.14000" />
+    <origin rpy="-0.00000 1.57080 0.00000" xyz="0.00000 0.13800 0.00000" />
+    <parent link="shoulder_link" />
+    <child link="upper_arm_link" />
+    <axis xyz="0.00000 1.00000 0.00000" />
+  </joint>
+
   <link name="upper_arm_link">
     <collision name="upper_arm_link_collision">
-      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000" />
       <geometry>
-        <mesh filename="../meshes/stl/upperarm.stl" scale="1.00000 1.00000 1.00000"/>
+        <mesh filename="../meshes/stl/upperarm.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </collision>
     <inertial>
-      <inertia ixx="0.13389" ixy="0.00000" ixz="0.00000" iyy="0.13389" iyz="0.00000" izz="0.01511"/>
-      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.21250"/>
-      <mass value="8.39300"/>
+      <inertia ixx="0.13389" ixy="0.00000" ixz="0.00000" iyy="0.13389" iyz="0.00000" izz="0.01511" />
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.21250" />
+      <mass value="8.39300" />
     </inertial>
     <visual name="upper_arm_link_visual">
-      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
-      <material name="LightGrey"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000" />
+      <material name="LightGrey" />
       <geometry>
-        <mesh filename="../meshes/stl/upperarm.stl" scale="1.00000 1.00000 1.00000"/>
+        <mesh filename="../meshes/stl/upperarm.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </visual>
   </link>
+
+  <joint name="elbow_joint" type="revolute">
+    <limit lower="-3.14159" upper="3.14159" effort="150.00000" velocity="3.14000" />
+    <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 -0.13100 0.42500" />
+    <parent link="upper_arm_link" />
+    <child link="forearm_link" />
+    <axis xyz="0.00000 1.00000 0.00000" />
+  </joint>
+
+  <link name="forearm_link">
+    <collision name="forearm_link_collision">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000" />
+      <geometry>
+        <mesh filename="../meshes/stl/forearm.stl" scale="1.00000 1.00000 1.00000" />
+      </geometry>
+    </collision>
+    <inertial>
+      <inertia ixx="0.03118" ixy="0.00000" ixz="0.00000" iyy="0.03118" iyz="0.00000" izz="0.00409" />
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.19600" />
+      <mass value="2.27500" />
+    </inertial>
+    <visual name="forearm_link_visual">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000" />
+      <material name="LightGrey" />
+      <geometry>
+        <mesh filename="../meshes/stl/forearm.stl" scale="1.00000 1.00000 1.00000" />
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="wrist_1_joint" type="revolute">
+    <limit lower="-6.28319" upper="6.28319" effort="28.00000" velocity="6.28000" />
+    <origin rpy="-0.00000 1.57080 0.00000" xyz="-0.00000 0.00000 0.39200" />
+    <parent link="forearm_link" />
+    <child link="wrist_1_link" />
+    <axis xyz="0.00000 1.00000 0.00000" />
+  </joint>
+
   <link name="wrist_1_link">
     <collision name="wrist_1_link_collision">
-      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000" />
       <geometry>
-        <mesh filename="../meshes/stl/wrist1.stl" scale="1.00000 1.00000 1.00000"/>
+        <mesh filename="../meshes/stl/wrist1.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </collision>
     <inertial>
-      <inertia ixx="0.00256" ixy="0.00000" ixz="0.00000" iyy="0.00256" iyz="0.00000" izz="0.00219"/>
-      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.12700 0.00000"/>
-      <mass value="1.21900"/>
+      <inertia ixx="0.00256" ixy="0.00000" ixz="0.00000" iyy="0.00256" iyz="0.00000" izz="0.00219" />
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.12700 0.00000" />
+      <mass value="1.21900" />
     </inertial>
     <visual name="wrist_1_link_visual">
-      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000"/>
-      <material name="LightGrey"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000" />
+      <material name="LightGrey" />
       <geometry>
-        <mesh filename="../meshes/stl/wrist1.stl" scale="1.00000 1.00000 1.00000"/>
+        <mesh filename="../meshes/stl/wrist1.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </visual>
   </link>
+
+  <joint name="wrist_2_joint" type="revolute">
+    <limit lower="-6.28319" upper="6.28319" effort="28.00000" velocity="6.28000" />
+    <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.12700 0.00000" />
+    <parent link="wrist_1_link" />
+    <child link="wrist_2_link" />
+    <axis xyz="0.00000 0.00000 1.00000" />
+  </joint>
+
   <link name="wrist_2_link">
     <collision name="wrist_2_link_collision">
-      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000" />
       <geometry>
-        <mesh filename="../meshes/stl/wrist2.stl" scale="1.00000 1.00000 1.00000"/>
+        <mesh filename="../meshes/stl/wrist2.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </collision>
     <inertial>
-      <inertia ixx="0.00256" ixy="0.00000" ixz="0.00000" iyy="0.00256" iyz="0.00000" izz="0.00219"/>
-      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.10000"/>
-      <mass value="1.21900"/>
+      <inertia ixx="0.00256" ixy="0.00000" ixz="0.00000" iyy="0.00256" iyz="0.00000" izz="0.00219" />
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.10000" />
+      <mass value="1.21900" />
     </inertial>
     <visual name="wrist_2_link_visual">
-      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000"/>
-      <material name="LightGrey"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000" />
+      <material name="LightGrey" />
       <geometry>
-        <mesh filename="../meshes/stl/wrist2.stl" scale="1.00000 1.00000 1.00000"/>
+        <mesh filename="../meshes/stl/wrist2.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </visual>
   </link>
+
+  <joint name="wrist_3_joint" type="revolute">
+    <limit lower="-6.28319" upper="6.28319" effort="28.00000" velocity="6.28000" />
+    <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.10000" />
+    <parent link="wrist_2_link" />
+    <child link="wrist_3_link" />
+    <axis xyz="0.00000 1.00000 0.00000" />
+  </joint>
+
   <link name="wrist_3_link">
     <collision name="wrist_3_link_collision">
-      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000" />
       <geometry>
-        <mesh filename="../meshes/stl/wrist3.stl" scale="1.00000 1.00000 1.00000"/>
+        <mesh filename="../meshes/stl/wrist3.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </collision>
     <inertial>
-      <inertia ixx="0.00010" ixy="0.00000" ixz="0.00000" iyy="0.00010" iyz="-0.00000" izz="0.00013"/>
-      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.07710 -0.00000"/>
-      <mass value="0.18790"/>
+      <inertia ixx="0.00010" ixy="0.00000" ixz="0.00000" iyy="0.00010" iyz="-0.00000" izz="0.00013" />
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.07710 -0.00000" />
+      <mass value="0.18790" />
     </inertial>
     <visual name="wrist_3_link_visual">
-      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000"/>
-      <material name="LightGrey"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000" />
+      <material name="LightGrey" />
       <geometry>
-        <mesh filename="../meshes/stl/wrist3.stl" scale="1.00000 1.00000 1.00000"/>
+        <mesh filename="../meshes/stl/wrist3.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </visual>
   </link>
+
+  <joint name="ee_fixed_joint" type="fixed">
+    <origin rpy="0.00000 -0.00000 1.57080" xyz="-0.00000 0.10000 0.00000" />
+    <parent link="wrist_3_link" />
+    <child link="ee_link" />
+  </joint>
+
+  <!-- vacuum gripper -->
+  <link name="ee_link">
+    <collision name="ee_link_collision">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.01000 0.00000 0.00000" />
+      <geometry>
+        <box size="0.01000 0.01000 0.01000" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="ee_link_gripper_base_joint" type="fixed">
+    <origin rpy="1.57080 1.57080 1.57080" xyz="0.00000 0.00000 0.00000" />
+    <parent link="ee_link" />
+    <child link="lite_vacuum_gripper_link" />
+  </joint>
+
+  <link name="lite_vacuum_gripper_link">
+    <inertial>
+      <inertia ixx="1.00000" ixy="0.00000" ixz="0.00000" iyy="1.00000" iyz="0.00000" izz="1.00000" />
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000" />
+      <mass value="0.10000" />
+    </inertial>
+    <visual name="lite_vacuum_gripper_link_visual">
+      <origin rpy="-0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 0.00000" />
+      <material name="LightGrey" />
+      <geometry>
+        <mesh filename="../meshes/stl/base.stl" scale="0.00100 0.00100 0.00100" />
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="lite_vacuum_gripper_link-midLink" type="fixed">
+    <origin rpy="-0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 0.02500" />
+    <parent link="lite_vacuum_gripper_link" />
+    <child link="midLink" />
+  </joint>
+
+  <link name="midLink">
+    <inertial>
+      <inertia ixx="1.00000" ixy="0.00000" ixz="0.00000" iyy="1.00000" iyz="0.00000" izz="1.00000" />
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00296 0.00111 0.02973" />
+      <mass value="0.10000" />
+    </inertial>
+    <visual name="midLink_visual">
+      <origin rpy="-0.00000 0.00000 0.00000" xyz="0.00101 -0.00097 -0.03464" />
+      <material name="color_40919" />
+      <geometry>
+        <mesh filename="../../../end_effector/vacuum_gripper/long_vacuum_gripper/meshes/mid.stl" scale="0.00100 0.00100 0.00100" />
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="midLink-headLink" type="fixed">
+    <origin rpy="-0.00000 0.00000 -0.00000" xyz="0.00000 -0.00000 0.08000" />
+    <parent link="midLink" />
+    <child link="headLink" />
+  </joint>
+
+  <link name="headLink">
+    <collision name="headLink_collision">
+      <origin rpy="-0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 0.00000" />
+      <geometry>
+        <mesh filename="../../../end_effector/vacuum_gripper/long_vacuum_gripper/meshes/head.stl" scale="0.00100 0.00100 0.00100" />
+      </geometry>
+    </collision>
+    <inertial>
+      <inertia ixx="1.00000" ixy="0.00000" ixz="0.00000" iyy="1.00000" iyz="0.00000" izz="1.00000" />
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000" />
+      <mass value="0.10000" />
+    </inertial>
+    <visual name="headLink_visual">
+      <origin rpy="-0.00000 0.00000 0.00000" xyz="0.00101 -0.00097 -0.03464" />
+      <material name="darkgrey" />
+      <geometry>
+        <mesh filename="../../../end_effector/vacuum_gripper/long_vacuum_gripper/meshes/head.stl" scale="0.00100 0.00100 0.00100" />
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="tipJoint" type="fixed">
+    <origin rpy="-0.00000 0.00000 -0.00000" xyz="0.00000 -0.00000 0.02900" />
+    <parent link="headLink" />
+    <child link="tipLink" />
+  </joint>
+
+  <link name="tipLink">
+    <collision name="tipLink_collision">
+      <origin rpy="-0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 0.00000" />
+      <geometry>
+        <cylinder radius="0.00100" length="0.02800" />
+      </geometry>
+    </collision>
+    <inertial>
+      <inertia ixx="1.00000" ixy="-0.00000" ixz="0.00000" iyy="1.00000" iyz="0.00000" izz="1.00000" />
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 -0.00000" />
+      <mass value="0.10000" />
+    </inertial>
+    <visual name="tipLink_visual">
+      <origin rpy="-0.00000 0.00000 0.00000" xyz="0.00101 -0.00097 -0.03464" />
+      <material name="LightGrey" />
+      <geometry>
+        <mesh filename="../../../end_effector/vacuum_gripper/long_vacuum_gripper/meshes/tip.stl" scale="0.00100 0.00100 0.00100" />
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="tool_center_point" type="fixed">
+    <origin rpy="0.00000 0.00000 -0.00000" xyz="0.00000 0.00000 -0.00000" />
+    <parent link="tipLink" />
+    <child link="link_tcp" />
+  </joint>
+
+  <link name="link_tcp" />
+
   <material name="LightGrey">
-    <color rgba="0.69804 0.69804 0.69804 1.00000"/>
+    <color rgba="0.69804 0.69804 0.69804 1.00000" />
   </material>
+
   <material name="color_40919">
-    <color rgba="0.80000 0.80000 0.80000 1.00000"/>
+    <color rgba="0.80000 0.80000 0.80000 1.00000" />
   </material>
+
   <material name="darkgrey">
-    <color rgba="0.20000 0.20000 0.20000 1.00000"/>
+    <color rgba="0.20000 0.20000 0.20000 1.00000" />
   </material>
 </robot>

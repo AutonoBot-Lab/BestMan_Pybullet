@@ -1,3 +1,0 @@
-Instantiated with filepath=None->None, scale=[1.0, 1.0, 1.0], mesh=<bpy_struct, Mesh("upperarm") at 0x0000026FB128E408>, meshname=upperarm, material=None, mesh_orientation=None, {}
-->trying export of <bpy_struct, Mesh("upperarm") at 0x0000026FB128E408> to C:\Users\yk\phobos-models\ur5e\meshes\stl\upperarm.stl
-->wrote stl to C:\Users\yk\phobos-models\ur5e\meshes\stl\upperarm.stl from bpy_types.Mesh

@@ -1,3 +1,0 @@
-Instantiated with filepath=None->None, scale=[0.0010000000474974513, 0.0010000000474974513, 0.0010000000474974513], mesh=<bpy_struct, Mesh("head") at 0x0000026FEB50E408>, meshname=head, material=None, mesh_orientation=None, {}
-->trying export of <bpy_struct, Mesh("head") at 0x0000026FEB50E408> to C:\Users\yk\phobos-models\ur5e\meshes\stl\head.stl
-->wrote stl to C:\Users\yk\phobos-models\ur5e\meshes\stl\head.stl from bpy_types.Mesh

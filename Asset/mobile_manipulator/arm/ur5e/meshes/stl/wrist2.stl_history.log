@@ -1,3 +1,0 @@
-Instantiated with filepath=None->None, scale=[1.0, 1.0, 1.0], mesh=<bpy_struct, Mesh("wrist2") at 0x0000026FEB81A408>, meshname=wrist2, material=None, mesh_orientation=None, {}
-->trying export of <bpy_struct, Mesh("wrist2") at 0x0000026FEB81A408> to C:\Users\yk\phobos-models\ur5e\meshes\stl\wrist2.stl
-->wrote stl to C:\Users\yk\phobos-models\ur5e\meshes\stl\wrist2.stl from bpy_types.Mesh

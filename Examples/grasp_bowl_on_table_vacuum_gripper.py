@@ -1,11 +1,11 @@
 # !/usr/bin/env python
 # -*- encoding: utf-8 -*-
 """
-# @FileName       : grasp_bowl_on_table_sucker.py
+# @FileName       : grasp_bowl_on_table_vacuum_gripper.py
 # @Time           : 2024-08-03 15:03:52
 # @Author         : yk
 # @Email          : yangkui1127@gmail.com
-# @Description:   : A example to grasp bowl on table use sucker
+# @Description:   : A example to grasp bowl on table use vacuum_gripper
 """
 
 
@@ -22,7 +22,7 @@ from Visualization import Visualizer
 def main(filename):
 
     # Load config
-    config_path = "../Config/grasp_bowl_on_table_sucker.yaml"
+    config_path = "../Config/grasp_bowl_on_table_vacuum_gripper.yaml"
     cfg = load_config(config_path)
     print(cfg)
 
@@ -68,7 +68,7 @@ def main(filename):
     # disconnect from server
     client.wait(5)
     client.disconnect()
-
+    
 
 if __name__ == "__main__":
 

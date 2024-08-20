@@ -94,7 +94,7 @@ def main(filename):
     bestman.sim_execute_trajectory(path, enable_plot=True)
 
     # grasp target object
-    bestman.sim_create_fixed_constraint("bowl")
+    bestman.sim_open_vacuum_gripper("bowl")
 
     # Come back to grasp init pose
     bestman.sim_execute_trajectory(path[::-1], enable_plot=True)
@@ -109,7 +109,7 @@ def main(filename):
     bestman.sim_move_end_effector_to_goal_pose(place_pose)
 
     # place the bowl
-    bestman.sim_remove_fixed_constraint()
+    bestman.sim_close_vacuum_gripper()
 
     # Up arm
     place_pose = Pose([1.0, 1.0, 1.5], [0.0, math.pi / 2.0, 0.0])

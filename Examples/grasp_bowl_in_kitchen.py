@@ -91,7 +91,7 @@ def main(filename):
     bestman.sim_execute_trajectory(path)
 
     # grasp target object
-    bestman.sim_create_fixed_constraint(bowl_id)
+    bestman.sim_open_vacuum_gripper(bowl_id)
 
     # # End record
     visualizer.end_record()

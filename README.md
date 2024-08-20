@@ -203,10 +203,10 @@ python open_microwave.py
 <br/>
 
 
-- Grasp bowl on table use sucker
+- Grasp bowl on table use vacuum_gripper
 
 ```
-python grasp_bowl_on_table_sucker.py
+python grasp_bowl_on_table_vacuum_gripper.py
 ```
 
 
