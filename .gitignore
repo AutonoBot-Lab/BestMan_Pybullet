@@ -1,6 +1,7 @@
 .vscode
 **/__pycache__
 **/*.pyc
+!Examples/log/.gitkeep
 Examples/log/
 Motion_Planning/Manipulation/Grasp/.TimeRecord
 .TimeRecord
