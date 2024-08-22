@@ -242,7 +242,7 @@ If you want to enable **pybullet-blender-recorder**, please：
 
 2. After running the demo, a pkl file will be generated and saved in **Examples/record** dir
 
-3. Install the `pyBulletSimImporter` plugin under **Visualization/blender-render** dir in blender(test on blender3.6.5), and enalbe this plugin
+3. Install the `pyBulletSimImporter.py` plugin under **Visualization/blender-render** dir in blender (test on **blender3.6.5**) , and enalbe this plugin
 
 <img width="1040" alt="image" src="https://github.com/user-attachments/assets/ab9e99c7-64c8-40fe-bbfe-edc0c786b812">
 
