@@ -84,11 +84,10 @@ pip install -U git+https://github.com/luca-medeiros/lang-segment-anything.git
 
 - Install AnyGrasp
 
-**Note**: you need export `MAX_JOBS=2`; before pip install if you are running on an laptop due to [this issue](https://github.com/NVIDIA/MinkowskiEngine/issues/228).
+**Note**: you need `export MAX_JOBS=2` in terminal; before pip install if you are running on an laptop due to [this issue](https://github.com/NVIDIA/MinkowskiEngine/issues/228).
 ```
 # Install MinkowskiEngine
-pip uninstall torch
-conda install pytorch==1.13.1 -c pytorch
+conda install pytorch=1.13.1 -c pytorch --force-reinstall
 pip install -U git+https://github.com/NVIDIA/MinkowskiEngine -v --no-deps --global-option="--blas_include_dirs=${CONDA_PREFIX}/include" --global-option="--blas=openblas"
 
 # Install graspnetAPI
