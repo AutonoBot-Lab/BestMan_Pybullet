@@ -1,4 +1,4 @@
-![](docs/_static/BestMan_logo.png)
+![image](https://github.com/user-attachments/assets/73869abf-a435-40ba-9ccd-f8f3a199c958)![](docs/_static/BestMan_logo.png)
 
 <!-- # BestMan - A Pybullet-based Mobile Manipulator Simulator -->
 
@@ -146,9 +146,6 @@ export DISPLAY=host.docker.internal:0
 
 ## 👨‍💻 Basic Demos
 
-&emsp;&emsp;We have supplemented and improved the [pybullet-blender-recorder](https://github.com/huy-ha/pybullet-blender-recorder) code base, importing the images in the pybullet scene into blender for rendering, which improves the rendering effect. For simple scenes and tasks, the import can be completed within 2 minutes, and for complex scenes and tasks, the import can be completed within half an hour.
-
-<br/>
 First, Enter directory Examples:
 
 ```
@@ -245,6 +242,27 @@ python move_bowl_from_drawer_to_table.py
 <video src="https://github.com/user-attachments/assets/db4c7ec3-c136-4c6a-8323-2bef6bc09c84"></video>
 
 <video src="https://github.com/user-attachments/assets/0a82fd20-c533-4881-8672-2f15b83b2166"></video>
+
+<br/>
+
+### blender render
+
+We have improved the [pybullet-blender-recorder](https://github.com/huy-ha/pybullet-blender-recorder) to import pybullet scene into blender for better rendering
+
+If you want to enable **pybullet-blender-recorder**, please：
+
+1. Set `blender: Ture` in Config/default.yaml
+
+2. After running the demo, a pkl file will be generated and saved in **Examples/record** dir
+
+3. Install the `pyBulletSimImporter` plugin under **Visualization/blender-render** dir in blender, and enalbe this plugin
+
+![image](https://github.com/user-attachments/assets/ab9e99c7-64c8-40fe-bbfe-edc0c786b812)
+
+4. Import the pkl files into blender
+
+![image](https://github.com/user-attachments/assets/8791815a-b52a-441d-af28-ee2728868f94)
+
 
 <br/>
 
