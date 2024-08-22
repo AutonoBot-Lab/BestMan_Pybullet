@@ -163,8 +163,6 @@ python navigation_basic.py
 
 <video src="https://github.com/user-attachments/assets/63fe074e-ba27-4de8-8095-99289552b17a"></video>
 
-<video src="https://github.com/user-attachments/assets/4e87e324-6621-4e47-810d-31c51582fb05"></video>
-
 <br/>
 
 
@@ -178,8 +176,6 @@ python open_fridge.py
 
 <video src="https://github.com/user-attachments/assets/9aab5ca2-fb09-4b9f-a989-54ef5c1d2884"></video>
 
-<video src="https://github.com/user-attachments/assets/16d8c3b6-d5a7-44b9-bd8a-c2182de20e52"></video>
-
 <br/>
 
 
@@ -191,10 +187,6 @@ python open_microwave.py
 
 
 <video src="https://github.com/user-attachments/assets/d0d97b08-423b-4af5-a418-f36872541f99"></video>
-
-<video src="https://github.com/user-attachments/assets/fb8ef3ea-d045-4bbf-a28f-0bec56930aae"></video>
-
-
 
 <br/>
 
@@ -208,11 +200,6 @@ python grasp_bowl_on_table_vacuum_gripper.py
 
 <video src="https://github.com/user-attachments/assets/0eb05120-8016-425b-a46a-b711e5290691"></video>
 
-<video src="https://github.com/user-attachments/assets/9d67e5d1-a4bc-47a3-b03b-21641a365037"></video>
-
-
-
-
 <br/>
 
 
@@ -224,10 +211,6 @@ python grasp_lego_on_table_gripper.py
 
 
 <video src="https://github.com/user-attachments/assets/3bf15b13-3113-4a72-950c-7e9c1367ed9e"></video>
-
-<video src="https://github.com/user-attachments/assets/0ef18785-26b9-4855-b19d-87e25014421f"></video>
-
-
 
 <br/>
 
@@ -241,11 +224,15 @@ python move_bowl_from_drawer_to_table.py
 
 <video src="https://github.com/user-attachments/assets/db4c7ec3-c136-4c6a-8323-2bef6bc09c84"></video>
 
-<video src="https://github.com/user-attachments/assets/0a82fd20-c533-4881-8672-2f15b83b2166"></video>
-
 <br/>
 
 ### blender render
+
+`open microwave` demo with blender render:
+
+<video src="https://github.com/user-attachments/assets/fb8ef3ea-d045-4bbf-a28f-0bec56930aae"></video>
+
+<br/>
 
 We have improved the [pybullet-blender-recorder](https://github.com/huy-ha/pybullet-blender-recorder) to import pybullet scene into blender for better rendering
 
