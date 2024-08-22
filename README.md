@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/73869abf-a435-40ba-9ccd-f8f3a199c958)![](docs/_static/BestMan_logo.png)
+![](docs/_static/BestMan_logo.png)
 
 <!-- # BestMan - A Pybullet-based Mobile Manipulator Simulator -->
 
