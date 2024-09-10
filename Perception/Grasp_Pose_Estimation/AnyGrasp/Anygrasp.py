@@ -193,10 +193,11 @@ class Anygrasp:
         projections_file_name = os.path.join(
             self.cfgs.output_dir, "grasp_projections.png"
         )
-        plt.imshow(image)
-        plt.title("visualize grasp projections")
-        plt.axis("off")
-        plt.show()
+        if self.cfgs.debug:
+            plt.imshow(image)
+            plt.title("visualize grasp projections")
+            plt.axis("off")
+            plt.show()
         image = cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
         cv2.imwrite(projections_file_name, image)
         print(
