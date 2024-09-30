@@ -1,11 +1,11 @@
 # !/usr/bin/env python
 # -*- encoding: utf-8 -*-
 """
-# @FileName       : load_ur5e.py
+# @FileName       : load_realman.py
 # @Time           : 2024-08-03 15:04:49
 # @Author         : yk
 # @Email          : yangkui1127@gmail.com
-# @Description:   : A example to load ur5e robot
+# @Description:   : A example to load realman robot
 """
 
 

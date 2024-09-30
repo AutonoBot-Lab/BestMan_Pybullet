@@ -1,11 +1,11 @@
 # !/usr/bin/env python
 # -*- encoding: utf-8 -*-
 """
-# @FileName       : Bestman_sim_panda.py
+# @FileName       : Bestman_sim_realman.py
 # @Time           : 2024-08-03 15:08:13
 # @Author         : yk
 # @Email          : yangkui1127@gmail.com
-# @Description:   : Panda robot
+# @Description:   : Realman robot
 """
 
 import math
