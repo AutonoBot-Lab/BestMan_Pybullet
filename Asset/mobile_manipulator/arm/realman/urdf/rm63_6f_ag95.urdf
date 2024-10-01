@@ -22,7 +22,7 @@ Stephen Brawner (brawner@gmail.com)
             <geometry>
                 <mesh filename="../meshes/RML63_6F/Link1.STL" />
             </geometry>
-            <material name="">
+            <material name="white">
                 <color rgba="1 1 1 1" />
             </material>
         </visual>
@@ -65,7 +65,7 @@ Stephen Brawner (brawner@gmail.com)
             <geometry>
                 <mesh filename="../meshes/RML63_6F/Link2.STL" />
             </geometry>
-            <material name="">
+            <material name="white">
                 <color rgba="1 1 1 1" />
             </material>
         </visual>
@@ -108,7 +108,7 @@ Stephen Brawner (brawner@gmail.com)
             <geometry>
                 <mesh filename="../meshes/RML63_6F/Link3.STL" />
             </geometry>
-            <material name="">
+            <material name="white">
                 <color rgba="1 1 1 1" />
             </material>
         </visual>
@@ -151,7 +151,7 @@ Stephen Brawner (brawner@gmail.com)
             <geometry>
                 <mesh filename="../meshes/RML63_6F/Link4.STL" />
             </geometry>
-            <material name="">
+            <material name="white">
                 <color rgba="1 1 1 1" />
             </material>
         </visual>
@@ -194,7 +194,7 @@ Stephen Brawner (brawner@gmail.com)
             <geometry>
                 <mesh filename="../meshes/RML63_6F/Link5.STL" />
             </geometry>
-            <material name="">
+            <material name="white">
                 <color rgba="1 1 1 1" />
             </material>
         </visual>
@@ -237,7 +237,7 @@ Stephen Brawner (brawner@gmail.com)
             <geometry>
                 <mesh filename="../meshes/RML63_6F/Link6.STL" />
             </geometry>
-            <material name="">
+            <material name="white">
                 <color rgba="1 1 1 1" />
             </material>
         </visual>
@@ -270,7 +270,7 @@ Stephen Brawner (brawner@gmail.com)
                 <mesh filename="../../../end_effector/gripper/ag95/meshes/base_link.STL"
                     scale="1 1 1" />
             </geometry>
-            <material name="">
+            <material name="Almost Black">
                 <color rgba="0.1 0.1 0.1 1" />
             </material>
         </visual>
@@ -305,7 +305,7 @@ Stephen Brawner (brawner@gmail.com)
                 <mesh filename="../../../end_effector/gripper/ag95/meshes/link_proximal_phalanx.STL"
                     scale="1 1 1" />
             </geometry>
-            <material name="">
+            <material name="Almost Black">
                 <color rgba="0.1 0.1 0.1 1" />
             </material>
         </visual>
@@ -350,7 +350,7 @@ Stephen Brawner (brawner@gmail.com)
                 <mesh filename="../../../end_effector/gripper/ag95/meshes/link_crank.STL"
                     scale="1 1 1" />
             </geometry>
-            <material name="">
+            <material name="Almost Black">
                 <color rgba="0.1 0.1 0.1 1" />
             </material>
         </visual>
@@ -386,7 +386,7 @@ Stephen Brawner (brawner@gmail.com)
                 <mesh filename="../../../end_effector/gripper/ag95/meshes/link_rod.STL"
                     scale="1 1 1" />
             </geometry>
-            <material name="">
+            <material name="Almost Black">
                 <color rgba="0.1 0.1 0.1 1" />
             </material>
         </visual>
@@ -422,7 +422,7 @@ Stephen Brawner (brawner@gmail.com)
                 <mesh filename="../../../end_effector/gripper/ag95/meshes/link_distal_phalanx.STL"
                     scale="1 1 1" />
             </geometry>
-            <material name="">
+            <material name="Light Periwinkle ">
                 <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
             </material>
         </visual>
@@ -458,7 +458,7 @@ Stephen Brawner (brawner@gmail.com)
                 <mesh filename="../../../end_effector/gripper/ag95/meshes/link_proximal_phalanx.STL"
                     scale="1 1 1" />
             </geometry>
-            <material name="">
+            <material name="Almost Black">
                 <color rgba="0.1 0.1 0.1 1" />
             </material>
         </visual>
@@ -494,7 +494,7 @@ Stephen Brawner (brawner@gmail.com)
                 <mesh filename="../../../end_effector/gripper/ag95/meshes/link_crank.STL"
                     scale="1 1 1" />
             </geometry>
-            <material name="">
+            <material name="Almost Black">
                 <color rgba="0.1 0.1 0.1 1" />
             </material>
         </visual>
@@ -530,7 +530,7 @@ Stephen Brawner (brawner@gmail.com)
                 <mesh filename="../../../end_effector/gripper/ag95/meshes/link_rod.STL"
                     scale="1 1 1" />
             </geometry>
-            <material name="">
+            <material name="Almost Black">
                 <color rgba="0.1 0.1 0.1 1" />
             </material>
         </visual>
@@ -566,7 +566,7 @@ Stephen Brawner (brawner@gmail.com)
                 <mesh filename="../../../end_effector/gripper/ag95/meshes/link_distal_phalanx.STL"
                     scale="1 1 1" />
             </geometry>
-            <material name="">
+            <material name="Light Periwinkle ">
                 <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
             </material>
         </visual>

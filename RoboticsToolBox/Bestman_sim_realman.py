@@ -84,7 +84,7 @@ class Bestman_sim_realman(Bestman_sim):
         self.sim_set_arm_to_joint_values(self.robot_cfg.arm_init_jointValues)
 
         # change robot color
-        self.visualizer.change_robot_color(self.base_id, self.arm_id, False)
+        # self.visualizer.change_robot_color(self.base_id, self.arm_id, False)
 
         # Init camera
         self.Camera_cfg = cfg.Camera

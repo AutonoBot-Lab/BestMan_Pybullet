@@ -22,7 +22,7 @@ Stephen Brawner (brawner@gmail.com)
             <geometry>
                 <mesh filename=".//meshes/base_link.STL" />
             </geometry>
-            <material name="">
+            <material name="light grayish blue">
                 <color rgba="0.77647 0.77647 0.81961 1" />
             </material>
         </visual>
@@ -53,7 +53,7 @@ Stephen Brawner (brawner@gmail.com)
             <geometry>
                 <mesh filename=".//meshes/front_lidar.STL" />
             </geometry>
-            <material name="">
+            <material name="white">
                 <color rgba="1 1 1 1" />
             </material>
         </visual>
@@ -84,7 +84,7 @@ Stephen Brawner (brawner@gmail.com)
             <geometry>
                 <box size="0.24 0.5 0.2" />
             </geometry>
-            <material name="">
+            <material name="Light Gray">
                 <color rgba="0.69804 0.69804 0.69804 1" />
             </material>
         </visual>
@@ -115,7 +115,7 @@ Stephen Brawner (brawner@gmail.com)
             <geometry>
                 <mesh filename=".//meshes/head_Link.STL" />
             </geometry>
-            <material name="">
+            <material name="white">
                 <color rgba="1 1 1 1" />
             </material>
         </visual>
@@ -146,7 +146,7 @@ Stephen Brawner (brawner@gmail.com)
             <geometry>
                 <mesh filename=".//meshes/head_camera.STL" />
             </geometry>
-            <material name="">
+            <material name="white">
                 <color rgba="1 1 1 1" />
             </material>
         </visual>
@@ -193,7 +193,7 @@ Stephen Brawner (brawner@gmail.com)
             <geometry>
                 <mesh filename=".//meshes/arm_base.STL" />
             </geometry>
-            <material name="">
+            <material name="Gray">
                 <color rgba="0.69804 0.69804 0.69804 1" />
             </material>
         </visual>
@@ -226,7 +226,7 @@ Stephen Brawner (brawner@gmail.com)
             <geometry>
                 <mesh filename=".//meshes/Link7.STL" />
             </geometry>
-            <material name="">
+            <material name="white">
                 <color rgba="1 1 1 1" />
             </material>
         </visual>
@@ -237,6 +237,4 @@ Stephen Brawner (brawner@gmail.com)
             </geometry>
         </collision>
     </link>
-
-
 </robot>
