@@ -22,8 +22,8 @@ Stephen Brawner (brawner@gmail.com)
             <geometry>
                 <mesh filename="../meshes/RML63_6F/Link1.STL" />
             </geometry>
-            <material name="white">
-                <color rgba="1 1 1 1" />
+            <material name="light blue">
+                <color rgba="0.53, 0.81, 0.92, 1.0" />
             </material>
         </visual>
         <collision>
@@ -108,8 +108,8 @@ Stephen Brawner (brawner@gmail.com)
             <geometry>
                 <mesh filename="../meshes/RML63_6F/Link3.STL" />
             </geometry>
-            <material name="white">
-                <color rgba="1 1 1 1" />
+            <material name="light blue">
+                <color rgba="0.53, 0.81, 0.92, 1.0" />
             </material>
         </visual>
         <collision>
@@ -194,8 +194,8 @@ Stephen Brawner (brawner@gmail.com)
             <geometry>
                 <mesh filename="../meshes/RML63_6F/Link5.STL" />
             </geometry>
-            <material name="white">
-                <color rgba="1 1 1 1" />
+            <material name="light blue">
+                <color rgba="0.53, 0.81, 0.92, 1.0" />
             </material>
         </visual>
         <collision>
@@ -251,7 +251,7 @@ Stephen Brawner (brawner@gmail.com)
 
     <!-- connect arm with gripper -->
     <joint name="hand_joint" type="fixed">
-        <origin rpy="0 0 0.25" xyz="0 0 0.02" />
+        <origin rpy="0 0 0.25" xyz="0 0 0" />
         <parent link="Link6" />
         <child link="dh_robotics_ag95_base_link" />
     </joint>

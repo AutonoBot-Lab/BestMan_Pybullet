@@ -20,7 +20,7 @@ Stephen Brawner (brawner@gmail.com)
         <visual>
             <origin rpy="0 0 3.14" xyz="0 0 0" />
             <geometry>
-                <mesh filename=".//meshes/base_link.STL" />
+                <mesh filename="./meshes/base_link.STL" />
             </geometry>
             <material name="light grayish blue">
                 <color rgba="0.77647 0.77647 0.81961 1" />
@@ -29,7 +29,7 @@ Stephen Brawner (brawner@gmail.com)
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename=".//meshes/base_link.STL" />
+                <mesh filename="./meshes/base_link.STL" />
             </geometry>
         </collision>
     </link>
@@ -51,7 +51,7 @@ Stephen Brawner (brawner@gmail.com)
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename=".//meshes/front_lidar.STL" />
+                <mesh filename="./meshes/front_lidar.STL" />
             </geometry>
             <material name="white">
                 <color rgba="1 1 1 1" />
@@ -60,7 +60,7 @@ Stephen Brawner (brawner@gmail.com)
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename=".//meshes/front_lidar.STL" />
+                <mesh filename="./meshes/front_lidar.STL" />
             </geometry>
         </collision>
     </link>
@@ -113,7 +113,7 @@ Stephen Brawner (brawner@gmail.com)
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename=".//meshes/head_Link.STL" />
+                <mesh filename="./meshes/head_Link.STL" />
             </geometry>
             <material name="white">
                 <color rgba="1 1 1 1" />
@@ -122,7 +122,7 @@ Stephen Brawner (brawner@gmail.com)
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename=".//meshes/head_Link.STL" />
+                <mesh filename="./meshes/head_Link.STL" />
             </geometry>
         </collision>
     </link>
@@ -144,7 +144,7 @@ Stephen Brawner (brawner@gmail.com)
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename=".//meshes/head_camera.STL" />
+                <mesh filename="./meshes/head_camera.STL" />
             </geometry>
             <material name="white">
                 <color rgba="1 1 1 1" />
@@ -153,7 +153,7 @@ Stephen Brawner (brawner@gmail.com)
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename=".//meshes/head_camera.STL" />
+                <mesh filename="./meshes/head_camera.STL" />
             </geometry>
         </collision>
     </link>
@@ -191,16 +191,16 @@ Stephen Brawner (brawner@gmail.com)
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename=".//meshes/arm_base.STL" />
+                <mesh filename="./meshes/arm_base.STL" />
             </geometry>
-            <material name="Gray">
-                <color rgba="0.69804 0.69804 0.69804 1" />
+            <material name="White">
+                <color rgba="1 1 1 1" />
             </material>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename=".//meshes/arm_base.STL" />
+                <mesh filename="./meshes/arm_base.STL" />
             </geometry>
         </collision>
     </link>
@@ -224,7 +224,7 @@ Stephen Brawner (brawner@gmail.com)
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename=".//meshes/Link7.STL" />
+                <mesh filename="./meshes/Link7.STL" />
             </geometry>
             <material name="white">
                 <color rgba="1 1 1 1" />
@@ -233,7 +233,7 @@ Stephen Brawner (brawner@gmail.com)
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename=".//meshes/Link7.STL" />
+                <mesh filename="./meshes/Link7.STL" />
             </geometry>
         </collision>
     </link>
