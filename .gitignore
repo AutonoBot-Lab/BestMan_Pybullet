@@ -8,6 +8,8 @@ Motion_Planning/Manipulation/Grasp/.TimeRecord
 Test
 Examples/image/rgb*
 Examples/image/depth*
+Examples/video/*
+!Examples/video/.gitkeep
 Examples/record/*
 !Examples/record/.gitkeep
 Examples/blender/
