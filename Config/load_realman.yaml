@@ -1,10 +1,10 @@
 # Visualizer params
 Visualizer:
   Camera: 
-      dist: 2.0
-      position: [1.0, 0.0, 0]
-      yaw: -86.4
-      pitch: -52.3
+      dist: 1.8
+      position: [1.0, 0.0, 0.5]
+      yaw: -176.0
+      pitch: -33.5
 
 Client:
   plane_urdf_path: "plane.urdf"

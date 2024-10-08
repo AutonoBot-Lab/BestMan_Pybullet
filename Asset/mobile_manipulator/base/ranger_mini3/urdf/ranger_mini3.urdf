@@ -166,6 +166,15 @@ Stephen Brawner (brawner@gmail.com)
     </joint>
 
     <link name="display_Link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <box size="0.03 0.3 0.2" />
+            </geometry>
+            <material name="white">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
