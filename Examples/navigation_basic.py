@@ -74,8 +74,7 @@ def main(filename):
     print("-" * 20 + "\n" + "aabb_table:{}".format(aabb_table))
 
     # Simple SLAM
-    # nav_obstacles_bounds = simple_slam(client, bestman, True)
-    nav_obstacles_bounds = simple_slam(client, bestman, False)
+    nav_obstacles_bounds = simple_slam(client, bestman, True)
 
     # navigate algorithm
     goal_base_pose = Pose([1, 0, 0], [0.0, 0.0, math.pi / 2.0])
