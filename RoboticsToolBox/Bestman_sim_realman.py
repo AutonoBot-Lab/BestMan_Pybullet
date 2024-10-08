@@ -48,7 +48,7 @@ class Bestman_sim_realman(Bestman_sim):
         )
         self.base_rotated = False
         self.current_base_yaw = self.init_pose.get_orientation("euler")[2]
-
+        
         # Init arm
         self.arm_id = self.client.load_object(
             obj_name="arm",

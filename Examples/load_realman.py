@@ -30,33 +30,33 @@ def main(filename):
     # Init client and visualizer
     client = Client(cfg.Client)
     visualizer = Visualizer(client, cfg.Visualizer)
-    visualizer.draw_axes()
+    # visualizer.draw_axes()
     
     # Start record
     visualizer.start_record(filename)
-
+    
     # Init robot
     realman = Bestman_sim_realman(client, visualizer, cfg)
 
-    # visualizer.draw_object_pose(realman.sim_get_arm_id())
+    visualizer.draw_object_pose(realman.sim_get_arm_id())
 
-    # nav_obstacles_bounds = simple_slam(client, realman, False)
+    nav_obstacles_bounds = simple_slam(client, realman, False)
 
-    # # navigate algorithm
-    # goal_base_pose = Pose([5, 0, 0], [0.0, 0.0, math.pi / 2.0])
-    # nav_planner = AStarPlanner(
-    #     robot_size=realman.sim_get_robot_size(),
-    #     obstacles_bounds=nav_obstacles_bounds,
-    #     resolution=0.05,
-    #     enable_plot=False,
-    # )
+    # navigate algorithm
+    goal_base_pose = Pose([5, 0, 0], [0.0, 0.0, math.pi / 2.0])
+    nav_planner = AStarPlanner(
+        robot_size=realman.sim_get_robot_size(),
+        obstacles_bounds=nav_obstacles_bounds,
+        resolution=0.05,
+        enable_plot=False,
+    )
 
-    # path = nav_planner.plan(
-    #     start_pose=realman.sim_get_current_base_pose(), goal_pose=goal_base_pose
-    # )
+    path = nav_planner.plan(
+        start_pose=realman.sim_get_current_base_pose(), goal_pose=goal_base_pose
+    )
 
-    # # navigate segbot
-    # realman.sim_navigate_base(goal_base_pose, path)
+    # navigate segbot
+    realman.sim_navigate_base(goal_base_pose, path)
 
     client.wait(3)
     visualizer.capture_screen("test")

@@ -182,7 +182,7 @@ class Visualizer:
         """
         self.logId = p.startStateLogging(
             p.STATE_LOGGING_VIDEO_MP4,
-            "../Examples/log/" + fileName + ".mp4",
+            "../Examples/video/" + fileName + ".mp4",
             physicsClientId=self.client_id,
         )
 
