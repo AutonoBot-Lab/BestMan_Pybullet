@@ -1,0 +1,22 @@
+# Client parameters
+Client:
+  enable_Debug: False
+  blender: False
+
+# Visualizer params
+Visualizer:
+  Camera: 
+      dist: 1.2
+      position: [1.15, 0.21, 1.07]
+      yaw: -90.0
+      pitch: -27.1
+
+# Robot params
+Robot:
+  base_init_pose: [1, 0, 0.32, 0.0, 0.0, 0.0]                                         # The initial pose of base and arm
+  base_urdf_path: "Asset/Robot/mobile_manipulator/base/ranger_mini_v3/urdf/ranger_mini_v3.urdf"            # base urdf path
+  arm_init_jointValues: [0.123, -0.223, -1.044, -3.042, -1.159, 0]
+  arm_urdf_path: "Asset/Robot/mobile_manipulator/arm/ufactory/urdf/xarm6.urdf"          # arm urdf
+  arm_joints_idx: [0, 1, 2, 3, 4, 5]                                      # 6 DOF
+  arm_place_height: 0.33
+  # end_effector_index: 11

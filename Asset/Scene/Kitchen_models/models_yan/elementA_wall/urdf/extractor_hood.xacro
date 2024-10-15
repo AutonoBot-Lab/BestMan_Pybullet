@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<robot name="kitchen_part_right"
+  xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+  <xacro:macro name="extractor_hood" params="connected_to:='' xyz:='0 0 0' rpy:='0 0 0' prefix:=''">
+      <!-- Extractor Hood -->
+      <joint name="${prefix}extractor_hood_transform" type="fixed">
+        <parent link="${connected_to}"/>
+        <child link="${prefix}extractor_hood"/>
+        <origin xyz="-0.14 0.415 0.37" rpy="0 0 0"/>
+      </joint>
+      <link name="${prefix}extractor_hood">
+        <visual>
+          <geometry>
+            <box size="0.5 0.76 0.6"/>
+          </geometry>
+        </visual>
+      </link>
+  </xacro:macro>
+</robot>

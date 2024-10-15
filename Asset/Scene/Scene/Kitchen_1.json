@@ -1,0 +1,65 @@
+[
+    {
+        "model_path": "Asset/Kitchen_models/models_yan/elementA/urdf/kitchen_part_right_gen_convex.urdf",
+        "object_position": [4, 2, 1.477],
+        "object_orientation": [0, 0, "math.pi"],
+        "scale": 1.0,
+        "obj_name": "elementA",
+        "fixed_base": true
+    },
+
+    {
+        "model_path": "Asset/Kitchen_models/models_yan/elementB/model.urdf",
+        "object_position": [4.1, 4.55, 0.55],
+        "object_orientation": [0, 0, "math.pi / 2 * 3"],
+        "scale": 1.1,
+        "obj_name": "elementB1",
+        "fixed_base": true
+    },
+
+    {
+        "model_path": "Asset/Kitchen_models/models_yan/elementB/model.urdf",
+        "object_position": [4.1, 5.25, 0.55],
+        "object_orientation": [0, 0, "math.pi / 2 * 3"],
+        "scale": 1.1,
+        "obj_name": "elementB2",
+        "fixed_base": true
+    },
+
+    {
+        "model_path": "Asset/Kitchen_models/models/Dishwasher/2085/mobility.urdf",
+        "object_position": [3.85, 3.2, 0.35],
+        "object_orientation": [0, 0, 0],
+        "scale": 0.75,
+        "obj_name": "elementC",
+        "fixed_base": true
+    },
+
+    {
+        "model_path": "Asset/Kitchen_models/models/Microwave/7128/mobility.urdf",
+        "object_position": [4.0, 2.9, 1.1],
+        "object_orientation": [0, 0, 0],
+        "scale": 0.5,
+        "obj_name": "elementD",
+        "fixed_base": true
+    },
+
+    {
+        "model_path": "Asset/Kitchen_models/models/Fridge/10144/mobility.urdf",
+        "object_position": [4.1, 5.42, 1.055],
+        "object_orientation": [0, 0, 0],
+        "scale": 1.1,
+        "obj_name": "elementE",
+        "fixed_base": true
+    },
+
+
+    {
+        "model_path": "Asset/URDF_models/furniture_table_rectangle_high/table.urdf",
+        "object_position": [1.0, 1.0, 0.0],
+        "object_orientation": [0.0, 0.0, 0.0],
+        "scale": 1.0,
+        "obj_name": "table",
+        "fixed_base": true
+    }
+]

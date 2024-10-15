@@ -1,0 +1,93 @@
+<?xml version="1.0" ?>
+<robot name="partnet_553c586e128708ae7649cce35db393a1">
+	<link name="base"/>
+	<link name="link_4">
+
+		<visual name="base_body-5">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-38.obj"/>
+			</geometry>
+		</visual>
+		<visual name="base_body-5">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-39.obj"/>
+			</geometry>
+		</visual>
+		<visual name="base_body-5">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-40.obj"/>
+			</geometry>
+		</visual>
+		<visual name="base_body-5">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-41.obj"/>
+			</geometry>
+		</visual>
+		<visual name="base_body-5">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-42.obj"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-38-collision.obj"/>
+			</geometry>
+		</collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-39-collision.obj"/>
+			</geometry>
+		</collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-40-collision.obj"/>
+			</geometry>
+		</collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-41.obj"/>
+			</geometry>
+		</collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-42-collision.obj"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint name="joint_4" type="fixed">
+		<origin rpy="1.570796326794897 0 -3.1415" xyz="0 0 0"/>
+		<child link="link_4"/>
+		<parent link="base"/>
+	</joint>
+
+	<link name="sink_bottom">
+		<visual name='tray_b'>
+			<origin xyz="0 0.01 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-41.obj"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-41.obj"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint name="joint_0" type="fixed">
+		<origin xyz="0 0 0"/>
+		<child link="sink_bottom"/>
+		<parent link="link_4"/>
+	</joint>
+</robot>

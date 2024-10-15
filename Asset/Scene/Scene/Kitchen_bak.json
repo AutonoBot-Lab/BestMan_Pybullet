@@ -1,0 +1,146 @@
+[
+    {
+        "model_path": "Asset/Kitchen_models/models_yan/elementA/urdf/kitchen_part_right_gen_convex.urdf",
+        "object_position": [4, 2, 1.477],
+        "object_orientation": [0, 0, "math.pi"],
+        "scale": 1.0,
+        "obj_name": "elementA",
+        "fixed_base": true,
+        "joint_id": {
+            "1": 17,
+            "2": 21,
+            "3": 26,
+            "4": 30,
+            "5": 36,
+            "6": 39,
+            "7": 47,
+            "8": 52,
+            "9": 55,
+            "10": 57,
+            "11": 13
+        },
+        "joint_limits": {
+            "1": [0, "math.pi / 2.0"],
+            "4": [0, "math.pi / 2.0"],
+            "7": [0, "math.pi / 2.0"],
+            "5": [0.0, 0.4],
+            "6": [0.0, 0.4],
+            "9": [0.0, 0.4],
+            "10": [0.0, 0.4],
+            "11": [0, "math.pi / 2.0"],
+            "2": [0, "-math.pi / 2.0"],
+            "3": [0, "-math.pi / 2.0"],
+            "8": [0, "-math.pi / 2.0"]
+        },
+        "color": {
+            "1": "light_white",
+            "2": "light_white",
+            "3": "stainless_steel",
+            "4": "stainless_steel",
+            "5": "stainless_steel",
+            "6": "stainless_steel",
+            "7": "wood_dark",
+            "8": "black",
+            "9": "black",
+            "10": "black",
+            "11": "black",
+            "30": "light_white",
+            "33": "light_white",
+            "34": "light_white",
+            "42": "light_white",
+            "43":  "light_white"
+        }
+    },
+
+    {
+        "model_path": "Asset/Kitchen_models/models_yan/elementB/model.urdf",
+        "object_position": [4.1, 4.55, 0.55],
+        "object_orientation": [0, 0, "math.pi / 2 * 3"],
+        "scale": 1.1,
+        "obj_name": "elementB1",
+        "fixed_base": true,
+        "color": {
+            "-1": "light_white"
+        }
+    },
+
+    {
+        "model_path": "Asset/Kitchen_models/models_yan/elementB/model.urdf",
+        "object_position": [4.1, 5.25, 0.55],
+        "object_orientation": [0, 0, "math.pi / 2 * 3"],
+        "scale": 1.1,
+        "obj_name": "elementB2",
+        "fixed_base": true,
+        "color": {
+            "-1": "light_white"
+        }
+    },
+
+    {
+        "model_path": "Asset/Kitchen_models/models/Dishwasher/2085/mobility.urdf",
+        "object_position": [3.85, 3.2, 0.35],
+        "object_orientation": [0, 0, 0],
+        "scale": 0.75,
+        "obj_name": "elementC",
+        "fixed_base": true,
+        "joint_id": {
+            "1": 1
+        },
+        "joint_limits": {
+            "1": [0, "math.pi / 2.0"]
+        },
+        "color": {
+            "-1": "light_white",
+            "0": "light_white",
+            "1": "light_white",
+            "2": "light_white",
+            "3": "light_white",
+            "4": "light_white",
+            "5": "light_white"
+        }
+    },
+
+    {
+        "model_path": "Asset/Kitchen_models/models/Microwave/7128/mobility.urdf",
+        "object_position": [4.0, 2.9, 1.1],
+        "object_orientation": [0, 0, 0],
+        "scale": 0.5,
+        "obj_name": "elementD",
+        "fixed_base": true,
+        "joint_id": {
+            "1": 1
+        },
+        "joint_limits": {
+            "1": [0, "math.pi / 2.0"]
+        },
+        "color": {
+            "0": "light_white",
+            "1": "stainless_steel"
+        }
+    },
+
+    {
+        "model_path": "Asset/Kitchen_models/models/Fridge/10144/mobility.urdf",
+        "object_position": [4.1, 5.42, 1.055],
+        "object_orientation": [0, 0, 0],
+        "scale": 1.1,
+        "obj_name": "elementE",
+        "fixed_base": true,
+        "joint_id": {
+            "1": 1
+        },
+        "joint_limits": {
+            "1": [0, "math.pi / 2.0"]
+        },
+        "color": {
+            "-1": "light_white",
+            "0": "light_white",
+            "1": "light_white",
+            "2": "light_white",
+            "3": "light_white",
+            "4": "light_white",
+            "5": "light_white",
+            "6": "light_white"
+        }
+    }
+]

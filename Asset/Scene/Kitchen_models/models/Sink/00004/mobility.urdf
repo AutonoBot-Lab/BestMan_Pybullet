@@ -1,0 +1,90 @@
+<?xml version="1.0" ?>
+<robot name="sink_003">
+
+	<link name="base"/>
+
+	<joint name="bottom_transform" type="fixed">
+		<parent link="link_1"/>
+		<child link="sink_bottom"/>
+		<origin rpy="0 0 0" xyz="0 -0.05 0"/>
+	</joint>
+	<link name="sink_bottom">
+		<visual name="water">
+			<geometry>
+      	<box size="0.38 .001 0.22"/>
+      </geometry>
+			<material name="Blue">
+				<color rgba="0.537254902 0.811764706 0.941176471 1.0"/>
+			</material>
+		</visual>
+		<collision name="water_col">
+			<geometry>
+      	<box size="0.38 .001 0.22"/>
+      </geometry>
+		</collision>
+	</link>
+
+	<link name="link_1">
+		<visual name="body-6">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="sink.obj"/>
+			</geometry>
+			<material name="White">
+		    <color rgba="0.85 0.85 0.85 1.0"/>
+		  </material>
+		</visual>
+
+
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="sink_x.obj"/>
+			</geometry>
+			<material name="White">
+		    <color rgba="0.85 0.85 0.85 1.0"/>
+		  </material>
+		</collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="sink_-x.obj"/>
+			</geometry>
+			<material name="White">
+		    <color rgba="0.85 0.85 0.85 1.0"/>
+		  </material>
+		</collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="sink_y.obj"/>
+			</geometry>
+			<material name="White">
+		    <color rgba="0.85 0.85 0.85 1.0"/>
+		  </material>
+		</collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="sink_-y.obj"/>
+			</geometry>
+			<material name="White">
+		    <color rgba="0.85 0.85 0.85 1.0"/>
+		  </material>
+		</collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="sink_bottom.obj"/>
+			</geometry>
+			<material name="White">
+		    <color rgba="0.85 0.85 0.85 1.0"/>
+		  </material>
+		</collision>
+	</link>
+	<joint name="joint_1" type="fixed">
+		<origin rpy="-1.57 3.14 1.570796326794897" xyz="0 0 0"/>
+		<child link="link_1"/>
+		<parent link="base"/>
+	</joint>
+</robot>

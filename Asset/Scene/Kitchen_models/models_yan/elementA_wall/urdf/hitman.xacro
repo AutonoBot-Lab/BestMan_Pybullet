@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<robot name="kitchen_part_right"
+  xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+  <xacro:macro name="hitman" params="connected_to:='' xyz:='0 0 0' rpy:='0 0 0' prefix:=''">
+      <!-- Hitman (Bottom Cabinet Left of Range) -->
+      <joint name="${prefix}hitman_transform" type="fixed">
+        <parent link="${connected_to}"/>
+        <child link="${prefix}hitman_tmp"/>
+        <origin xyz="0 0 -0.55" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+      </joint>
+      <link name="${prefix}hitman_tmp">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="10.0"/>
+          <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual name="${prefix}hitman_visual">
+          <origin rpy="0  0  0" xyz="0  0  0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/sektion_bottom_two_drawers.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+          <material name="White" />
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/sektion_bottom_two_drawers.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+      <joint name="${prefix}hitman_countertop_transform" type="fixed">
+        <parent link="${prefix}hitman_tmp"/>
+        <child link="${prefix}hitman_countertop"/>
+        <origin xyz="-0.04 -0.75 -0.02" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+      </joint>
+      <link name="${prefix}hitman_countertop">
+        <!-- Use this for debugging purposes
+        <visual>
+          <geometry>
+            <box size="0.655 1.5 0.04"/>
+          </geometry>
+        </visual>
+        -->
+      </link>
+      <joint name="${prefix}hitman_transform_2" type="fixed">
+        <parent link="${prefix}hitman_tmp"/>
+        <child link="${prefix}hitman"/>
+        <origin xyz="-0.06 -0.381 -0.4215" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+      </joint>
+      <link name="${prefix}hitman"/>
+      <joint name="${prefix}hitman_drawer_top_joint" type="prismatic">
+        <parent link="${prefix}hitman"/>
+        <child link="${prefix}hitman_drawer_top"/>
+        <origin xyz="0.04 0 0.085" rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="1000.0" lower="0.0" upper="0.4" velocity="0.1"/>
+      </joint>
+      <link name="${prefix}hitman_drawer_top">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="1.0"/>
+          <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual name="${prefix}hitman_drawer_top_visual">
+          <origin rpy="0  0  0" xyz="0  0  0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/drawer_large.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+          <material name="Grey" />
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/drawer_large.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+      <joint name="${prefix}hitman_joint_fixed_top_front" type="fixed">
+        <parent link="${prefix}hitman_drawer_top"/>
+        <child link="${prefix}hitman_drawer_top_front"/>
+        <origin xyz="0.28 0 0.10" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+      </joint>
+      <link name="${prefix}hitman_drawer_top_front"/>
+      <joint name="${prefix}hitman_drawer_handle_top_joint" type="fixed">
+        <parent link="${prefix}hitman_drawer_top"/>
+        <child link="${prefix}hitman_drawer_handle_top"/>
+        <origin xyz="0.32 0 0.255" rpy="1.57079632679 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="1000.0" lower="0.0" upper="0.4" velocity="0.1"/>
+      </joint>
+      <link name="${prefix}hitman_drawer_handle_top">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="1.0"/>
+          <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual name="${prefix}hitman_drawer_top_visual">
+          <origin rpy="0  0  0" xyz="0  0  0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/handle.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+          <material name="White" />
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/handle.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+      <joint name="${prefix}hitman_drawer_bottom_joint" type="prismatic">
+        <parent link="${prefix}hitman"/>
+        <child link="${prefix}hitman_drawer_bottom"/>
+        <origin xyz="0.04 0 -0.291" rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="1000.0" lower="0.0" upper="0.4" velocity="0.1"/>
+      </joint>
+      <link name="${prefix}hitman_drawer_bottom">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="1.0"/>
+          <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual name="${prefix}hitman_drawer_bottom_visual">
+          <origin rpy="0  0  0" xyz="0  0  0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/drawer_large.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+          <material name="Grey" />
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/drawer_large.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+      <joint name="${prefix}hitman_joint_fixed_bottom_front" type="fixed">
+        <parent link="${prefix}hitman_drawer_bottom"/>
+        <child link="${prefix}hitman_drawer_bottom_front"/>
+        <origin xyz="0.28 0 0.10" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+      </joint>
+      <link name="${prefix}hitman_drawer_bottom_front"/>
+      <joint name="${prefix}hitman_drawer_handle_bottom_joint" type="fixed">
+        <parent link="${prefix}hitman_drawer_bottom"/>
+        <child link="${prefix}hitman_drawer_handle_bottom"/>
+        <origin xyz="0.32 0 0.255" rpy="1.57079632679 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="1000.0" lower="0.0" upper="0.4" velocity="0.1"/>
+      </joint>
+      <link name="${prefix}hitman_drawer_handle_bottom">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="1.0"/>
+          <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual name="${prefix}hitman_drawer_bottom_visual">
+          <origin rpy="0  0  0" xyz="0  0  0"/>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/handle.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+          <material name="White" />
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://kitchen_description/meshes/handle.stl" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+        </xacro:macro>
+</robot>

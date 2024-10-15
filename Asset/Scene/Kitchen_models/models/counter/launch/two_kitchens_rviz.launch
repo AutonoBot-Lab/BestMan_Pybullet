@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="gui" default="False" />
+  <arg name="publish_static_pose" default="False" />
+
+  <include file="kitchen.launch">
+    <arg name="parameter_name" value="right_kitchen_description" />
+    <arg name="xacro_file" value="kitchen_part_right.urdf.xacro" />
+    <arg name="prefix" value="" />
+  </include>
+  <include file="kitchen.launch">
+    <arg name="parameter_name" value="left_kitchen_description" />
+    <arg name="xacro_file" value="left_kitchen_part_right.urdf.xacro" />
+    <arg name="prefix" value="left_" />
+  </include>
+  <node name="kitchen_rviz" 
+      pkg="rviz" 
+      type="rviz" 
+      args="-d $(find kitchen_description)/config/two_kitchens_description.rviz">
+      <remap from="/tf" to="/tracker/tf"/>
+      <remap from="/tf_static" to="/tracker/tf_static"/>
+  </node>
+</launch>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<robot name="kitchen_part_right"
+  xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <link name='world'/> 
+  <xacro:include filename="$(find kitchen_description)/urdf/kitchen_part_right.dae.xacro" />
+  <xacro:kitchen_part_right connected_to="world" />
+</robot>

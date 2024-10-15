@@ -1,0 +1,2 @@
+link_0 hinge rotation_lid
+link_1 free box_body

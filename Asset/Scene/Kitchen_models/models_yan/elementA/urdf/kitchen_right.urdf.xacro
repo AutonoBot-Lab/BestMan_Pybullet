@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<robot name="kitchen_part_right"
+  xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <link name='world'/> 
+  <xacro:include filename="$(find kitchen_description)/urdf/extractor_hood.xacro" />
+  <xacro:include filename="$(find kitchen_description)/urdf/dagger.xacro" />
+  <xacro:include filename="$(find kitchen_description)/urdf/range.xacro" />
+  <xacro:include filename="$(find kitchen_description)/urdf/indigo.xacro" />
+  <xacro:include filename="$(find kitchen_description)/urdf/wall.xacro" />
+
+  <xacro:extractor_hood connected_to="world" />
+  <xacro:dagger connected_to="world" />
+  <xacro:range connected_to="world" />
+  <xacro:indigo connected_to="world" />
+  <xacro:wall connected_to="world" />
+</robot>

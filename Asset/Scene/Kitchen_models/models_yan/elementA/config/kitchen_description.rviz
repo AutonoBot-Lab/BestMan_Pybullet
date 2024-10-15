@@ -1,0 +1,580 @@
+Panels:
+  - Class: rviz/Displays
+    Help Height: 78
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+        - /Status1
+        - /Grid1
+        - /Grid1/Offset1
+        - /TF1/Tree1
+        - /CarterModel1
+      Splitter Ratio: 0.847262263
+    Tree Height: 838
+  - Class: rviz/Selection
+    Name: Selection
+  - Class: rviz/Tool Properties
+    Expanded:
+      - /2D Pose Estimate1
+      - /2D Nav Goal1
+      - /Publish Point1
+    Name: Tool Properties
+    Splitter Ratio: 0.588679016
+  - Class: rviz/Views
+    Expanded:
+      - /Current View1
+    Name: Views
+    Splitter Ratio: 0.5
+  - Class: rviz/Time
+    Experimental: false
+    Name: Time
+    SyncMode: 0
+    SyncSource: ""
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.5
+      Cell Size: 0.5
+      Class: rviz/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.0299999993
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: -1.47000003
+      Plane: XY
+      Plane Cell Count: 20
+      Reference Frame: <Fixed Frame>
+      Value: true
+    - Alpha: 1
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        baker_anchor_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        baker_handle:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        baker_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        baker_link_tmp:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        chewie_door_left_anchor_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        chewie_door_left_handle:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        chewie_door_left_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        chewie_door_left_link_tmp:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        chewie_door_right_anchor_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        chewie_door_right_handle:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        chewie_door_right_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        chewie_door_right_link_tmp:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        dagger:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        dagger_door_left_anchor_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        dagger_door_left_handle:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        dagger_door_left_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        dagger_door_left_link_tmp:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        dagger_door_right_anchor_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        dagger_door_right_handle:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        dagger_door_right_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        dagger_door_right_link_tmp:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        extractor_hood:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        hitman:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        hitman_countertop:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        hitman_drawer_bottom:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        hitman_drawer_bottom_front:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        hitman_drawer_handle_bottom:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        hitman_drawer_handle_top:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        hitman_drawer_top:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        hitman_drawer_top_front:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        hitman_tmp:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        indigo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        indigo_countertop:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        indigo_door_left:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        indigo_door_left_anchor_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        indigo_door_left_joint_anchor_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        indigo_door_left_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        indigo_door_left_nob_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        indigo_door_right:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        indigo_door_right_anchor_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        indigo_door_right_joint_anchor_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        indigo_door_right_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        indigo_door_right_nob_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        indigo_drawer_bottom:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        indigo_drawer_handle_bottom:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        indigo_drawer_handle_top:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        indigo_drawer_top:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        indigo_tmp:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        range:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        sektion:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        walls:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        world:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+      Name: SektionCabinetModel
+      Robot Description: kitchen_description
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+    - Class: rviz/TF
+      Enabled: true
+      Frame Timeout: 15
+      Frames:
+        All Enabled: false
+        baker_anchor_link:
+          Value: true
+        baker_handle:
+          Value: true
+        baker_link:
+          Value: true
+        baker_link_tmp:
+          Value: true
+        chewie_door_left_anchor_link:
+          Value: true
+        chewie_door_left_handle:
+          Value: true
+        chewie_door_left_link:
+          Value: true
+        chewie_door_left_link_tmp:
+          Value: true
+        chewie_door_right_anchor_link:
+          Value: true
+        chewie_door_right_handle:
+          Value: true
+        chewie_door_right_link:
+          Value: true
+        chewie_door_right_link_tmp:
+          Value: true
+        dagger:
+          Value: true
+        dagger_door_left_anchor_link:
+          Value: true
+        dagger_door_left_handle:
+          Value: true
+        dagger_door_left_link:
+          Value: true
+        dagger_door_left_link_tmp:
+          Value: true
+        dagger_door_right_anchor_link:
+          Value: true
+        dagger_door_right_handle:
+          Value: true
+        dagger_door_right_link:
+          Value: true
+        dagger_door_right_link_tmp:
+          Value: true
+        extractor_hood:
+          Value: true
+        hitman:
+          Value: true
+        hitman_countertop:
+          Value: true
+        hitman_drawer_bottom:
+          Value: true
+        hitman_drawer_bottom_front:
+          Value: true
+        hitman_drawer_handle_bottom:
+          Value: true
+        hitman_drawer_handle_top:
+          Value: true
+        hitman_drawer_top:
+          Value: true
+        hitman_drawer_top_front:
+          Value: true
+        hitman_tmp:
+          Value: true
+        indigo:
+          Value: true
+        indigo_countertop:
+          Value: true
+        indigo_door_left:
+          Value: true
+        indigo_door_left_anchor_link:
+          Value: true
+        indigo_door_left_joint_anchor_link:
+          Value: true
+        indigo_door_left_link:
+          Value: true
+        indigo_door_left_nob_link:
+          Value: true
+        indigo_door_right:
+          Value: true
+        indigo_door_right_anchor_link:
+          Value: true
+        indigo_door_right_joint_anchor_link:
+          Value: true
+        indigo_door_right_link:
+          Value: true
+        indigo_door_right_nob_link:
+          Value: true
+        indigo_drawer_bottom:
+          Value: true
+        indigo_drawer_handle_bottom:
+          Value: true
+        indigo_drawer_handle_top:
+          Value: true
+        indigo_drawer_top:
+          Value: true
+        indigo_tmp:
+          Value: true
+        range:
+          Value: true
+        sektion:
+          Value: true
+        walls:
+          Value: true
+        world:
+          Value: true
+      Marker Scale: 0.300000012
+      Name: TF
+      Show Arrows: false
+      Show Axes: true
+      Show Names: false
+      Tree:
+        world:
+          sektion:
+            baker_anchor_link:
+              baker_link_tmp:
+                baker_handle:
+                  {}
+                baker_link:
+                  {}
+            chewie_door_left_anchor_link:
+              chewie_door_left_link_tmp:
+                chewie_door_left_handle:
+                  {}
+                chewie_door_left_link:
+                  {}
+            chewie_door_right_anchor_link:
+              chewie_door_right_link_tmp:
+                chewie_door_right_handle:
+                  {}
+                chewie_door_right_link:
+                  {}
+            dagger:
+              dagger_door_left_anchor_link:
+                dagger_door_left_link_tmp:
+                  dagger_door_left_handle:
+                    {}
+                  dagger_door_left_link:
+                    {}
+              dagger_door_right_anchor_link:
+                dagger_door_right_link_tmp:
+                  dagger_door_right_handle:
+                    {}
+                  dagger_door_right_link:
+                    {}
+            extractor_hood:
+              {}
+            hitman_tmp:
+              hitman:
+                hitman_drawer_bottom:
+                  hitman_drawer_bottom_front:
+                    {}
+                  hitman_drawer_handle_bottom:
+                    {}
+                hitman_drawer_top:
+                  hitman_drawer_handle_top:
+                    {}
+                  hitman_drawer_top_front:
+                    {}
+              hitman_countertop:
+                {}
+            indigo_tmp:
+              indigo:
+                indigo_door_left_anchor_link:
+                  indigo_door_left_joint_anchor_link:
+                    indigo_door_left_link:
+                      indigo_door_left:
+                        {}
+                      indigo_door_left_nob_link:
+                        {}
+                indigo_door_right_anchor_link:
+                  indigo_door_right_joint_anchor_link:
+                    indigo_door_right_link:
+                      indigo_door_right:
+                        {}
+                      indigo_door_right_nob_link:
+                        {}
+                indigo_drawer_bottom:
+                  indigo_drawer_handle_bottom:
+                    {}
+                indigo_drawer_top:
+                  indigo_drawer_handle_top:
+                    {}
+              indigo_countertop:
+                {}
+            range:
+              {}
+            walls:
+              {}
+      Update Interval: 0
+      Value: true
+    - Alpha: 1
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+      Name: CarterModel
+      Robot Description: carter_description
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Default Light: true
+    Fixed Frame: world
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz/Interact
+      Hide Inactive Objects: true
+    - Class: rviz/MoveCamera
+    - Class: rviz/Select
+    - Class: rviz/FocusCamera
+    - Class: rviz/Measure
+    - Class: rviz/SetInitialPose
+      Topic: /initialpose
+    - Class: rviz/SetGoal
+      Topic: /move_base_simple/goal
+    - Class: rviz/PublishPoint
+      Single click: true
+      Topic: /clicked_point
+  Value: true
+  Views:
+    Current:
+      Class: rviz/Orbit
+      Distance: 8.02665329
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.0599999987
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Focal Point:
+        X: -0.168029487
+        Y: 0.490571171
+        Z: -0.145590082
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.0500000007
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.00999999978
+      Pitch: 0.544796884
+      Target Frame: <Fixed Frame>
+      Value: Orbit (rviz)
+      Yaw: 5.88358927
+    Saved: ~
+Window Geometry:
+  Displays:
+    collapsed: false
+  Height: 1225
+  Hide Left Dock: false
+  Hide Right Dock: true
+  QMainWindow State: 000000ff00000000fd000000040000000000000208000003f8fc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006f00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c0061007900730100000040000003f8000000fa00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000010f000002c4fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a005600690065007700730000000028000002c4000000e500fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000085000000058fc0100000002fb0000000800540069006d00650100000000000008500000057800fffffffb0000000800540069006d006501000000000000045000000000000000000000063c000003f800000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Selection:
+    collapsed: false
+  Time:
+    collapsed: false
+  Tool Properties:
+    collapsed: false
+  Views:
+    collapsed: true
+  Width: 2128
+  X: 130
+  Y: 111
