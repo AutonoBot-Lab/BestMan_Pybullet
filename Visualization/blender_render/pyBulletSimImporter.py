@@ -153,14 +153,15 @@ class ANIM_OT_import_pybullet_sim(Operator, ImportHelper):
                             ):
                                 bpy.ops.object.delete(use_global=True)
 
-                    # mat = bpy.data.materials.new(name="Material")
-                    # mat.use_nodes = True
-                    # bsdf = mat.node_tree.nodes["Principled BSDF"]
-                    # bsdf.inputs['Base Color'].default_value = pybullet_obj['rgba']
-                    # if len(blender_obj.data.materials):
-                    #     blender_obj.data.materials[0] = mat
-                    # else:
-                    #     blender_obj.data.materials.append(mat)
+                    if pybullet_obj["mtl_type"] is not None:
+                        mat = bpy.data.materials.new(name="Material")
+                        mat.use_nodes = True
+                        bsdf = mat.node_tree.nodes["Principled BSDF"]
+                        bsdf.inputs["Base Color"].default_value = pybullet_obj["mtl"]
+                        if len(blender_obj.data.materials):
+                            blender_obj.data.materials[0] = mat
+                        else:
+                            blender_obj.data.materials.append(mat)
 
                     # 确保对象的视口显示模式为材质预览或渲染
                     bpy.context.area.ui_type = "VIEW_3D"

@@ -16,7 +16,7 @@ from rtree import index
 
 # from ..utils import AreaBounds, plot_rectangle
 from Motion_Planning.Navigation.utils import *  # test in this script
-from RoboticsToolBox import Pose
+from Robotics_API import Pose
 
 
 class RRTPlanner:

@@ -18,7 +18,7 @@ import pybullet as p
 from Config import load_config
 from Env import Client
 from Motion_Planning.Manipulation.OMPL_Planner import OMPL_Planner
-from RoboticsToolBox import Bestman_sim_panda, Pose
+from Robotics_API import Bestman_sim_panda, Pose
 from Visualization import Visualizer
 
 
@@ -74,7 +74,7 @@ def rotate_point_3d_around_axis(init_pose, rotate_axis, theta, clockwise=True):
 def main(filename):
 
     # Load config
-    config_path = "../Config/open_fridge_panda.yaml"
+    config_path = "Config/open_fridge_panda.yaml"
     cfg = load_config(config_path)
     print(cfg)
 
@@ -92,7 +92,7 @@ def main(filename):
 
     client.load_object(
         "fridge",
-        "../Asset/Kitchen_models/models/Fridge/10144/mobility.urdf",
+        "Asset/Kitchen_models/models/Fridge/10144/mobility.urdf",
         [2.0, 6.0, 1.055],
         [0, 0, math.pi / 2],
         1.1,

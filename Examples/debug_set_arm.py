@@ -13,14 +13,14 @@ import os
 
 from Config import load_config
 from Env import Client
-from RoboticsToolBox import Bestman_sim_panda
+from Robotics_API import Bestman_sim_panda
 from Visualization import Visualizer
 
 
 def main(filename):
 
     # Load config
-    config_path = "../Config/debug_set_arm.yaml"
+    config_path = "Config/debug_set_arm.yaml"
     cfg = load_config(config_path)
     print(cfg)
 

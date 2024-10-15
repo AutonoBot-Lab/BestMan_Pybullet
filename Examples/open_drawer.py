@@ -19,7 +19,7 @@ from Config import load_config
 from Env import Client
 from Motion_Planning.Manipulation.OMPL_Planner import OMPL_Planner
 from Motion_Planning.Navigation import AStarPlanner
-from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long, Pose
+from Robotics_API import Bestman_sim_ur5e_vacuum_long, Pose
 from SLAM import simple_slam
 from Visualization import Visualizer
 
@@ -34,7 +34,7 @@ def pull_out(init_pose, i, distance):
 def main(filename):
 
     # Load config
-    config_path = "../Config/open_drawer.yaml"
+    config_path = "Config/open_drawer.yaml"
     cfg = load_config(config_path)
     print(cfg)
 
@@ -49,7 +49,7 @@ def main(filename):
     # Load drawer
     drawer_id = client.load_object(
         "elementA",
-        "../Asset/Kitchen_models/models_yan/elementA/urdf/kitchen_part_right_gen_convex.urdf",
+        "Asset/Kitchen_models/models_yan/elementA/urdf/kitchen_part_right_gen_convex.urdf",
         [4, 2, 1.477],
         [0, 0, math.pi],
         1.0,

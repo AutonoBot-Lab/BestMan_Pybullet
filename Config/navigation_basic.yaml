@@ -6,6 +6,6 @@ Visualizer:
       pitch: -89.9
 
 Robot:
-  init_pose: [5.0, 1.0, 0, 0.0, 0.0, "math.pi / 2"]   # The initial pose of base and arm
-  # init_pose: [1.0, 0.0, 0, 0.0, 0.0, "math.pi / 2"]   # The initial pose of base and arm
+  base_init_pose: [5.0, 1.0, 0, 0.0, 0.0, "math.pi / 2"]   # The initial pose of base and arm
+  # base_init_pose: [1.0, 0.0, 0, 0.0, 0.0, "math.pi / 2"]   # The initial pose of base and arm
   arm_init_jointValues: [0, -1.57, 2.0, -1.57, -1.57, 0]

@@ -8,10 +8,11 @@ Client:
   shadows: True                   # If True, scene shadows will be enabled.
   Gravity: [0, 0, -9.8]           # Simulation environment gravity coefficient
   numSolverIterations: 1000       # Set the number of constraint solver iterations; Higher values increase precision but also increase computation time
-  plane_urdf_path: '../Asset/Kitchen_models/plane/greyPlane/plane.urdf'   # plane urdf
+  plane_urdf_path: 'plane.urdf'
+  # plane_urdf_path: 'Asset/Kitchen_models/plane/greyPlane/plane.urdf'   # plane urdf
   frequency: 240                  # simulation frequency
   timeout : 100.0                 # maximum time for planning
-  blender: False
+  blender: True
 
 # Visualizer params
 Visualizer:
@@ -32,9 +33,9 @@ Controller:
 
 # Robot params
 Robot:
-  init_pose: [1, 0, 0, 0.0, 0.0, "math.pi / 2"]                                         # The initial pose of base and arm
-  base_urdf_path: "../Asset/mobile_manipulator/base/segbot/urdf/segbot.urdf"            # base urdf path
-  arm_urdf_path: "../Asset/mobile_manipulator/arm/ur5e/urdf/ur5e_vacuum_long.urdf"      # arm urdf path
+  base_init_pose: [1, 0, 0, 0.0, 0.0, "math.pi / 2"]                                         # The initial pose of base and arm
+  base_urdf_path: "Asset/Robot/mobile_manipulator/base/segbot/urdf/segbot.urdf"            # base urdf path
+  arm_urdf_path: "Asset/Robot/mobile_manipulator/arm/ur5e/urdf/ur5e_vacuum_long.urdf"      # arm urdf path
   arm_joints_idx: [0, 1, 2, 3, 4, 5]                                                    # arm joint index of 6 DOF
   arm_init_jointValues: [0, -1.57, 1.5, -1.57, -1.57, 0]                                # The initial angle of arm joint
   arm_reset_jointValues: [0, -1.57, 1.5, -1.57, -1.57, 0]                               # The reset angle of arm joint

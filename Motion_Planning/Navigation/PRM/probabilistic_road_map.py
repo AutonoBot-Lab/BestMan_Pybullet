@@ -16,7 +16,7 @@ from rtree import index
 from scipy.spatial import KDTree
 
 from Motion_Planning.Navigation.utils import *
-from RoboticsToolBox import Pose
+from Robotics_API import Pose
 
 # parameter
 N_SAMPLE = 2000  # number of sample_points

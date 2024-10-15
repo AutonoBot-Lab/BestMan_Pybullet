@@ -16,7 +16,7 @@ from Config import load_config
 from Env import Client
 from Motion_Planning.Manipulation.OMPL_Planner import OMPL_Planner
 from Motion_Planning.Navigation import *
-from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long, Pose
+from Robotics_API import Bestman_sim_ur5e_vacuum_long, Pose
 from SLAM import simple_slam
 from Visualization import Visualizer
 
@@ -24,16 +24,16 @@ from Visualization import Visualizer
 def main(filename):
 
     # Load config
-    config_path = "../Config/move_bowl_from_drawer_to_table.yaml"
+    config_path = "Config/move_bowl_from_drawer_to_table.yaml"
     cfg = load_config(config_path)
     print(cfg)
-
+    
     # Init client and visualizer
     client = Client(cfg.Client)
     visualizer = Visualizer(client, cfg.Visualizer)
 
     # Load scene
-    scene_path = "../Asset/Scene/Kitchen_1.json"
+    scene_path = "Asset/Scene/Kitchen_1.json"
     client.create_scene(scene_path)
 
     # Start record
@@ -54,7 +54,7 @@ def main(filename):
         robot_size=bestman.sim_get_robot_size(),
         obstacles_bounds=nav_obstacles_bounds,
         resolution=0.05,
-        enable_plot=False,
+        enable_plot=False
     )
     # nav_planner = RRTPlanner(
     #     robot_size = bestman.get_robot_max_size(),
@@ -68,7 +68,7 @@ def main(filename):
     # Load bowl
     bowl_id = client.load_object(
         "bowl",
-        "../Asset/URDF_models/utensil_bowl_blue/model.urdf",
+        "Asset/URDF_models/utensil_bowl_blue/model.urdf",
         [3.6, 2.4, 0.6],
         [0.0, 0.0, 0.0],
         1.0,
@@ -132,3 +132,4 @@ if __name__ == "__main__":
     filename = os.path.splitext(os.path.basename(__file__))[0]
 
     main(filename)
+    

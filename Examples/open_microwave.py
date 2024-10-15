@@ -18,7 +18,7 @@ import pybullet as p
 from Config import load_config
 from Env import Client
 from Motion_Planning.Manipulation.OMPL_Planner import OMPL_Planner
-from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long, Pose
+from Robotics_API import Bestman_sim_ur5e_vacuum_long, Pose
 from Visualization import Visualizer
 
 
@@ -74,7 +74,7 @@ def rotate_point_3d_around_axis(init_pose, rotate_axis, theta, clockwise=True):
 def main(filename):
 
     # Load config
-    config_path = "../Config/open_microwave.yaml"
+    config_path = "Config/open_microwave.yaml"
     cfg = load_config(config_path)
     print(cfg)
 
@@ -84,7 +84,7 @@ def main(filename):
     visualizer.draw_axes()
 
     # Load scene
-    scene_path = "../Asset/Scene/Kitchen.json"
+    scene_path = "Asset/Scene/Kitchen.json"
     client.create_scene(scene_path)
 
     # Start recording

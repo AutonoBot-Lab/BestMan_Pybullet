@@ -13,14 +13,14 @@ import os
 
 from Config import load_config
 from Env.Client import Client
-from RoboticsToolBox.Bestman_sim_panda import Bestman_sim_panda
+from Robotics_API.Bestman_sim_panda import Bestman_sim_panda
 from Visualization.Visualizer import Visualizer
 
 
 def main(filename):
 
     # load config
-    config_path = "../Config/load_panda.yaml"
+    config_path = "Config/load_panda.yaml"
     cfg = load_config(config_path)
     print(cfg)
 
@@ -33,18 +33,22 @@ def main(filename):
 
     # Init robot
     panda = Bestman_sim_panda(client, visualizer, cfg)
-
-    for _ in range(5):
-        panda.sim_open_gripper()
-        client.wait(2)
-        panda.sim_close_gripper()
-        client.wait(2)
-
+    
+    # Interact with arm
+    panda.sim_interactive_set_arm(50)
+    
+    # Interact with gripper
+    panda.sim_interactive_set_gripper()
+    
+    client.wait(5)
+    
+    visualizer.capture_screen("panda")
+    
     # End record
     visualizer.end_record()
-
+    
     # disconnect pybullet
-    client.wait(5)
+    client.wait(100)
     client.disconnect()
 
 

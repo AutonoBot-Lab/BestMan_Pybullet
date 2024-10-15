@@ -1,2 +1,17 @@
+# # Visualizer params
+# Visualizer:
+#   Camera: 
+#       dist: 1.4                     # The distance from the camera to the observation target
+#       position: [1.74, 3.03, 1.67]    # The observation target position
+#       yaw: -89.2                    # Control the direction of camera horizontal rotation, 
+#       pitch: 2.9                   # Control the direction of camera vertical rotation
+
+Visualizer:
+  Camera: 
+      dist: 1.2
+      position: [4.23, 5.21, 0.72]
+      yaw: -89.5
+      pitch: 307.4
+
 Robot:
   arm_init_jointValues: [0, -1.57, 2.0, -1.57, -1.57, 0]

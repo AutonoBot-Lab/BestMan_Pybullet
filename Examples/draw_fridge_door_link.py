@@ -14,14 +14,14 @@ import os
 
 from Config import load_config
 from Env import Client
-from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long
+from Robotics_API import Bestman_sim_ur5e_vacuum_long
 from Visualization import Visualizer
 
 
 def main(filename):
 
     # Load config
-    config_path = "../Config/draw_AABB_fridge_door_link.yaml"
+    config_path = "Config/draw_AABB_fridge_door_link.yaml"
     cfg = load_config(config_path)
     print(cfg)
 
@@ -33,7 +33,7 @@ def main(filename):
     visualizer.start_record(filename)
 
     # Load scene
-    scene_path = "../Asset/Scene/Kitchen.json"
+    scene_path = "Asset/Scene/Kitchen.json"
     client.create_scene(scene_path)
 
     # Init robot

@@ -13,7 +13,7 @@ from refactor.Env.Client import PbClient
 from refactor.Visualization.Visualizer import PbVisualizer
 from Utils.load_config import load_config
 
-from RoboticsToolBox.Bestman import Bestman
+from Robotics_API.Bestman import Bestman
 
 # load kitchen from three scenarios
 index = 0

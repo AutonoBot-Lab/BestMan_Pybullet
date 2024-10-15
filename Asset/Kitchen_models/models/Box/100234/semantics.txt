@@ -1,3 +1,0 @@
-link_0 hinge rotation_lid
-link_1 hinge rotation_lid
-link_2 free box_body

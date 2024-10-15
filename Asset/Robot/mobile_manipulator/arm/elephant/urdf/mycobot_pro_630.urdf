@@ -1,0 +1,220 @@
+<robot name="firefighter" version="1.0">
+  <joint name="joint1_to_base" type="revolute">
+    <limit lower="-3.14000" upper="3.14159" effort="1000.00000" velocity="0"/>
+    <origin rpy="0.00000 0.00000 -1.57080" xyz="0.00000 0.00000 0.22000"/>
+    <parent link="base"/>
+    <child link="link1"/>
+    <axis xyz="0.00000 0.00000 1.00000"/>
+  </joint>
+  <joint name="joint2_to_joint1" type="revolute">
+    <limit lower="-4.71000" upper="1.57070" effort="1000.00000" velocity="0"/>
+    <origin rpy="-1.57080 -0.00000 -1.57159" xyz="-0.08908 -0.00067 -0.01882"/>
+    <parent link="link1"/>
+    <child link="link2"/>
+    <axis xyz="0.00000 0.00000 -1.00000"/>
+  </joint>
+  <joint name="joint3_to_joint2" type="revolute">
+    <limit lower="-2.61000" upper="2.61800" effort="1000.00000" velocity="0"/>
+    <origin rpy="0.00000 0.00000 -3.14159" xyz="-0.26947 -0.00026 0.07653"/>
+    <parent link="link2"/>
+    <child link="link3"/>
+    <axis xyz="0.00000 0.00000 -1.00000"/>
+  </joint>
+  <joint name="joint4_to_joint3" type="revolute">
+    <limit lower="-4.53000" upper="1.39620" effort="1000.00000" velocity="0"/>
+    <origin rpy="0.00159 -0.00000 -1.57079" xyz="0.26552 0.00039 -0.03868"/>
+    <parent link="link3"/>
+    <child link="link4"/>
+    <axis xyz="0.00000 0.00000 -1.00000"/>
+  </joint>
+  <joint name="joint5_to_joint4" type="revolute">
+    <limit lower="-2.93000" upper="2.93210" effort="1000.00000" velocity="0"/>
+    <origin rpy="1.52396 -0.02779 1.61141" xyz="0.11069 0.00139 -0.03270"/>
+    <parent link="link4"/>
+    <child link="link5"/>
+    <axis xyz="0.00000 0.00000 1.00000"/>
+  </joint>
+  <joint name="joint6_to_joint5" type="revolute">
+    <limit lower="-3.03000" upper="3.03680" effort="1000.00000" velocity="0"/>
+    <origin rpy="1.53653 -0.03923 1.56793" xyz="0.00154 -0.05538 -0.02034"/>
+    <parent link="link5"/>
+    <child link="link6"/>
+    <axis xyz="-1.00000 0.00000 0.00000"/>
+  </joint>
+  <link name="base">
+    <collision name="base_collision">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+      <geometry>
+        <mesh filename="../meshes/mycobot_pro_630/base-mm.stl" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </collision>
+    <visual name="base_visual">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+      <material name="material0.022"/>
+      <geometry>
+        <mesh filename="../meshes/mycobot_pro_630/base-mm.stl" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="link1">
+    <collision name="link1_collision">
+      <origin rpy="0.00000 0.00000 1.57000" xyz="0.00000 0.00000 -0.06000"/>
+      <geometry>
+        <mesh filename="../meshes/mycobot_pro_630/J1-mm.stl" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </collision>
+    <visual name="link1_visual">
+      <origin rpy="0.00000 0.00000 1.57000" xyz="0.00000 0.00000 -0.06000"/>
+      <material name="material0.024"/>
+      <geometry>
+        <mesh filename="../meshes/mycobot_pro_630/J1-mm.stl" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="link2">
+    <collision name="link2_collision">
+      <origin rpy="-3.14159 -0.00000 -1.57089" xyz="-0.00016 0.00001 0.02935"/>
+      <geometry>
+        <mesh filename="../meshes/mycobot_pro_630/J2-mm.stl" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </collision>
+    <visual name="link2_visual">
+      <origin rpy="-3.14159 -0.00000 -1.57089" xyz="-0.00016 0.00001 0.02935"/>
+      <material name="material0.025"/>
+      <geometry>
+        <mesh filename="../meshes/mycobot_pro_630/J2-mm.stl" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="link3">
+    <collision name="link3_collision">
+      <origin rpy="0.00000 -0.00000 -1.57080" xyz="-0.00000 -0.00000 -0.04440"/>
+      <geometry>
+        <mesh filename="../meshes/mycobot_pro_630/J3-mm.stl" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </collision>
+    <visual name="link3_visual">
+      <origin rpy="0.00000 -0.00000 -1.57080" xyz="-0.00000 -0.00000 -0.04440"/>
+      <material name="material0.026"/>
+      <geometry>
+        <mesh filename="../meshes/mycobot_pro_630/J3-mm.stl" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="link4">
+    <collision name="link4_collision">
+      <origin rpy="-3.14159 -0.00000 1.57080" xyz="0.00065 0.00074 -0.00008"/>
+      <geometry>
+        <mesh filename="../meshes/mycobot_pro_630/J4-mm.stl" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </collision>
+    <visual name="link4_visual">
+      <origin rpy="-3.14159 -0.00000 1.57080" xyz="0.00065 0.00074 -0.00008"/>
+      <material name="material0.027"/>
+      <geometry>
+        <mesh filename="../meshes/mycobot_pro_630/J4-mm.stl" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="link5">
+    <collision name="link5_collision">
+      <origin rpy="-0.03997 0.02540 -3.14114" xyz="0.00209 -0.00122 -0.05382"/>
+      <geometry>
+        <mesh filename="../meshes/mycobot_pro_630/J5-mm.stl" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </collision>
+    <visual name="link5_visual">
+      <origin rpy="-0.03997 0.02540 -3.14114" xyz="0.00209 -0.00122 -0.05382"/>
+      <material name="material0.028"/>
+      <geometry>
+        <mesh filename="../meshes/mycobot_pro_630/J5-mm.stl" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="link6">
+    <collision name="link6_collision">
+      <origin rpy="1.80513 -1.56992 -1.80113" xyz="0.01052 0.00323 -0.00025"/>
+      <geometry>
+        <mesh filename="../meshes/mycobot_pro_630/J6-mm.stl" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </collision>
+    <visual name="link6_visual">
+      <origin rpy="1.80513 -1.56992 -1.80113" xyz="0.01052 0.00323 -0.00025"/>
+      <material name="material0.029"/>
+      <geometry>
+        <mesh filename="../meshes/mycobot_pro_630/J6-mm.stl" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="ee_fixed_joint" type="fixed">
+    <parent link="link6"/>
+    <child link="baseLink"/>
+    <origin rpy="-1.5707963267948966 0.0 1.5707963267948966" xyz="0.0 0 0.0"/>
+  </joint>
+   <link name="baseLink">
+    <contact>
+      <lateral_friction value="1.0"/>s
+      <rolling_friction value="0.0001"/>
+      <inertia_scaling value="3.0"/>
+    </contact>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+       <mass value=".1"/>
+       <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/mycobot_pro_630/base.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="DarkGrey"/>
+    </visual>
+  </link>
+
+  <link name="midLink">
+    <contact>
+      <lateral_friction value="1.0"/>
+      <rolling_friction value="0.0001"/>
+      <inertia_scaling value="3.0"/>
+    </contact>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+       <mass value=".1"/>
+       <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="../meshes/mycobot_pro_630/mid.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="DarkGrey"/>
+    </visual>
+  </link>
+
+  <joint name="baseLink-midLink" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0.025"/>
+    <parent link="baseLink"/>
+    <child link="midLink"/>
+  </joint>
+  <material name="material0.022">
+    <color rgba="0.80000 0.80000 0.80000 1.00000"/>
+  </material>
+  <material name="material0.024">
+    <color rgba="0.80000 0.80000 0.80000 1.00000"/>
+  </material>
+  <material name="material0.025">
+    <color rgba="0.80000 0.80000 0.80000 1.00000"/>
+  </material>
+  <material name="material0.026">
+    <color rgba="0.80000 0.80000 0.80000 1.00000"/>
+  </material>
+  <material name="material0.027">
+    <color rgba="0.80000 0.80000 0.80000 1.00000"/>
+  </material>
+  <material name="material0.028">
+    <color rgba="0.80000 0.80000 0.80000 1.00000"/>
+  </material>
+  <material name="material0.029">
+    <color rgba="0.80000 0.80000 0.80000 1.00000"/>
+  </material>
+</robot>

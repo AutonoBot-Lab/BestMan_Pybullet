@@ -1,2 +1,0 @@
-link_0 hinge wheel
-link_1 free cart_body

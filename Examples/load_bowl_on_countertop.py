@@ -15,14 +15,14 @@ import os
 from Config import load_config
 from Env import Client
 from Motion_Planning.Navigation import *
-from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long
+from Robotics_API import Bestman_sim_ur5e_vacuum_long
 from Visualization import Visualizer
 
 
 def main(filename):
 
     # Load config
-    config_path = "../Config/load_bowl_on_countertop.yaml"
+    config_path = "Config/load_bowl_on_countertop.yaml"
     cfg = load_config(config_path)
     print(cfg)
 
@@ -32,7 +32,7 @@ def main(filename):
 
     # Start record
     visualizer.start_record(filename)
-
+    
     # Init robot
     bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
     visualizer.change_robot_color(
@@ -42,7 +42,7 @@ def main(filename):
     # load table, bowl, and chair
     countertop_id = client.load_object(
         "countertop",
-        "../Asset/Kitchen_models/models_yan/elementB/model.urdf",
+        "Asset/Kitchen_models/models_yan/elementB/model.urdf",
         [0.0, 0.0, 0.7],
         [0.0, 0.0, math.pi / 2],
         1.0,
@@ -53,7 +53,7 @@ def main(filename):
 
     bowl_id = client.load_object(
         "bowl",
-        "../Asset/URDF_models/utensil_bowl_blue/model.urdf",
+        "Asset/URDF_models/utensil_bowl_blue/model.urdf",
         [0.0, 0.5, 1.05],
         [0.0, 0.0, 0.0],
         1.0,

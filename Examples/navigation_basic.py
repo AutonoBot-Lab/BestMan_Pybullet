@@ -15,7 +15,7 @@ import os
 from Config import load_config
 from Env.Client import Client
 from Motion_Planning.Navigation import *
-from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long, Pose
+from Robotics_API import Bestman_sim_ur5e_vacuum_long, Pose
 from SLAM import simple_slam
 from Visualization import Visualizer
 
@@ -23,7 +23,7 @@ from Visualization import Visualizer
 def main(filename):
 
     # Load config
-    config_path = "../Config/navigation_basic.yaml"
+    config_path = "Config/navigation_basic.yaml"
     cfg = load_config(config_path)
     print(cfg)
 
@@ -35,7 +35,7 @@ def main(filename):
     visualizer.start_record(filename)
 
     # Load scene
-    scene_path = "../Asset/Scene/Kitchen.json"
+    scene_path = "Asset/Scene/Kitchen.json"
     client.create_scene(scene_path)
 
     # Init robot
@@ -44,7 +44,7 @@ def main(filename):
     # Load table, bowl, and chair
     table_id = client.load_object(
         "table",
-        "../Asset/URDF_models/furniture_table_rectangle_high/table.urdf",
+        "Asset/URDF_models/furniture_table_rectangle_high/table.urdf",
         [1.0, 1.0, 0.0],
         [0.0, 0.0, 0.0],
         1.0,
@@ -53,7 +53,7 @@ def main(filename):
 
     bowl_id = client.load_object(
         "bowl",
-        "../Asset/URDF_models/utensil_bowl_blue/model.urdf",
+        "Asset/URDF_models/utensil_bowl_blue/model.urdf",
         [0.6, 0.6, 0.85],
         [0.0, 0.0, 0.0],
         1.0,
@@ -61,7 +61,7 @@ def main(filename):
 
     chair_id = client.load_object(
         "chair",
-        "../Asset/URDF_models/furniture_chair/model.urdf",
+        "Asset/URDF_models/furniture_chair/model.urdf",
         [-0.3, 0.8, 0.0],
         [0.0, 0.0, 0.0],
         1.5,

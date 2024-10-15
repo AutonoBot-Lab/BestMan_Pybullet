@@ -1,6 +1,0 @@
-link_0 hinge lens
-link_1 slider button
-link_2 slider button
-link_3 slider button
-link_4 slider button
-link_5 free camera_body

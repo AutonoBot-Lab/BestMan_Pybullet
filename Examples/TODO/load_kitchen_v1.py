@@ -16,8 +16,8 @@ from refactor.Env.Client import PbClient
 from refactor.Visualization.Visualizer import PbVisualizer
 from utils_PbOMPL import PbOMPL
 
-from RoboticsToolBox.Bestman import Bestman
-from RoboticsToolBox.Pose import Pose
+from Robotics_API.Bestman import Bestman
+from Robotics_API.Pose import Pose
 
 # load kitchen from three scenarios
 index = 1

@@ -478,7 +478,7 @@ class Visualizer:
             light_color (bool, optional): Flag to set the robot to light colors. Default is True.
         """
 
-        # set the color of base
+        # set the light white color to base
         base_num_joints = p.getNumJoints(base_id, physicsClientId=self.client_id)
         for i in range(base_num_joints):
             p.changeVisualShape(
@@ -487,8 +487,9 @@ class Visualizer:
                 rgbaColor=colors["light_white"],
                 physicsClientId=self.client_id,
             )
+            self.client.mtl_recorder[f"{base_id}{i}"] = colors["light_white"]
 
-        # set the color of arm
+        # set the blue and white color to arm
         arm_num_joints = p.getNumJoints(arm_id, physicsClientId=self.client_id)
         for i in range(arm_num_joints):
             if i % 3 == 0:
@@ -499,6 +500,7 @@ class Visualizer:
                         rgbaColor=colors["light_blue"],
                         physicsClientId=self.client_id,
                     )
+                    self.client.mtl_recorder[f"{arm_id}{i}"] = colors["light_blue"]
                 else:
                     p.changeVisualShape(
                         objectUniqueId=arm_id,
@@ -506,6 +508,7 @@ class Visualizer:
                         rgbaColor=colors["blue"],
                         physicsClientId=self.client_id,
                     )
+                    self.client.mtl_recorder[f"{arm_id}{i}"] = colors["blue"]
             else:
                 p.changeVisualShape(
                     objectUniqueId=arm_id,
@@ -513,6 +516,7 @@ class Visualizer:
                     rgbaColor=colors["light_white"],
                     physicsClientId=self.client_id,
                 )
+                self.client.mtl_recorder[f"{arm_id}{i}"] = colors["light_white"]
 
     def set_object_color(self, object_id, color):
         """
@@ -522,12 +526,21 @@ class Visualizer:
             object_id (int): The unique identifier of the object.
             color (str): The color to set for the object.
         """
-        p.changeVisualShape(
-            objectUniqueId=object_id,
-            linkIndex=-1,
-            rgbaColor=colors[color],
-            physicsClientId=self.client_id,
-        )
+        object_num_joints = p.getNumJoints(object_id, physicsClientId=self.client_id)
+        for i in range(object_num_joints):
+            p.changeVisualShape(
+                objectUniqueId=object_id,
+                linkIndex=i,
+                rgbaColor=colors[color],
+                physicsClientId=self.client_id
+            )
+        # p.changeVisualShape(
+        #     objectUniqueId=object_id,
+        #     linkIndex=-1,
+        #     rgbaColor=colors[color],
+        #     physicsClientId=self.client_id
+        # )
+        self.client.mtl_recorder[f"{object_id}"] = colors[color]
 
     def set_link_color(self, object_id, link_id, color):
         """
@@ -542,8 +555,9 @@ class Visualizer:
             objectUniqueId=object_id,
             linkIndex=link_id,
             rgbaColor=colors[color],
-            physicsClientId=self.client_id,
+            physicsClientId=self.client_id
         )
+        self.client.mtl_recorder[f"{object_id}{link_id}"] = colors[color]
 
     def set_links_color(self, object_id, link_ids, colors):
         """
@@ -559,5 +573,6 @@ class Visualizer:
                 objectUniqueId=object_id,
                 linkIndex=i,
                 rgbaColor=colors[color],
-                physicsClientId=self.client_id,
+                physicsClientId=self.client_id
             )
+            self.client.mtl_recorder[f"{object_id}{i}"] = colors[color]

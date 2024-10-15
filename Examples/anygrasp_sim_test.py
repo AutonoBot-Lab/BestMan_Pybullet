@@ -16,14 +16,14 @@ from Env import Client
 from Motion_Planning.Manipulation.OMPL_Planner import OMPL_Planner
 from Perception.Grasp_Pose_Estimation import Anygrasp
 from Perception.Object_detection import Lang_SAM
-from RoboticsToolBox import Bestman_sim_panda, Pose
+from Robotics_API import Bestman_sim_panda, Pose
 from Visualization import Visualizer
 
 
 def main():
 
     # Load config
-    config_path = "../Config/anygrasp_sim_test.yaml"
+    config_path = "Config/anygrasp_sim_test.yaml"
     cfg = load_config(config_path)
     print(cfg)
 
@@ -32,7 +32,7 @@ def main():
     visualizer = Visualizer(client, cfg.Visualizer)
 
     # Load scene
-    scene_path = "../Asset/Scene/Kitchen_anygrasp.json"
+    scene_path = "Asset/Scene/Kitchen_anygrasp.json"
     client.create_scene(scene_path)
 
     # Init robot

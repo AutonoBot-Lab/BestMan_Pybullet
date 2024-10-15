@@ -15,14 +15,14 @@ import os
 from Config import load_config
 from Env import Client
 from Motion_Planning.Navigation import *
-from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long, Pose
+from Robotics_API import Bestman_sim_ur5e_vacuum_long, Pose
 from Visualization import Visualizer
 
 
 def main(filename):
 
     # Load config
-    config_path = "../Config/grasp_bowl_on_table_vacuum_gripper.yaml"
+    config_path = "Config/grasp_bowl_on_table_vacuum_gripper.yaml"
     cfg = load_config(config_path)
     print(cfg)
 
@@ -43,7 +43,7 @@ def main(filename):
     # Load table and bowl
     table_id = client.load_object(
         "table",
-        "../Asset/URDF_models/furniture_table_rectangle_high/table.urdf",
+        "Asset/URDF_models/furniture_table_rectangle_high/table.urdf",
         [1.0, 1.0, 0.0],
         [0.0, 0.0, 0.0],
         1.0,
@@ -52,7 +52,7 @@ def main(filename):
 
     bowl_id = client.load_object(
         "bowl",
-        "../Asset/URDF_models/utensil_bowl_blue/model.urdf",
+        "Asset/URDF_models/utensil_bowl_blue/model.urdf",
         [0.6, 0.6, 0.85],
         [0.0, 0.0, 0.0],
         1.0,

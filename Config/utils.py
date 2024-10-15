@@ -1,3 +1,4 @@
+import os
 import math
 
 from yacs.config import CfgNode as CN
@@ -17,6 +18,8 @@ def parse_cfg(cfg_node):
 
 
 def load_config(config_path=None):
+    if config_path.startswith("Config"):
+        config_path = os.path.join("..", config_path)
     default_config_path = "../Config/default.yaml"
     with open(default_config_path, "r") as file:
         cfg = CN.load_cfg(file)

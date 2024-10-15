@@ -16,7 +16,7 @@ from Config import load_config
 from Env import Client
 from Motion_Planning.Manipulation.OMPL_Planner import OMPL_Planner
 from Motion_Planning.Navigation import *
-from RoboticsToolBox import Bestman_sim_ur5e_vacuum_long, Pose
+from Robotics_API import Bestman_sim_ur5e_vacuum_long, Pose
 from SLAM import simple_slam
 from Visualization import Visualizer
 
@@ -24,7 +24,7 @@ from Visualization import Visualizer
 def main(filename):
 
     # Load config
-    config_path = "../Config/grasp_bowl_in_kitchen.yaml"
+    config_path = "Config/grasp_bowl_in_kitchen.yaml"
     cfg = load_config(config_path)
     print(cfg)
 
@@ -37,7 +37,7 @@ def main(filename):
     visualizer.start_record(filename)
 
     # Load scene
-    scene_path = "../Asset/Scene/Kitchen.json"
+    scene_path = "Asset/Scene/Kitchen.json"
     client.create_scene(scene_path)
 
     # Init robot
@@ -66,7 +66,7 @@ def main(filename):
     # load bowl
     bowl_id = client.load_object(
         "bowl",
-        "../Asset/URDF_models/utensil_bowl_blue/model.urdf",
+        "Asset/URDF_models/utensil_bowl_blue/model.urdf",
         [3.8, 2.4, 0.95],
         [0.0, 0.0, 0.0],
         1.0,

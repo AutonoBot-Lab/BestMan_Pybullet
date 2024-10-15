@@ -1,4 +1,4 @@
 [submodule "URDF_models"]
-	path = Asset/URDF_models
+	path = Asset/Scene/URDF_models
     url = https://github.com/yding25/URDF_models.git
     branch = main
