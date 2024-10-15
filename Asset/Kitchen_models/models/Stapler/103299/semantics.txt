@@ -1,3 +1,0 @@
-link_0 hinge stapler_body
-link_1 hinge lid
-link_2 free stapler_base

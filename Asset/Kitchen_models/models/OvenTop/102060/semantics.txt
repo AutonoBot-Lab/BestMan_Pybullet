@@ -1,7 +1,0 @@
-link_0 hinge knob
-link_1 hinge knob
-link_2 hinge knob
-link_3 hinge knob
-link_4 hinge knob
-link_5 hinge knob
-link_6 heavy oven_body
