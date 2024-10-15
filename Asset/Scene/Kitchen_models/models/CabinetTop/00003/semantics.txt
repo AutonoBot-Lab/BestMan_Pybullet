@@ -1,0 +1,4 @@
+chewie_door_right_link_tmp hinge door
+chewie_door_left_link_tmp hinge door
+baker_link_tmp hinge door
+sektion heavy cabinet_body

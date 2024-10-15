@@ -1,0 +1,3 @@
+dagger_door_left_link_tmp hinge door
+dagger_door_right_link_tmp hinge door
+dagger heavy cabinet_body
