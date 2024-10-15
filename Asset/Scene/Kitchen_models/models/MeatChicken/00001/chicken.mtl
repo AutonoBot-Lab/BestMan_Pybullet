@@ -1,0 +1,16 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 02.06.2011 10:43:27
+
+newmtl _10864_rotisserie_chicken_v2_L303___Default
+	Ns 50.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.2800 0.2271 0.1435
+	Ke 0.0000 0.0000 0.0000
+	map_Ka chicken.jpg
+	map_Kd chicken.jpg

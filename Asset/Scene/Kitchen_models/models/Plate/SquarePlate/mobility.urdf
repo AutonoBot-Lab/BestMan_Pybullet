@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<robot name="square_plate">
+	<link name="base"/>
+	<link name="link_1">
+		<visual name="body-6">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="Square.obj"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="Square.obj"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint name="joint_1" type="fixed">
+		<!-- <origin rpy="1.570796326794897 1.570796326794897 -1.570796326794897" xyz="0 0 0"/> -->
+		<origin rpy="3.14 3.14 -1.570796326794897" xyz="0 0 0"/>
+		<child link="link_1"/>
+		<parent link="base"/>
+	</joint>
+</robot>
