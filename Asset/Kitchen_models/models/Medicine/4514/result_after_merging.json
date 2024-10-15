@@ -1,1 +1,0 @@
-[{"text": "pot", "id": 0, "name": "pot", "objs": ["original-1", "original-2"], "ori_id": 0, "children": [{"text": "body", "id": 1, "name": "body", "objs": ["original-1", "original-2"], "ori_id": 1, "children": [{"objs": ["original-1"], "text": "lid", "id": 2, "ori_id": 2, "name": "lid"}, {"objs": ["original-2"], "text": "container", "id": 3, "ori_id": 3, "name": "container"}]}]}]

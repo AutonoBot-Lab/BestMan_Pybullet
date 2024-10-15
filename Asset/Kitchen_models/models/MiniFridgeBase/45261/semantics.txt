@@ -1,6 +1,0 @@
-link_0 slider drawer
-link_1 slider drawer
-link_2 slider drawer
-link_3 slider drawer
-link_4 slider drawer
-link_5 heavy furniture_body

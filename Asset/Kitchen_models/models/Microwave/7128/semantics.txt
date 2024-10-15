@@ -1,6 +1,0 @@
-link_0 hinge door
-link_1 slider button
-link_2 hinge knob
-link_3 hinge knob
-link_4 hinge rotation_tray
-link_5 free microwave_body

@@ -1,2 +1,0 @@
-link_0 free bottle_body
-link_1 slider+ rotation_lid

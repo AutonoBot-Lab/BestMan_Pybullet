@@ -1,3 +1,0 @@
-link_0 heavy refrigerator_body
-link_1 hinge door
-link_2 hinge door
