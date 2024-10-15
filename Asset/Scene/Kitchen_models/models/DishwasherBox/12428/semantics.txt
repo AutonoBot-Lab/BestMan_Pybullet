@@ -1,0 +1,6 @@
+link_0 slider button
+link_1 slider button
+link_2 slider button
+link_3 slider button
+link_4 hinge rotation_door
+link_5 heavy dishwasher_body

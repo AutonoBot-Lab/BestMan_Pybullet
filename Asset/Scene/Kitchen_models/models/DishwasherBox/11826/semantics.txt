@@ -1,0 +1,4 @@
+link_0 slider shelf
+link_1 slider shelf
+link_2 hinge rotation_door
+link_3 heavy dishwasher_body

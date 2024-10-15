@@ -1,0 +1,793 @@
+<?xml version="1.0" ?>
+<robot name="partnet_e26918664dbd68eb7a867e9b35a1295">
+
+	<link name="base"/>
+	<link name="link_0">
+		<visual name="switch-11">
+			<origin xyz="0 0.48966786375093707 0.21739313624906295"/>
+			<geometry>
+				<mesh filename="textured_objs/original-85.obj"/>
+			</geometry>
+			<material name="White">
+				<color rgba="0.85 0.85 0.85 1.0"/>
+			</material>
+		</visual>
+		<visual name="switch-11">
+			<origin xyz="0 0.48966786375093707 0.21739313624906295"/>
+			<geometry>
+				<mesh filename="textured_objs/original-109.obj"/>
+			</geometry>
+			<material name="White">
+			  <color rgba="0.85 0.85 0.85 1.0"/>
+			</material>
+		</visual>
+		<visual name="switch-11">
+			<origin xyz="0 0.48966786375093707 0.21739313624906295"/>
+			<geometry>
+				<mesh filename="textured_objs/original-54.obj"/>
+			</geometry>
+			<material name="White">
+			  <color rgba="0.85 0.85 0.85 1.0"/>
+			</material>
+		</visual>
+		<visual name="switch-11">
+			<origin xyz="0 0.48966786375093707 0.21739313624906295"/>
+			<geometry>
+				<mesh filename="textured_objs/original-113.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="switch-11">
+			<origin xyz="0 0.48966786375093707 0.21739313624906295"/>
+			<geometry>
+				<mesh filename="textured_objs/original-97.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="switch-11">
+			<origin xyz="0 0.48966786375093707 0.21739313624906295"/>
+			<geometry>
+				<mesh filename="textured_objs/original-137.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<collision>
+			<origin xyz="0 0.48966786375093707 0.21739313624906295"/>
+			<geometry>
+				<mesh filename="textured_objs/original-85.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0.48966786375093707 0.21739313624906295"/>
+			<geometry>
+				<mesh filename="textured_objs/original-109.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0.48966786375093707 0.21739313624906295"/>
+			<geometry>
+				<mesh filename="textured_objs/original-54.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0.48966786375093707 0.21739313624906295"/>
+			<geometry>
+				<mesh filename="textured_objs/original-113.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0.48966786375093707 0.21739313624906295"/>
+			<geometry>
+				<mesh filename="textured_objs/original-97.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0.48966786375093707 0.21739313624906295"/>
+			<geometry>
+				<mesh filename="textured_objs/original-137.obj"/>
+			</geometry>
+    </collision>
+	</link>
+	<joint name="joint_0" type="revolute">
+		<origin xyz="0 -0.48966786375093707 -0.21739313624906295"/>
+		<axis xyz="1 0 0"/>
+		<child link="link_0"/>
+		<parent link="link_1"/>
+		<limit lower="0.0" upper="2.9670597283903604"/>
+	</joint>
+	<link name="link_1">
+		<visual name="surface_base-18">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-63.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="surface_base-18">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-163.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="surface_base-18">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-140.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="surface_base-18">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-165.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="surface_base-18">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-166.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="surface_base-18">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-147.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="surface_base-18">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-167.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="surface_base-18">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-135.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="surface_base-18">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-141.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="surface_base-18">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-131.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="surface_base-18">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-142.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="surface_base-18">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-144.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="surface_base-18">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-128.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="surface_base-18">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-151.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="surface_base-18">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-134.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="surface_base-18">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-125.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="surface_base-18">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-133.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="surface_base-18">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-169.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="surface_base-18">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-168.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="vertical_support-19">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-18.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="vertical_support-19">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-35.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="vertical_support-19">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-64.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="horizontal_support-20">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-36.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="horizontal_support-20">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-17.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-63.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-163.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-140.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-165.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-166.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-147.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-167.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-135.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-141.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-131.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-142.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-144.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-128.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-151.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-134.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-125.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-133.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-169.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-168.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-18.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-35.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-64.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-36.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/original-17.obj"/>
+			</geometry>
+    </collision>
+	</link>
+
+	<joint name="joint_1" type="fixed">
+		<origin rpy="1.570796326794897 0 -1.570796326794897" xyz="0 0 0"/>
+		<child link="link_1"/>
+		<parent link="base"/>
+	</joint>
+
+	<link name="link_2">
+		<visual name="tube-14">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-180.obj"/>
+			</geometry>
+			<material name="White">
+			  <color rgba="0.85 0.85 0.85 1.0"/>
+			</material>
+	</visual>
+		<visual name="tube-14">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-161.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="tube-14">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-170.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="tube-14">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-182.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="tube-14">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-181.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="tube-14">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-176.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="tube-14">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-183.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="tube-14">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-179.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="tube-14">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-192.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="tube-14">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-190.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="tube-14">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-178.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="tube-14">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-157.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="tube-14">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-160.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="tube-14">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-194.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="tube-14">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-158.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="tube-14">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-173.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="tube-14">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-189.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="tube-14">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-195.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="tube-14">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-172.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="tube-14">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-174.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="tube-14">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-171.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="tube-14">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-159.obj"/>
+			</geometry>
+<material name="White">
+  <color rgba="0.85 0.85 0.85 1.0"/>
+</material>		</visual>
+		<visual name="tube-14">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-156.obj"/>
+			</geometry>
+			<material name="White">
+			  <color rgba="0.85 0.85 0.85 1.0"/>
+			</material>
+		</visual>
+		<visual name="mouth-15">
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-186.obj"/>
+			</geometry>
+			<material name="White">
+			  <color rgba="0.85 0.85 0.85 1.0"/>
+			</material>
+		</visual>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-180.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-161.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-170.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-182.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-181.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-176.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-183.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-179.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-192.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-190.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-178.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-157.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-160.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-194.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-158.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-173.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-189.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-195.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-172.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-174.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-171.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-159.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-156.obj"/>
+			</geometry>
+    </collision>
+		<collision>
+			<origin xyz="0.041883731395393024 0 0.21739326860460695"/>
+			<geometry>
+				<mesh filename="textured_objs/original-186.obj"/>
+			</geometry>
+    </collision>
+	</link>
+	<joint name="joint_2" type="continuous">
+		<origin xyz="-0.041883731395393024 0 -0.21739326860460695"/>
+		<axis xyz="0 1 0"/>
+		<child link="link_2"/>
+		<parent link="link_1"/>
+	</joint>
+</robot>

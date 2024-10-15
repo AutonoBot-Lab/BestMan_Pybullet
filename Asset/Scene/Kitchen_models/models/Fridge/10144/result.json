@@ -1,0 +1,109 @@
+[
+{
+    "text": "Refrigerator",
+    "children": [
+    {
+        "text": "Body",
+        "children": [
+        {
+            "text": "Frame",
+            "objs": ["original-119", "original-58", "original-122"],
+            "id": 10,
+            "name": "frame"
+        },
+        {
+            "text": "Body Interior",
+            "children": [
+            {
+                "text": "Shelf",
+                "objs": ["original-2", "original-3", "original-54", "original-51", "original-55", "original-32", "original-13", "original-30", "original-12", "original-42", "original-31", "original-36", "original-20", "original-27", "original-53", "original-7", "original-28", "original-41", "original-50", "original-38", "original-8", "original-57", "original-37", "original-40", "original-56", "original-45", "original-6", "original-49", "original-47", "original-46", "original-35", "original-44", "original-21", "original-52", "original-23", "original-39", "original-34", "original-33", "original-25", "original-5", "original-16", "original-43", "original-29", "original-26", "original-48", "original-24", "original-19", "original-22", "original-10", "original-15", "original-18", "original-14", "original-11", "original-9", "original-17"],
+                "id": 16,
+                "name": "shelf"
+            },
+            {
+                "text": "Shelf",
+                "objs": ["original-181", "original-140", "original-132", "original-134", "original-137", "original-141", "original-138", "original-133", "original-145", "original-142", "original-147", "original-171", "original-149", "original-152", "original-166", "original-139", "original-128", "original-148", "original-156", "original-157", "original-162", "original-146", "original-175", "original-144", "original-167", "original-158", "original-169", "original-170", "original-172", "original-129", "original-168", "original-179", "original-163", "original-160", "original-180", "original-131", "original-161", "original-173", "original-164", "original-151", "original-130", "original-176", "original-150", "original-143", "original-159", "original-154", "original-165", "original-135", "original-153", "original-136", "original-155", "original-178", "original-174", "original-177", "original-126"],
+                "id": 17,
+                "name": "shelf"
+            },
+            {
+                "text": "Shelf",
+                "objs": ["original-118", "original-65", "original-62", "original-77", "original-69", "original-71", "original-74", "original-78", "original-75", "original-70", "original-82", "original-79", "original-84", "original-108", "original-86", "original-89", "original-103", "original-76", "original-85", "original-93", "original-94", "original-99", "original-83", "original-112", "original-81", "original-104", "original-95", "original-106", "original-107", "original-109", "original-66", "original-105", "original-116", "original-100", "original-97", "original-117", "original-68", "original-98", "original-110", "original-101", "original-88", "original-67", "original-113", "original-87", "original-80", "original-96", "original-91", "original-102", "original-72", "original-90", "original-73", "original-92", "original-115", "original-111", "original-114"],
+                "id": 18,
+                "name": "shelf"
+            }],
+            "id": 11,
+            "name": "body_interior"
+        },
+        {
+            "text": "Door",
+            "children": [
+            {
+                "text": "Door Frame",
+                "objs": ["original-124"],
+                "id": 13,
+                "name": "door_frame"
+            },
+            {
+                "text": "Handle",
+                "objs": ["original-182"],
+                "id": 14,
+                "name": "handle"
+            },
+            {
+                "text": "Glass",
+                "objs": ["original-123"],
+                "id": 15,
+                "name": "glass"
+            }],
+            "id": 12,
+            "name": "door"
+        },
+        {
+            "text": "tuyere (other)",
+            "children": [
+            {
+                "text": "other_leaf",
+                "objs": ["original-59"],
+                "id": 20,
+                "name": "other_leaf"
+            }],
+            "id": 19,
+            "name": "other"
+        }],
+        "id": 1,
+        "name": "body"
+    },
+    {
+        "text": "Base",
+        "children": [
+        {
+            "text": "Foot Base",
+            "children": [
+            {
+                "text": "Foot",
+                "objs": ["original-184"],
+                "id": 7,
+                "name": "foot"
+            },
+            {
+                "text": "Foot",
+                "objs": ["original-185"],
+                "id": 8,
+                "name": "foot"
+            },
+            {
+                "text": "Foot",
+                "objs": ["original-183"],
+                "id": 9,
+                "name": "foot"
+            }],
+            "id": 5,
+            "name": "foot_base"
+        }],
+        "id": 2,
+        "name": "base"
+    }],
+    "id": 0,
+    "name": "refrigerator"
+}]

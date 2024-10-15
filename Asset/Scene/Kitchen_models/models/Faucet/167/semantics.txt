@@ -1,0 +1,4 @@
+link_0 hinge switch
+link_1 hinge switch
+link_2 static faucet_base
+link_3 hinge spout

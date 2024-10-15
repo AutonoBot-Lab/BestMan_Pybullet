@@ -1,0 +1,234 @@
+<?xml version="1.0" ?>
+<robot name="partnet_2781a072e2645ccdedf1aa83ea962bc0">
+	<link name="base"/>
+
+	<link name="link_0">
+		<visual name="switch-18">
+			<origin xyz="0.48746849999999997 0 0.0790005"/>
+			<geometry>
+				<mesh filename="textured_objs/new-10.obj"/>
+			</geometry>
+		</visual>
+		<visual name="switch-18">
+			<origin xyz="0.48746849999999997 0 0.0790005"/>
+			<geometry>
+				<mesh filename="textured_objs/original-7.obj"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0.48746849999999997 0 0.0790005"/>
+			<geometry>
+				<mesh filename="textured_objs/new-10.obj"/>
+			</geometry>
+		</collision>
+		<collision>
+			<origin xyz="0.48746849999999997 0 0.0790005"/>
+			<geometry>
+				<mesh filename="textured_objs/original-7.obj"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint name="joint_faucet_0" type="revolute">
+		<origin xyz="-0.48746849999999997 0 -0.0790005"/>
+		<axis xyz="0 1 0"/>
+		<child link="link_0"/>
+		<parent link="link_nob_0"/>
+		<limit lower="0.0" upper="1.5707963267948966"/>
+	</joint>
+
+	<link name="link_1">
+		<visual name="switch-19">
+			<origin xyz="-0.4956825 0 0.07900049999999996"/>
+			<geometry>
+				<mesh filename="textured_objs/new-6.obj"/>
+			</geometry>
+		</visual>
+		<visual name="switch-19">
+			<origin xyz="-0.4956825 0 0.07900049999999996"/>
+			<geometry>
+				<mesh filename="textured_objs/original-5.obj"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="-0.4956825 0 0.07900049999999996"/>
+			<geometry>
+				<mesh filename="textured_objs/new-6.obj"/>
+			</geometry>
+		</collision>
+		<collision>
+			<origin xyz="-0.4956825 0 0.07900049999999996"/>
+			<geometry>
+				<mesh filename="textured_objs/original-5.obj"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint name="joint_faucet_1" type="revolute">
+		<origin xyz="0.4956825 0 -0.07900049999999996"/>
+		<axis xyz="0 -1 0"/>
+		<child link="link_1"/>
+		<parent link="link_nob_1"/>
+		<limit lower="-0.0" upper="1.5707963267948966"/>
+	</joint>
+
+	<link name="link_2">
+		<visual name="tube-24">
+			<origin xyz="-0.004107500000000028 0 0.0790015"/>
+			<geometry>
+				<mesh filename="textured_objs/original-3.obj"/>
+			</geometry>
+		</visual>
+			<visual name="head-25">
+				<origin xyz="-0.004107500000000028 0 0.0790015"/>
+				<geometry>
+					<mesh filename="textured_objs/new-0.obj"/>
+				</geometry>
+			</visual>
+		<collision>
+			<origin xyz="-0.004107500000000028 0 0.0790015"/>
+			<geometry>
+				<mesh filename="textured_objs/original-3.obj"/>
+			</geometry>
+		</collision>
+		<collision>
+			<origin xyz="-0.004107500000000028 0 0.0790015"/>
+			<geometry>
+				<mesh filename="textured_objs/new-0.obj"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint name="joint_faucet_2" type="fixed">
+		<origin xyz="0.004107500000000028 0 -0.0790015"/>
+		<axis xyz="0 1 0"/>
+		<child link="link_2"/>
+		<parent link="link_nob_2"/>
+	</joint>
+
+	<link name="tube_head">
+		<visual name="mouth-26">
+			<origin xyz="-0.004107500000000028 0 0.0790015"/>
+			<geometry>
+				<mesh filename="textured_objs/new-1.obj"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="-0.004107500000000028 0 0.0790015"/>
+			<geometry>
+				<mesh filename="textured_objs/new-1.obj"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint name="joint_head" type="fixed">
+		<!-- <origin xyz="0 0 0"/> -->
+		<origin xyz="0.004107500000000028 0 -0.0790015"/>
+		<axis xyz="0 1 0"/>
+		<child link="tube_head"/>
+		<parent link="link_3"/>
+	</joint>
+
+	<joint name="joint_nob_0" type="fixed">
+		<origin xyz="0 0 0"/>
+		<axis xyz="0 1 0"/>
+		<child link="link_nob_0"/>
+		<parent link="link_3"/>
+	</joint>
+	<link name="link_nob_0">
+		<visual name="vertical_support-30">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/new-11.obj"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/new-11.obj"/>
+			</geometry>
+		</collision>
+	</link>
+
+	<joint name="joint_nob_1" type="fixed">
+		<origin xyz="0 0 0"/>
+		<axis xyz="0 1 0"/>
+		<child link="link_nob_1"/>
+		<parent link="link_3"/>
+	</joint>
+	<link name="link_nob_1">
+		<visual name="vertical_support-32">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/new-7.obj"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/new-7.obj"/>
+			</geometry>
+		</collision>
+	</link>
+
+	<joint name="joint_nob_2" type="fixed">
+		<origin xyz="0 0 0"/>
+		<axis xyz="0 1 0"/>
+		<child link="link_nob_2"/>
+		<parent link="link_3"/>
+	</joint>
+	<link name="link_nob_2">
+		<visual name="vertical_support-28">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/new-14.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/new-14.obj"/>
+			</geometry>
+		</collision> -->
+	</link>
+
+	<link name="link_3">
+		<visual name="surface_base-31">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/new-8.obj"/>
+			</geometry>
+		</visual>
+		<visual name="surface_base-29">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/new-12.obj"/>
+			</geometry>
+		</visual>
+		<visual name="surface_base-27">
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/new-4.obj"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/new-8.obj"/>
+			</geometry>
+		</collision>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/new-12.obj"/>
+			</geometry>
+		</collision>
+		<!-- <collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="textured_objs/new-4.obj"/>
+			</geometry>
+		</collision> -->
+	</link>
+	<joint name="joint_faucet_3" type="fixed">
+		<origin rpy="1.570796326794897 0 -1.570796326794897" xyz="0 0 0"/>
+		<child link="link_3"/>
+		<parent link="base"/>
+	</joint>
+</robot>
