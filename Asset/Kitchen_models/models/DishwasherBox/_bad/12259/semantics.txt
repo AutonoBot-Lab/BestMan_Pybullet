@@ -1,2 +1,0 @@
-link_0 hinge rotation_door
-link_1 heavy dishwasher_body

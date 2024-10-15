@@ -1,3 +1,0 @@
-link_0 hinge leg
-link_1 hinge leg
-link_2 free glasses_body
