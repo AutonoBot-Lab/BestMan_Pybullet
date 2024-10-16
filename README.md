@@ -4,14 +4,14 @@
   <p align="center">
     <a href='https://github.com/AutonoBot-Lab' target='_blank'>AutonoBot-Lab</a>&emsp;
     <br>
-    Chongqing University
+    Chongqing University&emsp;&emsp;&emsp;&emsp;Shanghai AI Laboratory
     <br>
   </p>
 </p>
 
 <div id="top" align="center">
 
-![](docs/_static/BestMan_logo.png)
+![](docs/_static/BestMan_logo_AL.png)
 
 <!-- # BestMan - A Pybullet-based Mobile Manipulator Simulator -->
 
