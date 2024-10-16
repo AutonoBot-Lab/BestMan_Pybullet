@@ -23,7 +23,9 @@
 [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat)](https://timothycrosley.github.io/isort/)
 [![](https://img.shields.io/badge/Doc-📘-green)](https://bestman-pybullet.readthedocs.io)
 
-Welcome to the official repository of BestMan, a mobile manipulator simulator (with a wheel-base and arm) built on PyBullet.
+Welcome to the official repository of BestMan!
+
+A mobile manipulator (with a wheel-base and arm) platform built on PyBullet simulation with unified hardware APIs.
 
 </div>
 
