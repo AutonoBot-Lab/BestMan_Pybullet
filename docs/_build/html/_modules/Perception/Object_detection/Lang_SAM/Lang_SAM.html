@@ -43,8 +43,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../references/project_structure.html">Project Structure Overview</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -70,18 +73,31 @@
            <div itemprop="articleBody">
              
   <h1>Source code for Perception.Object_detection.Lang_SAM.Lang_SAM</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span></span><span class="c1"># !/usr/bin/env python</span>
+<span class="c1"># -*- encoding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd"># @FileName       : Lang_SAM.py</span>
+<span class="sd"># @Time           : 2024-08-03 15:08:00</span>
+<span class="sd"># @Author         : yk</span>
+<span class="sd"># @Email          : yangkui1127@gmail.com</span>
+<span class="sd"># @Description:   : Language Segment-Anything algorithm</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
 <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;HF_ENDPOINT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;https://hf-mirror.com&quot;</span>
-<span class="kn">import</span> <span class="nn">cv2</span>
 <span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span>
+
+<span class="kn">import</span> <span class="nn">cv2</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">ImageDraw</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Tuple</span>
 <span class="kn">from</span> <span class="nn">lang_sam</span> <span class="kn">import</span> <span class="n">LangSAM</span>
-<span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">draw_rectangle</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">ImageDraw</span>
+
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">draw_rectangle</span>
 
 
-<div class="viewcode-block" id="Lang_SAM"><a class="viewcode-back" href="../../../../references/Perception/Object_detection/Lang_SAM/Lang_SAM.html#Perception.Object_detection.Lang_SAM">[docs]</a><span class="k">class</span> <span class="nc">Lang_SAM</span><span class="p">():</span>
+<div class="viewcode-block" id="Lang_SAM"><a class="viewcode-back" href="../../../../references/Perception/Object_detection/Lang_SAM/Lang_SAM.html#Perception.Object_detection.Lang_SAM">[docs]</a><span class="k">class</span> <span class="nc">Lang_SAM</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for performing object detection using LangSAM model.&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Lang_SAM.__init__"><a class="viewcode-back" href="../../../../references/Perception/Object_detection/Lang_SAM/Lang_SAM.html#Perception.Object_detection.Lang_SAM.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -101,7 +117,7 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Detects an object in the provided image using the LangSAM model.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            image (Type[Image.Image]): An image object on which object detection is performed.</span>
 <span class="sd">            text (str, optional): Optional parameter for performing text-related object detection tasks. Defaults to None.</span>
@@ -110,11 +126,11 @@
 <span class="sd">            box_filename (str, optional): Optional parameter specifying the filename to save the visualization of bounding boxes. Defaults to None.</span>
 <span class="sd">            save_mask (bool, optional): Optional parameter indicating whether to save masks. Defaults to False.</span>
 <span class="sd">            mask_filename (str, optional): Optional parameter specifying the filename to save the visualization of masks. Defaults to None.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns:</span>
 <span class="sd">            Tuple[np.ndarray, List[int]]: The segmentation mask and the bounding box coordinates of the detected object in the input image.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
+
         <span class="n">masks</span><span class="p">,</span> <span class="n">boxes</span><span class="p">,</span> <span class="n">phrases</span><span class="p">,</span> <span class="n">logits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">masks</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">masks</span><span class="p">,</span> <span class="kc">None</span>
@@ -129,13 +145,13 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">draw_mask_on_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">seg_mask</span><span class="p">,</span> <span class="n">mask_filename</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">seg_mask</span><span class="p">,</span> <span class="n">bbox</span></div>
-    
+
 <div class="viewcode-block" id="Lang_SAM.draw_bounding_box"><a class="viewcode-back" href="../../../../references/Perception/Object_detection/Lang_SAM/Lang_SAM.html#Perception.Object_detection.Lang_SAM.draw_bounding_box">[docs]</a>    <span class="k">def</span> <span class="nf">draw_bounding_box</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Image</span><span class="o">.</span><span class="n">Image</span><span class="p">],</span> <span class="n">bbox</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">save_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Draws a bounding box on the image.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            image (Type[Image.Image]): The image on which to draw the bounding box.</span>
 <span class="sd">            bbox (List[int]): The bounding box coordinates.</span>
@@ -145,8 +161,17 @@
         <span class="n">draw_rectangle</span><span class="p">(</span><span class="n">new_image</span><span class="p">,</span> <span class="n">bbox</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">save_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">new_image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">save_file</span><span class="p">)</span></div>
-    
+            <span class="n">new_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">new_image</span><span class="p">)</span>
+            <span class="n">save_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)),</span> <span class="n">save_file</span>
+            <span class="p">)</span>
+            <span class="n">new_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">new_image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+            <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="n">save_file</span><span class="p">,</span> <span class="n">new_image</span><span class="p">)</span>
+
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;[Lang_SAM] </span><span class="se">\033</span><span class="s2">[34mInfo</span><span class="se">\033</span><span class="s2">[0m: Saved Detection boxes at </span><span class="si">{</span><span class="n">save_file</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span></div>
+
 <div class="viewcode-block" id="Lang_SAM.draw_bounding_boxes"><a class="viewcode-back" href="../../../../references/Perception/Object_detection/Lang_SAM/Lang_SAM.html#Perception.Object_detection.Lang_SAM.draw_bounding_boxes">[docs]</a>    <span class="k">def</span> <span class="nf">draw_bounding_boxes</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">image</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Image</span><span class="o">.</span><span class="n">Image</span><span class="p">],</span>
@@ -157,7 +182,7 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Draws multiple bounding boxes on the image.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            image (Type[Image.Image]): The image on which to draw the bounding boxes.</span>
 <span class="sd">            bboxes (List[int]): The bounding box coordinates.</span>
@@ -189,14 +214,14 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">img_drw</span><span class="o">.</span><span class="n">rectangle</span><span class="p">([(</span><span class="n">box</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">box</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="p">(</span><span class="n">box</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">box</span><span class="p">[</span><span class="mi">3</span><span class="p">])],</span> <span class="n">outline</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
         <span class="n">new_image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">save_file</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved Detection boxes at </span><span class="si">{</span><span class="n">save_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Lang_SAM] </span><span class="se">\033</span><span class="s2">[34mInfo</span><span class="se">\033</span><span class="s2">[0m: Saved Detection boxes at </span><span class="si">{</span><span class="n">save_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Lang_SAM.draw_mask_on_image"><a class="viewcode-back" href="../../../../references/Perception/Object_detection/Lang_SAM/Lang_SAM.html#Perception.Object_detection.Lang_SAM.draw_mask_on_image">[docs]</a>    <span class="k">def</span> <span class="nf">draw_mask_on_image</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Image</span><span class="o">.</span><span class="n">Image</span><span class="p">],</span> <span class="n">seg_mask</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">save_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Draws a segmentation mask on the image.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            image (Type[Image.Image]): The image on which to draw the segmentation mask.</span>
 <span class="sd">            seg_mask (np.ndarray): The segmentation mask.</span>
@@ -213,24 +238,24 @@
         <span class="c1"># placing mask over image</span>
         <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.6</span>
         <span class="n">highlighted_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">addWeighted</span><span class="p">(</span><span class="n">overlay_mask</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="n">highlighted_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">highlighted_image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_RGB2BGR</span><span class="p">)</span>
-
+        <span class="n">save_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)),</span> <span class="n">save_file</span><span class="p">)</span>
+        <span class="n">highlighted_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">highlighted_image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
         <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="n">save_file</span><span class="p">,</span> <span class="n">highlighted_image</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved Segmentation Mask at </span><span class="si">{</span><span class="n">save_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div></div>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Lang_SAM] </span><span class="se">\033</span><span class="s2">[34mInfo</span><span class="se">\033</span><span class="s2">[0m: Saved Segmentation Mask at </span><span class="si">{</span><span class="n">save_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div></div>
 
 
-<span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
     <span class="c1"># set work dir to Lang-SAM</span>
     <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)))</span>
 
     <span class="n">lang_sam</span> <span class="o">=</span> <span class="n">Lang_SAM</span><span class="p">()</span>
-    
+
     <span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;./test_image/test_rgb.jpg&quot;</span><span class="p">)</span>
     <span class="n">query</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter a Object name in the image: &quot;</span><span class="p">))</span>
     <span class="n">box_filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;./output/object_box.jpg&quot;</span>
     <span class="n">mask_filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;./output/object_mask.jpg&quot;</span>
-    
+
     <span class="c1"># Object Segmentaion Mask</span>
     <span class="n">seg_mask</span><span class="p">,</span> <span class="n">bbox</span> <span class="o">=</span> <span class="n">lang_sam</span><span class="o">.</span><span class="n">detect_obj</span><span class="p">(</span>
         <span class="n">image</span><span class="p">,</span>
@@ -238,7 +263,7 @@
         <span class="n">save_box</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">save_mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">box_filename</span><span class="o">=</span><span class="n">box_filename</span><span class="p">,</span>
-        <span class="n">mask_filename</span><span class="o">=</span><span class="n">mask_filename</span>
+        <span class="n">mask_filename</span><span class="o">=</span><span class="n">mask_filename</span><span class="p">,</span>
     <span class="p">)</span>
 </pre></div>
 

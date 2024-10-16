@@ -53,9 +53,9 @@
 <li><a class="reference internal" href="#Perception.Grasp_Pose_Estimation.Anygrasp.cam"><code class="docutils literal notranslate"><span class="pre">Anygrasp.cam</span></code></a></li>
 <li><a class="reference internal" href="#Perception.Grasp_Pose_Estimation.Anygrasp.__init__"><code class="docutils literal notranslate"><span class="pre">Anygrasp.__init__()</span></code></a></li>
 <li><a class="reference internal" href="#Perception.Grasp_Pose_Estimation.Anygrasp.Grasp_Pose_Estimation"><code class="docutils literal notranslate"><span class="pre">Anygrasp.Grasp_Pose_Estimation()</span></code></a></li>
+<li><a class="reference internal" href="#Perception.Grasp_Pose_Estimation.Anygrasp.print_filter_gg"><code class="docutils literal notranslate"><span class="pre">Anygrasp.print_filter_gg()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#Perception.Grasp_Pose_Estimation.AnyGrasp.utils.get_3d_points"><code class="docutils literal notranslate"><span class="pre">get_3d_points()</span></code></a></li>
 <li><a class="reference internal" href="#Perception.Grasp_Pose_Estimation.AnyGrasp.utils.sample_points"><code class="docutils literal notranslate"><span class="pre">sample_points()</span></code></a></li>
 <li><a class="reference internal" href="#Perception.Grasp_Pose_Estimation.AnyGrasp.utils.draw_rectangle"><code class="docutils literal notranslate"><span class="pre">draw_rectangle()</span></code></a></li>
 <li><a class="reference internal" href="#Perception.Grasp_Pose_Estimation.AnyGrasp.utils.visualize_cloud_geometries"><code class="docutils literal notranslate"><span class="pre">visualize_cloud_geometries()</span></code></a></li>
@@ -124,16 +124,16 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Perception.Grasp_Pose_Estimation.Anygrasp.Grasp_Pose_Estimation">
-<span class="sig-name descname"><span class="pre">Grasp_Pose_Estimation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../../Visualization.html#Visualization.Camera.CameraParameters" title="Visualization.Camera.CameraParameters"><span class="pre">CameraParameters</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seg_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crop_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/Perception/Grasp_Pose_Estimation/AnyGrasp/Anygrasp.html#Anygrasp.Grasp_Pose_Estimation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Perception.Grasp_Pose_Estimation.Anygrasp.Grasp_Pose_Estimation" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">Grasp_Pose_Estimation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">camera</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../../Visualization.html#Visualization.Camera.Camera" title="Visualization.Camera.Camera"><span class="pre">Camera</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">seg_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crop_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/Perception/Grasp_Pose_Estimation/AnyGrasp/Anygrasp.html#Anygrasp.Grasp_Pose_Estimation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Perception.Grasp_Pose_Estimation.Anygrasp.Grasp_Pose_Estimation" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate the optimal grasping pose.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cam</strong> (<a class="reference internal" href="../../../Visualization.html#Visualization.Camera.CameraParameters" title="Visualization.Camera.CameraParameters"><em>CameraParameters</em></a>) – Camera internal parameters.</p></li>
+<li><p><strong>cam</strong> (<em>CameraParameters</em>) – Camera internal parameters.</p></li>
 <li><p><strong>points</strong> (<em>np.ndarray</em>) – 3D point cloud data.</p></li>
 <li><p><strong>seg_mask</strong> (<em>np.ndarray</em>) – Object Mask.</p></li>
 <li><p><strong>bbox</strong> (<em>Bbox</em>) – Object bounding box.</p></li>
-<li><p><strong>crop_flag</strong> (<em>bool</em><em>, </em><em>optional</em>) – Crop flag. Defaults to False.</p></li>
+<li><p><strong>crop_flag</strong> (<em>bool</em><em>, </em><em>optional</em>) – If point cloud has been crop by seg mask. Defaults to False.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -145,26 +145,20 @@
 </dl>
 </dd></dl>
 
-</dd></dl>
-
-<span class="target" id="module-Perception.Grasp_Pose_Estimation.AnyGrasp.utils"></span><dl class="py function">
-<dt class="sig sig-object py" id="Perception.Grasp_Pose_Estimation.AnyGrasp.utils.get_3d_points">
-<span class="sig-prename descclassname"><span class="pre">Perception.Grasp_Pose_Estimation.AnyGrasp.utils.</span></span><span class="sig-name descname"><span class="pre">get_3d_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../../Visualization.html#Visualization.Camera.CameraParameters" title="Visualization.Camera.CameraParameters"><span class="pre">CameraParameters</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/Perception/Grasp_Pose_Estimation/AnyGrasp/utils.html#get_3d_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Perception.Grasp_Pose_Estimation.AnyGrasp.utils.get_3d_points" title="Permalink to this definition"></a></dt>
-<dd><p>Convert depth image to 3D point cloud.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Perception.Grasp_Pose_Estimation.Anygrasp.print_filter_gg">
+<span class="sig-name descname"><span class="pre">print_filter_gg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_gg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/Perception/Grasp_Pose_Estimation/AnyGrasp/Anygrasp.html#Anygrasp.print_filter_gg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Perception.Grasp_Pose_Estimation.Anygrasp.print_filter_gg" title="Permalink to this definition"></a></dt>
+<dd><p>print grasp pose and score, Descending.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>cam</strong> (<a class="reference internal" href="../../../Visualization.html#Visualization.Camera.CameraParameters" title="Visualization.Camera.CameraParameters"><em>CameraParameters</em></a>) – Camera internal parameters.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>3D point cloud.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray</p>
+<dd class="field-odd"><p><strong>(</strong><strong>)</strong> (<em>filter_gg</em>) – anygrasp grasp pose info</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py function">
+</dd></dl>
+
+<span class="target" id="module-Perception.Grasp_Pose_Estimation.AnyGrasp.utils"></span><dl class="py function">
 <dt class="sig sig-object py" id="Perception.Grasp_Pose_Estimation.AnyGrasp.utils.sample_points">
 <span class="sig-prename descclassname"><span class="pre">Perception.Grasp_Pose_Estimation.AnyGrasp.utils.</span></span><span class="sig-name descname"><span class="pre">sample_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/Perception/Grasp_Pose_Estimation/AnyGrasp/utils.html#sample_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Perception.Grasp_Pose_Estimation.AnyGrasp.utils.sample_points" title="Permalink to this definition"></a></dt>
 <dd><p>Randomly sample some points from a given set of points at a specified sampling rate.</p>

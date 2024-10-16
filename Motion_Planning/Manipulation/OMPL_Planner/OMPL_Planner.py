@@ -134,17 +134,17 @@ class OMPL_Planner:
         goal = self.robot.sim_cartesian_to_joints(goal_pose)
 
         return goal
-
+    
     def set_target_pose(self, target_pose):
         """
-        Set the target pose for the manipulation task.
+        Set the target pose for the planner.
 
-        Args:        # init collision info
-        self.collision.setup_collision_detection()
-            target_pose (Pose): The pose of the target object.
-
+        Args:
+            pose (Pose): The target pose for the planning algorithm. This must include
+                        the position and orientation of the target.
+        
         Returns:
-            list: The goal state in joint space.
+            bool: True if the target pose was successfully set, False otherwise.
         """
         goal = self.robot.sim_cartesian_to_joints(target_pose)
         return goal

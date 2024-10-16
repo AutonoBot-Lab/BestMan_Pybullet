@@ -59,6 +59,7 @@
 <li><a class="reference internal" href="#Visualization.Visualizer.Visualizer.remove_all_line"><code class="docutils literal notranslate"><span class="pre">Visualizer.remove_all_line()</span></code></a></li>
 <li><a class="reference internal" href="#Visualization.Visualizer.Visualizer.draw_aabb"><code class="docutils literal notranslate"><span class="pre">Visualizer.draw_aabb()</span></code></a></li>
 <li><a class="reference internal" href="#Visualization.Visualizer.Visualizer.draw_aabb_link"><code class="docutils literal notranslate"><span class="pre">Visualizer.draw_aabb_link()</span></code></a></li>
+<li><a class="reference internal" href="#Visualization.Visualizer.Visualizer.draw_object_pose"><code class="docutils literal notranslate"><span class="pre">Visualizer.draw_object_pose()</span></code></a></li>
 <li><a class="reference internal" href="#Visualization.Visualizer.Visualizer.draw_pose"><code class="docutils literal notranslate"><span class="pre">Visualizer.draw_pose()</span></code></a></li>
 <li><a class="reference internal" href="#Visualization.Visualizer.Visualizer.draw_link_pose"><code class="docutils literal notranslate"><span class="pre">Visualizer.draw_link_pose()</span></code></a></li>
 <li><a class="reference internal" href="#Visualization.Visualizer.Visualizer.change_robot_color"><code class="docutils literal notranslate"><span class="pre">Visualizer.change_robot_color()</span></code></a></li>
@@ -67,21 +68,16 @@
 <li><a class="reference internal" href="#Visualization.Visualizer.Visualizer.set_links_color"><code class="docutils literal notranslate"><span class="pre">Visualizer.set_links_color()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#Visualization.Camera.CameraParameters"><code class="docutils literal notranslate"><span class="pre">CameraParameters</span></code></a><ul>
-<li><a class="reference internal" href="#Visualization.Camera.CameraParameters.fx"><code class="docutils literal notranslate"><span class="pre">CameraParameters.fx</span></code></a></li>
-<li><a class="reference internal" href="#Visualization.Camera.CameraParameters.fy"><code class="docutils literal notranslate"><span class="pre">CameraParameters.fy</span></code></a></li>
-<li><a class="reference internal" href="#Visualization.Camera.CameraParameters.cx"><code class="docutils literal notranslate"><span class="pre">CameraParameters.cx</span></code></a></li>
-<li><a class="reference internal" href="#Visualization.Camera.CameraParameters.cy"><code class="docutils literal notranslate"><span class="pre">CameraParameters.cy</span></code></a></li>
-<li><a class="reference internal" href="#Visualization.Camera.CameraParameters.head_tilt"><code class="docutils literal notranslate"><span class="pre">CameraParameters.head_tilt</span></code></a></li>
-<li><a class="reference internal" href="#Visualization.Camera.CameraParameters.image"><code class="docutils literal notranslate"><span class="pre">CameraParameters.image</span></code></a></li>
-<li><a class="reference internal" href="#Visualization.Camera.CameraParameters.colors"><code class="docutils literal notranslate"><span class="pre">CameraParameters.colors</span></code></a></li>
-<li><a class="reference internal" href="#Visualization.Camera.CameraParameters.depths"><code class="docutils literal notranslate"><span class="pre">CameraParameters.depths</span></code></a></li>
-</ul>
-</li>
 <li><a class="reference internal" href="#Visualization.Camera.Camera"><code class="docutils literal notranslate"><span class="pre">Camera</span></code></a><ul>
-<li><a class="reference internal" href="#Visualization.Camera.Camera.update"><code class="docutils literal notranslate"><span class="pre">Camera.update()</span></code></a></li>
-<li><a class="reference internal" href="#Visualization.Camera.Camera.get_rgb_image"><code class="docutils literal notranslate"><span class="pre">Camera.get_rgb_image()</span></code></a></li>
-<li><a class="reference internal" href="#Visualization.Camera.Camera.get_depth_image"><code class="docutils literal notranslate"><span class="pre">Camera.get_depth_image()</span></code></a></li>
+<li><a class="reference internal" href="#Visualization.Camera.Camera.sim_get_focal_length"><code class="docutils literal notranslate"><span class="pre">Camera.sim_get_focal_length()</span></code></a></li>
+<li><a class="reference internal" href="#Visualization.Camera.Camera.sim_get_camera_pose"><code class="docutils literal notranslate"><span class="pre">Camera.sim_get_camera_pose()</span></code></a></li>
+<li><a class="reference internal" href="#Visualization.Camera.Camera.sim_update"><code class="docutils literal notranslate"><span class="pre">Camera.sim_update()</span></code></a></li>
+<li><a class="reference internal" href="#Visualization.Camera.Camera.sim_get_rgb_image"><code class="docutils literal notranslate"><span class="pre">Camera.sim_get_rgb_image()</span></code></a></li>
+<li><a class="reference internal" href="#Visualization.Camera.Camera.sim_get_depth_image"><code class="docutils literal notranslate"><span class="pre">Camera.sim_get_depth_image()</span></code></a></li>
+<li><a class="reference internal" href="#Visualization.Camera.Camera.sim_rotate_around_y"><code class="docutils literal notranslate"><span class="pre">Camera.sim_rotate_around_y()</span></code></a></li>
+<li><a class="reference internal" href="#Visualization.Camera.Camera.sim_visualize_3d_points"><code class="docutils literal notranslate"><span class="pre">Camera.sim_visualize_3d_points()</span></code></a></li>
+<li><a class="reference internal" href="#Visualization.Camera.Camera.sim_get_3d_points"><code class="docutils literal notranslate"><span class="pre">Camera.sim_get_3d_points()</span></code></a></li>
+<li><a class="reference internal" href="#Visualization.Camera.Camera.sim_trans_to_world"><code class="docutils literal notranslate"><span class="pre">Camera.sim_trans_to_world()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#Visualization.blender_render.pyBulletSimRecorder.PyBulletRecorder"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder</span></code></a><ul>
@@ -92,7 +88,6 @@
 </li>
 <li><a class="reference internal" href="#Visualization.blender_render.pyBulletSimRecorder.PyBulletRecorder.register_object"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.register_object()</span></code></a></li>
 <li><a class="reference internal" href="#Visualization.blender_render.pyBulletSimRecorder.PyBulletRecorder.add_keyframe"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.add_keyframe()</span></code></a></li>
-<li><a class="reference internal" href="#Visualization.blender_render.pyBulletSimRecorder.PyBulletRecorder.prompt_save"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.prompt_save()</span></code></a></li>
 <li><a class="reference internal" href="#Visualization.blender_render.pyBulletSimRecorder.PyBulletRecorder.reset"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.reset()</span></code></a></li>
 <li><a class="reference internal" href="#Visualization.blender_render.pyBulletSimRecorder.PyBulletRecorder.get_formatted_output"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.get_formatted_output()</span></code></a></li>
 <li><a class="reference internal" href="#Visualization.blender_render.pyBulletSimRecorder.PyBulletRecorder.save"><code class="docutils literal notranslate"><span class="pre">PyBulletRecorder.save()</span></code></a></li>
@@ -128,9 +123,11 @@
              
   <section id="module-Visualization.Visualizer">
 <span id="visualization"></span><h1>Visualization<a class="headerlink" href="#module-Visualization.Visualizer" title="Permalink to this heading"></a></h1>
-<p>&#64;Description :   A few functions for visualization
-&#64;Author      :   Yan Ding
-&#64;Time        :   2023/08/30 22:48:04</p>
+<p># &#64;FileName       : Visualizer.py
+# &#64;Time           : 2024-08-03 15:09:53
+# &#64;Author         : yk
+# &#64;Email          : <a class="reference external" href="mailto:yangkui1127&#37;&#52;&#48;gmail&#46;com">yangkui1127<span>&#64;</span>gmail<span>&#46;</span>com</a>
+# &#64;Description:   : Visualizer for pybullet</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="Visualization.Visualizer.Visualizer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Visualization.Visualizer.</span></span><span class="sig-name descname"><span class="pre">Visualizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visualizer_cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Visualizer.html#Visualizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Visualizer.Visualizer" title="Permalink to this definition"></a></dt>
@@ -259,8 +256,24 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Visualizer.Visualizer.draw_object_pose">
+<span class="sig-name descname"><span class="pre">draw_object_pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lineWidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">textSize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Visualizer.html#Visualizer.draw_object_pose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Visualizer.Visualizer.draw_object_pose" title="Permalink to this definition"></a></dt>
+<dd><p>Draws the pose of an object in the PyBullet environment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>object</strong> (<em>Union</em><em>[</em><em>int</em><em>, </em><em>str</em><em>]</em>) – The unique identifier of the object or its name.</p></li>
+<li><p><strong>length</strong> (<em>float</em><em>, </em><em>optional</em>) – The length of the pose axes. Default is 0.25.</p></li>
+<li><p><strong>lineWidth</strong> (<em>float</em><em>, </em><em>optional</em>) – The width of the pose axes lines. Default is 2.0.</p></li>
+<li><p><strong>textSize</strong> (<em>float</em><em>, </em><em>optional</em>) – The size of the text labels. Default is 1.0.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="Visualization.Visualizer.Visualizer.draw_pose">
-<span class="sig-name descname"><span class="pre">draw_pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lineWidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">textSize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Visualizer.html#Visualizer.draw_pose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Visualizer.Visualizer.draw_pose" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">draw_pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pose</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lineWidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">textSize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Visualizer.html#Visualizer.draw_pose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Visualizer.Visualizer.draw_pose" title="Permalink to this definition"></a></dt>
 <dd><p>Draws the pose of an object in the PyBullet environment.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -352,60 +365,31 @@
 
 </dd></dl>
 
-<span class="target" id="module-Visualization.Camera"></span><dl class="py class">
-<dt class="sig sig-object py" id="Visualization.Camera.CameraParameters">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Visualization.Camera.</span></span><span class="sig-name descname"><span class="pre">CameraParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">head_tilt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Image</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depths</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Camera.html#CameraParameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Camera.CameraParameters" title="Permalink to this definition"></a></dt>
-<dd><p>Used to store the camera’s intrinsic parameters, head tilt angle, image data, color data, and depth data.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="Visualization.Camera.CameraParameters.fx">
-<span class="sig-name descname"><span class="pre">fx</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#Visualization.Camera.CameraParameters.fx" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="Visualization.Camera.CameraParameters.fy">
-<span class="sig-name descname"><span class="pre">fy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#Visualization.Camera.CameraParameters.fy" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="Visualization.Camera.CameraParameters.cx">
-<span class="sig-name descname"><span class="pre">cx</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#Visualization.Camera.CameraParameters.cx" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="Visualization.Camera.CameraParameters.cy">
-<span class="sig-name descname"><span class="pre">cy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#Visualization.Camera.CameraParameters.cy" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="Visualization.Camera.CameraParameters.head_tilt">
-<span class="sig-name descname"><span class="pre">head_tilt</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#Visualization.Camera.CameraParameters.head_tilt" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="Visualization.Camera.CameraParameters.image">
-<span class="sig-name descname"><span class="pre">image</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Image</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#Visualization.Camera.CameraParameters.image" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="Visualization.Camera.CameraParameters.colors">
-<span class="sig-name descname"><span class="pre">colors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#Visualization.Camera.CameraParameters.colors" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="Visualization.Camera.CameraParameters.depths">
-<span class="sig-name descname"><span class="pre">depths</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#Visualization.Camera.CameraParameters.depths" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<span class="target" id="module-Visualization.Camera"></span><p># &#64;FileName       : Camera.py
+# &#64;Time           : 2024-08-03 15:09:34
+# &#64;Author         : yk
+# &#64;Email          : <a class="reference external" href="mailto:yangkui1127&#37;&#52;&#48;gmail&#46;com">yangkui1127<span>&#64;</span>gmail<span>&#46;</span>com</a>
+# &#64;Description:   : Camera</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="Visualization.Camera.Camera">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Visualization.Camera.</span></span><span class="sig-name descname"><span class="pre">Camera</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arm_height</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Camera.html#Camera"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Camera.Camera" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Visualization.Camera.</span></span><span class="sig-name descname"><span class="pre">Camera</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arm_place_height</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Camera.html#Camera"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Camera.Camera" title="Permalink to this definition"></a></dt>
 <dd><p>Robotic Camera.</p>
 <p>This class handles the camera functionalities for a robotic system, including capturing RGB and depth images.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="Visualization.Camera.Camera.update">
-<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Camera.html#Camera.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Camera.Camera.update" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="Visualization.Camera.Camera.sim_get_focal_length">
+<span class="sig-name descname"><span class="pre">sim_get_focal_length</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Camera.html#Camera.sim_get_focal_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Camera.Camera.sim_get_focal_length" title="Permalink to this definition"></a></dt>
+<dd><p>get camera focal length</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Camera.Camera.sim_get_camera_pose">
+<span class="sig-name descname"><span class="pre">sim_get_camera_pose</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Camera.html#Camera.sim_get_camera_pose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Camera.Camera.sim_get_camera_pose" title="Permalink to this definition"></a></dt>
+<dd><p>get camera pose</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Camera.Camera.sim_update">
+<span class="sig-name descname"><span class="pre">sim_update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Camera.html#Camera.sim_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Camera.Camera.sim_update" title="Permalink to this definition"></a></dt>
 <dd><p>Updates the camera view and projection matrices, captures images, and returns the captured data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -418,8 +402,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="Visualization.Camera.Camera.get_rgb_image">
-<span class="sig-name descname"><span class="pre">get_rgb_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enable_show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Camera.html#Camera.get_rgb_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Camera.Camera.get_rgb_image" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="Visualization.Camera.Camera.sim_get_rgb_image">
+<span class="sig-name descname"><span class="pre">sim_get_rgb_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enable_show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Camera.html#Camera.sim_get_rgb_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Camera.Camera.sim_get_rgb_image" title="Permalink to this definition"></a></dt>
 <dd><p>Captures an RGB image from the camera.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -438,8 +422,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="Visualization.Camera.Camera.get_depth_image">
-<span class="sig-name descname"><span class="pre">get_depth_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enable_show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Camera.html#Camera.get_depth_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Camera.Camera.get_depth_image" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="Visualization.Camera.Camera.sim_get_depth_image">
+<span class="sig-name descname"><span class="pre">sim_get_depth_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enable_show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Camera.html#Camera.sim_get_depth_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Camera.Camera.sim_get_depth_image" title="Permalink to this definition"></a></dt>
 <dd><p>Captures a depth image from the camera.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -457,9 +441,68 @@
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Camera.Camera.sim_rotate_around_y">
+<span class="sig-name descname"><span class="pre">sim_rotate_around_y</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Camera.html#Camera.sim_rotate_around_y"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Camera.Camera.sim_rotate_around_y" title="Permalink to this definition"></a></dt>
+<dd><p>vector rotate around y axis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vector</strong> (<em>np.array</em>) – vector</p></li>
+<li><p><strong>(</strong><strong>)</strong> (<em>angle</em>) – rotate angle</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>rotated vector</p>
+</dd>
+</dl>
 </dd></dl>
 
-<span class="target" id="module-Visualization.blender_render.pyBulletSimRecorder"></span><dl class="py class">
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Camera.Camera.sim_visualize_3d_points">
+<span class="sig-name descname"><span class="pre">sim_visualize_3d_points</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Camera.html#Camera.sim_visualize_3d_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Camera.Camera.sim_visualize_3d_points" title="Permalink to this definition"></a></dt>
+<dd><p>visualize 3D point cloud.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Camera.Camera.sim_get_3d_points">
+<span class="sig-name descname"><span class="pre">sim_get_3d_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">1]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Camera.html#Camera.sim_get_3d_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Camera.Camera.sim_get_3d_points" title="Permalink to this definition"></a></dt>
+<dd><p>Convert depth image to 3D point cloud.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>3D point cloud.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Visualization.Camera.Camera.sim_trans_to_world">
+<span class="sig-name descname"><span class="pre">sim_trans_to_world</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pose</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/Camera.html#Camera.sim_trans_to_world"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.Camera.Camera.sim_trans_to_world" title="Permalink to this definition"></a></dt>
+<dd><p>Convert grasp pose from camera to world coord system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pose</strong> (<a class="reference internal" href="RoboticsToolBox.html#RoboticsToolBox.Pose" title="RoboticsToolBox.Pose"><em>Pose</em></a>) – pose in camera coord system</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>pose in world system</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="RoboticsToolBox.html#RoboticsToolBox.Pose" title="RoboticsToolBox.Pose">Pose</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-Visualization.blender_render.pyBulletSimRecorder"></span><p># &#64;FileName       : pyBulletSimRecorder.py
+# &#64;Time           : 2024-08-03 15:09:24
+# &#64;Author         : yk
+# &#64;Email          : <a class="reference external" href="mailto:yangkui1127&#37;&#52;&#48;gmail&#46;com">yangkui1127<span>&#64;</span>gmail<span>&#46;</span>com</a>
+# &#64;Description:   : A recorder in pybullet sim and the result can be import into blender scene</p>
+<dl class="py class">
 <dt class="sig sig-object py" id="Visualization.blender_render.pyBulletSimRecorder.PyBulletRecorder">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Visualization.blender_render.pyBulletSimRecorder.</span></span><span class="sig-name descname"><span class="pre">PyBulletRecorder</span></span><a class="reference internal" href="../_modules/Visualization/blender_render/pyBulletSimRecorder.html#PyBulletRecorder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.blender_render.pyBulletSimRecorder.PyBulletRecorder" title="Permalink to this definition"></a></dt>
 <dd><p>A class for recording PyBullet simulations.</p>
@@ -522,12 +565,6 @@
 <dt class="sig sig-object py" id="Visualization.blender_render.pyBulletSimRecorder.PyBulletRecorder.add_keyframe">
 <span class="sig-name descname"><span class="pre">add_keyframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/blender_render/pyBulletSimRecorder.html#PyBulletRecorder.add_keyframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.blender_render.pyBulletSimRecorder.PyBulletRecorder.add_keyframe" title="Permalink to this definition"></a></dt>
 <dd><p>Adds a keyframe of the current simulation state.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Visualization.blender_render.pyBulletSimRecorder.PyBulletRecorder.prompt_save">
-<span class="sig-name descname"><span class="pre">prompt_save</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Visualization/blender_render/pyBulletSimRecorder.html#PyBulletRecorder.prompt_save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Visualization.blender_render.pyBulletSimRecorder.PyBulletRecorder.prompt_save" title="Permalink to this definition"></a></dt>
-<dd><p>Prompts the user to save the recorded simulation states.</p>
 </dd></dl>
 
 <dl class="py method">

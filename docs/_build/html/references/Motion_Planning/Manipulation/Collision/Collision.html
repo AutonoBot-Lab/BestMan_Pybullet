@@ -44,19 +44,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">Collision</a><ul>
-<li><a class="reference internal" href="#Motion_Planning.Manipulation.Collision"><code class="docutils literal notranslate"><span class="pre">Collision</span></code></a><ul>
-<li><a class="reference internal" href="#Motion_Planning.Manipulation.Collision.__init__"><code class="docutils literal notranslate"><span class="pre">Collision.__init__()</span></code></a></li>
-<li><a class="reference internal" href="#Motion_Planning.Manipulation.Collision.setup_collision_detection"><code class="docutils literal notranslate"><span class="pre">Collision.setup_collision_detection()</span></code></a></li>
-<li><a class="reference internal" href="#Motion_Planning.Manipulation.Collision.is_state_valid"><code class="docutils literal notranslate"><span class="pre">Collision.is_state_valid()</span></code></a></li>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../project_structure.html">Project Structure Overview</a></li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
-</div>
+
         </div>
       </div>
     </nav>
@@ -84,26 +76,59 @@
   <section id="collision">
 <h1>Collision<a class="headerlink" href="#collision" title="Permalink to this heading"></a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="Motion_Planning.Manipulation.Collision">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Motion_Planning.Manipulation.</span></span><span class="sig-name descname"><span class="pre">Collision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obstacles</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/Motion_Planning/Manipulation/Collision/Collision.html#Collision"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Motion_Planning.Manipulation.Collision" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="Motion_Planning.Manipulation.Collision.Collision">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Motion_Planning.Manipulation.Collision.</span></span><span class="sig-name descname"><span class="pre">Collision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/Motion_Planning/Manipulation/Collision/Collision.html#Collision"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Motion_Planning.Manipulation.Collision.Collision" title="Permalink to this definition"></a></dt>
 <dd><p>A class for handling collision detection.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="Motion_Planning.Manipulation.Collision.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obstacles</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/Motion_Planning/Manipulation/Collision/Collision.html#Collision.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Motion_Planning.Manipulation.Collision.__init__" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="Motion_Planning.Manipulation.Collision.Collision.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/Motion_Planning/Manipulation/Collision/Collision.html#Collision.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Motion_Planning.Manipulation.Collision.Collision.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Initializes the Collision class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>robot</strong> (<em>Robot</em>) – The robot object.</p></li>
-<li><p><strong>obstacles</strong> (<em>list</em>) – List of obstacles in the environment.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>robot</strong> (<em>Robot</em>) – The robot object.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="Motion_Planning.Manipulation.Collision.setup_collision_detection">
-<span class="sig-name descname"><span class="pre">setup_collision_detection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self_collisions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_collision_links</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/Motion_Planning/Manipulation/Collision/Collision.html#Collision.setup_collision_detection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Motion_Planning.Manipulation.Collision.setup_collision_detection" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="Motion_Planning.Manipulation.Collision.Collision.set_obstacles">
+<span class="sig-name descname"><span class="pre">set_obstacles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/Motion_Planning/Manipulation/Collision/Collision.html#Collision.set_obstacles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Motion_Planning.Manipulation.Collision.Collision.set_obstacles" title="Permalink to this definition"></a></dt>
+<dd><p>Add obstacles to the scene.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Motion_Planning.Manipulation.Collision.Collision.add_obstacle">
+<span class="sig-name descname"><span class="pre">add_obstacle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obstacle</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/Motion_Planning/Manipulation/Collision/Collision.html#Collision.add_obstacle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Motion_Planning.Manipulation.Collision.Collision.add_obstacle" title="Permalink to this definition"></a></dt>
+<dd><p>Add obstacle to the list of obstacles.
+This is useful for adding a specific obstacle to the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obstacle_id</strong> – id of the obstacle to add.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Motion_Planning.Manipulation.Collision.Collision.remove_obstacle">
+<span class="sig-name descname"><span class="pre">remove_obstacle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obstacle</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/Motion_Planning/Manipulation/Collision/Collision.html#Collision.remove_obstacle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Motion_Planning.Manipulation.Collision.Collision.remove_obstacle" title="Permalink to this definition"></a></dt>
+<dd><p>Remove obstacle from the list of obstacles.
+This is useful for removing a specific obstacle from the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obstacle_id</strong> – id of the obstacle to remove.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Motion_Planning.Manipulation.Collision.Collision.get_obstacles_info">
+<span class="sig-name descname"><span class="pre">get_obstacles_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/Motion_Planning/Manipulation/Collision/Collision.html#Collision.get_obstacles_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Motion_Planning.Manipulation.Collision.Collision.get_obstacles_info" title="Permalink to this definition"></a></dt>
+<dd><p>Check obstacles in the scene and print them to the console.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Motion_Planning.Manipulation.Collision.Collision.setup_collision_detection">
+<span class="sig-name descname"><span class="pre">setup_collision_detection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self_collisions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_collision_links</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/Motion_Planning/Manipulation/Collision/Collision.html#Collision.setup_collision_detection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Motion_Planning.Manipulation.Collision.Collision.setup_collision_detection" title="Permalink to this definition"></a></dt>
 <dd><p>Sets up collision detection.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -116,8 +141,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="Motion_Planning.Manipulation.Collision.is_state_valid">
-<span class="sig-name descname"><span class="pre">is_state_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/Motion_Planning/Manipulation/Collision/Collision.html#Collision.is_state_valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Motion_Planning.Manipulation.Collision.is_state_valid" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="Motion_Planning.Manipulation.Collision.Collision.is_state_valid">
+<span class="sig-name descname"><span class="pre">is_state_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/Motion_Planning/Manipulation/Collision/Collision.html#Collision.is_state_valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Motion_Planning.Manipulation.Collision.Collision.is_state_valid" title="Permalink to this definition"></a></dt>
 <dd><p>Checks if a given state is valid (i.e., collision-free).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

@@ -1,269 +1,105 @@
-
-
 <!DOCTYPE html>
-
-
-<html lang="en" data-content_root="" >
-
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Visualization.Camera &#8212; BestMan_Pybullet 1.0 documentation</title>
-  
-  
-  
-  <script data-cfasync="false">
-    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
-  </script>
-  
-  <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visualization.Camera &mdash; BestMan_Pybullet 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/AL_logo.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-  <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
-  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
-
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/Visualization/Camera';</script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="en"/>
-  </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
 
-  
-  
-  <a class="skip-link" href="#main-content">Skip to main content</a>
-  
-  <div id="pst-scroll-pixel-helper"></div>
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: white" >
 
-  
-  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
-
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
-<form class="bd-search d-flex align-items-center"
-      action="../../search.html"
-      method="get">
-  <i class="fa-solid fa-magnifying-glass"></i>
-  <input type="search"
-         class="form-control"
-         name="q"
-         id="search-input"
-         placeholder="Search..."
-         aria-label="Search..."
-         autocomplete="off"
-         autocorrect="off"
-         autocapitalize="off"
-         spellcheck="false"/>
-  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
-  
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
-  
-  <div class="bd-container">
-    <div class="bd-container__inner bd-page-width">
-      
-      <div class="bd-sidebar-primary bd-sidebar">
-        
-
-  
-  <div class="sidebar-header-items sidebar-primary__section">
-    
-    
-    
-    
-  </div>
-  
-    <div class="sidebar-primary-items__start sidebar-primary__section">
-        <div class="sidebar-primary-item">
-
-  
-
-<a class="navbar-brand logo" href="../../index.html">
-  
-  
-  
-  
-  
-  
-    <p class="title logo__title">BestMan_Pybullet 1.0 documentation</p>
-  
-</a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item navbar-nav active">
-        
-    </div>
-</nav></div>
-    </div>
-  
-  
-  <div class="sidebar-primary-items__end sidebar-primary__section">
-  </div>
-  
-  <div id="rtd-footer-container"></div>
-
-
-      </div>
-      
-      <main id="main-content" class="bd-main">
-        
-        
-
-<div class="sbt-scroll-pixel-helper"></div>
-
-          <div class="bd-content">
-            <div class="bd-article-container">
-              
-              <div class="bd-header-article">
-<div class="header-article-items header-article__inner">
-  
-    <div class="header-article-items__start">
-      
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <span class="fa-solid fa-bars"></span>
-</label></div>
-      
-    </div>
-  
-  
-    <div class="header-article-items__end">
-      
-        <div class="header-article-item">
-
-<div class="article-header-buttons">
-
-
-
-<button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
-  title="Fullscreen mode"
-  data-bs-placement="bottom" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fas fa-expand"></i>
-  </span>
-
-</button>
-
-
-
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
-  </button>
-`);
-</script>
-
-
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-
-</div></div>
-      
-    </div>
-  
-</div>
-</div>
-              
-              
-
-<div id="jb-print-docs-body" class="onlyprint">
-    <h1></h1>
-    <!-- Table of contents -->
-    <div id="print-main-content">
-        <div id="jb-print-toc">
+          
+          
+          <a href="../../index.html">
             
-        </div>
-    </div>
+              <img src="../../_static/BestMan_logo_AL.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
 </div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
 
-              
-                
-<div id="searchbox"></div>
-                <article class="bd-article" role="main">
-                  
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: white" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">BestMan_Pybullet</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">Visualization.Camera</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
   <h1>Source code for Visualization.Camera</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pybullet</span> <span class="k">as</span> <span class="nn">p</span>
-<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Tuple</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">LinearSegmentedColormap</span>
+<span></span><span class="c1"># !/usr/bin/env python</span>
+<span class="c1"># -*- encoding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd"># @FileName       : Camera.py</span>
+<span class="sd"># @Time           : 2024-08-03 15:09:34</span>
+<span class="sd"># @Author         : yk</span>
+<span class="sd"># @Email          : yangkui1127@gmail.com</span>
+<span class="sd"># @Description:   : Camera</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="CameraParameters"><a class="viewcode-back" href="../../references/Visualization.html#Visualization.Camera.CameraParameters">[docs]</a><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">CameraParameters</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Used to store the camera&#39;s intrinsic parameters, head tilt angle, image data, color data, and depth data.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="n">fx</span><span class="p">:</span> <span class="nb">float</span>                       <span class="c1"># The focal length scaling factor in the x direction. It is typically the focal length in pixel units and is used to describe the camera&#39;s intrinsic parameters.</span>
-    <span class="n">fy</span><span class="p">:</span> <span class="nb">float</span>                       <span class="c1"># The focal length scaling factor in the y direction. Similar to fx, but for the y direction.</span>
-    <span class="n">cx</span><span class="p">:</span> <span class="nb">float</span>                       <span class="c1"># The x-coordinate of the camera&#39;s principal point (optical center). It represents the position of the optical axis&#39;s intersection on the image plane in the x direction, usually near the center of the image.</span>
-    <span class="n">cy</span><span class="p">:</span> <span class="nb">float</span>                       <span class="c1"># The y-coordinate of the camera&#39;s principal point (optical center). Similar to cx, but for the y direction.</span>
-    <span class="n">head_tilt</span><span class="p">:</span> <span class="nb">float</span>                <span class="c1"># The tilt angle of the camera head, describing the camera&#39;s rotation or inclination.</span>
-    <span class="n">image</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Image</span><span class="o">.</span><span class="n">Image</span><span class="p">]</span>        <span class="c1"># An image object from the PIL library, representing the captured image data.</span>
-    <span class="n">colors</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>              <span class="c1"># A NumPy array containing color data of the image, typically used for processing color information within the image.</span>
-    <span class="n">depths</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>              <span class="c1"># A NumPy array containing depth data of the image, representing the distance of each pixel point from the camera.</span></div>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">open3d</span> <span class="k">as</span> <span class="nn">o3d</span>
+<span class="kn">import</span> <span class="nn">pybullet</span> <span class="k">as</span> <span class="nn">p</span>
+<span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">LinearSegmentedColormap</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+
+<span class="kn">from</span> <span class="nn">RoboticsToolBox.Pose</span> <span class="kn">import</span> <span class="n">Pose</span>
 
 
 <div class="viewcode-block" id="Camera"><a class="viewcode-back" href="../../references/Visualization.html#Visualization.Camera.Camera">[docs]</a><span class="k">class</span> <span class="nc">Camera</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Robotic Camera.</span>
-<span class="sd">    </span>
+
 <span class="sd">    This class handles the camera functionalities for a robotic system, including capturing RGB and depth images.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">base_id</span><span class="p">,</span> <span class="n">arm_height</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">base_id</span><span class="p">,</span> <span class="n">arm_place_height</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initializes the Camera class with configuration, base ID, and arm height.</span>
 
@@ -273,74 +109,100 @@ document.write(`
 <span class="sd">            arm_height (float): The height of the robot arm.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">base_id</span> <span class="o">=</span> <span class="n">base_id</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">arm_height</span> <span class="o">=</span> <span class="n">arm_height</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">width</span>      <span class="c1"># W</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">height</span>    <span class="c1"># H</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nearVal</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">nearVal</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">farVal</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">farVal</span>
-        <span class="c1"># self.fx = self.fx,</span>
-        <span class="c1"># self.fy = cfg.fy,</span>
-        <span class="c1"># self.cx = cfg.cx,</span>
-        <span class="c1"># self.cy = cfg.cy,</span>
-        <span class="c1"># self.head_tilt = cfg.head_tilt,</span>
-        
-        <span class="c1"># get rgb and depth image</span>
-        <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">rgb</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">rgb</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rgb</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">depths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">depth</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arm_place_height</span> <span class="o">=</span> <span class="n">arm_place_height</span>
 
-    
-<div class="viewcode-block" id="Camera.update"><a class="viewcode-back" href="../../references/Visualization.html#Visualization.Camera.Camera.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># projection setting</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fov</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">fov</span>  <span class="c1"># fov</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">width</span>  <span class="c1"># W</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">height</span>  <span class="c1"># H</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nearVal</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">nearVal</span>  <span class="c1"># nearVal</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">farVal</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">farVal</span>  <span class="c1"># farVal</span>
+
+        <span class="c1"># for grasp pose</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">head_tilt</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">head_tilt</span>
+
+        <span class="c1"># camera rgb and depth image</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim_update</span><span class="p">()</span>
+
+        <span class="c1"># cameara intrinsic parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim_get_focal_length</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span>
+
+<div class="viewcode-block" id="Camera.sim_get_focal_length"><a class="viewcode-back" href="../../references/Visualization.html#Visualization.Camera.Camera.sim_get_focal_length">[docs]</a>    <span class="k">def</span> <span class="nf">sim_get_focal_length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get camera focal length</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj_mat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj_mat</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span></div>
+
+<div class="viewcode-block" id="Camera.sim_get_camera_pose"><a class="viewcode-back" href="../../references/Visualization.html#Visualization.Camera.Camera.sim_get_camera_pose">[docs]</a>    <span class="k">def</span> <span class="nf">sim_get_camera_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get camera pose</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">view_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trans_camera_to_world</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">order</span><span class="o">=</span><span class="s2">&quot;F&quot;</span><span class="p">)</span>
+        <span class="n">pose</span> <span class="o">=</span> <span class="n">Pose</span><span class="p">(</span><span class="n">view_mat</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">view_mat</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">pose</span></div>
+
+<div class="viewcode-block" id="Camera.sim_update"><a class="viewcode-back" href="../../references/Visualization.html#Visualization.Camera.Camera.sim_update">[docs]</a>    <span class="k">def</span> <span class="nf">sim_update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Updates the camera view and projection matrices, captures images, and returns the captured data.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns:</span>
 <span class="sd">            tuple: Width, height, RGB image, depth image, and segmentation mask.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="c1"># get base pose</span>
         <span class="n">position</span><span class="p">,</span> <span class="n">orientation</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getBasePositionAndOrientation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_id</span><span class="p">)</span>
-        <span class="n">camera_position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_height</span> <span class="o">+</span> <span class="mf">0.3</span><span class="p">])</span>
-        
-        <span class="c1"># The three direction vectors of the camera in the world coordinate system</span>
-        <span class="n">r_mat</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getMatrixFromQuaternion</span><span class="p">(</span><span class="n">orientation</span><span class="p">)</span>
-        <span class="n">tx_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">r_mat</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">r_mat</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">r_mat</span><span class="p">[</span><span class="mi">6</span><span class="p">]])</span>   <span class="c1"># x direction vector, the right side of the camera is facing</span>
-        <span class="n">ty_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">r_mat</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">r_mat</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">r_mat</span><span class="p">[</span><span class="mi">7</span><span class="p">]])</span>   <span class="c1"># y direction vector, the camera&#39;s forward direction</span>
-        <span class="n">tz_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">r_mat</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">r_mat</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">r_mat</span><span class="p">[</span><span class="mi">8</span><span class="p">]])</span>   <span class="c1"># z direction vector, the vertical direction of the camera</span>
-        
-        <span class="c1"># set camera looking forward</span>
-        <span class="c1"># target_position = camera_position - 1 * tx_vec</span>
-        <span class="n">target_position</span> <span class="o">=</span> <span class="n">camera_position</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">tx_vec</span>
+        <span class="n">camera_position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_place_height</span> <span class="o">+</span> <span class="mf">0.3</span><span class="p">]</span>
+        <span class="p">)</span>
 
-        <span class="n">view_mat</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">computeViewMatrix</span><span class="p">(</span>
-                        <span class="n">cameraEyePosition</span><span class="o">=</span><span class="n">camera_position</span><span class="p">,</span>
-                        <span class="n">cameraTargetPosition</span><span class="o">=</span><span class="n">target_position</span><span class="p">,</span>
-                        <span class="n">cameraUpVector</span><span class="o">=</span><span class="n">tz_vec</span>
-                    <span class="p">)</span>
+        <span class="c1"># set the camera orientation</span>
+        <span class="n">target_position</span> <span class="o">=</span> <span class="n">camera_position</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">view_mat</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">computeViewMatrix</span><span class="p">(</span>
+            <span class="n">cameraEyePosition</span><span class="o">=</span><span class="n">camera_position</span><span class="p">,</span>
+            <span class="n">cameraTargetPosition</span><span class="o">=</span><span class="n">target_position</span><span class="p">,</span>
+            <span class="n">cameraUpVector</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">)</span>
+
+        <span class="c1"># update trans camera to world mat</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trans_camera_to_world</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">view_mat</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">order</span><span class="o">=</span><span class="s2">&quot;F&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
 
         <span class="c1"># A projection matrix based on the field of view (FOV) to simulate the camera&#39;s perspective</span>
-        <span class="n">proj_mat</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">computeProjectionMatrixFOV</span><span class="p">(</span>
-                        <span class="n">fov</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>                            <span class="c1"># 摄像头的视线夹角</span>
-                        <span class="n">aspect</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>     <span class="c1"># 图像的宽高比</span>
-                        <span class="n">nearVal</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nearVal</span><span class="p">,</span>              <span class="c1"># 摄像头视距min</span>
-                        <span class="n">farVal</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">farVal</span>                 <span class="c1"># 摄像头视距max</span>
-                    <span class="p">)</span>
-        
-        <span class="c1"># width, height, rgb, image, seg</span>
-        <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">rgb</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">seg</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getCameraImage</span><span class="p">(</span>
-                                    <span class="n">width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-                                    <span class="n">height</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
-                                    <span class="n">viewMatrix</span><span class="o">=</span><span class="n">view_mat</span><span class="p">,</span>
-                                    <span class="n">projectionMatrix</span><span class="o">=</span><span class="n">proj_mat</span><span class="p">,</span>
-                                    <span class="n">shadow</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>     <span class="c1"># Disable Shadows</span>
-                                    <span class="n">renderer</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">ER_TINY_RENDERER</span>
-                                <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">proj_mat</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">computeProjectionMatrixFOV</span><span class="p">(</span>
+            <span class="n">fov</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fov</span><span class="p">,</span>  <span class="c1"># Camera&#39;s sight angle</span>
+            <span class="n">aspect</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>  <span class="c1"># Aspect ratio of the image</span>
+            <span class="n">nearVal</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nearVal</span><span class="p">,</span>  <span class="c1"># Camera viewing distance min</span>
+            <span class="n">farVal</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">farVal</span><span class="p">,</span>  <span class="c1"># Camera viewing distance max</span>
+        <span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">rgb</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">seg</span></div>
-    
-    
-<div class="viewcode-block" id="Camera.get_rgb_image"><a class="viewcode-back" href="../../references/Visualization.html#Visualization.Camera.Camera.get_rgb_image">[docs]</a>    <span class="k">def</span> <span class="nf">get_rgb_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enable_show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">enable_save</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="c1"># width, height, rgb, image, seg</span>
+        <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">rgb</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getCameraImage</span><span class="p">(</span>
+            <span class="n">width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+            <span class="n">height</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+            <span class="n">viewMatrix</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">view_mat</span><span class="p">,</span>
+            <span class="n">projectionMatrix</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">proj_mat</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># make sure the array has the correct shape</span>
+        <span class="n">rgb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rgb</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="mi">4</span><span class="p">)[:,</span> <span class="p">:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">depth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">depth</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">rgb</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rgb</span><span class="p">)</span>  <span class="c1"># BGR to RGB</span>
+
+        <span class="c1"># pybullet return normalized depth values, convert ​​to actual depth values, unit：m</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">depths</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">farVal</span>
+            <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">nearVal</span>
+            <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">farVal</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">farVal</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">nearVal</span><span class="p">)</span> <span class="o">*</span> <span class="n">depth</span><span class="p">)</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Camera.sim_get_rgb_image"><a class="viewcode-back" href="../../references/Visualization.html#Visualization.Camera.Camera.sim_get_rgb_image">[docs]</a>    <span class="k">def</span> <span class="nf">sim_get_rgb_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enable_show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">enable_save</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Captures an RGB image from the camera.</span>
 
@@ -351,61 +213,23 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: Captured RGB image.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
-        <span class="c1"># get base pose</span>
-        <span class="n">position</span><span class="p">,</span> <span class="n">orientation</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getBasePositionAndOrientation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_id</span><span class="p">)</span>
-        <span class="n">camera_position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_height</span> <span class="o">+</span> <span class="mf">0.3</span><span class="p">])</span>
-        
-        <span class="c1"># The three direction vectors of the camera in the world coordinate system</span>
-        <span class="n">r_mat</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getMatrixFromQuaternion</span><span class="p">(</span><span class="n">orientation</span><span class="p">)</span>
-        <span class="n">tx_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">r_mat</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">r_mat</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">r_mat</span><span class="p">[</span><span class="mi">6</span><span class="p">]])</span>   <span class="c1"># x direction vector, the right side of the camera is facing</span>
-        <span class="n">ty_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">r_mat</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">r_mat</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">r_mat</span><span class="p">[</span><span class="mi">7</span><span class="p">]])</span>   <span class="c1"># y direction vector, the camera&#39;s forward direction</span>
-        <span class="n">tz_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">r_mat</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">r_mat</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">r_mat</span><span class="p">[</span><span class="mi">8</span><span class="p">]])</span>   <span class="c1"># z direction vector, the vertical direction of the camera</span>
-        
-        <span class="c1"># set camera looking forward</span>
-        <span class="c1"># target_position = camera_position - 1 * tx_vec</span>
-        <span class="n">target_position</span> <span class="o">=</span> <span class="n">camera_position</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">tx_vec</span>
-
-        <span class="n">view_mat</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">computeViewMatrix</span><span class="p">(</span>
-                        <span class="n">cameraEyePosition</span><span class="o">=</span><span class="n">camera_position</span><span class="p">,</span>
-                        <span class="n">cameraTargetPosition</span><span class="o">=</span><span class="n">target_position</span><span class="p">,</span>
-                        <span class="n">cameraUpVector</span><span class="o">=</span><span class="n">tz_vec</span>
-                    <span class="p">)</span>
-
-        <span class="c1"># A projection matrix based on the field of view (FOV) to simulate the camera&#39;s perspective</span>
-        <span class="n">proj_mat</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">computeProjectionMatrixFOV</span><span class="p">(</span>
-                        <span class="n">fov</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>       <span class="c1"># 摄像头的视线夹角</span>
-                        <span class="n">aspect</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>     <span class="c1"># 图像的宽高比</span>
-                        <span class="n">nearVal</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nearVal</span><span class="p">,</span>   <span class="c1"># 摄像头视距min</span>
-                        <span class="n">farVal</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">farVal</span>       <span class="c1"># 摄像头视距max</span>
-                    <span class="p">)</span>
-        
-        <span class="c1"># width, height, rgb, image, seg</span>
-        <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">rgb</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getCameraImage</span><span class="p">(</span>
-                                <span class="n">width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-                                <span class="n">height</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
-                                <span class="n">viewMatrix</span><span class="o">=</span><span class="n">view_mat</span><span class="p">,</span>
-                                <span class="n">projectionMatrix</span><span class="o">=</span><span class="n">proj_mat</span><span class="p">,</span>
-                                <span class="n">shadow</span><span class="o">=</span><span class="mi">0</span>     <span class="c1"># Disable Shadows</span>
-                            <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">enable_show</span><span class="p">:</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">rgb</span><span class="p">)</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;rgb image&#39;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">colors</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;rgb image&quot;</span><span class="p">)</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">enable_save</span><span class="p">:</span>
-            <span class="n">current_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">_%H%M%S&#39;</span><span class="p">)</span>
-            <span class="n">rgb_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;../Examples/image/rgb_</span><span class="si">{</span><span class="n">current_time</span><span class="si">}</span><span class="s2">.png&quot;</span>
-            <span class="n">rgbImg</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">rgb</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
-            <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="n">rgb_path</span><span class="p">,</span> <span class="n">rgbImg</span><span class="p">)</span>
-            <span class="c1"># Image.fromarray(rgb).save(rgb_path)</span>
-        
-        <span class="k">return</span> <span class="n">rgb</span></div>
-    
-    
-<div class="viewcode-block" id="Camera.get_depth_image"><a class="viewcode-back" href="../../references/Visualization.html#Visualization.Camera.Camera.get_depth_image">[docs]</a>    <span class="k">def</span> <span class="nf">get_depth_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enable_show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">enable_save</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;rgb_&quot;</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">_%H%M%S&quot;</span><span class="p">)</span>
+            <span class="n">rgb_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;../Examples/image/</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">.png&quot;</span>
+            <span class="n">new_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">colors</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+            <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="n">rgb_path</span><span class="p">,</span> <span class="n">new_image</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">colors</span></div>
+
+<div class="viewcode-block" id="Camera.sim_get_depth_image"><a class="viewcode-back" href="../../references/Visualization.html#Visualization.Camera.Camera.sim_get_depth_image">[docs]</a>    <span class="k">def</span> <span class="nf">sim_get_depth_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enable_show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">enable_save</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Captures a depth image from the camera.</span>
 
@@ -416,50 +240,6 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: Captured depth image.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
-        <span class="c1"># get base pose</span>
-        <span class="n">position</span><span class="p">,</span> <span class="n">orientation</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getBasePositionAndOrientation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_id</span><span class="p">)</span>
-        <span class="n">camera_position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_height</span> <span class="o">+</span> <span class="mf">0.3</span><span class="p">])</span>
-        
-        <span class="c1"># The three direction vectors of the camera in the world coordinate system</span>
-        <span class="n">r_mat</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getMatrixFromQuaternion</span><span class="p">(</span><span class="n">orientation</span><span class="p">)</span>
-        <span class="n">tx_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">r_mat</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">r_mat</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">r_mat</span><span class="p">[</span><span class="mi">6</span><span class="p">]])</span>   <span class="c1"># x direction vector, the right side of the camera is facing</span>
-        <span class="n">ty_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">r_mat</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">r_mat</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">r_mat</span><span class="p">[</span><span class="mi">7</span><span class="p">]])</span>   <span class="c1"># y direction vector, the camera&#39;s forward direction</span>
-        <span class="n">tz_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">r_mat</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">r_mat</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">r_mat</span><span class="p">[</span><span class="mi">8</span><span class="p">]])</span>   <span class="c1"># z direction vector, the vertical direction of the camera</span>
-        
-        <span class="c1"># set camera looking forward</span>
-        <span class="c1"># target_position = camera_position - 1 * tx_vec</span>
-        <span class="n">target_position</span> <span class="o">=</span> <span class="n">camera_position</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">tx_vec</span>
-
-        <span class="n">view_mat</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">computeViewMatrix</span><span class="p">(</span>
-                        <span class="n">cameraEyePosition</span><span class="o">=</span><span class="n">camera_position</span><span class="p">,</span>
-                        <span class="n">cameraTargetPosition</span><span class="o">=</span><span class="n">target_position</span><span class="p">,</span>
-                        <span class="n">cameraUpVector</span><span class="o">=</span><span class="n">tz_vec</span>
-                    <span class="p">)</span>
-
-        <span class="c1"># A projection matrix based on the field of view (FOV) to simulate the camera&#39;s perspective</span>
-        <span class="n">proj_mat</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">computeProjectionMatrixFOV</span><span class="p">(</span>
-                        <span class="n">fov</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>       <span class="c1"># 摄像头的视线夹角</span>
-                        <span class="n">aspect</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>     <span class="c1"># 图像的宽高比</span>
-                        <span class="n">nearVal</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nearVal</span><span class="p">,</span>   <span class="c1"># 摄像头视距min</span>
-                        <span class="n">farVal</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">farVal</span>       <span class="c1"># 摄像头视距max</span>
-                    <span class="p">)</span>
-        
-        <span class="c1"># width, height, rgb, image, seg</span>
-        <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getCameraImage</span><span class="p">(</span>
-                                <span class="n">width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-                                <span class="n">height</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
-                                <span class="n">viewMatrix</span><span class="o">=</span><span class="n">view_mat</span><span class="p">,</span>
-                                <span class="n">projectionMatrix</span><span class="o">=</span><span class="n">proj_mat</span><span class="p">,</span>
-                                <span class="n">shadow</span><span class="o">=</span><span class="mi">0</span>     <span class="c1"># Disable Shadows</span>
-                            <span class="p">)</span>
-
-        <span class="c1"># Convert normalized depth values ​​to actual depth values</span>
-        <span class="n">depth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">farVal</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">nearVal</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">farVal</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">farVal</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">nearVal</span><span class="p">)</span> <span class="o">*</span> <span class="n">depth</span><span class="p">)</span>
-
-        <span class="c1"># image_point = [320, 240]</span>
-        <span class="c1"># crop_size = 200</span>
-        <span class="c1"># depth_image = self.crop_image(depth, image_point, crop_size)</span>
 
         <span class="k">if</span> <span class="n">enable_show</span><span class="p">:</span>
             <span class="c1"># Linear color mapping from black (the color when the depth value is 0) to white (the color when the depth value is 1)</span>
@@ -469,85 +249,154 @@ document.write(`
                 <span class="s2">&quot;blue&quot;</span><span class="p">:</span> <span class="p">[[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]],</span>
             <span class="p">}</span>
             <span class="n">custom_cmap</span> <span class="o">=</span> <span class="n">LinearSegmentedColormap</span><span class="p">(</span><span class="s2">&quot;custom_cmap&quot;</span><span class="p">,</span> <span class="n">cdict</span><span class="p">)</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">custom_cmap</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">depths</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">custom_cmap</span><span class="p">)</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;depth image&#39;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;depth image&quot;</span><span class="p">)</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">enable_save</span><span class="p">:</span>
-            <span class="n">current_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">_%H%M%S&#39;</span><span class="p">)</span>
-            <span class="n">depth_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;../Examples/image/depth_</span><span class="si">{</span><span class="n">current_time</span><span class="si">}</span><span class="s2">.png&quot;</span>
-            <span class="c1"># plt.imsave(depth_path, depth, cmap=custom_cmap)</span>
-            <span class="n">depth_img</span> <span class="o">=</span> <span class="p">(</span><span class="n">depth</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">)</span>
-            <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">depth_img</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">depth_path</span><span class="p">)</span>
-        
-        <span class="k">return</span> <span class="n">depth</span></div></div>
+            <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;depth_&quot;</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">_%H%M%S&quot;</span><span class="p">)</span>
+            <span class="n">depth_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;../Examples/image/</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">.png&quot;</span>
+            <span class="n">depths</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">depths</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">)</span>
+            <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">depths</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">depth_path</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">depths</span></div>
+
+    <span class="c1"># ----------------------------------------------------------------</span>
+    <span class="c1"># functions for utils</span>
+    <span class="c1"># ----------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="Camera.sim_rotate_around_y"><a class="viewcode-back" href="../../references/Visualization.html#Visualization.Camera.Camera.sim_rotate_around_y">[docs]</a>    <span class="k">def</span> <span class="nf">sim_rotate_around_y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;vector rotate around y axis</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            vector (np.array): vector</span>
+<span class="sd">            angle (): rotate angle</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            rotated vector</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rotation_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)],</span>
+                <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                <span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)],</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">rotation_matrix</span><span class="p">,</span> <span class="n">vector</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Camera.sim_visualize_3d_points"><a class="viewcode-back" href="../../references/Visualization.html#Visualization.Camera.Camera.sim_visualize_3d_points">[docs]</a>    <span class="k">def</span> <span class="nf">sim_visualize_3d_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        visualize 3D point cloud.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">color_image</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">colors</span><span class="p">))</span>
+        <span class="n">depth_image</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">Image</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">depths</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">))</span>
+        <span class="n">rgbd_image</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">RGBDImage</span><span class="o">.</span><span class="n">create_from_color_and_depth</span><span class="p">(</span>
+            <span class="n">color_image</span><span class="p">,</span> <span class="n">depth_image</span><span class="p">,</span> <span class="n">convert_rgb_to_intensity</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+        <span class="n">intrinsic</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">PinholeCameraIntrinsic</span><span class="p">(</span>
+            <span class="n">o3d</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">PinholeCameraIntrinsicParameters</span><span class="o">.</span><span class="n">Kinect2DepthCameraDefault</span>
+        <span class="p">)</span>
+        <span class="n">intrinsic</span><span class="o">.</span><span class="n">set_intrinsics</span><span class="p">(</span>
+            <span class="n">width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+            <span class="n">height</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+            <span class="n">fx</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fx</span><span class="p">,</span>
+            <span class="n">fy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fy</span><span class="p">,</span>
+            <span class="n">cx</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cx</span><span class="p">,</span>
+            <span class="n">cy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cy</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">point_cloud</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">PointCloud</span><span class="o">.</span><span class="n">create_from_rgbd_image</span><span class="p">(</span>
+            <span class="n">rgbd_image</span><span class="p">,</span> <span class="n">intrinsic</span>
+        <span class="p">)</span>
+        <span class="n">trans_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+        <span class="n">point_cloud</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">trans_mat</span><span class="p">)</span>
+        <span class="n">coordinate_frame</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="o">.</span><span class="n">create_coordinate_frame</span><span class="p">(</span>
+            <span class="n">size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">vis</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">Visualizer</span><span class="p">()</span>
+        <span class="n">vis</span><span class="o">.</span><span class="n">create_window</span><span class="p">(</span><span class="n">window_name</span><span class="o">=</span><span class="s2">&quot;visualize camera 3d points&quot;</span><span class="p">)</span>
+        <span class="n">vis</span><span class="o">.</span><span class="n">add_geometry</span><span class="p">(</span><span class="n">point_cloud</span><span class="p">)</span>
+        <span class="n">vis</span><span class="o">.</span><span class="n">add_geometry</span><span class="p">(</span><span class="n">coordinate_frame</span><span class="p">)</span>
+        <span class="n">vis</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+        <span class="n">vis</span><span class="o">.</span><span class="n">destroy_window</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Camera.sim_get_3d_points"><a class="viewcode-back" href="../../references/Visualization.html#Visualization.Camera.Camera.sim_get_3d_points">[docs]</a>    <span class="k">def</span> <span class="nf">sim_get_3d_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_dist</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert depth image to 3D point cloud.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: 3D point cloud.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">xmap</span><span class="p">,</span> <span class="n">ymap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">depths</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">depths</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">xmap</span><span class="p">,</span> <span class="n">ymap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">xmap</span><span class="p">,</span> <span class="n">ymap</span><span class="p">)</span>
+        <span class="n">points_z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">depths</span>
+        <span class="n">points_x</span> <span class="o">=</span> <span class="p">(</span><span class="n">xmap</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">cx</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">fx</span> <span class="o">*</span> <span class="n">points_z</span>
+        <span class="n">points_y</span> <span class="o">=</span> <span class="p">(</span><span class="n">ymap</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">cy</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">fy</span> <span class="o">*</span> <span class="n">points_z</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">points_z</span> <span class="o">&gt;</span> <span class="n">filter_dist</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">points_z</span> <span class="o">&lt;</span> <span class="n">filter_dist</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">points_x</span><span class="p">,</span> <span class="o">-</span><span class="n">points_y</span><span class="p">,</span> <span class="n">points_z</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">colors</span> <span class="o">/</span> <span class="mf">255.0</span><span class="p">)[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">points</span><span class="p">,</span> <span class="n">colors</span></div>
+
+<div class="viewcode-block" id="Camera.sim_trans_to_world"><a class="viewcode-back" href="../../references/Visualization.html#Visualization.Camera.Camera.sim_trans_to_world">[docs]</a>    <span class="k">def</span> <span class="nf">sim_trans_to_world</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pose</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert grasp pose from camera to world coord system</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            pose (Pose): pose in camera coord system</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Pose: pose in world system</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pose_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="c1"># pose_mat[:3, -1] = pose[0]</span>
+        <span class="c1"># pose_mat[:3, :3] = pose[1]</span>
+        <span class="n">pose_mat</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">pose</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+        <span class="n">pose_mat</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">pose</span><span class="o">.</span><span class="n">get_orientation</span><span class="p">(</span><span class="s2">&quot;rotation_matrix&quot;</span><span class="p">)</span>
+        <span class="n">trans_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+        <span class="n">world_pose</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trans_camera_to_world</span> <span class="o">@</span> <span class="p">(</span><span class="n">trans_mat</span> <span class="o">@</span> <span class="n">pose_mat</span><span class="p">)</span>
+        <span class="n">world_pose</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">-=</span> <span class="mf">0.03</span>
+        <span class="n">world_pose</span> <span class="o">=</span> <span class="n">Pose</span><span class="p">(</span><span class="n">world_pose</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">world_pose</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">world_pose</span></div></div>
 </pre></div>
 
-                </article>
-              
-
-              
-              
-              
-              
-                <footer class="prev-next-footer">
-                  
-<div class="prev-next-area">
-</div>
-                </footer>
-              
-            </div>
-            
-            
-              
-            
+           </div>
           </div>
-          <footer class="bd-footer-content">
-            
-<div class="bd-footer-content__inner container">
-  
-  <div class="footer-item">
-    
-<p class="component-author">
-By kui yang
-</p>
+          <footer>
 
-  </div>
-  
-  <div class="footer-item">
-    
+  <hr/>
 
-  <p class="copyright">
-    
-      © Copyright 2024, kui yang.
-      <br/>
-    
-  </p>
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, kui yang.</p>
+  </div>
 
-  </div>
-  
-  <div class="footer-item">
-    
-  </div>
-  
-  <div class="footer-item">
-    
-  </div>
-  
-</div>
-          </footer>
-        
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
-      </main>
-    </div>
+</footer>
+        </div>
+      </div>
+    </section>
   </div>
-  
-  <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-  <footer class="bd-footer">
-  </footer>
-  </body>
+      gtag('config', 'G-XXXXXXXXXX', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
 </html>
