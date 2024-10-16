@@ -8,8 +8,8 @@
 # @Description:   : xarm robot
 """
 
-import time
 import math
+import time
 
 import numpy as np
 import pybullet as p
@@ -36,7 +36,7 @@ class Bestman_sim_xarm(Bestman_sim):
 
         # Init parent class: BestMan_sim
         super().__init__(client, visualizer, cfg)
-        
+
         # Init arm
         arm_pose = self.sim_get_sync_arm_pose()
         self.arm_id = self.client.load_object(
@@ -44,7 +44,7 @@ class Bestman_sim_xarm(Bestman_sim):
             model_path=self.robot_cfg.arm_urdf_path,
             object_position=arm_pose.get_position(),
             object_orientation=arm_pose.get_orientation(),
-            fixed_base=True
+            fixed_base=True,
         )
         self.arm_jointInfo = self.sim_get_arm_all_jointInfo()
         self.arm_lower_limits = [info.lowerLimit for info in self.arm_jointInfo]
@@ -65,46 +65,46 @@ class Bestman_sim_xarm(Bestman_sim):
             childFramePosition=[0, 0, 0],
             physicsClientId=self.client_id,
         )
-        
+
         # Init arm joint angle
         self.sim_set_arm_to_joint_values(self.robot_cfg.arm_init_jointValues)
 
-        # # Create a gear constraint to keep the fingers symmetrically centered
-        # c = p.createConstraint(
-        #     self.arm_id,
-        #     9,
-        #     self.arm_id,
-        #     10,
-        #     jointType=p.JOINT_GEAR,
-        #     jointAxis=[1, 0, 0],
-        #     parentFramePosition=[0, 0, 0],
-        #     childFramePosition=[0, 0, 0],
-        # )
+        # Create a gear constraint to keep the fingers symmetrically centered
+        c = p.createConstraint(
+            self.arm_id,
+            9,
+            self.arm_id,
+            12,
+            jointType=p.JOINT_GEAR,
+            jointAxis=[1, 0, 0],
+            parentFramePosition=[0, 0, 0],
+            childFramePosition=[0, 0, 0]
+        )
 
-        # # Modify constraint parameters
-        # p.changeConstraint(c, gearRatio=-1, erp=0.1, maxForce=50)
-    
-        # # gripper range
-        # self.gripper_range = [0, 0.04]
-        
+        # Modify constraint parameters
+        p.changeConstraint(c, gearRatio=-1, erp=0.1, maxForce=1000)
 
-        # # close gripper
-        # self.sim_close_gripper()
+        # gripper range
+        self.gripper_range = [0, 0.05]
 
-    
+        # close gripper
+        self.sim_close_gripper()
+
     # ----------------------------------------------------------------
     # Functions for arm
     # ----------------------------------------------------------------
-    
+
     def sim_get_sync_arm_pose(self):
         """
         Get synchronized pose of the robot arm with the base.
         """
         base_pose = self.sim_get_current_base_pose()
-        arm_pose = Pose([*base_pose.get_position()[:2], self.arm_place_height], base_pose.get_orientation())
+        arm_pose = Pose(
+            [*base_pose.get_position()[:2], self.arm_place_height],
+            base_pose.get_orientation(),
+        )
         return arm_pose
-    
-    
+
     # ----------------------------------------------------------------
     # Functions for gripper
     # ----------------------------------------------------------------
@@ -125,6 +125,7 @@ class Bestman_sim_xarm(Bestman_sim):
         Args:
             open_width (float): gripper open width
         """
+        print(f"open_width: {open_width}")
         assert self.gripper_range[0] <= open_width <= self.gripper_range[1]
         for i in [9, 10]:
             p.setJointMotorControl2(
@@ -194,19 +195,17 @@ class Bestman_sim_xarm(Bestman_sim):
             print("[BestMan_Sim][Gripper] Gripper constraint has been created!")
 
     def sim_interactive_set_gripper(self, duration=20):
-        print(
-            "[BestMan_Sim][Gripper] \033[34mInfo\033[0m: Interact start!"
-        )
+        print("[BestMan_Sim][Gripper] \033[34mInfo\033[0m: Interact start!")
         if self.gripper_control is None:
-            gripper_control = p.addUserDebugParameter("gripper", self.gripper_range[0], self.gripper_range[1], 0)
+            gripper_control = p.addUserDebugParameter(
+                "gripper", self.gripper_range[0], self.gripper_range[1], 0
+            )
         start_time = time.time()
         while time.time() - start_time < duration:
             target_gripper_width = p.readUserDebugParameter(gripper_control)
             self.sim_move_gripper(target_gripper_width)
-        print(
-            "[BestMan_Sim][Gripper] \033[34mInfo\033[0m: Interact over!"
-        )
-    
+        print("[BestMan_Sim][Gripper] \033[34mInfo\033[0m: Interact over!")
+
     def sim_remove_gripper_constraint(self):
         """remove constraint"""
         if self.constraint_id != None:

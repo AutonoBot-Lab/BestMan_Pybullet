@@ -9,16 +9,18 @@
 """
 
 
-from itertools import  product
+from itertools import product
 
-import pybullet as p
-from ..utils import *
 import fcl
+import pybullet as p
 import trimesh
+
+from ..utils import *
+
 
 def create_fcl_bvh_from_bullet(robot_id, link_index):
     collision_shape_data = p.getCollisionShapeData(robot_id, link_index)[0]
-    mesh_file_path = collision_shape_data[4].decode('utf-8')
+    mesh_file_path = collision_shape_data[4].decode("utf-8")
     mesh = trimesh.load(mesh_file_path)
     bvh_model = fcl.BVHModel()
     vertices = mesh.vertices

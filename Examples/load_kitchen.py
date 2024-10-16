@@ -26,7 +26,7 @@ def main():
     client = Client(cfg.Client)
     visualizer = Visualizer(client, cfg.Visualizer)
     visualizer.draw_axes()
-    
+
     # Load scene
     # scene_path = "Asset/Scene/Kitchen.json"
     # scene_path = "Asset/Scene/b512.json"
@@ -35,14 +35,14 @@ def main():
 
     client.wait(20)
     visualizer.capture_screen("kitchen_1")
-    
+
     # disconnect pybullet
     client.wait(10)
     client.disconnect()
 
 
 if __name__ == "__main__":
-    
+
     # set work dir to Examples
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
 

@@ -32,7 +32,7 @@ def main(filename):
 
     # Start record
     visualizer.start_record(filename)
-    
+
     # Init robot
     bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
     visualizer.change_robot_color(

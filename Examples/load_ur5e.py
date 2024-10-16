@@ -33,16 +33,16 @@ def main(filename):
 
     # Init robot
     ur5e = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
-    
+
     # ur5e.sim_interactive_set_arm(1000)
-    
+
     client.wait(15)
-    
-    visualizer.capture_screen('ur5e')
-    
+
+    visualizer.capture_screen("ur5e")
+
     # End record
     visualizer.end_record()
-    
+
     # disconnect pybullet
     client.wait(5)
     client.disconnect()

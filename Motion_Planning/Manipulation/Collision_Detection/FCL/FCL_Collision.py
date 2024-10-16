@@ -9,8 +9,10 @@
 """
 
 import pybullet as p
+
 from ..utils import *
 from .utils import *
+
 
 class FCL_Collision:
     """A class for handling collision detection."""
@@ -81,8 +83,10 @@ class FCL_Collision:
             allow_collision_links (list, optional): Links that are allowed to collide. Defaults to [].
         """
         # set arm link pairs
-        self.arm_link_pairs = get_arm_link_pairs(self.arm_id, self.joint_idx) if self_collisions else []
-        
+        self.arm_link_pairs = (
+            get_arm_link_pairs(self.arm_id, self.joint_idx) if self_collisions else []
+        )
+
         # set arm obstacle pairs
         self.obstacles = list(range(p.getNumBodies()))
         self.obstacles.remove(self.arm_id)
@@ -91,12 +95,14 @@ class FCL_Collision:
         self.link_models = {}
         for body_id in p.getNumBodies():
             for link_id in get_all_links(body_id):
-                self.link_models[f"{body_id}{link_id}"] = create_fcl_bvh_from_bullet(body_id, link_id)
-    
+                self.link_models[f"{body_id}{link_id}"] = create_fcl_bvh_from_bullet(
+                    body_id, link_id
+                )
+
     def is_state_valid(self, state):
         """
         Checks if a given state is valid (i.e., collision-free).
-        
+
         Args:
             state (list): The state to check.
 
@@ -112,11 +118,8 @@ class FCL_Collision:
             return False
 
         return True
-    
-    
-    
-    def check_arm_self_collision(
-        self):
+
+    def check_arm_self_collision(self):
         """
         Checks if two specific links from two different bodies are within a specified distance.
         Args:
@@ -127,24 +130,24 @@ class FCL_Collision:
             max_distance: Maximum allowed distance to consider collision (default is MAX_DISTANCE).
         Returns:
             True if the links are in collision or within the distance threshold, otherwise False.
-        """  
+        """
         link1 = link_models[f"{body1}{link1}"]
         link_state1 = p.getLinkState(body1, link1)
         transform1 = fcl.Transform(link_state1[4], link_state1[5])
         link1.setTransform(transform1)
-        
+
         link2 = link_models[f"{body2}{link2}"]
         link_state2 = p.getLinkState(body2, link2)
         transform2 = fcl.Transform(link_state2[4], link_state2[5])
         link2.setTransform(transform2)
-        
+
         request = fcl.CollisionRequest()
         result = fcl.CollisionResult()
-        
+
         collision = fcl.collide(link1, link2, request, result)
-        
+
         return collision
-    
+
     def check_arm_obstacle_collision(self, max_distance=MAX_DISTANCE):
         """
         Checks if two bodies are in collision or within a certain distance.

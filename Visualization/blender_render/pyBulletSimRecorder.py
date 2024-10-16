@@ -309,14 +309,14 @@ class PyBulletRecorder:
         self.states = {
             col: df_cleaned[col].dropna().tolist() for col in df_cleaned.columns
         }
-        
+
         for link in self.links:
             key = f"{link.body_id}{link.link_id}"
             body_key = f"{link.body_id}"
             if key in mtl_recorder or body_key in mtl_recorder:
                 link.mtl_type = "color"
                 link.mtl = mtl_recorder.get(key, mtl_recorder.get(body_key))
-        
+
         retval = {
             link.name: {
                 "type": link.type,

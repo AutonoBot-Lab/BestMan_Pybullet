@@ -45,7 +45,7 @@ class OMPL_Planner:
         # obstacles
         self.target_id = None
         self.collision = Basic_Collision(robot)
-        
+
         # preparation for OMPL planning
         self.space = ob.RealVectorStateSpace(self.DOF)  # construct the state space
         bounds = ob.RealVectorBounds(self.DOF)  # creating Boundary
@@ -228,7 +228,7 @@ class OMPL_Planner:
             return path
         except RuntimeError as _:
             print("[OMPL Planner] \033[31merror\033[0m: No solution found!")
-    
+
     # ----------------------------------------------------------------
     # Utils
     # ----------------------------------------------------------------

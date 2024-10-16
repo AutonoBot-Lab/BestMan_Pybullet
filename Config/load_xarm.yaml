@@ -19,4 +19,3 @@ Robot:
   arm_urdf_path: "Asset/Robot/mobile_manipulator/arm/ufactory/urdf/xarm6.urdf"          # arm urdf
   arm_joints_idx: [0, 1, 2, 3, 4, 5]                                      # 6 DOF
   arm_place_height: 0.33
-  # end_effector_index: 11

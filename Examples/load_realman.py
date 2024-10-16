@@ -40,15 +40,15 @@ def main(filename):
 
     # Rotate base
     realman.sim_rotate_base(180, "counter-clockwise")
-    
+
     realman.sim_move_base_forward(2)
-    
+
     realman.sim_move_base_backward(2)
-    
+
     realman.sim_move_base_left(2)
-    
+
     realman.sim_move_base_right(2)
-    
+
     # visualizer.draw_object_pose(realman.sim_get_arm_id())
 
     # nav_obstacles_bounds = simple_slam(client, realman, False)
@@ -68,7 +68,7 @@ def main(filename):
 
     # # navigate segbot
     # realman.sim_navigate_base(goal_base_pose, path)
-    
+
     client.wait(3)
     visualizer.capture_screen("test")
 
@@ -78,7 +78,7 @@ def main(filename):
     # disconnect
     # client.keep_run(realman)
     realman.sim_interactive_set_arm()
-    
+
     client.wait(100)
     client.disconnect()
 

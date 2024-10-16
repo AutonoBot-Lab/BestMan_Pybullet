@@ -12,8 +12,7 @@ Visualizer:
 
 # Robot params
 Robot:
-  # arm_init_jointValues: [0.98, 0.458, 0.31, -2.24, -0.30, 2.66, 2.32]                  # The initial angle of arm joint
   arm_init_jointValues: [0.147, 0, -0.062, 1.561, -0.215, 0.009, -0.062]
-  arm_urdf_path: "Asset/Robot/mobile_manipulator/arm/flexiv/urdf/flexiv_rizon4_kinematics.urdf"          # arm urdf
+  arm_urdf_path: "Asset/Robot/mobile_manipulator/arm/flexiv/urdf/flexiv_rizon4_robotiq_2f85.urdf"          # arm urdf
   arm_joints_idx: [0, 1, 2, 3, 4, 5, 6]                                      # 7 DOF
   # end_effector_index: 11

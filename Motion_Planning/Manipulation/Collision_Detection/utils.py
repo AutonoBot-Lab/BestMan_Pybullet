@@ -49,7 +49,7 @@ def get_moving_pairs(body, moving_joints):
         ancestors2 = set(get_joint_ancestors(body, link2)) & set(moving_joints)
         if ancestors1 != ancestors2:
             yield link1, link2
-            
+
 
 def get_arm_link_pairs(body, joints, disabled_collisions=set(), only_moving=True):
     """

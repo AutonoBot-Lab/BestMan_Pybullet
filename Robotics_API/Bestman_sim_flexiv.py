@@ -8,8 +8,8 @@
 # @Description:   : flexiv robot
 """
 
-import time
 import math
+import time
 
 import numpy as np
 import pybullet as p
@@ -44,7 +44,7 @@ class Bestman_sim_flexiv(Bestman_sim):
             model_path=self.robot_cfg.arm_urdf_path,
             object_position=arm_pose.get_position(),
             object_orientation=arm_pose.get_orientation(),
-            fixed_base=True
+            fixed_base=True,
         )
         self.arm_jointInfo = self.sim_get_arm_all_jointInfo()
         self.arm_lower_limits = [info.lowerLimit for info in self.arm_jointInfo]
@@ -65,30 +65,47 @@ class Bestman_sim_flexiv(Bestman_sim):
             childFramePosition=[0, 0, 0],
             physicsClientId=self.client_id,
         )
-        
+
         # Init arm joint angle
         self.sim_set_arm_to_joint_values(self.robot_cfg.arm_init_jointValues)
 
         # change robot color
-        # self.visualizer.change_robot_color(self.base_id, self.arm_id, False)
         self.visualizer.set_object_color(self.base_id, "light_white")
+        
+        # gripper constraints
+        c = p.createConstraint(self.arm_id, 10, self.arm_id, 11, p.JOINT_POINT2POINT, [0, 0, 0], [0, -0.014, 0.043], [0, -0.034, 0.021])
+        p.changeConstraint(c, erp=0.1, maxForce=1000)
+        
+        c = p.createConstraint(self.arm_id, 12, self.arm_id, 13, p.JOINT_POINT2POINT, [0, 0, 0], [0, -0.014, 0.043], [0, -0.034, 0.021])
+        p.changeConstraint(c, erp=0.1, maxForce=1000)
+        
+        p.setJointMotorControl2(self.arm_id, 10, p.VELOCITY_CONTROL, targetVelocity=0, force=0)
+        p.setJointMotorControl2(self.arm_id, 11, p.VELOCITY_CONTROL, targetVelocity=0, force=0)
+        p.setJointMotorControl2(self.arm_id, 12, p.VELOCITY_CONTROL, targetVelocity=0, force=0)
+        p.setJointMotorControl2(self.arm_id, 13, p.VELOCITY_CONTROL, targetVelocity=0, force=0)
+        
+        
+        c = p.createConstraint(self.arm_id, 8, self.arm_id, 14, p.JOINT_GEAR, [1, 0, 0], [0, 0, 0], [0, 0, 0])
+        p.changeConstraint(c, gearRatio=-1, erp=0.1, maxForce=50)
+        
+        # gripper control
+        p.setJointMotorControlMultiDofArray(self.arm_id, [8, 14], p.POSITION_CONTROL, [[q], [q]], forces=[[t], [t]])
 
-    
     # ----------------------------------------------------------------
     # Functions for arm
     # ----------------------------------------------------------------
-    
+
     def sim_get_sync_arm_pose(self):
         """
         Get synchronized pose of the robot arm with the base.
         """
         base_pose = self.sim_get_current_base_pose()
-        arm_pose = Pose([*base_pose.get_position()[:2], self.arm_place_height], base_pose.get_orientation())
+        arm_pose = Pose(
+            [*base_pose.get_position()[:2], self.arm_place_height],
+            base_pose.get_orientation(),
+        )
         return arm_pose
-    
-    
+
     # ----------------------------------------------------------------
     # Functions for gripper
     # ----------------------------------------------------------------
-
-    

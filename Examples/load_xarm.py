@@ -8,20 +8,22 @@
 # @Description:   : A example to grasp bowl on table use vacuum_gripper (simplified to just display robot model)
 """
 
-
 import os
+
 from Config import load_config
 from Env import Client
+from Motion_Planning.Navigation import *
 from Robotics_API import Bestman_sim_xarm
 from Visualization import Visualizer
 
+
 def main(filename):
-    
+
     # Load config
     config_path = "Config/load_xarm.yaml"
     cfg = load_config(config_path)
     print(cfg)
-    
+
     # Init client and visualizer
     client = Client(cfg.Client)
     visualizer = Visualizer(client, cfg.Visualizer)
@@ -29,22 +31,24 @@ def main(filename):
 
     # Start record
     visualizer.start_record(filename)
-    
+
     # Init robot
     xarm = Bestman_sim_xarm(client, visualizer, cfg)
-    
-    xarm.sim_interactive_set_arm(1000)
-    
+
+    # Interact with arm
+    # xarm.sim_interactive_set_arm(20)
+    xarm.sim_interactive_set_gripper(1000)
+
     client.wait(10)
-    visualizer.capture_screen('xarm')
-    
-    # End record (Optional, can comment out if not needed)
+    visualizer.capture_screen("xarm")
+
+    # End record
     visualizer.end_record()
 
     # disconnect from server
     client.wait(20)
     client.disconnect()
-    
+
 
 if __name__ == "__main__":
 

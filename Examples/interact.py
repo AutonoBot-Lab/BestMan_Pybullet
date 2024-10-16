@@ -19,20 +19,22 @@ from Env.Client import Client
 from Robotics_API.Bestman_sim_panda import Bestman_sim_panda
 from Visualization.Visualizer import Visualizer
 
+
 def get_key():
-        """
-        Get a single character from standard input. Does not require Enter to be pressed.
-        """
-        fd = sys.stdin.fileno()
-        old_settings = termios.tcgetattr(fd)
-        try:
-            tty.setraw(sys.stdin.fileno())
-            ch = sys.stdin.read(1)
-            os.system('stty -echo')  # Disable echo
-        finally:
-            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-            os.system('stty echo')  # Enable echo back
-        return ch
+    """
+    Get a single character from standard input. Does not require Enter to be pressed.
+    """
+    fd = sys.stdin.fileno()
+    old_settings = termios.tcgetattr(fd)
+    try:
+        tty.setraw(sys.stdin.fileno())
+        ch = sys.stdin.read(1)
+        os.system("stty -echo")  # Disable echo
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+        os.system("stty echo")  # Enable echo back
+    return ch
+
 
 def control_base_with_keyboard(robot):
     """
@@ -41,17 +43,18 @@ def control_base_with_keyboard(robot):
     print("Interact start")
     while True:
         key = get_key()
-        if key == 'w':
+        if key == "w":
             robot.sim_move_base_forward(0.05)
-        elif key == 's':
+        elif key == "s":
             robot.sim_move_base_backward(0.05)
-        elif key == 'a':
-            robot.sim_rotate_base(5, 'counter-clockwise')
-        elif key == 'd':
-            robot.sim_rotate_base(5, 'clockwise')
-        elif key == 'q':
+        elif key == "a":
+            robot.sim_rotate_base(5, "counter-clockwise")
+        elif key == "d":
+            robot.sim_rotate_base(5, "clockwise")
+        elif key == "q":
             print("Interact end!")
             break
+
 
 def main(filename):
 
@@ -69,7 +72,7 @@ def main(filename):
 
     # Interact contorl
     control_base_with_keyboard(panda)
-    
+
     # disconnect pybullet
     client.wait(5)
     client.disconnect()

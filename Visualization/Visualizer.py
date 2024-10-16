@@ -532,7 +532,7 @@ class Visualizer:
                 objectUniqueId=object_id,
                 linkIndex=i,
                 rgbaColor=colors[color],
-                physicsClientId=self.client_id
+                physicsClientId=self.client_id,
             )
         # p.changeVisualShape(
         #     objectUniqueId=object_id,
@@ -555,7 +555,7 @@ class Visualizer:
             objectUniqueId=object_id,
             linkIndex=link_id,
             rgbaColor=colors[color],
-            physicsClientId=self.client_id
+            physicsClientId=self.client_id,
         )
         self.client.mtl_recorder[f"{object_id}{link_id}"] = colors[color]
 
@@ -573,6 +573,6 @@ class Visualizer:
                 objectUniqueId=object_id,
                 linkIndex=i,
                 rgbaColor=colors[color],
-                physicsClientId=self.client_id
+                physicsClientId=self.client_id,
             )
             self.client.mtl_recorder[f"{object_id}{i}"] = colors[color]

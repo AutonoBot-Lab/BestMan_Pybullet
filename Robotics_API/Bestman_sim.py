@@ -18,6 +18,7 @@ import pybullet as p
 
 from Controller import PIDController
 from Sensor import Camera
+
 from .Pose import Pose
 
 
@@ -71,7 +72,7 @@ class Bestman_sim(ABC):
             Kd=self.controller_cfg.Kd,
             setpoint=self.target_distance,
         )
-        
+
         # Init base
         self.robot_cfg = cfg.Robot
         self.base_init_pose = Pose(
@@ -86,7 +87,7 @@ class Bestman_sim(ABC):
         )
         self.base_rotated = False
         self.current_base_yaw = self.base_init_pose.get_orientation("euler")[2]
-        
+
         # Arm info
         self.arm_joints_idx = self.robot_cfg.arm_joints_idx
         self.DOF = len(self.arm_joints_idx)
@@ -95,14 +96,14 @@ class Bestman_sim(ABC):
         self.tcp_link = self.robot_cfg.tcp_link
         self.tcp_height = self.robot_cfg.tcp_height
         self.arm_reset_jointValues = self.robot_cfg.arm_reset_jointValues
-        
+
         # Grasp constraint
         self.constraint_id = None  # grasp constraint id
-        
+
         # Init camera
         self.Camera_cfg = cfg.Camera
         self.camera = Camera(self.Camera_cfg, self.base_id, self.arm_place_height)
-        
+
         # Init sliders for interact
         self.arm_control = []
         self.gripper_control = None
@@ -216,7 +217,9 @@ class Bestman_sim(ABC):
 
             self.client.run(5)
 
-    def sim_rotate_base(self, angle, direction="clockwise", step_size=0.02, delay_time=0.05):
+    def sim_rotate_base(
+        self, angle, direction="clockwise", step_size=0.02, delay_time=0.05
+    ):
         """
         Rotate base by a specified angle in a given direction.
         Can be done gradually or at once.
@@ -230,15 +233,17 @@ class Bestman_sim(ABC):
 
         def angle_to_quaternion(yaw):
             return [0, 0, math.sin(yaw / 2.0), math.cos(yaw / 2.0)]
-        
+
         angle = math.radians(angle)
-        
+
         # Determine the target yaw angle based on the input arguments
-        if direction == 'clockwise':
-            
+        if direction == "clockwise":
+
             target_yaw = (self.current_base_yaw - angle + 2 * math.pi) % (2 * math.pi)
             while angle >= step_size:
-                self.current_base_yaw = (self.current_base_yaw - step_size +  + 2 * math.pi) % (2 * math.pi)
+                self.current_base_yaw = (
+                    self.current_base_yaw - step_size + +2 * math.pi
+                ) % (2 * math.pi)
                 orientation = angle_to_quaternion(self.current_base_yaw)
                 position, _ = p.getBasePositionAndOrientation(
                     self.base_id, physicsClientId=self.client_id
@@ -250,7 +255,7 @@ class Bestman_sim(ABC):
                 self.client.run()
                 time.sleep(delay_time)
                 angle -= step_size
-            
+
             # Ensure final orientation is set accurately
             orientation = angle_to_quaternion(target_yaw)
             position, _ = p.getBasePositionAndOrientation(
@@ -262,11 +267,13 @@ class Bestman_sim(ABC):
             self.sim_sync_arm_pose()
             self.current_base_yaw = target_yaw
             self.client.run()
-            
-        elif direction == 'counter-clockwise':
+
+        elif direction == "counter-clockwise":
             target_yaw = (self.current_base_yaw + angle + 2 * math.pi) % (2 * math.pi)
             while angle >= step_size:
-                self.current_base_yaw = (self.current_base_yaw + step_size +  + 2 * math.pi) % (2 * math.pi)
+                self.current_base_yaw = (
+                    self.current_base_yaw + step_size + +2 * math.pi
+                ) % (2 * math.pi)
                 orientation = angle_to_quaternion(self.current_base_yaw)
                 position, _ = p.getBasePositionAndOrientation(
                     self.base_id, physicsClientId=self.client_id
@@ -292,7 +299,7 @@ class Bestman_sim(ABC):
             self.client.run()
         else:
             raise ValueError("Direction must be 'clockwise' or 'counter-clockwise'")
-    
+
     def sim_action(self, output):
         """
         Ajust base position using PID controller's output
@@ -358,7 +365,7 @@ class Bestman_sim(ABC):
             cnt += 1
 
         self.client.run()
-        
+
     def sim_move_base_forward(self, distance, step_size=0.01, delay_time=0.05):
         """
         Move the base forward by a specified distance.
@@ -379,7 +386,7 @@ class Bestman_sim(ABC):
             new_pos = (
                 cur_pos[0] + step_size * math.cos(self.current_base_yaw),
                 cur_pos[1] + step_size * math.sin(self.current_base_yaw),
-                cur_pos[2]
+                cur_pos[2],
             )
             p.resetBasePositionAndOrientation(
                 self.base_id, new_pos, cur_orn, physicsClientId=self.client_id
@@ -388,11 +395,11 @@ class Bestman_sim(ABC):
             self.client.run()
             time.sleep(delay_time)
             distance -= step_size
-        
+
         fin_pos = (
             init_pos[0] + init_distance * math.cos(self.current_base_yaw),
             init_pos[1] + init_distance * math.sin(self.current_base_yaw),
-            init_pos[2]
+            init_pos[2],
         )
         p.resetBasePositionAndOrientation(
             self.base_id, fin_pos, init_orn, physicsClientId=self.client_id
@@ -400,7 +407,7 @@ class Bestman_sim(ABC):
         self.sim_sync_arm_pose()
         self.client.run()
         time.sleep(delay_time)
-        
+
     def sim_move_base_backward(self, distance, step_size=0.01, delay_time=0.05):
         """
         Move the base backward by a specified distance.
@@ -421,7 +428,7 @@ class Bestman_sim(ABC):
             new_pos = (
                 cur_pos[0] - step_size * math.cos(self.current_base_yaw),
                 cur_pos[1] - step_size * math.sin(self.current_base_yaw),
-                cur_pos[2]
+                cur_pos[2],
             )
             p.resetBasePositionAndOrientation(
                 self.base_id, new_pos, cur_orn, physicsClientId=self.client_id
@@ -430,11 +437,11 @@ class Bestman_sim(ABC):
             self.client.run()
             time.sleep(delay_time)
             distance -= step_size
-        
+
         fin_pos = (
             init_pos[0] - init_distance * math.cos(self.current_base_yaw),
             init_pos[1] - init_distance * math.sin(self.current_base_yaw),
-            init_pos[2]
+            init_pos[2],
         )
         p.resetBasePositionAndOrientation(
             self.base_id, fin_pos, init_orn, physicsClientId=self.client_id
@@ -442,7 +449,7 @@ class Bestman_sim(ABC):
         self.sim_sync_arm_pose()
         self.client.run()
         time.sleep(delay_time)
-        
+
     def sim_move_base_left(self, distance, step_size=0.01, delay_time=0.05):
         """
         Move the base left by a specified distance.
@@ -464,7 +471,7 @@ class Bestman_sim(ABC):
             new_pos = (
                 cur_pos[0] + step_size * math.cos(self.current_base_yaw),
                 cur_pos[1] + step_size * math.sin(self.current_base_yaw),
-                cur_pos[2]
+                cur_pos[2],
             )
             p.resetBasePositionAndOrientation(
                 self.base_id, new_pos, cur_orn, physicsClientId=self.client_id
@@ -473,11 +480,11 @@ class Bestman_sim(ABC):
             self.client.run()
             time.sleep(delay_time)
             distance -= step_size
-        
+
         fin_pos = (
             init_pos[0] + init_distance * math.cos(self.current_base_yaw),
             init_pos[1] + init_distance * math.sin(self.current_base_yaw),
-            init_pos[2]
+            init_pos[2],
         )
         p.resetBasePositionAndOrientation(
             self.base_id, fin_pos, init_orn, physicsClientId=self.client_id
@@ -485,7 +492,7 @@ class Bestman_sim(ABC):
         self.sim_sync_arm_pose()
         self.client.run()
         time.sleep(delay_time)
-        
+
     def sim_move_base_right(self, distance, step_size=0.01, delay_time=0.05):
         """
         Move the base right by a specified distance.
@@ -507,7 +514,7 @@ class Bestman_sim(ABC):
             new_pos = (
                 cur_pos[0] + step_size * math.cos(self.current_base_yaw),
                 cur_pos[1] + step_size * math.sin(self.current_base_yaw),
-                cur_pos[2]
+                cur_pos[2],
             )
             p.resetBasePositionAndOrientation(
                 self.base_id, new_pos, cur_orn, physicsClientId=self.client_id
@@ -516,11 +523,11 @@ class Bestman_sim(ABC):
             self.client.run()
             time.sleep(delay_time)
             distance -= step_size
-        
+
         fin_pos = (
             init_pos[0] + init_distance * math.cos(self.current_base_yaw),
             init_pos[1] + init_distance * math.sin(self.current_base_yaw),
-            init_pos[2]
+            init_pos[2],
         )
         p.resetBasePositionAndOrientation(
             self.base_id, fin_pos, init_orn, physicsClientId=self.client_id
@@ -669,14 +676,24 @@ class Bestman_sim(ABC):
                 "maxVelocity",
             ],
         )
+        
+        joint_type_dict = {
+            p.JOINT_REVOLUTE: "Revolute",
+            p.JOINT_PRISMATIC: "Prismatic",
+            p.JOINT_SPHERICAL: "Spherical",
+            p.JOINT_PLANAR: "Planar",
+            p.JOINT_FIXED: "Fixed",
+            p.JOINT_GEAR: "Gear"
+        }
+        
         arm_jointInfo = []
-        for i in self.arm_joints_idx:
+        # for i in self.arm_joints_idx:
+        for i in range(p.getNumJoints(self.arm_id)):
             info = p.getJointInfo(self.arm_id, i)
             jointID = info[0]
             jointName = info[1].decode("utf-8")
-            jointType = info[
-                2
-            ]  # JOINT_REVOLUTE, JOINT_PRISMATIC, JOINT_SPHERICAL, JOINT_PLANAR, JOINT_FIXED
+            # JOINT_REVOLUTE, JOINT_PRISMATIC, JOINT_SPHERICAL, JOINT_PLANAR, JOINT_FIXED, JOINT_GEAR
+            jointType = joint_type_dict.get(info[2], "Unknown Joint Type") 
             jointDamping = info[6]
             jointFriction = info[7]
             jointLowerLimit = info[8]
@@ -696,6 +713,23 @@ class Bestman_sim(ABC):
             )
             arm_jointInfo.append(info)
         return arm_jointInfo
+
+    def sim_print_arm_jointInfo(self):
+        """
+        Print information about each joint of arm
+        """
+        arm_joint_info = self.sim_get_arm_all_jointInfo()
+        for info in arm_joint_info:
+            print(f"Joint ID: {info.id}")
+            print(f"Joint Name: {info.name}")
+            print(f"Joint Type: {info.type}")
+            print(f"Joint Damping: {info.damping}")
+            print(f"Joint Friction: {info.friction}")
+            print(f"Joint Lower Limit: {info.lowerLimit}")
+            print(f"Joint Upper Limit: {info.upperLimit}")
+            print(f"Joint Max Force: {info.maxForce}")
+            print(f"Joint Max Velocity: {info.maxVelocity}")
+            print("-" * 50)
 
     def sim_get_joint_bounds(self):
         """
@@ -783,7 +817,7 @@ class Bestman_sim(ABC):
                 joint_values
             )
         )
-    
+
     def sim_interactive_set_arm(self, duration=20):
         """
         Interactive function to set the robotic arm joint values for a given duration.
@@ -791,18 +825,27 @@ class Bestman_sim(ABC):
         Args:
             duration (int): Duration in seconds for how long the interaction should be allowed.
         """
-        print(
-            "[BestMan_Sim][Arm] \033[34mInfo\033[0m: Interact start!"
-        )
+        print("[BestMan_Sim][Arm] \033[34mInfo\033[0m: Interact start!")
         if len(self.arm_control) == 0:
-            self.arm_control.extend([p.addUserDebugParameter(info.name, info.lowerLimit, info.upperLimit, p.getJointState(self.arm_id, info.id)[0]) for info in self.arm_jointInfo])
+            self.arm_control.extend(
+                [
+                    p.addUserDebugParameter(
+                        info.name,
+                        info.lowerLimit,
+                        info.upperLimit,
+                        p.getJointState(self.arm_id, info.id)[0],
+                    )
+                    for info in self.arm_jointInfo
+                ]
+            )
         start_time = time.time()
         while time.time() - start_time < duration:
-            target_joint_position = [p.readUserDebugParameter(self.arm_control[joint_index]) for joint_index in self.arm_joints_idx]
+            target_joint_position = [
+                p.readUserDebugParameter(self.arm_control[joint_index])
+                for joint_index in self.arm_joints_idx
+            ]
             self.sim_move_arm_to_joint_values(target_joint_position)
-        print(
-            "[BestMan_Sim][Arm] \033[34mInfo\033[0m: Interact over!"
-        )
+        print("[BestMan_Sim][Arm] \033[34mInfo\033[0m: Interact over!")
 
     def sim_move_arm_to_joint_values(self, joint_values, threshold=0.015, timeout=0.05):
         """
@@ -831,7 +874,7 @@ class Bestman_sim(ABC):
         #     diff_angles = [abs(a - b) for a, b in zip(joint_values, current_angles)]
         #     if all(diff < threshold for diff in diff_angles):
         #         break
-        
+
         #     if time.time() - start_time > timeout:  # avoid time anomaly
         #         if p.getContactPoints(self.arm_id):
         #             assert (
@@ -1024,14 +1067,14 @@ class Bestman_sim(ABC):
             - np.array(goal_pose.get_position())
         )
         return distance
-    
+
     @abstractmethod
     def sim_get_sync_arm_pose(self):
         """
         Get synchronized pose of the robot arm with the base.
         """
         pass
-    
+
     def sim_sync_arm_pose(self):
         """
         Synchronizes the pose of the robot arm with the base.
@@ -1043,7 +1086,7 @@ class Bestman_sim(ABC):
             self.arm_id,
             arm_pose.get_position(),
             arm_pose.get_orientation(),
-            physicsClientId=self.client_id
+            physicsClientId=self.client_id,
         )
 
     # ----------------------------------------------------------------

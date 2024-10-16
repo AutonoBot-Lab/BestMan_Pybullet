@@ -8,9 +8,9 @@
 # @Description:   : pybullet client 
 """
 
-import os
 import json
 import math
+import os
 import time
 from datetime import datetime
 
@@ -75,7 +75,9 @@ class Client:
         # Enable caching of graphic shapes when loading URDF files
         self.enable_cache = p.URDF_ENABLE_CACHED_GRAPHICS_SHAPES
         if cfg.plane_urdf_path.startswith("Asset"):
-            planeId = p.loadURDF(os.path.join("..", cfg.plane_urdf_path), flags=self.enable_cache)
+            planeId = p.loadURDF(
+                os.path.join("..", cfg.plane_urdf_path), flags=self.enable_cache
+            )
         else:
             planeId = p.loadURDF(cfg.plane_urdf_path, flags=self.enable_cache)
         # plane_path = os.path.join(pybullet_data.getDataPath(), cfg.plane_urdf_path)
@@ -180,10 +182,10 @@ class Client:
             object_orientation = p.getQuaternionFromEuler(
                 object_orientation, physicsClientId=self.client_id
             )
-        
+
         if model_path.startswith("Asset"):
             model_path = os.path.join("..", model_path)
-        
+
         object_id = p.loadURDF(
             fileName=model_path,
             basePosition=object_position,
@@ -213,7 +215,7 @@ class Client:
 
         if json_path.startswith("Asset"):
             json_path = os.path.join("..", json_path)
-        
+
         with open(json_path, "r") as f:
             scene_data = json.load(f)
 
@@ -235,7 +237,7 @@ class Client:
 
         self.run(480)
         print(f"[Client] \033[34mInfo\033[0m: success load scene from {json_path}!")
-    
+
     # ----------------------------------------------------------------
     # object joint info / operate
     # ----------------------------------------------------------------
@@ -473,8 +475,8 @@ class Client:
         """
         current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
         self.recorder.save(f"../Examples/record/{current_time}.pkl", mtl_recorder)
-        
-        
-if __name__=="__main__":
+
+
+if __name__ == "__main__":
     os.chdir(os.path.dirname(os.getcwd()))
     print(os.getcwd())

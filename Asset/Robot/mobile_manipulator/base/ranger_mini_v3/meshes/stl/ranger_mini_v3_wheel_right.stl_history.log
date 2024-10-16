@@ -1,3 +1,0 @@
-Instantiated with filepath=None->None, scale=[1.0, 1.0, 1.0], mesh=<bpy_struct, Mesh("ranger_mini_v3_wheel_right") at 0x7fc219ce0908>, meshname=ranger_mini_v3_wheel_right, material=None, mesh_orientation=None, {}
-->trying export of <bpy_struct, Mesh("ranger_mini_v3_wheel_right") at 0x7fc219ce0908> to /home/yk/ranger_mini_v3/meshes/stl/ranger_mini_v3_wheel_right.stl
-->wrote stl to /home/yk/ranger_mini_v3/meshes/stl/ranger_mini_v3_wheel_right.stl from bpy_types.Mesh

@@ -10,9 +10,10 @@
 
 from ..utils import *
 
+
 class Basic_Collision:
     """A class for handling collision detection."""
-    
+
     def __init__(self, robot):
         """
         Initializes the Collision class.
@@ -79,8 +80,10 @@ class Basic_Collision:
             allow_collision_links (list, optional): Links that are allowed to collide. Defaults to [].
         """
         # set arm link pairs
-        self.arm_link_pairs = get_arm_link_pairs(self.arm_id, self.joint_idx) if self_collisions else []
-        
+        self.arm_link_pairs = (
+            get_arm_link_pairs(self.arm_id, self.joint_idx) if self_collisions else []
+        )
+
         # set arm obstacle pairs
         self.obstacles = list(range(p.getNumBodies()))
         self.obstacles.remove(self.arm_id)
@@ -106,12 +109,10 @@ class Basic_Collision:
         # check arm collision against obstacle
         if self.check_arm_obstacle_collision():
             return False
-        
+
         return True
-    
-    def check_arm_self_collision(
-        self, max_distance=MAX_DISTANCE
-    ):
+
+    def check_arm_self_collision(self, max_distance=MAX_DISTANCE):
         """
         Checks if two specific links from two different bodies are within a specified distance.
         Args:
@@ -124,16 +125,19 @@ class Basic_Collision:
             True if the links are in collision or within the distance threshold, otherwise False.
         """
         return any(
-            len(p.getClosestPoints(
-                bodyA=self.arm_id,
-                bodyB=self.arm_id,
-                distance=max_distance,
-                linkIndexA=link1,
-                linkIndexB=link2
-            )) != 0
+            len(
+                p.getClosestPoints(
+                    bodyA=self.arm_id,
+                    bodyB=self.arm_id,
+                    distance=max_distance,
+                    linkIndexA=link1,
+                    linkIndexB=link2,
+                )
+            )
+            != 0
             for link1, link2 in self.arm_link_pairs
         )
-        
+
     def check_arm_obstacle_collision(self, max_distance=MAX_DISTANCE):
         """
         Checks if two bodies are in collision or within a certain distance.
@@ -144,14 +148,21 @@ class Basic_Collision:
         Returns:
             True if the bodies are in collision or within the distance threshold, otherwise False.
         """
-        
+
         # check collision between arm and obstacle + arm and base(Does not include the arm and the base directly adjacent link)
         return any(
-            len(p.getClosestPoints(bodyA=arm, bodyB=obstacle, distance=max_distance)) != 0
+            len(p.getClosestPoints(bodyA=arm, bodyB=obstacle, distance=max_distance))
+            != 0
             for arm, obstacle in self.arm_obstacle_pairs
         ) or any(
-            len(p.getClosestPoints(bodyA=self.arm_id, bodyB=self.base_id, distance=max_distance, linkIndexA=link)) != 0
+            len(
+                p.getClosestPoints(
+                    bodyA=self.arm_id,
+                    bodyB=self.base_id,
+                    distance=max_distance,
+                    linkIndexA=link,
+                )
+            )
+            != 0
             for link in self.joint_idx[1:]
         )
-            
-            

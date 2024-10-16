@@ -8,8 +8,8 @@
 # @Description:   : elephant robot
 """
 
-import time
 import math
+import time
 
 import numpy as np
 import pybullet as p
@@ -44,7 +44,7 @@ class Bestman_sim_elephant(Bestman_sim):
             model_path=self.robot_cfg.arm_urdf_path,
             object_position=arm_pose.get_position(),
             object_orientation=arm_pose.get_orientation(),
-            fixed_base=True
+            fixed_base=True,
         )
         self.arm_jointInfo = self.sim_get_arm_all_jointInfo()
         self.arm_lower_limits = [info.lowerLimit for info in self.arm_jointInfo]
@@ -65,7 +65,7 @@ class Bestman_sim_elephant(Bestman_sim):
             childFramePosition=[0, 0, 0],
             physicsClientId=self.client_id,
         )
-        
+
         # Init arm joint angle
         self.sim_set_arm_to_joint_values(self.robot_cfg.arm_init_jointValues)
 
@@ -73,22 +73,21 @@ class Bestman_sim_elephant(Bestman_sim):
         # self.visualizer.change_robot_color(self.base_id, self.arm_id, False)
         self.visualizer.set_object_color(self.base_id, "light_white")
 
-    
     # ----------------------------------------------------------------
     # Functions for arm
     # ----------------------------------------------------------------
-    
+
     def sim_get_sync_arm_pose(self):
         """
         Get synchronized pose of the robot arm with the base.
         """
         base_pose = self.sim_get_current_base_pose()
-        arm_pose = Pose([*base_pose.get_position()[:2], self.arm_place_height], base_pose.get_orientation())
+        arm_pose = Pose(
+            [*base_pose.get_position()[:2], self.arm_place_height],
+            base_pose.get_orientation(),
+        )
         return arm_pose
-    
-    
+
     # ----------------------------------------------------------------
     # Functions for gripper
     # ----------------------------------------------------------------
-
-    

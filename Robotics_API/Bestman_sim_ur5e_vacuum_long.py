@@ -21,7 +21,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
     """
     A class representing a simulation for the Bestman robot equipped with a UR5e arm and a vacuum gripper.
     """
-    
+
     def __init__(self, client, visualizer, cfg):
         """
         Initialize the Bestman_sim_ur5e_vacuum_long with the given parameters.
@@ -40,7 +40,7 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
             model_path=self.robot_cfg.arm_urdf_path,
             object_position=arm_pose.get_position(),
             object_orientation=arm_pose.get_orientation(),
-            fixed_base=True
+            fixed_base=True,
         )
         self.arm_jointInfo = self.sim_get_arm_all_jointInfo()
         self.arm_lower_limits = [info.lowerLimit for info in self.arm_jointInfo]
@@ -68,19 +68,20 @@ class Bestman_sim_ur5e_vacuum_long(Bestman_sim):
         # change robot color
         self.visualizer.change_robot_color(self.base_id, self.arm_id, False)
 
-    
     # ----------------------------------------------------------------
     # Functions for arm
     # ----------------------------------------------------------------
-    
+
     def sim_get_sync_arm_pose(self):
         """
         Get synchronized pose of the robot arm with the base.
         """
         base_pose = self.sim_get_current_base_pose()
-        arm_pose = Pose([*base_pose.get_position()[:2], self.arm_place_height], base_pose.get_orientation())
+        arm_pose = Pose(
+            [*base_pose.get_position()[:2], self.arm_place_height],
+            base_pose.get_orientation(),
+        )
         return arm_pose
-
 
     # ----------------------------------------------------------------
     # Functions for vacuum gripper

@@ -72,7 +72,7 @@ def rotate_point_3d_around_axis(init_pose, rotate_axis, theta, clockwise=True):
 
 
 def main(filename):
-    
+
     # Load config
     config_path = "Config/open_fridge.yaml"
     cfg = load_config(config_path)

@@ -27,7 +27,7 @@ def main(filename):
     config_path = "Config/move_bowl_from_drawer_to_table.yaml"
     cfg = load_config(config_path)
     print(cfg)
-    
+
     # Init client and visualizer
     client = Client(cfg.Client)
     visualizer = Visualizer(client, cfg.Visualizer)
@@ -54,7 +54,7 @@ def main(filename):
         robot_size=bestman.sim_get_robot_size(),
         obstacles_bounds=nav_obstacles_bounds,
         resolution=0.05,
-        enable_plot=False
+        enable_plot=False,
     )
     # nav_planner = RRTPlanner(
     #     robot_size = bestman.get_robot_max_size(),
@@ -132,4 +132,3 @@ if __name__ == "__main__":
     filename = os.path.splitext(os.path.basename(__file__))[0]
 
     main(filename)
-    

@@ -35,7 +35,7 @@ class Bestman_sim_realman(Bestman_sim):
 
         # Init parent class: BestMan_sim
         super().__init__(client, visualizer, cfg)
-        
+
         # Init arm
         arm_pose = self.sim_get_sync_arm_pose()
         self.arm_id = self.client.load_object(
@@ -43,7 +43,7 @@ class Bestman_sim_realman(Bestman_sim):
             model_path=self.robot_cfg.arm_urdf_path,
             object_position=arm_pose.get_position(),
             object_orientation=arm_pose.get_orientation(),
-            fixed_base=True
+            fixed_base=True,
         )
         self.arm_jointInfo = self.sim_get_arm_all_jointInfo()
         self.arm_lower_limits = [info.lowerLimit for info in self.arm_jointInfo]
@@ -111,7 +111,6 @@ class Bestman_sim_realman(Bestman_sim):
         )
         arm_pose = Pose(arm_position, arm_rotate_matrix)
         return arm_pose
-
 
     # ----------------------------------------------------------------
     # Functions for gripper

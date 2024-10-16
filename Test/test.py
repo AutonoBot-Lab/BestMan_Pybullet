@@ -1,6 +1,7 @@
+import time
+
 import pybullet as p
 import pybullet_data
-import time
 
 # Connect to PyBullet, use GUI for visualization
 physicsClient = p.connect(p.GUI)
@@ -10,7 +11,10 @@ p.setAdditionalSearchPath(pybullet_data.getDataPath())
 
 # Load a URDF file (in this example, a plane and a robot arm)
 plane_id = p.loadURDF("plane.urdf")
-robot_id = p.loadURDF("/home/yk/GitHub_Code/BestMan_Pybullet/Asset/Robot/mobile_manipulator/base/ranger_miniv3/urdf/ranger_mini_v3.urdf", basePosition=[0, 0, 0.4])
+robot_id = p.loadURDF(
+    "/home/yk/GitHub_Code/BestMan_Pybullet/Asset/Robot/mobile_manipulator/base/ranger_miniv3/urdf/ranger_mini_v3.urdf",
+    basePosition=[0, 0, 0.4],
+)
 
 # Set gravity in the simulation
 g = -9.8
