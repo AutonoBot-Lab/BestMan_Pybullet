@@ -249,11 +249,15 @@ If you want to enable **pybullet-blender-recorder**, please：
 
 <img width="1040" alt="image" src="https://github.com/user-attachments/assets/c0fe66e8-347e-4ecc-b367-8b0c3592d329">
 
-
-
-
-
 <br/>
+
+## 📝 TODO List
+
+- \[x\] Release the platform with basic modules、functions and demos.
+- \[x\] Polish APIs, related codes, and release documentation.
+- \[ \] Release the paper with framework and demos Introduction.
+- \[ \] Release the baseline models and benchmark modules.
+- \[ \] Comprehensive improvement and further updates.
 
 
 ##  :handshake: Reference
