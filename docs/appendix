@@ -9,3 +9,7 @@
 - [anygrasp_sdk](https://github.com/graspnet/anygrasp_sdk): We integrate the AnyGrasp algorithm for grasp pose estimation.
 - [lang-segment-anything](https://github.com/luca-medeiros/lang-segment-anything): We integrate the Lang SAM algorithm for object detection.
 - [pybullet-blender-recorder](https://github.com/huy-ha/pybullet-blender-recorder): We use pyBulletSimRecorder and pyBulletSimImport from pybullet-blender-recorder to render the simulation scene better.
+- [FFmpeg](https://github.com/FFmpeg/FFmpeg): We use FFmpeg for real-time video recording.
+- [isort](https://github.com/PyCQA/isort): We used the isort tool to standardize library imports.
+- [black](https://github.com/psf/black): We use the clack tool to standardize code style.
+- [pre-commit](https://github.com/pre-commit/pre-commit): We use pre-commit to automatically run code checks before committing changes.
