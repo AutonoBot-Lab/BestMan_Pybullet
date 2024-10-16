@@ -1,1 +1,11 @@
-
+- [bullet3](https://github.com/bulletphysics/bullet3): We refer to panda and xarm robotic arms and the xarm gripper,the underlying simulation is driven by the pybullet engine.
+- [urdf_files_dataset](https://github.com/Daniella1/urdf_files_dataset): We refer to ur5e arm from urdf_files_dataset.
+- [flexiv_rdk](https://github.com/flexivrobotics/flexiv_rdk): We refer to flexiv arm from flexiv_rdk.
+- [mycobot_ros](https://github.com/elephantrobotics/mycobot_ros): We refer to elephant arm from mycobot_ros.
+- [ugv_gazebo_sim](https://github.com/agilexrobotics/ugv_gazebo_sim): We refer to ranger mini base from ugv_gazebo_sim.
+- [dh_ag95_gripper_ros2](https://github.com/ian-chuang/dh_ag95_gripper_ros2): We refer to ag-95 gripper from dh_ag95_gripper_ros2.
+- [robotiq_arg85_description](https://github.com/a-price/robotiq_arg85_description): We refer to robotiq 2f-85 gripper from robotiq_arg85_description.
+- [ompl](https://github.com/ompl/ompl): We utilize the algorithms provided by OMPL (Open Motion Planning Library) for motion planning.
+- [anygrasp_sdk](https://github.com/graspnet/anygrasp_sdk): We integrate the AnyGrasp algorithm for grasp pose estimation.
+- [lang-segment-anything](https://github.com/luca-medeiros/lang-segment-anything): We integrate the Lang SAM algorithm for object detection.
+- [pybullet-blender-recorder](https://github.com/huy-ha/pybullet-blender-recorder): We use pyBulletSimRecorder and pyBulletSimImport from pybullet-blender-recorder to render the simulation scene better.
