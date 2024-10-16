@@ -43,8 +43,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../references/project_structure.html">Project Structure Overview</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -70,43 +73,27 @@
            <div itemprop="articleBody">
              
   <h1>Source code for Perception.Grasp_Pose_Estimation.AnyGrasp.utils</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">open3d</span> <span class="k">as</span> <span class="nn">o3d</span>
 <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">ImageDraw</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
-<span class="kn">from</span> <span class="nn">Visualization</span> <span class="kn">import</span> <span class="n">CameraParameters</span>
 
 <span class="n">Bbox</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
 
-<div class="viewcode-block" id="get_3d_points"><a class="viewcode-back" href="../../../../references/Perception/Grasp_Pose_Estimation/AnyGrasp/Anygrasp.html#Perception.Grasp_Pose_Estimation.AnyGrasp.utils.get_3d_points">[docs]</a><span class="k">def</span> <span class="nf">get_3d_points</span><span class="p">(</span><span class="n">cam</span><span class="p">:</span> <span class="n">CameraParameters</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert depth image to 3D point cloud.</span>
-<span class="sd">    </span>
-<span class="sd">    Args:</span>
-<span class="sd">        cam (CameraParameters): Camera internal parameters.</span>
-<span class="sd">    </span>
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray: 3D point cloud.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">xmap</span><span class="p">,</span> <span class="n">ymap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">cam</span><span class="o">.</span><span class="n">depths</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">cam</span><span class="o">.</span><span class="n">depths</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">xmap</span><span class="p">,</span> <span class="n">ymap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">xmap</span><span class="p">,</span> <span class="n">ymap</span><span class="p">)</span>
-    <span class="n">points_z</span> <span class="o">=</span> <span class="n">cam</span><span class="o">.</span><span class="n">depths</span>
-    <span class="n">points_x</span> <span class="o">=</span> <span class="p">(</span><span class="n">xmap</span> <span class="o">-</span> <span class="n">cam</span><span class="o">.</span><span class="n">cx</span><span class="p">)</span> <span class="o">/</span> <span class="n">cam</span><span class="o">.</span><span class="n">fx</span> <span class="o">*</span> <span class="n">points_z</span>
-    <span class="n">points_y</span> <span class="o">=</span> <span class="p">(</span><span class="n">ymap</span> <span class="o">-</span> <span class="n">cam</span><span class="o">.</span><span class="n">cy</span><span class="p">)</span> <span class="o">/</span> <span class="n">cam</span><span class="o">.</span><span class="n">fy</span> <span class="o">*</span> <span class="n">points_z</span>
-    <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span><span class="n">points_x</span><span class="p">,</span> <span class="n">points_y</span><span class="p">,</span> <span class="n">points_z</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">points</span></div>
 
 <div class="viewcode-block" id="sample_points"><a class="viewcode-back" href="../../../../references/Perception/Grasp_Pose_Estimation/AnyGrasp/Anygrasp.html#Perception.Grasp_Pose_Estimation.AnyGrasp.utils.sample_points">[docs]</a><span class="k">def</span> <span class="nf">sample_points</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">sampling_rate</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Randomly sample some points from a given set of points at a specified sampling rate.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Args:</span>
 <span class="sd">        points (np.ndarray): Array of points to sample from.</span>
 <span class="sd">        sampling_rate (float, optional): Rate at which to sample points. Defaults to 1.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Returns:</span>
 <span class="sd">        Tuple[np.ndarray, np.ndarray]: Sampled points and their indices.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
-    <span class="n">num_samples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">N</span><span class="o">*</span><span class="n">sampling_rate</span><span class="p">)</span>
+    <span class="n">num_samples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">N</span> <span class="o">*</span> <span class="n">sampling_rate</span><span class="p">)</span>
     <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">sampled_points</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">sampled_points</span><span class="p">,</span> <span class="n">indices</span></div>
@@ -114,33 +101,33 @@
 
 <div class="viewcode-block" id="draw_rectangle"><a class="viewcode-back" href="../../../../references/Perception/Grasp_Pose_Estimation/AnyGrasp/Anygrasp.html#Perception.Grasp_Pose_Estimation.AnyGrasp.utils.draw_rectangle">[docs]</a><span class="k">def</span> <span class="nf">draw_rectangle</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">bbox</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Draw a green rectangle on the given image.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Args:</span>
 <span class="sd">        image (ImageDraw): Image on which to draw the rectangle.</span>
 <span class="sd">        bbox (Bbox): Bounding box coordinates as a tuple (x1, y1, x2, y2).</span>
 <span class="sd">        width (int, optional): Width of the rectangle outline. Defaults to 5.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Returns:</span>
 <span class="sd">        ImageDraw: Image with the rectangle drawn.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">img_drw</span> <span class="o">=</span> <span class="n">ImageDraw</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
     <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-
-    <span class="n">width_increase</span> <span class="o">=</span> <span class="mi">5</span>
-    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width_increase</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="p">):</span>
         <span class="n">img_drw</span><span class="o">.</span><span class="n">rectangle</span><span class="p">([(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">)],</span> <span class="n">outline</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">)</span>
 
         <span class="n">x1</span> <span class="o">-=</span> <span class="mi">1</span>
         <span class="n">y1</span> <span class="o">-=</span> <span class="mi">1</span>
         <span class="n">x2</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="n">y2</span> <span class="o">+=</span> <span class="mi">1</span>
-    
+
     <span class="k">return</span> <span class="n">img_drw</span></div>
 
 
-<div class="viewcode-block" id="visualize_cloud_geometries"><a class="viewcode-back" href="../../../../references/Perception/Grasp_Pose_Estimation/AnyGrasp/Anygrasp.html#Perception.Grasp_Pose_Estimation.AnyGrasp.utils.visualize_cloud_geometries">[docs]</a><span class="k">def</span> <span class="nf">visualize_cloud_geometries</span><span class="p">(</span><span class="n">cloud</span><span class="p">,</span> <span class="n">geometries</span><span class="p">,</span> <span class="n">translation</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">rotation</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">visualize</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">save_file</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="visualize_cloud_geometries"><a class="viewcode-back" href="../../../../references/Perception/Grasp_Pose_Estimation/AnyGrasp/Anygrasp.html#Perception.Grasp_Pose_Estimation.AnyGrasp.utils.visualize_cloud_geometries">[docs]</a><span class="k">def</span> <span class="nf">visualize_cloud_geometries</span><span class="p">(</span>
+    <span class="n">cloud</span><span class="p">,</span> <span class="n">geometries</span><span class="p">,</span> <span class="n">translation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">visualize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">save_file</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Visualize point cloud with additional geometries.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Args:</span>
 <span class="sd">        cloud (o3d.geometry.PointCloud): Point cloud of points.</span>
 <span class="sd">        geometries (list): List of geometries to visualize with the point cloud.</span>
@@ -149,9 +136,13 @@
 <span class="sd">        visualize (bool, optional): Flag to show the visualization window. Defaults to True.</span>
 <span class="sd">        save_file (str, optional): File name to save the visualization. Defaults to None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">coordinate_frame</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="o">.</span><span class="n">create_coordinate_frame</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">coordinate_frame</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="o">.</span><span class="n">create_coordinate_frame</span><span class="p">(</span>
+        <span class="n">size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="p">)</span>
     <span class="k">if</span> <span class="n">translation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">coordinate_frame1</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="o">.</span><span class="n">create_coordinate_frame</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="n">coordinate_frame1</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="o">.</span><span class="n">create_coordinate_frame</span><span class="p">(</span>
+            <span class="n">size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="p">)</span>
         <span class="n">translation</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">translation</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
         <span class="n">coordinate_frame1</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">translation</span><span class="p">)</span>
         <span class="n">coordinate_frame1</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">rotation</span><span class="p">)</span>
@@ -169,17 +160,19 @@
     <span class="k">if</span> <span class="n">save_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1">## Controlling the zoom</span>
         <span class="n">view_control</span> <span class="o">=</span> <span class="n">visualizer</span><span class="o">.</span><span class="n">get_view_control</span><span class="p">()</span>
-        <span class="n">zoom_scale_factor</span> <span class="o">=</span> <span class="mf">1.4</span>  
+        <span class="n">zoom_scale_factor</span> <span class="o">=</span> <span class="mf">1.4</span>
         <span class="n">view_control</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">zoom_scale_factor</span><span class="p">)</span>
 
-        <span class="n">visualizer</span><span class="o">.</span><span class="n">capture_screen_image</span><span class="p">(</span><span class="n">save_file</span><span class="p">,</span> <span class="n">do_render</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[AnyGrasp] Saved screen shot visualization at </span><span class="si">{</span><span class="n">save_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">visualizer</span><span class="o">.</span><span class="n">capture_screen_image</span><span class="p">(</span><span class="n">save_file</span><span class="p">,</span> <span class="n">do_render</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;[AnyGrasp] </span><span class="se">\033</span><span class="s2">[34mInfo</span><span class="se">\033</span><span class="s2">[0m Saved screen shot visualization at </span><span class="si">{</span><span class="n">save_file</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">visualize</span><span class="p">:</span>
-        <span class="c1"># visualizer.add_geometry(coordinate_frame)</span>
+        <span class="n">visualizer</span><span class="o">.</span><span class="n">add_geometry</span><span class="p">(</span><span class="n">coordinate_frame</span><span class="p">)</span>
         <span class="n">visualizer</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">visualizer</span><span class="o">.</span><span class="n">destroy_window</span><span class="p">()</span>    </div>
+        <span class="n">visualizer</span><span class="o">.</span><span class="n">destroy_window</span><span class="p">()</span></div>
 </pre></div>
 
            </div>

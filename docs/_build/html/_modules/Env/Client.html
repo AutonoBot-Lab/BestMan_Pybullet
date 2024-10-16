@@ -70,23 +70,29 @@
            <div itemprop="articleBody">
              
   <h1>Source code for Env.Client</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">@Description :   A few functions used in communication with client</span>
-<span class="sd">@Author      :   Yan Ding </span>
-<span class="sd">@Time        :   2023/08/30 22:22:14</span>
+<span></span><span class="c1"># !/usr/bin/env python</span>
+<span class="c1"># -*- encoding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd"># @FileName       : Client.py</span>
+<span class="sd"># @Time           : 2024-08-03 15:02:08</span>
+<span class="sd"># @Author         : yk</span>
+<span class="sd"># @Email          : yangkui1127@gmail.com</span>
+<span class="sd"># @Description:   : pybullet client </span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">math</span>
+
 <span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pybullet</span> <span class="k">as</span> <span class="nn">p</span>
 <span class="kn">import</span> <span class="nn">pybullet_data</span>
 
 <span class="kn">from</span> <span class="nn">RoboticsToolBox</span> <span class="kn">import</span> <span class="n">Pose</span>
 <span class="kn">from</span> <span class="nn">Visualization.blender_render</span> <span class="kn">import</span> <span class="n">PyBulletRecorder</span>
+
 
 <div class="viewcode-block" id="Client"><a class="viewcode-back" href="../../references/Env.html#Env.Client">[docs]</a><span class="k">class</span> <span class="nc">Client</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -100,10 +106,9 @@
 <span class="sd">        Args:</span>
 <span class="sd">            cfg (Config): Configuration object with various settings for the simulation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
+
         <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">enable_GUI</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">enable_capture</span><span class="p">:</span>
-                <span class="c1"># width, height = 1920, 1080</span>
                 <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">height</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
                     <span class="n">p</span><span class="o">.</span><span class="n">GUI</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;--width=</span><span class="si">{</span><span class="n">width</span><span class="si">}</span><span class="s2"> --height=</span><span class="si">{</span><span class="n">height</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -113,27 +118,30 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">GUI</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">DIRECT</span><span class="p">)</span>
-        
+
         <span class="k">if</span> <span class="ow">not</span> <span class="n">cfg</span><span class="o">.</span><span class="n">enable_Debug</span><span class="p">:</span>
             <span class="n">p</span><span class="o">.</span><span class="n">configureDebugVisualizer</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">COV_ENABLE_GUI</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">shadows</span><span class="p">:</span>
-            <span class="n">p</span><span class="o">.</span><span class="n">configureDebugVisualizer</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">COV_ENABLE_SHADOWS</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        
+            <span class="n">p</span><span class="o">.</span><span class="n">configureDebugVisualizer</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">COV_ENABLE_SHADOWS</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># enable shadows</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">configureDebugVisualizer</span><span class="p">(</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">COV_ENABLE_SEGMENTATION_MARK_PREVIEW</span><span class="p">,</span> <span class="mi">0</span>
+            <span class="p">)</span>  <span class="c1"># close segment mark preview</span>
+            <span class="c1"># p.configureDebugVisualizer(p.COV_ENABLE_PLANAR_REFLECTION, 1)   # enable planar reflection</span>
+
         <span class="n">p</span><span class="o">.</span><span class="n">setAdditionalSearchPath</span><span class="p">(</span><span class="n">pybullet_data</span><span class="o">.</span><span class="n">getDataPath</span><span class="p">())</span>
         <span class="n">p</span><span class="o">.</span><span class="n">setGravity</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">Gravity</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cfg</span><span class="o">.</span><span class="n">Gravity</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cfg</span><span class="o">.</span><span class="n">Gravity</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">setPhysicsEngineParameter</span><span class="p">(</span>
-            <span class="n">numSolverIterations</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">numSolverIterations</span>
-        <span class="p">)</span>
-        <span class="c1"># p.setRealTimeSimulation(1)  # 开启实时模拟</span>
-        
+        <span class="n">p</span><span class="o">.</span><span class="n">setPhysicsEngineParameter</span><span class="p">(</span><span class="n">numSolverIterations</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">numSolverIterations</span><span class="p">)</span>
+        <span class="c1"># p.setRealTimeSimulation(1)  # set up real-time simulation</span>
+
         <span class="c1"># pybullet recorder for blender show</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">blender</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">blender</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">blender</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">recorder</span> <span class="o">=</span> <span class="n">PyBulletRecorder</span><span class="p">()</span>
-        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">blender</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">recorder</span> <span class="o">=</span> <span class="n">PyBulletRecorder</span><span class="p">()</span>
+
         <span class="c1"># parameters</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">cfg</span><span class="o">.</span><span class="n">frequency</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">timeout</span>      <span class="c1"># maximum time for planning</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">cfg</span><span class="o">.</span><span class="n">frequency</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">timeout</span>  <span class="c1"># maximum time for planning</span>
 
         <span class="c1"># Enable caching of graphic shapes when loading URDF files</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">enable_cache</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">URDF_ENABLE_CACHED_GRAPHICS_SHAPES</span>
@@ -146,7 +154,6 @@
         <span class="c1">#     fixed_base=True</span>
         <span class="c1"># )</span>
 
-    
     <span class="c1"># ----------------------------------------------------------------</span>
     <span class="c1"># A few basic functions</span>
     <span class="c1"># ----------------------------------------------------------------</span>
@@ -159,7 +166,7 @@
 <span class="sd">            int: The PyBullet client ID.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span></div>
-    
+
 <div class="viewcode-block" id="Client.get_datapath"><a class="viewcode-back" href="../../references/Env.html#Env.Client.get_datapath">[docs]</a>    <span class="k">def</span> <span class="nf">get_datapath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the path to the PyBullet data files.</span>
@@ -168,12 +175,13 @@
 <span class="sd">            str: The path to the PyBullet data files.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">pybullet_data</span><span class="o">.</span><span class="n">getDataPath</span><span class="p">()</span></div>
-    
+
 <div class="viewcode-block" id="Client.disconnect"><a class="viewcode-back" href="../../references/Env.html#Env.Client.disconnect">[docs]</a>    <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Disconnect from the PyBullet simulation. Save the recorder data if Blender is enabled.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">blender</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">record_save</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">blender</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">record_save</span><span class="p">()</span>
         <span class="n">p</span><span class="o">.</span><span class="n">disconnect</span><span class="p">(</span><span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Client.wait"><a class="viewcode-back" href="../../references/Env.html#Env.Client.wait">[docs]</a>    <span class="k">def</span> <span class="nf">wait</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>  <span class="c1"># seconds</span>
@@ -188,20 +196,20 @@
 <div class="viewcode-block" id="Client.run"><a class="viewcode-back" href="../../references/Env.html#Env.Client.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>  <span class="c1"># steps</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Step the simulation for a given number of steps.</span>
-<span class="sd">         </span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            x (int): Number of simulation steps to run.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
             <span class="n">p</span><span class="o">.</span><span class="n">stepSimulation</span><span class="p">(</span><span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timestep</span><span class="p">)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">blender</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">recorder</span><span class="o">.</span><span class="n">add_keyframe</span><span class="p">()</span></div>
-        
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">blender</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">recorder</span><span class="o">.</span><span class="n">add_keyframe</span><span class="p">()</span></div>
 
     <span class="c1"># ----------------------------------------------------------------</span>
     <span class="c1"># Load scene</span>
     <span class="c1"># ----------------------------------------------------------------</span>
-    
+
 <div class="viewcode-block" id="Client.load_object"><a class="viewcode-back" href="../../references/Env.html#Env.Client.load_object">[docs]</a>    <span class="k">def</span> <span class="nf">load_object</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">obj_name</span><span class="p">,</span>
@@ -209,7 +217,7 @@
         <span class="n">object_position</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
         <span class="n">object_orientation</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
         <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="n">fixed_base</span><span class="o">=</span><span class="kc">False</span>
+        <span class="n">fixed_base</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Load a given object into the PyBullet simulation environment.</span>
@@ -225,10 +233,14 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            int: The ID of the loaded object in the PyBullet simulation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
-        <span class="n">object_orientation</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getQuaternionFromEuler</span><span class="p">(</span>
-            <span class="n">object_orientation</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
-        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">object_orientation</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">))</span>
+            <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">object_orientation</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+        <span class="p">):</span>
+            <span class="n">object_orientation</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getQuaternionFromEuler</span><span class="p">(</span>
+                <span class="n">object_orientation</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
+            <span class="p">)</span>
 
         <span class="n">object_id</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">loadURDF</span><span class="p">(</span>
             <span class="n">fileName</span><span class="o">=</span><span class="n">model_path</span><span class="p">,</span>
@@ -237,21 +249,17 @@
             <span class="n">globalScaling</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span>
             <span class="n">useFixedBase</span><span class="o">=</span><span class="n">fixed_base</span><span class="p">,</span>
             <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
-            <span class="n">flags</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">enable_cache</span>
+            <span class="n">flags</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">enable_cache</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">blender</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">register_object</span><span class="p">(</span><span class="n">object_id</span><span class="p">,</span> <span class="n">model_path</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
-        
-        <span class="nb">setattr</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span>
-            <span class="n">obj_name</span><span class="p">,</span>
-            <span class="n">object_id</span>
-        <span class="p">)</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">blender</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">register_object</span><span class="p">(</span><span class="n">object_id</span><span class="p">,</span> <span class="n">model_path</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj_name</span><span class="p">,</span> <span class="n">object_id</span><span class="p">)</span>
+
+        <span class="c1"># self.run(240)</span>
+
         <span class="k">return</span> <span class="n">object_id</span></div>
-
 
 <div class="viewcode-block" id="Client.create_scene"><a class="viewcode-back" href="../../references/Env.html#Env.Client.create_scene">[docs]</a>    <span class="k">def</span> <span class="nf">create_scene</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">json_path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -260,30 +268,33 @@
 <span class="sd">        Args:</span>
 <span class="sd">            json_path (str): Path to the scene JSON file.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">json_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">json_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">scene_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-        
+
         <span class="k">for</span> <span class="nb">object</span> <span class="ow">in</span> <span class="n">scene_data</span><span class="p">:</span>
-            
-            <span class="n">object_orientation</span> <span class="o">=</span> <span class="p">[</span><span class="nb">eval</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">object</span><span class="p">[</span><span class="s1">&#39;object_orientation&#39;</span><span class="p">]]</span>
+
+            <span class="n">object_orientation</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="nb">eval</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">i</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">object</span><span class="p">[</span><span class="s2">&quot;object_orientation&quot;</span><span class="p">]</span>
+            <span class="p">]</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">load_object</span><span class="p">(</span>
-                <span class="nb">object</span><span class="p">[</span><span class="s1">&#39;obj_name&#39;</span><span class="p">],</span>
-                <span class="nb">object</span><span class="p">[</span><span class="s1">&#39;model_path&#39;</span><span class="p">],</span>
-                <span class="nb">object</span><span class="p">[</span><span class="s1">&#39;object_position&#39;</span><span class="p">],</span>
+                <span class="nb">object</span><span class="p">[</span><span class="s2">&quot;obj_name&quot;</span><span class="p">],</span>
+                <span class="nb">object</span><span class="p">[</span><span class="s2">&quot;model_path&quot;</span><span class="p">],</span>
+                <span class="nb">object</span><span class="p">[</span><span class="s2">&quot;object_position&quot;</span><span class="p">],</span>
                 <span class="n">object_orientation</span><span class="p">,</span>
-                <span class="nb">object</span><span class="p">[</span><span class="s1">&#39;scale&#39;</span><span class="p">],</span>
-                <span class="nb">object</span><span class="p">[</span><span class="s1">&#39;fixed_base&#39;</span><span class="p">]</span>
+                <span class="nb">object</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">],</span>
+                <span class="nb">object</span><span class="p">[</span><span class="s2">&quot;fixed_base&quot;</span><span class="p">],</span>
             <span class="p">)</span>
-        
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;success load scene from </span><span class="si">{</span><span class="n">json_path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
-    
-    
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">480</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Client] </span><span class="se">\033</span><span class="s2">[34mInfo</span><span class="se">\033</span><span class="s2">[0m: success load scene from </span><span class="si">{</span><span class="n">json_path</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">)</span></div>
+
     <span class="c1"># ----------------------------------------------------------------</span>
     <span class="c1"># object joint info / operate</span>
     <span class="c1"># ----------------------------------------------------------------</span>
-    
+
 <div class="viewcode-block" id="Client.remove_object"><a class="viewcode-back" href="../../references/Env.html#Env.Client.remove_object">[docs]</a>    <span class="k">def</span> <span class="nf">remove_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove an object from the scene.</span>
@@ -294,7 +305,7 @@
         <span class="n">object_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_object_id</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
         <span class="n">p</span><span class="o">.</span><span class="n">removeBody</span><span class="p">(</span><span class="n">object_id</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span></div>
-    
+
 <div class="viewcode-block" id="Client.change_object_joint_angle"><a class="viewcode-back" href="../../references/Env.html#Env.Client.change_object_joint_angle">[docs]</a>    <span class="k">def</span> <span class="nf">change_object_joint_angle</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">joint_index</span><span class="p">,</span> <span class="n">target_position</span><span class="p">,</span> <span class="n">max_force</span><span class="o">=</span><span class="mi">5</span>
     <span class="p">):</span>
@@ -307,7 +318,7 @@
 <span class="sd">            target_position (float): The target position of the joint in radians.</span>
 <span class="sd">            max_force (float): The maximum force to be applied to achieve the target position.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
+
         <span class="n">object_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_object_id</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
         <span class="n">p</span><span class="o">.</span><span class="n">setJointMotorControl2</span><span class="p">(</span>
             <span class="n">bodyUniqueId</span><span class="o">=</span><span class="n">object_id</span><span class="p">,</span>
@@ -317,9 +328,9 @@
             <span class="n">force</span><span class="o">=</span><span class="n">max_force</span><span class="p">,</span>
             <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
         <span class="p">)</span>
-        
+
         <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span></div>
-    
+
     <span class="c1"># ----------------------------------------------------------------</span>
     <span class="c1"># Get info from environment</span>
     <span class="c1"># ----------------------------------------------------------------</span>
@@ -335,7 +346,7 @@
 <span class="sd">            int: The ID of the object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_name</span><span class="p">)</span></div>
-    
+
 <div class="viewcode-block" id="Client.resolve_object_id"><a class="viewcode-back" href="../../references/Env.html#Env.Client.resolve_object_id">[docs]</a>    <span class="k">def</span> <span class="nf">resolve_object_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Resolve the object ID from either an ID or name.</span>
@@ -345,7 +356,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            int: The ID of the object.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Raises:</span>
 <span class="sd">            AssertionError: If the object name does not exist or the input type is incorrect.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -355,9 +366,9 @@
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="n">object_id</span> <span class="o">=</span> <span class="nb">object</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">assert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;error input type&quot;</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;error input type&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">object_id</span></div>
-    
+
 <div class="viewcode-block" id="Client.print_object_joint_info"><a class="viewcode-back" href="../../references/Env.html#Env.Client.print_object_joint_info">[docs]</a>    <span class="k">def</span> <span class="nf">print_object_joint_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Print information about the links and joints of an object.</span>
@@ -365,18 +376,41 @@
 <span class="sd">        Args:</span>
 <span class="sd">            object (int / str): The ID or name of the object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
+
         <span class="n">object_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_object_id</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
-        
+
         <span class="n">num_joints</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getNumJoints</span><span class="p">(</span><span class="n">object_id</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;The object </span><span class="si">{}</span><span class="s2"> has </span><span class="si">{}</span><span class="s2"> joints&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">object_id</span><span class="p">,</span> <span class="n">num_joints</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">&quot;[Client] </span><span class="se">\033</span><span class="s2">[34mInfo</span><span class="se">\033</span><span class="s2">[0m: The object </span><span class="si">{}</span><span class="s2"> has </span><span class="si">{}</span><span class="s2"> joints&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">object_id</span><span class="p">,</span> <span class="n">num_joints</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_joints</span><span class="p">):</span>
             <span class="n">joint_info</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getJointInfo</span><span class="p">(</span><span class="n">object_id</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
             <span class="n">joint_name</span> <span class="o">=</span> <span class="n">joint_info</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">joint_state</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getJointState</span><span class="p">(</span><span class="n">object_id</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
             <span class="n">joint_angle</span> <span class="o">=</span> <span class="n">joint_state</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Joint index:</span><span class="si">{}</span><span class="s2">, name:</span><span class="si">{}</span><span class="s2">, angle:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">,</span> <span class="n">joint_angle</span><span class="p">))</span></div>
-    
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="s2">&quot;[Client] </span><span class="se">\033</span><span class="s2">[34mInfo</span><span class="se">\033</span><span class="s2">[0m: Joint index:</span><span class="si">{}</span><span class="s2">, name:</span><span class="si">{}</span><span class="s2">, angle:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">i</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">,</span> <span class="n">joint_angle</span>
+                <span class="p">)</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Client.get_object_pose"><a class="viewcode-back" href="../../references/Env.html#Env.Client.get_object_pose">[docs]</a>    <span class="k">def</span> <span class="nf">get_object_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve the pose of a object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            object (int / str): The ID or name of the object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Pose: The pose of the object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">object_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_object_id</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+        <span class="n">position</span><span class="p">,</span> <span class="n">orientation</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getBasePositionAndOrientation</span><span class="p">(</span><span class="n">object_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Pose</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">orientation</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="Client.get_object_link_pose"><a class="viewcode-back" href="../../references/Env.html#Env.Client.get_object_link_pose">[docs]</a>    <span class="k">def</span> <span class="nf">get_object_link_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">link_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve the pose of a given link of an object.</span>
@@ -388,39 +422,11 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Pose: The pose of the link.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
+
         <span class="n">object_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_object_id</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
         <span class="n">link_state</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getLinkState</span><span class="p">(</span><span class="n">object_id</span><span class="p">,</span> <span class="n">link_id</span><span class="p">)</span>
-        <span class="c1"># return Pose(link_state[0], link_state[1])</span>
-        <span class="k">return</span> <span class="n">Pose</span><span class="p">(</span><span class="n">link_state</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">link_state</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span></div>
-    
-<div class="viewcode-block" id="Client.get_bounding_box"><a class="viewcode-back" href="../../references/Env.html#Env.Client.get_bounding_box">[docs]</a>    <span class="k">def</span> <span class="nf">get_bounding_box</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieve the bounding box of a given object in the PyBullet simulation environment.</span>
+        <span class="k">return</span> <span class="n">Pose</span><span class="p">(</span><span class="n">link_state</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">link_state</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
 
-<span class="sd">        Args:</span>
-<span class="sd">            object (int / str): The ID or name of the object.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            list: The minimum and maximum x, y, z coordinates of the bounding box.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        
-        <span class="n">object_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_object_id</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
-        
-        <span class="n">link_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">getNumJoints</span><span class="p">(</span><span class="n">object_id</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">))]</span>
-
-        <span class="n">aabb_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
-            <span class="n">p</span><span class="o">.</span><span class="n">getAABB</span><span class="p">(</span><span class="n">object_id</span><span class="p">,</span> <span class="n">link_id</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">link_id</span> <span class="ow">in</span> <span class="n">link_ids</span>
-        <span class="p">])</span>
-
-        <span class="n">min_bounds</span> <span class="o">=</span> <span class="n">aabb_bounds</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
-        <span class="n">max_bounds</span> <span class="o">=</span> <span class="n">aabb_bounds</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
-        <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">min_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">min_bounds</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">max_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">max_bounds</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="p">[</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">min_z</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">max_z</span><span class="p">]</span></div>
-    
 <div class="viewcode-block" id="Client.get_link_bounding_box"><a class="viewcode-back" href="../../references/Env.html#Env.Client.get_link_bounding_box">[docs]</a>    <span class="k">def</span> <span class="nf">get_link_bounding_box</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">link_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve the bounding box of a specific link of an object in the PyBullet simulation environment.</span>
@@ -432,16 +438,79 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            list: The minimum and maximum x, y, z coordinates of the bounding box.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
+
         <span class="n">object_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_object_id</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
-        
-        <span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">min_z</span><span class="p">),</span> <span class="p">(</span><span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">max_z</span><span class="p">)</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getAABB</span><span class="p">(</span><span class="n">object_id</span><span class="p">,</span> <span class="n">link_id</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
+
+        <span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">min_z</span><span class="p">),</span> <span class="p">(</span><span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">max_z</span><span class="p">)</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getAABB</span><span class="p">(</span>
+            <span class="n">object_id</span><span class="p">,</span> <span class="n">link_id</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">min_z</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">max_z</span><span class="p">]</span></div>
-    
+
+<div class="viewcode-block" id="Client.get_bounding_box"><a class="viewcode-back" href="../../references/Env.html#Env.Client.get_bounding_box">[docs]</a>    <span class="k">def</span> <span class="nf">get_bounding_box</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve the bounding box of a given object in the PyBullet simulation environment.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            object (int / str): The ID or name of the object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: The minimum and maximum x, y, z coordinates of the bounding box.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">object_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_object_id</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+
+        <span class="n">link_ids</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">i</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span>
+                <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">getNumJoints</span><span class="p">(</span><span class="n">object_id</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="n">aabb_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">getAABB</span><span class="p">(</span><span class="n">object_id</span><span class="p">,</span> <span class="n">link_id</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">link_id</span> <span class="ow">in</span> <span class="n">link_ids</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="n">min_bounds</span> <span class="o">=</span> <span class="n">aabb_bounds</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">max_bounds</span> <span class="o">=</span> <span class="n">aabb_bounds</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">min_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">min_bounds</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">max_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">max_bounds</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">min_z</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">max_z</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Client.get_all_link_bounding_box"><a class="viewcode-back" href="../../references/Env.html#Env.Client.get_all_link_bounding_box">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_link_bounding_box</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve all bounding box of a given object in the PyBullet simulation environment.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            object (int / str): The ID or name of the object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: The minimum and maximum x, y, z coordinates of the bounding box for all object link.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">object_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_object_id</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+
+        <span class="n">link_ids</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">i</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span>
+                <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">getNumJoints</span><span class="p">(</span><span class="n">object_id</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="n">aabb_bounds</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">getAABB</span><span class="p">(</span><span class="n">object_id</span><span class="p">,</span> <span class="n">link_id</span><span class="p">,</span> <span class="n">physicsClientId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">link_id</span> <span class="ow">in</span> <span class="n">link_ids</span>
+        <span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">aabb_bounds</span></div>
+
     <span class="c1"># ----------------------------------------------------------------</span>
     <span class="c1"># For blender</span>
     <span class="c1"># ----------------------------------------------------------------</span>
-    
+
 <div class="viewcode-block" id="Client.register_object"><a class="viewcode-back" href="../../references/Env.html#Env.Client.register_object">[docs]</a>    <span class="k">def</span> <span class="nf">register_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_id</span><span class="p">,</span> <span class="n">model_path</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Register an object with the PyBullet-blender recorder.</span>
@@ -452,15 +521,13 @@
 <span class="sd">            scale (float): The scale of the object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">recorder</span><span class="o">.</span><span class="n">register_object</span><span class="p">(</span><span class="n">object_id</span><span class="p">,</span> <span class="n">model_path</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span></div>
-    
+
 <div class="viewcode-block" id="Client.record_save"><a class="viewcode-back" href="../../references/Env.html#Env.Client.record_save">[docs]</a>    <span class="k">def</span> <span class="nf">record_save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save the current pybullet-blender recording to a file with a timestamped name.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">current_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">_%H%M%S&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">recorder</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;../Examples/record/</span><span class="si">{</span><span class="n">current_time</span><span class="si">}</span><span class="s1">.pkl&#39;</span><span class="p">)</span></div></div>
-
-
+        <span class="n">current_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">_%H%M%S&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recorder</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;../Examples/record/</span><span class="si">{</span><span class="n">current_time</span><span class="si">}</span><span class="s2">.pkl&quot;</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

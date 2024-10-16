@@ -10,6 +10,7 @@ Welcome to BestMan_Pybullet's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   references/project_structure
 
 
 Indices and tables
