@@ -8,7 +8,7 @@
 
 <div id="top" align="center">
 
-![](docs/_static/BestMan_logo_AL.png)
+![](docs/_static/BestMan/BestMan_logo_AL.png)
 
 <!-- # BestMan - A Pybullet-based Mobile Manipulator Simulator -->
 
