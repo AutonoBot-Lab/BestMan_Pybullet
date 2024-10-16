@@ -21,7 +21,7 @@
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat)](https://timothycrosley.github.io/isort/)
-[![](https://img.shields.io/badge/Doc-📘-green)](https://bestman-pybullet.readthedocs.io)
+[![Document](https://img.shields.io/badge/Doc-📘-green)](https://bestman-pybullet.readthedocs.io)
 
 Welcome to the official repository of BestMan!
 
@@ -32,9 +32,9 @@ A mobile manipulator (with a wheel-base and arm) platform built on PyBullet simu
 ## 📋 Contents
 
 - [💻 Installation](#-Installation) <!-- omit in toc -->
-- [👨‍💻 Basic Demos](#-Basic_Demos)
+- [👨‍💻 Basic Demos](#-Basic-Demos)
 - [📝 TODO List](#-todo-list)
-- [:handshake: Reference](#-Reference)
+- [🤝 Reference](#-Reference)
 
 
 ## 💻 Installation
@@ -277,7 +277,7 @@ If you want to enable **pybullet-blender-recorder**, please：
 - \[ \] Comprehensive improvement and further updates.
 
 
-##  :handshake: Reference
+## 🤝 Reference
 
 If you find this work useful, please consider citing:
 
