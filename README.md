@@ -2,10 +2,7 @@
 <p align="center">
 <h1 align="center"><strong>BestMan: A Modular Mobile Manipulator Platform for Embodied AI with Unified Simulation-Hardware APIs</strong></h1>
   <p align="center">
-    <a href='https://github.com/AutonoBot-Lab' target='_blank'>AutonoBot-Lab</a>&emsp;
-    <br>
-    Chongqing University&emsp;&emsp;&emsp;&emsp;Shanghai AI Laboratory
-    <br>
+    <a href='https://github.com/AutonoBot-Lab' target='_blank'>AutonoBot-Lab</a>&emsp; Chongqing University&emsp;&emsp;&emsp;&emsp;Shanghai AI Laboratory
   </p>
 </p>
 
