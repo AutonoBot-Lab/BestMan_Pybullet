@@ -29,6 +29,14 @@ A mobile manipulator (with a wheel-base and arm) platform built on PyBullet simu
 
 </div>
 
+## 📋 Contents
+
+- [💻 Installation](#-Installation) <!-- omit in toc -->
+- [👨‍💻 Basic Demos](#-Basic_Demos)
+- [📝 TODO List](#-todo-list)
+- [:handshake: Reference](#-Reference)
+
+
 ## 💻 Installation
 
 - Pull the repository and update the submodule
@@ -149,13 +157,6 @@ export DISPLAY=host.docker.internal:0
 
 ##### Linux
 - TBD
-<br/>
-
-
-## 🔎 Project Structure & API References
-
-- [Project Structure](docs/project_structure.txt)
-- [API References](https://bestman-pybullet.readthedocs.io)
 <br/>
 
 
