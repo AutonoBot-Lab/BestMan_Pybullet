@@ -1,3 +1,16 @@
+<br>
+<p align="center">
+<h1 align="center"><strong>BestMan: A Modular Mobile Manipulator Platform for Embodied AI with Unified Simulation-Hardware APIs</strong></h1>
+  <p align="center">
+    <a href='https://github.com/AutonoBot-Lab' target='_blank'>AutonoBot-Lab</a>&emsp;
+    <br>
+    Chongqing University
+    <br>
+  </p>
+</p>
+
+<div id="top" align="center">
+
 ![](docs/_static/BestMan_logo.png)
 
 <!-- # BestMan - A Pybullet-based Mobile Manipulator Simulator -->
@@ -8,10 +21,11 @@
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat)](https://timothycrosley.github.io/isort/)
+[![](https://img.shields.io/badge/Doc-📘-green)](https://bestman-pybullet.readthedocs.io)
 
 Welcome to the official repository of BestMan, a mobile manipulator simulator (with a wheel-base and arm) built on PyBullet.
 
-
+</div>
 
 ## 💻 Installation
 
