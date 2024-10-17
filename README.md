@@ -104,7 +104,11 @@ pip install -U git+https://github.com/luca-medeiros/lang-segment-anything.git
 
 - Install AnyGrasp
 
-**Note**: you need `export MAX_JOBS=2` in terminal; before pip install if you are running on an laptop due to [this issue](https://github.com/NVIDIA/MinkowskiEngine/issues/228).
+&emsp;&emsp;**Note**:
+  
+> &emsp;You need to get anygrasp [license and checkpoint](./Perception/Grasp_Pose_Estimation/AnyGrasp/README.md) to use it.
+
+> &emsp;You need `export MAX_JOBS=2` in terminal; before pip install if you are running on an laptop due to [this issue](https://github.com/NVIDIA/MinkowskiEngine/issues/228).
 ```
 # Install MinkowskiEngine
 conda install pytorch=1.13.1 -c pytorch --force-reinstall
