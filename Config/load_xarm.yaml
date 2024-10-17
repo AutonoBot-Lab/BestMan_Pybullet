@@ -1,7 +1,6 @@
 # Client parameters
 Client:
   enable_Debug: False
-  blender: False
 
 # Visualizer params
 Visualizer:

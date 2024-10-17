@@ -12,7 +12,7 @@ p.setAdditionalSearchPath(pybullet_data.getDataPath())
 # Load a URDF file (in this example, a plane and a robot arm)
 plane_id = p.loadURDF("plane.urdf")
 robot_id = p.loadURDF(
-    "/home/yk/GitHub_Code/BestMan_Pybullet/Asset/Robot/mobile_manipulator/base/ranger_miniv3/urdf/ranger_mini_v3.urdf",
+    "/home/yk/GitHub_Code/BestMan_Pybullet/Asset/Scene/URDF_models/blue_tea_box/model.urdf",
     basePosition=[0, 0, 0.4],
 )
 

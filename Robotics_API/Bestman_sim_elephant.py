@@ -68,7 +68,7 @@ class Bestman_sim_elephant(Bestman_sim):
 
         # Init arm joint angle
         self.sim_set_arm_to_joint_values(self.robot_cfg.arm_init_jointValues)
-
+        
         # change robot color
         # self.visualizer.change_robot_color(self.base_id, self.arm_id, False)
         self.visualizer.set_object_color(self.base_id, "light_white")

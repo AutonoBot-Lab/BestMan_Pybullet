@@ -32,23 +32,23 @@ def main(filename):
     visualizer.start_record(filename)
 
     # Init robot
-    panda = Bestman_sim_elephant(client, visualizer, cfg)
+    elephant = Bestman_sim_elephant(client, visualizer, cfg)
 
     # Interact with arm
-    panda.sim_interactive_set_arm(50)
+    # panda.sim_interactive_set_arm(50)
 
     # Interact with gripper
     # panda.sim_interactive_set_gripper()
 
-    client.wait(10)
+    # client.wait(10)
 
-    visualizer.capture_screen("elephant")
+    # visualizer.capture_screen("elephant")
 
-    # End record
-    visualizer.end_record()
+    # # End record
+    # visualizer.end_record()
 
     # disconnect pybullet
-    client.wait(100)
+    client.wait(5)
     client.disconnect()
 
 

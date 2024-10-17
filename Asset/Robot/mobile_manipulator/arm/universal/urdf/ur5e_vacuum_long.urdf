@@ -4,7 +4,7 @@
     <collision name="base_link_collision">
       <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000" />
       <geometry>
-        <mesh filename="../meshes/stl/base.stl" scale="1.00000 1.00000 1.00000" />
+        <mesh filename="../meshes/ur5e/base.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </collision>
     <inertial>
@@ -16,7 +16,7 @@
       <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000" />
       <material name="LightGrey" />
       <geometry>
-        <mesh filename="../meshes/stl/base.stl" scale="1.00000 1.00000 1.00000" />
+        <mesh filename="../meshes/ur5e/base.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </visual>
   </link>
@@ -33,7 +33,7 @@
     <collision name="shoulder_link_collision">
       <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000" />
       <geometry>
-        <mesh filename="../meshes/stl/shoulder.stl" scale="1.00000 1.00000 1.00000" />
+        <mesh filename="../meshes/ur5e/shoulder.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </collision>
     <inertial>
@@ -45,7 +45,7 @@
       <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000" />
       <material name="LightGrey" />
       <geometry>
-        <mesh filename="../meshes/stl/shoulder.stl" scale="1.00000 1.00000 1.00000" />
+        <mesh filename="../meshes/ur5e/shoulder.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </visual>
   </link>
@@ -62,7 +62,7 @@
     <collision name="upper_arm_link_collision">
       <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000" />
       <geometry>
-        <mesh filename="../meshes/stl/upperarm.stl" scale="1.00000 1.00000 1.00000" />
+        <mesh filename="../meshes/ur5e/upperarm.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </collision>
     <inertial>
@@ -74,7 +74,7 @@
       <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000" />
       <material name="LightGrey" />
       <geometry>
-        <mesh filename="../meshes/stl/upperarm.stl" scale="1.00000 1.00000 1.00000" />
+        <mesh filename="../meshes/ur5e/upperarm.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </visual>
   </link>
@@ -91,7 +91,7 @@
     <collision name="forearm_link_collision">
       <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000" />
       <geometry>
-        <mesh filename="../meshes/stl/forearm.stl" scale="1.00000 1.00000 1.00000" />
+        <mesh filename="../meshes/ur5e/forearm.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </collision>
     <inertial>
@@ -103,7 +103,7 @@
       <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000" />
       <material name="LightGrey" />
       <geometry>
-        <mesh filename="../meshes/stl/forearm.stl" scale="1.00000 1.00000 1.00000" />
+        <mesh filename="../meshes/ur5e/forearm.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </visual>
   </link>
@@ -120,7 +120,7 @@
     <collision name="wrist_1_link_collision">
       <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000" />
       <geometry>
-        <mesh filename="../meshes/stl/wrist1.stl" scale="1.00000 1.00000 1.00000" />
+        <mesh filename="../meshes/ur5e/wrist1.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </collision>
     <inertial>
@@ -132,7 +132,7 @@
       <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000" />
       <material name="LightGrey" />
       <geometry>
-        <mesh filename="../meshes/stl/wrist1.stl" scale="1.00000 1.00000 1.00000" />
+        <mesh filename="../meshes/ur5e/wrist1.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </visual>
   </link>
@@ -149,7 +149,7 @@
     <collision name="wrist_2_link_collision">
       <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000" />
       <geometry>
-        <mesh filename="../meshes/stl/wrist2.stl" scale="1.00000 1.00000 1.00000" />
+        <mesh filename="../meshes/ur5e/wrist2.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </collision>
     <inertial>
@@ -161,7 +161,7 @@
       <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000" />
       <material name="LightGrey" />
       <geometry>
-        <mesh filename="../meshes/stl/wrist2.stl" scale="1.00000 1.00000 1.00000" />
+        <mesh filename="../meshes/ur5e/wrist2.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </visual>
   </link>
@@ -178,7 +178,7 @@
     <collision name="wrist_3_link_collision">
       <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000" />
       <geometry>
-        <mesh filename="../meshes/stl/wrist3.stl" scale="1.00000 1.00000 1.00000" />
+        <mesh filename="../meshes/ur5e/wrist3.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </collision>
     <inertial>
@@ -190,7 +190,7 @@
       <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000" />
       <material name="LightGrey" />
       <geometry>
-        <mesh filename="../meshes/stl/wrist3.stl" scale="1.00000 1.00000 1.00000" />
+        <mesh filename="../meshes/ur5e/wrist3.stl" scale="1.00000 1.00000 1.00000" />
       </geometry>
     </visual>
   </link>
@@ -227,7 +227,7 @@
       <origin rpy="-0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 0.00000" />
       <material name="LightGrey" />
       <geometry>
-        <mesh filename="../meshes/stl/base.stl" scale="0.00100 0.00100 0.00100" />
+        <mesh filename="../meshes/ur5e/base.stl" scale="0.00100 0.00100 0.00100" />
       </geometry>
     </visual>
   </link>

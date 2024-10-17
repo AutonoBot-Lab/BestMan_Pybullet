@@ -27,7 +27,7 @@ def main(filename):
     # Init client and visualizer
     client = Client(cfg.Client)
     visualizer = Visualizer(client, cfg.Visualizer)
-
+    
     # Start record
     visualizer.start_record(filename)
 

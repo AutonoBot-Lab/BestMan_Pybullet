@@ -12,7 +12,7 @@ Client:
 # Robot params
 Robot:
   base_init_pose: [1, 0, 0.32, 0.0, 0.0, "math.pi / 3"]
-  base_urdf_path: "Asset/Robot/mobile_manipulator/base/ranger_mini3/urdf/ranger_mini3.urdf"                 # base urdf path
+  base_urdf_path: "Asset/Robot/mobile_manipulator/base/ranger_mini_v3_with_pillar/urdf/ranger_mini_v3_with_pillar.urdf"                 # base urdf path
   arm_urdf_path: "Asset/Robot/mobile_manipulator/arm/realman/urdf/rm63_6f_ag95.urdf"      # arm urdf path
   arm_joints_idx: [0, 1, 2, 3, 4]                                                    # arm joint index of 6 DOF
   arm_init_jointValues: [-1.57, 1.552, 0, 1.504, 2.844]                                # The initial angle of arm joint

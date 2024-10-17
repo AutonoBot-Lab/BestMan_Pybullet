@@ -78,7 +78,7 @@
     <dynamics damping="1.0" friction="1.0"/>
   </joint>
 
-  <transmission name="tran1">
+  <!-- <transmission name="tran1">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="joint1">
       <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
@@ -142,7 +142,7 @@
       <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       <mechanicalReduction>reduction</mechanicalReduction>
     </actuator>
-  </transmission>
+  </transmission> -->
 
 
   <!-- xarm link -->
@@ -354,7 +354,7 @@
     <mimic joint="drive_joint" multiplier="1" offset="0"/>
   </joint>
 
-  <transmission name="drive_joint_trans">
+  <!-- <transmission name="drive_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="drive_joint">
       <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
@@ -363,7 +363,7 @@
       <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
-  </transmission>
+  </transmission> -->
   
   <!-- xarm gripper link -->
   <link name="xarm_gripper_base_link">

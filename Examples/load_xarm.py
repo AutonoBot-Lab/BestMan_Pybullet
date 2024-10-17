@@ -28,7 +28,7 @@ def main(filename):
     client = Client(cfg.Client)
     visualizer = Visualizer(client, cfg.Visualizer)
     visualizer.draw_axes()
-
+    
     # Start record
     visualizer.start_record(filename)
 
@@ -37,16 +37,16 @@ def main(filename):
 
     # Interact with arm
     # xarm.sim_interactive_set_arm(20)
-    xarm.sim_interactive_set_gripper(1000)
+    # xarm.sim_interactive_set_gripper(1000)
 
-    client.wait(10)
-    visualizer.capture_screen("xarm")
+    # client.wait(10)
+    # visualizer.capture_screen("xarm")
 
     # End record
     visualizer.end_record()
 
     # disconnect from server
-    client.wait(20)
+    client.wait(5)
     client.disconnect()
 
 

@@ -72,24 +72,24 @@ class Bestman_sim_flexiv(Bestman_sim):
         # change robot color
         self.visualizer.set_object_color(self.base_id, "light_white")
         
-        # gripper constraints
-        c = p.createConstraint(self.arm_id, 10, self.arm_id, 11, p.JOINT_POINT2POINT, [0, 0, 0], [0, -0.014, 0.043], [0, -0.034, 0.021])
-        p.changeConstraint(c, erp=0.1, maxForce=1000)
+        # # gripper constraints
+        # c = p.createConstraint(self.arm_id, 10, self.arm_id, 11, p.JOINT_POINT2POINT, [0, 0, 0], [0, -0.014, 0.043], [0, -0.034, 0.021])
+        # p.changeConstraint(c, erp=0.1, maxForce=1000)
         
-        c = p.createConstraint(self.arm_id, 12, self.arm_id, 13, p.JOINT_POINT2POINT, [0, 0, 0], [0, -0.014, 0.043], [0, -0.034, 0.021])
-        p.changeConstraint(c, erp=0.1, maxForce=1000)
+        # c = p.createConstraint(self.arm_id, 12, self.arm_id, 13, p.JOINT_POINT2POINT, [0, 0, 0], [0, -0.014, 0.043], [0, -0.034, 0.021])
+        # p.changeConstraint(c, erp=0.1, maxForce=1000)
         
-        p.setJointMotorControl2(self.arm_id, 10, p.VELOCITY_CONTROL, targetVelocity=0, force=0)
-        p.setJointMotorControl2(self.arm_id, 11, p.VELOCITY_CONTROL, targetVelocity=0, force=0)
-        p.setJointMotorControl2(self.arm_id, 12, p.VELOCITY_CONTROL, targetVelocity=0, force=0)
-        p.setJointMotorControl2(self.arm_id, 13, p.VELOCITY_CONTROL, targetVelocity=0, force=0)
+        # p.setJointMotorControl2(self.arm_id, 10, p.VELOCITY_CONTROL, targetVelocity=0, force=0)
+        # p.setJointMotorControl2(self.arm_id, 11, p.VELOCITY_CONTROL, targetVelocity=0, force=0)
+        # p.setJointMotorControl2(self.arm_id, 12, p.VELOCITY_CONTROL, targetVelocity=0, force=0)
+        # p.setJointMotorControl2(self.arm_id, 13, p.VELOCITY_CONTROL, targetVelocity=0, force=0)
         
         
-        c = p.createConstraint(self.arm_id, 8, self.arm_id, 14, p.JOINT_GEAR, [1, 0, 0], [0, 0, 0], [0, 0, 0])
-        p.changeConstraint(c, gearRatio=-1, erp=0.1, maxForce=50)
+        # c = p.createConstraint(self.arm_id, 8, self.arm_id, 14, p.JOINT_GEAR, [1, 0, 0], [0, 0, 0], [0, 0, 0])
+        # p.changeConstraint(c, gearRatio=-1, erp=0.1, maxForce=50)
         
-        # gripper control
-        p.setJointMotorControlMultiDofArray(self.arm_id, [8, 14], p.POSITION_CONTROL, [[q], [q]], forces=[[t], [t]])
+        # # gripper control
+        # p.setJointMotorControlMultiDofArray(self.arm_id, [8, 14], p.POSITION_CONTROL, [[q], [q]], forces=[[t], [t]])
 
     # ----------------------------------------------------------------
     # Functions for arm

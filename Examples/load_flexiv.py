@@ -34,7 +34,7 @@ def main(filename):
     # Init robot
     flexiv = Bestman_sim_flexiv(client, visualizer, cfg)
 
-    flexiv.sim_print_arm_jointInfo()
+    # flexiv.sim_print_arm_jointInfo()
     
     # Interact with arm
     # panda.sim_interactive_set_arm(1000)
@@ -42,15 +42,15 @@ def main(filename):
     # Interact with gripper
     # panda.sim_interactive_set_gripper()
 
-    client.wait(10)
+    # client.wait(10)
 
-    visualizer.capture_screen("flexiv")
+    # visualizer.capture_screen("flexiv")
 
-    # End record
-    visualizer.end_record()
+    # # End record
+    # visualizer.end_record()
 
     # disconnect pybullet
-    client.wait(100)
+    client.wait(5)
     client.disconnect()
 
 

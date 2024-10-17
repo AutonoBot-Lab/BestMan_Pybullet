@@ -22,12 +22,12 @@ Stephen Brawner (brawner@gmail.com)
             <geometry>
                 <mesh filename="../meshes/base_link.STL" />
             </geometry>
-            <!-- <material name="light_grayish_blue">
+            <material name="light_grayish_blue">
                 <color rgba="0.77647 0.77647 0.81961 1" />
-            </material> -->
-            <material name="white">
-                <color rgba="1 1 1 1" />
             </material>
+            <!-- <material name="white">
+                <color rgba="1 1 1 1" />
+            </material> -->
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0" />

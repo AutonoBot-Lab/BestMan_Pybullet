@@ -14,6 +14,6 @@ Visualizer:
 Robot:
   # arm_init_jointValues: [0.98, 0.458, 0.31, -2.24, -0.30, 2.66, 2.32]                  # The initial angle of arm joint
   arm_init_jointValues: [0.1, -1.57, 1.572, -1.629, -1.542, -0.156]
-  arm_urdf_path: "Asset/mobile_manipulator/arm/elephant/urdf/mycobot_pro_630.urdf"          # arm urdf
+  arm_urdf_path: "Asset/Robot/mobile_manipulator/arm/elephant/urdf/mycobot_pro_630.urdf"          # arm urdf
   arm_joints_idx: [0, 1, 2, 3, 4, 5]                                      # 6 DOF
   # end_effector_index: 11
