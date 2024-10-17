@@ -125,11 +125,6 @@ python setup.py install
 pip install --force-reinstall opencv-python==4.1.2.30 numpy==1.23.5
 ```
 
-- AnyGrasp License 
-  
-  You need to get anygrasp [license and checkpoint](./Perception/Grasp_Pose_Estimation/AnyGrasp/README.md) to use it.
-<br/>
-
 
 ### :shamrock: Docker
 
