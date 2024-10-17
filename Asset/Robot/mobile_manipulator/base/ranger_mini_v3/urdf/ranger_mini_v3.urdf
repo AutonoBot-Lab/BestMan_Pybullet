@@ -1,205 +1,129 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by
-Stephen Brawner (brawner@gmail.com) 
-     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
-     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
-<robot name="ranger_mini_v3">
-
-  <!-- material -->
-  <material name="white">
-    <color rgba="1 1 1 1"/>
-  </material>
-
-  <!-- joint -->
-  <joint name="fr_joint" type="fixed">
-    <origin xyz="0.25 -0.19 -0.1" rpy="0 0 0" />
-    <parent link="base_link" />
-    <child link="fr_Link" />
+<robot name="ranger_mini_v3" version="1.0">
+  <joint name="bl_joint" type="fixed">
+    <origin rpy="-3.14159 0.00000 0.00000" xyz="-0.25000 0.19000 -0.10000"/>
+    <parent link="base_link"/>
+    <child link="bl_Link"/>
   </joint>
-
+  <joint name="br_joint" type="fixed">
+    <origin rpy="0.00000 0.00000 0.00000" xyz="-0.25000 -0.19000 -0.10000"/>
+    <parent link="base_link"/>
+    <child link="br_Link"/>
+  </joint>
   <joint name="fl_joint" type="fixed">
-    <origin xyz="0.25 0.19 -0.1" rpy="3.1416 0 0" />
-    <parent link="base_link" />
-    <child link="fl_Link" />
+    <origin rpy="-3.14159 0.00000 0.00000" xyz="0.25000 0.19000 -0.10000"/>
+    <parent link="base_link"/>
+    <child link="fl_Link"/>
+  </joint>
+  <joint name="fr_joint" type="fixed">
+    <origin rpy="0.00000 0.00000 0.00000" xyz="0.25000 -0.19000 -0.10000"/>
+    <parent link="base_link"/>
+    <child link="fr_Link"/>
   </joint>
   
-  <joint name="br_joint" type="fixed">
-    <origin xyz="-0.25 -0.19 -0.1" rpy="0 0 0" />
-    <parent link="base_link" />
-    <child link="br_Link" />
-  </joint>
-
-  <joint name="bl_joint" type="fixed">
-    <origin xyz="-0.25 0.19 -0.1" rpy="3.1416 0 0" />
-    <parent link="base_link" />
-    <child link="bl_Link" />
-  </joint>
-
-  <!-- <joint name="fr_joint" type="continuous">
-    <origin xyz="0.25 -0.19 -0.1" rpy="0 0 0" />
-    <parent link="base_link" />
-    <child link="fr_Link" />
-    <axis xyz="0 0 -1" />
-  </joint>
-
-  <joint name="fl_joint" type="continuous">
-    <origin xyz="0.25 0.19 -0.1" rpy="3.1416 0 0" />
-    <parent link="base_link" />
-    <child link="fl_Link" />
-    <axis xyz="0.041054 0 -0.99916" />
-  </joint>
-
-  <joint name="br_joint" type="continuous">
-    <origin xyz="-0.25 -0.19 -0.1" rpy="0 0 0" />
-    <parent link="base_link" />
-    <child link="br_Link" />
-    <axis xyz="0.0039668 0 -0.99999" />
-  </joint>
-
-  <joint name="bl_joint" type="continuous">
-    <origin xyz="-0.25 0.19 -0.1" rpy="3.1416 0 0" />
-    <parent link="base_link" />
-    <child link="bl_Link" />
-    <axis xyz="0.027043 0 -0.99963" />
-  </joint> -->
-
-
-  <!-- link -->
   <link name="base_link">
-    <inertial>
-      <origin xyz="-0.0242698272228022 -0.0030308024613212 0.0544267444673498" rpy="0 0 0" />
-      <mass value="0.162715996120322" />
-      <inertia
-        ixx="0.000723700192916944"
-        ixy="-1.55745142682799E-08"
-        ixz="-3.42378773027466E-12"
-        iyy="0.000744046536331603"
-        iyz="2.24935144207573E-07"
-        izz="2.14412578189702E-05" />
-    </inertial>
-    <visual>
-      <origin xyz="0 0 0.0" rpy="3.14 0 0" />
+    <collision name="base_link_collision">
+      <origin rpy="3.14000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
       <geometry>
-        <mesh filename="../meshes/ranger_mini3.dae" />
-      </geometry>
-      <material name="pale_blue">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="0 0 0.0" rpy="3.14 0 0" />
-      <geometry>
-        <mesh filename="../meshes/ranger_mini3.dae" />
+        <mesh filename="../meshes/ranger_mini3.stl" scale="1.00000 1.00000 1.00000"/>
       </geometry>
     </collision>
-  </link>
-
-  <link name="fr_Link">
     <inertial>
-      <origin xyz="1.8493E-05 1.2713E-06 0.043679" rpy="0 0 0" />
-      <mass value="2.2786" />
-      <inertia
-        ixx="0.0063625"
-        ixy="-1.0581E-07"
-        ixz="-4.0831E-07"
-        iyy="0.006363"
-        iyz="-3.4944E-08"
-        izz="0.010465" />
+      <inertia ixx="0.00072" ixy="-0.00000" ixz="-0.00000" iyy="0.00074" iyz="0.00000" izz="0.00002"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.02427 -0.00303 0.05443"/>
+      <mass value="0.16272"/>
     </inertial>
-    <visual>
-      <origin xyz="-0.248 -0.113 0.155" rpy="1.57 0 3.14" />
+    <visual name="base_link_visual">
+      <origin rpy="3.14000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+      <material name="pale_blue"/>
       <geometry>
-        <mesh filename="../meshes/ranger_mini_v3_wheel_right.dae" />
+        <mesh filename="../meshes/ranger_mini3.stl" scale="1.00000 1.00000 1.00000"/>
       </geometry>
-      <material name="white"/>
     </visual>
-    <collision>
-      <origin xyz="-0.248 -0.113 0.155" rpy="1.57 0 3.14" />
-      <geometry>
-        <mesh filename="../meshes/ranger_mini_v3_wheel_right.dae" />
-      </geometry>
-    </collision>
   </link>
-
-  <link name="fl_Link">
-    <inertial>
-      <origin xyz="-0.0017956 -9.6304E-08 0.043642" rpy="0 0 0" />
-      <mass value="2.2786" />
-      <inertia
-        ixx="0.0063695"
-        ixy="-2.1067E-08"
-        ixz="-0.00016867"
-        iyy="0.006363"
-        iyz="-1.0301E-08"
-        izz="0.010458" />
-    </inertial>
-    <visual>
-      <origin xyz="-0.248 0.1265 0.191" rpy="-1.57 0.0 3.14" />
-      <geometry>
-        <mesh filename="../meshes/ranger_mini_v3_wheel.dae" />
-      </geometry>
-      <material name="white"/>
-    </visual>
-    <collision>
-      <origin xyz="-0.248 0.1265 0.191" rpy="-1.57 0.0 3.14" />
-      <geometry>
-        <mesh filename="../meshes/ranger_mini_v3_wheel.dae" />
-      </geometry>
-    </collision>
-  </link>
-
-  <link name="br_Link">
-    <inertial>
-      <origin xyz="-0.00017093 6.1255E-08 0.043678" rpy="0 0 0" />
-      <mass value="2.2786" />
-      <inertia
-        ixx="0.0063627"
-        ixy="-2.1069E-08"
-        ixz="-1.587E-05"
-        iyy="0.006363"
-        iyz="9.3201E-09"
-        izz="0.010465" />
-    </inertial>
-    <visual>
-      <origin xyz="-0.241 -0.11 0.155" rpy="1.57 0 3.14" />
-      <geometry>
-        <mesh filename="../meshes/ranger_mini_v3_wheel_right.dae" />
-      </geometry>
-      <material name="white"/>
-    </visual>
-    <collision>
-      <origin xyz="-0.241 -0.11 0.155" rpy="1.57 0 3.14" />
-      <geometry>
-        <mesh filename="../meshes/ranger_mini_v3_wheel_right.dae" />
-      </geometry>
-    </collision>
-  </link>
-
   <link name="bl_Link">
-    <inertial>
-      <origin xyz="-0.0011575 -4.8644E-06 0.043663" rpy="0 0 0" />
-      <mass value="2.2786" />
-      <inertia
-        ixx="0.0063656"
-        ixy="-8.1498E-08"
-        ixz="-0.00011049"
-        iyy="0.006363"
-        iyz="6.6847E-08"
-        izz="0.010462" />
-    </inertial>
-    <visual>
-      <origin xyz="-0.241 0.13 0.2" rpy="-1.57 0.0 3.14" />
+    <collision name="bl_Link_collision">
+      <origin rpy="-3.14159 0.00000 3.14000" xyz="-0.24100 0.13000 0.20000"/>
       <geometry>
-        <mesh filename="../meshes/ranger_mini_v3_wheel.dae" />
-      </geometry>
-      <material name="white"/>
-    </visual>
-    <collision>
-      <origin xyz="-0.241 0.13 0.2" rpy="-1.57 0.0 3.14" />
-      <geometry>
-        <mesh filename="../meshes/ranger_mini_v3_wheel.dae" />
+        <mesh filename="../meshes/ranger_mini_v3_wheel.stl" scale="1.00000 1.00000 1.00000"/>
       </geometry>
     </collision>
+    <inertial>
+      <inertia ixx="0.00637" ixy="-0.00000" ixz="-0.00011" iyy="0.00636" iyz="0.00000" izz="0.01046"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00116 -0.00000 0.04366"/>
+      <mass value="2.27860"/>
+    </inertial>
+    <visual name="bl_Link_visual">
+      <origin rpy="-3.14159 0.00000 -3.14159" xyz="-0.24100 0.13000 0.20000"/>
+      <material name="white"/>
+      <geometry>
+        <mesh filename="../meshes/ranger_mini_v3_wheel.stl" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </visual>
   </link>
-
+  <link name="br_Link">
+    <collision name="br_Link_collision">
+      <origin rpy="0.00000 -0.00000 3.14000" xyz="-0.24100 -0.11000 0.15500"/>
+      <geometry>
+        <mesh filename="../meshes/ranger_mini_v3_wheel_right.stl" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <inertia ixx="0.00636" ixy="-0.00000" ixz="-0.00002" iyy="0.00636" iyz="0.00000" izz="0.01047"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00017 0.00000 0.04368"/>
+      <mass value="2.27860"/>
+    </inertial>
+    <visual name="br_Link_visual">
+      <origin rpy="0.00000 -0.00000 3.14000" xyz="-0.24100 -0.11000 0.15500"/>
+      <material name="white"/>
+      <geometry>
+        <mesh filename="../meshes/ranger_mini_v3_wheel_right.stl" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="fl_Link">
+    <collision name="fl_Link_collision">
+      <origin rpy="-3.14159 0.00000 3.14000" xyz="-0.24800 0.12650 0.19100"/>
+      <geometry>
+        <mesh filename="../meshes/ranger_mini_v3_wheel.stl" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <inertia ixx="0.00637" ixy="-0.00000" ixz="-0.00017" iyy="0.00636" iyz="-0.00000" izz="0.01046"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00180 -0.00000 0.04364"/>
+      <mass value="2.27860"/>
+    </inertial>
+    <visual name="fl_Link_visual">
+      <origin rpy="-3.14159 0.00000 -3.14159" xyz="-0.24800 0.12650 0.19100"/>
+      <material name="white"/>
+      <geometry>
+        <mesh filename="../meshes/ranger_mini_v3_wheel.stl" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="fr_Link">
+    <collision name="fr_Link_collision">
+      <origin rpy="0.00000 -0.00000 3.14000" xyz="-0.24800 -0.11300 0.15500"/>
+      <geometry>
+        <mesh filename="../meshes/ranger_mini_v3_wheel_right.stl" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <inertia ixx="0.00636" ixy="-0.00000" ixz="-0.00000" iyy="0.00636" iyz="-0.00000" izz="0.01047"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00002 0.00000 0.04368"/>
+      <mass value="2.27860"/>
+    </inertial>
+    <visual name="fr_Link_visual">
+      <origin rpy="0.00000 -0.00000 3.14000" xyz="-0.24800 -0.11300 0.15500"/>
+      <material name="white"/>
+      <geometry>
+        <mesh filename="../meshes/ranger_mini_v3_wheel_right.stl" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </visual>
+  </link>
+  <material name="pale_blue">
+    <color rgba="0.79216 0.81961 0.92941 1.00000"/>
+  </material>
+  <material name="white">
+    <color rgba="1.00000 1.00000 1.00000 1.00000"/>
+  </material>
 </robot>

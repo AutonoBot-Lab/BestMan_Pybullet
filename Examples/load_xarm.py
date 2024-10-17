@@ -36,7 +36,7 @@ def main(filename):
     xarm = Bestman_sim_xarm(client, visualizer, cfg)
 
     # Interact with arm
-    # xarm.sim_interactive_set_arm(20)
+    xarm.sim_interactive_set_arm(20)
     # xarm.sim_interactive_set_gripper(1000)
 
     # client.wait(10)
