@@ -687,8 +687,8 @@ class Bestman_sim(ABC):
         }
         
         arm_jointInfo = []
-        # for i in self.arm_joints_idx:
-        for i in range(p.getNumJoints(self.arm_id)):
+        for i in self.arm_joints_idx:
+        # for i in range(p.getNumJoints(self.arm_id)):
             info = p.getJointInfo(self.arm_id, i)
             jointID = info[0]
             jointName = info[1].decode("utf-8")
