@@ -13,3 +13,4 @@
 - [isort](https://github.com/PyCQA/isort): We used the isort tool to standardize library imports.
 - [black](https://github.com/psf/black): We use the clack tool to standardize code style.
 - [pre-commit](https://github.com/pre-commit/pre-commit): We use pre-commit to automatically run code checks before committing changes.
+- [kitchen-worlds](https://github.com/Learning-and-Intelligent-Systems/kitchen-worlds): We refer to the scene generation method and scene data of kitchen_world.
