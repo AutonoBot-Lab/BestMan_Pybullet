@@ -90,8 +90,8 @@ def main(filename):
     # The end effector Move along the specified trajectory get effector to open the drawer
     init_pose = bestman.sim_get_current_end_effector_pose()
     pull_joints = [
-        bestman.sim_cartesian_to_joints(pull_out(init_pose, i, 0.004))
-        for i in range(0, 50)
+        bestman.sim_cartesian_to_joints(pull_out(init_pose, i, 0.001))
+        for i in range(0, 3)
     ]
     bestman.sim_execute_trajectory(pull_joints, True)
 

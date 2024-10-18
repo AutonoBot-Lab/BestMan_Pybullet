@@ -35,20 +35,16 @@ def main(filename):
     panda = Bestman_sim_panda(client, visualizer, cfg)
 
     # Interact with arm
-    # panda.sim_interactive_set_arm(50)
+    panda.sim_interactive_set_arm(50)
 
     # Interact with gripper
-    # panda.sim_interactive_set_gripper()
-
-    # client.wait(5)
-
-    # visualizer.capture_screen("panda")
+    panda.sim_interactive_set_gripper(20)
 
     # End record
     visualizer.end_record()
 
     # disconnect pybullet
-    client.wait(5)
+    client.wait(10)
     client.disconnect()
 
 

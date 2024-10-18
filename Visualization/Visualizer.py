@@ -487,7 +487,8 @@ class Visualizer:
                 rgbaColor=colors["light_white"],
                 physicsClientId=self.client_id,
             )
-            self.client.mtl_recorder[f"{base_id}{i}"] = colors["light_white"]
+            if self.client.blender:
+                self.client.mtl_recorder[f"{base_id}{i}"] = colors["light_white"]
 
         # set the blue and white color to arm
         arm_num_joints = p.getNumJoints(arm_id, physicsClientId=self.client_id)
@@ -500,7 +501,8 @@ class Visualizer:
                         rgbaColor=colors["light_blue"],
                         physicsClientId=self.client_id,
                     )
-                    self.client.mtl_recorder[f"{arm_id}{i}"] = colors["light_blue"]
+                    if self.client.blender:
+                        self.client.mtl_recorder[f"{arm_id}{i}"] = colors["light_blue"]
                 else:
                     p.changeVisualShape(
                         objectUniqueId=arm_id,
@@ -508,7 +510,8 @@ class Visualizer:
                         rgbaColor=colors["blue"],
                         physicsClientId=self.client_id,
                     )
-                    self.client.mtl_recorder[f"{arm_id}{i}"] = colors["blue"]
+                    if self.client.blender:
+                        self.client.mtl_recorder[f"{arm_id}{i}"] = colors["blue"]
             else:
                 p.changeVisualShape(
                     objectUniqueId=arm_id,
@@ -516,7 +519,8 @@ class Visualizer:
                     rgbaColor=colors["light_white"],
                     physicsClientId=self.client_id,
                 )
-                self.client.mtl_recorder[f"{arm_id}{i}"] = colors["light_white"]
+                if self.client.blender:
+                    self.client.mtl_recorder[f"{arm_id}{i}"] = colors["light_white"]
 
     def set_object_color(self, object_id, color):
         """
@@ -540,7 +544,8 @@ class Visualizer:
         #     rgbaColor=colors[color],
         #     physicsClientId=self.client_id
         # )
-        self.client.mtl_recorder[f"{object_id}"] = colors[color]
+        if self.client.blender:
+            self.client.mtl_recorder[f"{object_id}"] = colors[color]
 
     def set_link_color(self, object_id, link_id, color):
         """
@@ -557,7 +562,8 @@ class Visualizer:
             rgbaColor=colors[color],
             physicsClientId=self.client_id,
         )
-        self.client.mtl_recorder[f"{object_id}{link_id}"] = colors[color]
+        if self.client.blender:
+            self.client.mtl_recorder[f"{object_id}{link_id}"] = colors[color]
 
     def set_links_color(self, object_id, link_ids, colors):
         """
@@ -575,4 +581,5 @@ class Visualizer:
                 rgbaColor=colors[color],
                 physicsClientId=self.client_id,
             )
-            self.client.mtl_recorder[f"{object_id}{i}"] = colors[color]
+            if self.client.blender:
+                self.client.mtl_recorder[f"{object_id}{i}"] = colors[color]

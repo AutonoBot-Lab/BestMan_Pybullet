@@ -98,7 +98,7 @@ def main(filename):
     visualizer.end_record()
 
     # disconnect
-    client.wait(20)
+    client.wait(10)
     client.disconnect()
 
 

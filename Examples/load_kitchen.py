@@ -28,9 +28,9 @@ def main():
     visualizer.draw_axes()
 
     # Load scene
-    # scene_path = "Asset/Scene/Scene/Kitchen.json"
+    scene_path = "Asset/Scene/Scene/Kitchen.json"
     # scene_path = "Asset/Scene/Scene/b512.json"
-    scene_path = "Asset/Scene/Scene/Kitchen_anygrasp.json"
+    # scene_path = "Asset/Scene/Scene/Kitchen_anygrasp.json"
     client.create_scene(scene_path)
 
     client.wait(20)

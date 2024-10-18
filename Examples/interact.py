@@ -72,7 +72,7 @@ def main(filename):
 
     # Interact contorl
     control_base_with_keyboard(panda)
-
+    
     # disconnect pybullet
     client.wait(5)
     client.disconnect()

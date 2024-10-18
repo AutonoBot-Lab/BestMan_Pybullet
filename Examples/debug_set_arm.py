@@ -30,7 +30,7 @@ def main(filename):
 
     # Start recording
     visualizer.start_record(filename)
-
+    
     # Init robot
     bestman = Bestman_sim_panda(client, visualizer, cfg)
     visualizer.change_robot_color(
