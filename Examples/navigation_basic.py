@@ -35,7 +35,7 @@ def main(filename):
     visualizer.start_record(filename)
 
     # Load scene
-    scene_path = "Asset/Scene/Kitchen.json"
+    scene_path = "Asset/Scene/Scene/Kitchen.json"
     client.create_scene(scene_path)
 
     # Init robot
@@ -44,7 +44,7 @@ def main(filename):
     # Load table, bowl, and chair
     table_id = client.load_object(
         "table",
-        "Asset/URDF_models/furniture_table_rectangle_high/table.urdf",
+        "Asset/Scene/URDF_models/furniture_table_rectangle_high/table.urdf",
         [1.0, 1.0, 0.0],
         [0.0, 0.0, 0.0],
         1.0,
@@ -53,7 +53,7 @@ def main(filename):
 
     bowl_id = client.load_object(
         "bowl",
-        "Asset/URDF_models/utensil_bowl_blue/model.urdf",
+        "Asset/Scene/URDF_models/utensil_bowl_blue/model.urdf",
         [0.6, 0.6, 0.85],
         [0.0, 0.0, 0.0],
         1.0,
@@ -61,7 +61,7 @@ def main(filename):
 
     chair_id = client.load_object(
         "chair",
-        "Asset/URDF_models/furniture_chair/model.urdf",
+        "Asset/Scene/URDF_models/furniture_chair/model.urdf",
         [-0.3, 0.8, 0.0],
         [0.0, 0.0, 0.0],
         1.5,
@@ -69,9 +69,9 @@ def main(filename):
     )
 
     # Get bounding box of objects
-    aabb_table = client.get_bounding_box(table_id)
-    visualizer.draw_aabb(table_id)
-    print("-" * 20 + "\n" + "aabb_table:{}".format(aabb_table))
+    # aabb_table = client.get_bounding_box(table_id)
+    # visualizer.draw_aabb(table_id)
+    # print("-" * 20 + "\n" + "aabb_table:{}".format(aabb_table))
 
     # Simple SLAM
     nav_obstacles_bounds = simple_slam(client, bestman, True)

@@ -42,7 +42,7 @@ def main(filename):
     # load table, bowl, and chair
     countertop_id = client.load_object(
         "countertop",
-        "Asset/Kitchen_models/models_yan/elementB/model.urdf",
+        "Asset/Scene/Kitchen_models/models_yan/elementB/model.urdf",
         [0.0, 0.0, 0.7],
         [0.0, 0.0, math.pi / 2],
         1.0,
@@ -53,7 +53,7 @@ def main(filename):
 
     bowl_id = client.load_object(
         "bowl",
-        "Asset/URDF_models/utensil_bowl_blue/model.urdf",
+        "Asset/Scene/URDF_models/utensil_bowl_blue/model.urdf",
         [0.0, 0.5, 1.05],
         [0.0, 0.0, 0.0],
         1.0,

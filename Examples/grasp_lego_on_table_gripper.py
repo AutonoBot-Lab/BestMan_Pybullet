@@ -40,7 +40,7 @@ def main(filename):
     # Load table and lego
     table_id = client.load_object(
         "table",
-        "Asset/URDF_models/furniture_table_rectangle_high/table.urdf",
+        "Asset/Scene/URDF_models/furniture_table_rectangle_high/table.urdf",
         [1.0, 1.0, 0.0],
         [0.0, 0.0, 0.0],
         1.0,

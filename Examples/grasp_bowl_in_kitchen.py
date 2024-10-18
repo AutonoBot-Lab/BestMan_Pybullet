@@ -37,7 +37,7 @@ def main(filename):
     visualizer.start_record(filename)
 
     # Load scene
-    scene_path = "Asset/Scene/Kitchen.json"
+    scene_path = "Asset/Scene/Scene/Kitchen.json"
     client.create_scene(scene_path)
 
     # Init robot
@@ -66,7 +66,7 @@ def main(filename):
     # load bowl
     bowl_id = client.load_object(
         "bowl",
-        "Asset/URDF_models/utensil_bowl_blue/model.urdf",
+        "Asset/Scene/URDF_models/utensil_bowl_blue/model.urdf",
         [3.8, 2.4, 0.95],
         [0.0, 0.0, 0.0],
         1.0,

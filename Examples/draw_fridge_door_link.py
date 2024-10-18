@@ -33,7 +33,7 @@ def main(filename):
     visualizer.start_record(filename)
 
     # Load scene
-    scene_path = "Asset/Scene/Kitchen.json"
+    scene_path = "Asset/Scene/Scene/Kitchen.json"
     client.create_scene(scene_path)
 
     # Init robot

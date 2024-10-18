@@ -33,7 +33,7 @@ def main(filename):
     visualizer = Visualizer(client, cfg.Visualizer)
 
     # Load scene
-    scene_path = "Asset/Scene/Kitchen_1.json"
+    scene_path = "Asset/Scene/Scene/Kitchen_1.json"
     client.create_scene(scene_path)
 
     # Start record
@@ -68,7 +68,7 @@ def main(filename):
     # Load bowl
     bowl_id = client.load_object(
         "bowl",
-        "Asset/URDF_models/utensil_bowl_blue/model.urdf",
+        "Asset/Scene/URDF_models/utensil_bowl_blue/model.urdf",
         [3.6, 2.4, 0.6],
         [0.0, 0.0, 0.0],
         1.0,

@@ -32,7 +32,7 @@ def main():
     visualizer = Visualizer(client, cfg.Visualizer)
 
     # Load scene
-    scene_path = "Asset/Scene/Kitchen_anygrasp.json"
+    scene_path = "Asset/Scene/Scene/Kitchen_anygrasp.json"
     client.create_scene(scene_path)
 
     # Init robot

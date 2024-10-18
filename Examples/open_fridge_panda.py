@@ -92,7 +92,7 @@ def main(filename):
 
     client.load_object(
         "fridge",
-        "Asset/Kitchen_models/models/Fridge/10144/mobility.urdf",
+        "Asset/Scene/Kitchen_models/models/Fridge/10144/mobility.urdf",
         [2.0, 6.0, 1.055],
         [0, 0, math.pi / 2],
         1.1,

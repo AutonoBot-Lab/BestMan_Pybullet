@@ -1,6 +1,6 @@
 [
     {
-        "model_path": "Asset/Kitchen_models/models_yan/elementB/model.urdf",
+        "model_path": "Asset/Scene/Kitchen_models/models_yan/elementB/model.urdf",
         "object_position": [4.1, 4.55, 0.55],
         "object_orientation": [0, 0, "math.pi / 2 * 3"],
         "scale": 1.0,
@@ -9,7 +9,7 @@
     },
 
     {
-        "model_path": "Asset/Kitchen_models/models_yan/elementB/model.urdf",
+        "model_path": "Asset/Scene/Kitchen_models/models_yan/elementB/model.urdf",
         "object_position": [4.1, 5.19, 0.55],
         "object_orientation": [0, 0, "math.pi / 2 * 3"],
         "scale": 1.0,
@@ -18,7 +18,7 @@
     },
 
     {
-        "model_path": "Asset/Kitchen_models/models_yan/elementB/model.urdf",
+        "model_path": "Asset/Scene/Kitchen_models/models_yan/elementB/model.urdf",
         "object_position": [4.1, 5.83, 0.55],
         "object_orientation": [0, 0, "math.pi / 2 * 3"],
         "scale": 1.0,
@@ -27,7 +27,7 @@
     },
 
     {
-        "model_path": "Asset/Kitchen_models/models_yan/elementB/model.urdf",
+        "model_path": "Asset/Scene/Kitchen_models/models_yan/elementB/model.urdf",
         "object_position": [4.1, 6.46, 0.55],
         "object_orientation": [0, 0, "math.pi / 2 * 3"],
         "scale": 1.0,
@@ -36,7 +36,7 @@
     },
 
     {
-        "model_path": "Asset/URDF_models/food_banana/model.urdf",
+        "model_path": "Asset/Scene/URDF_models/food_banana/model.urdf",
         "object_position": [4.1, 5.0, 0.9],
         "object_orientation": [0, 0, "-math.pi/3"],
         "scale": 1.0,
@@ -45,7 +45,7 @@
     },
 
     {
-        "model_path": "Asset/URDF_models/blue_plate/model.urdf",
+        "model_path": "Asset/Scene/URDF_models/blue_plate/model.urdf",
         "object_position": [3.9, 4.8, 0.9],
         "object_orientation": [0, 0, "-math.pi/3"],
         "scale": 1.0,
@@ -54,7 +54,7 @@
     },
 
     {
-        "model_path": "Asset/URDF_models/food_lemon/model.urdf",
+        "model_path": "Asset/Scene/URDF_models/food_lemon/model.urdf",
         "object_position": [3.9, 4.75, 0.9],
         "object_orientation": [0, 0, 0],
         "scale": 1.0,
@@ -63,7 +63,7 @@
     },
 
     {
-        "model_path": "Asset/URDF_models/food_pear/model.urdf",
+        "model_path": "Asset/Scene/URDF_models/food_pear/model.urdf",
         "object_position": [3.95, 4.85, 0.9],
         "object_orientation": [0, 0, 0],
         "scale": 1.0,
@@ -72,7 +72,7 @@
     },
 
     {
-        "model_path": "Asset/URDF_models/green_cup/model.urdf",
+        "model_path": "Asset/Scene/URDF_models/green_cup/model.urdf",
         "object_position": [4.1, 4.8, 0.9],
         "object_orientation": [0, 0, "math.pi/3"],
         "scale": 1.0,
@@ -81,7 +81,7 @@
     },
 
     {
-        "model_path": "Asset/URDF_models/sugar_box/model.urdf",
+        "model_path": "Asset/Scene/URDF_models/sugar_box/model.urdf",
         "object_position": [4.1, 5.15, 0.9],
         "object_orientation": [0, 0, 0],
         "scale": 1.0,
@@ -90,7 +90,7 @@
     },
 
     {
-        "model_path": "Asset/URDF_models/orange_cup/model.urdf",
+        "model_path": "Asset/Scene/URDF_models/orange_cup/model.urdf",
         "object_position": [3.85, 5.15, 0.9],
         "object_orientation": [0, 0, "math.pi/2*3"],
         "scale": 1.0,
@@ -99,7 +99,7 @@
     },
 
     {
-        "model_path": "Asset/URDF_models/book_1/model.urdf",
+        "model_path": "Asset/Scene/URDF_models/book_1/model.urdf",
         "object_position": [4.1, 4.5, 0.9],
         "object_orientation": [0, 0, "math.pi/2*3"],
         "scale": 1.0,
@@ -108,7 +108,7 @@
     },
 
     {
-        "model_path": "Asset/URDF_models/book_2/model.urdf",
+        "model_path": "Asset/Scene/URDF_models/book_2/model.urdf",
         "object_position": [3.95, 5.5, 0.9],
         "object_orientation": [0, 0, "math.pi"],
         "scale": 1.0,
@@ -118,7 +118,7 @@
 
     
     {
-        "model_path": "Asset/URDF_models/large_clamp/model.urdf",
+        "model_path": "Asset/Scene/URDF_models/large_clamp/model.urdf",
         "object_position": [3.95, 4.2, 0.9],
         "object_orientation": [0, 0, "math.pi/2"],
         "scale": 1.0,
@@ -127,7 +127,7 @@
     },
 
     {
-        "model_path": "Asset/URDF_models/remote_controller_1/model.urdf",
+        "model_path": "Asset/Scene/URDF_models/remote_controller_1/model.urdf",
         "object_position": [3.95, 5.8, 0.9],
         "object_orientation": [0, 0, 0],
         "scale": 1.0,
@@ -136,7 +136,7 @@
     },
 
     {
-        "model_path": "Asset/URDF_models/plate_holder/model.urdf",
+        "model_path": "Asset/Scene/URDF_models/plate_holder/model.urdf",
         "object_position": [4.1, 6.0, 0.9],
         "object_orientation": [0, 0, 0],
         "scale": 1.0,

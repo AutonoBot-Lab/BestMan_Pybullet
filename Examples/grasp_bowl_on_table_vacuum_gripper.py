@@ -43,7 +43,7 @@ def main(filename):
     # Load table and bowl
     table_id = client.load_object(
         "table",
-        "Asset/URDF_models/furniture_table_rectangle_high/table.urdf",
+        "Asset/Scene/URDF_models/furniture_table_rectangle_high/table.urdf",
         [1.0, 1.0, 0.0],
         [0.0, 0.0, 0.0],
         1.0,
@@ -52,7 +52,7 @@ def main(filename):
 
     bowl_id = client.load_object(
         "bowl",
-        "Asset/URDF_models/utensil_bowl_blue/model.urdf",
+        "Asset/Scene/URDF_models/utensil_bowl_blue/model.urdf",
         [0.6, 0.6, 0.85],
         [0.0, 0.0, 0.0],
         1.0,
