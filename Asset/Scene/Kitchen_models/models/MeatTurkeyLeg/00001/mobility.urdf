@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<robot name="free3dmodels_meatturkeyleg">
+	<link name="base"/>
+	<link name="link_1">
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="turkeyleg-reduced.obj"/>
+			</geometry>
+		</collision>
+		<visual>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<mesh filename="turkeyleg-reduced.obj"/>
+			</geometry>
+		</visual>
+	</link>
+	<joint name="joint_1" type="fixed">
+		<origin rpy="1.570796326794897 0 -1.570796326794897" xyz="0 0 0"/>
+		<child link="link_1"/>
+		<parent link="base"/>
+	</joint>
+</robot>

@@ -24,7 +24,7 @@
 		<axis xyz="0 1 0"/>
 		<child link="handle_link"/>
 		<parent link="link_0"/>
-		<limit lower="0" upper="0.05"/>
+		<limit lower="0" upper="0.05" effort="50" velocity="0.1"/>
 	</joint>
 
 	<link name="link_0">
