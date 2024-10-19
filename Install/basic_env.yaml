@@ -20,6 +20,7 @@ dependencies:
       - matplotlib==3.3.2
       - urdfpy==0.0.22
       - numpy==1.23.5
+      - lisdf==0.1.1
       - transforms3d==0.3.1
       - PyQt5==5.15.11
       - opencv-python==4.1.2.30

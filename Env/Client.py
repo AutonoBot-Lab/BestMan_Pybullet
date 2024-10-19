@@ -20,7 +20,8 @@ import pybullet_data
 
 from Robotics_API import Pose
 from Visualization.blender_render import PyBulletRecorder
-
+from lisdf.parsing.sdf_j import load_sdf
+from lisdf.utils.transformations import euler_from_quaternion
 
 class Client:
     """
@@ -234,7 +235,32 @@ class Client:
             )
 
         self.run(480)
-        print(f"[Client] \033[34mInfo\033[0m: success load scene from {json_path}!")
+        print(f"[Client] \033[34mInfo\033[0m: Success load scene from {json_path}!")
+        
+    def create_scene_lisdf(self, lisdf_path):
+        """
+        Import the complete environment from the environment file based on the basic environment
+        
+        Args:
+            lisdf_path(str): scene lisdf file path
+        
+        """
+        
+        lissdf_results = load_sdf(lisdf_path)
+        models = lissdf_results.worlds[0].models
+        fixed_base=True
+        for model in models:
+            orientation=list(reversed(euler_from_quaternion(list(reversed(model.pose.quat_wxyz)))))
+            self.load_object(
+                model.uri,
+                model.pose.pos,
+                orientation,
+                model.scale[0],
+                model.name,
+                fixed_base
+            )
+        
+        print(f'[Client] \033[34mInfo\033[0m: success load scene from {lisdf_path}')
 
     # ----------------------------------------------------------------
     # object joint info / operate
