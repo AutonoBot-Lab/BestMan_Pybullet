@@ -199,68 +199,57 @@ class Client:
         setattr(self, obj_name, object_id)
 
         self.run(10)
-        
-        # self.run(240)
 
         return object_id
 
-    def create_scene(self, json_path):
+    def create_scene(self, scene_path):
         """
         Import the complete environment from the environment file based on the basic environment.
 
         Args:
-            json_path (str): Path to the scene JSON file.
+            scene_path (str): Path to the scene JSON file.
         """
 
-        if json_path.startswith("Asset"):
-            json_path = os.path.join("..", json_path)
+        if scene_path.startswith("Asset"):
+            scene_path = os.path.join("..", scene_path)
 
-        with open(json_path, "r") as f:
-            scene_data = json.load(f)
-
-        for object in scene_data:
-
-            object_orientation = [
-                eval(i) if isinstance(i, str) else i
-                for i in object["object_orientation"]
-            ]
-
-            self.load_object(
-                object["obj_name"],
-                object["model_path"],
-                object["object_position"],
-                object_orientation,
-                object["scale"],
-                object["fixed_base"],
-            )
-
-        self.run(480)
-        print(f"[Client] \033[34mInfo\033[0m: Success load scene from {json_path}!")
-        
-    def create_scene_lisdf(self, lisdf_path):
-        """
-        Import the complete environment from the environment file based on the basic environment
-        
-        Args:
-            lisdf_path(str): scene lisdf file path
-        
-        """
-        
-        lissdf_results = load_sdf(lisdf_path)
-        models = lissdf_results.worlds[0].models
-        fixed_base=True
-        for model in models:
-            orientation=list(reversed(euler_from_quaternion(list(reversed(model.pose.quat_wxyz)))))
-            self.load_object(
-                model.uri,
-                model.pose.pos,
-                orientation,
-                model.scale[0],
-                model.name,
-                fixed_base
-            )
-        
-        print(f'[Client] \033[34mInfo\033[0m: success load scene from {lisdf_path}')
+        if scene_path.endswith('.json'):
+            with open(scene_path, "r") as f:
+                scene_data = json.load(f)
+            for object in scene_data:
+                object_orientation = [
+                    eval(i) if isinstance(i, str) else i
+                    for i in object["object_orientation"]
+                ]
+                self.load_object(
+                    object["obj_name"],
+                    object["model_path"],
+                    object["object_position"],
+                    object_orientation,
+                    object["scale"],
+                    object["fixed_base"],
+                )
+        elif scene_path.endswith('.lisdf'):
+            lissdf_results = load_sdf(scene_path)
+            models = lissdf_results.worlds[0].models
+            fixed_base=True
+            for model in models:
+                orientation=list(reversed(euler_from_quaternion(list(reversed(model.pose.quat_wxyz)))))
+                self.load_object(
+                    model.uri,
+                    model.pose.pos,
+                    orientation,
+                    model.scale[0],
+                    model.name,
+                    fixed_base
+                )
+        else:
+            raise ValueError(
+                print("[Client] \033[31merror\033[0m: Scene format must be json or lisdf !")
+            )  
+            
+        self.run(120)  
+        print(f"[Client] \033[34mInfo\033[0m: Success load scene from {scene_path}!")
 
     # ----------------------------------------------------------------
     # object joint info / operate
