@@ -5,6 +5,7 @@
 - [ugv_gazebo_sim](https://github.com/agilexrobotics/ugv_gazebo_sim): We refer to ranger mini base from ugv_gazebo_sim.
 - [dh_ag95_gripper_ros2](https://github.com/ian-chuang/dh_ag95_gripper_ros2): We refer to ag-95 gripper from dh_ag95_gripper_ros2.
 - [robotiq_arg85_description](https://github.com/a-price/robotiq_arg85_description): We refer to robotiq 2f-85 gripper from robotiq_arg85_description.
+- [Wiki-GRx-Models](https://github.com/FFTAI/Wiki-GRx-Models): We refer to humanoid model from Wiki-GRx-Models.
 - [ompl](https://github.com/ompl/ompl): We utilize the algorithms provided by OMPL (Open Motion Planning Library) for motion planning.
 - [anygrasp_sdk](https://github.com/graspnet/anygrasp_sdk): We integrate the AnyGrasp algorithm for grasp pose estimation.
 - [lang-segment-anything](https://github.com/luca-medeiros/lang-segment-anything): We integrate the Lang SAM algorithm for object detection.
