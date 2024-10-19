@@ -338,7 +338,7 @@ class PyBulletRecorder:
             path (str): The path to save the recorded simulation states.
         """
         if path is None:
-            print("[Recorder] \033[33mwarning\033[0m: Path is None.. not saving")
+            print("[Blender Render][Recorder] \033[33mwarning\033[0m: Path is None.. not saving")
         else:
-            print("[Recorder] \033[34mInfo\033[0m: Saving state to {}".format(path))
+            print("[Blender Render][Recorder] \033[34mInfo\033[0m: Saving state to {}".format(path))
             pickle.dump(self.get_formatted_output(mtl_recorder), open(path, "wb"))
