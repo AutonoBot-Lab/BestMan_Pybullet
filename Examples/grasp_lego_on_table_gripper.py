@@ -49,10 +49,10 @@ def main(filename):
 
     lego_id = client.load_object(
         "lego",
-        os.path.join(client.get_datapath(), "lego/lego.urdf"),
+        "lego/lego.urdf",
         [0.6, 0.6, 0.85],
         [0.0, 0.0, 0.0],
-        1.0,
+        1.0
     )
 
     # grasp target object
