@@ -77,7 +77,7 @@ def main(filename):
     nav_obstacles_bounds = simple_slam(client, bestman, True)
 
     # navigate algorithm
-    goal_base_pose = Pose([1, 0, 0], [0.0, 0.0, math.pi / 2.0])
+    goal_base_pose = Pose([3.3, 4.0, 0], [0.0, 0.0, 0])
     nav_planner = AStarPlanner(
         robot_size=bestman.sim_get_robot_size(),
         obstacles_bounds=nav_obstacles_bounds,
