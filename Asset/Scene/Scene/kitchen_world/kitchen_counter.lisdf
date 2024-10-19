@@ -1,0 +1,125 @@
+<?xml version="1.0" ?>
+<!-- sdf file created by Yang's kitchen scene generator -->
+<sdf version="1.9">
+  <world name="kitchen_counter">
+
+    <gui>
+      <camera name="default_camera" definition_type="lookat">
+        <xyz>1.463 8.024 1.454</xyz>
+        <point_to>0.463 8.024 0.454</point_to>
+      </camera>
+    </gui>
+
+
+    <!-- <include name="pr2">    
+      <uri>../../Kitchen_models/../../Kitchen_models/pybullet_planning/models/drake/pr2_description/urdf/pr2_simplified.urdf</uri>
+      <pose>1.79 6.0 0.051 0.0 -0.0 3.142</pose>
+    </include>             -->
+
+
+    <!-- <model name="eggblock">
+      <static>false</static>
+      <pose>0.55 8.185 0.835 0.0 -0.0 0.747</pose>
+      <link name="box">
+        <collision name="box_collision">
+          <geometry>
+            <box>
+              <size>0.07 0.07 0.1</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model> -->
+
+    <!-- <model name="floor1">
+      <static>true</static>
+      <pose>2.3 4.7 -0.002 0.0 -0.0 0.0</pose>
+      <link name="box">
+        <collision name="box_collision">
+          <geometry>
+            <box>
+              <size>4.7 9.4 0.001</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model> -->
+
+    <include name="counter#1">
+      <uri>../../Kitchen_models/models/counter/urdf/kitchen_part_right_gen_convex.urdf</uri>
+      <static>true</static>
+      <scale>1.0096553359875846</scale>
+      <pose>0.5 7.6 1.394 0.0 -0.0 0.0</pose>
+    </include>
+
+    <include name="braiserbody#1">
+      <uri>../../Kitchen_models/models/BraiserBody/100693/mobility.urdf</uri>
+      <static>true</static>
+      <scale>0.259</scale>
+      <pose>0.55 8.185 0.818 0.0 -0.0 1.421</pose>
+    </include>
+
+    <include name="microwave#1">
+      <uri>../../Kitchen_models/models/Microwave/7128/mobility.urdf</uri>
+      <static>true</static>
+      <scale>0.48999999999999994</scale>
+      <pose>0.4 6.4 1.019 0.0 -0.0 3.142</pose>
+    </include>
+
+    <include name="braiserlid#1">
+      <uri>../../Kitchen_models/models/BraiserLid/100693/mobility.urdf</uri>
+      <static>true</static>
+      <scale>0.259</scale>
+      <pose>0.7 9.056 0.813 0.0 -0.0 0.715</pose>
+    </include>
+
+    <include name="oven#1">
+      <uri>../../Kitchen_models/models/Oven/01909/mobility.urdf</uri>
+      <static>true</static>
+      <scale>0.8815298531369636</scale>
+      <pose>0.6 8.0 0.727 0.0 -0.0 3.142</pose>
+    </include>
+
+
+    <!-- <state world_name="kitchen_counter">
+      <model name="pr2">
+        <joint name="l_shoulder_pan_joint"><angle>0.677</angle></joint>
+        <joint name="l_shoulder_lift_joint"><angle>-0.343</angle></joint>
+        <joint name="l_upper_arm_roll_joint"><angle>1.2</angle></joint>
+        <joint name="l_elbow_flex_joint"><angle>-1.467</angle></joint>
+        <joint name="l_forearm_roll_joint"><angle>1.242</angle></joint>
+        <joint name="l_wrist_flex_joint"><angle>-1.954</angle></joint>
+        <joint name="l_wrist_roll_joint"><angle>2.223</angle></joint>
+        <joint name="r_shoulder_pan_joint"><angle>-2.135</angle></joint>
+        <joint name="r_shoulder_lift_joint"><angle>1.296</angle></joint>
+        <joint name="r_upper_arm_roll_joint"><angle>-3.75</angle></joint>
+        <joint name="r_elbow_flex_joint"><angle>-0.15</angle></joint>
+        <joint name="r_forearm_roll_joint"><angle>-10000.0</angle></joint>
+        <joint name="r_wrist_flex_joint"><angle>-0.1</angle></joint>
+        <joint name="r_wrist_roll_joint"><angle>-10000.0</angle></joint>
+      </model>
+      <model name="counter#1">
+        <joint name="hitman_drawer_top_joint"><angle>0.0</angle></joint>
+        <joint name="indigo_drawer_top_joint"><angle>0.0</angle></joint>
+        <joint name="hitman_drawer_bottom_joint"><angle>0.0</angle></joint>
+        <joint name="indigo_drawer_bottom_joint"><angle>0.0</angle></joint>
+        <joint name="chewie_door_right_joint"><angle>0.0</angle></joint>
+        <joint name="dagger_door_right_joint"><angle>0.0</angle></joint>
+        <joint name="indigo_door_left_joint"><angle>0.0</angle></joint>
+        <joint name="dagger_door_left_joint"><angle>0.0</angle></joint>
+        <joint name="chewie_door_left_joint"><angle>0.0</angle></joint>
+        <joint name="indigo_door_right_joint"><angle>0.0</angle></joint>
+      </model>
+      <model name="microwave#1">
+        <joint name="joint_1"><angle>0.002</angle></joint>
+        <joint name="joint_0"><angle>-0.0</angle></joint>
+      </model>
+      <model name="oven#1">
+        <joint name="joint_1"><angle>-0.0</angle></joint>
+        <joint name="joint_0"><angle>-0.0</angle></joint>
+        <joint name="joint_3"><angle>-0.0</angle></joint>
+      </model>
+    </state> -->
+
+  </world>
+</sdf>

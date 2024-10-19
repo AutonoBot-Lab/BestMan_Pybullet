@@ -32,7 +32,7 @@
 		<axis xyz="0 1 0"/>
 		<child link="link_0"/>
 		<parent link="link_3"/>
-		<limit lower="0.0" upper="1.5707963267948966"/>
+		<limit lower="0.0" upper="1.5707963267948966" effort="50" velocity="0.1"/>
 	</joint>
 	<link name="link_1">
 		<visual name="switch-19">
@@ -65,7 +65,7 @@
 		<axis xyz="0 -1 0"/>
 		<child link="link_1"/>
 		<parent link="link_3"/>
-		<limit lower="-0.0" upper="1.5707963267948966"/>
+		<limit lower="-0.0" upper="1.5707963267948966" effort="50" velocity="0.1"/>
 	</joint>
 	<link name="link_2">
 		<visual name="tube-24">

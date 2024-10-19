@@ -1,0 +1,167 @@
+<?xml version="1.0" ?>
+<!-- sdf file created by Yang's kitchen scene generator -->
+<sdf version="1.9">
+  <world name="test_scene">
+
+    <gui>
+      <camera name="default_camera" definition_type="lookat">
+        <xyz>3.138 -2.633 2.868</xyz>
+        <point_to>0.0 0.0 0.0</point_to>
+      </camera>
+    </gui>
+
+
+    <include name="pr2">    
+      <uri>../models/drake/pr2_description/urdf/pr2_simplified.urdf</uri>
+      <pose>0.0 0.0 0.051 0.0 -0.0 0.0</pose>
+    </include>            
+
+
+    <model name="fridge">
+      <static>true</static>
+      <pose>2.0 0.0 0.45 0.0 -0.0 0.0</pose>
+      <link name="box">
+        <collision name="box_collision">
+          <geometry>
+            <box>
+              <size>0.5 0.5 0.9</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <model name="egg">
+      <static>false</static>
+      <pose>2.0 -0.18 0.95 0.0 -0.0 0.0</pose>
+      <link name="box">
+        <collision name="box_collision">
+          <geometry>
+            <box>
+              <size>0.07 0.07 0.1</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <model name="cabbage">
+      <static>false</static>
+      <pose>2.0 0.0 0.95 0.0 -0.0 0.0</pose>
+      <link name="box">
+        <collision name="box_collision">
+          <geometry>
+            <box>
+              <size>0.07 0.07 0.1</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <model name="salter">
+      <static>false</static>
+      <pose>2.0 0.18 0.95 0.0 -0.0 0.0</pose>
+      <link name="box">
+        <collision name="box_collision">
+          <geometry>
+            <box>
+              <size>0.07 0.07 0.1</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <model name="plate">
+      <static>false</static>
+      <pose>2.18 0.0 0.95 0.0 -0.0 0.0</pose>
+      <link name="box">
+        <collision name="box_collision">
+          <geometry>
+            <box>
+              <size>0.07 0.07 0.1</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <model name="sink">
+      <static>true</static>
+      <pose>0.0 2.0 0.45 0.0 -0.0 0.0</pose>
+      <link name="box">
+        <collision name="box_collision">
+          <geometry>
+            <box>
+              <size>0.5 0.5 0.9</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <model name="stove">
+      <static>true</static>
+      <pose>0.0 -2.0 0.45 0.0 -0.0 0.0</pose>
+      <link name="box">
+        <collision name="box_collision">
+          <geometry>
+            <box>
+              <size>0.5 0.5 0.9</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <model name="counter">
+      <static>true</static>
+      <pose>-2.0 2.0 0.45 0.0 -0.0 0.0</pose>
+      <link name="box">
+        <collision name="box_collision">
+          <geometry>
+            <box>
+              <size>0.5 0.5 0.9</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <model name="table">
+      <static>true</static>
+      <pose>-2.0 -2.0 0.45 0.0 -0.0 0.0</pose>
+      <link name="box">
+        <collision name="box_collision">
+          <geometry>
+            <box>
+              <size>0.5 0.5 0.9</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+
+    <state world_name="test_scene">
+      <model name="pr2">
+        <joint name="l_shoulder_pan_joint"><angle>0.677</angle></joint>
+        <joint name="l_shoulder_lift_joint"><angle>-0.343</angle></joint>
+        <joint name="l_upper_arm_roll_joint"><angle>1.2</angle></joint>
+        <joint name="l_elbow_flex_joint"><angle>-1.467</angle></joint>
+        <joint name="l_forearm_roll_joint"><angle>1.242</angle></joint>
+        <joint name="l_wrist_flex_joint"><angle>-1.954</angle></joint>
+        <joint name="l_wrist_roll_joint"><angle>2.223</angle></joint>
+        <joint name="r_shoulder_pan_joint"><angle>-2.135</angle></joint>
+        <joint name="r_shoulder_lift_joint"><angle>1.296</angle></joint>
+        <joint name="r_upper_arm_roll_joint"><angle>-3.75</angle></joint>
+        <joint name="r_elbow_flex_joint"><angle>-0.15</angle></joint>
+        <joint name="r_forearm_roll_joint"><angle>-10000.0</angle></joint>
+        <joint name="r_wrist_flex_joint"><angle>-0.1</angle></joint>
+        <joint name="r_wrist_roll_joint"><angle>-10000.0</angle></joint>
+      </model>
+    </state>
+
+  </world>
+</sdf>

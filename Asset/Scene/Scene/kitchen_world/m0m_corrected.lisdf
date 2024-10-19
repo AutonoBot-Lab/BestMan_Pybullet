@@ -1,0 +1,227 @@
+<?xml version="1.0" ?>
+<!-- Based on a M0M test run -->
+<sdf version="1.9">
+	<world name="M0M_problem_0">
+		<model name="floor#1_1">
+			<link name="table_top">
+				<pose>0.0 0.0 0 0 0 0</pose>
+				<collision name="table_top_collision">
+					<geometry>
+						<box>
+							<size>3 3 0.001</size>
+						</box>
+					</geometry>
+				</collision>
+				<visual name="floor_visual">
+					<geometry>
+						<box>
+							<size>3 3 0.001</size>
+						</box>
+					</geometry>
+					<material>
+					  <ambient>0.4 0.4 0.4 1</ambient>
+					  <diffuse>0.4 0.4 0.4 1</diffuse>
+					  <specular>0.4 0.4 0.4 1</specular>
+					  <emissive>0.4 0.4 0.4 1</emissive>
+					</material>
+				</visual>
+			</link>
+		</model>
+		<model name="table#1_1">
+			<static>true</static>
+			<pose>0 0 0 0 0 0</pose>
+                        <link name='world'> </link>
+			<joint name="fix_to_world_0" type="fixed">
+				<parent>world</parent>
+				<child>table_top</child>
+			</joint>
+			<joint name="fix_to_world_1" type="fixed">
+				<parent>world</parent>
+				<child>table_leg_1</child>
+			</joint>
+			<joint name="fix_to_world_2" type="fixed">
+				<parent>world</parent>
+				<child>table_leg_2</child>
+			</joint>
+			<joint name="fix_to_world_3" type="fixed">
+				<parent>world</parent>
+				<child>table_leg_3</child>
+			</joint>
+			<joint name="fix_to_world_4" type="fixed">
+				<parent>world</parent>
+				<child>table_leg_4</child>
+			</joint>
+			<link name="table_top">
+				<pose>0.0 0.0 0.715 0 0 0</pose>
+				<collision name="table_top_collision">
+				  <geometry> <box><size>0.6 1.2 0.03</size></box></geometry>
+				</collision>
+				<visual name="table_top_visual">
+				  <geometry> <box><size>0.6 1.2 0.03</size></box></geometry>
+					<material>
+						<ambient>0.6 0.4 0.2 1</ambient>
+						<diffuse>0.6 0.4 0.2 1</diffuse>
+						<specular>0.6 0.4 0.2 1</specular>
+						<emissive>0.6 0.4 0.2 1</emissive>
+					</material>
+				</visual>				
+			</link>
+			<link name="table_leg_1">
+				<pose>-0.285 -0.585 0.35 0 0 0</pose>
+				<collision name="table_leg_1_collision">
+				  <geometry><box><size>0.03 0.03 0.7</size></box></geometry>
+				</collision>
+				<visual name="table_leg_1_visual">
+				  <geometry><box><size>0.03 0.03 0.7</size></box></geometry>
+				  <material><diffuse>0.1 0.1 0.75 1</diffuse></material>
+				</visual>				
+			</link>
+			<link name="table_leg_2">
+				<pose>-0.285 0.585 0.35 0 0 0</pose>
+				<collision name="table_leg_2_collision">
+				  <geometry><box><size>0.03 0.03 0.7</size></box></geometry>
+				</collision>
+				<visual name="table_leg_2_visual">
+				  <geometry><box><size>0.03 0.03 0.7</size></box></geometry>
+				  <material><diffuse>0.1 0.1 0.75 1</diffuse></material>
+				</visual>				
+			</link>
+			<link name="table_leg_3">
+				<pose>0.285 -0.585 0.35 0 0 0</pose>
+				<collision name="table_leg_3_collision">
+				  <geometry><box><size>0.03 0.03 0.7</size></box></geometry>
+				</collision>
+				<visual name="table_leg_3_visual">
+				  <geometry><box><size>0.03 0.03 0.7</size></box></geometry>
+				  <material><diffuse>0.1 0.1 0.75 1</diffuse></material>				  
+				</visual>				
+			</link>
+			<link name="table_leg_4">
+				<pose>0.285 0.585 0.35 0 0 0</pose>
+				<collision name="table_leg_4_collision">
+				  <geometry><box><size>0.03 0.03 0.7</size></box></geometry>
+				</collision>
+				<visual name="table_leg_4_visual">
+				  <geometry><box><size>0.03 0.03 0.7</size></box></geometry>
+				  <material><diffuse>0.1 0.1 0.5 1</diffuse></material>
+				</visual>				
+			</link>
+		</model>
+		<model name="pillar#4_1">
+			<static>true</static>
+			<pose>0.0 0.4500000059604645 0.740 0 0 0</pose>
+			<link name="pillar#4">
+				<collision name="pillar#4_collision">
+					<geometry>
+						<box>
+							<size>0.2 0.2 0.001</size>
+						</box>
+					</geometry>
+				</collision>
+				<visual name="pillar#4_visual">
+					<geometry>
+						<box>
+							<size>0.2 0.2 0.001</size>
+						</box>
+					</geometry>
+					<material>
+						<ambient>1 0.1 0.1 1</ambient>
+						<diffuse>1 0.1 0.1 1</diffuse>
+						<specular>1 0.1 0.1 1</specular>
+						<emissive>1 0.1 0.1 1</emissive>
+					</material>
+				</visual>
+
+
+
+			</link>
+		</model>
+		<model name="pillar#3_1">
+			<static>true</static>
+			<pose>0.0 0.250000000298023224 0.740 0 0 0</pose>
+			<link name="pillar#3">
+				<collision name="pillar#3_collision">
+					<geometry>
+						<box>
+							<size>0.2 0.2 0.001</size>
+						</box>
+					</geometry>
+				</collision>
+				<visual name="pillar#3_visual">
+					<geometry>
+						<box>
+							<size>0.2 0.2 0.001</size>
+						</box>
+					</geometry>
+					<material>
+						<ambient>0.1 1 0.1 1</ambient>
+						<diffuse>0.1 1 0.1 1</diffuse>
+						<specular>0.1 1 0.1 1</specular>
+						<emissive>0.1 1 0.1 1</emissive>
+					</material>
+				</visual>
+
+			</link>
+		</model>
+		<model name="banana#12_1">
+			<static>false</static>
+			<pose>0.0031472998671233654 -0.004283192101866007 0.7528123259544373 0 0 1.5</pose>
+			<link name="banana">
+				<collision name="banana_collision">
+					<geometry>
+					  <mesh>
+					    <uri>../models/011_banana/textured.obj</uri>
+					    <scale>1.0 1.0 1.0</scale>
+					  </mesh>
+					</geometry>
+				</collision>
+				<visual name="banana_visual">
+					<geometry>
+					  <mesh>
+					    <uri>../models/011_banana/textured.obj</uri>
+					    <scale>1.0 1.0 1.0</scale>
+					  </mesh>
+					</geometry>
+
+					<material>
+						<ambient>1 1 1 1</ambient>
+						<diffuse>1 1 1 1</diffuse>
+						<specular>1 1 1 1</specular>
+						<emissive>1 1 1 1</emissive>
+					</material>
+ 					
+				</visual>
+			</link>
+		</model>
+		<model name="sugar_box#13_1">
+			<static>false</static>
+			<pose>0.11750369518995285 -0.1199718788266182 0.7401214075088501 0 0 0</pose>
+			<link name="sugar_box">
+				<collision name="sugar_box_collision">
+					<geometry>
+					  <mesh>
+					    <uri>../models/004_sugar_box/textured.obj</uri>
+					    <scale>1.0 1.0 1.0</scale>
+					  </mesh>
+					</geometry>
+				</collision>
+				<visual name="sugar_box_visual">
+					<geometry>
+					  <mesh>
+					    <uri>../models/004_sugar_box/textured.obj</uri>
+					    <scale>1.0 1.0 1.0</scale>
+					  </mesh>
+					</geometry>
+					<material>
+						<ambient>1 1 1 1</ambient>
+						<diffuse>1 1 1 1</diffuse>
+						<specular>1 1 1 1</specular>
+						<emissive>1 1 1 1</emissive>
+					</material>
+
+		
+				</visual>
+			</link>
+		</model>
+	</world>
+</sdf>
