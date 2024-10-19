@@ -8,7 +8,7 @@ from bpy_extras.io_utils import ImportHelper
 
 bl_info = {
     "name": "PyBulletSimImporter",
-    "author": "Huy Ha <hqh2101@columbia.edu>",
+    "author": "kui yang <202414021045T@stu.cqu.edu.cn>",
     "version": (0, 0, 1),
     "blender": (2, 92, 0),
     "location": "3D View > Toolbox > Animation tab > PyBullet Simulation Importer",
