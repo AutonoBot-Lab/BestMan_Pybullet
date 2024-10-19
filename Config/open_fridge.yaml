@@ -1,3 +1,6 @@
+Client:
+  blender: True
+
 Visualizer:
   Camera: 
       dist: 2.0
