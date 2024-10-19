@@ -74,19 +74,13 @@ class Client:
 
         # Enable caching of graphic shapes when loading URDF files
         self.enable_cache = p.URDF_ENABLE_CACHED_GRAPHICS_SHAPES
-        if cfg.plane_urdf_path.startswith("Asset"):
-            planeId = p.loadURDF(
-                os.path.join("..", cfg.plane_urdf_path), flags=self.enable_cache
-            )
-        else:
-            planeId = p.loadURDF(cfg.plane_urdf_path, flags=self.enable_cache)
-        # plane_path = os.path.join(pybullet_data.getDataPath(), cfg.plane_urdf_path)
-        # planeId = self.load_object(
-        #     obj_name='plane',
-        #     model_path=plane_path,
-        #     scale=0.5,
-        #     fixed_base=True
-        # )
+        plane_path = cfg.plane_urdf_path
+        if plane_path.startswith("Asset"):
+            os.path.join("..", plane_path)
+        p.loadURDF(cfg.plane_urdf_path, flags=self.enable_cache)
+        
+        # pybullet data
+        self.pybullet_data = pybullet_data.getDataPath()
 
     # ----------------------------------------------------------------
     # A few basic functions
@@ -185,7 +179,9 @@ class Client:
 
         if model_path.startswith("Asset"):
             model_path = os.path.join("..", model_path)
-
+        else:
+            model_path = os.path.join(self.pybullet_data, model_path)
+        
         object_id = p.loadURDF(
             fileName=model_path,
             basePosition=object_position,
