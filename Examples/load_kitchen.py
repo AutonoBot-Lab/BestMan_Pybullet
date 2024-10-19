@@ -29,12 +29,12 @@ def main():
 
     # Load scene
     scene_path = "Asset/Scene/Scene/Kitchen.json"
-    # scene_path = "Asset/Scene/Scene/b512.json"
-    # scene_path = "Asset/Scene/Scene/Kitchen_anygrasp.json"
+    # scene_path = "Asset/Scene/Scene/kitchen_world/kitchen_lunch_tlp.lisdf"
+    
     client.create_scene(scene_path)
 
-    client.wait(20)
-    visualizer.capture_screen("kitchen_1")
+    # client.wait(5)
+    # visualizer.capture_screen("kitchen_1")
 
     # disconnect pybullet
     client.wait(10)

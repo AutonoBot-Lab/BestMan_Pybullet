@@ -234,13 +234,14 @@ class Client:
             models = lissdf_results.worlds[0].models
             fixed_base=True
             for model in models:
+                model_uri = model.uri.replace('../../', 'Asset/Scene/')
                 orientation=list(reversed(euler_from_quaternion(list(reversed(model.pose.quat_wxyz)))))
                 self.load_object(
-                    model.uri,
+                    model.name,
+                    model_uri,
                     model.pose.pos,
                     orientation,
                     model.scale[0],
-                    model.name,
                     fixed_base
                 )
         else:
