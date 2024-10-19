@@ -1,0 +1,821 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 10162024-beta-1 -->
+
+<robot name="fourier_left_hand_6dof">
+  <link
+    name="L_hand_base_link">
+    <inertial>
+      <origin
+        xyz="-0.0004466 -0.009158 -0.04325"
+        rpy="0 0 0" />
+      <mass
+        value="0.306" />
+      <inertia
+        ixx="0.0003042"
+        ixy="-5E-07"
+        ixz="1E-07"
+        iyy="0.0004110"
+        iyz="4E-08"
+        izz="0.0001951" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_hand_base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.86667 0.8902 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_hand_base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <!-- <joint
+    name="L_hand_base_joint"
+    type="fixed">
+    <origin
+      xyz="0 0 -0.021"
+      rpy="0 0 0" />
+    <parent
+      link="left_end_effector_link" />
+    <child
+      link="L_hand_base_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint> -->
+  <link
+    name="L_thumb_proximal_base_link">
+    <inertial>
+      <origin
+        xyz="0.011017 -2.4767E-05 0.00077605"
+        rpy="0 0 0" />
+      <mass
+        value="0.00948527" />
+      <inertia
+        ixx="3E-07"
+        ixy="1E-08"
+        ixz="-4E-08"
+        iyy="9.5E-07"
+        iyz="-1E-08"
+        izz="9.7E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_thumb_proximal_base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.8902 0.8902 0.91373 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_thumb_proximal_base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_thumb_proximal_yaw_joint"
+    type="revolute">
+    <origin
+      xyz="0.022 -0.015498 -0.025093"
+      rpy="0 -1.221E-05 0" />
+    <parent
+      link="L_hand_base_link" />
+    <child
+      link="L_thumb_proximal_base_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.74"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+  </joint>
+  <link
+    name="L_thumb_proximal_link">
+    <inertial>
+      <origin
+        xyz="0.03196306 -0.00014118 -2.861E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.07347612" />
+      <inertia
+        ixx="1.131E-05"
+        ixy="1E-07"
+        ixz="4E-08"
+        iyy="3.183E-05"
+        iyz="-1E-08"
+        izz="3.376E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_thumb_proximal_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.86667 0.8902 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_thumb_proximal_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_thumb_proximal_pitch_joint"
+    type="revolute">
+    <origin
+      xyz="0.02175 0 0"
+      rpy="-1.5707 0 0" />
+    <parent
+      link="L_thumb_proximal_base_link" />
+    <child
+      link="L_thumb_proximal_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="1.22"
+      effort="10"
+      velocity="0.8" />
+  </joint>
+  <link
+    name="L_thumb_distal_link">
+    <inertial>
+      <origin
+        xyz="0.01321529 -0.00326134 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.02031766" />
+      <inertia
+        ixx="9.2E-07"
+        ixy="-9E-08"
+        ixz="0"
+        iyy="2.48E-06"
+        iyz="0"
+        izz="2.34E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_thumb_distal_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_thumb_distal_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_thumb_distal_joint"
+    type="revolute">
+    <origin
+      xyz="0.061549 0.0074616 0"
+      rpy="0 0 1.221E-05" />
+    <parent
+      link="L_thumb_proximal_link" />
+    <child
+      link="L_thumb_distal_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="1.23"
+      effort="10"
+      velocity="0.8" />
+    <mimic
+      joint="L_thumb_proximal_pitch_joint"
+      multiplier="0.974"
+      offset="0" />
+  </joint>
+
+  <link name="L_thumb_tip_link">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.005" />
+      </geometry>
+      <material name="yellow">
+        <color rgba="0.9 1 0 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="L_thumb_tip_joint" type="fixed">
+    <parent link="L_thumb_distal_link" />
+    <child link="L_thumb_tip_link" />
+    <origin rpy="0 0 0" xyz="0.031 -0.001 0" />
+  </joint>
+
+
+  <link
+    name="L_index_proximal_link">
+    <inertial>
+      <origin
+        xyz="0.0095993 0.000443 2.96E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.019117" />
+      <inertia
+        ixx="8.6E-07"
+        ixy="1.2E-07"
+        ixz="0"
+        iyy="3.71E-06"
+        iyz="0"
+        izz="3.85E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_index_proximal_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.86667 0.8902 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_index_proximal_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_index_proximal_joint"
+    type="revolute">
+    <origin
+      xyz="0.026869 -0.012293 -0.095989"
+      rpy="0.0013057 1.5184 0.0013039" />
+    <parent
+      link="L_hand_base_link" />
+    <child
+      link="L_index_proximal_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.57"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+  </joint>
+  <link
+    name="L_index_intermediate_link">
+    <inertial>
+      <origin
+        xyz="0.01800421 0.00300042 -9.23E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.01292544" />
+      <inertia
+        ixx="3.7E-07"
+        ixy="2.5E-07"
+        ixz="0"
+        iyy="2.01E-06"
+        iyz="0"
+        izz="2.04E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_index_intermediate_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_index_intermediate_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_index_intermediate_joint"
+    type="revolute">
+    <origin
+      xyz="0.031532 -0.0054551 0"
+      rpy="0 0 -6.8256E-05" />
+    <parent
+      link="L_index_proximal_link" />
+    <child
+      link="L_index_intermediate_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.74"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+    <mimic
+      joint="L_index_proximal_joint"
+      multiplier="1.128"
+      offset="0" />
+  </joint>
+
+  <link name="L_index_tip_link">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.005" />
+      </geometry>
+      <material name="yellow">
+        <color rgba="0.9 1 0 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="L_index_tip_joint" type="fixed">
+    <parent link="L_index_intermediate_link" />
+    <child link="L_index_tip_link" />
+    <origin rpy="0 0 0" xyz="0.038 -0.0015 0" />
+  </joint>
+
+
+  <link
+    name="L_middle_proximal_link">
+    <inertial>
+      <origin
+        xyz="0.00955708 0.00071862 2.96E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.01911771" />
+      <inertia
+        ixx="8.6E-07"
+        ixy="6E-08"
+        ixz="0"
+        iyy="3.72E-06"
+        iyz="0"
+        izz="3.85E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_middle_proximal_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.8902 0.8902 0.91373 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_middle_proximal_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_middle_proximal_joint"
+    type="revolute">
+    <origin
+      xyz="0.0085012 -0.012293 -0.097993"
+      rpy="1.394 1.5707 1.394" />
+    <parent
+      link="L_hand_base_link" />
+    <child
+      link="L_middle_proximal_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.57"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+  </joint>
+  <link
+    name="L_middle_intermediate_link">
+    <inertial>
+      <origin
+        xyz="0.02127931 0.00408456 -9.98E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.01535007" />
+      <inertia
+        ixx="4.1E-07"
+        ixy="2.2E-07"
+        ixz="0"
+        iyy="3.28E-06"
+        iyz="0"
+        izz="3.29E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_middle_intermediate_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_middle_intermediate_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_middle_intermediate_joint"
+    type="revolute">
+    <origin
+      xyz="0.031662 -0.0046408 0"
+      rpy="0 0 -6.835E-05" />
+    <parent
+      link="L_middle_proximal_link" />
+    <child
+      link="L_middle_intermediate_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.74"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+    <mimic
+      joint="L_middle_proximal_joint"
+      multiplier="1.131"
+      offset="0" />
+  </joint>
+
+  <link name="L_middle_tip_link">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.005" />
+      </geometry>
+      <material name="yellow">
+        <color rgba="0.9 1 0 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="L_middle_tip_joint" type="fixed">
+    <parent link="L_middle_intermediate_link" />
+    <child link="L_middle_tip_link" />
+    <origin rpy="0 0 0" xyz="0.045 0.0005 0" />
+  </joint>
+
+
+  <link
+    name="L_ring_proximal_link">
+    <inertial>
+      <origin
+        xyz="0.00959983 0.0004431 2.96E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.01911771" />
+      <inertia
+        ixx="8.6E-07"
+        ixy="1.2E-07"
+        ixz="0"
+        iyy="3.71E-06"
+        iyz="0"
+        izz="3.85E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_ring_proximal_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.8902 0.8902 0.91373 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_ring_proximal_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_ring_proximal_joint"
+    type="revolute">
+    <origin
+      xyz="-0.00996 -0.012293 -0.097938"
+      rpy="3.1403 1.5184 3.1403" />
+    <parent
+      link="L_hand_base_link" />
+    <child
+      link="L_ring_proximal_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.57"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+  </joint>
+  <link
+    name="L_ring_intermediate_link">
+    <inertial>
+      <origin
+        xyz="0.01800421 0.00300042 -9.23E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.01292544" />
+      <inertia
+        ixx="3.7E-07"
+        ixy="2.5E-07"
+        ixz="0"
+        iyy="2.01E-06"
+        iyz="0"
+        izz="2.04E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_ring_intermediate_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_ring_intermediate_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_ring_intermediate_joint"
+    type="revolute">
+    <origin
+      xyz="0.031532 -0.0054551 0"
+      rpy="0 0 -6.8256E-05" />
+    <parent
+      link="L_ring_proximal_link" />
+    <child
+      link="L_ring_intermediate_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.74"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+    <mimic
+      joint="L_ring_proximal_joint"
+      multiplier="1.143"
+      offset="0" />
+  </joint>
+
+  <link name="L_ring_tip_link">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.005" />
+      </geometry>
+      <material name="green">
+        <color rgba="0.9 1 0 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="L_ring_tip_joint" type="fixed">
+    <parent link="L_ring_intermediate_link" />
+    <child link="L_ring_tip_link" />
+    <origin rpy="0 0 0" xyz="0.038 -0.002 0" />
+  </joint>
+
+
+  <link
+    name="L_pinky_proximal_link">
+    <inertial>
+      <origin
+        xyz="0.00964414 9.378E-05 2.96E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.01911771" />
+      <inertia
+        ixx="8.8E-07"
+        ixy="2E-07"
+        ixz="0"
+        iyy="3.7E-06"
+        iyz="0"
+        izz="3.85E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_pinky_proximal_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.8902 0.8902 0.91373 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_pinky_proximal_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_pinky_proximal_joint"
+    type="revolute">
+    <origin
+      xyz="-0.028227 -0.012293 -0.096013"
+      rpy="3.1409 1.4661 3.1409" />
+    <parent
+      link="L_hand_base_link" />
+    <child
+      link="L_pinky_proximal_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.57"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+  </joint>
+  <link
+    name="L_pinky_intermediate_link">
+    <inertial>
+      <origin
+        xyz="0.01609604 0.00118817 -8.72E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.00568707" />
+      <inertia
+        ixx="1.7E-07"
+        ixy="1.3E-07"
+        ixz="0"
+        iyy="6.2E-07"
+        iyz="0"
+        izz="6.7E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_pinky_intermediate_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_pinky_intermediate_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_pinky_intermediate_joint"
+    type="revolute">
+    <origin
+      xyz="0.031338 -0.0064763 0"
+      rpy="0 0 -6.7976E-05" />
+    <parent
+      link="L_pinky_proximal_link" />
+    <child
+      link="L_pinky_intermediate_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.74"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+    <mimic
+      joint="L_pinky_proximal_joint"
+      multiplier="1.129"
+      offset="0" />
+  </joint>
+
+  <link name="L_pinky_tip_link">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.005" />
+      </geometry>
+      <material name="yellow">
+        <color rgba="0.9 1 0 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="L_pinky_tip_joint" type="fixed">
+    <parent link="L_pinky_intermediate_link" />
+    <child link="L_pinky_tip_link" />
+    <origin rpy="0 0 0" xyz="0.031 -0.0040 0" />
+  </joint>
+
+</robot>
