@@ -162,17 +162,17 @@ export DISPLAY=host.docker.internal:0
 
 ### 🌏 Overview
 
-<video width="320" height="240" controls>
-    <source src="docs/other/demo_video.mp4" type="video/mp4">
-</video>
+https://github.com/user-attachments/assets/51d5ec4b-e8c6-408e-b3b4-0492801ee496
 
-First, Enter directory Examples:
+### 🚀 Run
+
+Enter directory Examples:
 
 ```
 cd Examples
 ```
 
-### 🎇 blender render
+### 🎇 Blender Render
 
 `open microwave` demo with blender render:
 
