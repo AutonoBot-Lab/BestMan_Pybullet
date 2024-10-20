@@ -160,85 +160,14 @@ export DISPLAY=host.docker.internal:0
 
 ## 👨‍💻 Basic Demos
 
+### 🌏 Overview
+
+
 First, Enter directory Examples:
 
 ```
 cd Examples
 ```
-
-Below are some examples and their rendering in Blender
-
-
-:shamrock: **Navigation**
-
-```
-python navigation_basic.py
-```
-
-<video src="https://github.com/user-attachments/assets/63fe074e-ba27-4de8-8095-99289552b17a"></video>
-
-<br/>
-
-
-:shamrock: **Manipulation**
-
-- Open Fridge
-
-```
-python open_fridge.py
-```
-
-<video src="https://github.com/user-attachments/assets/9aab5ca2-fb09-4b9f-a989-54ef5c1d2884"></video>
-
-<br/>
-
-
-- Open microwave
-
-```
-python open_microwave.py
-```
-
-
-<video src="https://github.com/user-attachments/assets/d0d97b08-423b-4af5-a418-f36872541f99"></video>
-
-<br/>
-
-
-- Grasp bowl on table use vacuum_gripper
-
-```
-python grasp_bowl_on_table_vacuum_gripper.py
-```
-
-
-<video src="https://github.com/user-attachments/assets/0eb05120-8016-425b-a46a-b711e5290691"></video>
-
-<br/>
-
-
-- Grasp lego on table use gripper
-
-```
-python grasp_lego_on_table_gripper.py
-```
-
-
-<video src="https://github.com/user-attachments/assets/3bf15b13-3113-4a72-950c-7e9c1367ed9e"></video>
-
-<br/>
-
-
-- Move bowl from drawer to table
-
-```
-python move_bowl_from_drawer_to_table.py
-```
-
-
-<video src="https://github.com/user-attachments/assets/db4c7ec3-c136-4c6a-8323-2bef6bc09c84"></video>
-
-<br/>
 
 ### blender render
 
