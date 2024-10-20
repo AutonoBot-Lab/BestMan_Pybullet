@@ -108,14 +108,14 @@ def main(filename):
     min_x, min_y, min_z, max_x, max_y, max_z = client.get_link_bounding_box("fridge", 2)
     goal_pose = Pose(
         [
-            min_x - bestman.sim_get_tcp_link_height() - 0.05,
+            min_x - bestman.sim_get_tcp_link_height() - 0.04,
             (min_y + max_y) / 2,
             (min_z + max_z) / 2,
         ],
         [0.0, 0.0, 0.0],
     )
     goal = ompl_planner.set_target_pose(goal_pose)
-
+    
     # Plan / Execute / Suctate fridge handle
     start = bestman.sim_get_current_joint_values()
     path = ompl_planner.plan(start, goal)
