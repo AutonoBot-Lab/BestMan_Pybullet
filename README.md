@@ -169,7 +169,7 @@ First, Enter directory Examples:
 cd Examples
 ```
 
-### blender render
+### 🎇 blender render
 
 `open microwave` demo with blender render:
 
