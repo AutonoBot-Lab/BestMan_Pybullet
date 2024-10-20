@@ -162,6 +162,9 @@ export DISPLAY=host.docker.internal:0
 
 ### 🌏 Overview
 
+<video width="320" height="240" controls>
+    <source src="docs/other/demo_video.mp4" type="video/mp4">
+</video>
 
 First, Enter directory Examples:
 
