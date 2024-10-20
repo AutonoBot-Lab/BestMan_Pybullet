@@ -57,43 +57,42 @@ def main(filename):
     )
 
     # Init robot
-    bestman = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
+    ur5e = Bestman_sim_ur5e_vacuum_long(client, visualizer, cfg)
 
     # Init visualizer
     visualizer.change_robot_color(
-        bestman.sim_get_base_id(), bestman.sim_get_arm_id(), False
+        ur5e.sim_get_base_id(), ur5e.sim_get_arm_id(), False
     )
 
     # Draw drawer link
-    visualizer.draw_aabb_link("elementA", 36)
-
+    visualizer.draw_aabb_link("elementA", 38)
+    
     # Init planner
-    ompl_planner = OMPL_Planner(bestman, cfg.Planner)
+    ompl_planner = OMPL_Planner(ur5e, cfg.Planner)
 
     # Get goal joint values
     min_x, min_y, min_z, max_x, max_y, max_z = client.get_link_bounding_box(
-        "elementA", 36
+        "elementA", 38
     )
+    
     goal_pose = Pose(
-        [min_x + 0.01, (min_y + max_y) / 2, (min_z + max_z) / 2], [0.0, 0.0, 0.0]
+        [min_x - ur5e.sim_get_tcp_link_height()- 0.05, (min_y + max_y) / 2, (min_z + max_z) / 2], [0.0, 0.0, 0.0]
     )
     goal = ompl_planner.set_target_pose(goal_pose)
 
     # Plan / Execute / Suctate drawer
-    start = bestman.sim_get_current_joint_values()
+    start = ur5e.sim_get_current_joint_values()
     path = ompl_planner.plan(start, goal)
-    bestman.sim_execute_trajectory(path, True)
-    bestman.sim_create_movable_constraint("elementA", 36)
-
-    visualizer.remove_all_line()
+    ur5e.sim_execute_trajectory(path, True)
+    ur5e.sim_create_movable_constraint("elementA", 36)
 
     # The end effector Move along the specified trajectory get effector to open the drawer
-    init_pose = bestman.sim_get_current_end_effector_pose()
+    init_pose = ur5e.sim_get_current_end_effector_pose()
     pull_joints = [
-        bestman.sim_cartesian_to_joints(pull_out(init_pose, i, 0.001))
-        for i in range(0, 3)
+        ur5e.sim_cartesian_to_joints(pull_out(init_pose, i, 0.05))
+        for i in range(0, 5)
     ]
-    bestman.sim_execute_trajectory(pull_joints, True)
+    ur5e.sim_execute_trajectory(pull_joints, True)
 
     # Wait
     client.wait(5)
