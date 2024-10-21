@@ -46,7 +46,7 @@ def rotate_point_3d_around_axis(init_pose, rotate_axis, theta, clockwise=True):
         rotation_matrix = np.array(
             [[cos_theta, sin_theta, 0], [-sin_theta, cos_theta, 0], [0, 0, 1]]
         )
-        rotated_quaternion = p.getQuaternionFromEuler([0, 0, -theta / 2])
+        rotated_quaternion = p.getQuaternionFromEuler([0, 0, -theta])
         rotated_orientation = p.multiplyTransforms(
             [0, 0, 0],
             rotated_quaternion,
@@ -57,7 +57,7 @@ def rotate_point_3d_around_axis(init_pose, rotate_axis, theta, clockwise=True):
         rotation_matrix = np.array(
             [[cos_theta, -sin_theta, 0], [sin_theta, cos_theta, 0], [0, 0, 1]]
         )
-        rotated_quaternion = p.getQuaternionFromEuler([0, 0, theta / 2])
+        rotated_quaternion = p.getQuaternionFromEuler([0, 0, theta])
         rotated_orientation = p.multiplyTransforms(
             [0, 0, 0],
             rotated_quaternion,
@@ -127,7 +127,7 @@ def main(filename):
     # The end effector Move along the specified trajectory get effector to open the door
     init_pose = bestman.sim_get_current_end_effector_pose()
     rotate_axis = p.getLinkState(client.get_object_id("fridge"), 1)[4]
-    angles = 15
+    angles = 80
     heta_values = [math.radians(deg) for deg in range(0, angles + 1)]
     rotated_joints = [
         bestman.sim_cartesian_to_joints(
