@@ -162,15 +162,11 @@ export DISPLAY=host.docker.internal:0
 
 ### 🌏 Overview
 
-<video src="https://github.com/user-attachments/assets/51d5ec4b-e8c6-408e-b3b4-0492801ee496"></video>
+<video src="https://github.com/user-attachments/assets/135920dd-4b22-42ae-a920-9f57a4d78dde"></video>
 
 ### 🚀 Run
 
-Enter directory Examples:
-
-```
-cd Examples
-```
+Enter `Examples` directory and run the demos. You can also modify the parameters corresponding to the demo.
 
 ### 🎇 Blender Render
 
@@ -212,24 +208,11 @@ If you want to enable **pybullet-blender-recorder**, please：
 If you find this work useful, please consider citing:
 
 ```
-@inproceedings{ding2023task,
-  title={Task and motion planning with large language models for object rearrangement},
-  author={Ding, Yan and Zhang, Xiaohan and Paxton, Chris and Zhang, Shiqi},
-  booktitle={2023 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
-  pages={2086--2092},
-  year={2023},
-  organization={IEEE}
-}
-
-@article{ding2023integrating,
-  title={Integrating action knowledge and LLMs for task planning and situation handling in open worlds},
-  author={Ding, Yan and Zhang, Xiaohan and Amiri, Saeid and Cao, Nieqing and Yang, Hao and Kaminski, Andy and Esselink, Chad and Zhang, Shiqi},
-  journal={Autonomous Robots},
-  volume={47},
-  number={8},
-  pages={981--997},
-  year={2023},
-  publisher={Springer}
+@inproceedings{Yang2024BestManAM,
+  title={BestMan: A Modular Mobile Manipulator Platform for Embodied AI with Unified Simulation-Hardware APIs},
+  author={Kui Yang and Nieqing Cao and Yan Ding and Chao Chen},
+  year={2024},
+  url={https://api.semanticscholar.org/CorpusID:273403368}
 }
 ```
 
