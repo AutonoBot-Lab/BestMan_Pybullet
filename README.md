@@ -168,7 +168,7 @@ export DISPLAY=host.docker.internal:0
 
 ### 🌏 Overview
 
-<video src="https://github.com/user-attachments/assets/135920dd-4b22-42ae-a920-9f57a4d78dde"></video>
+<video src="https://github.com/user-attachments/assets/499aed7a-6756-4bf5-b25b-84ad1b23d6f9"></video>
 
 ### 🚀 Run
 
