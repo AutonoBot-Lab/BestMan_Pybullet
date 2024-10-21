@@ -31,7 +31,7 @@ A mobile manipulator (with a wheel-base and arm) platform built on PyBullet simu
 ## 📋 Contents
 
 - [🔥 News](#-News)
-- [💻 Installation](#-Installation)
+- [🏠 Getting Started](#-Getting-Started)
 - [👨‍💻 Basic Demos](#-Basic-Demos)
 - [📝 TODO List](#-todo-list)
 - [🤝 Reference](#-Reference)
@@ -40,9 +40,17 @@ A mobile manipulator (with a wheel-base and arm) platform built on PyBullet simu
 ## 🔥 News
 - [2024-10] We release the [paper](http://arxiv.org/abs/2410.13407) of BestMan.
 
-## 💻 Installation
+## 🏠 Getting Started
 
-- Pull the repository and update the submodule
+### 💡 Prerequisites
+- Ubuntu 20.04, 22.04
+- Conda
+  
+  - Python 3.8, 3.9, 3.10
+
+### 💻 Installation
+
+Pull the repository and update the submodule
 
 ```
 git clone https://github.com/AutonoBot-Lab/BestMan_Pybullet.git
@@ -51,8 +59,6 @@ git submodule update --init
 ```
 
 ### :shamrock: Conda
-
-First install `Anaconda` or `minconda` on linux system and then perform the following steps：
 
 - Run the following script to add the project to the PYTHON search path
 ```
