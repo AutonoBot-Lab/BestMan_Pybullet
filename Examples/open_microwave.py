@@ -100,7 +100,6 @@ def main(filename):
 
     # Draw microwave door
     visualizer.draw_aabb_link("microwave", 1)
-    # client.change_object_joint_angle('microwave', 1, math.pi / 6)
 
     # # Simple SLAM
     # nav_obstacles_bounds = simple_slam(client, bestman, True)
@@ -114,7 +113,7 @@ def main(filename):
     )
     goal_pose = Pose(
         [
-            min_x - bestman.sim_get_tcp_link_height() - 0.1,
+            min_x - bestman.sim_get_tcp_link_height() - 0.06,
             (min_y + max_y) / 2,
             (min_z + max_z) / 2,
         ],
