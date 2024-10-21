@@ -170,7 +170,7 @@ Enter `Examples` directory and run the demos. You can also modify the parameters
 
 ### 🎇 Blender Render
 
-`open microwave` demo with blender render:
+`open microwave` demo in **Overview** before blender rendering:
 
 <video src="https://github.com/user-attachments/assets/fb8ef3ea-d045-4bbf-a28f-0bec56930aae"></video>
 
@@ -180,18 +180,24 @@ We have improved the [pybullet-blender-recorder](https://github.com/huy-ha/pybul
 
 If you want to enable **pybullet-blender-recorder**, please：
 
-1. Set `blender: Ture` in Config/default.yaml
-
-2. After running the demo, a pkl file will be generated and saved in **Examples/record** dir
-
-3. Install the `pyBulletSimImporter.py` plugin under **Visualization/blender-render** dir in blender (test on **blender3.6.5**) , and enalbe this plugin
+1. Install the `pyBulletSimImporter.py` plugin under **Visualization/blender-render** directory in blender (Edit->Preferences->Add-ons->Install) (test on **blender3.6.5**) , and enalbe this plugin.
 
 <img width="1040" alt="image" src="https://github.com/user-attachments/assets/ab9e99c7-64c8-40fe-bbfe-edc0c786b812">
+  
+2. Set `blender: Ture` in **Config/***.yaml**.
 
-4. Import the pkl files into blender
+3. After running the demo, a pkl file will be generated and saved in **Examples/record** dir
+
+4. Import the pkl files into blender.
+
+> Note: This will freeze the current blender window before the processing is completed, please wait.
 
 <img width="1040" alt="image" src="https://github.com/user-attachments/assets/c0fe66e8-347e-4ecc-b367-8b0c3592d329">
 
+<br/>
+<br/>
+
+> Note: If the demo contains too many frames, you can change `pyBulletSimImporter.py`: ANIM_OT_import_pybullet_sim(): **skip_frames** parameters and reinstall in blender to reduce the number of imported frames.
 <br/>
 
 ## 📝 TODO List
