@@ -38,7 +38,7 @@ A mobile manipulator (with a wheel-base and arm) platform built on PyBullet simu
 - [🤝 Reference](#-Reference)
 
 ## 🔥 News
-[2024-0190] We release the [paper](http://arxiv.org/abs/2410.13407) of BestMan.
+- [2024-10] We release the [paper](http://arxiv.org/abs/2410.13407) of BestMan.
 
 ## 💻 Installation
 
