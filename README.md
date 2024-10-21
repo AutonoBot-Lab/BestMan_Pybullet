@@ -162,7 +162,7 @@ export DISPLAY=host.docker.internal:0
 
 ### 🌏 Overview
 
-https://github.com/user-attachments/assets/51d5ec4b-e8c6-408e-b3b4-0492801ee496
+<video src="https://github.com/user-attachments/assets/51d5ec4b-e8c6-408e-b3b4-0492801ee496"></video>
 
 ### 🚀 Run
 
