@@ -12,6 +12,7 @@
 
 <!-- # BestMan - A Pybullet-based Mobile Manipulator Simulator -->
 
+[![arxiv](https://img.shields.io/badge/arxiv-2410.13407-orange)](http://arxiv.org/abs/2410.13407)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/facebookresearch/home-robot/blob/main/LICENSE)
 [![Ubuntu 22.04](https://img.shields.io/badge/Ubuntu-22.04-orange.svg)](https://releases.ubuntu.com/22.04/)
 [![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/downloads/release/python-370/)
@@ -204,7 +205,7 @@ If you want to enable **pybullet-blender-recorder**, please：
 
 - \[x\] Release the platform with basic modules、functions and demos.
 - \[x\] Polish APIs, related codes, and release documentation.
-- \[ \] Release the paper with framework and demos Introduction.
+- \[x\] Release the paper with framework and demos Introduction.
 - \[ \] Release the baseline models and benchmark modules.
 - \[ \] Comprehensive improvement and further updates.
 
