@@ -183,6 +183,8 @@ class Client:
         else:
             model_path = os.path.join(self.pybullet_data, model_path)
         
+        print(f"[Client] \033[34mInfo\033[0m: Load {obj_name} from {model_path}!")
+        
         object_id = p.loadURDF(
             fileName=model_path,
             basePosition=object_position,
@@ -190,7 +192,7 @@ class Client:
             globalScaling=scale,
             useFixedBase=fixed_base,
             physicsClientId=self.client_id,
-            flags=self.enable_cache,
+            flags=self.enable_cache
         )
 
         if self.blender:
@@ -209,7 +211,8 @@ class Client:
         Args:
             scene_path (str): Path to the scene JSON file.
         """
-
+        print(f"[Client] \033[34mInfo\033[0m: Start load scene from {scene_path}!")
+        
         if scene_path.startswith("Asset"):
             scene_path = os.path.join("..", scene_path)
 
