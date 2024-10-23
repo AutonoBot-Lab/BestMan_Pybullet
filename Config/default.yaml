@@ -39,7 +39,7 @@ Robot:
   arm_joints_idx: [0, 1, 2, 3, 4, 5]                                                    # arm joint index of 6 DOF
   arm_init_jointValues: [0, -1.57, 1.5, -1.57, -1.57, 0]                                # The initial angle of arm joint
   arm_reset_jointValues: [0, -1.57, 1.5, -1.57, -1.57, 0]                               # The reset angle of arm joint
-  arm_place_height: 1.02                                                                # base height (arm place height slightly higher than the base)
+  arm_place_height: 1.03                                                                # base height (arm place height slightly higher than the base)
   end_effector_index: 6                                                                 # The index of the end effector
   tcp_link: 11                                                                          # The index of the tcp link
   tcp_height: 0.11                                                                      # The height of the tcp link
