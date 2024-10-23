@@ -2,6 +2,10 @@
 
 <robot name="segbot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+  <material name="White">
+    <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
+
   <!-- root link, on the ground just below the robot origin -->
   <link name="base_footprint">
     <visual>
@@ -9,6 +13,7 @@
       <geometry>
         <box size="0.001 0.001 0.001" />
       </geometry>
+      <material name="White"/>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -38,6 +43,7 @@
       <geometry>
         <mesh filename="../meshes/rmp50-base-link.obj" scale="0.0254 0.0254 0.0254" />
       </geometry>
+      <material name="White"/>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -61,6 +67,7 @@
       <geometry>
         <cylinder length="0.8" radius="0.05" />
       </geometry>
+      <material name="White"/>
     </visual>
     <collision>
       <origin xyz="0 0 0.4" rpy="0 0 0" />
@@ -93,6 +100,7 @@
       <geometry>
         <mesh filename="../meshes/plate.obj" scale="0.05 0.05 0.05" />
       </geometry>
+      <material name="White"/>
     </visual>
     <collision>
       <origin xyz="0 0 0.6" rpy="0 0 0" />
@@ -127,6 +135,7 @@
       <geometry>
         <mesh filename="../meshes/rmp50-castor-link.obj" scale="0.0254 0.0254 0.0254" />
       </geometry>
+      <material name="White"/>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -161,6 +170,7 @@
       <geometry>
         <mesh filename="../meshes/rmp50-castor-wheel.obj" scale="0.0254 0.0254 0.0254" />
       </geometry>
+      <material name="White"/>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -195,6 +205,7 @@
       <geometry>
         <mesh filename="../meshes/rmp50-left-wheel.obj" scale="0.0254 0.0254 0.0254" />
       </geometry>
+      <material name="White"/>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -229,6 +240,7 @@
       <geometry>
         <mesh filename="../meshes/rmp50-right-wheel.obj" scale="0.0254 0.0254 0.0254" />
       </geometry>
+      <material name="White"/>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
