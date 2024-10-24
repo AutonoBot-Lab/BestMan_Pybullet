@@ -52,18 +52,20 @@ class Bestman_sim_realman(Bestman_sim):
             info.upperLimit - info.lowerLimit for info in self.arm_jointInfo
         ]
 
+        self.sim_sync_arm_pose()
+        
         # Add constraint between base and arm
-        p.createConstraint(
-            parentBodyUniqueId=self.base_id,
-            parentLinkIndex=-1,
-            childBodyUniqueId=self.arm_id,
-            childLinkIndex=-1,
-            jointType=p.JOINT_FIXED,
-            jointAxis=[0, 0, 0],
-            parentFramePosition=[0, 0, 0],
-            childFramePosition=[0, 0, 0],
-            physicsClientId=self.client_id,
-        )
+        # p.createConstraint(
+        #     parentBodyUniqueId=self.base_id,
+        #     parentLinkIndex=-1,
+        #     childBodyUniqueId=self.arm_id,
+        #     childLinkIndex=-1,
+        #     jointType=p.JOINT_FIXED,
+        #     jointAxis=[0, 0, 0],
+        #     parentFramePosition=[0, 0, 0],
+        #     childFramePosition=[0, 0, 0],
+        #     physicsClientId=self.client_id,
+        # )
 
         # Init arm joint angle
         self.sim_set_arm_to_joint_values(self.robot_cfg.arm_init_jointValues)
@@ -104,12 +106,13 @@ class Bestman_sim_realman(Bestman_sim):
         base_position = base_pose.get_position()
         base_orientation = base_pose.get_orientation("rotation_matrix")
 
-        arm_position = base_position + 0.468 * base_orientation[:, 0]
+        arm_position = base_position + 0.455 * base_orientation[:, 0]
         arm_position[2] = self.arm_place_height
         arm_rotate_matrix = base_orientation @ np.array(
             [[0, 0, 1], [0, 1, 0], [-1, 0, 0]]
         )
         arm_pose = Pose(arm_position, arm_rotate_matrix)
+        print(arm_pose.get_position())
         return arm_pose
 
     # ----------------------------------------------------------------
