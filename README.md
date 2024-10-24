@@ -216,6 +216,7 @@ If you want to enable **pybullet-blender-recorder**, please：
 - \[x\] Polish APIs, related codes, and release documentation.
 - \[x\] Release the paper with framework and demos Introduction.
 - \[ \] Release the baseline models and benchmark modules.
+- \[ \] Dynamically integrate digital assets.
 - \[ \] Comprehensive improvement and further updates.
 
 
