@@ -24,7 +24,7 @@
     <collision name="base_link_collision">
       <origin rpy="3.14000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
       <geometry>
-        <mesh filename="../meshes/ranger_mini3.stl" scale="1.00000 1.00000 1.00000"/>
+        <mesh filename="../meshes/ranger_mini3_decimate.stl" scale="1.00000 1.00000 1.00000"/>
       </geometry>
     </collision>
     <inertial>
@@ -36,7 +36,7 @@
       <origin rpy="3.14000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
       <material name="pale_blue"/>
       <geometry>
-        <mesh filename="../meshes/ranger_mini3.stl" scale="1.00000 1.00000 1.00000"/>
+        <mesh filename="../meshes/ranger_mini3_decimate.stl" scale="1.00000 1.00000 1.00000"/>
       </geometry>
     </visual>
   </link>
