@@ -75,6 +75,8 @@ def main(filename):
         "elementA", 38
     )
     
+    # client.wait(10)
+    
     goal_pose = Pose(
         [min_x - ur5e.sim_get_tcp_link_height()- 0.05, (min_y + max_y) / 2, (min_z + max_z) / 2], [0.0, 0.0, 0.0]
     )
@@ -84,7 +86,7 @@ def main(filename):
     start = ur5e.sim_get_current_joint_values()
     path = ompl_planner.plan(start, goal)
     ur5e.sim_execute_trajectory(path, True)
-    ur5e.sim_create_movable_constraint("elementA", 36)
+    ur5e.sim_create_movable_constraint("elementA", 38)
 
     # The end effector Move along the specified trajectory get effector to open the drawer
     init_pose = ur5e.sim_get_current_end_effector_pose()
